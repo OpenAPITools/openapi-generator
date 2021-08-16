@@ -54,7 +54,7 @@ class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
             result
                 ..add(r'array_enum')
                 ..add(serializers.serialize(object.arrayEnum,
-                    specifiedType: const FullType(BuiltList, [const FullType(EnumArraysArrayEnumEnum)]) ,),);                
+                    specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)]) ,),);                
         }
         return result;
     }
@@ -78,7 +78,7 @@ class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
                     break;
                 case r'array_enum':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [const FullType(EnumArraysArrayEnumEnum)]) ,) as BuiltList<EnumArraysArrayEnumEnum>;
+                        specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)]) ,) as BuiltList<EnumArraysArrayEnumEnum>;
                     result.arrayEnum.replace(valueDes);
                     break;
             }

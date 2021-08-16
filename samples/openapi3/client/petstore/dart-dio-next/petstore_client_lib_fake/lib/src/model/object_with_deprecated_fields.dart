@@ -73,7 +73,7 @@ class _$ObjectWithDeprecatedFieldsSerializer implements StructuredSerializer<Obj
             result
                 ..add(r'bars')
                 ..add(serializers.serialize(object.bars,
-                    specifiedType: const FullType(BuiltList, [const FullType(String)]) ,),);                
+                    specifiedType: const FullType(BuiltList, [FullType(String)]) ,),);                
         }
         return result;
     }
@@ -107,7 +107,7 @@ class _$ObjectWithDeprecatedFieldsSerializer implements StructuredSerializer<Obj
                     break;
                 case r'bars':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [const FullType(String)]) ,) as BuiltList<String>;
+                        specifiedType: const FullType(BuiltList, [FullType(String)]) ,) as BuiltList<String>;
                     result.bars.replace(valueDes);
                     break;
             }

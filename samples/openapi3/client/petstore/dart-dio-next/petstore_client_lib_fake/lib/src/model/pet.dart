@@ -81,12 +81,12 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
         result
             ..add(r'photoUrls')
             ..add(serializers.serialize(object.photoUrls,
-                specifiedType: const FullType(BuiltSet, [const FullType(String)]) ,),);
+                specifiedType: const FullType(BuiltSet, [FullType(String)]) ,),);
         if (object.tags != null) {
             result
                 ..add(r'tags')
                 ..add(serializers.serialize(object.tags,
-                    specifiedType: const FullType(BuiltList, [const FullType(Tag)]) ,),);                
+                    specifiedType: const FullType(BuiltList, [FullType(Tag)]) ,),);                
         }
         if (object.status != null) {
             result
@@ -126,12 +126,12 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
                     break;
                 case r'photoUrls':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltSet, [const FullType(String)]) ,) as BuiltSet<String>;
+                        specifiedType: const FullType(BuiltSet, [FullType(String)]) ,) as BuiltSet<String>;
                     result.photoUrls.replace(valueDes);
                     break;
                 case r'tags':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [const FullType(Tag)]) ,) as BuiltList<Tag>;
+                        specifiedType: const FullType(BuiltList, [FullType(Tag)]) ,) as BuiltList<Tag>;
                     result.tags.replace(valueDes);
                     break;
                 case r'status':                                  

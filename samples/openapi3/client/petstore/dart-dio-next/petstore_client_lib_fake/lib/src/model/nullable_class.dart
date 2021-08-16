@@ -54,13 +54,13 @@ abstract class NullableClass implements Built<NullableClass, NullableClassBuilde
     BuiltList<JsonObject?>? get arrayItemsNullable;
 
     @BuiltValueField(wireName: r'object_nullable_prop')
-    BuiltMap<String,JsonObject>? get objectNullableProp;
+    BuiltMap<String, JsonObject>? get objectNullableProp;
 
     @BuiltValueField(wireName: r'object_and_items_nullable_prop')
-    BuiltMap<String,JsonObject?>? get objectAndItemsNullableProp;
+    BuiltMap<String, JsonObject?>? get objectAndItemsNullableProp;
 
     @BuiltValueField(wireName: r'object_items_nullable')
-    BuiltMap<String,JsonObject?>? get objectItemsNullable;
+    BuiltMap<String, JsonObject?>? get objectItemsNullable;
 
     NullableClass._();
 
@@ -124,37 +124,37 @@ class _$NullableClassSerializer implements StructuredSerializer<NullableClass> {
             result
                 ..add(r'array_nullable_prop')
                 ..add(serializers.serialize(object.arrayNullableProp,
-                    specifiedType: const FullType.nullable(BuiltList, [const FullType(JsonObject)]) ,),);                
+                    specifiedType: const FullType.nullable(BuiltList, [FullType(JsonObject)]) ,),);                
         }
         if (object.arrayAndItemsNullableProp != null) {
             result
                 ..add(r'array_and_items_nullable_prop')
                 ..add(serializers.serialize(object.arrayAndItemsNullableProp,
-                    specifiedType: const FullType.nullable(BuiltList, [const FullType.nullable(JsonObject)]) ,),);                
+                    specifiedType: const FullType.nullable(BuiltList, [FullType.nullable(JsonObject)]) ,),);                
         }
         if (object.arrayItemsNullable != null) {
             result
                 ..add(r'array_items_nullable')
                 ..add(serializers.serialize(object.arrayItemsNullable,
-                    specifiedType: const FullType(BuiltList, [const FullType.nullable(JsonObject)]) ,),);                
+                    specifiedType: const FullType(BuiltList, [FullType.nullable(JsonObject)]) ,),);                
         }
         if (object.objectNullableProp != null) {
             result
                 ..add(r'object_nullable_prop')
                 ..add(serializers.serialize(object.objectNullableProp,
-                    specifiedType: const FullType.nullable(BuiltMap, [const FullType(String), const FullType(JsonObject)]) ,),);                
+                    specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(JsonObject)]) ,),);                
         }
         if (object.objectAndItemsNullableProp != null) {
             result
                 ..add(r'object_and_items_nullable_prop')
                 ..add(serializers.serialize(object.objectAndItemsNullableProp,
-                    specifiedType: const FullType.nullable(BuiltMap, [const FullType(String), const FullType.nullable(JsonObject)]) ,),);                
+                    specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]) ,),);                
         }
         if (object.objectItemsNullable != null) {
             result
                 ..add(r'object_items_nullable')
                 ..add(serializers.serialize(object.objectItemsNullable,
-                    specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType.nullable(JsonObject)]) ,),);                
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]) ,),);                
         }
         return result;
     }
@@ -209,36 +209,36 @@ class _$NullableClassSerializer implements StructuredSerializer<NullableClass> {
                     break;
                 case r'array_nullable_prop':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType.nullable(BuiltList, [const FullType(JsonObject)]) ,) as BuiltList<JsonObject>?;
+                        specifiedType: const FullType.nullable(BuiltList, [FullType(JsonObject)]) ,) as BuiltList<JsonObject>?;
                     if (valueDes == null) continue;
                     result.arrayNullableProp.replace(valueDes);
                     break;
                 case r'array_and_items_nullable_prop':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType.nullable(BuiltList, [const FullType.nullable(JsonObject)]) ,) as BuiltList<JsonObject?>?;
+                        specifiedType: const FullType.nullable(BuiltList, [FullType.nullable(JsonObject)]) ,) as BuiltList<JsonObject?>?;
                     if (valueDes == null) continue;
                     result.arrayAndItemsNullableProp.replace(valueDes);
                     break;
                 case r'array_items_nullable':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [const FullType.nullable(JsonObject)]) ,) as BuiltList<JsonObject?>;
+                        specifiedType: const FullType(BuiltList, [FullType.nullable(JsonObject)]) ,) as BuiltList<JsonObject?>;
                     result.arrayItemsNullable.replace(valueDes);
                     break;
                 case r'object_nullable_prop':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType.nullable(BuiltMap, [const FullType(String), const FullType(JsonObject)]) ,) as BuiltMap<String,JsonObject>?;
+                        specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType(JsonObject)]) ,) as BuiltMap<String, JsonObject>?;
                     if (valueDes == null) continue;
                     result.objectNullableProp.replace(valueDes);
                     break;
                 case r'object_and_items_nullable_prop':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType.nullable(BuiltMap, [const FullType(String), const FullType.nullable(JsonObject)]) ,) as BuiltMap<String,JsonObject?>?;
+                        specifiedType: const FullType.nullable(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]) ,) as BuiltMap<String, JsonObject?>?;
                     if (valueDes == null) continue;
                     result.objectAndItemsNullableProp.replace(valueDes);
                     break;
                 case r'object_items_nullable':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType.nullable(JsonObject)]) ,) as BuiltMap<String,JsonObject?>;
+                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]) ,) as BuiltMap<String, JsonObject?>;
                     result.objectItemsNullable.replace(valueDes);
                     break;
             }

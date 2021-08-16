@@ -53,7 +53,7 @@ class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchema
             result
                 ..add(r'files')
                 ..add(serializers.serialize(object.files,
-                    specifiedType: const FullType(BuiltList, [const FullType(ModelFile)]) ,),);                
+                    specifiedType: const FullType(BuiltList, [FullType(ModelFile)]) ,),);                
         }
         return result;
     }
@@ -77,7 +77,7 @@ class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchema
                     break;
                 case r'files':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [const FullType(ModelFile)]) ,) as BuiltList<ModelFile>;
+                        specifiedType: const FullType(BuiltList, [FullType(ModelFile)]) ,) as BuiltList<ModelFile>;
                     result.files.replace(valueDes);
                     break;
             }

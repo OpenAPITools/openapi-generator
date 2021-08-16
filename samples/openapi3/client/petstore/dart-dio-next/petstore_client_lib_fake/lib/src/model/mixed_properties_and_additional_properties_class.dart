@@ -23,7 +23,7 @@ abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<Mixe
     DateTime? get dateTime;
 
     @BuiltValueField(wireName: r'map')
-    BuiltMap<String,Animal>? get map;
+    BuiltMap<String, Animal>? get map;
 
     MixedPropertiesAndAdditionalPropertiesClass._();
 
@@ -63,7 +63,7 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Structu
             result
                 ..add(r'map')
                 ..add(serializers.serialize(object.map,
-                    specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(Animal)]) ,),);                
+                    specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)]) ,),);                
         }
         return result;
     }
@@ -92,7 +92,7 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Structu
                     break;
                 case r'map':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [const FullType(String), const FullType(Animal)]) ,) as BuiltMap<String,Animal>;
+                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)]) ,) as BuiltMap<String, Animal>;
                     result.map.replace(valueDes);
                     break;
             }
