@@ -67,7 +67,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
         result
             ..add(r'{{baseName}}')
             ..add({{#isNullable}}object.{{{name}}} == null ? null : {{/isNullable}}serializers.serialize(object.{{{name}}},
-                specifiedType: {{>serialization/built_value/variable_serializer_type}} ,),);
+                specifiedType: const {{>serialization/built_value/variable_serializer_type}} ,),);
         {{/required}}
         {{^required}}
         if (object.{{{name}}} != null) {
@@ -75,7 +75,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
             result
                 ..add(r'{{baseName}}')
                 ..add(serializers.serialize(object.{{{name}}},
-                    specifiedType: {{>serialization/built_value/variable_serializer_type}} ,),);                
+                    specifiedType: const {{>serialization/built_value/variable_serializer_type}} ,),);                
         }
         {{/required}}
         {{/vars}}
@@ -97,7 +97,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
                 {{#vars}}
                 case r'{{baseName}}':                                  
                     final valueDes = serializers.deserialize(value,
-                        specifiedType: {{>serialization/built_value/variable_serializer_type}} ,) as {{>serialization/built_value/variable_type}};
+                        specifiedType: const {{>serialization/built_value/variable_serializer_type}} ,) as {{>serialization/built_value/variable_type}};
                     {{#isNullable}}
                     if (valueDes == null) continue;
                     {{/isNullable}}
