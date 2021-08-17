@@ -201,8 +201,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         requestDateConverter.setDefault(this.requestDateConverter);
         cliOptions.add(requestDateConverter);
 
-        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
-        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library. IMPORTANT: this option has been deprecated. Please use `useRxJava3` instead."));
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library. IMPORTANT: this option has been deprecated. Please use `useRxJava3` instead."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
 
@@ -388,7 +388,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put("isList", true);
         }
 
-        if(usesRetrofit2Library()) {
+        if (usesRetrofit2Library()) {
             if (ProcessUtils.hasOAuthMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
                 supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
@@ -396,11 +396,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.kt.mustache", authFolder, "OAuthOkHttpClient.kt"));
             }
 
-            if(ProcessUtils.hasHttpBearerMethods(openAPI)) {
+            if (ProcessUtils.hasHttpBearerMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
             }
 
-            if(ProcessUtils.hasHttpBasicMethods(openAPI)) {
+            if (ProcessUtils.hasHttpBasicMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
             }
         }
@@ -625,7 +625,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     private void commonSupportingFiles() {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        if(getLibrary().equals(MULTIPLATFORM)) {
+        if (getLibrary().equals(MULTIPLATFORM)) {
             supportingFiles.add(new SupportingFile("build.gradle.kts.mustache", "", "build.gradle.kts"));
             supportingFiles.add(new SupportingFile("settings.gradle.kts.mustache", "", "settings.gradle.kts"));
         } else if (getLibrary().equals(JVM_VOLLEY)) {
@@ -716,7 +716,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                         if (one.isPathParam && another.isQueryParam) {
                             return -1;
                         }
-                        if (one.isQueryParam && another.isPathParam){
+                        if (one.isQueryParam && another.isPathParam) {
                             return 1;
                         }
 

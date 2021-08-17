@@ -42,7 +42,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         notes = "This can only be done by the logged in user.")
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation")])
-    @PostMapping(
+    @RequestMapping(
+        method = [RequestMethod.POST],
         value = ["/user"]
     )
     suspend fun createUser(@ApiParam(value = "Created user object" ,required=true ) @Valid @RequestBody body: User
@@ -56,7 +57,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         notes = "")
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation")])
-    @PostMapping(
+    @RequestMapping(
+        method = [RequestMethod.POST],
         value = ["/user/createWithArray"]
     )
     suspend fun createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: Flow<User>
@@ -70,7 +72,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         notes = "")
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation")])
-    @PostMapping(
+    @RequestMapping(
+        method = [RequestMethod.POST],
         value = ["/user/createWithList"]
     )
     suspend fun createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: Flow<User>
@@ -84,7 +87,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         notes = "This can only be done by the logged in user.")
     @ApiResponses(
         value = [ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
-    @DeleteMapping(
+    @RequestMapping(
+        method = [RequestMethod.DELETE],
         value = ["/user/{username}"]
     )
     suspend fun deleteUser(@ApiParam(value = "The name that needs to be deleted", required=true) @PathVariable("username") username: kotlin.String
@@ -99,7 +103,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         response = User::class)
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = User::class),ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
-    @GetMapping(
+    @RequestMapping(
+        method = [RequestMethod.GET],
         value = ["/user/{username}"],
         produces = ["application/xml", "application/json"]
     )
@@ -115,7 +120,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         response = kotlin.String::class)
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.String::class),ApiResponse(code = 400, message = "Invalid username/password supplied")])
-    @GetMapping(
+    @RequestMapping(
+        method = [RequestMethod.GET],
         value = ["/user/login"],
         produces = ["application/xml", "application/json"]
     )
@@ -131,7 +137,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         notes = "")
     @ApiResponses(
         value = [ApiResponse(code = 200, message = "successful operation")])
-    @GetMapping(
+    @RequestMapping(
+        method = [RequestMethod.GET],
         value = ["/user/logout"]
     )
     suspend fun logoutUser(): ResponseEntity<Unit> {
@@ -144,7 +151,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         notes = "This can only be done by the logged in user.")
     @ApiResponses(
         value = [ApiResponse(code = 400, message = "Invalid user supplied"),ApiResponse(code = 404, message = "User not found")])
-    @PutMapping(
+    @RequestMapping(
+        method = [RequestMethod.PUT],
         value = ["/user/{username}"]
     )
     suspend fun updateUser(@ApiParam(value = "name that need to be deleted", required=true) @PathVariable("username") username: kotlin.String

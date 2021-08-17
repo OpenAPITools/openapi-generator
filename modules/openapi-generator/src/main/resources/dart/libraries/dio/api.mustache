@@ -44,10 +44,10 @@ class {{classname}} {
   {{/isDeprecated}}
   Future<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}{{#isPathParam}}
     required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
-    {{#required}}required {{/required}}{{{dataType}}}{{^required}}?{{/required}} {{paramName}},{{/isQueryParam}}{{#isHeaderParam}}
-    {{#required}}required {{/required}}{{{dataType}}}{{^required}}?{{/required}} {{paramName}},{{/isHeaderParam}}{{#isBodyParam}}
-    {{#required}}required {{/required}}{{{dataType}}}{{^required}}?{{/required}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
-    {{#required}}required {{/required}}{{{dataType}}}{{^required}}?{{/required}} {{paramName}},{{/isFormParam}}{{/allParams}}
+    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
+    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}
+    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
+    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isFormParam}}{{/allParams}}
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -73,7 +73,8 @@ class {{classname}} {
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
           {{#authMethods}}{
-            'type': '{{type}}',
+            'type': '{{type}}',{{#scheme}}
+            'scheme': '{{scheme}}',{{/scheme}}
             'name': '{{name}}',{{#isApiKey}}
             'keyName': '{{keyParamName}}',
             'where': '{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}',{{/isApiKey}}

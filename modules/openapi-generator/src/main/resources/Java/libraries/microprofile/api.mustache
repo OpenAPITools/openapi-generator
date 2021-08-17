@@ -44,8 +44,14 @@ public interface {{classname}}  {
      * {{notes}}
      *
      {{/notes}}
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
      */
     {{/summary}}
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     @{{httpMethod}}
     {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}
 {{#hasConsumes}}

@@ -38,7 +38,8 @@ abstract class Capitalization implements Built<Capitalization, CapitalizationBui
 
     Capitalization._();
 
-    static void _initializeBuilder(CapitalizationBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(CapitalizationBuilder b) => b;
 
     factory Capitalization([void updates(CapitalizationBuilder b)]) = _$Capitalization;
 

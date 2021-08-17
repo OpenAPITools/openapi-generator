@@ -46,7 +46,8 @@ abstract class User implements Built<User, UserBuilder> {
 
     User._();
 
-    static void _initializeBuilder(UserBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(UserBuilder b) => b;
 
     factory User([void updates(UserBuilder b)]) = _$User;
 

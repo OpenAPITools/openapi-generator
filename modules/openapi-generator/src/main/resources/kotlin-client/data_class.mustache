@@ -42,6 +42,7 @@ import {{modelPackage}}.infrastructure.ITransformForStorage
 
 /**
  * {{{description}}}
+ *
 {{#allVars}}
  * @param {{{name}}} {{{description}}}
 {{/allVars}}
@@ -54,8 +55,10 @@ import {{modelPackage}}.infrastructure.ITransformForStorage
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}} (
+
 {{#allVars}}
 {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
+
 {{/allVars}}
 ){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMap}}(){{/isMap}}{{#isArray}}(){{/isArray}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#generateRoomModels}}{{#parent}}, {{/parent}}{{^discriminator}}{{^parent}}:{{/parent}} ITransformForStorage<{{classname}}RoomModel>{{/discriminator}}{{/generateRoomModels}}{{#vendorExtensions.x-has-data-class-body}} {
 {{/vendorExtensions.x-has-data-class-body}}{{#generateRoomModels}}{{^vendorExtensions.x-has-data-class-body}}{ {{/vendorExtensions.x-has-data-class-body}}{{/generateRoomModels}}
@@ -80,6 +83,7 @@ import {{modelPackage}}.infrastructure.ITransformForStorage
 {{#isEnum}}
     /**
      * {{{description}}}
+     *
      * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
      */
     {{^multiplatform}}

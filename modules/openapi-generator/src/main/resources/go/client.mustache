@@ -47,12 +47,7 @@ type APIClient struct {
 {{#apis}}
 {{#operations}}
 
-  {{#generateInterfaces}}
-	{{classname}} {{classname}}
-  {{/generateInterfaces}}
-  {{^generateInterfaces}}
-	{{classname}} *{{classname}}Service
-  {{/generateInterfaces}}
+	{{classname}} {{#generateInterfaces}}{{classname}}{{/generateInterfaces}}{{^generateInterfaces}}*{{classname}}Service{{/generateInterfaces}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}

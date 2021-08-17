@@ -1,0 +1,50 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "for schemas with properties and required ensure correct hasVars, hasRequired, vars, and requiredVars"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags: []
+paths:
+  /sut:
+    get:
+      operationId: getArrayOfArrays
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/MyResponse'
+components:
+  schemas:
+    MyResponse:
+      type: object
+      properties:
+        ArrayOfArrays:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArrayProp'
+        ArrayOfObjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectProp'
+    ArrayOfArrays:
+      type: array
+      items:
+        $ref: '#/components/schemas/ArrayProp'
+    ArrayOfObjects:
+      type: array
+      items:
+        $ref: '#/components/schemas/ObjectProp'
+    ArrayProp:
+      type: array
+      items:
+        type: string
+    ObjectProp:
+      type: object
+      properties:
+        name:
+          type: string
