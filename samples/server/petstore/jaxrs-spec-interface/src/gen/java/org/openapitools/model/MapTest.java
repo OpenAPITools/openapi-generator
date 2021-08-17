@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MapTest  implements Serializable {
   
   private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
- 
+
 public enum InnerEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));

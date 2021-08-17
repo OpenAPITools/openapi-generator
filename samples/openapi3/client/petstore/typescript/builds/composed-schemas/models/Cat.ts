@@ -36,7 +36,7 @@ export class Cat {
     static getAttributeTypeMap() {
         return Cat.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }

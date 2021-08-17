@@ -145,7 +145,7 @@ For instance, when abstract class located at `./lib/Api/AbstractPetApi.php` you 
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | **{{operationId}}** | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | **{{operationId}}** | **{{httpMethod}}** {{path}} | {{{summary}}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 {{/generateApiDocs}}
 
@@ -185,7 +185,7 @@ No model defined in this package
 
 Scope list:
 {{#scopes}}
-* `{{scope}}`{{#description}} - {{description}}{{/description}}
+* `{{scope}}`{{#description}} - {{.}}{{/description}}
 {{/scopes}}
 
 {{/isOAuth}}

@@ -87,4 +87,3 @@ export function MapTestToJSON(value?: MapTest | null): any {
     };
 }
 
-

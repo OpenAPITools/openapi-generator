@@ -35,7 +35,7 @@ export class CatAllOf {
     static getAttributeTypeMap() {
         return CatAllOf.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }

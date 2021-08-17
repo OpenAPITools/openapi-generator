@@ -50,7 +50,7 @@ public class MainApiVerticle extends AbstractVerticle {
                 deployVerticles(startFuture);
 
                 vertx.createHttpServer()
-                    .requestHandler(swaggerRouter::accept) 
+                    .requestHandler(swaggerRouter::accept)
                     .listen(serverPort, h -> {
                         if (h.succeeded()) {
                             startFuture.complete();
@@ -61,9 +61,9 @@ public class MainApiVerticle extends AbstractVerticle {
             } else {
                 startFuture.fail(readFile.cause());
             }
-        });                
+        });
     }
-      
+
     public void deployVerticles(Future<Void> startFuture) {
         {{#apiInfo}}{{#apis}}
         vertx.deployVerticle("{{apiPackage}}.{{classname}}Verticle", res -> {

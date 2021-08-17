@@ -32,7 +32,7 @@ class {{classname}}(implicit val swagger: Swagger) extends ScalatraServlet
 {{#operation}}
   {{newline}}
 
-  val {{operationId}}Operation = (apiOperation[{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]("{{operationId}}")
+  val {{operationId}}Operation = (apiOperation[{{{returnType}}}{{^returnType}}Unit{{/returnType}}]("{{operationId}}")
     summary "{{{summary}}}"
     parameters({{#allParams}}{{>queryParam}}{{>pathParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{^-last}}, {{/-last}}{{/allParams}})
   )

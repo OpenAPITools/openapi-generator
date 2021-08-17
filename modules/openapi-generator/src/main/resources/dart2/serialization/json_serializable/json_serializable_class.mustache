@@ -9,19 +9,19 @@ class {{{classname}}} {
 
 {{#vars}}
   {{#description}}
-      /// {{{description}}}
+      /// {{{.}}}
   {{/description}}
   {{^isEnum}}
       {{#minimum}}
-          // minimum: {{{minimum}}}
+          // minimum: {{{.}}}
       {{/minimum}}
       {{#maximum}}
-          // maximum: {{{maximum}}}
+          // maximum: {{{.}}}
       {{/maximum}}
   {{/isEnum}}
   {{^isBinary}}
   @JsonKey(
-    {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}{{^defaultValue}}nullable: {{isNullable}},{{/defaultValue}}
+    {{#defaultValue}}defaultValue: {{{.}}},{{/defaultValue}}{{^defaultValue}}nullable: {{isNullable}},{{/defaultValue}}
     name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
   )

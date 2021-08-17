@@ -27,11 +27,11 @@ public class {{classname}}Test {
     {{#operation}}
     /**
     {{#summary}}
-     * {{summary}}
+     * {{.}}
      *
     {{/summary}}
     {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
     {{/notes}}
      * @throws ApiException
@@ -42,7 +42,7 @@ public class {{classname}}Test {
         //{{#allParams}}
         //{{{dataType}}} {{paramName}} = null;
         //{{/allParams}}
-        //{{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        //{{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
         // TODO: test validations
     }

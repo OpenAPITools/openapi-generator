@@ -19,4 +19,3 @@ std::string stringify(float input);
 std::string stringify(std::string input);
 
 #endif /* TINY_CPP_CLIENT_HELPERS_H_ */
-

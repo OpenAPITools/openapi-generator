@@ -13,7 +13,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
@@ -157,7 +157,7 @@
       <version>2.2</version>
     </dependency>
 
-  
+
     <!-- Bean Validation API support -->
     <dependency>
         <groupId>javax.validation</groupId>

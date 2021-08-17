@@ -112,7 +112,7 @@
         <artifactId>activation</artifactId>
         <version>1.1.1</version>
     </dependency>
-    
+
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-joda</artifactId>

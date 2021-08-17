@@ -36,10 +36,10 @@ router = APIRouter()
     },
     tags=[{{#tags}}"{{name}}"{{^-last}},{{/-last}}{{/tags}}],
     {{#summary}}
-    summary="{{summary}}",
+    summary="{{.}}",
     {{/summary}}
     {{#description}}
-    description = "{{description}}",
+    description = "{{.}}",
     {{/description}}
 )
 async def {{operationId}}(
@@ -53,7 +53,7 @@ async def {{operationId}}(
     ),
     {{/authMethods}}
     {{/hasAuthMethods}}
-) -> {{#returnType}}{{.}}{{/returnType}}{{^returnType}}None{{/returnType}}:
+) -> {{returnType}}{{^returnType}}None{{/returnType}}:
     {{#notes}}"""{{.}}"""
     ...{{/notes}}{{^notes}}...{{/notes}}
 {{^-last}}

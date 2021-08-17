@@ -103,7 +103,7 @@ private :
         }
         return QStringLiteral("");
     }
-    
+
     inline QRegularExpressionMatch getRequestMatch(QString serverTemplatePath, QString requestPath){
         QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
         serverTemplatePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );

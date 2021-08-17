@@ -342,7 +342,7 @@ void OAIPetApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::Netwo
     socket->write(res);
     if(socket->isOpen()){
         socket->close();
-    }    
+    }
 }
 
 void OAIPetApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
