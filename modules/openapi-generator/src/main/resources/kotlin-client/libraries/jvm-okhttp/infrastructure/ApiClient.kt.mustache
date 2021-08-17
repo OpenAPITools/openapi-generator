@@ -151,8 +151,10 @@ import com.squareup.moshi.adapter
                     }
                 }.build()
             }
+            // recognize custom json variants like "application/vnd.shopping.cart.v2+json"
+            mediaType.startsWith("application/") && mediaType.endsWith("json") ->
             {{#jvm-okhttp3}}
-            mediaType == JsonMediaType -> RequestBody.create(
+            RequestBody.create(
                 {{#moshi}}
                 MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
                 {{/moshi}}
@@ -168,7 +170,7 @@ import com.squareup.moshi.adapter
             )
             {{/jvm-okhttp3}}
             {{#jvm-okhttp4}}
-            mediaType == JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).toJson(content){{/moshi}}{{#gson}}Serializer.gson.toJson(content, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.writeValueAsString(content){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.encodeToString(content){{/kotlinx_serialization}}.toRequestBody(
+            {{#moshi}}Serializer.moshi.adapter(T::class.java).toJson(content){{/moshi}}{{#gson}}Serializer.gson.toJson(content, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.writeValueAsString(content){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.encodeToString(content){{/kotlinx_serialization}}.toRequestBody(
                 mediaType.toMediaTypeOrNull()
             )
             {{/jvm-okhttp4}}
