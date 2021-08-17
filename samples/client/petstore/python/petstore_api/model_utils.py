@@ -1747,7 +1747,7 @@ def get_allof_instances(self, model_args, constant_args):
     for allof_class in self._composed_schemas['allOf']:
 
         try:
-            if constant_args['_spec_property_naming']:
+            if '_spec_property_naming' in constant_args and constant_args['_spec_property_naming']:
                 allof_instance = allof_class._from_openapi_data(**model_args, **constant_args)
             else:
                 allof_instance = allof_class(**model_args, **constant_args)
@@ -1812,13 +1812,13 @@ def get_oneof_instance(cls, model_kwargs, constant_kwargs, model_arg=None):
 
         try:
             if not single_value_input:
-                if constant_kwargs['_spec_property_naming']:
+                if '_spec_property_naming' in constant_kwargs and constant_kwargs['_spec_property_naming']:
                     oneof_instance = oneof_class._from_openapi_data(**model_kwargs, **constant_kwargs)
                 else:
                     oneof_instance = oneof_class(**model_kwargs, **constant_kwargs)
             else:
                 if issubclass(oneof_class, ModelSimple):
-                    if constant_kwargs['_spec_property_naming']:
+                    if '_spec_property_naming' in constant_kwargs and constant_kwargs['_spec_property_naming']:
                         oneof_instance = oneof_class._from_openapi_data(model_arg, **constant_kwargs)
                     else:
                         oneof_instance = oneof_class(model_arg, **constant_kwargs)
@@ -1876,7 +1876,7 @@ def get_anyof_instances(self, model_args, constant_args):
             continue
 
         try:
-            if constant_args['_spec_property_naming']:
+            if '_spec_property_naming' in constant_args and constant_args['_spec_property_naming']:
                 anyof_instance = anyof_class._from_openapi_data(**model_args, **constant_args)
             else:
                 anyof_instance = anyof_class(**model_args, **constant_args)
