@@ -27,8 +27,6 @@ module OpenAPIPetstore.API
   , OpenAPIPetstoreClientError(..)
   -- ** Servant
   , OpenAPIPetstoreAPI
-  -- ** Plain WAI Application
-  , serverWaiApplicationOpenAPIPetstore
   ) where
 
 import           OpenAPIPetstore.Types
@@ -286,13 +284,7 @@ runOpenAPIPetstoreMiddlewareServer Config{..} middleware backend = do
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ middleware $ serverWaiApplicationOpenAPIPetstore backend
-
--- | Plain "Network.Wai" Application for the OpenAPIPetstore server.
---
--- Can be used to implement e.g. tests that call the API without a full webserver.
-serverWaiApplicationOpenAPIPetstore :: OpenAPIPetstoreBackend (ExceptT ServerError IO) -> Application
-serverWaiApplicationOpenAPIPetstore backend = serve (Proxy :: Proxy OpenAPIPetstoreAPI) (serverFromBackend backend)
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serve (Proxy :: Proxy OpenAPIPetstoreAPI) (serverFromBackend backend)
   where
     serverFromBackend OpenAPIPetstoreBackend{..} =
       (coerce addPet :<|>
