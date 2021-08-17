@@ -58,7 +58,8 @@ abstract class EnumTest implements Built<EnumTest, EnumTestBuilder> {
 
     EnumTest._();
 
-    static void _initializeBuilder(EnumTestBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(EnumTestBuilder b) => b;
 
     factory EnumTest([void updates(EnumTestBuilder b)]) = _$EnumTest;
 

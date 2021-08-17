@@ -17,7 +17,8 @@ abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
 
     ClassModel._();
 
-    static void _initializeBuilder(ClassModelBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ClassModelBuilder b) => b;
 
     factory ClassModel([void updates(ClassModelBuilder b)]) = _$ClassModel;
 

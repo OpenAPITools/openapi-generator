@@ -251,6 +251,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * Gets id
      *
      * @return float|null
+     * @deprecated
      */
     public function getId()
     {
@@ -263,6 +264,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * @param float|null $id id
      *
      * @return self
+     * @deprecated
      */
     public function setId($id)
     {
@@ -275,6 +277,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * Gets deprecated_ref
      *
      * @return \OpenAPI\Client\Model\DeprecatedObject|null
+     * @deprecated
      */
     public function getDeprecatedRef()
     {
@@ -287,6 +290,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * @param \OpenAPI\Client\Model\DeprecatedObject|null $deprecated_ref deprecated_ref
      *
      * @return self
+     * @deprecated
      */
     public function setDeprecatedRef($deprecated_ref)
     {
@@ -299,6 +303,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * Gets bars
      *
      * @return string[]|null
+     * @deprecated
      */
     public function getBars()
     {
@@ -311,6 +316,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
      * @param string[]|null $bars bars
      *
      * @return self
+     * @deprecated
      */
     public function setBars($bars)
     {

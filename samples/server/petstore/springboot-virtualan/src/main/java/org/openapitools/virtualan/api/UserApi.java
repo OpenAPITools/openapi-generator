@@ -45,7 +45,8 @@ public interface UserApi {
     @ApiOperation(value = "Create user", nickname = "createUser", notes = "This can only be done by the logged in user.", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/user"
     )
     default ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body) {
@@ -64,7 +65,8 @@ public interface UserApi {
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithArrayInput", notes = "", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/user/createWithArray"
     )
     default ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
@@ -83,7 +85,8 @@ public interface UserApi {
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithListInput", notes = "", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    @PostMapping(
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/user/createWithList"
     )
     default ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body) {
@@ -105,7 +108,8 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    @DeleteMapping(
+    @RequestMapping(
+        method = RequestMethod.DELETE,
         value = "/user/{username}"
     )
     default ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
@@ -128,7 +132,8 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
         @ApiResponse(code = 400, message = "Invalid username supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    @GetMapping(
+    @RequestMapping(
+        method = RequestMethod.GET,
         value = "/user/{username}",
         produces = { "application/xml", "application/json" }
     )
@@ -165,7 +170,8 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied") })
-    @GetMapping(
+    @RequestMapping(
+        method = RequestMethod.GET,
         value = "/user/login",
         produces = { "application/xml", "application/json" }
     )
@@ -184,7 +190,8 @@ public interface UserApi {
     @ApiOperation(value = "Logs out current logged in user session", nickname = "logoutUser", notes = "", tags={ "user", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    @GetMapping(
+    @RequestMapping(
+        method = RequestMethod.GET,
         value = "/user/logout"
     )
     default ResponseEntity<Void> logoutUser() {
@@ -207,7 +214,8 @@ public interface UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
         @ApiResponse(code = 404, message = "User not found") })
-    @PutMapping(
+    @RequestMapping(
+        method = RequestMethod.PUT,
         value = "/user/{username}"
     )
     default ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body) {

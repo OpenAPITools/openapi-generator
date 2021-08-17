@@ -125,6 +125,7 @@ abstract class AbstractPetApi
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
+     * @deprecated
      */
     public function findPetsByTags(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {

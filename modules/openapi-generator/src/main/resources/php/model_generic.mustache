@@ -279,6 +279,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
      * Gets {{name}}
      *
      * @return {{{dataType}}}{{^required}}|null{{/required}}
+    {{#deprecated}}
+     * @deprecated
+    {{/deprecated}}
      */
     public function {{getter}}()
     {
@@ -291,6 +294,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
      * @param {{{dataType}}}{{^required}}|null{{/required}} ${{name}}{{#description}} {{{description}}}{{/description}}{{^description}} {{{name}}}{{/description}}
      *
      * @return self
+    {{#deprecated}}
+     * @deprecated
+    {{/deprecated}}
      */
     public function {{setter}}(${{name}})
     {

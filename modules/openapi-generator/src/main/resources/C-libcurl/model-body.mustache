@@ -248,6 +248,12 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     }
     {{/isString}}
     {{/isEnum}}
+    {{#isByteArray}}
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
+    {{/isByteArray}}
     {{#isBinary}}
     if ({{{classname}}}->{{{name}}}) {
         free({{{classname}}}->{{{name}}}->data);
@@ -660,7 +666,13 @@ fail:
         {
             goto end;
         }
-        list_addElement({{{name}}}List , &{{{name}}}_local->valuedouble);
+        double *{{{name}}}_local_value = (double *)calloc(1, sizeof(double));
+        if(!{{{name}}}_local_value)
+        {
+            goto end;
+        }
+        *{{{name}}}_local_value = {{{name}}}_local->valuedouble;
+        list_addElement({{{name}}}List , {{{name}}}_local_value);
         {{/isNumeric}}
         {{#isBoolean}}
         if(!cJSON_IsBool({{{name}}}_local))

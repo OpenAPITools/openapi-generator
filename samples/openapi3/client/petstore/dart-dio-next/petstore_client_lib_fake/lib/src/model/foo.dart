@@ -17,7 +17,8 @@ abstract class Foo implements Built<Foo, FooBuilder> {
 
     Foo._();
 
-    static void _initializeBuilder(FooBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(FooBuilder b) => b
         ..bar = 'bar';
 
     factory Foo([void updates(FooBuilder b)]) = _$Foo;

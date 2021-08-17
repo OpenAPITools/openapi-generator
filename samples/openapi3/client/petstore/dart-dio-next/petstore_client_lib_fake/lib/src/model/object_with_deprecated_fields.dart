@@ -31,7 +31,8 @@ abstract class ObjectWithDeprecatedFields implements Built<ObjectWithDeprecatedF
 
     ObjectWithDeprecatedFields._();
 
-    static void _initializeBuilder(ObjectWithDeprecatedFieldsBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ObjectWithDeprecatedFieldsBuilder b) => b;
 
     factory ObjectWithDeprecatedFields([void updates(ObjectWithDeprecatedFieldsBuilder b)]) = _$ObjectWithDeprecatedFields;
 

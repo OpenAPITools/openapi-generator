@@ -256,6 +256,9 @@ public class DefaultCodegen implements CodegenConfig {
     // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;
 
+    // A cache to efficiently lookup schema `toModelName()` based on the schema Key
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     @Override
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -2322,7 +2325,13 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String toModelName(final String name) {
-        return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        if (schemaKeyToModelNameCache.containsKey(name)) {
+            return schemaKeyToModelNameCache.get(name);
+        }
+
+        String camelizedName = camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        schemaKeyToModelNameCache.put(name, camelizedName);
+        return camelizedName;
     }
 
     private static class NamedSchema {
@@ -2393,7 +2402,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         m.isAlias = (typeAliases.containsKey(name)
                 || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
-        m.discriminator = createDiscriminator(name, schema, this.openAPI);
+        m.setDiscriminator(createDiscriminator(name, schema, this.openAPI));
         if (!this.getLegacyDiscriminatorBehavior()) {
             m.addDiscriminatorMappedModelsImports();
         }
@@ -2453,7 +2462,7 @@ public class DefaultCodegen implements CodegenConfig {
                     for (Schema innerSchema : composed.getAllOf()) { // TODO need to work with anyOf, oneOf as well
                         if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
                             LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", name);
-                            m.discriminator = createDiscriminator(name, innerSchema, this.openAPI);
+                            m.setDiscriminator(createDiscriminator(name, innerSchema, this.openAPI));
                             if (!this.getLegacyDiscriminatorBehavior()) {
                                 m.addDiscriminatorMappedModelsImports();
                             }
@@ -4333,6 +4342,9 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.unescapedDescription = parameter.getDescription();
         if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired();
+        }
+        if (parameter.getDeprecated() != null) {
+            codegenParameter.isDeprecated = parameter.getDeprecated();
         }
         codegenParameter.jsonSchema = Json.pretty(parameter);
 
@@ -6660,7 +6672,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenModel cm = new CodegenModel();
 
-        cm.discriminator = createDiscriminator("", cs, openAPI);
+        cm.setDiscriminator(createDiscriminator("", cs, openAPI));
         if (!this.getLegacyDiscriminatorBehavior()) {
             cm.addDiscriminatorMappedModelsImports();
         }

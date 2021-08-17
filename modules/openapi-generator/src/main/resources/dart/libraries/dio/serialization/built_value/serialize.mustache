@@ -2,7 +2,7 @@
       {{#isMultipart}}
       _bodyData = FormData.fromMap(<String, dynamic>{
         {{#formParams}}
-        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{/isFile}}{{^isFile}}encodeFormParameter(_serializers, {{{paramName}}}, const FullType({{^isContainer}}{{{baseType}}}{{/isContainer}}{{#isContainer}}Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]{{/isContainer}})){{/isFile}},
+        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{#isArray}}.toList(){{/isArray}}{{/isFile}}{{^isFile}}encodeFormParameter(_serializers, {{{paramName}}}, const FullType({{^isContainer}}{{{baseType}}}{{/isContainer}}{{#isContainer}}Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]{{/isContainer}})){{/isFile}},
         {{/formParams}}
       });
       {{/isMultipart}}
@@ -16,7 +16,7 @@
       {{/hasFormParams}}
       {{#bodyParam}}
       {{#isPrimitiveType}}
-      _bodyData = {{paramName}}{{#isFile}}.finalize(){{/isFile}};
+      _bodyData = {{paramName}}{{#isFile}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}.finalize(){{/isFile}};
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
       {{#isContainer}}

@@ -887,6 +887,7 @@ public class DefaultCodegenTest {
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("BigCat", "BigCat"));
         Assert.assertEquals(discriminator, test);
+        Assert.assertEquals(animalModel.getHasDiscriminatorWithNonEmptyMapping(), true);
     }
 
     @Test
@@ -905,6 +906,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel personModel = codegen.fromModel("Person", person);
         verifyPersonDiscriminator(personModel.discriminator);
+        Assert.assertEquals(personModel.getHasDiscriminatorWithNonEmptyMapping(), true);
     }
 
     @Test
@@ -916,6 +918,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel childModel = codegen.fromModel("Child", child);
         Assert.assertEquals(childModel.parentSchema, "Person");
+        Assert.assertEquals(childModel.getHasDiscriminatorWithNonEmptyMapping(), false);
     }
 
     @Test
@@ -989,6 +992,7 @@ public class DefaultCodegenTest {
             Schema leafSc = openAPI.getComponents().getSchemas().get(leafModelName);
             CodegenModel leafCm = codegen.fromModel(leafModelName, leafSc);
             Assert.assertEquals(leafCm.discriminator, emptyMapDisc);
+            Assert.assertEquals(leafCm.getHasDiscriminatorWithNonEmptyMapping(), false);
         }
 
         // the Pet discriminator map contains all animals + Reptile (children + grandchildren)
@@ -1004,6 +1008,7 @@ public class DefaultCodegenTest {
         modelName = "Pet";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel pet = codegen.fromModel(modelName, sc);
+        Assert.assertEquals(pet.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(pet.discriminator, petDisc);
 
         // the Reptile discriminator contains both reptiles
@@ -1019,6 +1024,7 @@ public class DefaultCodegenTest {
         modelName = "Reptile";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel reptile = codegen.fromModel(modelName, sc);
+        Assert.assertEquals(reptile.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(reptile.discriminator, reptileDisc);
 
         // the MyPets discriminator contains Cat and Lizard
@@ -1034,12 +1040,14 @@ public class DefaultCodegenTest {
         modelName = "MyPets";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel myPets = codegen.fromModel(modelName, sc);
+        Assert.assertEquals(myPets.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(myPets.discriminator, myPetDisc);
 
         // the MyPetsNoDisc discriminator is created because all oneOf classes have the same discriminator
         modelName = "MyPetsNoDisc";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel myPetsNoDisc = codegen.fromModel(modelName, sc);
+        Assert.assertEquals(myPetsNoDisc.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(myPetsNoDisc.discriminator, myPetDisc);
 
         CodegenModel cm;
@@ -1052,6 +1060,7 @@ public class DefaultCodegenTest {
         hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
         hs.add(new CodegenDiscriminator.MappedModel("B", codegen.toModelName("B")));
         hs.add(new CodegenDiscriminator.MappedModel("C", codegen.toModelName("C")));
+        Assert.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
 
         // the mapping in b is in B
@@ -1061,7 +1070,7 @@ public class DefaultCodegenTest {
         hs.clear();
         hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
         hs.add(new CodegenDiscriminator.MappedModel("C", codegen.toModelName("C")));
-
+        Assert.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
 
         // the mapping in b is in C
@@ -1070,6 +1079,7 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         hs.clear();
         hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
+        Assert.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
     }
 

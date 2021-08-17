@@ -24,7 +24,8 @@ abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
 
     EnumArrays._();
 
-    static void _initializeBuilder(EnumArraysBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(EnumArraysBuilder b) => b;
 
     factory EnumArrays([void updates(EnumArraysBuilder b)]) = _$EnumArrays;
 

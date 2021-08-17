@@ -31,7 +31,7 @@ namespace {{apiPackage}}
         /// {{#summary}}{{summary}}{{/summary}}
         /// </summary>{{#notes}}
         /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
-        /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
+        /// <param name="{{paramName}}">{{description}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
         [Route("{{{basePathWithoutHost}}}{{{path}}}")]
@@ -50,6 +50,9 @@ namespace {{apiPackage}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
         [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}{{^useSwashbuckle}}{{#responses}}{{#dataType}}
         [ProducesResponseType(statusCode: {{code}}, type: typeof({{&dataType}}))]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
         public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{^-last}}{{^isCookieParam}}, {{/isCookieParam}}{{/-last}}{{/allParams}}){{^generateBody}};{{/generateBody}}
         {{#generateBody}}
         { 
