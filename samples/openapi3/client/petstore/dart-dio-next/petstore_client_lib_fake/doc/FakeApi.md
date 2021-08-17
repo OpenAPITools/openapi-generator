@@ -761,7 +761,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testQueryParameterCollectionFormat**
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language)
 
 
 
@@ -777,9 +777,10 @@ final BuiltList<String> ioutil = ; // BuiltList<String> |
 final BuiltList<String> http = ; // BuiltList<String> | 
 final BuiltList<String> url = ; // BuiltList<String> | 
 final BuiltList<String> context = ; // BuiltList<String> | 
+final BuiltMap<String, String> language = ; // BuiltMap<String, String> | 
 
 try { 
-    api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+    api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
@@ -794,6 +795,7 @@ Name | Type | Description  | Notes
  **http** | [**BuiltList&lt;String&gt;**](String.md)|  | 
  **url** | [**BuiltList&lt;String&gt;**](String.md)|  | 
  **context** | [**BuiltList&lt;String&gt;**](String.md)|  | 
+ **language** | [**BuiltMap&lt;String, String&gt;**](String.md)|  | [optional] 
 
 ### Return type
 

@@ -1371,6 +1371,7 @@ sub test_json_form_data {
 # @param ARRAY[string] $http  (required)
 # @param ARRAY[string] $url  (required)
 # @param ARRAY[string] $context  (required)
+# @param HASH[string,string] $language  (optional)
 {
     my $params = {
     'pipe' => {
@@ -1397,6 +1398,11 @@ sub test_json_form_data {
         data_type => 'ARRAY[string]',
         description => '',
         required => '1',
+    },
+    'language' => {
+        data_type => 'HASH[string,string]',
+        description => '',
+        required => '0',
     },
     };
     __PACKAGE__->method_documentation->{ 'test_query_parameter_collection_format' } = { 
@@ -1473,6 +1479,11 @@ sub test_query_parameter_collection_format {
     # query params
     if ( exists $args{'context'}) {
         $query_params->{'context'} = $self->{api_client}->to_query_value($args{'context'});
+    }
+
+    # query params
+    if ( exists $args{'language'}) {
+        $query_params->{'language'} = $self->{api_client}->to_query_value($args{'language'});
     }
 
     my $_body_data;

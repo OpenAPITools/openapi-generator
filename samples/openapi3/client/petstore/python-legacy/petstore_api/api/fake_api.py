@@ -2435,6 +2435,8 @@ class FakeApi(object):
         :type url: list[str]
         :param context: (required)
         :type context: list[str]
+        :param language:
+        :type language: dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -2473,6 +2475,8 @@ class FakeApi(object):
         :type url: list[str]
         :param context: (required)
         :type context: list[str]
+        :param language:
+        :type language: dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -2503,7 +2507,8 @@ class FakeApi(object):
             'ioutil',
             'http',
             'url',
-            'context'
+            'context',
+            'language'
         ]
         all_params.extend(
             [
@@ -2564,6 +2569,8 @@ class FakeApi(object):
         if 'context' in local_var_params and local_var_params['context'] is not None:  # noqa: E501
             query_params.append(('context', local_var_params['context']))  # noqa: E501
             collection_formats['context'] = 'multi'  # noqa: E501
+        if 'language' in local_var_params and local_var_params['language'] is not None:  # noqa: E501
+            query_params.append(('language', local_var_params['language']))  # noqa: E501
 
         header_params = {}
 
