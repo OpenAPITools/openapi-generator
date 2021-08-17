@@ -10,8 +10,7 @@ import java.util.*;
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 import {{packageName}}.infrastructure.ApiClient
 import {{packageName}}.request.IRequestFactory
@@ -43,10 +42,10 @@ class {{classname}} (
     {{/isDeprecated}}
     suspend fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/allParams}}: {{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         {{#bodyParam}}
-        var bodyAsStr: String? = Gson().toJson({{paramName}})
+        var body: Any? = {{paramName}}
         {{/bodyParam}}
         {{^bodyParam}}
-        var bodyAsStr: String? = null
+        var body: Any? = null
         {{/bodyParam}}
         {{#allParams}}
         {{#required}}
@@ -101,7 +100,7 @@ class {{classname}} (
             val request: Request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> = requestFactory.build(
                     Request.Method.{{httpMethod}},
                     "$basePath$path",
-                    bodyAsStr,
+                    body,
                     headerParams,
                     queryParams,
                     contentType,

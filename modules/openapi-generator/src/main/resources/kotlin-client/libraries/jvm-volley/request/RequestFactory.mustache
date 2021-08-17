@@ -64,7 +64,7 @@ class RequestFactory: IRequestFactory {
 
     override fun <T> build(method: Int,
            url : String,
-           bodyAsStr: String?,
+           body: Any?,
            headers: Map<String, String>?,
            params: Map<String, String>?,
            contentTypeForBody: String?,
@@ -88,7 +88,7 @@ class RequestFactory: IRequestFactory {
             Request.Method.GET -> {
                 getMethodPreconditionCheck()
                 GsonRequest<T>(method, updatedUrl,
-                    bodyAsStr,
+                    body,
                     updatedParams.second,
                     updatedParams.first.toMutableMap(),
                     contentTypeForBody,
@@ -104,7 +104,7 @@ class RequestFactory: IRequestFactory {
             Request.Method.POST, Request.Method.PATCH, Request.Method.PUT -> {
                 postPutPatchPreconditionCheck()
                 GsonRequest<T>(method, updatedUrl,
-                    bodyAsStr,
+                    body,
                     headers,
                     updatedParams.first.toMutableMap(),
                     contentTypeForBody,

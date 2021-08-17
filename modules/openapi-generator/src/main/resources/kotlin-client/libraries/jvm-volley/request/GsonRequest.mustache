@@ -24,7 +24,7 @@ import {{packageName}}.infrastructure.ByteArrayAdapter
 class GsonRequest<T>(
     method: Int,
     url: String,
-    private val bodyAsStr: String?,
+    private val body: Any?,
     private val headers: Map<String, String>?,
     private val params: MutableMap<String, String>?,
     private val contentTypeForBody: String?,
@@ -66,8 +66,8 @@ class GsonRequest<T>(
     }
 
     override fun getBody(): ByteArray? {
-        if (!bodyAsStr.isNullOrEmpty()) {
-            return bodyAsStr.toByteArray(Charsets.UTF_8)
+        if (body != null) {
+            return gson.toJson(body).toByteArray(Charsets.UTF_8)
     }
         return super.getBody()
     }
