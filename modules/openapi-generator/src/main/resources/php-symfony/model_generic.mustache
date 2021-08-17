@@ -13,7 +13,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
 
         {{/parentSchema}}
         {{#vars}}
-        $this->{{name}} = isset($data['{{name}}']) ? $data['{{name}}'] : {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}};
+        $this->{{name}} = isset($data['{{name}}']) ? $data['{{name}}'] : {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}};
         {{/vars}}
     }
     {{#vars}}
@@ -31,7 +31,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     /**
      * Sets {{name}}.
      *
-     * @param {{{vendorExtensions.x-comment-type}}}{{^required}}|null{{/required}} ${{name}}{{#description}}  {{{description}}}{{/description}}
+     * @param {{{vendorExtensions.x-comment-type}}}{{^required}}|null{{/required}} ${{name}}{{#description}}  {{{.}}}{{/description}}
      *
      * @return $this
      */

@@ -9,6 +9,7 @@ import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.{LocalDate, DateTime}
 {{/joda}}
 import org.json4s.{Serializer, CustomSerializer, JNull}
+import org.json4s.ext.JavaTypesSerializers
 import org.json4s.JsonAST.JString
 
 import scala.util.Try
@@ -47,6 +48,6 @@ object Serializers {
   }))
 {{/joda}}
 
- def all: Seq[Serializer[_]] = Seq[Serializer[_]]() :+ DateTimeSerializer :+ LocalDateSerializer
+ def all: Seq[Serializer[_]] = JavaTypesSerializers.all :+ DateTimeSerializer :+ LocalDateSerializer
 
 }

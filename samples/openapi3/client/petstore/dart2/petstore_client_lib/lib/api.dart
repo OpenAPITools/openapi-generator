@@ -15,7 +15,6 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
-
 import 'package:meta/meta.dart';
 
 part 'api_client.dart';

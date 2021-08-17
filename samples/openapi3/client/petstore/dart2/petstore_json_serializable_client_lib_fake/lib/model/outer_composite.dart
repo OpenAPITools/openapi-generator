@@ -56,7 +56,6 @@ class OuterComposite {
     (myString == null ? 0 : myString.hashCode) +
     (myBoolean == null ? 0 : myBoolean.hashCode);
 
-
   factory OuterComposite.fromJson(Map<String, dynamic> json) => _$OuterCompositeFromJson(json);
 
   Map<String, dynamic> toJson() => _$OuterCompositeToJson(this);

@@ -36,7 +36,6 @@ class NumberOnly {
   int get hashCode =>
     (justNumber == null ? 0 : justNumber.hashCode);
 
-
   factory NumberOnly.fromJson(Map<String, dynamic> json) => _$NumberOnlyFromJson(json);
 
   Map<String, dynamic> toJson() => _$NumberOnlyToJson(this);

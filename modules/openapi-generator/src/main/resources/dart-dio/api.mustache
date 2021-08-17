@@ -4,10 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
 {{#operations}}
-{{#modelImports}}import 'package:{{pubName}}/model/{{.}}.dart';
-{{/modelImports}}
-{{#fullImports}}import '{{.}}';
-{{/fullImports}}
+{{#imports}}import '{{.}}';
+{{/imports}}
 
 class {{classname}} {
 
@@ -21,7 +19,7 @@ class {{classname}} {
   /// {{{summary}}}
   ///
   /// {{{notes}}}
-  Future<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {{nickname}}({{^hasRequiredParams}}{ {{/hasRequiredParams}}{{#requiredParams}}
+  Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({{^hasRequiredParams}}{ {{/hasRequiredParams}}{{#requiredParams}}
     {{{dataType}}} {{paramName}},{{#-last}} { {{/-last}}{{/requiredParams}}{{#optionalParams}}
     {{{dataType}}} {{paramName}},{{/optionalParams}}
     CancelToken cancelToken,
@@ -42,15 +40,17 @@ class {{classname}} {
         r'User-Agent': r'{{{.}}}',
         {{/httpUserAgent}}
         {{#headerParams}}
-        r'{{baseName}}': {{paramName}},
+        {{^required}}{{^nullable}}if ({{{paramName}}} != null) {{/nullable}}{{/required}}r'{{baseName}}': {{paramName}},
         {{/headerParams}}
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
+      {{#hasQueryParams}}
       queryParameters: <String, dynamic>{
         {{#queryParams}}
-        r'{{baseName}}': {{paramName}},
+        {{^required}}{{^nullable}}if ({{{paramName}}} != null) {{/nullable}}{{/required}}r'{{baseName}}': {{paramName}},
         {{/queryParams}}
-      }..removeWhere((_, dynamic value) => value == null),
+      },
+      {{/hasQueryParams}}
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
           {{#authMethods}}{
@@ -63,10 +63,7 @@ class {{classname}} {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [{{^hasConsumes}}
-        'application/json',{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
-        '{{{mediaType}}}',{{/consumes}}{{/hasConsumes}}
-      ].first,
+      contentType: '{{^hasConsumes}}application/json{{/hasConsumes}}{{#hasConsumes}}{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}{{/hasConsumes}}',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -77,7 +74,7 @@ class {{classname}} {
 
     _bodyData = {{#isMultipart}}FormData.fromMap({{/isMultipart}}<String, dynamic>{
       {{#formParams}}
-      {{^required}}{{^nullable}}if ({{{paramName}}} != null) {{/nullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}MultipartFile.fromBytes({{{paramName}}}, filename: r'{{{baseName}}}'){{/isFile}}{{^isFile}}parameterToString(_serializers, {{{paramName}}}){{/isFile}},
+      {{^required}}{{^nullable}}if ({{{paramName}}} != null) {{/nullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}MultipartFile.fromBytes({{{paramName}}}, filename: r'{{{baseName}}}'){{/isFile}}{{^isFile}}encodeFormParameter(_serializers, {{{paramName}}}, const FullType({{^isContainer}}{{{baseType}}}{{/isContainer}}{{#isContainer}}Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]{{/isContainer}})){{/isFile}},
       {{/formParams}}
     }{{#isMultipart}}){{/isMultipart}};
     {{/hasFormParams}}
@@ -106,7 +103,7 @@ class {{classname}} {
     {{#returnType}}
 
     {{#isResponseFile}}
-    final {{{returnType}}} _responseData = _response.data;
+    final {{{returnType}}} _responseData = _response.data as {{{returnType}}};
     {{/isResponseFile}}
     {{^isResponseFile}}
     {{#returnSimpleType}}

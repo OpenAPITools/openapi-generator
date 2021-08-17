@@ -194,7 +194,6 @@ class FormatTest {
     (patternWithDigits == null ? 0 : patternWithDigits.hashCode) +
     (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter.hashCode);
 
-
   factory FormatTest.fromJson(Map<String, dynamic> json) => _$FormatTestFromJson(json);
 
   Map<String, dynamic> toJson() => _$FormatTestToJson(this);

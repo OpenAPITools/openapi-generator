@@ -49,6 +49,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected boolean isGoSubmodule = false;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
+    // A cache to efficiently lookup schema `toModelName()` based on the schema Key
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public GoClientCodegen() {
         super();
 
@@ -238,7 +241,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
@@ -312,8 +315,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     @Override
     public String toModelName(String name) {
+        if (schemaKeyToModelNameCache.containsKey(name)) {
+            return schemaKeyToModelNameCache.get(name);
+        }
+
         // underscoring would also lowercase the whole name, thus losing acronyms which are in capitals
-        return camelize(toModel(name, false));
+        String camelizedName = camelize(toModel(name, false));
+        schemaKeyToModelNameCache.put(name, camelizedName);
+        return camelizedName;
     }
 
     public String escapeReservedWord(String name) {
@@ -349,8 +358,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "\"" + escapeText((String) p.getDefault()) + "\"";
+            Object defaultObj = p.getDefault();
+            if (defaultObj != null) {
+                if (defaultObj instanceof java.lang.String) {
+                    return "\"" + escapeText((String) defaultObj) + "\"";
+                }
+                return "\"" + escapeText(defaultObj.toString()) + "\"";
             }
             return null;
         }
@@ -602,7 +615,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else if (codegenModel.isEnum) {
             Map<String, Object> allowableValues = codegenModel.allowableValues;
             List<Object> values = (List<Object>) allowableValues.get("values");
-            return goImportAlias + "." + model + "(\"" + String.valueOf(values.get(0)) + "\")";
+            String example = String.valueOf(values.get(0));
+            if (codegenModel.isString) {
+                example = "\"" + example + "\"";
+            }
+            return goImportAlias + "." + model + "(" + example + ")";
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
             String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap).substring(1);

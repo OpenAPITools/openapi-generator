@@ -7,7 +7,8 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 
 ### Requirements
 
-PHP 7.2 and later.
+PHP 7.3 and later.
+Should also work with PHP 8.0 but has not been tested.
 
 ### Composer
 
@@ -79,6 +80,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/Api/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/Api/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/Api/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**testBodyWithBinary**](docs/Api/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/Api/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/Api/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](docs/Api/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -125,6 +128,7 @@ Class | Method | HTTP request | Description
 - [Category](docs/Model/Category.md)
 - [ClassModel](docs/Model/ClassModel.md)
 - [Client](docs/Model/Client.md)
+- [DeprecatedObject](docs/Model/DeprecatedObject.md)
 - [Dog](docs/Model/Dog.md)
 - [DogAllOf](docs/Model/DogAllOf.md)
 - [EnumArrays](docs/Model/EnumArrays.md)
@@ -145,12 +149,14 @@ Class | Method | HTTP request | Description
 - [Name](docs/Model/Name.md)
 - [NullableClass](docs/Model/NullableClass.md)
 - [NumberOnly](docs/Model/NumberOnly.md)
+- [ObjectWithDeprecatedFields](docs/Model/ObjectWithDeprecatedFields.md)
 - [Order](docs/Model/Order.md)
 - [OuterComposite](docs/Model/OuterComposite.md)
 - [OuterEnum](docs/Model/OuterEnum.md)
 - [OuterEnumDefaultValue](docs/Model/OuterEnumDefaultValue.md)
 - [OuterEnumInteger](docs/Model/OuterEnumInteger.md)
 - [OuterEnumIntegerDefaultValue](docs/Model/OuterEnumIntegerDefaultValue.md)
+- [OuterObjectWithEnumProperty](docs/Model/OuterObjectWithEnumProperty.md)
 - [Pet](docs/Model/Pet.md)
 - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
 - [SpecialModelName](docs/Model/SpecialModelName.md)

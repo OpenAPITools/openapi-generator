@@ -32,67 +32,57 @@ isa_ok($api, 'WWW::OpenAPIClient::UserApi');
 #
 # create_user test
 #
-{
-    my $user = undef; # replace NULL with a proper value
-    my $result = $api->create_user(user => $user);
-}
+# uncomment below and update the test
+#my $create_user_user = undef; # replace NULL with a proper value
+#my $create_user_result = $api->create_user(user => $create_user_user);
 
 #
 # create_users_with_array_input test
 #
-{
-    my $user = undef; # replace NULL with a proper value
-    my $result = $api->create_users_with_array_input(user => $user);
-}
+# uncomment below and update the test
+#my $create_users_with_array_input_user = undef; # replace NULL with a proper value
+#my $create_users_with_array_input_result = $api->create_users_with_array_input(user => $create_users_with_array_input_user);
 
 #
 # create_users_with_list_input test
 #
-{
-    my $user = undef; # replace NULL with a proper value
-    my $result = $api->create_users_with_list_input(user => $user);
-}
+# uncomment below and update the test
+#my $create_users_with_list_input_user = undef; # replace NULL with a proper value
+#my $create_users_with_list_input_result = $api->create_users_with_list_input(user => $create_users_with_list_input_user);
 
 #
 # delete_user test
 #
-{
-    my $username = undef; # replace NULL with a proper value
-    my $result = $api->delete_user(username => $username);
-}
+# uncomment below and update the test
+#my $delete_user_username = undef; # replace NULL with a proper value
+#my $delete_user_result = $api->delete_user(username => $delete_user_username);
 
 #
 # get_user_by_name test
 #
-{
-    my $username = undef; # replace NULL with a proper value
-    my $result = $api->get_user_by_name(username => $username);
-}
+# uncomment below and update the test
+#my $get_user_by_name_username = undef; # replace NULL with a proper value
+#my $get_user_by_name_result = $api->get_user_by_name(username => $get_user_by_name_username);
 
 #
 # login_user test
 #
-{
-    my $username = undef; # replace NULL with a proper value
-    my $password = undef; # replace NULL with a proper value
-    my $result = $api->login_user(username => $username, password => $password);
-}
+# uncomment below and update the test
+#my $login_user_username = undef; # replace NULL with a proper value
+#my $login_user_password = undef; # replace NULL with a proper value
+#my $login_user_result = $api->login_user(username => $login_user_username, password => $login_user_password);
 
 #
 # logout_user test
 #
-{
-    my $result = $api->logout_user();
-}
+# uncomment below and update the test
+#my $logout_user_result = $api->logout_user();
 
 #
 # update_user test
 #
-{
-    my $username = undef; # replace NULL with a proper value
-    my $user = undef; # replace NULL with a proper value
-    my $result = $api->update_user(username => $username, user => $user);
-}
+# uncomment below and update the test
+#my $update_user_username = undef; # replace NULL with a proper value
+#my $update_user_user = undef; # replace NULL with a proper value
+#my $update_user_result = $api->update_user(username => $update_user_username, user => $update_user_user);
 
-
-1;

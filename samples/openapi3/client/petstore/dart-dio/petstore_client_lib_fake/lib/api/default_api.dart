@@ -35,17 +35,13 @@ class DefaultApi {
       method: 'GET',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

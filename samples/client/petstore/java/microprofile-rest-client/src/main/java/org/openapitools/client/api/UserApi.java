@@ -110,4 +110,3 @@ public interface UserApi  {
     @Path("/{username}")
     public void updateUser(@PathParam("username") String username, User body) throws ApiException, ProcessingException;
 }
-

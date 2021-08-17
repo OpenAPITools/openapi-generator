@@ -31,7 +31,7 @@ class StoreApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
-    final path = '/store/order/{order_id}'
+    final path = r'/store/order/{order_id}'
       .replaceAll('{' + 'order_id' + '}', orderId.toString());
 
     Object postBody;
@@ -44,17 +44,6 @@ class StoreApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -79,7 +68,7 @@ class StoreApi {
   Future<void> deleteOrder(String orderId) async {
     final response = await deleteOrderWithHttpInfo(orderId);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -89,7 +78,7 @@ class StoreApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> getInventoryWithHttpInfo() async {
-    final path = '/store/inventory';
+    final path = r'/store/inventory';
 
     Object postBody;
 
@@ -101,17 +90,6 @@ class StoreApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['api_key'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -131,15 +109,16 @@ class StoreApi {
   Future<Map<String, int>> getInventory() async {
     final response = await getInventoryWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
+
+      return Map<String, int>.from(json.decode(response.body));
     }
-    return null;
+    return Future<Map<String, int>>.value(null);
   }
 
   /// Find purchase order by ID
@@ -158,7 +137,7 @@ class StoreApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
-    final path = '/store/order/{order_id}'
+    final path = r'/store/order/{order_id}'
       .replaceAll('{' + 'order_id' + '}', orderId.toString());
 
     Object postBody;
@@ -171,17 +150,6 @@ class StoreApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -206,15 +174,16 @@ class StoreApi {
   Future<Order> getOrderById(int orderId) async {
     final response = await getOrderByIdWithHttpInfo(orderId);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
+
+      return Order.fromJson(json.decode(response.body));
     }
-    return null;
+    return Future<Order>.value(null);
   }
 
   /// Place an order for a pet
@@ -231,7 +200,7 @@ class StoreApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: order');
     }
 
-    final path = '/store/order';
+    final path = r'/store/order';
 
     Object postBody = order;
 
@@ -243,17 +212,6 @@ class StoreApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -276,14 +234,15 @@ class StoreApi {
   Future<Order> placeOrder(Order order) async {
     final response = await placeOrderWithHttpInfo(order);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
+
+      return Order.fromJson(json.decode(response.body));
     }
-    return null;
+    return Future<Order>.value(null);
   }
 }

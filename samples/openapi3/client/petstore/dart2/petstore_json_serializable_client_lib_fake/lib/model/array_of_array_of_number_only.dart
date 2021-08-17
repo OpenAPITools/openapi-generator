@@ -22,7 +22,7 @@ class ArrayOfArrayOfNumberOnly {
   });
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'ArrayArrayNumber',
     required: false,
   )
@@ -35,7 +35,6 @@ class ArrayOfArrayOfNumberOnly {
   @override
   int get hashCode =>
     (arrayArrayNumber == null ? 0 : arrayArrayNumber.hashCode);
-
 
   factory ArrayOfArrayOfNumberOnly.fromJson(Map<String, dynamic> json) => _$ArrayOfArrayOfNumberOnlyFromJson(json);
 

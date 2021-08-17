@@ -176,13 +176,15 @@ samples/client/petstore/python-tornado/.venv/
 
 # PHP
 samples/client/petstore/php/OpenAPIClient-php/composer.lock
+samples/client/petstore/php-dt/composer.lock
+samples/client/petstore/php-dt-modern/composer.lock
 samples/openapi3/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
-samples/openapi3/server/petstore/php-mezzio-ph/composer.lock
 samples/server/petstore/php-laravel/lib/composer.lock
 samples/server/petstore/php-lumen/lib/composer.lock
 samples/server/petstore/php-slim4/composer.lock
 samples/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
 samples/server/petstore/php-mezzio-ph/composer.lock
+samples/server/petstore/php-mezzio-ph-modern/composer.lock
 
 # ts
 samples/client/petstore/typescript-angular2/npm/npm-debug.log
@@ -213,6 +215,7 @@ cabal.project.local
 samples/client/petstore/haskell-http-client/docs/haddock-bundle.min.js
 samples/client/petstore/haskell-http-client/docs/meta.json
 samples/client/petstore/haskell-http-client/docs/quick-jump.css
+samples/server/petstore/haskell-servant/stack.yaml.lock
 
 # R
 .Rproj.user

@@ -36,7 +36,6 @@ class ModelReturn {
   int get hashCode =>
     (return_ == null ? 0 : return_.hashCode);
 
-
   factory ModelReturn.fromJson(Map<String, dynamic> json) => _$ModelReturnFromJson(json);
 
   Map<String, dynamic> toJson() => _$ModelReturnToJson(this);

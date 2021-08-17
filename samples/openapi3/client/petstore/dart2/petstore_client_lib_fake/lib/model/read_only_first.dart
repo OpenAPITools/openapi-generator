@@ -56,12 +56,12 @@ class ReadOnlyFirst {
   static List<ReadOnlyFirst> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ReadOnlyFirst>[]
-      : json.map((v) => ReadOnlyFirst.fromJson(v)).toList(growable: true == growable);
+      : json.map((dynamic value) => ReadOnlyFirst.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, ReadOnlyFirst> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ReadOnlyFirst>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = ReadOnlyFirst.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = ReadOnlyFirst.fromJson(value));
     }
     return map;
   }
@@ -69,9 +69,9 @@ class ReadOnlyFirst {
   // maps a json object with a list of ReadOnlyFirst-objects as value to a dart map
   static Map<String, List<ReadOnlyFirst>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ReadOnlyFirst>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = ReadOnlyFirst.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = ReadOnlyFirst.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

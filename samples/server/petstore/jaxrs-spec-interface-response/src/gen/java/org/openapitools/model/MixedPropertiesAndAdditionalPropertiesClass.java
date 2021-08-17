@@ -44,7 +44,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
-  }/**
+  }
+
+/**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(Date dateTime) {
     this.dateTime = dateTime;
@@ -62,7 +64,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
-  }/**
+  }
+
+/**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
     this.map = map;
@@ -81,6 +85,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
+
 
   @Override
   public boolean equals(Object o) {

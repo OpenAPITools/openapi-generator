@@ -17,13 +17,9 @@
 
 package org.openapitools.codegen.javascript;
 
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.JavascriptClientCodegen;
 import org.testng.Assert;

@@ -5,8 +5,8 @@ server.port={{serverPort}}
 spring.jackson.date-format={{basePackage}}.RFC3339DateFormat
 spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS=false
 {{#virtualService}}
-virtual.datasource.driver-class-name=org.hsqldb.jdbcDriver
-virtual.datasource.jdbcurl=jdbc:hsqldb:mem:dataSource
-virtual.datasource.username=sa
-virtual.datasource.password=
+virtualan.datasource.driver-class-name=org.hsqldb.jdbcDriver
+virtualan.datasource.jdbcurl=jdbc:hsqldb:mem:dataSource
+virtualan.datasource.username=sa
+virtualan.datasource.password=
 {{/virtualService}}

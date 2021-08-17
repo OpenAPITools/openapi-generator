@@ -178,7 +178,7 @@ public class ${lang_classname} extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "${gen_name_camel}";
         modelTemplateFiles.put("model.mustache", ".zz");
         apiTemplateFiles.put("api.mustache", ".zz");
-        embeddedTemplateDir = templateDir = "${gen_name_camel}-${gen_type}";
+        embeddedTemplateDir = templateDir = "${gen_name_camel}";
         apiPackage = "Apis";
         modelPackage = "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -191,17 +191,17 @@ EOF
 echo -e "\norg.openapitools.codegen.languages.${lang_classname}" >> "${root}/modules/openapi-generator/src/main/resources/META-INF/services/org.openapitools.codegen.CodegenConfig"
 
 # Step 3: Create resource files
-mkdir -p "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}"
-echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/README.mustache" && \
-    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/README.mustache"
-echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/model.mustache" && \
-    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/model.mustache"
-echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/api.mustache" && \
-    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/api.mustache"
+mkdir -p "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}"
+echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}/README.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}/README.mustache"
+echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}/model.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}/model.mustache"
+echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}/api.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}/api.mustache"
 
 # Step 4: Create generation config scripts
-echo "Creating bin/configs/${gen_name_camel}-${gen_type}-petstore-new.yaml"
-cat > "${root}/bin/configs/${gen_name_camel}-${gen_type}-petstore-new.yaml"<<EOF
+echo "Creating bin/configs/${gen_name_camel}-petstore-new.yaml"
+cat > "${root}/bin/configs/${gen_name_camel}-petstore-new.yaml"<<EOF
 generatorName: ${gen_name_camel}
 outputDir: samples/${gen_type}/petstore/${gen_name_camel_path}
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml

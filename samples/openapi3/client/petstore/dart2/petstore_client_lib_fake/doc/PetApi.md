@@ -9,15 +9,15 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+[**addPet**](PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
+[**deletePet**](PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+[**findPetsByStatus**](PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+[**findPetsByTags**](PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
+[**getPetById**](PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
+[**updatePet**](PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
+[**updatePetWithForm**](PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**uploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**uploadFileWithRequiredFile**](PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 # **addPet**
@@ -25,7 +25,7 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
@@ -34,7 +34,7 @@ import 'package:openapi/api.dart';
 final api_instance = PetApi();
 final pet = Pet(); // Pet | Pet object that needs to be added to the store
 
-try { 
+try {
     api_instance.addPet(pet);
 } catch (e) {
     print('Exception when calling PetApi->addPet: $e\n');
@@ -67,7 +67,7 @@ void (empty response body)
 
 Deletes a pet
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
@@ -77,7 +77,7 @@ final api_instance = PetApi();
 final petId = 789; // int | Pet id to delete
 final apiKey = apiKey_example; // String | 
 
-try { 
+try {
     api_instance.deletePet(petId, apiKey);
 } catch (e) {
     print('Exception when calling PetApi->deletePet: $e\n');
@@ -113,7 +113,7 @@ Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
@@ -122,7 +122,7 @@ import 'package:openapi/api.dart';
 final api_instance = PetApi();
 final status = []; // List<String> | Status values that need to be considered for filter
 
-try { 
+try {
     final result = api_instance.findPetsByStatus(status);
     print(result);
 } catch (e) {
@@ -158,7 +158,7 @@ Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
@@ -167,7 +167,7 @@ import 'package:openapi/api.dart';
 final api_instance = PetApi();
 final tags = []; // Set<String> | Tags to filter by
 
-try { 
+try {
     final result = api_instance.findPetsByTags(tags);
     print(result);
 } catch (e) {
@@ -203,7 +203,7 @@ Find pet by ID
 
 Returns a single pet
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure API key authorization: api_key
@@ -214,7 +214,7 @@ import 'package:openapi/api.dart';
 final api_instance = PetApi();
 final petId = 789; // int | ID of pet to return
 
-try { 
+try {
     final result = api_instance.getPetById(petId);
     print(result);
 } catch (e) {
@@ -248,7 +248,7 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
@@ -257,7 +257,7 @@ import 'package:openapi/api.dart';
 final api_instance = PetApi();
 final pet = Pet(); // Pet | Pet object that needs to be added to the store
 
-try { 
+try {
     api_instance.updatePet(pet);
 } catch (e) {
     print('Exception when calling PetApi->updatePet: $e\n');
@@ -290,7 +290,7 @@ void (empty response body)
 
 Updates a pet in the store with form data
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
@@ -301,7 +301,7 @@ final petId = 789; // int | ID of pet that needs to be updated
 final name = name_example; // String | Updated name of the pet
 final status = status_example; // String | Updated status of the pet
 
-try { 
+try {
     api_instance.updatePetWithForm(petId, name, status);
 } catch (e) {
     print('Exception when calling PetApi->updatePetWithForm: $e\n');
@@ -336,7 +336,7 @@ void (empty response body)
 
 uploads an image
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
@@ -347,7 +347,7 @@ final petId = 789; // int | ID of pet to update
 final additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
 final file = BINARY_DATA_HERE; // MultipartFile | file to upload
 
-try { 
+try {
     final result = api_instance.uploadFile(petId, additionalMetadata, file);
     print(result);
 } catch (e) {
@@ -383,7 +383,7 @@ Name | Type | Description  | Notes
 
 uploads an image (required)
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure OAuth2 access token for authorization: petstore_auth
@@ -394,7 +394,7 @@ final petId = 789; // int | ID of pet to update
 final requiredFile = BINARY_DATA_HERE; // MultipartFile | file to upload
 final additionalMetadata = additionalMetadata_example; // String | Additional data to pass to server
 
-try { 
+try {
     final result = api_instance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
     print(result);
 } catch (e) {

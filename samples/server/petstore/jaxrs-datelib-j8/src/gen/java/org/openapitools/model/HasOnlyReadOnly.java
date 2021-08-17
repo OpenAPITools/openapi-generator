@@ -49,7 +49,7 @@ public class HasOnlyReadOnly  implements Serializable {
    * Get bar
    * @return bar
    **/
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public String getBar() {
@@ -69,7 +69,7 @@ public class HasOnlyReadOnly  implements Serializable {
    * Get foo
    * @return foo
    **/
-  @JsonProperty("foo")
+  @JsonProperty(value = "foo", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public String getFoo() {

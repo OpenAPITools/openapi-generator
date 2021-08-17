@@ -1,3 +1,4 @@
+{{>header}}
 {{#models}}
 {{#model}}
 import 'package:{{pubName}}/model/{{classFilename}}.dart';
@@ -14,7 +15,7 @@ void main() {
   group({{{classname}}}, () {
     {{#vars}}
     {{#description}}
-    // {{{description}}}
+    // {{{.}}}
     {{/description}}
     // {{{dataType}}} {{{name}}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
     test('to test the property `{{{name}}}`', () async {

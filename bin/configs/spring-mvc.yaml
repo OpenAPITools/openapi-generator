@@ -10,3 +10,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   serverPort: "8002"
   additionalModelTypeAnnotations: '@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name");@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")'
+  additionalEnumTypeAnnotations: '@com.fasterxml.jackson.annotation.JsonFormat'

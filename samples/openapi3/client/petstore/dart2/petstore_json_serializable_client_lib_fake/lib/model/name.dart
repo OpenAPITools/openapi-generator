@@ -66,7 +66,6 @@ class Name {
     (property == null ? 0 : property.hashCode) +
     (n123number == null ? 0 : n123number.hashCode);
 
-
   factory Name.fromJson(Map<String, dynamic> json) => _$NameFromJson(json);
 
   Map<String, dynamic> toJson() => _$NameToJson(this);

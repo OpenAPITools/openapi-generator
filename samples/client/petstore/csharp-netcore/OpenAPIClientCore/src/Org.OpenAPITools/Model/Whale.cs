@@ -54,13 +54,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets HasBaleen
         /// </summary>
-        [DataMember(Name = "hasBaleen", EmitDefaultValue = false)]
+        [DataMember(Name = "hasBaleen", EmitDefaultValue = true)]
         public bool HasBaleen { get; set; }
 
         /// <summary>
         /// Gets or Sets HasTeeth
         /// </summary>
-        [DataMember(Name = "hasTeeth", EmitDefaultValue = false)]
+        [DataMember(Name = "hasTeeth", EmitDefaultValue = true)]
         public bool HasTeeth { get; set; }
 
         /// <summary>

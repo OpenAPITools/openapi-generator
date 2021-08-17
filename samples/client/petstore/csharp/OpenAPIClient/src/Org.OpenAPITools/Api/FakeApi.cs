@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -157,7 +157,49 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        /// Test serialization of enum (int) properties with examples
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <returns>OuterObjectWithEnumProperty</returns>
+        OuterObjectWithEnumProperty FakePropertyEnumIntegerSerialize (OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Test serialization of enum (int) properties with examples
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <returns>ApiResponse of OuterObjectWithEnumProperty</returns>
+        ApiResponse<OuterObjectWithEnumProperty> FakePropertyEnumIntegerSerializeWithHttpInfo (OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// For this test, the body has to be a binary file.
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">image to upload</param>
+        /// <returns></returns>
+        void TestBodyWithBinary (System.IO.Stream body);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// For this test, the body has to be a binary file.
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">image to upload</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> TestBodyWithBinaryWithHttpInfo (System.IO.Stream body);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -168,7 +210,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -387,8 +429,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="language"> (optional)</param>
         /// <returns></returns>
-        void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+        void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Dictionary<string, string> language = default(Dictionary<string, string>));
 
         /// <summary>
         /// 
@@ -402,8 +445,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="language"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+        ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Dictionary<string, string> language = default(Dictionary<string, string>));
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -550,7 +594,53 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        /// Test serialization of enum (int) properties with examples
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of OuterObjectWithEnumProperty</returns>
+        System.Threading.Tasks.Task<OuterObjectWithEnumProperty> FakePropertyEnumIntegerSerializeAsync (OuterObjectWithEnumProperty outerObjectWithEnumProperty, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Test serialization of enum (int) properties with examples
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse (OuterObjectWithEnumProperty)</returns>
+        System.Threading.Tasks.Task<ApiResponse<OuterObjectWithEnumProperty>> FakePropertyEnumIntegerSerializeWithHttpInfoAsync (OuterObjectWithEnumProperty outerObjectWithEnumProperty, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// For this test, the body has to be a binary file.
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">image to upload</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task TestBodyWithBinaryAsync (System.IO.Stream body, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// For this test, the body has to be a binary file.
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">image to upload</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithBinaryWithHttpInfoAsync (System.IO.Stream body, CancellationToken cancellationToken = default(CancellationToken));
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -562,7 +652,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        /// For this test, the body for this request must reference a schema named &#x60;File&#x60;.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -796,9 +886,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="language"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Dictionary<string, string> language = default(Dictionary<string, string>), CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// 
@@ -812,9 +903,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="language"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Dictionary<string, string> language = default(Dictionary<string, string>), CancellationToken cancellationToken = default(CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -1793,7 +1885,305 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        ///  Test serialization of enum (int) properties with examples
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <returns>OuterObjectWithEnumProperty</returns>
+        public OuterObjectWithEnumProperty FakePropertyEnumIntegerSerialize (OuterObjectWithEnumProperty outerObjectWithEnumProperty)
+        {
+             ApiResponse<OuterObjectWithEnumProperty> localVarResponse = FakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///  Test serialization of enum (int) properties with examples
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <returns>ApiResponse of OuterObjectWithEnumProperty</returns>
+        public ApiResponse<OuterObjectWithEnumProperty> FakePropertyEnumIntegerSerializeWithHttpInfo (OuterObjectWithEnumProperty outerObjectWithEnumProperty)
+        {
+            // verify the required parameter 'outerObjectWithEnumProperty' is set
+            if (outerObjectWithEnumProperty == null)
+                throw new ApiException(400, "Missing required parameter 'outerObjectWithEnumProperty' when calling FakeApi->FakePropertyEnumIntegerSerialize");
+
+            var localVarPath = "/fake/property/enum-int";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "*/*"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (outerObjectWithEnumProperty != null && outerObjectWithEnumProperty.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(outerObjectWithEnumProperty); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = outerObjectWithEnumProperty; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FakePropertyEnumIntegerSerialize", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<OuterObjectWithEnumProperty>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (OuterObjectWithEnumProperty) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterObjectWithEnumProperty)));
+        }
+
+        /// <summary>
+        ///  Test serialization of enum (int) properties with examples
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of OuterObjectWithEnumProperty</returns>
+        public async System.Threading.Tasks.Task<OuterObjectWithEnumProperty> FakePropertyEnumIntegerSerializeAsync (OuterObjectWithEnumProperty outerObjectWithEnumProperty, CancellationToken cancellationToken = default(CancellationToken))
+        {
+             ApiResponse<OuterObjectWithEnumProperty> localVarResponse = await FakePropertyEnumIntegerSerializeWithHttpInfoAsync(outerObjectWithEnumProperty, cancellationToken);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        ///  Test serialization of enum (int) properties with examples
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="outerObjectWithEnumProperty">Input enum (int) as post body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse (OuterObjectWithEnumProperty)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<OuterObjectWithEnumProperty>> FakePropertyEnumIntegerSerializeWithHttpInfoAsync (OuterObjectWithEnumProperty outerObjectWithEnumProperty, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // verify the required parameter 'outerObjectWithEnumProperty' is set
+            if (outerObjectWithEnumProperty == null)
+                throw new ApiException(400, "Missing required parameter 'outerObjectWithEnumProperty' when calling FakeApi->FakePropertyEnumIntegerSerialize");
+
+            var localVarPath = "/fake/property/enum-int";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "*/*"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (outerObjectWithEnumProperty != null && outerObjectWithEnumProperty.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(outerObjectWithEnumProperty); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = outerObjectWithEnumProperty; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType, cancellationToken);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("FakePropertyEnumIntegerSerialize", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<OuterObjectWithEnumProperty>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                (OuterObjectWithEnumProperty) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterObjectWithEnumProperty)));
+        }
+
+        /// <summary>
+        ///  For this test, the body has to be a binary file.
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">image to upload</param>
+        /// <returns></returns>
+        public void TestBodyWithBinary (System.IO.Stream body)
+        {
+             TestBodyWithBinaryWithHttpInfo(body);
+        }
+
+        /// <summary>
+        ///  For this test, the body has to be a binary file.
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">image to upload</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> TestBodyWithBinaryWithHttpInfo (System.IO.Stream body)
+        {
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestBodyWithBinary");
+
+            var localVarPath = "/fake/body-with-binary";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "image/png"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (body != null && body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestBodyWithBinary", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                null);
+        }
+
+        /// <summary>
+        ///  For this test, the body has to be a binary file.
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">image to upload</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task TestBodyWithBinaryAsync (System.IO.Stream body, CancellationToken cancellationToken = default(CancellationToken))
+        {
+             await TestBodyWithBinaryWithHttpInfoAsync(body, cancellationToken);
+
+        }
+
+        /// <summary>
+        ///  For this test, the body has to be a binary file.
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body">image to upload</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithBinaryWithHttpInfoAsync (System.IO.Stream body, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestBodyWithBinary");
+
+            var localVarPath = "/fake/body-with-binary";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "image/png"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (body != null && body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType, cancellationToken);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestBodyWithBinary", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                null);
+        }
+
+        /// <summary>
+        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -1804,7 +2194,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -1865,7 +2255,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -1878,7 +2268,7 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        ///  For this test, the body for this request must reference a schema named &#x60;File&#x60;.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
@@ -3145,10 +3535,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="language"> (optional)</param>
         /// <returns></returns>
-        public void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        public void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Dictionary<string, string> language = default(Dictionary<string, string>))
         {
-             TestQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
+             TestQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, language);
         }
 
         /// <summary>
@@ -3160,8 +3551,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="language"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        public ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Dictionary<string, string> language = default(Dictionary<string, string>))
         {
             // verify the required parameter 'pipe' is set
             if (pipe == null)
@@ -3199,11 +3591,12 @@ namespace Org.OpenAPITools.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (pipe != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "pipe", pipe)); // query parameter
+            if (pipe != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("pipes", "pipe", pipe)); // query parameter
             if (ioutil != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "ioutil", ioutil)); // query parameter
             if (http != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("ssv", "http", http)); // query parameter
             if (url != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "url", url)); // query parameter
             if (context != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "context", context)); // query parameter
+            if (language != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "language", language)); // query parameter
 
 
             // make the HTTP request
@@ -3233,11 +3626,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="language"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Dictionary<string, string> language = default(Dictionary<string, string>), CancellationToken cancellationToken = default(CancellationToken))
         {
-             await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, cancellationToken);
+             await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, language, cancellationToken);
 
         }
 
@@ -3250,9 +3644,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
+        /// <param name="language"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Dictionary<string, string> language = default(Dictionary<string, string>), CancellationToken cancellationToken = default(CancellationToken))
         {
             // verify the required parameter 'pipe' is set
             if (pipe == null)
@@ -3290,11 +3685,12 @@ namespace Org.OpenAPITools.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (pipe != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "pipe", pipe)); // query parameter
+            if (pipe != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("pipes", "pipe", pipe)); // query parameter
             if (ioutil != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "ioutil", ioutil)); // query parameter
             if (http != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("ssv", "http", http)); // query parameter
             if (url != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "url", url)); // query parameter
             if (context != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "context", context)); // query parameter
+            if (language != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "language", language)); // query parameter
 
 
             // make the HTTP request

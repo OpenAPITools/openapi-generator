@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>5.1.0-SNAPSHOT</version>
+    <version>5.3.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -271,7 +271,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -776,6 +776,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-micronaut-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java-micronaut-client</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-msf4j-server</id>
             <activation>
                 <property>
@@ -1187,25 +1199,31 @@
                 <!-- servers -->
                 <module>samples/server/petstore/python-aiohttp</module>
                 <module>samples/server/petstore/python-aiohttp-srclayout</module>
+                <module>samples/server/petstore/python-fastapi</module>
                 <module>samples/server/petstore/python-flask</module>
+                <!-- TODO: will move these to Github action
                 <module>samples/server/petstore/php-slim4</module>
                 <module>samples/server/petstore/php-laravel</module>
-                <module>samples/server/petstore/php-lumen</module>
+                <module>samples/server/petstore/php-lumen</module>-->
                 <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
                 <!--<module>samples/client/petstore/perl</module>
                 <module>samples/client/petstore/bash</module>-->
                 <module>samples/client/petstore/ruby-faraday</module>
                 <module>samples/client/petstore/ruby</module>
+                <!-- comment out as it's not working as the momment
                 <module>samples/client/petstore/c</module>
-                <module>samples/client/petstore/cpp-qt5</module>
+                -->
+                <module>samples/client/petstore/cpp-qt</module>
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
-                <module>samples/client/petstore/php/OpenAPIClient-php</module>
+                <!-- commented out due to php ^7.3 || ^8.0 not in travis
+                <module>samples/client/petstore/php/OpenAPIClient-php</module> -->
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
                 <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
@@ -1218,7 +1236,8 @@
                 <module>samples/openapi3/client/petstore/typescript/builds/object_params</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/object_params</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/inversify</module>
-                <module>samples/openapi3/client/petstore/typescript/tests/inversify</module>
+                <!-- comment out due to failure in travis ci
+                <module>samples/openapi3/client/petstore/typescript/tests/inversify</module>-->
                 <module>samples/openapi3/client/petstore/typescript/tests/deno</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
@@ -1251,6 +1270,7 @@
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/spring-mvc-default-value</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
                 <!-- servers -->
@@ -1282,6 +1302,7 @@
                 <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
+                <module>samples/server/petstore/jaxrs-resteasy/default-value</module>
                 <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
                 <!-- move to other CI as the following fails often in CircleCI
                 <module>samples/server/petstore/spring-mvc</module>
@@ -1294,6 +1315,7 @@
                 <module>samples/server/petstore/jaxrs-cxf</module>
                 <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
+                <module>samples/server/petstore/jaxrs-cxf-cdi-default-value</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
                 <module>samples/server/petstore/scala-lagom-server</module>
@@ -1334,6 +1356,7 @@
                 <module>samples/client/petstore/java/resttemplate</module>
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
                 <module>samples/client/petstore/java/webclient</module>
+                <module>samples/client/petstore/java/webclient-nulable-arrays</module>
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/jersey2-java8-localdatetime</module>
                 <module>samples/client/petstore/java/resteasy</module>
@@ -1349,15 +1372,7 @@
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
-                <module>samples/client/petstore/dart2/petstore_client_lib</module>
-                <module>samples/client/petstore/dart2/petstore</module>
-                <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart2/petstore</module>
-                <module>samples/client/petstore/dart-dio/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
-                <module>samples/client/petstore/dart-jaguar/openapi</module>
-                <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
+                <module>samples/server/petstore/go-echo-server</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
@@ -1426,6 +1441,34 @@
             </modules>
         </profile>
         <profile>
+            <id>samples.dart-2.13</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.dart-2.13</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart2/petstore</module>
+                <!--<module>samples/openapi3/client/petstore/dart2/petstore_json_serializable_client_lib_fake</module>-->
+                <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>samples.dart-2.10</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.dart-2.10</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
+            </modules>
+        </profile>
+        <profile>
             <id>samples.ios</id>
             <activation>
                 <property>
@@ -1470,15 +1513,24 @@
                 <module>samples/client/petstore/objc/core-data/SwaggerClientTests</module>-->
             </modules>
         </profile>
+        <profile>
+            <id>openapi-generator</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!integration-test</name>
+                </property>
+            </activation>
+            <modules>
+                <module>modules/openapi-generator-core</module>
+                <module>modules/openapi-generator</module>
+                <module>modules/openapi-generator-cli</module>
+                <module>modules/openapi-generator-maven-plugin</module>
+                <module>modules/openapi-generator-gradle-plugin</module>
+                <module>modules/openapi-generator-online</module>
+            </modules>
+        </profile>
     </profiles>
-    <modules>
-        <module>modules/openapi-generator-core</module>
-        <module>modules/openapi-generator</module>
-        <module>modules/openapi-generator-cli</module>
-        <module>modules/openapi-generator-maven-plugin</module>
-        <module>modules/openapi-generator-gradle-plugin</module>
-        <module>modules/openapi-generator-online</module>
-    </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>
         <plugins>
@@ -1539,7 +1591,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-core-version>2.1.2</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.24</swagger-parser-version>
+        <swagger-parser-version>2.0.26</swagger-parser-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>

@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public enum JustSymbolEnum
         {
             /// <summary>
-            /// Enum GreaterThanOrEqualTo for value: >=
+            /// Enum GreaterThanOrEqualTo for value: &gt;&#x3D;
             /// </summary>
             [EnumMember(Value = ">=")]
             GreaterThanOrEqualTo = 1,
@@ -51,6 +51,7 @@ namespace Org.OpenAPITools.Model
             Dollar = 2
 
         }
+
 
         /// <summary>
         /// Gets or Sets JustSymbol
@@ -76,6 +77,7 @@ namespace Org.OpenAPITools.Model
             Crab = 2
 
         }
+
 
 
         /// <summary>

@@ -2,6 +2,7 @@
 
 # TypeHolderExample
 
+
 ## Properties
 
 Name | Type | Description | Notes

@@ -15,9 +15,8 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
-
-import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'api_client.dart';
 part 'api_helper.dart';
@@ -47,6 +46,7 @@ part 'model/cat.dart';
 part 'model/cat_all_of.dart';
 part 'model/category.dart';
 part 'model/class_model.dart';
+part 'model/deprecated_object.dart';
 part 'model/dog.dart';
 part 'model/dog_all_of.dart';
 part 'model/enum_arrays.dart';
@@ -68,12 +68,14 @@ part 'model/model_return.dart';
 part 'model/name.dart';
 part 'model/nullable_class.dart';
 part 'model/number_only.dart';
+part 'model/object_with_deprecated_fields.dart';
 part 'model/order.dart';
 part 'model/outer_composite.dart';
 part 'model/outer_enum.dart';
 part 'model/outer_enum_default_value.dart';
 part 'model/outer_enum_integer.dart';
 part 'model/outer_enum_integer_default_value.dart';
+part 'model/outer_object_with_enum_property.dart';
 part 'model/pet.dart';
 part 'model/read_only_first.dart';
 part 'model/special_model_name.dart';

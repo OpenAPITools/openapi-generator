@@ -12,7 +12,6 @@ lib/x_auth_id_alias/api/usage_api.rb
 lib/x_auth_id_alias/api_client.rb
 lib/x_auth_id_alias/api_error.rb
 lib/x_auth_id_alias/configuration.rb
-lib/x_auth_id_alias/configuration.rb
 lib/x_auth_id_alias/version.rb
 spec/api_client_spec.rb
 spec/configuration_spec.rb

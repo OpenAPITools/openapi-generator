@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
-    <artifactId>KotlinOkhttp3PetstoreClientTests</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>kotlin-petstore-okhttp3</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>Kotlin Okhttp3 Petstore Client</name>
+    <version>1.0.0</version>
+    <name>OpenAPI Petstore</name>
     <build>
         <plugins>
             <plugin>

@@ -22,14 +22,14 @@ class FormatTest {
     /**
      * Constructs a new <code>FormatTest</code>.
      * @alias module:model/FormatTest
-     * @param _number {Number} 
+     * @param number {Number} 
      * @param _byte {Blob} 
-     * @param _date {Date} 
+     * @param date {Date} 
      * @param password {String} 
      */
-    constructor(_number, _byte, _date, password) { 
+    constructor(number, _byte, date, password) { 
         
-        FormatTest.initialize(this, _number, _byte, _date, password);
+        FormatTest.initialize(this, number, _byte, date, password);
     }
 
     /**
@@ -37,10 +37,10 @@ class FormatTest {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, _number, _byte, _date, password) { 
-        obj['number'] = _number;
+    static initialize(obj, number, _byte, date, password) { 
+        obj['number'] = number;
         obj['byte'] = _byte;
-        obj['date'] = _date;
+        obj['date'] = date;
         obj['password'] = password;
     }
 

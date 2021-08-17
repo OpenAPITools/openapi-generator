@@ -1,3 +1,4 @@
+{{^reactive}}
 {{#examples}}
     {{#-first}}
         {{#async}}
@@ -21,3 +22,7 @@ return CompletableFuture.supplyAsync(()-> {
 {{^examples}}
 return {{#async}}CompletableFuture.completedFuture({{/async}}ResponseEntity({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}})
 {{/examples}}
+{{/reactive}}
+{{#reactive}}
+return ResponseEntity({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}})
+{{/reactive}}

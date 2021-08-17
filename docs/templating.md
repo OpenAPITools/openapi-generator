@@ -910,9 +910,9 @@ x-content-type: application/json
 
 ### Rust-server
 
-#### x-responseId
+#### x-response-id
 
-Each response may specify a unique `x-responseId`. `rust-server` will use this to name the corresponding enum variant in the code. e.g.
+Each response may specify a unique `x-response-id`. `rust-server` will use this to name the corresponding enum variant in the code. e.g.
 
 ```yaml
 paths:
@@ -921,7 +921,7 @@ paths:
       responses:
         200:
           description: OK
-          x-responseId: Pong
+          x-response-id: Pong
 ```
 
 ### MySQL Schema

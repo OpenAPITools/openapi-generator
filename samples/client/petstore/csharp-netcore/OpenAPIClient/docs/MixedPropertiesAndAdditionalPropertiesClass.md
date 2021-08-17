@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.MixedPropertiesAndAdditionalPropertiesClass
+
 ## Properties
 
 Name | Type | Description | Notes

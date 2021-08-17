@@ -99,6 +99,9 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
   public void setId(Long id) {
     this.id = id;
   }
@@ -125,6 +128,9 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "username")
   public void setUsername(String username) {
     this.username = username;
   }
@@ -151,6 +157,9 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "firstName")
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
@@ -177,6 +186,9 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_LAST_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "lastName")
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
@@ -203,6 +215,9 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_EMAIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "email")
   public void setEmail(String email) {
     this.email = email;
   }
@@ -229,6 +244,9 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "password")
   public void setPassword(String password) {
     this.password = password;
   }
@@ -255,6 +273,9 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PHONE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "phone")
   public void setPhone(String phone) {
     this.phone = phone;
   }
@@ -281,6 +302,9 @@ public class User {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_USER_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "userStatus")
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }

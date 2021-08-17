@@ -41,7 +41,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
     public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key}
-    public static enum PROVIDED_IN_LEVEL {none, root, any, platform} 
+    public static enum PROVIDED_IN_LEVEL {none, root, any, platform}
 
     private static final String DEFAULT_IMPORT_PREFIX = "./";
 
@@ -177,7 +177,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         if (additionalProperties.containsKey(STRING_ENUMS)) {
-            setStringEnums(Boolean.valueOf(additionalProperties.get(STRING_ENUMS).toString()));
+            setStringEnums(Boolean.parseBoolean(additionalProperties.get(STRING_ENUMS).toString()));
             additionalProperties.put("stringEnums", getStringEnums());
             if (getStringEnums()) {
                 classEnumSeparator = "";
@@ -190,7 +190,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
         }
-        
+
         if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
             this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
         }
@@ -223,7 +223,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("providedIn", providedIn);
         additionalProperties.put("isProvidedInNone", getIsProvidedInNone());
 
-        if (ngVersion.atLeast("9.0.0")) {                
+        if (ngVersion.atLeast("9.0.0")) {
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
         } else {
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, false);
@@ -384,9 +384,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals("Blob");
+        return "Blob".equals(dataType);
     }
- 
+
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isFileSchema(p)) {
@@ -517,6 +517,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                     if (cm.discriminator != null && cm.children != null) {
                         for (CodegenModel child : cm.children) {
                             cm.imports.add(child.classname);
+                            setChildDiscriminatorValue(cm, child);
                         }
                     }
                     if (cm.parent != null) {
@@ -529,6 +530,25 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             }
         }
         return result;
+    }
+
+    private void setChildDiscriminatorValue(CodegenModel parent, CodegenModel child) {
+        if (
+            child.vendorExtensions.isEmpty() ||
+            !child.vendorExtensions.containsKey("x-discriminator-value")
+            ) {
+
+            for (CodegenProperty prop : child.allVars) {
+                if (prop.baseName.equals(parent.discriminator.getPropertyName())) {
+
+                    for (CodegenDiscriminator.MappedModel mappedModel : parent.discriminator.getMappedModels()) {
+                        if (mappedModel.getModelName().equals(child.classname)) {
+                            prop.discriminatorValue = mappedModel.getMappingName();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -739,10 +759,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
         return name;
     }
-    
+
     /**
      * Set the Injectable level
-     * 
+     *
      * @param level the wanted level
      */
     public void setProvidedIn (String level) {
@@ -757,9 +777,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             throw new IllegalArgumentException(msg);
         }
     }
-    
+
     /**
-     * 
+     *
      */
     private boolean getIsProvidedInNone() {
         return PROVIDED_IN_LEVEL.none.equals(providedIn);

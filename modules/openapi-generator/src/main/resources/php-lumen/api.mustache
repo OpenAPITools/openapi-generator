@@ -21,9 +21,12 @@ use Illuminate\Support\Facades\Request;
      *
      * {{{summary}}}.
      *
-  {{#pathParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+  {{#pathParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
   {{/pathParams}}   *
      * @return Http response
+  {{#isDeprecated}}
+     * @deprecated
+  {{/isDeprecated}}
      */
     public function {{operationId}}({{#pathParams}}${{paramName}}{{^-last}}, {{/-last}}{{/pathParams}})
     {

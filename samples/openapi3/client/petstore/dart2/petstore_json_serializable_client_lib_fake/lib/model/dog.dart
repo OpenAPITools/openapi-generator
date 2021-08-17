@@ -31,7 +31,7 @@ class Dog {
   String className;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: 'red',
     name: r'color',
     required: false,
   )
@@ -55,7 +55,6 @@ class Dog {
     (className == null ? 0 : className.hashCode) +
     (color == null ? 0 : color.hashCode) +
     (breed == null ? 0 : breed.hashCode);
-
 
   factory Dog.fromJson(Map<String, dynamic> json) => _$DogFromJson(json);
 

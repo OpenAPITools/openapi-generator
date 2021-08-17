@@ -75,7 +75,7 @@ export class AppModule {}
 // configuring providers
 import { PetStoreApiModule, PetStoreConfiguration, PetStoreConfigurationParameters } from '@openapitools/typescript-angular-petstore';
 
-export function apiConfigFactory (): PetStoreConfiguration => {
+export function apiConfigFactory (): PetStoreConfiguration {
   const params: PetStoreConfigurationParameters = {
     // set configuration parameters here.
   }
@@ -152,7 +152,7 @@ export class AppModule {
 
 
 ### Set service base path
-If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
+If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
 ```
 import { BASE_PATH } from '@openapitools/typescript-angular-petstore';
@@ -200,4 +200,4 @@ import { environment } from '../environments/environment';
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
-```  
+```

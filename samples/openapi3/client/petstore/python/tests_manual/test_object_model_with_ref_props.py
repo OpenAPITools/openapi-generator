@@ -20,6 +20,7 @@ except ImportError:
     number_with_validations = sys.modules[
         'petstore_api.model.number_with_validations']
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
+from petstore_api.model.readonly import Readonly
 
 
 class TestObjectModelWithRefProps(unittest.TestCase):
@@ -38,6 +39,7 @@ class TestObjectModelWithRefProps(unittest.TestCase):
             ObjectModelWithRefProps.openapi_types,
             {
                 'my_number': (NumberWithValidations,),
+                'my_readonly': (Readonly,),
                 'my_string': (str,),
                 'my_boolean': (bool,),
             }

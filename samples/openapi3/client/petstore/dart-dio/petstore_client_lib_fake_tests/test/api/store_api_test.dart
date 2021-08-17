@@ -24,14 +24,14 @@ void main() {
 
         server.onGet(
           '/store/inventory',
-          headers: <String, dynamic>{
-            'api_key': 'SECRET_API_KEY',
-          },
-          handler: (response) => response.reply(200, {
+          (request) => request.reply(200, {
             'foo': 5,
             'bar': 999,
             'baz': 0,
           }),
+          headers: <String, dynamic>{
+            'api_key': 'SECRET_API_KEY',
+          },
         );
 
         final response = await client.getStoreApi().getInventory();

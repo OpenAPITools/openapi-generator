@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
-
 /**
  * This class holds data to add to `oneOf` members. Let's consider this example:
  *

@@ -17,7 +17,7 @@
 @protocol {{classname}}
 @end
 
-@interface {{classname}} : {{#parent}}{{{parent}}}{{/parent}}{{^parent}}{{classPrefix}}Object{{/parent}}
+@interface {{classname}} : {{{parent}}}{{^parent}}{{classPrefix}}Object{{/parent}}
 
 {{#vars}}
 {{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}

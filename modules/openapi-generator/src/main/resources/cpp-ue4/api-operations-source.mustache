@@ -10,7 +10,7 @@
 #include "PlatformHttp.h"
 
 {{#cppNamespaceDeclarations}}
-namespace {{this}} 
+namespace {{this}}
 {
 {{/cppNamespaceDeclarations}}
 {{#operations}}{{#operation}}
@@ -23,13 +23,35 @@ inline FString ToString(const {{classname}}::{{operationIdCamelCase}}Request::{{
 	{
 	{{#enumVars}}
 	case {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}::{{name}}:
-		return TEXT({{{value}}});
+		return TEXT("{{{value}}}");
 	{{/enumVars}}
 	}
 	{{/allowableValues}}
 
-	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}} Value (%d)"), (int)Value);	
+	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}} Value (%d)"), (int)Value);
 	return TEXT("");
+}
+
+FString {{classname}}::{{operationIdCamelCase}}Request::EnumToString(const {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}& Value)
+{
+	static TMap<FString, {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}> StringToEnum = { {{#allowableValues}}{{#enumVars}}
+		{ TEXT("{{{value}}}"), {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}::{{name}} },{{/enumVars}}{{/allowableValues}} };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+bool {{classname}}::{{operationIdCamelCase}}Request::EnumFromString(const FString& EnumAsString, {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
 }
 
 inline FStringFormatArg ToStringFormatArg(const {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}& Value)
@@ -48,15 +70,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, {{classname
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}> StringToEnum = { {{#enumVars}}
-			{ TEXT({{{value}}}), {{classname}}::{{operationIdCamelCase}}Request::{{{enumName}}}::{{name}} },{{/enumVars}} };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	{{/allowableValues}}
 	return false;
@@ -74,9 +89,9 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 	{ TEXT("{{baseName}}"), ToStringFormatArg({{paramName}}) }{{^-last}},{{/-last}}{{/pathParams}} };
 
 	FString Path = FString::Format(TEXT("{{{path}}}"), PathParams);
-	
+
 	{{/pathParams.0}}
-	{{#queryParams.0}} 
+	{{#queryParams.0}}
 	TArray<FString> QueryParams;
 	{{#queryParams}}
 	{{#required}}
@@ -109,7 +124,7 @@ FString {{classname}}::{{operationIdCamelCase}}Request::ComputePath() const
 	return Path;
 }
 
-void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = { {{#consumes}}TEXT("{{{mediaType}}}"){{^-last}}, {{/-last}}{{/consumes}} };
 	//static const TArray<FString> Produces = { {{#produces}}TEXT("{{{mediaType}}}"){{^-last}}, {{/-last}}{{/produces}} };
@@ -128,7 +143,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSha
 		HttpRequest->SetHeader(TEXT("{{baseName}}"), {{paramName}}.GetValue());
 	}
 	{{/required}}
-	{{/headerParams}} 
+	{{/headerParams}}
 	{{/headerParams.0}}
 
 	// Default to Json Body request
@@ -163,7 +178,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSha
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
-		{{#formParams.0}} 
+		{{#formParams.0}}
 		HttpMultipartFormData FormData;
 		{{#formParams}}
 		{{#isContainer}}
@@ -212,7 +227,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSha
 	}
 	else if (Consumes.Contains(TEXT("application/x-www-form-urlencoded")))
 	{
-		{{#formParams.0}} 
+		{{#formParams.0}}
 		TArray<FString> FormParams;
 		{{#formParams}}
 		{{#isContainer}}
@@ -235,7 +250,7 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSha
 		{{/isContainer}}
 		{{/isFile}}
 		{{/formParams}}
-		
+
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/x-www-form-urlencoded; charset=utf-8"));
 		HttpRequest->SetContentAsString(FString::Join(FormParams, TEXT("&")));
 		{{/formParams.0}}

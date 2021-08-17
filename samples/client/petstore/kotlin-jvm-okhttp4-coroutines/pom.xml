@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>KotlinPetstoreOkhttp4CoroutinesTests</artifactId>
+    <artifactId>kotlin-petstore-okhttp4-coroutines-client</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>kotlin-jvm-okhttp4-coroutines</name>
+    <version>1.0.0</version>
+    <name>OpenAPI Petstore</name>
     <build>
         <plugins>
             <plugin>

@@ -38,22 +38,22 @@ template constructResult[T](response: Response): untyped =
     (none(T.typedesc), response)
 
 
-proc createUser*(httpClient: HttpClient, body: User): Response =
+proc createUser*(httpClient: HttpClient, user: User): Response =
   ## Create user
   httpClient.headers["Content-Type"] = "application/json"
-  httpClient.post(basepath & "/user", $(%body))
+  httpClient.post(basepath & "/user", $(%user))
 
 
-proc createUsersWithArrayInput*(httpClient: HttpClient, body: seq[User]): Response =
+proc createUsersWithArrayInput*(httpClient: HttpClient, user: seq[User]): Response =
   ## Creates list of users with given input array
   httpClient.headers["Content-Type"] = "application/json"
-  httpClient.post(basepath & "/user/createWithArray", $(%body))
+  httpClient.post(basepath & "/user/createWithArray", $(%user))
 
 
-proc createUsersWithListInput*(httpClient: HttpClient, body: seq[User]): Response =
+proc createUsersWithListInput*(httpClient: HttpClient, user: seq[User]): Response =
   ## Creates list of users with given input array
   httpClient.headers["Content-Type"] = "application/json"
-  httpClient.post(basepath & "/user/createWithList", $(%body))
+  httpClient.post(basepath & "/user/createWithList", $(%user))
 
 
 proc deleteUser*(httpClient: HttpClient, username: string): Response =
@@ -84,8 +84,8 @@ proc logoutUser*(httpClient: HttpClient): Response =
   httpClient.get(basepath & "/user/logout")
 
 
-proc updateUser*(httpClient: HttpClient, username: string, body: User): Response =
+proc updateUser*(httpClient: HttpClient, username: string, user: User): Response =
   ## Updated user
   httpClient.headers["Content-Type"] = "application/json"
-  httpClient.put(basepath & fmt"/user/{username}", $(%body))
+  httpClient.put(basepath & fmt"/user/{username}", $(%user))
 

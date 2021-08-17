@@ -1,7 +1,7 @@
 # Rust API for {{{packageName}}}
 
 {{#appDescriptionWithNewLines}}
-{{{appDescriptionWithNewLines}}}
+{{{.}}}
 {{/appDescriptionWithNewLines}}
 
 ## Overview
@@ -109,7 +109,7 @@ All URIs are relative to *{{{basePath}}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}[**{{{operationIdOriginal}}}**]({{{apiDocPath}}}{{classname}}_api.md#{{{operationIdOriginal}}}) | **{{{httpMethod}}}** {{{path}}} | {{#summary}}{{{summary}}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}[**{{{operationIdOriginal}}}**]({{{apiDocPath}}}{{classname}}_api.md#{{{operationIdOriginal}}}) | **{{{httpMethod}}}** {{{path}}} | {{{summary}}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation For Models
@@ -122,7 +122,7 @@ Method | HTTP request | Description
 {{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
 {{#authMethods}}
 ## {{{name}}}
-{{#isApiKey}}- **Type**: API key 
+{{#isApiKey}}- **Type**: API key
 
 Example
 ```

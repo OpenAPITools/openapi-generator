@@ -16,6 +16,10 @@ Articus\DataTransfer\Strategy\PluginManager:
   factories:
     Date: OpenAPIGenerator\Common\Strategy\Factory\MutableDate
     DateTime: OpenAPIGenerator\Common\Strategy\Factory\MutableDateTime
+    ObjectList: OpenAPIGenerator\Common\Strategy\Factory\NoArgObjectList
+    ObjectMap: OpenAPIGenerator\Common\Strategy\Factory\NoArgObjectMap
+    ScalarList: OpenAPIGenerator\Common\Strategy\Factory\ScalarList
+    ScalarMap: OpenAPIGenerator\Common\Strategy\Factory\ScalarMap
 
 Articus\DataTransfer\Validator\PluginManager:
   invokables:
@@ -24,3 +28,7 @@ Articus\DataTransfer\Validator\PluginManager:
     QueryStringScalarArray: OpenAPIGenerator\Common\Validator\QueryStringScalarArray
   abstract_factories:
   - Articus\DataTransfer\Validator\Factory\Laminas
+
+validators:
+  invokables:
+    Count: Laminas\Validator\IsCountable

@@ -46,7 +46,6 @@ class Model200Response {
     (name == null ? 0 : name.hashCode) +
     (class_ == null ? 0 : class_.hashCode);
 
-
   factory Model200Response.fromJson(Map<String, dynamic> json) => _$Model200ResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$Model200ResponseToJson(this);

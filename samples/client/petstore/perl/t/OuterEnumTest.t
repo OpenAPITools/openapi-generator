@@ -27,7 +27,8 @@ use warnings;
 
 use_ok('WWW::OpenAPIClient::Object::OuterEnum');
 
-my $instance = WWW::OpenAPIClient::Object::OuterEnum->new();
-
-isa_ok($instance, 'WWW::OpenAPIClient::Object::OuterEnum');
+# uncomment below and update the test
+#my $instance = WWW::OpenAPIClient::Object::OuterEnum->new();
+#
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::OuterEnum');
 

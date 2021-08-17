@@ -46,7 +46,6 @@ class HasOnlyReadOnly {
     (bar == null ? 0 : bar.hashCode) +
     (foo == null ? 0 : foo.hashCode);
 
-
   factory HasOnlyReadOnly.fromJson(Map<String, dynamic> json) => _$HasOnlyReadOnlyFromJson(json);
 
   Map<String, dynamic> toJson() => _$HasOnlyReadOnlyToJson(this);

@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Pet
+
 ## Properties
 
 Name | Type | Description | Notes

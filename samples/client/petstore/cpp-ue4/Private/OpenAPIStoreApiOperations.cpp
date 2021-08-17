@@ -33,7 +33,7 @@ FString OpenAPIStoreApi::DeleteOrderRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIStoreApi::DeleteOrderRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIStoreApi::DeleteOrderRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -81,7 +81,7 @@ FString OpenAPIStoreApi::GetInventoryRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIStoreApi::GetInventoryRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIStoreApi::GetInventoryRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/json") };
@@ -130,7 +130,7 @@ FString OpenAPIStoreApi::GetOrderByIdRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIStoreApi::GetOrderByIdRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIStoreApi::GetOrderByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -181,7 +181,7 @@ FString OpenAPIStoreApi::PlaceOrderRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIStoreApi::PlaceOrderRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIStoreApi::PlaceOrderRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };

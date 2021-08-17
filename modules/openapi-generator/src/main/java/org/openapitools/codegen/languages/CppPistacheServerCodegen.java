@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
@@ -129,6 +128,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::vector");
         typeMapping.put("map", "std::map");
+        typeMapping.put("set", "std::vector");
         typeMapping.put("file", "std::string");
         typeMapping.put("object", "Object");
         typeMapping.put("binary", "std::string");
@@ -218,6 +218,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
         }
 
+        if(!codegenModel.isEnum
+                && codegenModel.anyOf.size()>1
+                && codegenModel.anyOf.contains("std::string")
+                && !codegenModel.anyOf.contains("AnyType")
+                && codegenModel.interfaces.size()==1
+        ){
+            codegenModel.vendorExtensions.put("x-is-string-enum-container",true);
+        }
         return codegenModel;
     }
 
@@ -373,44 +381,86 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
-            return "false";
+        if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
+        } else if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else {
+                return "false";
+            }
         } else if (ModelUtils.isDateSchema(p)) {
-            return "\"\"";
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "\"\"";
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
         } else if (ModelUtils.isNumberSchema(p)) {
-            if (ModelUtils.isFloatSchema(p)) {
-                return "0.0f";
+            if (ModelUtils.isFloatSchema(p)) { // float
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString() + "f";
+                } else {
+                    return "0.0f";
+                }
+            } else { // double
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString();
+                } else {
+                    return "0.0";
+                }
             }
-            return "0.0";
         } else if (ModelUtils.isIntegerSchema(p)) {
-            if (ModelUtils.isLongSchema(p)) {
-                return "0L";
+            if (ModelUtils.isLongSchema(p)) { // long
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString() + "L";
+                } else {
+                    return "0L";
+                }
+            } else { // integer
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString();
+                } else {
+                    return "0";
+                }
             }
-            return "0";
         } else if (ModelUtils.isByteArraySchema(p)) {
-            return "\"\"";
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
         } else if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
+            if (!languageSpecificPrimitives.contains(inner)) {
+                inner = "std::shared_ptr<" + inner + ">";
+            }
             return "std::vector<" + inner + ">()";
-        } else if (!StringUtils.isEmpty(p.get$ref())) { // model
-            return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
-        } else if (ModelUtils.isStringSchema(p)) {
-            return "\"\"";
+        } else if (!StringUtils.isEmpty(p.get$ref())) {
+            return "std::make_shared<" + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + ">()";
         }
 
-        return "";
+        return "nullptr";
     }
 
     /**
      * Location to write model files. You can use the modelPackage() as defined
      * when the class is instantiated
      */
+    @Override
     public String modelFileFolder() {
         return (outputFolder + "/model").replace("/", File.separator);
     }

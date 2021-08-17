@@ -45,7 +45,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
@@ -64,7 +66,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderExample floatItem(Float floatItem) {
     this.floatItem = floatItem;
@@ -83,7 +87,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setFloatItem(Float floatItem) {
     this.floatItem = floatItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderExample integerItem(Integer integerItem) {
     this.integerItem = integerItem;
@@ -102,7 +108,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderExample boolItem(Boolean boolItem) {
     this.boolItem = boolItem;
@@ -121,7 +129,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
@@ -141,6 +151,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
+
 
   @Override
   public boolean equals(Object o) {

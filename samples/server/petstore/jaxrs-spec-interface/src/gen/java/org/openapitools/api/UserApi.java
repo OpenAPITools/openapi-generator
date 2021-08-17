@@ -22,21 +22,21 @@ import javax.validation.Valid;
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void createUser(@Valid User body);
+    void createUser(@Valid @NotNull User body);
 
     @POST
     @Path("/createWithArray")
     @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void createUsersWithArrayInput(@Valid List<User> body);
+    void createUsersWithArrayInput(@Valid @NotNull List<User> body);
 
     @POST
     @Path("/createWithList")
     @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void createUsersWithListInput(@Valid List<User> body);
+    void createUsersWithListInput(@Valid @NotNull List<User> body);
 
     @DELETE
     @Path("/{username}")
@@ -63,7 +63,7 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
-    String loginUser(@QueryParam("username") @NotNull   @ApiParam("The user name for login")  String username,@QueryParam("password") @NotNull   @ApiParam("The password for login in clear text")  String password);
+    String loginUser(@QueryParam("username") @NotNull  @ApiParam("The user name for login")  String username,@QueryParam("password") @NotNull  @ApiParam("The password for login in clear text")  String password);
 
     @GET
     @Path("/logout")
@@ -78,5 +78,5 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    void updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid User body);
+    void updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid @NotNull User body);
 }

@@ -1,0 +1,64 @@
+# coding: utf-8
+
+from typing import Dict, List  # noqa: F401
+
+from fastapi import (  # noqa: F401
+    APIRouter,
+    Body,
+    Cookie,
+    Depends,
+    Form,
+    Header,
+    Path,
+    Query,
+    Response,
+    Security,
+    status,
+)
+
+from {{modelPackage}}.extra_models import TokenModel  # noqa: F401
+{{#imports}}
+{{import}}
+{{/imports}}
+{{#securityImports.0}}from {{packageName}}.security_api import {{#securityImports}}get_token_{{.}}{{^-last}}, {{/-last}}{{/securityImports}}{{/securityImports.0}}
+
+router = APIRouter()
+
+
+{{#operations}}
+{{#operation}}
+@router.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}(
+    "{{path}}",
+    responses={
+        {{#responses}}
+        {{code}}: {{=<% %>=}}{<%#dataType%>"model": <%dataType%>, "description": "<%message%>"<%/dataType%><%^dataType%>"description": "<%message%>"<%/dataType%>}<%={{ }}=%>,
+        {{/responses}}
+    },
+    tags=[{{#tags}}"{{name}}"{{^-last}},{{/-last}}{{/tags}}],
+    {{#summary}}
+    summary="{{.}}",
+    {{/summary}}
+    {{#description}}
+    description = "{{.}}",
+    {{/description}}
+)
+async def {{operationId}}(
+    {{#allParams}}
+    {{>endpoint_argument_definition}},
+    {{/allParams}}
+    {{#hasAuthMethods}}
+    {{#authMethods}}
+    token_{{name}}: TokenModel = Security(
+        get_token_{{name}}{{#isOAuth}}, scopes=[{{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}}]{{/isOAuth}}
+    ),
+    {{/authMethods}}
+    {{/hasAuthMethods}}
+) -> {{returnType}}{{^returnType}}None{{/returnType}}:
+    {{#notes}}"""{{.}}"""
+    ...{{/notes}}{{^notes}}...{{/notes}}
+{{^-last}}
+
+
+{{/-last}}
+{{/operation}}
+{{/operations}}

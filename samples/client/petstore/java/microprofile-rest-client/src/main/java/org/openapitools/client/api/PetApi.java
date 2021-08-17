@@ -73,7 +73,9 @@ public interface PetApi  {
      *
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
+     * @deprecated
      */
+    @Deprecated
     @GET
     @Path("/findByTags")
     @Produces({ "application/xml", "application/json" })
@@ -118,4 +120,3 @@ public interface PetApi  {
     @Produces({ "application/json" })
     public ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment fileDetail) throws ApiException, ProcessingException;
 }
-

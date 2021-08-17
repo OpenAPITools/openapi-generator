@@ -139,7 +139,7 @@ class PetApi(baseUrl: String) {
       .method(Method.POST, uri"$baseUrl/pet/${petId}")
       .contentType("application/x-www-form-urlencoded")
       .body(Map(
-        "name" -> name, 
+        "name" -> name,
         "status" -> status
       ))
       .response(asJson[Unit])

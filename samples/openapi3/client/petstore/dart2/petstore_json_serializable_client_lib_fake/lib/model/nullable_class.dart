@@ -33,84 +33,84 @@ class NullableClass {
   });
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'integer_prop',
     required: false,
   )
   int integerProp;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'number_prop',
     required: false,
   )
   num numberProp;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'boolean_prop',
     required: false,
   )
   bool booleanProp;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'string_prop',
     required: false,
   )
   String stringProp;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'date_prop',
     required: false,
   )
   DateTime dateProp;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'datetime_prop',
     required: false,
   )
   DateTime datetimeProp;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'array_nullable_prop',
     required: false,
   )
   List<Object> arrayNullableProp;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'array_and_items_nullable_prop',
     required: false,
   )
   List<Object> arrayAndItemsNullableProp;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'array_items_nullable',
     required: false,
   )
   List<Object> arrayItemsNullable;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'object_nullable_prop',
     required: false,
   )
   Map<String, Object> objectNullableProp;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'object_and_items_nullable_prop',
     required: false,
   )
   Map<String, Object> objectAndItemsNullableProp;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'object_items_nullable',
     required: false,
   )
@@ -145,7 +145,6 @@ class NullableClass {
     (objectNullableProp == null ? 0 : objectNullableProp.hashCode) +
     (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp.hashCode) +
     (objectItemsNullable == null ? 0 : objectItemsNullable.hashCode);
-
 
   factory NullableClass.fromJson(Map<String, dynamic> json) => _$NullableClassFromJson(json);
 

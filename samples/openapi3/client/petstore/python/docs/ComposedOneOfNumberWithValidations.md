@@ -1,6 +1,7 @@
 # ComposedOneOfNumberWithValidations
 
 this is a model that allows payloads of type object or number
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

@@ -1,0 +1,28 @@
+{{>licenseInfo}}
+package {{packageName}}
+
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.Location
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#apiInfo}}
+object Paths {
+{{#apis}}
+{{#operations}}
+    {{#operation}}
+    {{^bodyAllowed}}
+    /**
+     * {{summary}}
+     * {{unescapedNotes}}
+     {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+     {{/allParams}}*/
+    @KtorExperimentalLocationsAPI
+    @Location("{{path}}") class {{operationId}}({{#allParams}}val {{paramName}}: {{{dataType}}}{{^required}}? = null{{/required}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+
+    {{/bodyAllowed}}
+    {{/operation}}
+{{/operations}}
+{{/apis}}
+}
+{{/apiInfo}}

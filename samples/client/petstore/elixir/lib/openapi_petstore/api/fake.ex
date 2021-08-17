@@ -189,7 +189,59 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
-  For this test, the body for this request much reference a schema named `File`.
+  Test serialization of enum (int) properties with examples
+
+  ## Parameters
+
+  - connection (OpenapiPetstore.Connection): Connection to server
+  - outer_object_with_enum_property (OuterObjectWithEnumProperty): Input enum (int) as post body
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} on success
+  {:error, Tesla.Env.t} on failure
+  """
+  @spec fake_property_enum_integer_serialize(Tesla.Env.client, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t, keyword()) :: {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} | {:error, Tesla.Env.t}
+  def fake_property_enum_integer_serialize(connection, outer_object_with_enum_property, _opts \\ []) do
+    %{}
+    |> method(:post)
+    |> url("/fake/property/enum-int")
+    |> add_param(:body, :body, outer_object_with_enum_property)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.OuterObjectWithEnumProperty{}}
+    ])
+  end
+
+  @doc """
+  For this test, the body has to be a binary file.
+
+  ## Parameters
+
+  - connection (OpenapiPetstore.Connection): Connection to server
+  - body (String.t): image to upload
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, nil} on success
+  {:error, Tesla.Env.t} on failure
+  """
+  @spec test_body_with_binary(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_body_with_binary(connection, body, _opts \\ []) do
+    %{}
+    |> method(:put)
+    |> url("/fake/body-with-binary")
+    |> add_param(:body, :body, body)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, false}
+    ])
+  end
+
+  @doc """
+  For this test, the body for this request must reference a schema named `File`.
 
   ## Parameters
 
@@ -476,13 +528,17 @@ defmodule OpenapiPetstore.Api.Fake do
   - url ([String.t]): 
   - context ([String.t]): 
   - opts (KeywordList): [optional] Optional parameters
+    - :language (%{optional(String.t) => String.t}): 
   ## Returns
 
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
   @spec test_query_parameter_collection_format(Tesla.Env.client, list(String.t), list(String.t), list(String.t), list(String.t), list(String.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def test_query_parameter_collection_format(connection, pipe, ioutil, http, url, context, _opts \\ []) do
+  def test_query_parameter_collection_format(connection, pipe, ioutil, http, url, context, opts \\ []) do
+    optional_params = %{
+      :"language" => :query
+    }
     %{}
     |> method(:put)
     |> url("/fake/test-query-paramters")
@@ -491,6 +547,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> add_param(:query, :"http", http)
     |> add_param(:query, :"url", url)
     |> add_param(:query, :"context", context)
+    |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()

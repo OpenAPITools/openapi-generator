@@ -48,14 +48,14 @@ class Pet {
   String name;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const {},
     name: r'photoUrls',
     required: true,
   )
   Set<String> photoUrls;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: const [],
     name: r'tags',
     required: false,
   )
@@ -87,7 +87,6 @@ class Pet {
     (tags == null ? 0 : tags.hashCode) +
     (status == null ? 0 : status.hashCode);
 
-
   factory Pet.fromJson(Map<String, dynamic> json) => _$PetFromJson(json);
 
   Map<String, dynamic> toJson() => _$PetToJson(this);
@@ -100,7 +99,6 @@ class Pet {
 }
 
 /// pet status in the store
-
 enum PetStatusEnum {
   available,
   pending,

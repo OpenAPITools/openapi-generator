@@ -51,7 +51,7 @@ public class {{classname}}Impl implements {{classname}} {
     {{/allParams}}
     * @param resultHandler Asynchronous result handler
     */
-    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
+    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
         {{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}null, resultHandler);
     }
 
@@ -64,7 +64,7 @@ public class {{classname}}Impl implements {{classname}} {
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
+    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
         Object localVarBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
         {{#allParams}}{{#required}}
         // verify the required parameter '{{paramName}}' is set
@@ -79,7 +79,7 @@ public class {{classname}}Impl implements {{classname}} {
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
         {{#queryParams}}
-        localVarQueryParams.addAll(apiClient.parameterToPairs("{{#collectionFormat}}{{{collectionFormat}}}{{/collectionFormat}}", "{{baseName}}", {{paramName}}));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
         {{/queryParams}}
 
         // header params

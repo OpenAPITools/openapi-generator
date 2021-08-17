@@ -354,4 +354,26 @@ components:
           required:
             - a
             - b
+    ArrayWithObjectWithPropsInItems:
+      type: array
+      items:
+        type: object
+        properties:
+          a:
+            type: string
+            minLength: 1
+          b:
+            type: string
+            minLength: 1
+    ObjectWithObjectWithPropsInAdditionalProperties:
+      type: object
+      additionalProperties:
+        type: object
+        properties:
+          a:
+            type: string
+            minLength: 1
+          b:
+            type: string
+            minLength: 1
   securitySchemes: {}

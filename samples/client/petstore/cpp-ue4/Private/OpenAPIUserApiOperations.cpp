@@ -29,7 +29,7 @@ FString OpenAPIUserApi::CreateUserRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::CreateUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::CreateUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -86,7 +86,7 @@ FString OpenAPIUserApi::CreateUsersWithArrayInputRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::CreateUsersWithArrayInputRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::CreateUsersWithArrayInputRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -143,7 +143,7 @@ FString OpenAPIUserApi::CreateUsersWithListInputRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::CreateUsersWithListInputRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::CreateUsersWithListInputRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -204,7 +204,7 @@ FString OpenAPIUserApi::DeleteUserRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::DeleteUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::DeleteUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -256,7 +256,7 @@ FString OpenAPIUserApi::GetUserByNameRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::GetUserByNameRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::GetUserByNameRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -313,7 +313,7 @@ FString OpenAPIUserApi::LoginUserRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::LoginUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::LoginUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -361,7 +361,7 @@ FString OpenAPIUserApi::LogoutUserRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::LogoutUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::LogoutUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -411,7 +411,7 @@ FString OpenAPIUserApi::UpdateUserRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIUserApi::UpdateUserRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIUserApi::UpdateUserRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };

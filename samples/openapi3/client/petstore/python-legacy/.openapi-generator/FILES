@@ -16,6 +16,7 @@ docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultApi.md
+docs/DeprecatedObject.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/EnumArrays.md
@@ -38,12 +39,14 @@ docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
 docs/NumberOnly.md
+docs/ObjectWithDeprecatedFields.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
 docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
+docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
@@ -78,6 +81,7 @@ petstore_api/models/cat_all_of.py
 petstore_api/models/category.py
 petstore_api/models/class_model.py
 petstore_api/models/client.py
+petstore_api/models/deprecated_object.py
 petstore_api/models/dog.py
 petstore_api/models/dog_all_of.py
 petstore_api/models/enum_arrays.py
@@ -98,12 +102,14 @@ petstore_api/models/model_return.py
 petstore_api/models/name.py
 petstore_api/models/nullable_class.py
 petstore_api/models/number_only.py
+petstore_api/models/object_with_deprecated_fields.py
 petstore_api/models/order.py
 petstore_api/models/outer_composite.py
 petstore_api/models/outer_enum.py
 petstore_api/models/outer_enum_default_value.py
 petstore_api/models/outer_enum_integer.py
 petstore_api/models/outer_enum_integer_default_value.py
+petstore_api/models/outer_object_with_enum_property.py
 petstore_api/models/pet.py
 petstore_api/models/read_only_first.py
 petstore_api/models/special_model_name.py

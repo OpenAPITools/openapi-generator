@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Category
+
 ## Properties
 
 Name | Type | Description | Notes

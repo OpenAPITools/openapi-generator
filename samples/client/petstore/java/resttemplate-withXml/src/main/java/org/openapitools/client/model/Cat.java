@@ -74,6 +74,9 @@ public class Cat extends Animal {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "declawed")
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }

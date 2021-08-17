@@ -1014,9 +1014,9 @@ public class FakeApi {
      * To test enum parameters
      * To test enum parameters
      *
-     * @see #enumHeaderStringArrayHeader Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @see #enumHeaderStringArrayHeader Header parameter enum test (string array) (optional)
      * @see #enumHeaderStringHeader Header parameter enum test (string) (optional, default to -efg)
-     * @see #enumQueryStringArrayQuery Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+     * @see #enumQueryStringArrayQuery Query parameter enum test (string array) (optional)
      * @see #enumQueryStringQuery Query parameter enum test (string) (optional, default to -efg)
      * @see #enumQueryIntegerQuery Query parameter enum test (double) (optional)
      * @see #enumQueryDoubleQuery Query parameter enum test (double) (optional)
@@ -1052,7 +1052,7 @@ public class FakeApi {
         public static final String ENUM_HEADER_STRING_ARRAY_HEADER = "enum_header_string_array";
 
         /**
-         * @param enumHeaderStringArray (List&lt;String&gt;) Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+         * @param enumHeaderStringArray (List&lt;String&gt;) Header parameter enum test (string array) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumHeaderStringArrayHeader(String enumHeaderStringArray) {
@@ -1074,7 +1074,7 @@ public class FakeApi {
         public static final String ENUM_QUERY_STRING_ARRAY_QUERY = "enum_query_string_array";
 
         /**
-         * @param enumQueryStringArray (List&lt;String&gt;) Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
+         * @param enumQueryStringArray (List&lt;String&gt;) Query parameter enum test (string array) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumQueryStringArrayQuery(Object... enumQueryStringArray) {

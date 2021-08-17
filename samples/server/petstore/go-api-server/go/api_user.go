@@ -17,14 +17,34 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// A UserApiController binds http requests to an api service and writes the service results to the http response
+// UserApiController binds http requests to an api service and writes the service results to the http response
 type UserApiController struct {
 	service UserApiServicer
+	errorHandler ErrorHandler
+}
+
+// UserApiOption for how the controller is set up.
+type UserApiOption func(*UserApiController)
+
+// WithUserApiErrorHandler inject ErrorHandler into controller
+func WithUserApiErrorHandler(h ErrorHandler) UserApiOption {
+	return func(c *UserApiController) {
+		c.errorHandler = h
+	}
 }
 
 // NewUserApiController creates a default api controller
-func NewUserApiController(s UserApiServicer) Router {
-	return &UserApiController{ service: s }
+func NewUserApiController(s UserApiServicer, opts ...UserApiOption) Router {
+	controller := &UserApiController{
+		service:      s,
+		errorHandler: DefaultErrorHandler,
+	}
+
+	for _, opt := range opts {
+		opt(controller)
+	}
+
+	return controller
 }
 
 // Routes returns all of the api route for the UserApiController
@@ -82,138 +102,165 @@ func (c *UserApiController) Routes() Routes {
 }
 
 // CreateUser - Create user
-func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) { 
-	user := &User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
+	user := User{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&user); err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	
-	result, err := c.service.CreateUser(r.Context(), *user)
-	//If an error occured, encode the error with the status code
+	if err := AssertUserRequired(user); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.CreateUser(r.Context(), user)
+	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
-	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-	
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
-func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) { 
-	user := &[]User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
+	user := []User{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&user); err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	
-	result, err := c.service.CreateUsersWithArrayInput(r.Context(), *user)
-	//If an error occured, encode the error with the status code
+	for _, el := range user {
+		if err := AssertUserRequired(el); err != nil {
+			c.errorHandler(w, r, err, nil)
+			return
+		}
+	}
+	result, err := c.service.CreateUsersWithArrayInput(r.Context(), user)
+	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
-	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-	
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
-func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) { 
-	user := &[]User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
+	user := []User{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&user); err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	
-	result, err := c.service.CreateUsersWithListInput(r.Context(), *user)
-	//If an error occured, encode the error with the status code
+	for _, el := range user {
+		if err := AssertUserRequired(el); err != nil {
+			c.errorHandler(w, r, err, nil)
+			return
+		}
+	}
+	result, err := c.service.CreateUsersWithListInput(r.Context(), user)
+	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
-	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-	
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+
 }
 
 // DeleteUser - Delete user
-func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) { 
+func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	username := params["username"]
+	
 	result, err := c.service.DeleteUser(r.Context(), username)
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
-	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-	
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+
 }
 
 // GetUserByName - Get user by user name
-func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request) { 
+func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	username := params["username"]
+	
 	result, err := c.service.GetUserByName(r.Context(), username)
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
-	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-	
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+
 }
 
 // LoginUser - Logs user into the system
-func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) { 
+func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	username := query.Get("username")
 	password := query.Get("password")
 	result, err := c.service.LoginUser(r.Context(), username, password)
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
-	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-	
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+
 }
 
 // LogoutUser - Logs out current logged in user session
-func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) { 
+func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.LogoutUser(r.Context())
-	//If an error occured, encode the error with the status code
+	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
-	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-	
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+
 }
 
 // UpdateUser - Updated user
-func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) { 
+func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	username := params["username"]
-	user := &User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+	
+	user := User{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&user); err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	
-	result, err := c.service.UpdateUser(r.Context(), username, *user)
-	//If an error occured, encode the error with the status code
+	if err := AssertUserRequired(user); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.UpdateUser(r.Context(), username, user)
+	// If an error occurred, encode the error with the status code
 	if err != nil {
-		EncodeJSONResponse(err.Error(), &result.Code, w)
+		c.errorHandler(w, r, err, &result)
 		return
 	}
-	//If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, w)
-	
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+
 }

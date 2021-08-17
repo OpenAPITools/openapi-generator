@@ -11,7 +11,6 @@ import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AsciidocDocumentationCodegen;
@@ -86,7 +85,7 @@ public class AsciidocGeneratorTest {
     public void testAdditionalDirectoriesGeneratedIntoHeaderAttributes() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
 
-        LOGGER.info("test: generating sample markup " + output.getAbsolutePath());
+        LOGGER.info("test: generating sample markup {}", output.getAbsolutePath());
 
         Map<String, Object> props = new TreeMap<String, Object>();
         props.put("specDir", "spec");
@@ -112,13 +111,13 @@ public class AsciidocGeneratorTest {
         Assert.assertTrue(markupFileGenerated, "index.adoc is not generated!");
 
     }
-    
+
 
     @Test
     public void testHeaderAttributesFlagRemovesAttributesFromMarkupHeaderSection() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
 
-        LOGGER.info("test: generating sample markup " + output.getAbsolutePath());
+        LOGGER.info("test: generating sample markup {}", output.getAbsolutePath());
 
         Map<String, Object> props = new TreeMap<String, Object>();
         props.put("specDir", "spec");
@@ -147,6 +146,6 @@ public class AsciidocGeneratorTest {
             }
         }
         Assert.assertTrue(markupFileGenerated, "index.adoc is not generated!");
-    }    
+    }
 
 }

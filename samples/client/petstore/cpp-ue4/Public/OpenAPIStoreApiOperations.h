@@ -28,7 +28,7 @@ class OPENAPI_API OpenAPIStoreApi::DeleteOrderRequest : public Request
 {
 public:
     virtual ~DeleteOrderRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* ID of the order that needs to be deleted */
@@ -53,7 +53,7 @@ class OPENAPI_API OpenAPIStoreApi::GetInventoryRequest : public Request
 {
 public:
     virtual ~GetInventoryRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 };
@@ -76,7 +76,7 @@ class OPENAPI_API OpenAPIStoreApi::GetOrderByIdRequest : public Request
 {
 public:
     virtual ~GetOrderByIdRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* ID of pet that needs to be fetched */
@@ -100,7 +100,7 @@ class OPENAPI_API OpenAPIStoreApi::PlaceOrderRequest : public Request
 {
 public:
     virtual ~PlaceOrderRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
     
 	/* order placed for purchasing the pet */

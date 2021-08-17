@@ -57,7 +57,7 @@ class EnumTest {
   EnumTestEnumNumberEnum enumNumber;
 
   @JsonKey(
-    nullable: false,
+    nullable: true,
     name: r'outerEnum',
     required: false,
   )
@@ -106,7 +106,6 @@ class EnumTest {
     (outerEnumDefaultValue == null ? 0 : outerEnumDefaultValue.hashCode) +
     (outerEnumIntegerDefaultValue == null ? 0 : outerEnumIntegerDefaultValue.hashCode);
 
-
   factory EnumTest.fromJson(Map<String, dynamic> json) => _$EnumTestFromJson(json);
 
   Map<String, dynamic> toJson() => _$EnumTestToJson(this);
@@ -119,13 +118,11 @@ class EnumTest {
 }
 
 
-
 enum EnumTestEnumStringEnum {
   UPPER,
   lower,
   empty,
 }
-
 
 
 enum EnumTestEnumStringRequiredEnum {
@@ -135,12 +132,10 @@ enum EnumTestEnumStringRequiredEnum {
 }
 
 
-
 enum EnumTestEnumIntegerEnum {
   number1,
   numberNegative1,
 }
-
 
 
 enum EnumTestEnumNumberEnum {

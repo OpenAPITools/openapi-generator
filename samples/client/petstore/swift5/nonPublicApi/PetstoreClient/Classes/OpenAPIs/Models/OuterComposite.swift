@@ -6,8 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-internal struct OuterComposite: Codable {
+internal struct OuterComposite: Codable, Hashable {
 
     internal var myNumber: Double?
     internal var myString: String?
@@ -25,4 +28,13 @@ internal struct OuterComposite: Codable {
         case myBoolean = "my_boolean"
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(myNumber, forKey: .myNumber)
+        try container.encodeIfPresent(myString, forKey: .myString)
+        try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
+    }
 }
+

@@ -58,6 +58,13 @@ void main() {
       // TODO
     });
 
+    // Test serialization of enum (int) properties with examples
+    //
+    //Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async
+    test('test fakePropertyEnumIntegerSerialize', () async {
+      // TODO
+    });
+
     // For this test, the body for this request much reference a schema named `File`.
     //
     //Future testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) async

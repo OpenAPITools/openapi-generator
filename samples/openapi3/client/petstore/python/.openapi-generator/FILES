@@ -18,6 +18,7 @@ docs/ArrayTest.md
 docs/Banana.md
 docs/BananaReq.md
 docs/BasquePig.md
+docs/BooleanEnum.md
 docs/Capitalization.md
 docs/Cat.md
 docs/CatAllOf.md
@@ -28,6 +29,7 @@ docs/ClassModel.md
 docs/Client.md
 docs/ComplexQuadrilateral.md
 docs/ComposedOneOfNumberWithValidations.md
+docs/ComposedSchemaWithPropsAndNoAddProps.md
 docs/DanishPig.md
 docs/DefaultApi.md
 docs/Dog.md
@@ -39,6 +41,7 @@ docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
+docs/FakePostInlineAdditionalPropertiesPayloadArrayData.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
@@ -49,6 +52,8 @@ docs/GmFruit.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
+docs/InlineAdditionalPropertiesRefPayload.md
+docs/InlineObject6.md
 docs/InlineResponseDefault.md
 docs/IntegerEnum.md
 docs/IntegerEnumOneValue.md
@@ -60,6 +65,7 @@ docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelReturn.md
+docs/Mole.md
 docs/Name.md
 docs/NullableClass.md
 docs/NullableShape.md
@@ -76,12 +82,14 @@ docs/Pig.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
+docs/Readonly.md
 docs/ScaleneTriangle.md
 docs/Shape.md
 docs/ShapeInterface.md
 docs/ShapeOrNull.md
 docs/SimpleQuadrilateral.md
 docs/SomeObject.md
+docs/SomeObjectWithSelfAttr.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/StringBooleanMap.md
@@ -124,6 +132,7 @@ petstore_api/model/array_test.py
 petstore_api/model/banana.py
 petstore_api/model/banana_req.py
 petstore_api/model/basque_pig.py
+petstore_api/model/boolean_enum.py
 petstore_api/model/capitalization.py
 petstore_api/model/cat.py
 petstore_api/model/cat_all_of.py
@@ -134,6 +143,7 @@ petstore_api/model/class_model.py
 petstore_api/model/client.py
 petstore_api/model/complex_quadrilateral.py
 petstore_api/model/composed_one_of_number_with_validations.py
+petstore_api/model/composed_schema_with_props_and_no_add_props.py
 petstore_api/model/danish_pig.py
 petstore_api/model/dog.py
 petstore_api/model/dog_all_of.py
@@ -142,6 +152,7 @@ petstore_api/model/enum_arrays.py
 petstore_api/model/enum_class.py
 petstore_api/model/enum_test.py
 petstore_api/model/equilateral_triangle.py
+petstore_api/model/fake_post_inline_additional_properties_payload_array_data.py
 petstore_api/model/file.py
 petstore_api/model/file_schema_test_class.py
 petstore_api/model/foo.py
@@ -152,6 +163,8 @@ petstore_api/model/gm_fruit.py
 petstore_api/model/grandparent_animal.py
 petstore_api/model/has_only_read_only.py
 petstore_api/model/health_check_result.py
+petstore_api/model/inline_additional_properties_ref_payload.py
+petstore_api/model/inline_object6.py
 petstore_api/model/inline_response_default.py
 petstore_api/model/integer_enum.py
 petstore_api/model/integer_enum_one_value.py
@@ -163,6 +176,7 @@ petstore_api/model/map_test.py
 petstore_api/model/mixed_properties_and_additional_properties_class.py
 petstore_api/model/model200_response.py
 petstore_api/model/model_return.py
+petstore_api/model/mole.py
 petstore_api/model/name.py
 petstore_api/model/nullable_class.py
 petstore_api/model/nullable_shape.py
@@ -178,12 +192,14 @@ petstore_api/model/pig.py
 petstore_api/model/quadrilateral.py
 petstore_api/model/quadrilateral_interface.py
 petstore_api/model/read_only_first.py
+petstore_api/model/readonly.py
 petstore_api/model/scalene_triangle.py
 petstore_api/model/shape.py
 petstore_api/model/shape_interface.py
 petstore_api/model/shape_or_null.py
 petstore_api/model/simple_quadrilateral.py
 petstore_api/model/some_object.py
+petstore_api/model/some_object_with_self_attr.py
 petstore_api/model/special_model_name.py
 petstore_api/model/string_boolean_map.py
 petstore_api/model/string_enum.py
@@ -195,7 +211,6 @@ petstore_api/model/user.py
 petstore_api/model/whale.py
 petstore_api/model/zebra.py
 petstore_api/model_utils.py
-petstore_api/models/__init__.py
 petstore_api/models/__init__.py
 petstore_api/rest.py
 petstore_api/signing.py

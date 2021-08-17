@@ -1,7 +1,7 @@
 # Swift5 API client for {{{projectName}}}
 
 {{#appDescriptionWithNewLines}}
-{{{appDescriptionWithNewLines}}}
+{{{.}}}
 {{/appDescriptionWithNewLines}}
 
 ## Overview
@@ -19,6 +19,13 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 ## Installation
 
+{{#useVapor}}
+Add the following entry in your Package.swift:
+
+> .package(path: "./{{{projectName}}}")
+
+{{/useVapor}}
+{{^useVapor}}
 ### Carthage
 
 Run `carthage update`
@@ -27,13 +34,13 @@ Run `carthage update`
 
 Run `pod install`
 
-## Documentation for API Endpoints
+{{/useVapor}}## Documentation for API Endpoints
 
 All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation For Models

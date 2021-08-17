@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"mime/multipart"
 	"net/http"
@@ -46,12 +47,7 @@ type APIClient struct {
 {{#apis}}
 {{#operations}}
 
-  {{#generateInterfaces}}
-	{{classname}} {{classname}}
-  {{/generateInterfaces}}
-  {{^generateInterfaces}}
-	{{classname}} *{{classname}}Service
-  {{/generateInterfaces}}
+	{{classname}} {{#generateInterfaces}}{{classname}}{{/generateInterfaces}}{{^generateInterfaces}}*{{classname}}Service{{/generateInterfaces}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
@@ -112,7 +108,7 @@ func selectHeaderAccept(accepts []string) string {
 	return strings.Join(accepts, ",")
 }
 
-// contains is a case insenstive match, finding needle in a haystack
+// contains is a case insensitive match, finding needle in a haystack
 func contains(haystack []string, needle string) bool {
 	for _, a := range haystack {
 		if strings.ToLower(a) == strings.ToLower(needle) {
@@ -367,7 +363,7 @@ func (c *APIClient) prepareRequest(
 				reader = strings.NewReader(body.String())
 			}
 
-			// Define default values for region and service to maintain backward compatibility 
+			// Define default values for region and service to maintain backward compatibility
 			region := auth.Region
 			if region == "" {
 				region = "eu-west-2"
@@ -389,6 +385,13 @@ func (c *APIClient) prepareRequest(
 	for header, value := range c.cfg.DefaultHeader {
 		localVarRequest.Header.Add(header, value)
 	}
+{{#withCustomMiddlewareFunction}}
+
+	if c.cfg.Middleware != nil {
+		c.cfg.Middleware(localVarRequest)
+	}
+
+{{/withCustomMiddlewareFunction}}
 {{#hasHttpSignatureMethods}}
 	if ctx != nil {
 		// HTTP Signature Authentication. All request headers must be set (including default headers)
@@ -411,6 +414,15 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 	if s, ok := v.(*string); ok {
 		*s = string(b)
 		return nil
+	}
+	if f, ok := v.(**os.File); ok {
+		*f, err = ioutil.TempFile("", "HttpClientFile")
+		if err != nil {
+			return
+		}
+		_, err = (*f).Write(b)
+		_, err = (*f).Seek(0, io.SeekStart)
+		return
 	}
 	if xmlCheck.MatchString(contentType) {
 		if err = xml.Unmarshal(b, v); err != nil {

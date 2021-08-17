@@ -18,8 +18,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Create user
      * @param user Created user object
      */
-    public async createUser(user: User, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async createUser(user: User, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
@@ -31,7 +31,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/user';
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -54,7 +54,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["api_key"]
+        authMethod = _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -66,8 +66,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public async createUsersWithArrayInput(user: Array<User>, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async createUsersWithArrayInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
@@ -79,7 +79,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/user/createWithArray';
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -102,7 +102,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["api_key"]
+        authMethod = _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -114,8 +114,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public async createUsersWithListInput(user: Array<User>, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async createUsersWithListInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
@@ -127,7 +127,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/user/createWithList';
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -150,7 +150,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["api_key"]
+        authMethod = _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -163,8 +163,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Delete user
      * @param username The name that needs to be deleted
      */
-    public async deleteUser(username: string, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async deleteUser(username: string, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -177,7 +177,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -191,7 +191,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["api_key"]
+        authMethod = _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -203,8 +203,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
-    public async getUserByName(username: string, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async getUserByName(username: string, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -217,7 +217,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -239,8 +239,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public async loginUser(username: string, password: string, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async loginUser(username: string, password: string, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -258,7 +258,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/user/login';
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -284,14 +284,14 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Logs out current logged in user session
      */
-    public async logoutUser(options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async logoutUser(_options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // Path Params
         const localVarPath = '/user/logout';
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -305,7 +305,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["api_key"]
+        authMethod = _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -319,8 +319,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param username name that need to be deleted
      * @param user Updated user object
      */
-    public async updateUser(username: string, user: User, options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async updateUser(username: string, user: User, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -339,7 +339,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -362,7 +362,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         let authMethod = null;
         // Apply auth methods
-        authMethod = config.authMethods["api_key"]
+        authMethod = _config.authMethods["api_key"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }

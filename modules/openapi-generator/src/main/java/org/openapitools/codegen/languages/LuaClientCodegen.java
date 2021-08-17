@@ -281,13 +281,14 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -409,7 +410,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -428,16 +429,16 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
             String luaPath = "";
             int pathParamIndex = 0;
 
-            for (int i = 0; i < items.length; ++i) {
-                if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
+            for (String item : items) {
+                if (item.matches("^\\{(.*)\\}$")) { // wrap in {}
                     // find the datatype of the parameter
                     //final CodegenParameter cp = op.pathParams.get(pathParamIndex);
                     // TODO: Handle non-primitives…
                     //luaPath = luaPath + cp.dataType.toLowerCase(Locale.ROOT);
                     luaPath = luaPath + "/%s";
                     pathParamIndex++;
-                } else if (items[i].length() != 0) {
-                    luaPath = luaPath + "/" + items[i];
+                } else if (item.length() != 0) {
+                    luaPath = luaPath + "/" + item;
                 } else {
                     //luaPath = luaPath + "/";
                 }

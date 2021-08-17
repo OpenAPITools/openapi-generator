@@ -12,7 +12,7 @@ import uri
 
 {{#imports}}import ../models/{{import}}
 {{/imports}}
-{{#description}}# {{{description}}}{{/description}}
+{{#description}}# {{{.}}}{{/description}}
 const basepath = "{{{basePath}}}"
 
 template constructResult[T](response: Response): untyped =
@@ -31,12 +31,12 @@ template constructResult[T](response: Response): untyped =
     (none(T.typedesc), response)
 
 {{#operations}}{{#operation}}
-proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {{#isString}}string{{/isString}}{{#isUuid}}string{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}{{/isContainer}}{{/isPrimitiveType}}{{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{dataType}}}{{/datatypeWithEnum}}{{/isUuid}}{{/isString}}{{/allParams}}): {{^returnType}}Response{{/returnType}}{{#returnType}}(Option[{{{returnType}}}], Response){{/returnType}}{{#isDeprecated}} {.deprecated.}{{/isDeprecated}} =
+proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {{#isString}}string{{/isString}}{{#isUuid}}string{{/isUuid}}{{^isString}}{{^isUuid}}{{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{dataType}}}{{/datatypeWithEnum}}{{/isUuid}}{{/isString}}{{/allParams}}): {{^returnType}}Response{{/returnType}}{{#returnType}}(Option[{{{.}}}], Response){{/returnType}}{{#isDeprecated}} {.deprecated.}{{/isDeprecated}} =
   ## {{{summary}}}{{#hasBodyParam}}
   httpClient.headers["Content-Type"] = "application/json"{{/hasBodyParam}}{{#hasFormParams}}{{^isMultipart}}
   httpClient.headers["Content-Type"] = "application/x-www-form-urlencoded"{{/isMultipart}}{{#isMultipart}}
   httpClient.headers["Content-Type"] = "multipart/form-data"{{/isMultipart}}{{/hasFormParams}}{{#hasHeaderParams}}{{#headerParams}}
-  httpClient.headers["{{{baseName}}}"] = {{{paramName}}}{{#isArray}}.join(","){{/isArray}}{{/headerParams}}{{#description}} ## {{{description}}}{{/description}}{{/hasHeaderParams}}{{#hasQueryParams}}
+  httpClient.headers["{{{baseName}}}"] = {{{paramName}}}{{#isArray}}.join(","){{/isArray}}{{/headerParams}}{{#description}} ## {{{.}}}{{/description}}{{/hasHeaderParams}}{{#hasQueryParams}}
   let query_for_api_call = encodeQuery([{{#queryParams}}
     ("{{{baseName}}}", ${{{paramName}}}{{#isArray}}.join(","){{/isArray}}), # {{{description}}}{{/queryParams}}
   ]){{/hasQueryParams}}{{#hasFormParams}}{{^isMultipart}}

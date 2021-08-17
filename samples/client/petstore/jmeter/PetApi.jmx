@@ -198,7 +198,7 @@
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
-              <stringProp name="Header.name">apiKey</stringProp>
+              <stringProp name="Header.name">api_key</stringProp>
               <stringProp name="Header.value">${__RandomString(10,qwertyuiopasdfghjklzxcvbnm)}</stringProp>
             </elementProp>
             <elementProp name="" elementType="Header">

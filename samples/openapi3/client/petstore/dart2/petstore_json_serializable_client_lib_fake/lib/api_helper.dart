@@ -28,7 +28,7 @@ Iterable<QueryParam> _convertParametersForCollectionFormat(
   final params = <QueryParam>[];
 
   // preconditions
-  if (name != null && !name.isEmpty && value != null) {
+  if (name != null && name.isNotEmpty && value != null) {
     if (value is List) {
       // get the collection format, default: csv
       collectionFormat = (collectionFormat == null || collectionFormat.isEmpty)
@@ -59,31 +59,26 @@ String parameterToString(dynamic value) {
     return value.toUtc().toIso8601String();
   }
   if (value is EnumClass) {
-
-    return _$EnumClassEnumMap[value];
+    return value.toString();
   }
   if (value is OuterEnum) {
-
-    return _$OuterEnumEnumMap[value];
+    return value.toString();
   }
   if (value is OuterEnumDefaultValue) {
-
-    return _$OuterEnumDefaultValueEnumMap[value];
+    return value.toString();
   }
   if (value is OuterEnumInteger) {
-
-    return _$OuterEnumIntegerEnumMap[value];
+    return value.toString();
   }
   if (value is OuterEnumIntegerDefaultValue) {
-
-    return _$OuterEnumIntegerDefaultValueEnumMap[value];
+    return value.toString();
   }
   return value.toString();
 }
 
 /// Returns the decoded body as UTF-8 if the given headers indicate an 'application/json'
 /// content type. Otherwise, returns the decoded body as decoded by dart:http package.
-String _decodeBodyBytes(Response response) {
+Future<String> _decodeBodyBytes(Response response) async {
   final contentType = response.headers['content-type'];
   return contentType != null && contentType.toLowerCase().startsWith('application/json')
     ? response.bodyBytes == null ? null : utf8.decode(response.bodyBytes)

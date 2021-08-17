@@ -56,6 +56,7 @@ class Category
      * @SerializedName("name")
      * @Assert\Type("string")
      * @Type("string")
+     * @Assert\Regex("/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/")
      */
     protected $name;
 

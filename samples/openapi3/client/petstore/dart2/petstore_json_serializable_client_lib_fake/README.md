@@ -66,6 +66,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterCompositeSerialize**](doc//FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](doc//FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](doc//FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fakePropertyEnumIntegerSerialize**](doc//FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**testBodyWithBinary**](doc//FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](doc//FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](doc//FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](doc//FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
@@ -112,6 +114,7 @@ Class | Method | HTTP request | Description
  - [CatAllOf](doc//CatAllOf.md)
  - [Category](doc//Category.md)
  - [ClassModel](doc//ClassModel.md)
+ - [DeprecatedObject](doc//DeprecatedObject.md)
  - [Dog](doc//Dog.md)
  - [DogAllOf](doc//DogAllOf.md)
  - [EnumArrays](doc//EnumArrays.md)
@@ -133,12 +136,14 @@ Class | Method | HTTP request | Description
  - [Name](doc//Name.md)
  - [NullableClass](doc//NullableClass.md)
  - [NumberOnly](doc//NumberOnly.md)
+ - [ObjectWithDeprecatedFields](doc//ObjectWithDeprecatedFields.md)
  - [Order](doc//Order.md)
  - [OuterComposite](doc//OuterComposite.md)
  - [OuterEnum](doc//OuterEnum.md)
  - [OuterEnumDefaultValue](doc//OuterEnumDefaultValue.md)
  - [OuterEnumInteger](doc//OuterEnumInteger.md)
  - [OuterEnumIntegerDefaultValue](doc//OuterEnumIntegerDefaultValue.md)
+ - [OuterObjectWithEnumProperty](doc//OuterObjectWithEnumProperty.md)
  - [Pet](doc//Pet.md)
  - [ReadOnlyFirst](doc//ReadOnlyFirst.md)
  - [SpecialModelName](doc//SpecialModelName.md)
@@ -183,7 +188,6 @@ Class | Method | HTTP request | Description
 
 
 ## Author
-
 
 
 

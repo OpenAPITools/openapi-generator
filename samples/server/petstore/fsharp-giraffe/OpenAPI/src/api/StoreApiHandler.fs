@@ -28,9 +28,9 @@ module StoreApiHandler =
           let result = StoreApiService.DeleteOrder ctx serviceArgs
           return! (match result with 
                       | DeleteOrderStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
                       | DeleteOrderStatusCode404 resolved ->
-                            setStatusCode 404 >=> text resolved.content 
+                            setStatusCode 404 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -45,8 +45,8 @@ module StoreApiHandler =
         task {
           let result = StoreApiService.GetInventory ctx 
           return! (match result with 
-                      | GetInventoryDefaultStatusCode resolved ->
-                            setStatusCode 200 >=> json resolved.content 
+                      | GetInventoryStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
           ) next ctx
         }
     //#endregion
@@ -62,12 +62,12 @@ module StoreApiHandler =
           let serviceArgs = {    pathParams=pathParams;  } : GetOrderByIdArgs
           let result = StoreApiService.GetOrderById ctx serviceArgs
           return! (match result with 
-                      | GetOrderByIdDefaultStatusCode resolved ->
-                            setStatusCode 200 >=> json resolved.content 
+                      | GetOrderByIdStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
                       | GetOrderByIdStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
                       | GetOrderByIdStatusCode404 resolved ->
-                            setStatusCode 404 >=> text resolved.content 
+                            setStatusCode 404 >=> text resolved.content
           ) next ctx
         }
     //#endregion
@@ -85,10 +85,10 @@ module StoreApiHandler =
           let serviceArgs = {     bodyParams=bodyParams } : PlaceOrderArgs
           let result = StoreApiService.PlaceOrder ctx serviceArgs
           return! (match result with 
-                      | PlaceOrderDefaultStatusCode resolved ->
-                            setStatusCode 200 >=> json resolved.content 
+                      | PlaceOrderStatusCode200 resolved ->
+                            setStatusCode 200 >=> json resolved.content
                       | PlaceOrderStatusCode400 resolved ->
-                            setStatusCode 400 >=> text resolved.content 
+                            setStatusCode 400 >=> text resolved.content
           ) next ctx
         }
     //#endregion

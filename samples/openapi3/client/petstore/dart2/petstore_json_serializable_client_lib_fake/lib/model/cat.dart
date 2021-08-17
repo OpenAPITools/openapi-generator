@@ -31,7 +31,7 @@ class Cat {
   String className;
 
   @JsonKey(
-    nullable: false,
+    defaultValue: 'red',
     name: r'color',
     required: false,
   )
@@ -55,7 +55,6 @@ class Cat {
     (className == null ? 0 : className.hashCode) +
     (color == null ? 0 : color.hashCode) +
     (declawed == null ? 0 : declawed.hashCode);
-
 
   factory Cat.fromJson(Map<String, dynamic> json) => _$CatFromJson(json);
 

@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.DogAllOf
+
 ## Properties
 
 Name | Type | Description | Notes

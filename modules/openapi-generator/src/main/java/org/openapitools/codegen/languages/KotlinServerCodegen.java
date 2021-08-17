@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 
 public class KotlinServerCodegen extends AbstractKotlinCodegen {
-
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
     private Boolean autoHeadFeatureEnabled = true;
@@ -42,15 +41,19 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
     private Boolean hstsFeatureEnabled = true;
     private Boolean corsFeatureEnabled = false;
     private Boolean compressionFeatureEnabled = true;
+    private Boolean locationsFeatureEnabled = true;
+    private Boolean metricsFeatureEnabled = true;
 
-    // This is here to potentially warn the user when an option is not supoprted by the target framework.
+    // This is here to potentially warn the user when an option is not supported by the target framework.
     private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
             .put(Constants.KTOR, Arrays.asList(
                     Constants.AUTOMATIC_HEAD_REQUESTS,
                     Constants.CONDITIONAL_HEADERS,
                     Constants.HSTS,
                     Constants.CORS,
-                    Constants.COMPRESSION
+                    Constants.COMPRESSION,
+                    Constants.LOCATIONS,
+                    Constants.METRICS
             ))
             .build();
 
@@ -85,6 +88,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         artifactId = "kotlin-server";
         packageName = "org.openapitools.server";
 
+        typeMapping.put("array", "kotlin.collections.List");
+
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
         updateOption(CodegenConstants.PACKAGE_NAME, this.packageName);
@@ -110,6 +115,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         addSwitch(Constants.HSTS, Constants.HSTS_DESC, getHstsFeatureEnabled());
         addSwitch(Constants.CORS, Constants.CORS_DESC, getCorsFeatureEnabled());
         addSwitch(Constants.COMPRESSION, Constants.COMPRESSION_DESC, getCompressionFeatureEnabled());
+        addSwitch(Constants.LOCATIONS, Constants.LOCATIONS_DESC, getLocationsFeatureEnabled());
+        addSwitch(Constants.METRICS, Constants.METRICS_DESC, getMetricsFeatureEnabled());
     }
 
     public Boolean getAutoHeadFeatureEnabled() {
@@ -156,6 +163,22 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         this.hstsFeatureEnabled = hstsFeatureEnabled;
     }
 
+    public Boolean getLocationsFeatureEnabled() {
+        return locationsFeatureEnabled;
+    }
+
+    public void setLocationsFeatureEnabled(Boolean locationsFeatureEnabled) {
+        this.locationsFeatureEnabled = locationsFeatureEnabled;
+    }
+
+    public Boolean getMetricsFeatureEnabled() {
+        return metricsFeatureEnabled;
+    }
+
+    public void setMetricsFeatureEnabled(Boolean metricsEnabled) {
+        this.metricsFeatureEnabled = metricsEnabled;
+    }
+
     public String getName() {
         return "kotlin-server";
     }
@@ -176,7 +199,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         if (StringUtils.isEmpty(library)) {
             this.setLibrary(DEFAULT_LIBRARY);
             additionalProperties.put(CodegenConstants.LIBRARY, DEFAULT_LIBRARY);
-            LOGGER.info("`library` option is empty. Default to " + DEFAULT_LIBRARY);
+            LOGGER.info("`library` option is empty. Default to {}", DEFAULT_LIBRARY);
         }
 
         if (additionalProperties.containsKey(Constants.AUTOMATIC_HEAD_REQUESTS)) {
@@ -209,6 +232,18 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(Constants.COMPRESSION, getCompressionFeatureEnabled());
         }
 
+        if (additionalProperties.containsKey(Constants.LOCATIONS)) {
+            setLocationsFeatureEnabled(convertPropertyToBooleanAndWriteBack(Constants.LOCATIONS));
+        } else {
+            additionalProperties.put(Constants.LOCATIONS, getLocationsFeatureEnabled());
+        }
+
+        if (additionalProperties.containsKey(Constants.METRICS)) {
+            setMetricsFeatureEnabled(convertPropertyToBooleanAndWriteBack(Constants.METRICS));
+        } else {
+            additionalProperties.put(Constants.METRICS, getMetricsFeatureEnabled());
+        }
+
         boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS);
         String packageFolder = (sourceFolder + File.separator + packageName).replace(".", File.separator);
         String resourcesFolder = "src/main/resources"; // not sure this can be user configurable.
@@ -223,7 +258,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
         supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
 
-        if (generateApis) {
+        if (generateApis && locationsFeatureEnabled) {
             supportingFiles.add(new SupportingFile("Paths.kt.mustache", packageFolder, "Paths.kt"));
         }
 
@@ -247,17 +282,21 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
         public final static String CORS_DESC = "Ktor by default provides an interceptor for implementing proper support for Cross-Origin Resource Sharing (CORS). See enable-cors.org.";
         public final static String COMPRESSION = "featureCompression";
         public final static String COMPRESSION_DESC = "Adds ability to compress outgoing content using gzip, deflate or custom encoder and thus reduce size of the response.";
+        public final static String LOCATIONS = "featureLocations";
+        public final static String LOCATIONS_DESC = "Generates routes in a typed way, for both: constructing URLs and reading the parameters.";
+        public final static String METRICS = "featureMetrics";
+        public final static String METRICS_DESC = "Enables metrics feature.";
     }
 
     @Override
     public void postProcess() {
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                #");
         System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
         System.out.println("#                                                                              #");
         System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F     #");
         System.out.println("################################################################################");
     }
 }

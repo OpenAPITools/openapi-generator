@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Capitalization
+
 ## Properties
 
 Name | Type | Description | Notes

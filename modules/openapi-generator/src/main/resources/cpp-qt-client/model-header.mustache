@@ -1,0 +1,80 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H
+#define {{classname}}_H
+
+#include <QJsonObject>
+
+{{/model}}{{/models}}{{#imports}}{{{import}}}
+{{/imports}}
+
+#include "{{prefix}}Enum.h"
+#include "{{prefix}}Object.h"
+
+{{#models}}
+{{#model}}
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+{{#vendorExtensions.x-has-forward-declarations}}
+{{#vendorExtensions.x-forward-declarations}}{{.}}
+{{/vendorExtensions.x-forward-declarations}}{{/vendorExtensions.x-has-forward-declarations}}
+class {{classname}} : public {{prefix}}{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Enum{{/isEnum}} {
+public:
+    {{classname}}();
+    {{classname}}(QString json);
+    ~{{classname}}() override;
+
+    QString asJson() const override;
+    QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} asJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}() const override;
+    void fromJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}(QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} json) override;
+    void fromJson(QString jsonString) override;
+{{^isEnum}}{{#vars}}
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}{{{dataType}}} {{getter}}() const;
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}void {{setter}}(const {{{dataType}}} &{{name}});
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is_{{name}}_Set() const;
+    {{#deprecated}}Q_DECL_DEPRECATED {{/deprecated}}bool is_{{name}}_Valid() const;
+{{/vars}}{{/isEnum}}{{#isEnum}}
+{{#allowableValues}}
+    enum class e{{classname}} {{#enumVars}}{{#-first}}{{^isString}}: int {{/isString}}{{/-first}}{{/enumVars}}{
+        INVALID_VALUE_OPENAPI_GENERATED = 0,
+    {{#enumVars}}
+        {{#enumDescription}}
+        /**
+        * {{.}}
+        */
+        {{/enumDescription}}
+        {{{name}}}{{^-last}}, {{/-last}}
+    {{/enumVars}}
+    };{{/allowableValues}}
+    {{classname}}::e{{classname}} getValue() const;
+    void setValue(const {{classname}}::e{{classname}}& value);{{/isEnum}}
+    virtual bool isSet() const override;
+    virtual bool isValid() const override;
+
+private:
+    void initializeModel();
+{{^isEnum}}{{#vars}}
+    {{{dataType}}} {{name}};
+    bool m_{{name}}_isSet;
+    bool m_{{name}}_isValid;
+{{/vars}}{{/isEnum}}{{#isEnum}}
+    e{{classname}} m_value;
+    bool m_value_isSet;
+    bool m_value_isValid;
+{{/isEnum}}};
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+
+Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{classname}})
+
+#endif // {{classname}}_H
+{{/model}}
+{{/models}}

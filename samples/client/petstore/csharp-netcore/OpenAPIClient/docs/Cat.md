@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Cat
+
 ## Properties
 
 Name | Type | Description | Notes

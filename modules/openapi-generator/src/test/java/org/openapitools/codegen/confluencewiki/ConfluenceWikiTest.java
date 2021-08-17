@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConfluenceWikiTest {
-    
+
     @Test(description = "convert a model with an enum")
     public void converterTest() {
         final StringSchema enumSchema = new StringSchema();

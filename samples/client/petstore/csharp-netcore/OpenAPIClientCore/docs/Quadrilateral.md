@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Quadrilateral
+
 ## Properties
 
 Name | Type | Description | Notes

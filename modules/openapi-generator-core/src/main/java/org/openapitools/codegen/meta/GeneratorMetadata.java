@@ -16,9 +16,6 @@
 
 package org.openapitools.codegen.meta;
 
-import org.openapitools.codegen.meta.features.*;
-
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 

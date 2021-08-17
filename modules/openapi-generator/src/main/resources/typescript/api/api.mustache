@@ -20,7 +20,7 @@ import { {{classname}} } from '..{{filename}}{{extensionForDeno}}';
 {{#operations}}
 
 /**
- * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
+ * {{{description}}}{{^description}}no description{{/description}}
  */
 {{#useInversify}}
 @injectable()
@@ -39,8 +39,8 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<RequestContext> {
-        let config = options || this.configuration;
+    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
         {{#allParams}}
 
         {{#required}}
@@ -57,7 +57,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
 
         // Make Request Context
-        const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -132,7 +132,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{/hasAuthMethods}}
         // Apply auth methods
         {{#authMethods}}
-        authMethod = config.authMethods["{{name}}"]
+        authMethod = _config.authMethods["{{name}}"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
         }
@@ -159,7 +159,7 @@ export class {{classname}}ResponseProcessor {
      * @params response Response returned by the server for a request to {{nickname}}
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async {{nickname}}(response: ResponseContext): Promise<{{#returnType}}{{{returnType}}}{{/returnType}} {{^returnType}}void{{/returnType}}> {
+     public async {{nickname}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         {{#responses}}
         if (isCodeInRange("{{code}}", response.httpStatusCode)) {

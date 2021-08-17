@@ -3,7 +3,6 @@ package org.openapitools.api;
 import java.util.List;
 import org.openapitools.model.User;
 import io.swagger.annotations.*;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 

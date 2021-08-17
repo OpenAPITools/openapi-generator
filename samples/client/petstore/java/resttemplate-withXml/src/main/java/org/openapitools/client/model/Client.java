@@ -64,6 +64,9 @@ public class Client {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "client")
   public void setClient(String client) {
     this.client = client;
   }

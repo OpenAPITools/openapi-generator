@@ -36,7 +36,6 @@ class SpecialModelName {
   int get hashCode =>
     (dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == null ? 0 : dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode);
 
-
   factory SpecialModelName.fromJson(Map<String, dynamic> json) => _$SpecialModelNameFromJson(json);
 
   Map<String, dynamic> toJson() => _$SpecialModelNameToJson(this);

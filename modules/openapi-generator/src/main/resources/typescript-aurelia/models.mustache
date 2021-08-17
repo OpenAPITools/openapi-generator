@@ -5,11 +5,11 @@
 {{^oneOf}}
 {{#description}}
 /**
- * {{{description}}}
+ * {{{.}}}
  */
 {{/description}}
 {{^isEnum}}
-export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{/isEnum}}
 {{#isEnum}}
 export type {{{classname}}} = {{#allowableValues}}{{#values}}'{{{.}}}'{{^-last}} | {{/-last}}{{/values}}{{/allowableValues}};
@@ -17,7 +17,7 @@ export type {{{classname}}} = {{#allowableValues}}{{#values}}'{{{.}}}'{{^-last}}
 {{#vars}}
 {{#description}}
   /**
-   * {{{description}}}
+   * {{{.}}}
    */
 {{/description}}
   {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};

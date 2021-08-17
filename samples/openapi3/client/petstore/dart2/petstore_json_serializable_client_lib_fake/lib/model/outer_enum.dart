@@ -9,11 +9,8 @@
 
 part of openapi.api;
 
-
-
 enum OuterEnum {
-                placed,
-                approved,
-                delivered,
+  placed,
+  approved,
+  delivered,
 }
-

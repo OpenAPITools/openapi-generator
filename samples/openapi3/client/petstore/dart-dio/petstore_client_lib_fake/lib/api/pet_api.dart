@@ -9,11 +9,11 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:built_value/serializer.dart';
 
-import 'package:openapi/model/pet.dart';
-import 'package:openapi/model/api_response.dart';
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/api_util.dart';
+import 'package:openapi/model/api_response.dart';
+import 'package:openapi/model/pet.dart';
 
 class PetApi {
 
@@ -40,9 +40,7 @@ class PetApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -53,10 +51,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -93,11 +88,9 @@ class PetApi {
       path: r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString()),
       method: 'DELETE',
       headers: <String, dynamic>{
-        r'api_key': apiKey,
+        if (apiKey != null) r'api_key': apiKey,
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -108,9 +101,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -144,10 +135,10 @@ class PetApi {
       method: 'GET',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
         r'status': status,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -158,9 +149,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -209,10 +198,10 @@ class PetApi {
       method: 'GET',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       queryParameters: <String, dynamic>{
         r'tags': tags,
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -223,9 +212,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -274,9 +261,7 @@ class PetApi {
       method: 'GET',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -289,9 +274,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -340,9 +323,7 @@ class PetApi {
       method: 'PUT',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -353,10 +334,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -395,9 +373,7 @@ class PetApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -408,9 +384,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'application/x-www-form-urlencoded',
-      ].first,
+      contentType: 'application/x-www-form-urlencoded',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -419,8 +393,8 @@ class PetApi {
     dynamic _bodyData;
 
     _bodyData = <String, dynamic>{
-      if (name != null) r'name': parameterToString(_serializers, name),
-      if (status != null) r'status': parameterToString(_serializers, status),
+      if (name != null) r'name': encodeFormParameter(_serializers, name, const FullType(String)),
+      if (status != null) r'status': encodeFormParameter(_serializers, status, const FullType(String)),
     };
 
     final _response = await _dio.request<dynamic>(
@@ -451,9 +425,7 @@ class PetApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -464,9 +436,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'multipart/form-data',
-      ].first,
+      contentType: 'multipart/form-data',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -475,7 +445,7 @@ class PetApi {
     dynamic _bodyData;
 
     _bodyData = FormData.fromMap(<String, dynamic>{
-      if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
+      if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
       if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
     });
 
@@ -522,9 +492,7 @@ class PetApi {
       method: 'POST',
       headers: <String, dynamic>{
         ...?headers,
-      }..removeWhere((_, dynamic value) => value == null),
-      queryParameters: <String, dynamic>{
-      }..removeWhere((_, dynamic value) => value == null),
+      },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[
           {
@@ -535,9 +503,7 @@ class PetApi {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [
-        'multipart/form-data',
-      ].first,
+      contentType: 'multipart/form-data',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -546,7 +512,7 @@ class PetApi {
     dynamic _bodyData;
 
     _bodyData = FormData.fromMap(<String, dynamic>{
-      if (additionalMetadata != null) r'additionalMetadata': parameterToString(_serializers, additionalMetadata),
+      if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
       r'requiredFile': MultipartFile.fromBytes(requiredFile, filename: r'requiredFile'),
     });
 

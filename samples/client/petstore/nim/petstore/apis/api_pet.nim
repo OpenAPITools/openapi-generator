@@ -39,15 +39,17 @@ template constructResult[T](response: Response): untyped =
     (none(T.typedesc), response)
 
 
-proc addPet*(httpClient: HttpClient, body: Pet): Response =
+proc addPet*(httpClient: HttpClient, pet: Pet): (Option[Pet], Response) =
   ## Add a new pet to the store
   httpClient.headers["Content-Type"] = "application/json"
-  httpClient.post(basepath & "/pet", $(%body))
+
+  let response = httpClient.post(basepath & "/pet", $(%pet))
+  constructResult[Pet](response)
 
 
-proc deletePet*(httpClient: HttpClient, petId: int64, api_key: string): Response =
+proc deletePet*(httpClient: HttpClient, petId: int64, apiKey: string): Response =
   ## Deletes a pet
-  httpClient.headers["api_key"] = api_key
+  httpClient.headers["api_key"] = apiKey
   httpClient.delete(basepath & fmt"/pet/{petId}")
 
 
@@ -78,10 +80,12 @@ proc getPetById*(httpClient: HttpClient, petId: int64): (Option[Pet], Response) 
   constructResult[Pet](response)
 
 
-proc updatePet*(httpClient: HttpClient, body: Pet): Response =
+proc updatePet*(httpClient: HttpClient, pet: Pet): (Option[Pet], Response) =
   ## Update an existing pet
   httpClient.headers["Content-Type"] = "application/json"
-  httpClient.put(basepath & "/pet", $(%body))
+
+  let response = httpClient.put(basepath & "/pet", $(%pet))
+  constructResult[Pet](response)
 
 
 proc updatePetWithForm*(httpClient: HttpClient, petId: int64, name: string, status: string): Response =

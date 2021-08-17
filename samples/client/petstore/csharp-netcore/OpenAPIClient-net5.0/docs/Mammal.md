@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Mammal
+
 ## Properties
 
 Name | Type | Description | Notes

@@ -36,7 +36,6 @@ class InlineResponseDefault {
   int get hashCode =>
     (string == null ? 0 : string.hashCode);
 
-
   factory InlineResponseDefault.fromJson(Map<String, dynamic> json) => _$InlineResponseDefaultFromJson(json);
 
   Map<String, dynamic> toJson() => _$InlineResponseDefaultToJson(this);

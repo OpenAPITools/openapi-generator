@@ -26,6 +26,7 @@ from petstore_api.models.cat_all_of import CatAllOf
 from petstore_api.models.category import Category
 from petstore_api.models.class_model import ClassModel
 from petstore_api.models.client import Client
+from petstore_api.models.deprecated_object import DeprecatedObject
 from petstore_api.models.dog import Dog
 from petstore_api.models.dog_all_of import DogAllOf
 from petstore_api.models.enum_arrays import EnumArrays
@@ -46,12 +47,14 @@ from petstore_api.models.model_return import ModelReturn
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.number_only import NumberOnly
+from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
 from petstore_api.models.order import Order
 from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
+from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.special_model_name import SpecialModelName

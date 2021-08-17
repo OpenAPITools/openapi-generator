@@ -11,15 +11,11 @@
       <artifactId>swagger-annotations</artifactId>
       <version>${swagger-annotations-version}</version>
     </dependency>
+    <!-- @Nullable annotation -->
     <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpcore</artifactId>
-      <version>${httpcomponents-httpcore-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient-android</artifactId>
-      <version>${httpcomponents-httpclient-version}</version>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>jsr305</artifactId>
+        <version>3.0.2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
@@ -57,9 +53,7 @@
   </build>
   <properties>
     <swagger-annotations-version>1.5.8</swagger-annotations-version>
-    <httpcomponents-httpcore-version>4.4.4</httpcomponents-httpcore-version>
     <httpcomponents-httpmime-version>4.5.2</httpcomponents-httpmime-version>
-    <httpcomponents-httpclient-version>4.3.3</httpcomponents-httpclient-version>
     <google-code-gson-version>2.6.2</google-code-gson-version>
     <volley-library-version>1.0.19</volley-library-version>
     <android-platform-version>4.1.1.4</android-platform-version>

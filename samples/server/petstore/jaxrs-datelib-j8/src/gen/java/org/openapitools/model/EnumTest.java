@@ -194,7 +194,7 @@ public class EnumTest  implements Serializable {
    * Get enumString
    * @return enumString
    **/
-  @JsonProperty("enum_string")
+  @JsonProperty(value = "enum_string")
   @ApiModelProperty(value = "")
   
   public EnumStringEnum getEnumString() {
@@ -214,7 +214,7 @@ public class EnumTest  implements Serializable {
    * Get enumStringRequired
    * @return enumStringRequired
    **/
-  @JsonProperty("enum_string_required")
+  @JsonProperty(value = "enum_string_required")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public EnumStringRequiredEnum getEnumStringRequired() {
@@ -234,7 +234,7 @@ public class EnumTest  implements Serializable {
    * Get enumInteger
    * @return enumInteger
    **/
-  @JsonProperty("enum_integer")
+  @JsonProperty(value = "enum_integer")
   @ApiModelProperty(value = "")
   
   public EnumIntegerEnum getEnumInteger() {
@@ -254,7 +254,7 @@ public class EnumTest  implements Serializable {
    * Get enumNumber
    * @return enumNumber
    **/
-  @JsonProperty("enum_number")
+  @JsonProperty(value = "enum_number")
   @ApiModelProperty(value = "")
   
   public EnumNumberEnum getEnumNumber() {
@@ -274,7 +274,7 @@ public class EnumTest  implements Serializable {
    * Get outerEnum
    * @return outerEnum
    **/
-  @JsonProperty("outerEnum")
+  @JsonProperty(value = "outerEnum")
   @ApiModelProperty(value = "")
   @Valid 
   public OuterEnum getOuterEnum() {
