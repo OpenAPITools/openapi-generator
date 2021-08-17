@@ -11,6 +11,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson
 
 import {{packageName}}.infrastructure.ApiClient
 import {{packageName}}.request.IRequestFactory
@@ -41,8 +42,12 @@ class {{classname}} (
     @Deprecated("This api was deprecated")
     {{/isDeprecated}}
     suspend fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/allParams}}: {{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit{{/returnType}} {
-        var postBody: Any? = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}
+        {{#bodyParam}}
+        var bodyAsStr: String? = Gson().toJson({{paramName}})
+        {{/bodyParam}}
+        {{^bodyParam}}
         var bodyAsStr: String? = null
+        {{/bodyParam}}
         {{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set

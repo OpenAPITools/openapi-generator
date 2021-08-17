@@ -26,7 +26,9 @@ class GsonRequest<T>(
     url: String,
     private val bodyAsStr: String?,
     private val headers: Map<String, String>?,
+    private val params: MutableMap<String, String>?,
     private val contentTypeForBody: String?,
+    private val encodingForParams: String?,
     private val type: Type,
     private val listener: Response.Listener<T>,
     errorListener: Response.ErrorListener
@@ -48,6 +50,12 @@ class GsonRequest<T>(
         listener.onResponse(response)
     }
 
+    override fun getParams(): MutableMap<String, String>? = params ?: super.getParams()
+
+    override fun getBodyContentType(): String = contentTypeForBody ?: super.getBodyContentType()
+
+    override fun getParamsEncoding(): String = encodingForParams ?: super.getParamsEncoding()
+
     override fun getHeaders(): MutableMap<String, String> {
         val combined = HashMap<String, String>()
         combined.putAll(super.getHeaders())
@@ -55,6 +63,13 @@ class GsonRequest<T>(
             combined.putAll(headers)
         }
         return combined
+    }
+
+    override fun getBody(): ByteArray? {
+        if (!bodyAsStr.isNullOrEmpty()) {
+            return bodyAsStr.toByteArray(Charsets.UTF_8)
+    }
+        return super.getBody()
     }
 
     override fun parseNetworkResponse(response: NetworkResponse?): Response<T> {
