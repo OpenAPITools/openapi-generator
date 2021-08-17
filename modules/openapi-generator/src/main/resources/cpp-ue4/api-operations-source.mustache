@@ -170,28 +170,28 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const FHtt
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
 		HttpRequest->SetContentAsString(JsonBody);
 		{{/bodyParams.0}}
-        {{^bodyParams.0}}
-            // Form parameters
-            FString JsonBody;
-            JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
-            Writer->WriteObjectStart();
-            {{#formParams}}
-                {{#required}}
-            Writer->WriteIdentifierPrefix(TEXT("{{baseName}}"));
-            WriteJsonValue(Writer, {{paramName}});
-                {{/required}}
-                {{^required}}
-            if ({{paramName}}.IsSet()){
-                Writer->WriteIdentifierPrefix(TEXT("{{baseName}}"));
-                WriteJsonValue(Writer, {{paramName}}.GetValue());
-            }
-                {{/required}}
-            {{/formParams}}
-            Writer->WriteObjectEnd();
-            Writer->Close();
-            HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
-            HttpRequest->SetContentAsString(JsonBody);
-        {{/bodyParams.0}}
+		{{^bodyParams.0}}
+			// Form parameters
+			FString JsonBody;
+			JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+			Writer->WriteObjectStart();
+			{{#formParams}}
+				{{#required}}
+			Writer->WriteIdentifierPrefix(TEXT("{{baseName}}"));
+			WriteJsonValue(Writer, {{paramName}});
+				{{/required}}
+				{{^required}}
+			if ({{paramName}}.IsSet()){
+				Writer->WriteIdentifierPrefix(TEXT("{{baseName}}"));
+				WriteJsonValue(Writer, {{paramName}}.GetValue());
+			}
+				{{/required}}
+			{{/formParams}}
+			Writer->WriteObjectEnd();
+			Writer->Close();
+			HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+			HttpRequest->SetContentAsString(JsonBody);
+		{{/bodyParams.0}}
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
