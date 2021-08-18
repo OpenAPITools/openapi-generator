@@ -20,13 +20,15 @@ class {{clientName}} {
     Dio? dio,{{#useBuiltValue}}
     Serializers? serializers,{{/useBuiltValue}}
     String? basePathOverride,
+    int connectTimeout = 5000,
+    int receiveTimeout = 3000,
     List<Interceptor>? interceptors,
   })  : {{#useBuiltValue}}this.serializers = serializers ?? standardSerializers,{{/useBuiltValue}}
         this.dio = dio ??
             Dio(BaseOptions(
               baseUrl: basePathOverride ?? basePath,
-              connectTimeout: 5000,
-              receiveTimeout: 3000,
+              connectTimeout: connectTimeout,
+              receiveTimeout: receiveTimeout,
             )) {
     if (interceptors == null) {
       this.dio.interceptors.addAll([
