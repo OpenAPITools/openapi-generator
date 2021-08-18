@@ -16,37 +16,37 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class MarkdownSampleGeneratorTest {
-	private File outputTempDirectory;
-	private List<File> generatedFiles;
+    private File outputTempDirectory;
+    private List<File> generatedFiles;
 
-	@BeforeClass
-	public void beforeClassGenerateTestMarkup() throws Exception {
+    @BeforeClass
+    public void beforeClassGenerateTestMarkup() throws Exception {
 
-		this.outputTempDirectory = Files.createTempDirectory("test-markdown-sample-generator.").toFile();
+        this.outputTempDirectory = Files.createTempDirectory("test-markdown-sample-generator.").toFile();
 
-		final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("markdown")
-				.setInputSpec("src/test/resources/3_0/markdown/issue_6096.yaml")
-				.setOutputDir(outputTempDirectory.getAbsolutePath());
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("markdown")
+                .setInputSpec("src/test/resources/3_0/markdown/issue_6096.yaml")
+                .setOutputDir(outputTempDirectory.getAbsolutePath());
 
-		DefaultGenerator generator = new DefaultGenerator();
-		this.generatedFiles = generator.opts(configurator.toClientOptInput()).generate();
-	}
+        DefaultGenerator generator = new DefaultGenerator();
+        this.generatedFiles = generator.opts(configurator.toClientOptInput()).generate();
+    }
 
-	@Test
-	public void testSampleMarkdownGeneration() throws IOException {
-		Path expectedFiles = new File("src/test/resources/3_0/markdown/expected/").toPath();
-		for (File generated : this.generatedFiles) {
-			if (!generated.toString().endsWith(".md")) {
-				continue;
-			}
-			Path expectedPath = this.outputTempDirectory.toPath().relativize(generated.toPath());
-			File expected = expectedFiles.resolve(expectedPath).toFile();
+    @Test
+    public void testSampleMarkdownGeneration() throws IOException {
+        Path expectedFiles = new File("src/test/resources/3_0/markdown/expected/").toPath();
+        for (File generated : this.generatedFiles) {
+            if (!generated.toString().endsWith(".md")) {
+                continue;
+            }
+            Path expectedPath = this.outputTempDirectory.toPath().relativize(generated.toPath());
+            File expected = expectedFiles.resolve(expectedPath).toFile();
 
-			Assert.assertTrue(expected.exists(), "Could not find " + expected.toString());
+            Assert.assertTrue(expected.exists(), "Could not find " + expected.toString());
 
-			Assert.assertEquals(FileUtils.readFileToString(generated),
-					FileUtils.readFileToString(expected, StandardCharsets.UTF_8));
-		}
-	}
+            Assert.assertEquals(FileUtils.readFileToString(generated),
+                    FileUtils.readFileToString(expected, StandardCharsets.UTF_8));
+        }
+    }
 
 }
