@@ -27,3 +27,11 @@
     ### TLS/SSL setting
     # Client private key file (for client certificate)
     attr_accessor :ssl_client_key
+
+    # Set this to customize parameters encoder of array parameter.
+    # Default to nil. Faraday uses NestedParamsEncoder when nil.
+    #
+    # @see The params_encoder option of Faraday. Related source code:
+    # https://github.com/lostisland/faraday/tree/main/lib/faraday/encoders
+    attr_accessor :params_encoder
+

@@ -91,6 +91,13 @@ module Petstore
     # @return [true, false]
     attr_accessor :client_side_validation
 
+    # Set this to customize parameters encoder of array parameter.
+    # Default to nil. Faraday uses NestedParamsEncoder when nil.
+    #
+    # @see The params_encoder option of Faraday. Related source code:
+    # https://github.com/lostisland/faraday/tree/main/lib/faraday/encoders
+    attr_accessor :params_encoder
+
     ### TLS/SSL setting
     # Set this to false to skip verifying SSL certificate when calling API from https server.
     # Default to true.
@@ -121,6 +128,14 @@ module Petstore
     # Client private key file (for client certificate)
     attr_accessor :ssl_client_key
 
+    # Set this to customize parameters encoder of array parameter.
+    # Default to nil. Faraday uses NestedParamsEncoder when nil.
+    #
+    # @see The params_encoder option of Faraday. Related source code:
+    # https://github.com/lostisland/faraday/tree/main/lib/faraday/encoders
+    attr_accessor :params_encoder
+
+
     # Set this to customize parameters encoding of array parameter with multi collectionFormat.
     # Default to nil.
     #
@@ -149,6 +164,7 @@ module Petstore
       @ssl_ca_file = nil
       @ssl_client_cert = nil
       @ssl_client_key = nil
+      @params_encoder = nil
       @debugging = false
       @inject_format = false
       @force_ending_format = false

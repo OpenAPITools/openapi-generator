@@ -11,7 +11,7 @@
         :client_key => @config.ssl_client_key
       }
 
-      connection = Faraday.new(:url => config.base_url, :ssl => ssl_options) do |conn|
+      connection = Faraday.new(:url => config.base_url, :ssl => ssl_options, :request => {:params_encoder => @config.params_encoder}) do |conn|
         conn.basic_auth(config.username, config.password)
         if opts[:header_params]["Content-Type"] == "multipart/form-data"
           conn.request :multipart
@@ -73,7 +73,7 @@
       update_params_for_auth! header_params, query_params, opts[:auth_names]
 
       req_opts = {
-        :params_encoding => @config.params_encoding,
+        :params_encoder => @config.params_encoder,
         :timeout => @config.timeout,
         :verbose => @config.debugging
       }
