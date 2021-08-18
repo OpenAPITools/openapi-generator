@@ -33,5 +33,5 @@ export function isCodeInRange(codeRange: string, code: number): boolean {
 * @param consumes array
 */
 export function canConsumeForm(contentTypes: string[]): boolean {
-    return contentTypes.includes('multipart/form-data')
+    return contentTypes.indexOf('multipart/form-data') !== -1
 }
