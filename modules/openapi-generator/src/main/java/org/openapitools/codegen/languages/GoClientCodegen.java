@@ -48,6 +48,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    protected boolean skipReadonlyPropertiesInInt = false;
 
     public GoClientCodegen() {
         super();
@@ -109,6 +110,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(CodegenConstants.SKIP_READONLY_PROPERTIES_IN_INIT, CodegenConstants.SKIP_READONLY_PROPERTIES_IN_INIT_DESC).defaultValue("true"));
         // option to change how we process + set the data in the 'additionalProperties' keyword.
         CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
                 CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
@@ -237,6 +239,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
             additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, getUseOneOfDiscriminatorLookup());
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.SKIP_READONLY_PROPERTIES_IN_INIT)) {
+            setSkipReadonlyPropertiesInInit(convertPropertyToBooleanAndWriteBack(CodegenConstants.SKIP_READONLY_PROPERTIES_IN_INIT));
+        } else {
+            additionalProperties.put(CodegenConstants.SKIP_READONLY_PROPERTIES_IN_INIT, getSkipReadonlyPropertiesInInit());
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
             this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
@@ -261,6 +269,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
+    }
+
+    public void setSkipReadonlyPropertiesInInt(boolean skipReadonlyPropertiesInInt) {
+        this.skipReadonlyPropertiesInInt = skipReadonlyPropertiesInInt;
+    }
+
+    public boolean getSkipReadonlyPropertiesInInt() {
+        return this.skipReadonlyPropertiesInInt;
     }
 
     public void setGoImportAlias(String goImportAlias) {

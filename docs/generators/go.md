@@ -7,6 +7,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|allowReadonlyProperties|Set default values to the readOnly properties in the model init function| |true|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |enumClassPrefix|Prefix enum with class name| |false|
 |generateInterfaces|Generate interfaces for api classes| |false|

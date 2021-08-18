@@ -15,6 +15,7 @@ sidebar_label: go-experimental
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |structPrefix|whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and onlye one match in oneOf's schemas) will be skipped.| |false|
+|skipReadonlyPropertiesInInt|Set default values to the readOnly properties in the model init function./ /true/
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
 |withGoCodegenComment|whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
