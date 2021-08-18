@@ -117,7 +117,6 @@ module {{moduleName}}
       @server_operation_variables = {}
       @api_key = {}
       @api_key_prefix = {}
-      @timeout = 0
       @client_side_validation = true
       {{#isFaraday}}
       @ssl_verify = true
@@ -126,6 +125,7 @@ module {{moduleName}}
       @ssl_client_cert = nil
       @ssl_client_key = nil
       @params_encoder = nil
+      @timeout = 60
       {{/isFaraday}}
       {{^isFaraday}}
       @verify_ssl = true
@@ -133,6 +133,7 @@ module {{moduleName}}
       @params_encoding = nil
       @cert_file = nil
       @key_file = nil
+      @timeout = 0
       {{/isFaraday}}
       @debugging = false
       @inject_format = false
