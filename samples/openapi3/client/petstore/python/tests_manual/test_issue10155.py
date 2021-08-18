@@ -15,19 +15,9 @@ import unittest
 import json
 from collections import namedtuple
 
-
 import petstore_api
-try:
-    from petstore_api.model import (
-        animal,
-        dog,
-    )
-    from petstore_api.api_client import ApiClient
-except ImportError:
-    animal = sys.modules[
-        'petstore_api.model.animal']
-    dog = sys.modules[
-        'petstore_api.model.dog']
+from petstore_api.model.animal import Animal
+from petstore_api.model.dog import Dog
 
 
 class TestReadOnlyForComposedSchema(unittest.TestCase):
@@ -42,7 +32,7 @@ class TestReadOnlyForComposedSchema(unittest.TestCase):
     def testReadOnlyForComposedSchema(self):
         """Test ReadOnlyForComposedSchema"""
         MockResponse = namedtuple('MockResponse', 'data')
-        client = ApiClient()
+        client = petstore_api.ApiClient()
         """ deserialize dict(str, Enum_Test) """
         data = {
             "Dog": {
@@ -53,8 +43,9 @@ class TestReadOnlyForComposedSchema(unittest.TestCase):
             }
         }
         response = MockResponse(data=json.dumps(data))
-        deserialized = client.deserialize(response, ({str: (dog.Dog,)},), True)
+        deserialized = client.deserialize(response, ({str: (Dog,)},), True)
         assert isinstance(deserialized, dict)
+        assert isinstance(deserialized['Dog'], Dog)
 
 
 if __name__ == '__main__':
