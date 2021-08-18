@@ -378,7 +378,7 @@ public class ApiClient {
     this.readTimeout = readTimeout;
     return this;
   }
-  
+
   /**
    * Get the read timeout that was set.
    *

@@ -7,7 +7,7 @@
 #include "Templates/SharedPointer.h"
 
 {{#cppNamespaceDeclarations}}
-namespace {{this}} 
+namespace {{this}}
 {
 {{/cppNamespaceDeclarations}}
 {{#models}}{{#model}}
@@ -24,7 +24,7 @@ inline FString ToString(const {{classname}}::Values& Value)
 	}
 	{{/allowableValues}}
 
-	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::Values Value (%d)"), (int)Value);	
+	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::Values Value (%d)"), (int)Value);
 	return TEXT("");
 }
 
@@ -89,7 +89,7 @@ inline FString ToString(const {{classname}}::{{{enumName}}}& Value)
 	}
 	{{/allowableValues}}
 
-	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::{{{enumName}}} Value (%d)"), (int)Value);	
+	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::{{{enumName}}} Value (%d)"), (int)Value);
 	return TEXT("");
 }
 
@@ -155,7 +155,7 @@ void {{classname}}::WriteJson(JsonWriter& Writer) const
 	{{^required}}
 	if ({{name}}.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("{{baseName}}")); WriteJsonValue(Writer, {{name}}.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("{{baseName}}")); WriteJsonValue(Writer, {{name}}.GetValue());
 	}
 	{{/required}}
     {{/vars}}

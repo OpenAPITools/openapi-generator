@@ -690,7 +690,7 @@ validation_error(ViolatedRule, Name, Info) ->
     throw({wrong_param, Name, ViolatedRule, Info}).
 
 -spec get_value(body | qs_val | header | binding, Name :: any(), Req0 :: cowboy_req:req()) ->
-    {Value :: any(), Req :: cowboy_req:req()} | 
+    {Value :: any(), Req :: cowboy_req:req()} |
     {error, Reason :: any(), Req :: cowboy_req:req()}.
 get_value(body, _Name, Req0) ->
     {ok, Body, Req} = cowboy_req:read_body(Req0),
@@ -720,7 +720,7 @@ prepare_body(Body) ->
         <<"">> -> <<"">>;
         _ ->
             try
-                jsx:decode(Body, [return_maps]) 
+                jsx:decode(Body, [return_maps])
             catch
               error:_ ->
                 {error, {invalid_body, not_json, Body}}

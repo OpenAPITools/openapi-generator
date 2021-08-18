@@ -62,4 +62,3 @@ export function Model200ResponseToJSON(value?: Model200Response | null): any {
     };
 }
 
-

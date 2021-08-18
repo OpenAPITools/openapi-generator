@@ -3,14 +3,14 @@ class {{{classname}}} {
 
   {{#vars}}
   {{#description}}
-  /// {{{description}}}
+  /// {{{.}}}
   {{/description}}
   {{^isEnum}}
     {{#minimum}}
-  // minimum: {{{minimum}}}
+  // minimum: {{{.}}}
     {{/minimum}}
     {{#maximum}}
-  // maximum: {{{maximum}}}
+  // maximum: {{{.}}}
     {{/maximum}}
   {{/isEnum}}
   {{{datatypeWithEnum}}} {{{name}}};

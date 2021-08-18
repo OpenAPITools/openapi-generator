@@ -84,11 +84,11 @@ public:
 	~{{classname}}();
 	void startService(int const& port);
 	void stopService();
-	
+
 protected:
 	{{#operation}}
 	std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource;
-	{{/operation}}	
+	{{/operation}}
 };
 
 

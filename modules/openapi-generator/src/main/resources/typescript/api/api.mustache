@@ -20,7 +20,7 @@ import { {{classname}} } from '..{{filename}}{{extensionForDeno}}';
 {{#operations}}
 
 /**
- * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
+ * {{{description}}}{{^description}}no description{{/description}}
  */
 {{#useInversify}}
 @injectable()
@@ -159,7 +159,7 @@ export class {{classname}}ResponseProcessor {
      * @params response Response returned by the server for a request to {{nickname}}
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async {{nickname}}(response: ResponseContext): Promise<{{#returnType}}{{{returnType}}}{{/returnType}} {{^returnType}}void{{/returnType}}> {
+     public async {{nickname}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         {{#responses}}
         if (isCodeInRange("{{code}}", response.httpStatusCode)) {

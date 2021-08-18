@@ -580,9 +580,9 @@ EOF
 {{#isOAuth}}
     echo -e "  - ${MAGENTA}OAuth2 (flow: {{flow}})${OFF}"{{#authorizationUrl}}
     echo -e "      Authorization URL: "
-    echo -e "        * {{authorizationUrl}}"{{/authorizationUrl}}{{#tokenUrl}}
+    echo -e "        * {{.}}"{{/authorizationUrl}}{{#tokenUrl}}
     echo -e "      Token URL: "
-    echo -e "        * {{tokenUrl}}"{{/tokenUrl}}
+    echo -e "        * {{.}}"{{/tokenUrl}}
     echo -e "      Scopes:"
 {{#scopes}}
     echo -e "        * {{scope}} - {{description}}"
@@ -613,7 +613,7 @@ echo "  $ops" | column -t -s ';'
     echo -e "  --about\\t\\t\\t\\tPrint the information about service"
     echo -e "  --host ${CYAN}<url>${OFF}\\t\\t\\t\\tSpecify the host URL "
 {{#openAPI}}
-{{#host}}echo -e "              \\t\\t\\t\\t(e.g. 'https://{{host}}')"{{/host}}
+{{#host}}echo -e "              \\t\\t\\t\\t(e.g. 'https://{{.}}')"{{/host}}
 {{^host}}echo -e "              \\t\\t\\t\\t(e.g. 'https://127.0.0.1:8080')"{{/host}}
 {{/openAPI}}
     echo -e "  --force\\t\\t\\t\\tForce command invocation in spite of missing"
@@ -679,14 +679,14 @@ print_{{operationId}}_help() {
 {{/x-bash-codegen-description}}
 {{^x-bash-codegen-description}}
 {{#notes}}
-    echo -e "{{{notes}}}" | paste -sd' ' | fold -sw 80
+    echo -e "{{{.}}}" | paste -sd' ' | fold -sw 80
     echo -e ""
 {{/notes}}
 {{/x-bash-codegen-description}}
 {{/vendorExtensions}}
 {{^vendorExtensions}}
 {{#notes}}
-    echo -e "{{{notes}}}" | paste -sd' ' | fold -sw 80
+    echo -e "{{{.}}}" | paste -sd' ' | fold -sw 80
     echo -e ""
 {{/notes}}
 {{/vendorExtensions}}

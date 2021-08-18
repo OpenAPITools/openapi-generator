@@ -98,5 +98,3 @@ private fun ByteReadPacket.decodeBase64Bytes(): Input = buildPacket {
         }
     }
 }
-
-

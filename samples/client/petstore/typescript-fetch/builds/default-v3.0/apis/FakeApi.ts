@@ -133,6 +133,7 @@ export interface TestQueryParameterCollectionFormatRequest {
     http: Array<string>;
     url: Array<string>;
     context: Array<string>;
+    language?: { [key: string]: string; };
 }
 
 /**
@@ -888,6 +889,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         if (requestParameters.context) {
             queryParameters['context'] = requestParameters.context;
+        }
+
+        if (requestParameters.language !== undefined) {
+            queryParameters['language'] = requestParameters.language;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

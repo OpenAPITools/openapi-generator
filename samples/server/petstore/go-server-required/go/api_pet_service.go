@@ -17,7 +17,7 @@ import (
 )
 
 // PetApiService is a service that implents the logic for the PetApiServicer
-// This service should implement the business logic for every endpoint for the PetApi API. 
+// This service should implement the business logic for every endpoint for the PetApi API.
 // Include any external packages or services that will be required by this service.
 type PetApiService struct {
 }
@@ -139,4 +139,3 @@ func (s *PetApiService) UploadFile(ctx context.Context, petId int64, additionalM
 
 	return Response(http.StatusNotImplemented, nil), errors.New("UploadFile method not implemented")
 }
-

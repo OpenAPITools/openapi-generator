@@ -33,13 +33,13 @@ Method | HTTP request | Description
 
 Health check endpoint
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
 
-try { 
+try {
     final response = api.fakeHealthGet();
     print(response);
 } catch on DioError (e) {
@@ -70,7 +70,7 @@ No authorization required
 
 test http signature authentication
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure HTTP basic authorization: http_signature_test
@@ -82,7 +82,7 @@ final Pet pet = ; // Pet | Pet object that needs to be added to the store
 final String query1 = query1_example; // String | query parameter
 final String header1 = header1_example; // String | header parameter
 
-try { 
+try {
     api.fakeHttpSignatureTest(pet, query1, header1);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->fakeHttpSignatureTest: $e\n');
@@ -119,14 +119,14 @@ void (empty response body)
 
 Test serialization of outer boolean types
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
 final bool body = true; // bool | Input boolean as post body
 
-try { 
+try {
     final response = api.fakeOuterBooleanSerialize(body);
     print(response);
 } catch on DioError (e) {
@@ -162,14 +162,14 @@ No authorization required
 
 Test serialization of object with outer number type
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
 final OuterComposite outerComposite = ; // OuterComposite | Input composite as post body
 
-try { 
+try {
     final response = api.fakeOuterCompositeSerialize(outerComposite);
     print(response);
 } catch on DioError (e) {
@@ -205,14 +205,14 @@ No authorization required
 
 Test serialization of outer number types
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
 final num body = 8.14; // num | Input number as post body
 
-try { 
+try {
     final response = api.fakeOuterNumberSerialize(body);
     print(response);
 } catch on DioError (e) {
@@ -248,14 +248,14 @@ No authorization required
 
 Test serialization of outer string types
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
 final String body = body_example; // String | Input string as post body
 
-try { 
+try {
     final response = api.fakeOuterStringSerialize(body);
     print(response);
 } catch on DioError (e) {
@@ -291,14 +291,14 @@ No authorization required
 
 Test serialization of enum (int) properties with examples
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
 final OuterObjectWithEnumProperty outerObjectWithEnumProperty = ; // OuterObjectWithEnumProperty | Input enum (int) as post body
 
-try { 
+try {
     final response = api.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
     print(response);
 } catch on DioError (e) {
@@ -334,14 +334,14 @@ No authorization required
 
 For this test, the body has to be a binary file.
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
 final MultipartFile body = BINARY_DATA_HERE; // MultipartFile | image to upload
 
-try { 
+try {
     api.testBodyWithBinary(body);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->testBodyWithBinary: $e\n');
@@ -376,14 +376,14 @@ No authorization required
 
 For this test, the body for this request must reference a schema named `File`.
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
 final FileSchemaTestClass fileSchemaTestClass = ; // FileSchemaTestClass | 
 
-try { 
+try {
     api.testBodyWithFileSchema(fileSchemaTestClass);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->testBodyWithFileSchema: $e\n');
@@ -416,7 +416,7 @@ No authorization required
 
 
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
@@ -424,7 +424,7 @@ final api = Openapi().getFakeApi();
 final String query = query_example; // String | 
 final User user = ; // User | 
 
-try { 
+try {
     api.testBodyWithQueryParams(query, user);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->testBodyWithQueryParams: $e\n');
@@ -460,14 +460,14 @@ To test \"client\" model
 
 To test \"client\" model
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
 final ModelClient modelClient = ; // ModelClient | client model
 
-try { 
+try {
     final response = api.testClientModel(modelClient);
     print(response);
 } catch on DioError (e) {
@@ -503,7 +503,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure HTTP basic authorization: http_basic_test
@@ -526,7 +526,7 @@ final DateTime dateTime = 2013-10-20T19:20:30+01:00; // DateTime | None
 final String password = password_example; // String | None
 final String callback = callback_example; // String | None
 
-try { 
+try {
     api.testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->testEndpointParameters: $e\n');
@@ -574,7 +574,7 @@ To test enum parameters
 
 To test enum parameters
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
@@ -588,7 +588,7 @@ final double enumQueryDouble = 1.2; // double | Query parameter enum test (doubl
 final BuiltList<String> enumFormStringArray = enumFormStringArray_example; // BuiltList<String> | Form parameter enum test (string array)
 final String enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
-try { 
+try {
     api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->testEnumParameters: $e\n');
@@ -630,7 +630,7 @@ Fake endpoint to test group parameters (optional)
 
 Fake endpoint to test group parameters (optional)
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure HTTP basic authorization: bearer_test
@@ -645,7 +645,7 @@ final int stringGroup = 56; // int | String in group parameters
 final bool booleanGroup = true; // bool | Boolean in group parameters
 final int int64Group = 789; // int | Integer in group parameters
 
-try { 
+try {
     api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->testGroupParameters: $e\n');
@@ -683,14 +683,14 @@ void (empty response body)
 
 test inline additionalProperties
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getFakeApi();
 final BuiltMap<String, String> requestBody = ; // BuiltMap<String, String> | request body
 
-try { 
+try {
     api.testInlineAdditionalProperties(requestBody);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->testInlineAdditionalProperties: $e\n');
@@ -723,7 +723,7 @@ No authorization required
 
 test json serialization of form data
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
@@ -731,7 +731,7 @@ final api = Openapi().getFakeApi();
 final String param = param_example; // String | field1
 final String param2 = param2_example; // String | field2
 
-try { 
+try {
     api.testJsonFormData(param, param2);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->testJsonFormData: $e\n');
@@ -761,13 +761,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testQueryParameterCollectionFormat**
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language)
 
 
 
 To test the collection format in query parameters
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
@@ -777,9 +777,10 @@ final BuiltList<String> ioutil = ; // BuiltList<String> |
 final BuiltList<String> http = ; // BuiltList<String> | 
 final BuiltList<String> url = ; // BuiltList<String> | 
 final BuiltList<String> context = ; // BuiltList<String> | 
+final BuiltMap<String, String> language = ; // BuiltMap<String, String> | 
 
-try { 
-    api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+try {
+    api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
@@ -794,6 +795,7 @@ Name | Type | Description  | Notes
  **http** | [**BuiltList&lt;String&gt;**](String.md)|  | 
  **url** | [**BuiltList&lt;String&gt;**](String.md)|  | 
  **context** | [**BuiltList&lt;String&gt;**](String.md)|  | 
+ **language** | [**BuiltMap&lt;String, String&gt;**](String.md)|  | [optional] 
 
 ### Return type
 

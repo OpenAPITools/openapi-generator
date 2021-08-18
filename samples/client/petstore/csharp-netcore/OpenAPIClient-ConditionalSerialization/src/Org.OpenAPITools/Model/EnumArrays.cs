@@ -56,10 +56,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets JustSymbol
         /// </summary>
-        
+
         [DataMember(Name = "just_symbol", EmitDefaultValue = false)]
-        public JustSymbolEnum? JustSymbol 
-        { 
+        public JustSymbolEnum? JustSymbol
+        {
             get{ return _JustSymbol;}
             set
             {
@@ -103,10 +103,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
-        
+
         [DataMember(Name = "array_enum", EmitDefaultValue = false)]
-        public List<ArrayEnumEnum> ArrayEnum 
-        { 
+        public List<ArrayEnumEnum> ArrayEnum
+        {
             get{ return _ArrayEnum;}
             set
             {

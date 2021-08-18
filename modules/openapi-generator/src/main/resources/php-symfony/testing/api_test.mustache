@@ -80,7 +80,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
         $pattern = '{<%paramName%>}';
         <%={{ }}=%>
         {{#pattern}}
-        $data = $this->genTestData('{{pattern}}');
+        $data = $this->genTestData('{{.}}');
         {{/pattern}}
         {{^pattern}}
         {{#isLong}}
@@ -110,7 +110,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
         $ast      = $compiler->parse($regexp);
         $generator = new \Hoa\Regex\Visitor\Isotropic(new \Hoa\Math\Sampler\Random());
 
-        return $generator->visit($ast); 
+        return $generator->visit($ast);
     }
 }
 {{/operations}}
