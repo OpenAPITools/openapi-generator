@@ -92,6 +92,7 @@ class Dog(ModelComposed):
             'class_name': (str,),  # noqa: E501
             'breed': (str,),  # noqa: E501
             'color': (str,),  # noqa: E501
+            'tail': (bool,),  # noqa: E501
         }
 
     @cached_property
@@ -106,9 +107,11 @@ class Dog(ModelComposed):
         'class_name': 'className',  # noqa: E501
         'breed': 'breed',  # noqa: E501
         'color': 'color',  # noqa: E501
+        'tail': 'tail',  # noqa: E501
     }
 
     read_only_vars = {
+        'tail',  # noqa: E501
     }
 
     @classmethod
@@ -150,6 +153,7 @@ class Dog(ModelComposed):
                                 _visited_composed_classes = (Animal,)
             breed (str): [optional]  # noqa: E501
             color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
+            tail (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -252,6 +256,7 @@ class Dog(ModelComposed):
                                 _visited_composed_classes = (Animal,)
             breed (str): [optional]  # noqa: E501
             color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
+            tail (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
