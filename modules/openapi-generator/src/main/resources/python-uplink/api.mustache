@@ -10,25 +10,20 @@ from uplink import (
     put,
     delete,
     Header,
-    Form,
     returns,
     json,
 )
 
-from __future__ import annotations
-from datetime import date, datetime  # noqa: F401
-
-import re  # noqa: F401
-from typing import Any, Dict, List, Optional  # noqa: F401
+from typing import Dict, List # noqa: F401
 
 {{#imports}}
 {{{import}}}
 {{/imports}}
 
+
 {{#operations}}
 class {{classname}}(Consumer):
 {{#operation}}
-
 {{#vendorExtensions.x-operation-produces}}
     @returns.{{.}}
 {{/vendorExtensions.x-operation-produces}}
@@ -36,7 +31,8 @@ class {{classname}}(Consumer):
     @{{.}}
 {{/vendorExtensions.x-operation-consumes}}
     @{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}")
-    def {{operationId}}(self, {{#allParams}}{{>endpoint_argument_definition}}, {{/allParams}}) {{#returnType}} -> {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}:
-       """{{{summary}}}"""
+    def {{operationId}}(self{{#hasParams}}, *{{#allParams}}, {{>endpoint_argument_definition}}{{/allParams}}{{/hasParams}}){{#returnType}} -> {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}:
+        """{{{summary}}}"""
+
 {{/operation}}
 {{/operations}}

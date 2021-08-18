@@ -1,13 +1,11 @@
 # coding: utf-8
 
-from __future__ import annotations
 from datetime import date, datetime  # noqa: F401
 
 import re  # noqa: F401
-from typing import Any, Dict, List, Optional  # noqa: F401
+from typing import Any, Dict, List, Optional, Union, Literal  # noqa: F401
 
 from pydantic import AnyUrl, BaseModel, EmailStr, validator, Field, Extra  # noqa: F401
-
 {{#models}}
 {{#model}}
 {{#imports}}
@@ -21,15 +19,20 @@ class {{classname}}(BaseModel):
     Do not edit the class manually.
 
     {{classname}} - a model defined in OpenAPI
-
-    {{#vars}}
-        {{name}}: The {{name}} of this {{classname}}{{^required}} [Optional]{{/required}}.
-    {{/vars}}
+    {{#requiredVars}}
+        {{name}}: {{#description}}{{.}}{{/description}}{{^description}}The {{name}} of this {{classname}}{{/description}}. 
+    {{/requiredVars}}
+    {{#optionalVars}}
+        {{name}}: {{#description}}{{.}}{{/description}}{{^description}}The {{name}} of this {{classname}}{{/description}} [Optional].
+    {{/optionalVars}}
     """
 
-{{#vars}}
-    {{name}}: {{#required}}{{>model_field_type}}{{/required}}{{^required}}Optional[{{>model_field_type}}] = None{{/required}}
-{{/vars}}
+{{#requiredVars}}
+    {{name}}: {{>model_field_type}}
+{{/requiredVars}}
+{{#optionalVars}}
+    {{name}}: Optional[{{>model_field_type}}] = None
+{{/optionalVars}}
 {{#vars}}
 {{#maximum}}
 

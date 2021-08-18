@@ -624,7 +624,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (typeMapping.containsKey(openAPIType)) {
+        if (ModelUtils.isComposedSchema(p)) {
+            return openAPIType;
+        }
+        else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
