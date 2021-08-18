@@ -271,11 +271,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return this.useOneOfDiscriminatorLookup;
     }
 
-    public void setSkipReadonlyPropertiesInInt(boolean skipReadonlyPropertiesInInt) {
+    public void setSkipReadonlyPropertiesInInit(boolean skipReadonlyPropertiesInInt) {
         this.skipReadonlyPropertiesInInt = skipReadonlyPropertiesInInt;
     }
 
-    public boolean getSkipReadonlyPropertiesInInt() {
+    public boolean getSkipReadonlyPropertiesInInit() {
         return this.skipReadonlyPropertiesInInt;
     }
 
