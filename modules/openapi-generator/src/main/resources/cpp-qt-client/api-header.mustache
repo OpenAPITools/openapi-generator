@@ -5,6 +5,7 @@
 #include "{{prefix}}Helpers.h"
 #include "{{prefix}}HttpRequest.h"
 #include "{{prefix}}ServerConfiguration.h"
+#include "oauth.h"
 
 {{#imports}}{{{import}}}
 {{/imports}}
@@ -73,6 +74,10 @@ private:
     QMap<QString, QString> defaultHeaders;
     bool isResponseCompressionEnabled;
     bool isRequestCompressionEnabled;
+    {{prefix}}HttpRequestInput latestInput;
+    {{prefix}}HttpRequestWorker *latestWorker;
+    QString latestScope;
+    OauthCode auth;
 {{#operations}}{{#operation}}
     void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}
 
@@ -88,6 +93,10 @@ signals:
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
+
+public slots:
+    void tokenAvailable();
+    
 };
 
 {{#cppNamespaceDeclarations}}

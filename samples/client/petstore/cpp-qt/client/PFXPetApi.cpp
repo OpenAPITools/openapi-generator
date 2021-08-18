@@ -856,4 +856,16 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
+void PFXPetApi::tokenAvailable(){
+
+    auto token = auth.getToken(latestScope);
+    //Only inject header when token is valid. If not we run the auth process again and remove the token
+    if(token.isValid()){
+        latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+    }else{
+        auth.removeToken(latestScope);
+    }
+
+    latestWorker->execute(&latestInput);
+}
 } // namespace test_namespace

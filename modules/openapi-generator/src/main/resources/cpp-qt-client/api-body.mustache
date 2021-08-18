@@ -661,7 +661,27 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
+    });{{#authMethods}}{{#isOAuth}}{{#isCode}}QString scope("{{#scopes}}{{scope}}{{/scopes}}");
+    auto token = auth.getToken(scope);
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    latestWorker->setTimeOut(_timeOut);
+    latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+    
+    connect(latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, latestWorker, &QObject::deleteLater);
+    connect(latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
     });
+
+    latestInput = input;
+    latestScope = scope;{{/isCode}}{{/isOAuth}}{{/authMethods}}
 
     worker->execute(&input);
 }
@@ -720,7 +740,12 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit {{nickname}}Signal({{#returnType}}output{{/returnType}});
-        emit {{nickname}}SignalFull(worker{{#returnType}}, output{{/returnType}});
+        emit {{nickname}}SignalFull(worker{{#returnType}}, output{{/returnType}});{{#authMethods}}{{#isOAuth}}{{#isCode}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&auth, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        //TODO get clientID and Secret in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        auth.setVariables();
+        emit auth.authenticationNeeded();{{/isCode}}{{/isOAuth}}{{/authMethods}}
     } else {
         emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
         emit {{nickname}}SignalEFull(worker, error_type, error_str);
@@ -729,6 +754,18 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
 
 {{/operation}}
 {{/operations}}
+void {{classname}}::tokenAvailable(){
+
+    auto token = auth.getToken(latestScope);
+    //Only inject header when token is valid. If not we run the auth process again and remove the token
+    if(token.isValid()){
+        latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+    }else{
+        auth.removeToken(latestScope);
+    }
+
+    latestWorker->execute(&latestInput);
+}
 {{#cppNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppNamespaceDeclarations}}

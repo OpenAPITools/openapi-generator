@@ -15,6 +15,7 @@
 #include "PFXHelpers.h"
 #include "PFXHttpRequest.h"
 #include "PFXServerConfiguration.h"
+#include "oauth.h"
 
 #include "PFXApiResponse.h"
 #include "PFXHttpFileElement.h"
@@ -116,6 +117,10 @@ private:
     QMap<QString, QString> defaultHeaders;
     bool isResponseCompressionEnabled;
     bool isRequestCompressionEnabled;
+    PFXHttpRequestInput latestInput;
+    PFXHttpRequestWorker *latestWorker;
+    QString latestScope;
+    OauthCode auth;
 
     void addPetCallback(PFXHttpRequestWorker *worker);
     void deletePetCallback(PFXHttpRequestWorker *worker);
@@ -166,6 +171,10 @@ signals:
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
+
+public slots:
+    void tokenAvailable();
+    
 };
 
 } // namespace test_namespace

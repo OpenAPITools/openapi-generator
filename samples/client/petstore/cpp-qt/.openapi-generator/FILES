@@ -29,3 +29,5 @@ client/PFXUser.h
 client/PFXUserApi.cpp
 client/PFXUserApi.h
 client/PFXclient.pri
+client/oauth.cpp
+client/oauth.h

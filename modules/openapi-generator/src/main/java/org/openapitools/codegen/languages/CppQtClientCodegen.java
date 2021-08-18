@@ -46,6 +46,7 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
                 .includeSecurityFeatures(SecurityFeature.BasicAuth)
                 .includeSecurityFeatures(SecurityFeature.ApiKey)
                 .includeSecurityFeatures(SecurityFeature.BearerToken)
+                .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode)
                 .includeGlobalFeatures(GlobalFeature.ParameterStyling)
         );
 
@@ -96,6 +97,8 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, PREFIX + "Enum.h"));
         supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", sourceFolder, PREFIX + "ServerConfiguration.h"));
         supportingFiles.add(new SupportingFile("ServerVariable.mustache", sourceFolder, PREFIX + "ServerVariable.h"));
+        supportingFiles.add(new SupportingFile("oauth.cpp.mustache", sourceFolder, "oauth.cpp"));
+        supportingFiles.add(new SupportingFile("oauth.h.mustache", sourceFolder, "oauth.h"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
         if (optionalProjectFileFlag) {
@@ -127,6 +130,8 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
             supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, modelNamePrefix + "Enum.h"));
             supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", sourceFolder, modelNamePrefix + "ServerConfiguration.h"));
             supportingFiles.add(new SupportingFile("ServerVariable.mustache", sourceFolder, modelNamePrefix + "ServerVariable.h"));
+            supportingFiles.add(new SupportingFile("oauth.cpp.mustache", sourceFolder, "oauth.cpp"));
+            supportingFiles.add(new SupportingFile("oauth.h.mustache", sourceFolder, "oauth.h"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
             supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
 

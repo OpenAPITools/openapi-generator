@@ -1,0 +1,113 @@
+{{>licenseInfo}}
+/**
+ * Providing a Oauth2 Class and a ReplyServer for the Oauth2 authorization code flow. 
+ */
+#ifndef {{prefix}}_OAUTH2_H
+#define {{prefix}}_OAUTH2_H
+
+#include <QObject>
+#include <QtCore>
+#include <QtNetwork>
+#include <QDesktopServices>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
+#include <QtDebug>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QByteArray>
+#include <QString>
+#include <QMap>
+#include <QUrl>
+#include <QUrlQuery>
+#include <QDateTime>
+
+
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class oauthToken
+{
+public:
+    oauthToken(QString token, int expiresIn, QString scope, QString tokenType) : m_token(token), m_scope(scope), m_type(tokenType){
+        m_validUntil = QDateTime::fromSecsSinceEpoch(QDateTime::currentSecsSinceEpoch() + expiresIn);
+    }
+    oauthToken(){
+        m_validUntil = QDateTime::fromSecsSinceEpoch(QDateTime::currentSecsSinceEpoch() -1);
+    }
+    QString getToken(){return m_token;};
+    QString getScope(){return m_scope;};
+    QString getType(){return m_type;};
+
+    bool isValid(){return QDateTime::currentDateTime() < m_validUntil;};
+private:
+    QString m_token;
+    QDateTime m_validUntil;
+    QString m_scope;
+    QString m_type;
+};
+
+class ReplyServer : public QTcpServer
+{
+    Q_OBJECT
+public:
+    explicit ReplyServer(QObject *parent = nullptr);
+
+    void run();
+private:
+    QByteArray m_reply;
+
+signals:
+    void dataReceived(QMap<QString, QString>);
+
+public slots:
+    void onConnected();
+    void read();
+    void start();
+    void stop();
+};
+
+class OauthBase : public QObject
+{
+    Q_OBJECT
+
+public: 
+    OauthBase(QObject* parent = nullptr) : QObject(parent) {};
+    oauthToken getToken(QString scope);
+    void removeToken(QString scope);
+
+protected:
+    QMap<QString, oauthToken> m_oauthTokenMap;
+
+signals:
+    void authenticationNeeded();
+    void tokenReceived();
+};
+
+class OauthCode : public OauthBase
+{
+    Q_OBJECT
+public:
+    OauthCode(QObject *parent = nullptr);
+    void setVariables( QString authUrl, QString tokenUrl, QString scope, QString accessType, QString state, QString redirectUri, QString clientId, QString clientSecret);
+private:
+    ReplyServer m_server;
+    QUrl m_authUrl;
+    QUrl m_tokenUrl;
+    QString m_scope, m_accessType, m_state, m_redirectUri, m_clientId, m_clientSecret;
+
+
+public slots:
+    void authenticationNeededCallback();
+    void onVerificationReceived(const QMap<QString, QString> response);
+    void onFinish(QNetworkReply *rep);
+
+
+};
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+#endif // {{prefix}}_OAUTH2_H
