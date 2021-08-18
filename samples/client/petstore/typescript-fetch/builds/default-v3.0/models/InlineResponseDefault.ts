@@ -61,4 +61,3 @@ export function InlineResponseDefaultToJSON(value?: InlineResponseDefault | null
     };
 }
 
-

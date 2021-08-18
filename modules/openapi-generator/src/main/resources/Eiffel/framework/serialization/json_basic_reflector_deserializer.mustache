@@ -50,7 +50,7 @@ feature -- Cleaning
 			fields_infos_by_type_id := Void
 		end
 
-feature {NONE} -- Helpers	: Array	
+feature {NONE} -- Helpers	: Array
 
 	reference_from_json_array (a_json: JSON_ARRAY; ctx: JSON_DESERIALIZER_CONTEXT; a_type: detachable TYPE [detachable ANY]): detachable ANY
 		do
@@ -263,7 +263,7 @@ feature {NONE} -- Helpers	: Array
 			end
 		end
 
-feature {NONE} -- Helpers: Object		
+feature {NONE} -- Helpers: Object
 
 	type_name_from_json_object (a_json_object: JSON_OBJECT): detachable READABLE_STRING_32
 		do
@@ -364,7 +364,7 @@ feature {NONE} -- Helpers: Object
 			end
 		end
 
-feature {NONE} -- Helpers: Basic values		
+feature {NONE} -- Helpers: Basic values
 
 	boolean_from_json (v: JSON_VALUE): BOOLEAN
 		do

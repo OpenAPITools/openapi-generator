@@ -54,4 +54,3 @@ export function DeprecatedObjectToJSON(value?: DeprecatedObject | null): any {
     };
 }
 
-

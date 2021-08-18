@@ -48,7 +48,7 @@ export class ObservableDefaultApi {
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.filePost(rsp)));
             }));
     }
- 
+
     /**
      * @param petByAgePetByType 
      */
@@ -70,7 +70,7 @@ export class ObservableDefaultApi {
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.petsFilteredPatch(rsp)));
             }));
     }
- 
+
     /**
      * @param catDog 
      */
@@ -92,5 +92,5 @@ export class ObservableDefaultApi {
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.petsPatch(rsp)));
             }));
     }
- 
+
 }

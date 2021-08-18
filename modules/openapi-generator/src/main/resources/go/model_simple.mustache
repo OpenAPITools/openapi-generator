@@ -14,7 +14,7 @@ type {{classname}} struct {
 {{^-first}}
 {{/-first}}
 {{#description}}
-	// {{{description}}}
+	// {{{.}}}
 {{/description}}
 {{#deprecated}}
 	// Deprecated
@@ -305,7 +305,7 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 	{{^-first}}
 	{{/-first}}
 	{{#description}}
-		// {{{description}}}
+		// {{{.}}}
 	{{/description}}
 	{{#deprecated}}
 		// Deprecated

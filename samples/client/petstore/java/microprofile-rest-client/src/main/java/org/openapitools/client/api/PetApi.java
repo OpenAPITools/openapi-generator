@@ -120,4 +120,3 @@ public interface PetApi  {
     @Produces({ "application/json" })
     public ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment fileDetail) throws ApiException, ProcessingException;
 }
-

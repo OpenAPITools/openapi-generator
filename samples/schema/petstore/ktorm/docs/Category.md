@@ -1,5 +1,5 @@
 
-# Table `Category` 
+# Table `Category`
 (mapped from: Category)
 
 ## Properties

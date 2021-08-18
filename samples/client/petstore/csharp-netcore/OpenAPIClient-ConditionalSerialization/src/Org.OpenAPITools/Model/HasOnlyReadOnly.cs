@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
         public string Bar { get; private set; }
-        
+
         /// <summary>
         /// Returns false as Bar should not be serialized given that it's read-only.
         /// </summary>
@@ -60,7 +60,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "foo", EmitDefaultValue = false)]
         public string Foo { get; private set; }
-        
+
         /// <summary>
         /// Returns false as Foo should not be serialized given that it's read-only.
         /// </summary>

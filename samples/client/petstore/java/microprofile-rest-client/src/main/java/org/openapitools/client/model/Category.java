@@ -35,7 +35,7 @@ public class Category  {
 
   @JsonbProperty("name")
   private String name;
-  
+
  /**
    * Get id
    * @return id

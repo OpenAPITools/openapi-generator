@@ -169,7 +169,7 @@
         <version>1.1.0.Final</version>
         <scope>provided</scope>
     </dependency>
-        
+
     </dependencies>
     <repositories>
         <repository>

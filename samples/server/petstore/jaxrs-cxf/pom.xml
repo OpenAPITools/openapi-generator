@@ -84,7 +84,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <!-- build WAR file -->
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
@@ -134,7 +134,7 @@
         <version>${cxf-version}</version>
         <scope>test</scope>
     </dependency>
-    
+
      <!-- CXF server -->
     <dependency>
         <groupId>org.apache.cxf</groupId>

@@ -1,9 +1,9 @@
 {
     {{#composerPackageName}}
-    "name": "{{composerPackageName}}",
+    "name": "{{.}}",
     {{/composerPackageName}}
     {{#artifactVersion}}
-    "version": "{{artifactVersion}}",
+    "version": "{{.}}",
     {{/artifactVersion}}
     "description": "{{{appDescription}}}",
     "keywords": [

@@ -4,15 +4,15 @@
 <#
 .SYNOPSIS
 
-{{#summary}}{{{.}}}{{/summary}}{{^summary}}No summary available.{{/summary}}
+{{{summary}}}{{^summary}}No summary available.{{/summary}}
 
 .DESCRIPTION
 
-{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+{{{description}}}{{^description}}No description available.{{/description}}
 
 {{#allParams}}
 .PARAMETER {{{paramName}}}
-{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+{{{description}}}{{^description}}No description available.{{/description}}
 
 {{/allParams}}
 {{#vendorExtensions.x-powershell-select-accept}}
@@ -27,7 +27,7 @@ A switch when turned on will return a hash table of Response, StatusCode and Hea
 
 .OUTPUTS
 
-{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}None{{/returnType}}
+{{{returnType}}}{{^returnType}}None{{/returnType}}
 #>
 function {{{vendorExtensions.x-powershell-method-name}}} {
     [CmdletBinding()]
@@ -221,7 +221,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "{{#returnType}}{{{.}}}{{/returnType}}" `
+                                -ReturnType "{{{returnType}}}" `
                                 -IsBodyNullable {{#bodyParam}}{{#isNullable}}$true{{/isNullable}}{{^isNullable}}$false{{/isNullable}}{{/bodyParam}}{{^bodyParam}}$false{{/bodyParam}}
 
         {{#vendorExtensions.x-ps-return-type-one-of}}
