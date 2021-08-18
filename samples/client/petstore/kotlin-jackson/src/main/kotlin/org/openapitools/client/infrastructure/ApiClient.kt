@@ -99,7 +99,9 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> Serializer.jacksonObjectMapper.writeValueAsString(content).toRequestBody(
+            // recognize custom json variants like "application/vnd.shopping.cart.v2+json"
+            mediaType.startsWith("application/") && mediaType.endsWith("json") ->
+            Serializer.jacksonObjectMapper.writeValueAsString(content).toRequestBody(
                 mediaType.toMediaTypeOrNull()
             )
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")

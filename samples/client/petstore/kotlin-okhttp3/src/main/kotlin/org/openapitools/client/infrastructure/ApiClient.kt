@@ -97,7 +97,9 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> RequestBody.create(
+            // recognize custom json variants like "application/vnd.shopping.cart.v2+json"
+            mediaType.startsWith("application/") && mediaType.endsWith("json") ->
+            RequestBody.create(
                 MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
             )
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
