@@ -79,14 +79,12 @@ public class {{classname}} {
         }
         {{/required}}
         {{/allParams}}
-
         {{#vendorExtensions.x-dependencies}}
         // Check dependency: {{& idlDependency}}
         if(!{{& assertOperation}}){
             throw new WebClientResponseException("Dependency not satisfied: {{& idlDependency}}", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         {{/vendorExtensions.x-dependencies}}
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
         {{#hasPathParams}}

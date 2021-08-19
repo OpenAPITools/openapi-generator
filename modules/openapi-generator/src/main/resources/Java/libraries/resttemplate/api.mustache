@@ -113,14 +113,12 @@ public class {{classname}} {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
         }
         {{/required}}{{/allParams}}
-
         {{#vendorExtensions.x-dependencies}}
         // Check dependency: {{& idlDependency}}
         if({{& assertOperation}}){
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Dependency not satisfied: {{& idlDependency}}");
         }
         {{/vendorExtensions.x-dependencies}}{{#hasPathParams}}
-
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}
         uriVariables.put("{{baseName}}", {{#collectionFormat}}apiClient.collectionPathParameterToString(ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase()), {{{paramName}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}});{{/pathParams}}{{/hasPathParams}}

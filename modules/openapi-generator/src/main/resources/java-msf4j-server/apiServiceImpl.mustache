@@ -23,13 +23,11 @@ public class {{classname}}ServiceImpl extends {{classname}}Service {
     {{#operation}}
     @Override
     public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}}{{^-last}},{{/-last}} {{/allParams}}) throws NotFoundException {
-        
         {{#vendorExtensions.x-dependencies}}
         if({{& assertOperation}}){
             return Response.status(400).build();
         }
         {{/vendorExtensions.x-dependencies}}
-        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

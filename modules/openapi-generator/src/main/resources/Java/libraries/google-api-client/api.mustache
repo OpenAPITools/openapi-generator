@@ -99,14 +99,12 @@ public class {{classname}} {
         if ({{paramName}} == null) {
             throw new IllegalArgumentException("Missing the required parameter '{{paramName}}' when calling {{operationId}}");
         }{{/required}}{{/allParams}}
-
         {{#vendorExtensions.x-dependencies}}
         // Check dependency: {{& idlDependency}}
         if({{& assertOperation}}){
             throw new IllegalArgumentException("Dependency not satisfied: {{& idlDependency}}");
         }
         {{/vendorExtensions.x-dependencies}}
-
         {{#hasPathParams}}
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}
