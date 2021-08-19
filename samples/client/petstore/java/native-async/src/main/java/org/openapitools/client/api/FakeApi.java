@@ -136,8 +136,6 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'xmlItem' when calling createXmlItem");
     }
 
-    
-
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake/create_xml_item";
@@ -226,8 +224,6 @@ public class FakeApi {
   }
 
   private HttpRequest.Builder fakeOuterBooleanSerializeRequestBuilder(Boolean body) throws ApiException {
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -318,8 +314,6 @@ public class FakeApi {
 
   private HttpRequest.Builder fakeOuterCompositeSerializeRequestBuilder(OuterComposite body) throws ApiException {
 
-    
-
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake/outer/composite";
@@ -408,8 +402,6 @@ public class FakeApi {
   }
 
   private HttpRequest.Builder fakeOuterNumberSerializeRequestBuilder(BigDecimal body) throws ApiException {
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -500,8 +492,6 @@ public class FakeApi {
 
   private HttpRequest.Builder fakeOuterStringSerializeRequestBuilder(String body) throws ApiException {
 
-    
-
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake/outer/string";
@@ -580,8 +570,6 @@ public class FakeApi {
     if (body == null) {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
     }
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -667,8 +655,6 @@ public class FakeApi {
     if (body == null) {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
     }
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -771,8 +757,6 @@ public class FakeApi {
     if (body == null) {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testClientModel");
     }
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -891,8 +875,6 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter '_byte' when calling testEndpointParameters");
     }
 
-    
-
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake";
@@ -975,8 +957,6 @@ public class FakeApi {
   }
 
   private HttpRequest.Builder testEnumParametersRequestBuilder(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -1119,8 +1099,6 @@ public class FakeApi {
     if (requiredInt64Group == null) {
       throw new ApiException(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
     }
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -1290,8 +1268,6 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
     }
 
-    
-
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/fake/inline-additionalProperties";
@@ -1376,8 +1352,6 @@ public class FakeApi {
     if (param2 == null) {
       throw new ApiException(400, "Missing the required parameter 'param2' when calling testJsonFormData");
     }
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -1475,8 +1449,6 @@ public class FakeApi {
     if (context == null) {
       throw new ApiException(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
     }
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 

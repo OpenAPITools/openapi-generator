@@ -128,8 +128,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling createUser");
     }
 
-    
-
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/user";
@@ -208,8 +206,6 @@ public class UserApi {
     if (body == null) {
       throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
     }
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -290,8 +286,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput");
     }
 
-    
-
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/user/createWithList";
@@ -370,8 +364,6 @@ public class UserApi {
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
     }
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -460,8 +452,6 @@ public class UserApi {
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
     }
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -557,8 +547,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'password' when calling loginUser");
     }
 
-    
-
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/user/login";
@@ -635,8 +623,6 @@ public class UserApi {
   }
 
   private HttpRequest.Builder logoutUserRequestBuilder() throws ApiException {
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -716,8 +702,6 @@ public class UserApi {
     if (body == null) {
       throw new ApiException(400, "Missing the required parameter 'body' when calling updateUser");
     }
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 

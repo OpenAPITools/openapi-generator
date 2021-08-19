@@ -64,7 +64,6 @@ public class UserApi {
     
 	
 	
-	
     // create path and map variables
     String localVarPath = "/user";
     // query params
@@ -107,7 +106,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
     }
     
-	
 	
 	
     // create path and map variables
@@ -154,7 +152,6 @@ public class UserApi {
     
 	
 	
-	
     // create path and map variables
     String localVarPath = "/user/createWithList";
     // query params
@@ -197,7 +194,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
     }
     
-	
 	
 	
     // create path and map variables
@@ -244,7 +240,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
     }
     
-	
 	
 	
     // create path and map variables
@@ -299,7 +294,6 @@ public class UserApi {
     
 	
 	
-	
     // create path and map variables
     String localVarPath = "/user/login";
     // query params
@@ -338,7 +332,6 @@ public class UserApi {
   public void logoutUser() throws ApiException {
     Object localVarPostBody = null;
     
-	
 	
 	
     // create path and map variables
@@ -389,7 +382,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling updateUser");
     }
     
-	
 	
 	
     // create path and map variables

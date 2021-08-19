@@ -75,7 +75,6 @@ public class UserApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -120,7 +119,6 @@ public class UserApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -165,7 +163,6 @@ public class UserApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -210,8 +207,6 @@ public class UserApi {
         if (username == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'username' when calling deleteUser");
         }
-        
-
         
 
         // create path and map variables
@@ -264,8 +259,6 @@ public class UserApi {
         if (username == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'username' when calling getUserByName");
         }
-        
-
         
 
         // create path and map variables
@@ -327,7 +320,6 @@ public class UserApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -370,7 +362,6 @@ public class UserApi {
         Object postBody = null;
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -422,8 +413,6 @@ public class UserApi {
         if (body == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling updateUser");
         }
-        
-
         
 
         // create path and map variables

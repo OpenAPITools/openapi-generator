@@ -21,9 +21,6 @@ public class FakeClassnameTestApiServiceImpl extends FakeClassnameTestApiService
     @Override
     public Response testClassname(Client body
  ) throws NotFoundException {
-        
-        
-        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

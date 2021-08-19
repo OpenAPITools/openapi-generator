@@ -71,9 +71,6 @@ public class StoreApi {
         if (orderId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'orderId' when calling deleteOrder");
         }
-
-        
-
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
@@ -151,9 +148,6 @@ public class StoreApi {
 
     public HttpResponse getInventoryForHttpResponse() throws IOException {
         
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/inventory");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -231,9 +225,6 @@ public class StoreApi {
         if (orderId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'orderId' when calling getOrderById");
         }
-
-        
-
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
@@ -316,9 +307,6 @@ public class StoreApi {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling placeOrder");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/store/order");
 
         String localVarUrl = uriBuilder.build().toString();

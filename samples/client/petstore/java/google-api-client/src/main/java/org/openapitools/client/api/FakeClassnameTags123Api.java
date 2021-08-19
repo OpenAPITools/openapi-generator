@@ -75,9 +75,6 @@ public class FakeClassnameTags123Api {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling testClassname");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake_classname_test");
 
         String localVarUrl = uriBuilder.build().toString();

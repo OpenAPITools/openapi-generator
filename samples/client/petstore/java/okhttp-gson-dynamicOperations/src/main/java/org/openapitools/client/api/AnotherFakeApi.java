@@ -116,8 +116,6 @@ public class AnotherFakeApi {
         }
         
 
-        
-
         okhttp3.Call localVarCall = call123testSpecialTagsCall(body, _callback);
         return localVarCall;
 

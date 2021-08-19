@@ -80,9 +80,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUser");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/user";
 
@@ -147,9 +144,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/user/createWithArray";
 
@@ -214,9 +208,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/user/createWithList";
 
@@ -283,9 +274,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
@@ -356,9 +344,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
@@ -436,9 +421,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'password' when calling loginUser");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/user/login";
 
@@ -500,9 +482,6 @@ public class UserApi {
   public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
     Object localVarPostBody = null;
     
-
-    
-
     // create path and map variables
     String localVarPath = "/user/logout";
 
@@ -576,9 +555,6 @@ public class UserApi {
       throw new ApiException(400, "Missing the required parameter 'user' when calling updateUser");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/user/{username}"
       .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));

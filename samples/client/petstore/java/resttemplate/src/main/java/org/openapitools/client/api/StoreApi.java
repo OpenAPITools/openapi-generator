@@ -77,8 +77,6 @@ public class StoreApi {
         }
         
 
-        
-
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("order_id", orderId);
@@ -120,7 +118,6 @@ public class StoreApi {
         Object postBody = null;
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -170,8 +167,6 @@ public class StoreApi {
         if (orderId == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'orderId' when calling getOrderById");
         }
-        
-
         
 
         // create path and map variables
@@ -226,7 +221,6 @@ public class StoreApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

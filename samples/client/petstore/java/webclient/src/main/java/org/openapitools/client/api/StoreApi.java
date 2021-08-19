@@ -60,9 +60,6 @@ public class StoreApi {
         if (orderId == null) {
             throw new WebClientResponseException("Missing the required parameter 'orderId' when calling deleteOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -110,9 +107,6 @@ public class StoreApi {
      */
     private ResponseSpec getInventoryRequestCreation() throws WebClientResponseException {
         Object postBody = null;
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -166,9 +160,6 @@ public class StoreApi {
         if (orderId == null) {
             throw new WebClientResponseException("Missing the required parameter 'orderId' when calling getOrderById", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -226,9 +217,6 @@ public class StoreApi {
         if (order == null) {
             throw new WebClientResponseException("Missing the required parameter 'order' when calling placeOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 

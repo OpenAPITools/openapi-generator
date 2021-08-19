@@ -81,9 +81,6 @@ public class FakeClassnameTags123Api {
       throw new ApiException(400, "Missing the required parameter 'client' when calling testClassname");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/fake_classname_test";
 

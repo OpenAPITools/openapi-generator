@@ -83,7 +83,6 @@ public class FakeApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -126,7 +125,6 @@ public class FakeApi {
         Object postBody = body;
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -169,7 +167,6 @@ public class FakeApi {
         Object postBody = body;
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -212,7 +209,6 @@ public class FakeApi {
         Object postBody = body;
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -255,7 +251,6 @@ public class FakeApi {
         Object postBody = body;
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -302,7 +297,6 @@ public class FakeApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -356,7 +350,6 @@ public class FakeApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -406,7 +399,6 @@ public class FakeApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -498,7 +490,6 @@ public class FakeApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -585,7 +576,6 @@ public class FakeApi {
         Object postBody = null;
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -667,7 +657,6 @@ public class FakeApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -722,7 +711,6 @@ public class FakeApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -776,7 +764,6 @@ public class FakeApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -856,7 +843,6 @@ public class FakeApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

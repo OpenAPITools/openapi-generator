@@ -75,9 +75,6 @@ public class AnotherFakeApi {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling call123testSpecialTags");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/another-fake/dummy");
 
         String localVarUrl = uriBuilder.build().toString();

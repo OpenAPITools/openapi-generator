@@ -72,9 +72,6 @@ public class PetApi {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling addPet");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -162,9 +159,6 @@ public class PetApi {
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling deletePet");
         }
-
-        
-
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
@@ -249,9 +243,6 @@ public class PetApi {
         if (status == null) {
             throw new IllegalArgumentException("Missing the required parameter 'status' when calling findPetsByStatus");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet/findByStatus");
         if (status != null) {
             String key = "status";
@@ -350,9 +341,6 @@ public class PetApi {
         if (tags == null) {
             throw new IllegalArgumentException("Missing the required parameter 'tags' when calling findPetsByTags");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet/findByTags");
         if (tags != null) {
             String key = "tags";
@@ -447,9 +435,6 @@ public class PetApi {
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling getPetById");
         }
-
-        
-
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
@@ -530,9 +515,6 @@ public class PetApi {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling updatePet");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -619,9 +601,6 @@ public class PetApi {
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling updatePetWithForm");
         }
-
-        
-
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
@@ -704,9 +683,6 @@ public class PetApi {
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFile");
         }
-
-        
-
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
@@ -793,9 +769,6 @@ public class PetApi {
         if (requiredFile == null) {
             throw new IllegalArgumentException("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
         }
-
-        
-
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);

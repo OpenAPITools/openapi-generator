@@ -73,9 +73,6 @@ public class UsageApi {
   public ApiResponse<Object> anyKeyWithHttpInfo() throws ApiException {
     Object localVarPostBody = null;
     
-
-    
-
     // create path and map variables
     String localVarPath = "/any";
 
@@ -136,9 +133,6 @@ public class UsageApi {
   public ApiResponse<Object> bothKeysWithHttpInfo() throws ApiException {
     Object localVarPostBody = null;
     
-
-    
-
     // create path and map variables
     String localVarPath = "/both";
 
@@ -199,9 +193,6 @@ public class UsageApi {
   public ApiResponse<Object> keyInHeaderWithHttpInfo() throws ApiException {
     Object localVarPostBody = null;
     
-
-    
-
     // create path and map variables
     String localVarPath = "/header";
 
@@ -262,9 +253,6 @@ public class UsageApi {
   public ApiResponse<Object> keyInQueryWithHttpInfo() throws ApiException {
     Object localVarPostBody = null;
     
-
-    
-
     // create path and map variables
     String localVarPath = "/query";
 

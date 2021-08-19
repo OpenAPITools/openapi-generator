@@ -65,7 +65,6 @@ public class AnotherFakeApi {
     
 	
 	
-	
     // create path and map variables
     String localVarPath = "/another-fake/dummy";
     // query params

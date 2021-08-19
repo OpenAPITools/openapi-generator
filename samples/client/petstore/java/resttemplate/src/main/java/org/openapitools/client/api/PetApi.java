@@ -80,7 +80,6 @@ public class PetApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -129,8 +128,6 @@ public class PetApi {
         if (petId == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'petId' when calling deletePet");
         }
-        
-
         
 
         // create path and map variables
@@ -186,7 +183,6 @@ public class PetApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -242,7 +238,6 @@ public class PetApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -294,8 +289,6 @@ public class PetApi {
         if (petId == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'petId' when calling getPetById");
         }
-        
-
         
 
         // create path and map variables
@@ -353,7 +346,6 @@ public class PetApi {
         }
         
 
-        
 
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
@@ -402,8 +394,6 @@ public class PetApi {
         if (petId == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'petId' when calling updatePetWithForm");
         }
-        
-
         
 
         // create path and map variables
@@ -463,8 +453,6 @@ public class PetApi {
         if (petId == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'petId' when calling uploadFile");
         }
-        
-
         
 
         // create path and map variables
@@ -531,8 +519,6 @@ public class PetApi {
         if (requiredFile == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
         }
-        
-
         
 
         // create path and map variables

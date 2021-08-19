@@ -124,8 +124,6 @@ public class FakeApi {
         }
         
 
-        
-
         okhttp3.Call localVarCall = createXmlItemCall(xmlItem, _callback);
         return localVarCall;
 
@@ -234,8 +232,6 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterBooleanSerializeValidateBeforeCall(Boolean body, final ApiCallback _callback) throws ApiException {
-        
-
         
 
         okhttp3.Call localVarCall = fakeOuterBooleanSerializeCall(body, _callback);
@@ -352,8 +348,6 @@ public class FakeApi {
     private okhttp3.Call fakeOuterCompositeSerializeValidateBeforeCall(OuterComposite body, final ApiCallback _callback) throws ApiException {
         
 
-        
-
         okhttp3.Call localVarCall = fakeOuterCompositeSerializeCall(body, _callback);
         return localVarCall;
 
@@ -468,8 +462,6 @@ public class FakeApi {
     private okhttp3.Call fakeOuterNumberSerializeValidateBeforeCall(BigDecimal body, final ApiCallback _callback) throws ApiException {
         
 
-        
-
         okhttp3.Call localVarCall = fakeOuterNumberSerializeCall(body, _callback);
         return localVarCall;
 
@@ -582,8 +574,6 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterStringSerializeValidateBeforeCall(String body, final ApiCallback _callback) throws ApiException {
-        
-
         
 
         okhttp3.Call localVarCall = fakeOuterStringSerializeCall(body, _callback);
@@ -703,8 +693,6 @@ public class FakeApi {
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling testBodyWithFileSchema(Async)");
         }
-        
-
         
 
         okhttp3.Call localVarCall = testBodyWithFileSchemaCall(body, _callback);
@@ -829,8 +817,6 @@ public class FakeApi {
         }
         
 
-        
-
         okhttp3.Call localVarCall = testBodyWithQueryParamsCall(query, body, _callback);
         return localVarCall;
 
@@ -947,8 +933,6 @@ public class FakeApi {
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling testClientModel(Async)");
         }
-        
-
         
 
         okhttp3.Call localVarCall = testClientModelCall(body, _callback);
@@ -1155,8 +1139,6 @@ public class FakeApi {
         }
         
 
-        
-
         okhttp3.Call localVarCall = testEndpointParametersCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, _callback);
         return localVarCall;
 
@@ -1331,8 +1313,6 @@ public class FakeApi {
     private okhttp3.Call testEnumParametersValidateBeforeCall(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, final ApiCallback _callback) throws ApiException {
         
 
-        
-
         okhttp3.Call localVarCall = testEnumParametersCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, _callback);
         return localVarCall;
 
@@ -1474,8 +1454,6 @@ public class FakeApi {
         if (requiredInt64Group == null) {
             throw new ApiException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters(Async)");
         }
-        
-
         
 
         okhttp3.Call localVarCall = testGroupParametersCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _callback);
@@ -1673,8 +1651,6 @@ public class FakeApi {
         }
         
 
-        
-
         okhttp3.Call localVarCall = testInlineAdditionalPropertiesCall(param, _callback);
         return localVarCall;
 
@@ -1802,8 +1778,6 @@ public class FakeApi {
         if (param2 == null) {
             throw new ApiException("Missing the required parameter 'param2' when calling testJsonFormData(Async)");
         }
-        
-
         
 
         okhttp3.Call localVarCall = testJsonFormDataCall(param, param2, _callback);
@@ -1951,8 +1925,6 @@ public class FakeApi {
         if (context == null) {
             throw new ApiException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat(Async)");
         }
-        
-
         
 
         okhttp3.Call localVarCall = testQueryParameterCollectionFormatCall(pipe, ioutil, http, url, context, _callback);

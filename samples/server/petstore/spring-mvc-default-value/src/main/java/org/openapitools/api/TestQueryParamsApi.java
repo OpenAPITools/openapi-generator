@@ -52,8 +52,7 @@ public interface TestQueryParamsApi {
         produces = { "application/json" }
     )
     default ResponseEntity<TestResponse> queryParamsTest(@ApiParam(value = "", defaultValue = "11.2") @Valid @RequestParam(value = "queryNumber", required = false, defaultValue="11.2") BigDecimal queryNumber,@ApiParam(value = "", defaultValue = "qwerty") @Valid @RequestParam(value = "queryString", required = false, defaultValue="qwerty") String queryString,@ApiParam(value = "", defaultValue = "qwerty") @Valid @RequestParam(value = "queryStringWrapped", required = false, defaultValue="qwerty") String queryStringWrapped,@ApiParam(value = "", defaultValue = "qwerty\"with quotes\" test") @Valid @RequestParam(value = "queryStringQuotes", required = false, defaultValue="qwerty\"with quotes\" test") String queryStringQuotes,@ApiParam(value = "", defaultValue = "qwerty\"with quotes\" test") @Valid @RequestParam(value = "queryStringQuotesWrapped", required = false, defaultValue="qwerty\"with quotes\" test") String queryStringQuotesWrapped,@ApiParam(value = "", defaultValue = "true") @Valid @RequestParam(value = "queryBoolean", required = false, defaultValue="true") Boolean queryBoolean) {
-                
-        getRequest().ifPresent(request -> {
+                getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                     String exampleString = "{ \"numberField\" : 6.027456183070403, \"booleanField\" : true, \"id\" : 0, \"stringField\" : \"asd\" }";

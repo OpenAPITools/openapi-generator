@@ -65,7 +65,6 @@ public class FakeClassnameTags123Api {
     
 	
 	
-	
     // create path and map variables
     String localVarPath = "/fake_classname_test";
     // query params

@@ -22,45 +22,30 @@ public class UserApiServiceImpl extends UserApiService {
     @Override
     public Response createUser(User body
  ) throws NotFoundException {
-        
-        
-        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response createUsersWithArrayInput(List<User> body
  ) throws NotFoundException {
-        
-        
-        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response createUsersWithListInput(List<User> body
  ) throws NotFoundException {
-        
-        
-        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response deleteUser(String username
  ) throws NotFoundException {
-        
-        
-        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response getUserByName(String username
  ) throws NotFoundException {
-        
-        
-        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -68,17 +53,11 @@ public class UserApiServiceImpl extends UserApiService {
     public Response loginUser(String username
 , String password
  ) throws NotFoundException {
-        
-        
-        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response logoutUser() throws NotFoundException {
-        
-        
-        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -86,9 +65,6 @@ public class UserApiServiceImpl extends UserApiService {
     public Response updateUser(String username
 , User body
  ) throws NotFoundException {
-        
-        
-        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

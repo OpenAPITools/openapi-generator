@@ -67,8 +67,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterCompositeSerialize
      */
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) {
-                
-        getRequest().ifPresent(request -> {
+                getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
                     String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
@@ -143,8 +142,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#testClientModel
      */
     default ResponseEntity<Client> testClientModel(Client body) {
-                
-        getRequest().ifPresent(request -> {
+                getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                     String exampleString = "{ \"client\" : \"client\" }";
@@ -307,8 +305,7 @@ public interface FakeApiDelegate {
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
         MultipartFile requiredFile,
         String additionalMetadata) {
-                
-        getRequest().ifPresent(request -> {
+                getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                     String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";

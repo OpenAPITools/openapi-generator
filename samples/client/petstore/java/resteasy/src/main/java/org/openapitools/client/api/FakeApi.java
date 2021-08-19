@@ -56,9 +56,6 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'xmlItem' when calling createXmlItem");
     }
     
-
-    
-    
     // create path and map variables
     String localVarPath = "/fake/create_xml_item".replaceAll("\\{format\\}","json");
 
@@ -96,9 +93,6 @@ public class FakeApi {
    */
   public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
     Object localVarPostBody = body;
-    
-
-    
     
     // create path and map variables
     String localVarPath = "/fake/outer/boolean".replaceAll("\\{format\\}","json");
@@ -138,9 +132,6 @@ public class FakeApi {
   public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
     Object localVarPostBody = body;
     
-
-    
-    
     // create path and map variables
     String localVarPath = "/fake/outer/composite".replaceAll("\\{format\\}","json");
 
@@ -179,9 +170,6 @@ public class FakeApi {
   public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
     Object localVarPostBody = body;
     
-
-    
-    
     // create path and map variables
     String localVarPath = "/fake/outer/number".replaceAll("\\{format\\}","json");
 
@@ -219,9 +207,6 @@ public class FakeApi {
    */
   public String fakeOuterStringSerialize(String body) throws ApiException {
     Object localVarPostBody = body;
-    
-
-    
     
     // create path and map variables
     String localVarPath = "/fake/outer/string".replaceAll("\\{format\\}","json");
@@ -264,9 +249,6 @@ public class FakeApi {
     if (body == null) {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
     }
-    
-
-    
     
     // create path and map variables
     String localVarPath = "/fake/body-with-file-schema".replaceAll("\\{format\\}","json");
@@ -316,9 +298,6 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
     }
     
-
-    
-    
     // create path and map variables
     String localVarPath = "/fake/body-with-query-params".replaceAll("\\{format\\}","json");
 
@@ -362,9 +341,6 @@ public class FakeApi {
     if (body == null) {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testClientModel");
     }
-    
-
-    
     
     // create path and map variables
     String localVarPath = "/fake".replaceAll("\\{format\\}","json");
@@ -435,9 +411,6 @@ public class FakeApi {
     if (_byte == null) {
       throw new ApiException(400, "Missing the required parameter '_byte' when calling testEndpointParameters");
     }
-    
-
-    
     
     // create path and map variables
     String localVarPath = "/fake".replaceAll("\\{format\\}","json");
@@ -511,9 +484,6 @@ if (paramCallback != null)
   public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
     Object localVarPostBody = null;
     
-
-    
-    
     // create path and map variables
     String localVarPath = "/fake".replaceAll("\\{format\\}","json");
 
@@ -583,9 +553,6 @@ if (enumFormString != null)
       throw new ApiException(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
     }
     
-
-    
-    
     // create path and map variables
     String localVarPath = "/fake".replaceAll("\\{format\\}","json");
 
@@ -636,9 +603,6 @@ if (booleanGroup != null)
       throw new ApiException(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
     }
     
-
-    
-    
     // create path and map variables
     String localVarPath = "/fake/inline-additionalProperties".replaceAll("\\{format\\}","json");
 
@@ -686,9 +650,6 @@ if (booleanGroup != null)
     if (param2 == null) {
       throw new ApiException(400, "Missing the required parameter 'param2' when calling testJsonFormData");
     }
-    
-
-    
     
     // create path and map variables
     String localVarPath = "/fake/jsonFormData".replaceAll("\\{format\\}","json");
@@ -759,9 +720,6 @@ if (param2 != null)
     if (context == null) {
       throw new ApiException(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
     }
-    
-
-    
     
     // create path and map variables
     String localVarPath = "/fake/test-query-paramters".replaceAll("\\{format\\}","json");

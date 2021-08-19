@@ -85,9 +85,6 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling addPet");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/pet";
 
@@ -156,9 +153,6 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/pet/{petId}"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -229,9 +223,6 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'status' when calling findPetsByStatus");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/pet/findByStatus";
 
@@ -306,9 +297,6 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/pet/findByTags";
 
@@ -381,9 +369,6 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/pet/{petId}"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -457,9 +442,6 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling updatePet");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/pet";
 
@@ -528,9 +510,6 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/pet/{petId}"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -605,9 +584,6 @@ if (status != null)
       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/pet/{petId}/uploadImage"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
@@ -689,9 +665,6 @@ if (file != null)
       throw new ApiException(400, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
     }
     
-
-    
-
     // create path and map variables
     String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));

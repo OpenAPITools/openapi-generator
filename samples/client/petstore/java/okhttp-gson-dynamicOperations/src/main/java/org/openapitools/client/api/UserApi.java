@@ -116,8 +116,6 @@ public class UserApi {
         }
         
 
-        
-
         okhttp3.Call localVarCall = createUserCall(body, _callback);
         return localVarCall;
 
@@ -231,8 +229,6 @@ public class UserApi {
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling createUsersWithArrayInput(Async)");
         }
-        
-
         
 
         okhttp3.Call localVarCall = createUsersWithArrayInputCall(body, _callback);
@@ -350,8 +346,6 @@ public class UserApi {
         }
         
 
-        
-
         okhttp3.Call localVarCall = createUsersWithListInputCall(body, _callback);
         return localVarCall;
 
@@ -467,8 +461,6 @@ public class UserApi {
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling deleteUser(Async)");
         }
-        
-
         
 
         okhttp3.Call localVarCall = deleteUserCall(username, _callback);
@@ -590,8 +582,6 @@ public class UserApi {
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling getUserByName(Async)");
         }
-        
-
         
 
         okhttp3.Call localVarCall = getUserByNameCall(username, _callback);
@@ -728,8 +718,6 @@ public class UserApi {
         }
         
 
-        
-
         okhttp3.Call localVarCall = loginUserCall(username, password, _callback);
         return localVarCall;
 
@@ -847,8 +835,6 @@ public class UserApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call logoutUserValidateBeforeCall(final ApiCallback _callback) throws ApiException {
-        
-
         
 
         okhttp3.Call localVarCall = logoutUserCall(_callback);
@@ -969,8 +955,6 @@ public class UserApi {
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling updateUser(Async)");
         }
-        
-
         
 
         okhttp3.Call localVarCall = updateUserCall(username, body, _callback);

@@ -65,9 +65,6 @@ public class FakeApi {
      */
     private ResponseSpec fakeHealthGetRequestCreation() throws WebClientResponseException {
         Object postBody = null;
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -120,9 +117,6 @@ public class FakeApi {
         if (pet == null) {
             throw new WebClientResponseException("Missing the required parameter 'pet' when calling fakeHttpSignatureTest", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -176,9 +170,6 @@ public class FakeApi {
      */
     private ResponseSpec fakeOuterBooleanSerializeRequestCreation(Boolean body) throws WebClientResponseException {
         Object postBody = body;
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -229,9 +220,6 @@ public class FakeApi {
      */
     private ResponseSpec fakeOuterCompositeSerializeRequestCreation(OuterComposite outerComposite) throws WebClientResponseException {
         Object postBody = outerComposite;
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -282,9 +270,6 @@ public class FakeApi {
      */
     private ResponseSpec fakeOuterNumberSerializeRequestCreation(BigDecimal body) throws WebClientResponseException {
         Object postBody = body;
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -335,9 +320,6 @@ public class FakeApi {
      */
     private ResponseSpec fakeOuterStringSerializeRequestCreation(String body) throws WebClientResponseException {
         Object postBody = body;
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -392,9 +374,6 @@ public class FakeApi {
         if (outerObjectWithEnumProperty == null) {
             throw new WebClientResponseException("Missing the required parameter 'outerObjectWithEnumProperty' when calling fakePropertyEnumIntegerSerialize", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -448,9 +427,6 @@ public class FakeApi {
         if (body == null) {
             throw new WebClientResponseException("Missing the required parameter 'body' when calling testBodyWithBinary", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -501,9 +477,6 @@ public class FakeApi {
         if (fileSchemaTestClass == null) {
             throw new WebClientResponseException("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -559,9 +532,6 @@ public class FakeApi {
         if (user == null) {
             throw new WebClientResponseException("Missing the required parameter 'user' when calling testBodyWithQueryParams", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -616,9 +586,6 @@ public class FakeApi {
         if (client == null) {
             throw new WebClientResponseException("Missing the required parameter 'client' when calling testClientModel", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -698,9 +665,6 @@ public class FakeApi {
         if (_byte == null) {
             throw new WebClientResponseException("Missing the required parameter '_byte' when calling testEndpointParameters", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -798,9 +762,6 @@ public class FakeApi {
      */
     private ResponseSpec testEnumParametersRequestCreation(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
         Object postBody = null;
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -886,9 +847,6 @@ public class FakeApi {
         if (requiredInt64Group == null) {
             throw new WebClientResponseException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -951,9 +909,6 @@ public class FakeApi {
         if (requestBody == null) {
             throw new WebClientResponseException("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -1009,9 +964,6 @@ public class FakeApi {
         if (param2 == null) {
             throw new WebClientResponseException("Missing the required parameter 'param2' when calling testJsonFormData", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -1088,9 +1040,6 @@ public class FakeApi {
         if (context == null) {
             throw new WebClientResponseException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 

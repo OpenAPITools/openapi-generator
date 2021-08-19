@@ -105,8 +105,6 @@ public class FakeClassnameTags123Api {
         }
         
 
-        
-
         okhttp3.Call localVarCall = testClassnameCall(body, _callback);
         return localVarCall;
 

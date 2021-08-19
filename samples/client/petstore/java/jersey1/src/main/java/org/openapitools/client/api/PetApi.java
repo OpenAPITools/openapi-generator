@@ -67,7 +67,6 @@ public class PetApi {
     
 	
 	
-	
     // create path and map variables
     String localVarPath = "/pet";
     // query params
@@ -111,7 +110,6 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet");
     }
     
-	
 	
 	
     // create path and map variables
@@ -162,7 +160,6 @@ public class PetApi {
     
 	
 	
-	
     // create path and map variables
     String localVarPath = "/pet/findByStatus";
     // query params
@@ -211,7 +208,6 @@ public class PetApi {
     
 	
 	
-	
     // create path and map variables
     String localVarPath = "/pet/findByTags";
     // query params
@@ -256,7 +252,6 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById");
     }
     
-	
 	
 	
     // create path and map variables
@@ -304,7 +299,6 @@ public class PetApi {
     
 	
 	
-	
     // create path and map variables
     String localVarPath = "/pet";
     // query params
@@ -349,7 +343,6 @@ public class PetApi {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm");
     }
     
-	
 	
 	
     // create path and map variables
@@ -402,7 +395,6 @@ if (status != null)
       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
     }
     
-	
 	
 	
     // create path and map variables
@@ -460,7 +452,6 @@ if (file != null)
       throw new ApiException(400, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
     }
     
-	
 	
 	
     // create path and map variables

@@ -55,9 +55,6 @@ public class DefaultApi {
      */
     private ResponseSpec fooGetRequestCreation() throws WebClientResponseException {
         Object postBody = null;
-
-        
-
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 

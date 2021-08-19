@@ -142,8 +142,6 @@ public class AnotherFakeApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
     }
 
-    
-
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/another-fake/dummy";

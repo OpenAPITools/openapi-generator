@@ -77,9 +77,6 @@ public class FakeApi {
         if (xmlItem == null) {
             throw new IllegalArgumentException("Missing the required parameter 'xmlItem' when calling createXmlItem");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/create_xml_item");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -166,9 +163,6 @@ public class FakeApi {
 
     public HttpResponse fakeOuterBooleanSerializeForHttpResponse(Boolean body) throws IOException {
         
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/boolean");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -249,9 +243,6 @@ public class FakeApi {
 
     public HttpResponse fakeOuterCompositeSerializeForHttpResponse(OuterComposite body) throws IOException {
         
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/composite");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -332,9 +323,6 @@ public class FakeApi {
 
     public HttpResponse fakeOuterNumberSerializeForHttpResponse(BigDecimal body) throws IOException {
         
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/number");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -415,9 +403,6 @@ public class FakeApi {
 
     public HttpResponse fakeOuterStringSerializeForHttpResponse(String body) throws IOException {
         
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/string");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -496,9 +481,6 @@ public class FakeApi {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling testBodyWithFileSchema");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-file-schema");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -586,9 +568,6 @@ public class FakeApi {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling testBodyWithQueryParams");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-query-params");
         if (query != null) {
             String key = "query";
@@ -711,9 +690,6 @@ public class FakeApi {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling testClientModel");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -827,9 +803,6 @@ public class FakeApi {
         if (_byte == null) {
             throw new IllegalArgumentException("Missing the required parameter '_byte' when calling testEndpointParameters");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -914,9 +887,6 @@ public class FakeApi {
 
     public HttpResponse testEnumParametersForHttpResponse(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws IOException {
         
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
         if (enumQueryStringArray != null) {
             String key = "enum_query_string_array";
@@ -1038,9 +1008,6 @@ public class FakeApi {
         if (requiredInt64Group == null) {
             throw new IllegalArgumentException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
         if (requiredStringGroup != null) {
             String key = "required_string_group";
@@ -1160,9 +1127,6 @@ public class FakeApi {
         if (param == null) {
             throw new IllegalArgumentException("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/inline-additionalProperties");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -1252,9 +1216,6 @@ public class FakeApi {
         if (param2 == null) {
             throw new IllegalArgumentException("Missing the required parameter 'param2' when calling testJsonFormData");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/jsonFormData");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -1346,9 +1307,6 @@ public class FakeApi {
         if (context == null) {
             throw new IllegalArgumentException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
         }
-
-        
-
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-paramters");
         if (pipe != null) {
             String key = "pipe";

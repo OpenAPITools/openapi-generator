@@ -128,8 +128,6 @@ public class StoreApi {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
     }
 
-    
-
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/store/order/{order_id}"
@@ -211,8 +209,6 @@ public class StoreApi {
   }
 
   private HttpRequest.Builder getInventoryRequestBuilder() throws ApiException {
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -301,8 +297,6 @@ public class StoreApi {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
     }
 
-    
-
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
     String localVarPath = "/store/order/{order_id}"
@@ -390,8 +384,6 @@ public class StoreApi {
     if (body == null) {
       throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
     }
-
-    
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 

@@ -64,7 +64,6 @@ public class StoreApi {
     
 	
 	
-	
     // create path and map variables
     String localVarPath = "/store/order/{order_id}"
       .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
@@ -103,7 +102,6 @@ public class StoreApi {
   public Map<String, Integer> getInventory() throws ApiException {
     Object localVarPostBody = null;
     
-	
 	
 	
     // create path and map variables
@@ -151,7 +149,6 @@ public class StoreApi {
     
 	
 	
-	
     // create path and map variables
     String localVarPath = "/store/order/{order_id}"
       .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
@@ -196,7 +193,6 @@ public class StoreApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
     }
     
-	
 	
 	
     // create path and map variables
