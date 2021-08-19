@@ -1,21 +1,21 @@
 # {{classname}}{{#description}}
-{{description}}{{/description}}
+{{.}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
 # **{{operationId}}**
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}{{#defaultValue}}={{{.}}}{{/defaultValue}}{{^defaultValue}}=var.{{{paramName}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}})
+> {{#returnType}}{{.}} {{/returnType}}{{operationId}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}{{#defaultValue}}={{{.}}}{{/defaultValue}}{{^defaultValue}}=var.{{{paramName}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalParams}})
 
 {{{summary}}}{{#notes}}
 
-{{{notes}}}{{/notes}}
+{{{.}}}{{/notes}}
 
 ### Example
 ```R
@@ -50,9 +50,9 @@ api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 {{#useRlangExceptionHandling}}
 result <- tryCatch(
              api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
-             ApiException = function(ex) ex 
+             ApiException = function(ex) ex
           )
-# In case of error, print the error object 
+# In case of error, print the error object
 if(!is.null(result$ApiException)) {
   cat(result$ApiException$toString())
  } else {
@@ -79,7 +79,7 @@ dput(result)
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isEnum}}Enum {{#allowableValues}}{{values}}{{/allowableValues}} {{/isEnum}}{{^isEnum}}{{#isContainer}}{{#isArray}}{{#items}}{{#isPrimitiveType}}list( **{{dataType}}** ){{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}list( [**{{dataType}}**]({{baseType}}.md) ){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isArray}}{{#isMap}}{{#isPrimitiveType}}named list( **{{dataType}}** ){{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}named list( [**{{dataType}}**]({{baseType}}.md) ){{/isFile}}{{/isPrimitiveType}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/isContainer}}{{/isEnum}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isEnum}}Enum {{#allowableValues}}{{values}}{{/allowableValues}} {{/isEnum}}{{^isEnum}}{{#isContainer}}{{#isArray}}{{#items}}{{#isPrimitiveType}}list( **{{dataType}}** ){{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}list( [**{{dataType}}**]({{baseType}}.md) ){{/isFile}}{{/isPrimitiveType}}{{/items}}{{/isArray}}{{#isMap}}{{#isPrimitiveType}}named list( **{{dataType}}** ){{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}named list( [**{{dataType}}**]({{baseType}}.md) ){{/isFile}}{{/isPrimitiveType}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}{{/isContainer}}{{/isEnum}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type

@@ -902,6 +902,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             name = escapeReservedWord(name);
         }
 
+        // for function names in the model, escape with the "Property" prefix
+        if (propertySpecialKeywords.contains(name)) {
+            return camelize("property_" + name);
+        }
+
         return name;
     }
 

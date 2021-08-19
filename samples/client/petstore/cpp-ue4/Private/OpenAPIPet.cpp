@@ -17,7 +17,7 @@
 
 #include "Templates/SharedPointer.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 inline FString ToString(const OpenAPIPet::StatusEnum& Value)
@@ -32,7 +32,7 @@ inline FString ToString(const OpenAPIPet::StatusEnum& Value)
 		return TEXT("sold");
 	}
 
-	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIPet::StatusEnum Value (%d)"), (int)Value);	
+	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIPet::StatusEnum Value (%d)"), (int)Value);
 	return TEXT("");
 }
 
@@ -86,21 +86,21 @@ void OpenAPIPet::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectStart();
 	if (Id.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());
 	}
 	if (Category.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("category")); WriteJsonValue(Writer, Category.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("category")); WriteJsonValue(Writer, Category.GetValue());
 	}
 	Writer->WriteIdentifierPrefix(TEXT("name")); WriteJsonValue(Writer, Name);
 	Writer->WriteIdentifierPrefix(TEXT("photoUrls")); WriteJsonValue(Writer, PhotoUrls);
 	if (Tags.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("tags")); WriteJsonValue(Writer, Tags.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("tags")); WriteJsonValue(Writer, Tags.GetValue());
 	}
 	if (Status.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("status")); WriteJsonValue(Writer, Status.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("status")); WriteJsonValue(Writer, Status.GetValue());
 	}
 	Writer->WriteObjectEnd();
 }

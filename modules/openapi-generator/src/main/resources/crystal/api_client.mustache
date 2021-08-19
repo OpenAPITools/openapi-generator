@@ -16,7 +16,7 @@ module {{moduleName}}
     # Initializes the ApiClient
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(@config = Configuration.default)
-      @user_agent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/crystal{{/httpUserAgent}}"
+      @user_agent = "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/crystal{{/httpUserAgent}}"
       @default_headers = {
         "User-Agent" => @user_agent
       }

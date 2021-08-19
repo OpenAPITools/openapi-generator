@@ -17,7 +17,8 @@ abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheck
 
     HealthCheckResult._();
 
-    static void _initializeBuilder(HealthCheckResultBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(HealthCheckResultBuilder b) => b;
 
     factory HealthCheckResult([void updates(HealthCheckResultBuilder b)]) = _$HealthCheckResult;
 
@@ -40,7 +41,7 @@ class _$HealthCheckResultSerializer implements StructuredSerializer<HealthCheckR
             result
                 ..add(r'NullableMessage')
                 ..add(serializers.serialize(object.nullableMessage,
-                    specifiedType: const FullType(String)));
+                    specifiedType: const FullType.nullable(String)));
         }
         return result;
     }
@@ -55,10 +56,13 @@ class _$HealthCheckResultSerializer implements StructuredSerializer<HealthCheckR
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'NullableMessage':
-                    result.nullableMessage = serializers.deserialize(value,
-                        specifiedType: const FullType(String)) as String;
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType.nullable(String)) as String?;
+                    if (valueDes == null) continue;
+                    result.nullableMessage = valueDes;
                     break;
             }
         }

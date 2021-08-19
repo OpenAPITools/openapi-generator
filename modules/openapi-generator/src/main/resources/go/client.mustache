@@ -47,12 +47,7 @@ type APIClient struct {
 {{#apis}}
 {{#operations}}
 
-  {{#generateInterfaces}}
-	{{classname}} {{classname}}
-  {{/generateInterfaces}}
-  {{^generateInterfaces}}
-	{{classname}} *{{classname}}Service
-  {{/generateInterfaces}}
+	{{classname}} {{#generateInterfaces}}{{classname}}{{/generateInterfaces}}{{^generateInterfaces}}*{{classname}}Service{{/generateInterfaces}}
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
@@ -368,7 +363,7 @@ func (c *APIClient) prepareRequest(
 				reader = strings.NewReader(body.String())
 			}
 
-			// Define default values for region and service to maintain backward compatibility 
+			// Define default values for region and service to maintain backward compatibility
 			region := auth.Region
 			if region == "" {
 				region = "eu-west-2"

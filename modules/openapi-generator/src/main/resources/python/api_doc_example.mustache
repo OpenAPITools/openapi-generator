@@ -22,7 +22,7 @@ with {{{packageName}}}.ApiClient() as api_client:
 {{/defaultValue}}
 {{/requiredParams}}
 {{#optionalParams}}
-    {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}
+    {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} if omitted the server will use the default value of {{{.}}}{{/defaultValue}}
 {{/optionalParams}}
 {{#requiredParams}}
 {{#-last}}

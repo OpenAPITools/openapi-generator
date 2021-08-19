@@ -54,4 +54,3 @@ export function ReturnToJSON(value?: Return | null): any {
     };
 }
 
-

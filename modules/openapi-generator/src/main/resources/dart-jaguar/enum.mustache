@@ -9,7 +9,7 @@ class {{classname}} {
   {{#allowableValues}}
     {{#enumVars}}
       {{#description}}
-  /// {{description}}
+  /// {{.}}
       {{/description}}
   static const {{classname}} {{{name}}} = const {{classname}}._internal({{{value}}});
     {{/enumVars}}

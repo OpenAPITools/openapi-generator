@@ -22,6 +22,7 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -83,6 +84,8 @@ public class ApiClient extends JavaTimeFormatter {
             return StringUtils.collectionToDelimitedString(collection, separator);
         }
     }
+
+    private static final String URI_TEMPLATE_ATTRIBUTE = WebClient.class.getName() + ".uriTemplate";
 
     private HttpHeaders defaultHeaders = new HttpHeaders();
     private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
@@ -597,16 +600,60 @@ public class ApiClient extends JavaTimeFormatter {
         return requestBuilder.retrieve();
     }
 
-    private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {
+    /**
+     * Include queryParams in uriParams taking into account the paramName
+     * @param queryParam The query parameters
+     * @param uriParams The path parameters
+     * return templatized query string
+     */
+    private String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
+        StringBuilder queryBuilder = new StringBuilder();
+        queryParams.forEach((name, values) -> {
+            if (CollectionUtils.isEmpty(values)) {
+                if (queryBuilder.length() != 0) {
+                    queryBuilder.append('&');
+                }
+                queryBuilder.append(name);
+            } else {
+                int valueItemCounter = 0;
+                for (Object value : values) {
+                    if (queryBuilder.length() != 0) {
+                        queryBuilder.append('&');
+                    }
+                    queryBuilder.append(name);
+                    if (value != null) {
+                        String templatizedKey = name + valueItemCounter++;
+                        uriParams.put(templatizedKey, value.toString());
+                        queryBuilder.append('=').append("{").append(templatizedKey).append("}");
+                    }
+                }
+            }
+        });
+        return queryBuilder.toString();
+    }
+
+    private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, Map<String, Object> pathParams,
+        MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams,
+        MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept,
+        MediaType contentType, String[] authNames) {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
-        if (queryParams != null) {
-            builder.queryParams(queryParams);
+
+        String finalUri = builder.build(false).toUriString();
+        Map<String, Object> uriParams = new HashMap();
+        uriParams.putAll(pathParams);
+
+        if (queryParams != null && !queryParams.isEmpty()) {
+            //Include queryParams in uriParams taking into account the paramName
+            String queryUri = generateQueryUri(queryParams, uriParams);
+            //Append to finalUri the templatized query string like "?param1={param1Value}&.......
+            finalUri += "?" + queryUri;
         }
 
-        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.build(false).toUriString(), pathParams);
-        if(accept != null) {
+        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(finalUri, uriParams);
+
+        if (accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }
         if(contentType != null) {
@@ -617,6 +664,8 @@ public class ApiClient extends JavaTimeFormatter {
         addHeadersToRequest(defaultHeaders, requestBuilder);
         addCookiesToRequest(cookieParams, requestBuilder);
         addCookiesToRequest(defaultCookies, requestBuilder);
+
+        requestBuilder.attribute(URI_TEMPLATE_ATTRIBUTE, path);
 
         requestBuilder.body(selectBody(body, formParams, contentType));
         return requestBuilder;

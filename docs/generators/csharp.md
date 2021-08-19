@@ -88,6 +88,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>Client</li>
+<li>Configuration</li>
+<li>Version</li>
 <li>abstract</li>
 <li>as</li>
 <li>base</li>

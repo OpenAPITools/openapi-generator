@@ -67,7 +67,7 @@ public class Pet {
   // items.example= items.type=String
   @XmlElement(name = "photoUrls")
   @XmlElementWrapper(name = "photoUrl")
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   // Is a container wrapped=true
@@ -255,7 +255,7 @@ public class Pet {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;

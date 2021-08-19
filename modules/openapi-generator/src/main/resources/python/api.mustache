@@ -46,10 +46,10 @@ class {{classname}}(object):
 {{/requiredParams}}
             **kwargs
         ):
-            """{{#summary}}{{{.}}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+            """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
-            {{{notes}}}  # noqa: E501
+            {{{.}}}  # noqa: E501
 {{/notes}}
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
@@ -64,17 +64,17 @@ class {{classname}}(object):
 {{/requiredParams}}
 {{#requiredParams}}
 {{^defaultValue}}
-                {{paramName}} ({{dataType}}):{{#description}} {{{description}}}{{/description}}
+                {{paramName}} ({{dataType}}):{{#description}} {{{.}}}{{/description}}
 {{/defaultValue}}
 {{/requiredParams}}
 {{#requiredParams}}
 {{#defaultValue}}
-                {{paramName}} ({{dataType}}):{{#description}} {{{description}}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]
+                {{paramName}} ({{dataType}}):{{#description}} {{{.}}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]
 {{/defaultValue}}
 {{/requiredParams}}
 
             Keyword Args:{{#optionalParams}}
-                {{paramName}} ({{dataType}}):{{#description}} {{{description}}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}{{/optionalParams}}
+                {{paramName}} ({{dataType}}):{{#description}} {{{.}}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{.}}}{{/defaultValue}}{{/optionalParams}}
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
@@ -96,7 +96,7 @@ class {{classname}}(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
+                {{returnType}}{{^returnType}}None{{/returnType}}
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -127,7 +127,7 @@ class {{classname}}(object):
 
         self.{{operationId}} = _Endpoint(
             settings={
-                'response_type': {{#returnType}}({{{returnType}}},){{/returnType}}{{^returnType}}None{{/returnType}},
+                'response_type': {{#returnType}}({{{.}}},){{/returnType}}{{^returnType}}None{{/returnType}},
 {{#authMethods}}
 {{#-first}}
                 'auth': [
@@ -226,10 +226,10 @@ class {{classname}}(object):
 {{#hasValidation}}
                     ('{{paramName}}',): {
 {{#maxLength}}
-                        'max_length': {{maxLength}},{{/maxLength}}{{#minLength}}
-                        'min_length': {{minLength}},{{/minLength}}{{#maxItems}}
-                        'max_items': {{maxItems}},{{/maxItems}}{{#minItems}}
-                        'min_items': {{minItems}},{{/minItems}}{{#maximum}}
+                        'max_length': {{.}},{{/maxLength}}{{#minLength}}
+                        'min_length': {{.}},{{/minLength}}{{#maxItems}}
+                        'max_items': {{.}},{{/maxItems}}{{#minItems}}
+                        'min_items': {{.}},{{/minItems}}{{#maximum}}
                         {{#exclusiveMaximum}}'exclusive_maximum'{{/exclusiveMaximum}}{{^exclusiveMaximum}}'inclusive_maximum'{{/exclusiveMaximum}}: {{maximum}},{{/maximum}}{{#minimum}}
                         {{#exclusiveMinimum}}'exclusive_minimum'{{/exclusiveMinimum}}{{^exclusiveMinimum}}'inclusive_minimum'{{/exclusiveMinimum}}: {{minimum}},{{/minimum}}{{#pattern}}
                         'regex': {

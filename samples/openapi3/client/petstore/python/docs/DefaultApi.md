@@ -14,6 +14,7 @@ Method | HTTP request | Description
 
 ### Example
 
+
 ```python
 import time
 import petstore_api
@@ -59,6 +60,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | response |  -  |

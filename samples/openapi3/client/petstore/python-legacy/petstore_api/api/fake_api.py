@@ -136,7 +136,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "HealthCheckResult",
         }
@@ -283,7 +283,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = ['http_signature_test']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -416,7 +416,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "bool",
         }
@@ -551,7 +551,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "OuterComposite",
         }
@@ -686,7 +686,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "float",
         }
@@ -821,7 +821,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "str",
         }
@@ -960,7 +960,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "OuterObjectWithEnumProperty",
         }
@@ -1091,7 +1091,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1224,7 +1224,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1366,7 +1366,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1503,7 +1503,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "Client",
         }
@@ -1769,7 +1769,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = ['http_basic_test']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1950,7 +1950,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2122,7 +2122,7 @@ class FakeApi(object):
         body_params = None
         # Authentication setting
         auth_settings = ['bearer_test']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2253,7 +2253,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2395,7 +2395,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2435,6 +2435,8 @@ class FakeApi(object):
         :type url: list[str]
         :param context: (required)
         :type context: list[str]
+        :param language:
+        :type language: dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
@@ -2473,6 +2475,8 @@ class FakeApi(object):
         :type url: list[str]
         :param context: (required)
         :type context: list[str]
+        :param language:
+        :type language: dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
@@ -2503,7 +2507,8 @@ class FakeApi(object):
             'ioutil',
             'http',
             'url',
-            'context'
+            'context',
+            'language'
         ]
         all_params.extend(
             [
@@ -2564,6 +2569,8 @@ class FakeApi(object):
         if 'context' in local_var_params and local_var_params['context'] is not None:  # noqa: E501
             query_params.append(('context', local_var_params['context']))  # noqa: E501
             collection_formats['context'] = 'multi'  # noqa: E501
+        if 'language' in local_var_params and local_var_params['language'] is not None:  # noqa: E501
+            query_params.append(('language', local_var_params['language']))  # noqa: E501
 
         header_params = {}
 
@@ -2573,7 +2580,7 @@ class FakeApi(object):
         body_params = None
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
