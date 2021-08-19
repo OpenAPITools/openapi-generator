@@ -29,12 +29,12 @@ class TestSetAttrForComposedSchema(unittest.TestCase):
 
     def testSetAttrForComposedSchema(self):
         """Test SetAttrForComposedSchema"""
-        with self.assertRaises(Exception) as context:
+        try:
             dog_instance = Dog(class_name="Dog", color="Black")
             dog_instance.breed = "bulldog"
             dog_instance.legs = Legs(legs="4")
-
-        self.assertFalse("Invalid type for variable 'legs'" in str(context.exception))
+        except petstore_api.exceptions.ApiTypeError:
+            self.assertTrue(False)
 
 
 if __name__ == '__main__':
