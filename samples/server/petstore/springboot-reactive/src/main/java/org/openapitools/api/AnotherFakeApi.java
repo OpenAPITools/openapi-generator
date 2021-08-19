@@ -15,7 +15,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -46,7 +45,7 @@ public interface AnotherFakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Client>> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> body, @ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Client>> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().call123testSpecialTags(body, exchange);
     }
 
