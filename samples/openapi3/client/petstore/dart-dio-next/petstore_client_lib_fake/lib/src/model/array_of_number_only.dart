@@ -57,10 +57,12 @@ class _$ArrayOfNumberOnlySerializer implements StructuredSerializer<ArrayOfNumbe
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'ArrayNumber':
-                    result.arrayNumber.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(num)])) as BuiltList<num>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(num)])) as BuiltList<num>;
+                    result.arrayNumber.replace(valueDes);
                     break;
             }
         }

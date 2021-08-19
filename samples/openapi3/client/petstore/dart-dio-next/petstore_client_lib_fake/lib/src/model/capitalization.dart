@@ -107,30 +107,37 @@ class _$CapitalizationSerializer implements StructuredSerializer<Capitalization>
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'smallCamel':
-                    result.smallCamel = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.smallCamel = valueDes;
                     break;
                 case r'CapitalCamel':
-                    result.capitalCamel = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.capitalCamel = valueDes;
                     break;
                 case r'small_Snake':
-                    result.smallSnake = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.smallSnake = valueDes;
                     break;
                 case r'Capital_Snake':
-                    result.capitalSnake = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.capitalSnake = valueDes;
                     break;
                 case r'SCA_ETH_Flow_Points':
-                    result.sCAETHFlowPoints = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.sCAETHFlowPoints = valueDes;
                     break;
                 case r'ATT_NAME':
-                    result.ATT_NAME = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.ATT_NAME = valueDes;
                     break;
             }
         }

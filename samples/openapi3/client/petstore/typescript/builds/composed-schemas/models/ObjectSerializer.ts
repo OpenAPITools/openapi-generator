@@ -31,7 +31,7 @@ const supportedMediaTypes: { [mediaType: string]: number } = {
   "application/octet-stream": 0
 }
 
-                 
+
 let enumsMap: Set<string> = new Set<string>([
     "DogBreedEnum",
     "DogAllOfBreedEnum",
@@ -116,7 +116,7 @@ export class ObjectSerializer {
             if (!typeMap[type]) { // in case we dont know the type
                 return data;
             }
-            
+
             // Get the actual type of this object
             type = this.findCorrectType(data, type);
 

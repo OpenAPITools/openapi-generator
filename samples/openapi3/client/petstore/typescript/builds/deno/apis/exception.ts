@@ -1,5 +1,5 @@
 /**
- * Represents an error caused by an api call i.e. it has attributes for a HTTP status code 
+ * Represents an error caused by an api call i.e. it has attributes for a HTTP status code
  * and the returned body object.
  *
  * Example
@@ -9,6 +9,6 @@
  */
 export class ApiException<T> extends Error {
     public constructor(public code: number, public body: T) {
-        super("HTTP-Code: " + code + "\nMessage: " + JSON.stringify(body))  
+        super("HTTP-Code: " + code + "\nMessage: " + JSON.stringify(body))
     }
 }

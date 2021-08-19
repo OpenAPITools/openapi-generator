@@ -38,7 +38,7 @@ public class ModelApiResponse  {
 
   @JsonbProperty("message")
   private String message;
-  
+
  /**
    * Get code
    * @return code

@@ -33,11 +33,11 @@ import javax.json.bind.annotation.JsonbCreator;
 {{/withXml}}
 {{#description}}
 /**
-  * {{{description}}}
+  * {{{.}}}
  **/
 {{/description}}
 {{>additionalModelTypeAnnotations}}
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
@@ -46,7 +46,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
 {{/withXml}}
 {{#description}}
  /**
-   * {{{description}}}
+   * {{{.}}}
   **/
 {{/description}}
   {{^withXml}}
@@ -77,16 +77,16 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
   {{#vars}}
  /**
   {{#description}}
-   * {{description}}
+   * {{.}}
   {{/description}}
   {{^description}}
    * Get {{name}}
   {{/description}}
   {{#minimum}}
-   * minimum: {{minimum}}
+   * minimum: {{.}}
   {{/minimum}}
   {{#maximum}}
-   * maximum: {{maximum}}
+   * maximum: {{.}}
   {{/maximum}}
    * @return {{name}}
   {{#deprecated}}

@@ -8,6 +8,14 @@
     <artifactId>{{artifactId}}</artifactId>
     <version>{{artifactVersion}}</version>
 
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{parentGroupId}}</groupId>
+        <artifactId>{{parentArtifactId}}</artifactId>
+        <version>{{parentVersion}}</version>
+    </parent>
+{{/parentOverridden}}
+
     <name>Automatically generated KumuluzEE microservice</name>
     <description>The microservice was generated automatically with the OpenAPI Generator project</description>
 

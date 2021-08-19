@@ -26,7 +26,7 @@
     `{{{baseName}}}` = NULL,
     {{/vars}}
     initialize = function(
-        {{#requiredVars}}`{{baseName}}`, {{/requiredVars}}{{#optionalVars}}`{{baseName}}`={{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
+        {{#requiredVars}}`{{baseName}}`, {{/requiredVars}}{{#optionalVars}}`{{baseName}}`={{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}...
     ) {
       local.optional.var <- list(...)
       {{#requiredVars}}

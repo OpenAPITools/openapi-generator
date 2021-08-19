@@ -62,4 +62,3 @@ export function FileSchemaTestClassToJSON(value?: FileSchemaTestClass | null): a
     };
 }
 
-

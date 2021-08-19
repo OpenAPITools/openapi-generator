@@ -78,18 +78,22 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements Structu
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'uuid':
-                    result.uuid = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.uuid = valueDes;
                     break;
                 case r'dateTime':
-                    result.dateTime = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(DateTime)) as DateTime;
+                    result.dateTime = valueDes;
                     break;
                 case r'map':
-                    result.map.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)])) as BuiltMap<String, Animal>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)])) as BuiltMap<String, Animal>;
+                    result.map.replace(valueDes);
                     break;
             }
         }

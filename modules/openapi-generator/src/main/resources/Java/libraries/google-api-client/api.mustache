@@ -45,11 +45,11 @@ public class {{classname}} {
 
     {{#operation}}
   /**{{#summary}}
-    * {{summary}}{{/summary}}{{#notes}}
-    * {{notes}}{{/notes}}{{#responses}}
-    * <p><b>{{code}}</b>{{#message}} - {{message}}{{/message}}{{/responses}}{{#allParams}}
+    * {{.}}{{/summary}}{{#notes}}
+    * {{.}}{{/notes}}{{#responses}}
+    * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}{{/responses}}{{#allParams}}
     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}{{/allParams}}{{#returnType}}
-    * @return {{returnType}}{{/returnType}}
+    * @return {{.}}{{/returnType}}
     * @throws IOException if an error occurs while attempting to invoke the API{{#externalDocs}}
     * {{description}}
     * @see <a href="{{url}}">{{summary}} Documentation</a>
@@ -61,19 +61,19 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws IOException {
+    public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws IOException {
         {{#returnType}}HttpResponse response = {{/returnType}}{{operationId}}ForHttpResponse({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
         TypeReference<{{{returnType}}}> typeRef = new TypeReference<{{{returnType}}}>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);{{/returnType}}
     }
 
   /**{{#summary}}
-    * {{summary}}{{/summary}}{{#notes}}
-    * {{notes}}{{/notes}}{{#responses}}
-    * <p><b>{{code}}</b>{{#message}} - {{message}}{{/message}}{{/responses}}{{#requiredParams}}
+    * {{.}}{{/summary}}{{#notes}}
+    * {{.}}{{/notes}}{{#responses}}
+    * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}{{/responses}}{{#requiredParams}}
     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}{{/requiredParams}}
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.{{#returnType}}
-    * @return {{returnType}}{{/returnType}}
+    * @return {{.}}{{/returnType}}
     * @throws IOException if an error occurs while attempting to invoke the API{{#externalDocs}}
     * {{description}}
     * @see <a href="{{url}}">{{summary}} Documentation</a>
@@ -85,7 +85,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#bodyParam}}{{^required}}{{{dataType}}} {{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
+    public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#bodyParam}}{{^required}}{{{dataType}}} {{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
         {{#returnType}}HttpResponse response = {{/returnType}}{{operationId}}ForHttpResponse({{#bodyParam}}{{^required}}{{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}params);{{#returnType}}
         TypeReference<{{{returnType}}}> typeRef = new TypeReference<{{{returnType}}}>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);{{/returnType}}

@@ -6,6 +6,15 @@
     <packaging>war</packaging>
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
+
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{parentGroupId}}</groupId>
+        <artifactId>{{parentArtifactId}}</artifactId>
+        <version>{{parentVersion}}</version>
+    </parent>
+{{/parentOverridden}}
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
@@ -166,7 +175,7 @@
             <version>2.9.9</version>
         </dependency>
 {{/java8}}
-        
+
     </dependencies>
     <repositories>
         <repository>
