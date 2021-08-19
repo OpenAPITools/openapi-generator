@@ -6,6 +6,7 @@
     <name>jaxrs-cxf-cdi-default-value</name>
     <version>1.0.0</version>
 
+
     <build>
         <!-- Main source directory -->
         <sourceDirectory>src/main/java</sourceDirectory>

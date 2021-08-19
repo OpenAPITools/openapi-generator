@@ -84,22 +84,27 @@ class _$NameSerializer implements StructuredSerializer<Name> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'name':
-                    result.name = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.name = valueDes;
                     break;
                 case r'snake_case':
-                    result.snakeCase = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.snakeCase = valueDes;
                     break;
                 case r'property':
-                    result.property = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.property = valueDes;
                     break;
                 case r'123Number':
-                    result.n123number = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.n123number = valueDes;
                     break;
             }
         }
