@@ -59,7 +59,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableM
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 {{/isContainer}}
   {{/vars}}
-  {{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
+{{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
   public {{classname}}() {
   }
 
