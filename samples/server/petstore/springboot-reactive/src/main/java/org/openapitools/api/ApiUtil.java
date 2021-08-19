@@ -9,10 +9,12 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 public class ApiUtil {
-    public static Mono<Void> getExampleResponse(ServerWebExchange exchange, String contentType, String example) {
-        DefaultDataBuffer data = new DefaultDataBufferFactory().wrap(example.getBytes(StandardCharsets.UTF_8));
+    public static Mono<Void> getExampleResponse(ServerWebExchange exchange, MediaType mediaType, String example) {
         ServerHttpResponse response = exchange.getResponse();
-        response.getHeaders().setContentType(MediaType.valueOf(contentType));
+        response.getHeaders().setContentType(mediaType);
+
+        byte[] exampleBytes = example.getBytes(StandardCharsets.UTF_8);
+        DefaultDataBuffer data = new DefaultDataBufferFactory().wrap(exampleBytes);
         return response.writeWith(Mono.just(data));
     }
 }
