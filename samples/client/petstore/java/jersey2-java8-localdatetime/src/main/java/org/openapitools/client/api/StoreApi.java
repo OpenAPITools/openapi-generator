@@ -82,6 +82,9 @@ public class StoreApi {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/store/order/{order_id}"
       .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
@@ -141,6 +144,9 @@ public class StoreApi {
   public ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo() throws ApiException {
     Object localVarPostBody = null;
     
+
+    
+
     // create path and map variables
     String localVarPath = "/store/inventory";
 
@@ -212,6 +218,9 @@ public class StoreApi {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/store/order/{order_id}"
       .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
@@ -282,6 +291,9 @@ public class StoreApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/store/order";
 

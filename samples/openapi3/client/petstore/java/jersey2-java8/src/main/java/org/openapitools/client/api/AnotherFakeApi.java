@@ -81,6 +81,9 @@ public class AnotherFakeApi {
       throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");
     }
     
+
+    
+
     // create path and map variables
     String localVarPath = "/another-fake/dummy";
 

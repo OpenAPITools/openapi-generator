@@ -69,6 +69,9 @@ public class UserApi {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUser");
         }
+
+        
+
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -153,6 +156,9 @@ public class UserApi {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithArrayInput");
         }
+
+        
+
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user/createWithArray");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -237,6 +243,9 @@ public class UserApi {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithListInput");
         }
+
+        
+
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user/createWithList");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -325,6 +334,9 @@ public class UserApi {
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling deleteUser");
         }
+
+        
+
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("username", username);
@@ -409,6 +421,9 @@ public class UserApi {
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling getUserByName");
         }
+
+        
+
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("username", username);
@@ -496,6 +511,9 @@ public class UserApi {
         if (password == null) {
             throw new IllegalArgumentException("Missing the required parameter 'password' when calling loginUser");
         }
+
+        
+
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user/login");
         if (username != null) {
             String key = "username";
@@ -587,6 +605,9 @@ public class UserApi {
 
     public HttpResponse logoutUserForHttpResponse() throws IOException {
         
+
+        
+
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user/logout");
 
         String localVarUrl = uriBuilder.build().toString();
@@ -661,6 +682,9 @@ public class UserApi {
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling updateUser");
         }
+
+        
+
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("username", username);

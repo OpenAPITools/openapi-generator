@@ -70,9 +70,11 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'xmlItem' when calling createXmlItem");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake/create_xml_item";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -109,9 +111,11 @@ public class FakeApi {
   public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
     Object localVarPostBody = body;
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake/outer/boolean";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -148,9 +152,11 @@ public class FakeApi {
   public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
     Object localVarPostBody = body;
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake/outer/composite";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -187,9 +193,11 @@ public class FakeApi {
   public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
     Object localVarPostBody = body;
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake/outer/number";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -226,9 +234,11 @@ public class FakeApi {
   public String fakeOuterStringSerialize(String body) throws ApiException {
     Object localVarPostBody = body;
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake/outer/string";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -269,9 +279,11 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake/body-with-file-schema";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -318,9 +330,11 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake/body-with-query-params";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -363,9 +377,11 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling testClientModel");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -434,9 +450,11 @@ public class FakeApi {
       throw new ApiException(400, "Missing the required parameter '_byte' when calling testEndpointParameters");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -507,9 +525,11 @@ if (paramCallback != null)
   public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
     Object localVarPostBody = null;
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -577,9 +597,11 @@ if (enumFormString != null)
       throw new ApiException(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -628,9 +650,11 @@ if (booleanGroup != null)
       throw new ApiException(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake/inline-additionalProperties";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -677,9 +701,11 @@ if (booleanGroup != null)
       throw new ApiException(400, "Missing the required parameter 'param2' when calling testJsonFormData");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake/jsonFormData";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -748,9 +774,11 @@ if (param2 != null)
       throw new ApiException(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/fake/test-query-paramters";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();

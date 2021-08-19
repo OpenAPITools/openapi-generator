@@ -32,6 +32,7 @@ public interface AnotherFakeApiDelegate {
      * @see AnotherFakeApi#call123testSpecialTags
      */
     default ResponseEntity<Client> call123testSpecialTags(Client body) {
+                
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

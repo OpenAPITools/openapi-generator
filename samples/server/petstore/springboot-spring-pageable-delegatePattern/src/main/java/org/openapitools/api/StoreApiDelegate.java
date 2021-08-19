@@ -61,6 +61,7 @@ public interface StoreApiDelegate {
      * @see StoreApi#getOrderById
      */
     default ResponseEntity<Order> getOrderById(Long orderId) {
+                
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -88,6 +89,7 @@ public interface StoreApiDelegate {
      * @see StoreApi#placeOrder
      */
     default ResponseEntity<Order> placeOrder(Order body) {
+                
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

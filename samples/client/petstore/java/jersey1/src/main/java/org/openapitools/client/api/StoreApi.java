@@ -62,10 +62,12 @@ public class StoreApi {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/store/order/{order_id}"
       .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -101,9 +103,11 @@ public class StoreApi {
   public Map<String, Integer> getInventory() throws ApiException {
     Object localVarPostBody = null;
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/store/inventory";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -145,10 +149,12 @@ public class StoreApi {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/store/order/{order_id}"
       .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -190,9 +196,11 @@ public class StoreApi {
       throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
     }
     
+	
+	
+	
     // create path and map variables
     String localVarPath = "/store/order";
-
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
     List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();

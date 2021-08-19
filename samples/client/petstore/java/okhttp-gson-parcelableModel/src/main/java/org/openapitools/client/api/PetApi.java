@@ -109,6 +109,8 @@ public class PetApi {
         }
         
 
+        
+
         okhttp3.Call localVarCall = addPetCall(body, _callback);
         return localVarCall;
 
@@ -224,6 +226,8 @@ public class PetApi {
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling deletePet(Async)");
         }
+        
+
         
 
         okhttp3.Call localVarCall = deletePetCall(petId, apiKey, _callback);
@@ -342,6 +346,8 @@ public class PetApi {
         if (status == null) {
             throw new ApiException("Missing the required parameter 'status' when calling findPetsByStatus(Async)");
         }
+        
+
         
 
         okhttp3.Call localVarCall = findPetsByStatusCall(status, _callback);
@@ -464,6 +470,8 @@ public class PetApi {
         if (tags == null) {
             throw new ApiException("Missing the required parameter 'tags' when calling findPetsByTags(Async)");
         }
+        
+
         
 
         okhttp3.Call localVarCall = findPetsByTagsCall(tags, _callback);
@@ -589,6 +597,8 @@ public class PetApi {
         }
         
 
+        
+
         okhttp3.Call localVarCall = getPetByIdCall(petId, _callback);
         return localVarCall;
 
@@ -707,6 +717,8 @@ public class PetApi {
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling updatePet(Async)");
         }
+        
+
         
 
         okhttp3.Call localVarCall = updatePetCall(body, _callback);
@@ -836,6 +848,8 @@ public class PetApi {
         }
         
 
+        
+
         okhttp3.Call localVarCall = updatePetWithFormCall(petId, name, status, _callback);
         return localVarCall;
 
@@ -958,6 +972,8 @@ public class PetApi {
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling uploadFile(Async)");
         }
+        
+
         
 
         okhttp3.Call localVarCall = uploadFileCall(petId, additionalMetadata, file, _callback);
@@ -1091,6 +1107,8 @@ public class PetApi {
         if (requiredFile == null) {
             throw new ApiException("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile(Async)");
         }
+        
+
         
 
         okhttp3.Call localVarCall = uploadFileWithRequiredFileCall(petId, requiredFile, additionalMetadata, _callback);

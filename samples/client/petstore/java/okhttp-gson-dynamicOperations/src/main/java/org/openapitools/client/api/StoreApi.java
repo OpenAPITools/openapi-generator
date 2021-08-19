@@ -118,6 +118,8 @@ public class StoreApi {
         }
         
 
+        
+
         okhttp3.Call localVarCall = deleteOrderCall(orderId, _callback);
         return localVarCall;
 
@@ -228,6 +230,8 @@ public class StoreApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call getInventoryValidateBeforeCall(final ApiCallback _callback) throws ApiException {
+        
+
         
 
         okhttp3.Call localVarCall = getInventoryCall(_callback);
@@ -347,6 +351,8 @@ public class StoreApi {
         if (orderId == null) {
             throw new ApiException("Missing the required parameter 'orderId' when calling getOrderById(Async)");
         }
+        
+
         
 
         okhttp3.Call localVarCall = getOrderByIdCall(orderId, _callback);
@@ -473,6 +479,8 @@ public class StoreApi {
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling placeOrder(Async)");
         }
+        
+
         
 
         okhttp3.Call localVarCall = placeOrderCall(body, _callback);

@@ -24,6 +24,9 @@ public class PetApiServiceImpl extends PetApiService {
     @Override
     public Response addPet(Pet body
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -31,30 +34,45 @@ public class PetApiServiceImpl extends PetApiService {
     public Response deletePet(Long petId
 , String apiKey
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response findPetsByStatus(List<String> status
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response findPetsByTags(Set<String> tags
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response getPetById(Long petId
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response updatePet(Pet body
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -63,6 +81,9 @@ public class PetApiServiceImpl extends PetApiService {
 , String name
 , String status
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -71,6 +92,9 @@ public class PetApiServiceImpl extends PetApiService {
 , String additionalMetadata
 , InputStream fileInputStream, FileInfo fileDetail
  ) throws NotFoundException {
+        
+        
+        
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
