@@ -187,13 +187,12 @@ public class {{classname}} {
             throw new ApiException("Missing the required parameter '{{paramName}}' when calling {{operationId}}(Async)");
         }
         {{/required}}{{/allParams}}
-
-        {{#vendorExtensions}}{{#x-dependencies}}
+        {{#vendorExtensions.x-dependencies}}
         // Check dependency: {{& idlDependency}}
-        if(!{{& assertOperation}}){
+        if({{& assertOperation}}){
             throw new ApiException("Dependency not satisfied: {{& idlDependency}}");
         }
-        {{/x-dependencies}}{{/vendorExtensions}}
+        {{/vendorExtensions.x-dependencies}}
 
         okhttp3.Call localVarCall = {{operationId}}Call({{#allParams}}{{paramName}}, {{/allParams}}_callback);
         return localVarCall;

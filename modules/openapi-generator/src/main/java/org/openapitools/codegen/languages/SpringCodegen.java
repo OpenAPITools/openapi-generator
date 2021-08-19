@@ -583,7 +583,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 if (path.readOperations() != null) {
                     for(Operation operation : path.readOperations()){
                         if (operation.getExtensions()!=null && operation.getExtensions().containsKey("x-dependencies")){
-                            supportingFiles.add(new SupportingFile("DependencyUtil.mustache", (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "DependencyUtil.java"));
+                            supportingFiles.add(new SupportingFile("DependencyUtil.mustache", (sourceFolder + '/' + invokerPackage).replace(".", "/"), "DependencyUtil.java"));
                             dependencies = true;
                             break;
                         }

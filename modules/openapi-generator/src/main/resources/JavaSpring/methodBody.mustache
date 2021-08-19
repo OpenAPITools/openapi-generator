@@ -5,12 +5,12 @@
             {{#async}}
 return CompletableFuture.supplyAsync(()-> {
             {{/async}}
-        {{#vendorExtensions}}{{#x-dependencies}}
+        {{#vendorExtensions.x-dependencies}}
         // Check dependency: {{& idlDependency}}
-        if(!{{& assertOperation}}){
+        if({{& assertOperation}}){
             return new ResponseEntity("Dependency not satisfied: {{& idlDependency}}", HttpStatus.BAD_REQUEST);
         }
-        {{/x-dependencies}}{{/vendorExtensions}}
+        {{/vendorExtensions.x-dependencies}}
         getRequest().ifPresent(request -> {
 {{#async}}    {{/async}}            {{/jdk8}}for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
     {{/-first}}

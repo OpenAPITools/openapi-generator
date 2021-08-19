@@ -1496,11 +1496,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String writeDependency(Dependency dep, CodegenOperation operation){
         String assertion = "";
         if(dep.getDep() instanceof ConditionalDependencyImpl) {
-            assertion = writeConditionalDependency((ConditionalDependency) dep.getDep(), operation, assertion);
+            assertion = "!" + writeConditionalDependency((ConditionalDependency) dep.getDep(), operation, assertion);
         }else if(dep.getDep() instanceof ArithmeticDependencyImpl){
-            assertion = writeArithmeticDependency((ArithmeticDependency) dep.getDep(), true, operation, assertion);
+            assertion = "!" + writeArithmeticDependency((ArithmeticDependency) dep.getDep(), true, operation, assertion);
         } else if (dep.getDep() instanceof RelationalDependencyImpl){
-            assertion = writeRelationalDependency((RelationalDependency) dep.getDep(), true, operation, assertion);
+            assertion = "!" + writeRelationalDependency((RelationalDependency) dep.getDep(), true, operation, assertion);
         } else if (dep.getDep() instanceof GeneralPredefinedDependencyImpl) {
             assertion = writePredefinedDependency((GeneralPredefinedDependency) dep.getDep(), operation, assertion);
         }
@@ -1703,7 +1703,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private String writePredefinedDependency(GeneralPredefinedDependency dep, CodegenOperation operation, String assertOperation){
         if (dep.getNot() != null)
             assertOperation += "!";
-        assertOperation += "DependencyUtil." + dep.getPredefDepType() + "Dependency(";
+        assertOperation += "DependencyUtil.doNotSatisfy" + dep.getPredefDepType() + "Dependency(";
 
         for(GeneralPredicate depElement:dep.getPredefDepElements()){
             assertOperation = writePredicate(depElement, operation, assertOperation);

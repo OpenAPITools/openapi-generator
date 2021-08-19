@@ -5,50 +5,50 @@ package {{invokerPackage}};
 {{>generatedAnnotation}}
 public class DependencyUtil {
 
-  public static boolean OrDependency(boolean... assertions){
+  public static boolean doNotSatisfyOrDependency(boolean... assertions){
     boolean result = false;
     for (int i=0;i<assertions.length;i++){
       result = result || assertions[i];
 
       if (result)
-        return true;
+        return false;
     }
-    return false;
+    return true;
   }
 
-  public static boolean ZeroOrOneDependency(boolean... assertions){
+  public static boolean doNotSatisfyZeroOrOneDependency(boolean... assertions){
     boolean result = true;
     for (int i=0;i<assertions.length;i++){
       result = result && ZeroOrOneAllOrNoneElement(i,assertions,false,true);
       if (!result)
         break;
     }
-    return result;
+    return !result;
   }
 
-  public static boolean OnlyOneDependency(boolean... assertions){
+  public static boolean doNotSatisfyOnlyOneDependency(boolean... assertions){
     boolean result = true;
     for (int i=0;i<assertions.length;i++){
       result = result && ZeroOrOneAllOrNoneElement(i,assertions,false,true);
       if (!result)
-        return false;
+        return true;
     }
 
-    result = result && OrDependency(assertions);
-    return result;
+    result = result && doNotSatisfyOrDependency(assertions);
+    return !result;
   }
 
-  public static boolean AllOrNoneDependency(boolean... assertions){
+  public static boolean doNotSatisfyAllOrNoneDependency(boolean... assertions){
     boolean result = true;
     for (int i=0;i<assertions.length;i++){
       result = result && ZeroOrOneAllOrNoneElement(i,assertions,false,false)
         && ZeroOrOneAllOrNoneElement(i,assertions,true,true);
 
       if (!result)
-        return false;
+        return true;
     }
 
-    return true;
+    return false;
   }
 
   private static boolean ZeroOrOneAllOrNoneElement(int i,boolean[] allElements, boolean negateElement, boolean negateRemainingElements){

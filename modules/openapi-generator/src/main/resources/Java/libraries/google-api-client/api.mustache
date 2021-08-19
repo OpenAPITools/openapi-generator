@@ -100,12 +100,12 @@ public class {{classname}} {
             throw new IllegalArgumentException("Missing the required parameter '{{paramName}}' when calling {{operationId}}");
         }{{/required}}{{/allParams}}
 
-        {{#vendorExtensions}}{{#x-dependencies}}
+        {{#vendorExtensions.x-dependencies}}
         // Check dependency: {{& idlDependency}}
-        if(!{{& assertOperation}}){
+        if({{& assertOperation}}){
             throw new IllegalArgumentException("Dependency not satisfied: {{& idlDependency}}");
         }
-        {{/x-dependencies}}{{/vendorExtensions}}
+        {{/vendorExtensions.x-dependencies}}
 
         {{#hasPathParams}}
         // create a map of path variables

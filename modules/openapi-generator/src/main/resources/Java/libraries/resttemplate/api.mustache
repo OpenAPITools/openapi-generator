@@ -114,12 +114,12 @@ public class {{classname}} {
         }
         {{/required}}{{/allParams}}
 
-        {{#vendorExtensions}}{{#x-dependencies}}
+        {{#vendorExtensions.x-dependencies}}
         // Check dependency: {{& idlDependency}}
-        if(!{{& assertOperation}}){
+        if({{& assertOperation}}){
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Dependency not satisfied: {{& idlDependency}}");
         }
-        {{/x-dependencies}}{{/vendorExtensions}}{{#hasPathParams}}
+        {{/vendorExtensions.x-dependencies}}{{#hasPathParams}}
 
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();{{#pathParams}}
