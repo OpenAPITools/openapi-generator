@@ -56,10 +56,12 @@ class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'_class':
-                    result.class_ = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.class_ = valueDes;
                     break;
             }
         }

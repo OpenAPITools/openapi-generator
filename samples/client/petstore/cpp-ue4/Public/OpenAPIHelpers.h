@@ -21,7 +21,7 @@
 
 class IHttpRequest;
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 typedef TSharedRef<TJsonWriter<>> JsonWriter;

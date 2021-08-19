@@ -6,6 +6,7 @@
     <packaging>war</packaging>
     <name>jaxrs-resteasy-joda-server</name>
     <version>1.0.0</version>
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>

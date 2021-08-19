@@ -18,10 +18,10 @@
 #include "HttpModule.h"
 #include "Serialization/JsonSerializer.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
-OpenAPIPetApi::OpenAPIPetApi() 
+OpenAPIPetApi::OpenAPIPetApi()
 : Url(TEXT("http://petstore.swagger.io/v2"))
 {
 }
@@ -146,7 +146,7 @@ FHttpRequestPtr OpenAPIPetApi::AddPet(const AddPetRequest& Request, const FAddPe
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnAddPetResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -173,7 +173,7 @@ FHttpRequestPtr OpenAPIPetApi::DeletePet(const DeletePetRequest& Request, const 
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnDeletePetResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -200,7 +200,7 @@ FHttpRequestPtr OpenAPIPetApi::FindPetsByStatus(const FindPetsByStatusRequest& R
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnFindPetsByStatusResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -227,7 +227,7 @@ FHttpRequestPtr OpenAPIPetApi::FindPetsByTags(const FindPetsByTagsRequest& Reque
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnFindPetsByTagsResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -254,7 +254,7 @@ FHttpRequestPtr OpenAPIPetApi::GetPetById(const GetPetByIdRequest& Request, cons
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnGetPetByIdResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -281,7 +281,7 @@ FHttpRequestPtr OpenAPIPetApi::UpdatePet(const UpdatePetRequest& Request, const 
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -308,7 +308,7 @@ FHttpRequestPtr OpenAPIPetApi::UpdatePetWithForm(const UpdatePetWithFormRequest&
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetWithFormResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -335,7 +335,7 @@ FHttpRequestPtr OpenAPIPetApi::UploadFile(const UploadFileRequest& Request, cons
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUploadFileResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
