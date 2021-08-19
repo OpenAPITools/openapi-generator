@@ -19,7 +19,7 @@
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 HttpFileInput::HttpFileInput(const TCHAR* InFilePath)
