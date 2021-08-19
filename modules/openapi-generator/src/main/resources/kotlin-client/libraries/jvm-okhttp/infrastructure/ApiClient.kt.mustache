@@ -271,7 +271,7 @@ import com.squareup.moshi.adapter
     }
     {{/hasAuthMethods}}
 
-    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
+    protected suspend inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
         {{#jvm-okhttp3}}
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
         {{/jvm-okhttp3}}
@@ -326,7 +326,16 @@ import com.squareup.moshi.adapter
             headers.forEach { header -> addHeader(header.key, header.value) }
         }.build()
 
-        val response = client.newCall(request).execute()
+        val response: Response = suspendCoroutine { continuation ->
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    continuation.resumeWithException(e)
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    continuation.resume(response)
+                }
+            })
+        }
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
