@@ -425,7 +425,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         }
 
         // values used in api.mustache/api_test.mustache
-        String handler = httpMethod.toLowerCase() + resource;
+        String handler = httpMethod.toLowerCase(Locale.ROOT) + resource;
         String paramIndent = StringUtils.repeat(" ", handler.length());
         op.vendorExtensions.put("x-handler", handler);
         op.vendorExtensions.put("x-param-indent", paramIndent);
