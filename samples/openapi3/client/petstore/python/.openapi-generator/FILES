@@ -59,6 +59,7 @@ docs/IntegerEnum.md
 docs/IntegerEnumOneValue.md
 docs/IntegerEnumWithDefaultValue.md
 docs/IsoscelesTriangle.md
+docs/Legs.md
 docs/List.md
 docs/Mammal.md
 docs/MapTest.md
@@ -170,6 +171,7 @@ petstore_api/model/integer_enum.py
 petstore_api/model/integer_enum_one_value.py
 petstore_api/model/integer_enum_with_default_value.py
 petstore_api/model/isosceles_triangle.py
+petstore_api/model/legs.py
 petstore_api/model/list.py
 petstore_api/model/mammal.py
 petstore_api/model/map_test.py
@@ -219,4 +221,5 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_legs.py
 tox.ini
