@@ -21,9 +21,9 @@
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./lib/Api</directory>
+            <directory suffix=".php">./lib\/Api</directory>
             <file>./lib/BaseModel.php</file>
-            <directory suffix=".php">./lib/Model</directory>
+            <directory suffix=".php">./lib\/Model</directory>
         </whitelist>
     </filter>
     <php>
