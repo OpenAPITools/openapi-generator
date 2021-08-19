@@ -9,13 +9,6 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MapTest  {
@@ -24,11 +17,9 @@ public class MapTest  {
   @Valid
   private Map<String, Map<String, String>> mapMapOfString = null;
 
-@XmlType(name="InnerEnum")
-@XmlEnum(String.class)
 public enum InnerEnum {
 
-@XmlEnumValue("UPPER") UPPER(String.valueOf("UPPER")), @XmlEnumValue("lower") LOWER(String.valueOf("lower"));
+UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower"));
 
 
     private String value;

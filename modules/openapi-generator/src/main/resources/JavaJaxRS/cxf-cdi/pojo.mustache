@@ -1,7 +1,9 @@
 import io.swagger.annotations.*;
 import java.util.Objects;
 
+{{#withXml}}
 import javax.xml.bind.annotation.*;
+{{/withXml}}
 
 {{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{>additionalModelTypeAnnotations}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
 public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {

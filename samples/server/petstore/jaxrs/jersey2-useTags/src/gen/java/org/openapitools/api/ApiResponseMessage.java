@@ -1,8 +1,6 @@
 package org.openapitools.api;
 
-import javax.xml.bind.annotation.XmlTransient;
 
-@javax.xml.bind.annotation.XmlRootElement
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class ApiResponseMessage {
     public static final int ERROR = 1;
@@ -42,7 +40,6 @@ public class ApiResponseMessage {
         this.message = message;
     }
 
-    @XmlTransient
     public int getCode() {
         return code;
     }
