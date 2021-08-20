@@ -22,7 +22,7 @@ object UserApi {
 }
 
 class UserApi(baseUrl: String) {
-  
+
   /**
    * This can only be done by the logged in user.
    * 

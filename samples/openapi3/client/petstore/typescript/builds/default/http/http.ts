@@ -2,7 +2,7 @@
 import * as FormData from "form-data";
 import { URLSearchParams } from 'url';
 // typings of url-parse are incorrect...
-// @ts-ignore 
+// @ts-ignore
 import * as URLParse from "url-parse";
 import { Observable, from } from '../rxjsStub';
 
@@ -119,7 +119,7 @@ export class RequestContext {
         this.headers["Cookie"] += name + "=" + value + "; ";
     }
 
-    public setHeaderParam(key: string, value: string): void  { 
+    public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
     }
 }

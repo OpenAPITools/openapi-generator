@@ -31,7 +31,7 @@ public:
     virtual ~I{{classname}}() = default;
 
     {{#operation}}
-    virtual pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}(
+    virtual pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{operationId}}(
         {{#allParams}}
         {{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^-last}},{{/-last}}
         {{/allParams}}
@@ -65,7 +65,7 @@ public:
     {{#allParams}}
     /// <param name="{{paramName}}">{{#lambda.multiline_comment_4}}{{description}}{{/lambda.multiline_comment_4}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
     {{/allParams}}
-    pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}(
+    pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{operationId}}(
         {{#allParams}}
         {{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^-last}},{{/-last}}
         {{/allParams}}

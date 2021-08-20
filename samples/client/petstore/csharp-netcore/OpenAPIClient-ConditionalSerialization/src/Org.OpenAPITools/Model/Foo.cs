@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
         public string Bar
-        { 
+        {
             get{ return _Bar;}
             set
             {
                 _Bar = value;
                 _flagBar = true;
-            } 
+            }
         }
         private string _Bar;
         private bool _flagBar;

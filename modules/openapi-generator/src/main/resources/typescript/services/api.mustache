@@ -16,7 +16,7 @@ export abstract class Abstract{{classname}}RequestFactory {
 
 export abstract class Abstract{{classname}}ResponseProcessor {
     {{#operation}}
-     public abstract {{nickname}}(response: ResponseContext): Promise<{{#returnType}}{{{returnType}}}{{/returnType}} {{^returnType}}void{{/returnType}}>;
+     public abstract {{nickname}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}>;
 
     {{/operation}}
 }

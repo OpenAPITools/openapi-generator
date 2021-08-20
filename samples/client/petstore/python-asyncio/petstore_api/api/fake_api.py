@@ -149,7 +149,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -278,7 +278,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "bool",
         }
@@ -409,7 +409,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "OuterComposite",
         }
@@ -540,7 +540,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "float",
         }
@@ -671,7 +671,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "str",
         }
@@ -806,7 +806,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -948,7 +948,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1085,7 +1085,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
             200: "Client",
         }
@@ -1351,7 +1351,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = ['http_basic_test']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1532,7 +1532,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1704,7 +1704,7 @@ class FakeApi(object):
         body_params = None
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1835,7 +1835,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1977,7 +1977,7 @@ class FakeApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -2155,7 +2155,7 @@ class FakeApi(object):
         body_params = None
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(

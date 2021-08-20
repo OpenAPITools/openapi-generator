@@ -570,7 +570,7 @@
           </xs:element>
         </xs:sequence>
       </xs:complexType>
-    </xs:schema>  
+    </xs:schema>
   </types>
   <message name="PostPet_RequestMessage">
     <part name="PostPet_RequestMessage" element="schemas:PostPet_RequestMessage" />

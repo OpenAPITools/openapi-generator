@@ -17,7 +17,7 @@ if (OPENSSL_FOUND)
 	include_directories(${OPENSSL_INCLUDE_DIRS})
 	link_directories(${OPENSSL_LIBRARIES})
 	message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
-else() 
+else()
 	message (STATUS "OpenSSL Not found.")
 endif()
 

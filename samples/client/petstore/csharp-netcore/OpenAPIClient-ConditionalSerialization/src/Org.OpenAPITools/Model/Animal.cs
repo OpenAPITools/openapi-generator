@@ -63,13 +63,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
         public string ClassName
-        { 
+        {
             get{ return _ClassName;}
             set
             {
                 _ClassName = value;
                 _flagClassName = true;
-            } 
+            }
         }
         private string _ClassName;
         private bool _flagClassName;
@@ -87,13 +87,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "color", EmitDefaultValue = false)]
         public string Color
-        { 
+        {
             get{ return _Color;}
             set
             {
                 _Color = value;
                 _flagColor = true;
-            } 
+            }
         }
         private string _Color;
         private bool _flagColor;

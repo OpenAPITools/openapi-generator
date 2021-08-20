@@ -17,7 +17,7 @@ package {{package}}.Clients is
    procedure {{operationId}}
       (Client : in out Client_Type{{#hasParams}};{{/hasParams}}{{#allParams}}
        {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{dataType}}{{^-last}};{{/-last}}{{/allParams}}{{#returnType}};
-       Result : out {{returnType}}{{/returnType}});
+       Result : out {{.}}{{/returnType}});
 
 {{/operation}}
 {{/operations}}

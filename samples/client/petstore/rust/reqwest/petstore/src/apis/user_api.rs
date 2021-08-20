@@ -84,7 +84,7 @@ pub enum UpdateUserError {
 
 
 /// This can only be done by the logged in user.
-pub fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<(), Error<CreateUserError>> {
+pub fn create_user(configuration: &configuration::Configuration, user: crate::models::User) -> Result<(), Error<CreateUserError>> {
 
     let local_var_client = &configuration.client;
 
@@ -94,7 +94,15 @@ pub fn create_user(configuration: &configuration::Configuration, body: crate::mo
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    local_var_req_builder = local_var_req_builder.json(&body);
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
+    local_var_req_builder = local_var_req_builder.json(&user);
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;
@@ -111,7 +119,7 @@ pub fn create_user(configuration: &configuration::Configuration, body: crate::mo
     }
 }
 
-pub fn create_users_with_array_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithArrayInputError>> {
+pub fn create_users_with_array_input(configuration: &configuration::Configuration, user: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithArrayInputError>> {
 
     let local_var_client = &configuration.client;
 
@@ -121,7 +129,15 @@ pub fn create_users_with_array_input(configuration: &configuration::Configuratio
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    local_var_req_builder = local_var_req_builder.json(&body);
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
+    local_var_req_builder = local_var_req_builder.json(&user);
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;
@@ -138,7 +154,7 @@ pub fn create_users_with_array_input(configuration: &configuration::Configuratio
     }
 }
 
-pub fn create_users_with_list_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithListInputError>> {
+pub fn create_users_with_list_input(configuration: &configuration::Configuration, user: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithListInputError>> {
 
     let local_var_client = &configuration.client;
 
@@ -148,7 +164,15 @@ pub fn create_users_with_list_input(configuration: &configuration::Configuration
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    local_var_req_builder = local_var_req_builder.json(&body);
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
+    local_var_req_builder = local_var_req_builder.json(&user);
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;
@@ -176,6 +200,14 @@ pub fn delete_user(configuration: &configuration::Configuration, username: &str)
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;
@@ -256,6 +288,14 @@ pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(),
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;
@@ -273,7 +313,7 @@ pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(),
 }
 
 /// This can only be done by the logged in user.
-pub fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<(), Error<UpdateUserError>> {
+pub fn update_user(configuration: &configuration::Configuration, username: &str, user: crate::models::User) -> Result<(), Error<UpdateUserError>> {
 
     let local_var_client = &configuration.client;
 
@@ -283,7 +323,15 @@ pub fn update_user(configuration: &configuration::Configuration, username: &str,
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    local_var_req_builder = local_var_req_builder.json(&body);
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
+    };
+    local_var_req_builder = local_var_req_builder.json(&user);
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;

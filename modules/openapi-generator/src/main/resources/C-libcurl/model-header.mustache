@@ -114,7 +114,7 @@ typedef struct {{classname}}_t {
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{name}}; //Byte
+    {{datatype}} *{{name}}; //ByteArray
     {{/isByteArray}}
     {{#isBinary}}
     {{datatype}} {{name}}; //binary
@@ -184,7 +184,7 @@ typedef struct {{classname}}_t {
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isByteArray}}
     {{#isBinary}}
     {{datatype}} {{name}}{{^-last}},{{/-last}}

@@ -88,7 +88,7 @@ func NewConfiguration() *Configuration {
 	cfg := &Configuration{
 		BasePath:      "{{{basePath}}}",
 		DefaultHeader: make(map[string]string),
-		UserAgent:     "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/go{{/httpUserAgent}}",
+		UserAgent:     "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/go{{/httpUserAgent}}",
 		Debug:         false,
 		{{#servers}}
 		{{#-first}}

@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## add_pet
 
-> add_pet(body)
+> crate::models::Pet add_pet(pet)
 Add a new pet to the store
 
 ### Parameters
@@ -25,11 +25,11 @@ Add a new pet to the store
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [required] |
+**pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [required] |
 
 ### Return type
 
- (empty response body)
+[**crate::models::Pet**](Pet.md)
 
 ### Authorization
 
@@ -38,7 +38,7 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
+- **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -164,7 +164,7 @@ Name | Type | Description  | Required | Notes
 
 ## update_pet
 
-> update_pet(body)
+> crate::models::Pet update_pet(pet)
 Update an existing pet
 
 ### Parameters
@@ -172,11 +172,11 @@ Update an existing pet
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [required] |
+**pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [required] |
 
 ### Return type
 
- (empty response body)
+[**crate::models::Pet**](Pet.md)
 
 ### Authorization
 
@@ -185,7 +185,7 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
+- **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

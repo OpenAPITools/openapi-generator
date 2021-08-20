@@ -19,14 +19,14 @@ To test special tags
 
 To test special tags and operation ID starting with number
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getAnotherFakeApi();
 final ModelClient modelClient = ; // ModelClient | client model
 
-try { 
+try {
     final response = api.call123testSpecialTags(modelClient);
     print(response);
 } catch on DioError (e) {

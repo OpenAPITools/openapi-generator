@@ -21,7 +21,7 @@
 
 class IHttpRequest;
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 typedef TSharedRef<TJsonWriter<>> JsonWriter;
@@ -133,6 +133,16 @@ inline FString ToString(const T& Value)
 inline FString ToString(const FString& Value)
 {
 	return Value;
+}
+
+inline FString ToString(bool Value)
+{
+	return Value ? TEXT("true") : TEXT("false");
+}
+
+inline FStringFormatArg ToStringFormatArg(bool Value)
+{
+	return FStringFormatArg(ToString(Value));
 }
 
 inline FString ToString(const TArray<uint8>& Value)

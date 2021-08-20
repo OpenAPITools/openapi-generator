@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 {{/fullJavaUtil}}
 
 /**
@@ -33,7 +34,7 @@ public class {{classname}}Test {
         {{#allParams}}
         {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}} = null;
         {{/allParams}}
-        {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#isArray}}.collectList().block(){{/isArray}}{{^isArray}}.block(){{/isArray}};
+        {{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#isArray}}{{#uniqueItems}}.collect(Collectors.toSet()){{/uniqueItems}}{{^uniqueItems}}.collectList(){{/uniqueItems}}.block(){{/isArray}}{{^isArray}}.block(){{/isArray}};
 
         // TODO: test validations
     }
