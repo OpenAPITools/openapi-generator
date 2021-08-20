@@ -1,5 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {
   ApiModule,
   Configuration,
@@ -10,6 +10,8 @@ import {
   Pet,
   User,
 } from '@swagger/typescript-angular-petstore';
+import {fakePetstoreBackendProviders} from "./fakeBackend";
+import {switchMap} from "rxjs/operators";
 
 
 describe(`API (functionality)`, () => {
@@ -30,7 +32,6 @@ describe(`API (functionality)`, () => {
   };
 
   const newPet: Pet = getPet();
-  let createdPet: Pet;
 
   const newUser: User = getUser();
 
@@ -45,8 +46,6 @@ describe(`API (functionality)`, () => {
     return apiConfig;
   };
 
-  let originalTimeout;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -57,15 +56,9 @@ describe(`API (functionality)`, () => {
         PetService,
         StoreService,
         UserService,
+        ...fakePetstoreBackendProviders,
       ]
     });
-
-    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-  });
-
-  afterEach(() => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
   describe(`PetService`, () => {
@@ -79,59 +72,45 @@ describe(`API (functionality)`, () => {
 
       return petService.addPet(newPet).subscribe(
         (result) => {
-          createdPet = result;
-          return expect(result.id).toBeGreaterThan(0);
+          expect(result.id).toBeGreaterThan(0);
+          expect(result.name).toBe(newPet.name);
         },
-        error => fail(`expected a result, not the error: ${error.message}`),
       );
     }));
 
-    it(`should have created a pet`, () => {
-      expect(createdPet.name).toEqual(newPet.name);
-    });
-
     it(`should get the pet data by id`, async(() => {
       const petService = TestBed.get(PetService);
-      return petService.getPetById(createdPet.id).subscribe(
-        result => expect(result.name).toEqual(newPet.name),
-        error => fail(`expected a result, not the error: ${error.message}`),
+      return petService.addPet(newPet).pipe(
+        switchMap((addedPet: Pet) => petService.getPetById(addedPet.id))
+      ).subscribe(
+        result => {
+          return expect(result.name).toBe(newPet.name);
+        },
       );
     }));
 
     it(`should update the pet name by pet object`, async(() => {
       const petService = TestBed.get(PetService);
-      const newName = `pet-${Date.now()}`;
-      createdPet.name = newName;
 
-      return petService.updatePet(createdPet).subscribe(
-        result => expect(result.name).toEqual(newName),
+
+      return petService.addPet(newPet).pipe(
+        switchMap((addedPet: Pet) => petService.updatePet({
+          ...addedPet,
+          name: 'something else'
+        }))
+      ).subscribe(
+        result => expect(result.name).toBe('something else'),
         error => fail(`expected a result, not the error: ${error.message}`),
       );
-    }));
-
-    it(`should update the pet name by form`, async(() => {
-      const petService = TestBed.get(PetService);
-      const newName = `pet-${Date.now()}`;
-      createdPet.name = newName;
-
-      petService.updatePetWithForm(createdPet.id, createdPet.name).subscribe(
-        result => expect(result.code).toEqual(200),
-        error => fail(`expected a result, not the error: ${error.message}`),
-      );
-
-      return petService.getPetById(createdPet.id).subscribe(
-        result => expect(result.name).toEqual(createdPet.name),
-        error => fail(`expected a result, not the error: ${error.message}`),
-      );
-
     }));
 
     it(`should delete the pet`, async(() => {
       const petService = TestBed.get(PetService);
 
-      return petService.deletePet(createdPet.id).subscribe(
-        result => expect(result.code).toEqual(200),
-        error => fail(`expected a result, not the error: ${error.message}`),
+      return petService.addPet(newPet).pipe(
+        switchMap((addedPet: Pet) => petService.deletePet(addedPet.id, undefined, 'response')),
+      ).subscribe(
+        result => expect(result.status).toEqual(200),
       );
     }));
 
@@ -147,7 +126,7 @@ describe(`API (functionality)`, () => {
       const storeService = TestBed.get(StoreService);
 
       return storeService.getInventory().subscribe(
-        result => expect(result).toBeTruthy(),
+        result => expect(result.mega).toBe(42),
         error => fail(`expected a result, not the error: ${error.message}`),
       );
 
@@ -164,9 +143,8 @@ describe(`API (functionality)`, () => {
     it(`should create the user`, async(() => {
       const userService = TestBed.get(UserService);
 
-      return userService.createUser(newUser).subscribe(
-        result => expect(result.code).toEqual(200),
-        error => fail(`expected a result, not the error: ${error.message}`),
+      return userService.createUser(newUser, 'response').subscribe(
+        result => expect(result.status).toEqual(200),
       );
     }));
 
