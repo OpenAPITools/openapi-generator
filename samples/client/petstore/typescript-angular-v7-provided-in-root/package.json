@@ -1,5 +1,5 @@
 {
-  "name": "cli",
+  "name": "typescript-angular-v7-unit-tests",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
