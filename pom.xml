@@ -1245,15 +1245,6 @@
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
-                <!-- TODO comment out below when the test for typescript-nestjs is ready
-                <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
-                <!-- comment out due to error `npm run build`
-                <module>samples/client/petstore/typescript-jquery/npm</module>-->
-                <!--<module>samples/client/petstore/typescript-angular-v2/npm</module>-->
-                <!--<module>samples/client/petstore/typescript-angular-v4/npm</module>
-                <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
-                <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
-                <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>-->
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1373,6 +1364,12 @@
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
                 <module>samples/server/petstore/go-echo-server</module>
+                <!-- TODO comment out below when the test for typescript-nestjs is ready
+                <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
+                <!-- comment out due to error `npm run build`
+                <module>samples/client/petstore/typescript-jquery/npm</module>-->
+                <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v11-provided-in-root</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->

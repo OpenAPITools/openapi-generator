@@ -94,33 +94,6 @@
           }
         }
       }
-    },
-    "cli-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "tests/default/e2e/protractor.conf.js",
-            "devServerTarget": "test-default:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "test-default:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "tests/default/e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
     }
   },
   "defaultProject": "test-default"
