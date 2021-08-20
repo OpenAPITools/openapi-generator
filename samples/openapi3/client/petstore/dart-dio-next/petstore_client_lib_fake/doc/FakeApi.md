@@ -520,7 +520,7 @@ final int int32 = 56; // int | None
 final int int64 = 789; // int | None
 final double float = 3.4; // double | None
 final String string = string_example; // String | None
-final Uint8List binary = BINARY_DATA_HERE; // Uint8List | None
+final MultipartFile binary = BINARY_DATA_HERE; // MultipartFile | None
 final Date date = 2013-10-20; // Date | None
 final DateTime dateTime = 2013-10-20T19:20:30+01:00; // DateTime | None
 final String password = password_example; // String | None
@@ -546,7 +546,7 @@ Name | Type | Description  | Notes
  **int64** | **int**| None | [optional] 
  **float** | **double**| None | [optional] 
  **string** | **String**| None | [optional] 
- **binary** | **Uint8List**| None | [optional] 
+ **binary** | **MultipartFile**| None | [optional] 
  **date** | **Date**| None | [optional] 
  **dateTime** | **DateTime**| None | [optional] 
  **password** | **String**| None | [optional] 
@@ -599,13 +599,13 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**BuiltList&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] 
+ **enumHeaderStringArray** | [**BuiltList&lt;String&gt;**](BuiltList.md)| Header parameter enum test (string array) | [optional] 
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to '-efg']
- **enumQueryStringArray** | [**BuiltList&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] 
+ **enumQueryStringArray** | [**BuiltList&lt;String&gt;**](BuiltList.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to '-efg']
  **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] 
- **enumFormStringArray** | [**BuiltList&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to '$']
+ **enumFormStringArray** | [**BuiltList&lt;String&gt;**](BuiltList.md)| Form parameter enum test (string array) | [optional] [default to '$']
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to '-efg']
 
 ### Return type
@@ -701,7 +701,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**BuiltMap&lt;String, String&gt;**](String.md)| request body | 
+ **requestBody** | [**BuiltMap&lt;String, String&gt;**](BuiltMap.md)| request body | 
 
 ### Return type
 
@@ -790,12 +790,12 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**BuiltList&lt;String&gt;**](String.md)|  | 
- **ioutil** | [**BuiltList&lt;String&gt;**](String.md)|  | 
- **http** | [**BuiltList&lt;String&gt;**](String.md)|  | 
- **url** | [**BuiltList&lt;String&gt;**](String.md)|  | 
- **context** | [**BuiltList&lt;String&gt;**](String.md)|  | 
- **language** | [**BuiltMap&lt;String, String&gt;**](String.md)|  | [optional] 
+ **pipe** | [**BuiltList&lt;String&gt;**](BuiltList.md)|  | 
+ **ioutil** | [**BuiltList&lt;String&gt;**](BuiltList.md)|  | 
+ **http** | [**BuiltList&lt;String&gt;**](BuiltList.md)|  | 
+ **url** | [**BuiltList&lt;String&gt;**](BuiltList.md)|  | 
+ **context** | [**BuiltList&lt;String&gt;**](BuiltList.md)|  | 
+ **language** | [**BuiltMap&lt;String, String&gt;**](BuiltMap.md)|  | [optional] 
 
 ### Return type
 

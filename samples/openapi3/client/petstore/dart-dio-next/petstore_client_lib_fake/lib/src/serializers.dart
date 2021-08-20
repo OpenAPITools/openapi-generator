@@ -58,6 +58,8 @@ import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:openapi/src/model/user.dart';
+import 'package:openapi/src/api/fake_api.dart';
+import 'package:openapi/src/api/pet_api.dart';
 
 part 'serializers.g.dart';
 
@@ -108,27 +110,53 @@ part 'serializers.g.dart';
   SpecialModelName,
   Tag,
   User,
+  InnerEnum,
+  EnumQueryDoubleEnum,
+  EnumFormStringArrayEnum,
+  EnumHeaderStringEnum,
+  EnumQueryStringEnum,
+  EnumFormStringEnum,
+  EnumQueryStringArrayEnum,
+  EnumQueryIntegerEnum,
+  EnumHeaderStringArrayEnum,
+  StatusEnum,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(String)]),
-        () => ListBuilder<String>(),
+        const FullType(BuiltList, [FullType(InnerEnum)]),
+        () => ListBuilder<InnerEnum>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltMap, [FullType(String), FullType(String)]),
         () => MapBuilder<String, String>(),
       )
       ..addBuilderFactory(
+        const FullType(BuiltMap, [FullType(String), FullType(String)]),
+        () => MapBuilder<String, String>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(EnumHeaderStringArrayEnum)]),
+        () => ListBuilder<EnumHeaderStringArrayEnum>(),
+      )
+      ..addBuilderFactory(
         const FullType(BuiltList, [FullType(String)]),
         () => ListBuilder<String>(),
       )
       ..addBuilderFactory(
-        const FullType(BuiltSet, [FullType(Pet)]),
-        () => SetBuilder<Pet>(),
+        const FullType(BuiltList, [FullType(EnumQueryStringArrayEnum)]),
+        () => ListBuilder<EnumQueryStringArrayEnum>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(StatusEnum)]),
+        () => ListBuilder<StatusEnum>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltSet, [FullType(String)]),
         () => SetBuilder<String>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltSet, [FullType(Pet)]),
+        () => SetBuilder<Pet>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(Pet)]),

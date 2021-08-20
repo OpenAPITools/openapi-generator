@@ -27,13 +27,15 @@ class Openapi {
     Dio? dio,
     Serializers? serializers,
     String? basePathOverride,
+    int connectTimeout = 5000,
+    int receiveTimeout = 3000,
     List<Interceptor>? interceptors,
   })  : this.serializers = serializers ?? standardSerializers,
         this.dio = dio ??
             Dio(BaseOptions(
               baseUrl: basePathOverride ?? basePath,
-              connectTimeout: 5000,
-              receiveTimeout: 3000,
+              connectTimeout: connectTimeout,
+              receiveTimeout: receiveTimeout,
             )) {
     if (interceptors == null) {
       this.dio.interceptors.addAll([

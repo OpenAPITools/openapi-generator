@@ -134,7 +134,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**BuiltList&lt;String&gt;**](String.md)| Status values that need to be considered for filter | 
+ **status** | [**BuiltList&lt;String&gt;**](BuiltList.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -179,7 +179,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**BuiltSet&lt;String&gt;**](String.md)| Tags to filter by | 
+ **tags** | [**BuiltSet&lt;String&gt;**](BuiltSet.md)| Tags to filter by | 
 
 ### Return type
 

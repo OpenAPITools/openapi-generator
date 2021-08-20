@@ -56,7 +56,8 @@ void main() {
               int64: 9223372036854775807,
               date: Date(2020, 8, 11),
               dateTime: DateTime.utc(2020, 8, 11, 12, 30, 55, 123),
-              binary: Uint8List.fromList([0, 1, 2, 3, 4, 5]),
+              binary: MultipartFile.fromBytes(
+                  Uint8List.fromList([0, 1, 2, 3, 4, 5])),
             );
 
         expect(response.statusCode, 200);
@@ -119,13 +120,13 @@ void main() {
         );
 
         final response = await client.getFakeApi().testEnumParameters(
-              enumQueryStringArray: ListBuilder<String>(
-                <String>['a', 'b', 'c'],
-              ).build(),
-              enumFormString: 'formString',
-              enumFormStringArray: ListBuilder<String>(
-                <String>['foo', 'bar'],
-              ).build(),
+              enumQueryStringArray: [
+                EnumQueryStringArrayEnum.dollar,
+                EnumQueryStringArrayEnum.greaterThan
+              ].build(),
+              enumFormString: EnumFormStringEnum.abc,
+              enumFormStringArray:
+                  [InnerEnum.dollar, InnerEnum.greaterThan].build(),
             );
 
         expect(response.statusCode, 200);

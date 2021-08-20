@@ -84,7 +84,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**BuiltList&lt;User&gt;**](User.md)| List of user object | 
+ **user** | [**BuiltList&lt;User&gt;**](BuiltList.md)| List of user object | 
 
 ### Return type
 
@@ -124,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**BuiltList&lt;User&gt;**](User.md)| List of user object | 
+ **user** | [**BuiltList&lt;User&gt;**](BuiltList.md)| List of user object | 
 
 ### Return type
 

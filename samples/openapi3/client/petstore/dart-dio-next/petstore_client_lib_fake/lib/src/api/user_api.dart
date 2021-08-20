@@ -336,6 +336,8 @@ class UserApi {
       statusMessage: _response.statusMessage,
       extra: _response.extra,
     );
+
+
   }
 
   /// Logs user into the system
@@ -414,6 +416,7 @@ class UserApi {
       statusMessage: _response.statusMessage,
       extra: _response.extra,
     );
+
   }
 
   /// Logs out current logged in user session

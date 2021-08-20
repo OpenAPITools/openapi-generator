@@ -216,6 +216,8 @@ class StoreApi {
       statusMessage: _response.statusMessage,
       extra: _response.extra,
     );
+
+
   }
 
   /// Place an order for a pet
@@ -309,6 +311,7 @@ class StoreApi {
       statusMessage: _response.statusMessage,
       extra: _response.extra,
     );
+
   }
 
 }

@@ -7,8 +7,8 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/built_value.dart';
 import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/date.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
@@ -18,6 +18,7 @@ import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/user.dart';
+part 'fake_api.g.dart';
 
 class FakeApi {
 
@@ -967,7 +968,7 @@ class FakeApi {
     int? int64,
     double? float,
     String? string,
-    Uint8List? binary,
+    MultipartFile? binary,
     Date? date,
     DateTime? dateTime,
     String? password,
@@ -1012,7 +1013,7 @@ class FakeApi {
         if (string != null) r'string': encodeQueryParameter(_serializers, string, const FullType(String)),
         r'pattern_without_delimiter': encodeQueryParameter(_serializers, patternWithoutDelimiter, const FullType(String)),
         r'byte': encodeQueryParameter(_serializers, byte, const FullType(String)),
-        if (binary != null) r'binary': encodeQueryParameter(_serializers, binary, const FullType(Uint8List)),
+        if (binary != null) r'binary': encodeQueryParameter(_serializers, binary, const FullType(MultipartFile)),
         if (date != null) r'date': encodeQueryParameter(_serializers, date, const FullType(Date)),
         if (dateTime != null) r'dateTime': encodeQueryParameter(_serializers, dateTime, const FullType(DateTime)),
         if (password != null) r'password': encodeQueryParameter(_serializers, password, const FullType(String)),
@@ -1064,14 +1065,14 @@ class FakeApi {
   /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testEnumParameters({ 
-    BuiltList<String>? enumHeaderStringArray,
-    String? enumHeaderString = '-efg',
-    BuiltList<String>? enumQueryStringArray,
-    String? enumQueryString = '-efg',
-    int? enumQueryInteger,
-    double? enumQueryDouble,
-    BuiltList<String>? enumFormStringArray,
-    String? enumFormString,
+    BuiltList<EnumHeaderStringArrayEnum>? enumHeaderStringArray,
+    EnumHeaderStringEnum? enumHeaderString = EnumHeaderStringEnum.efg,
+    BuiltList<EnumQueryStringArrayEnum>? enumQueryStringArray,
+    EnumQueryStringEnum? enumQueryString = EnumQueryStringEnum.efg,
+    EnumQueryIntegerEnum? enumQueryInteger,
+    EnumQueryDoubleEnum? enumQueryDouble,
+    BuiltList<InnerEnum>? enumFormStringArray,
+    EnumFormStringEnum? enumFormString,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1096,18 +1097,18 @@ class FakeApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (enumQueryStringArray != null) r'enum_query_string_array': encodeCollectionQueryParameter<String>(_serializers, enumQueryStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi,),
-      if (enumQueryString != null) r'enum_query_string': encodeQueryParameter(_serializers, enumQueryString, const FullType(String)),
-      if (enumQueryInteger != null) r'enum_query_integer': encodeQueryParameter(_serializers, enumQueryInteger, const FullType(int)),
-      if (enumQueryDouble != null) r'enum_query_double': encodeQueryParameter(_serializers, enumQueryDouble, const FullType(double)),
+      if (enumQueryStringArray != null) r'enum_query_string_array': encodeCollectionQueryParameter<EnumQueryStringArrayEnum>(_serializers, enumQueryStringArray, const FullType(BuiltList, [FullType(EnumQueryStringArrayEnum)]), format: ListFormat.multi,),
+      if (enumQueryString != null) r'enum_query_string': encodeQueryParameter(_serializers, enumQueryString, const FullType(EnumQueryStringEnum)),
+      if (enumQueryInteger != null) r'enum_query_integer': encodeQueryParameter(_serializers, enumQueryInteger, const FullType(EnumQueryIntegerEnum)),
+      if (enumQueryDouble != null) r'enum_query_double': encodeQueryParameter(_serializers, enumQueryDouble, const FullType(EnumQueryDoubleEnum)),
     };
 
     dynamic _bodyData;
 
     try {
       _bodyData = <String, dynamic>{
-        if (enumFormStringArray != null) r'enum_form_string_array': encodeCollectionQueryParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
-        if (enumFormString != null) r'enum_form_string': encodeQueryParameter(_serializers, enumFormString, const FullType(String)),
+        if (enumFormStringArray != null) r'enum_form_string_array': encodeCollectionQueryParameter<InnerEnum>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(InnerEnum)]), format: ListFormat.csv,),
+        if (enumFormString != null) r'enum_form_string': encodeQueryParameter(_serializers, enumFormString, const FullType(EnumFormStringEnum)),
       };
 
     } catch(error, stackTrace) {
@@ -1396,7 +1397,7 @@ class FakeApi {
       r'http': encodeCollectionQueryParameter<String>(_serializers, http, const FullType(BuiltList, [FullType(String)]), format: ListFormat.ssv,),
       r'url': encodeCollectionQueryParameter<String>(_serializers, url, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
       r'context': encodeCollectionQueryParameter<String>(_serializers, context, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi,),
-      if (language != null) r'language': encodeQueryParameter(_serializers, language, const FullType(BuiltMap, [FullType(String), FullType(String)]), ),
+      if (language != null) r'language': encodeQueryParameter(_serializers, language, const FullType(BuiltMap, [FullType(String), FullType(String)])),
     };
 
     final _response = await _dio.request<Object>(
@@ -1411,4 +1412,155 @@ class FakeApi {
     return _response;
   }
 
+}
+class InnerEnum extends EnumClass {
+
+  @BuiltValueEnumConst(wireName: r'>')
+  static const InnerEnum greaterThan = _$innerEnum_greaterThan;
+  @BuiltValueEnumConst(wireName: r'$')
+  static const InnerEnum dollar = _$innerEnum_dollar;
+
+  static Serializer<InnerEnum> get serializer => _$innerEnumSerializer;
+
+  const InnerEnum._(String name): super(name);
+
+  static BuiltSet<InnerEnum> get values => _$innerEnumValues;
+  static InnerEnum valueOf(String name) => _$innerEnumValueOf(name);
+}
+class EnumQueryDoubleEnum extends EnumClass {
+
+  /// Query parameter enum test (double)
+  @BuiltValueEnumConst(wireName: r'1.1')
+  static const EnumQueryDoubleEnum number1Period1 = _$enumQueryDoubleEnum_number1Period1;
+  /// Query parameter enum test (double)
+  @BuiltValueEnumConst(wireName: r'-1.2')
+  static const EnumQueryDoubleEnum numberNegative1Period2 = _$enumQueryDoubleEnum_numberNegative1Period2;
+
+  static Serializer<EnumQueryDoubleEnum> get serializer => _$enumQueryDoubleEnumSerializer;
+
+  const EnumQueryDoubleEnum._(String name): super(name);
+
+  static BuiltSet<EnumQueryDoubleEnum> get values => _$enumQueryDoubleEnumValues;
+  static EnumQueryDoubleEnum valueOf(String name) => _$enumQueryDoubleEnumValueOf(name);
+}
+class EnumFormStringArrayEnum extends EnumClass {
+
+  /// Form parameter enum test (string array)
+  @BuiltValueEnumConst(wireName: r'>')
+  static const EnumFormStringArrayEnum greaterThan = _$enumFormStringArrayEnum_greaterThan;
+  /// Form parameter enum test (string array)
+  @BuiltValueEnumConst(wireName: r'$')
+  static const EnumFormStringArrayEnum dollar = _$enumFormStringArrayEnum_dollar;
+
+  static Serializer<EnumFormStringArrayEnum> get serializer => _$enumFormStringArrayEnumSerializer;
+
+  const EnumFormStringArrayEnum._(String name): super(name);
+
+  static BuiltSet<EnumFormStringArrayEnum> get values => _$enumFormStringArrayEnumValues;
+  static EnumFormStringArrayEnum valueOf(String name) => _$enumFormStringArrayEnumValueOf(name);
+}
+class EnumHeaderStringEnum extends EnumClass {
+
+  /// Header parameter enum test (string)
+  @BuiltValueEnumConst(wireName: r'_abc')
+  static const EnumHeaderStringEnum abc = _$enumHeaderStringEnum_abc;
+  /// Header parameter enum test (string)
+  @BuiltValueEnumConst(wireName: r'-efg')
+  static const EnumHeaderStringEnum efg = _$enumHeaderStringEnum_efg;
+  /// Header parameter enum test (string)
+  @BuiltValueEnumConst(wireName: r'(xyz)')
+  static const EnumHeaderStringEnum leftParenthesisXyzRightParenthesis = _$enumHeaderStringEnum_leftParenthesisXyzRightParenthesis;
+
+  static Serializer<EnumHeaderStringEnum> get serializer => _$enumHeaderStringEnumSerializer;
+
+  const EnumHeaderStringEnum._(String name): super(name);
+
+  static BuiltSet<EnumHeaderStringEnum> get values => _$enumHeaderStringEnumValues;
+  static EnumHeaderStringEnum valueOf(String name) => _$enumHeaderStringEnumValueOf(name);
+}
+class EnumQueryStringEnum extends EnumClass {
+
+  /// Query parameter enum test (string)
+  @BuiltValueEnumConst(wireName: r'_abc')
+  static const EnumQueryStringEnum abc = _$enumQueryStringEnum_abc;
+  /// Query parameter enum test (string)
+  @BuiltValueEnumConst(wireName: r'-efg')
+  static const EnumQueryStringEnum efg = _$enumQueryStringEnum_efg;
+  /// Query parameter enum test (string)
+  @BuiltValueEnumConst(wireName: r'(xyz)')
+  static const EnumQueryStringEnum leftParenthesisXyzRightParenthesis = _$enumQueryStringEnum_leftParenthesisXyzRightParenthesis;
+
+  static Serializer<EnumQueryStringEnum> get serializer => _$enumQueryStringEnumSerializer;
+
+  const EnumQueryStringEnum._(String name): super(name);
+
+  static BuiltSet<EnumQueryStringEnum> get values => _$enumQueryStringEnumValues;
+  static EnumQueryStringEnum valueOf(String name) => _$enumQueryStringEnumValueOf(name);
+}
+class EnumFormStringEnum extends EnumClass {
+
+  /// Form parameter enum test (string)
+  @BuiltValueEnumConst(wireName: r'_abc')
+  static const EnumFormStringEnum abc = _$enumFormStringEnum_abc;
+  /// Form parameter enum test (string)
+  @BuiltValueEnumConst(wireName: r'-efg')
+  static const EnumFormStringEnum efg = _$enumFormStringEnum_efg;
+  /// Form parameter enum test (string)
+  @BuiltValueEnumConst(wireName: r'(xyz)')
+  static const EnumFormStringEnum leftParenthesisXyzRightParenthesis = _$enumFormStringEnum_leftParenthesisXyzRightParenthesis;
+
+  static Serializer<EnumFormStringEnum> get serializer => _$enumFormStringEnumSerializer;
+
+  const EnumFormStringEnum._(String name): super(name);
+
+  static BuiltSet<EnumFormStringEnum> get values => _$enumFormStringEnumValues;
+  static EnumFormStringEnum valueOf(String name) => _$enumFormStringEnumValueOf(name);
+}
+class EnumQueryStringArrayEnum extends EnumClass {
+
+  /// Query parameter enum test (string array)
+  @BuiltValueEnumConst(wireName: r'>')
+  static const EnumQueryStringArrayEnum greaterThan = _$enumQueryStringArrayEnum_greaterThan;
+  /// Query parameter enum test (string array)
+  @BuiltValueEnumConst(wireName: r'$')
+  static const EnumQueryStringArrayEnum dollar = _$enumQueryStringArrayEnum_dollar;
+
+  static Serializer<EnumQueryStringArrayEnum> get serializer => _$enumQueryStringArrayEnumSerializer;
+
+  const EnumQueryStringArrayEnum._(String name): super(name);
+
+  static BuiltSet<EnumQueryStringArrayEnum> get values => _$enumQueryStringArrayEnumValues;
+  static EnumQueryStringArrayEnum valueOf(String name) => _$enumQueryStringArrayEnumValueOf(name);
+}
+class EnumQueryIntegerEnum extends EnumClass {
+
+  /// Query parameter enum test (double)
+  @BuiltValueEnumConst(wireNumber: 1)
+  static const EnumQueryIntegerEnum number1 = _$enumQueryIntegerEnum_number1;
+  /// Query parameter enum test (double)
+  @BuiltValueEnumConst(wireNumber: -2)
+  static const EnumQueryIntegerEnum numberNegative2 = _$enumQueryIntegerEnum_numberNegative2;
+
+  static Serializer<EnumQueryIntegerEnum> get serializer => _$enumQueryIntegerEnumSerializer;
+
+  const EnumQueryIntegerEnum._(String name): super(name);
+
+  static BuiltSet<EnumQueryIntegerEnum> get values => _$enumQueryIntegerEnumValues;
+  static EnumQueryIntegerEnum valueOf(String name) => _$enumQueryIntegerEnumValueOf(name);
+}
+class EnumHeaderStringArrayEnum extends EnumClass {
+
+  /// Header parameter enum test (string array)
+  @BuiltValueEnumConst(wireName: r'>')
+  static const EnumHeaderStringArrayEnum greaterThan = _$enumHeaderStringArrayEnum_greaterThan;
+  /// Header parameter enum test (string array)
+  @BuiltValueEnumConst(wireName: r'$')
+  static const EnumHeaderStringArrayEnum dollar = _$enumHeaderStringArrayEnum_dollar;
+
+  static Serializer<EnumHeaderStringArrayEnum> get serializer => _$enumHeaderStringArrayEnumSerializer;
+
+  const EnumHeaderStringArrayEnum._(String name): super(name);
+
+  static BuiltSet<EnumHeaderStringArrayEnum> get values => _$enumHeaderStringArrayEnumValues;
+  static EnumHeaderStringArrayEnum valueOf(String name) => _$enumHeaderStringArrayEnumValueOf(name);
 }
