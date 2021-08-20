@@ -2,7 +2,7 @@
       {{#isMultipart}}
       _bodyData = FormData.fromMap(<String, dynamic>{
         {{#formParams}}
-        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{#isArray}}.toList(){{/isArray}}{{/isFile}}{{^isFile}}encodeFormParameter(_serializers, {{{paramName}}}, const FullType({{^isContainer}}{{{baseType}}}{{/isContainer}}{{#isContainer}}Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]{{/isContainer}})){{/isFile}},
+        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{#isArray}}.toList(){{/isArray}}{{/isFile}}{{^isFile}}encodeFormParameter(_serializers, {{{paramName}}}, const {{>serialization/built_value/variable_serializer_type}}){{/isFile}},
         {{/formParams}}
       });
       {{/isMultipart}}
@@ -18,13 +18,8 @@
       {{#isPrimitiveType}}
       _bodyData = {{paramName}}{{#isFile}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}.finalize(){{/isFile}};
       {{/isPrimitiveType}}
-      {{^isPrimitiveType}}
-      {{#isContainer}}
-      const _type = FullType(Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]);
-      {{/isContainer}}
-      {{^isContainer}}
-      const _type = FullType({{{baseType}}});
-      {{/isContainer}}
+      {{^isPrimitiveType}}      
+      const _type = {{>serialization/built_value/variable_serializer_type}};
       _bodyData = {{^required}}{{paramName}} == null ? null : {{/required}}_serializers.serialize({{paramName}}, specifiedType: _type);
       {{/isPrimitiveType}}
       {{/bodyParam}}

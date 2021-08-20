@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -185,8 +186,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         typeMapping.put("List", "BuiltList");
         typeMapping.put("set", "BuiltSet");
         typeMapping.put("map", "BuiltMap");
-        typeMapping.put("file", "Uint8List");
-        typeMapping.put("binary", "Uint8List");
+        typeMapping.put("file", "MultipartFile");
+        typeMapping.put("binary", "MultipartFile");
         typeMapping.put("object", "JsonObject");
         typeMapping.put("AnyType", "JsonObject");
 
@@ -277,7 +278,141 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             }
         }
     }
+    private void fixEnumParam(IJsonSchemaValidationProperties param) {
+        CodegenProperty items = param.getItems();
+        boolean isEnum;
+        boolean isContainer;
+        Map<String, Object> allowableValues;
+        String defaultValue;
+        Map<String, Object> vendorExt;
+        if (param instanceof CodegenParameter) {
+            final CodegenParameter castedParam = (CodegenParameter)param;
+            allowableValues = castedParam.allowableValues;
+            isEnum = castedParam.isEnum;
+            isContainer = castedParam.isContainer;
+            defaultValue = castedParam.defaultValue;
+            vendorExt = castedParam.vendorExtensions;
+        } else if (param instanceof CodegenProperty) {
+            final CodegenProperty castedParam = (CodegenProperty)param;
+            allowableValues = castedParam.allowableValues;
+            isEnum = castedParam.isEnum;
+            isContainer = castedParam.isContainer;
+            defaultValue = castedParam.defaultValue;
+            vendorExt = castedParam.vendorExtensions;
+        }
+        else {
+            return;
+        }
+        if (isEnum) {
+            if (isContainer) {
+                items.setAllowableValues(allowableValues);
+                fixEnumParam(items);
+            } else {
+                if (!StringUtils.isEmpty(defaultValue)) {
+                    final List<Object> enumVars = (List<Object>) allowableValues.get("enumVars");
+                    
+                    Map<String,Object> defaultEnumVar = enumVars
+                        .stream()
+                        .map(enumVar -> (Map<String,Object>)enumVar)
+                        .filter(enumVar -> enumVar.get("value").equals(defaultValue))
+                        .findFirst()
+                        .orElse(null);
+                    vendorExt.put("defaultValueWithEnum", defaultEnumVar);
+                }
+            }
+        } else {
+            if (isContainer) {
+                fixEnumParam(items);
+            }
+        }
+      
+    }
+    private void fixOperationParam(CodegenParameter param) {
+        if (param.isContainer) {
+            if (param.isArray) {
+                if (param.uniqueItems) {
+                    param.baseType = typeMapping.get("set");
+                } else {
+                    param.baseType = typeMapping.get("array");
+                }
+            } else if (param.isMap) {
+                param.baseType = typeMapping.get("map");
+            }
+        }
 
+        if (StringUtils.isEmpty(param.datatypeWithEnum)) {
+            param.datatypeWithEnum = param.dataType;
+        }
+
+        fixEnumParam(param);
+    }
+
+    private void fixOperationResponse(CodegenResponse response) {        
+        if (response.isContainer) {
+            if (response.isArray) {
+                if (response.getUniqueItems()) {
+                    response.baseType = typeMapping.get("set");
+                } else {
+                    response.baseType = typeMapping.get("array");
+                }
+                // uniqueitems aren't public in CodegenResponse
+            } else if (response.isMap) {
+                response.baseType = typeMapping.get("map");
+            }    
+        }        
+    }
+    private Map<String,Object> getCodegenParameterTypeData(CodegenParameter param) {
+        final Map<String, Object> typeData = new HashMap<>();
+        
+        typeData.put("isArray", param.getIsArray());
+        typeData.put("uniqueItems", param.getUniqueItems());
+        typeData.put("isMap", param.getIsMap());
+        typeData.put("isContainer", param.isContainer);
+        typeData.put("baseType", param.baseType);        
+        if (param.items != null) {
+            typeData.put("items", param.items);
+        }
+        return typeData;
+    }
+    private Map<String,Object> getCodegenResponseTypeData(CodegenResponse r) {
+        final Map<String, Object> typeData = new HashMap<>();
+        
+        typeData.put("isArray", r.getIsArray());
+        typeData.put("uniqueItems", r.getUniqueItems());
+        typeData.put("isMap", r.getIsMap());
+        typeData.put("isContainer", r.isContainer);
+        typeData.put("baseType", r.baseType);        
+        if (r.items != null) {
+            typeData.put("items", r.items);
+        }
+        return typeData;
+    }
+
+    private void extractInlineEnums(IJsonSchemaValidationProperties property, Map<String, Object> inlineEnums) {
+        if (property instanceof CodegenProperty) {
+            final CodegenProperty casted = (CodegenProperty) property;
+            if (casted.isEnum) {
+                if (!inlineEnums.containsKey(casted.enumName)) {
+                    inlineEnums.put(casted.enumName, casted);                 
+                }
+            }
+        } else if (property instanceof CodegenParameter) {
+            final CodegenParameter casted = (CodegenParameter) property;
+            if (casted.isEnum) {
+                if (!inlineEnums.containsKey(casted.enumName)) {
+                    inlineEnums.put(casted.enumName, casted);                 
+                }
+            }
+        }
+        final CodegenProperty items = property.getItems();
+        if (items != null) {
+            if (items.isContainer) {
+                extractInlineEnums(items.items, inlineEnums);
+            } else if (items.isEnum) {
+                extractInlineEnums(items, inlineEnums);
+            }
+        }
+    }
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
@@ -285,71 +420,48 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
         Set<Map<String, Object>> serializers = new HashSet<>();
+        Map<String, Object> inlineEnums = new HashMap<>();
         Set<String> resultImports = new HashSet<>();
-
-        for (CodegenOperation op : operationList) {
-            for (CodegenParameter param : op.allParams) {
-                if (((op.isMultipart && param.isFormParam) || param.isBodyParam) && (param.isBinary || param.isFile)) {
-                    param.dataType = param.dataType.replace("Uint8List", "MultipartFile");
-                    param.baseType = param.baseType.replace("Uint8List", "MultipartFile");
-                    op.imports.add("MultipartFile");
-
-                    if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
-                        boolean skipFormModel = Boolean.parseBoolean(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL, "true"));
-                        if (param.isFormParam && param.isContainer && !skipFormModel) {
-                            // Because of skipFormModel=false, there is a model class generated which has
-                            // "BuiltList<Uint8List>" as property and it requires the correct
-                            // serializer imports to be added in order to compile.
-                            addBuiltValueSerializerImport("Uint8List");
-                        }
-                    }
+        // enumName
+        for (CodegenOperation op : operationList) {            
+            List<CodegenParameter> actualAllParams = Stream.of(
+                op.allParams,
+                op.bodyParams,
+                op.pathParams,
+                op.queryParams,
+                op.headerParams,
+                op.formParams,
+                op.cookieParams,
+                op.requiredParams,
+                op.optionalParams).flatMap(Collection::stream).collect(Collectors.toList());
+            if (op.bodyParam != null) {
+                actualAllParams.add(op.bodyParam);
+            }
+            for (CodegenParameter param : actualAllParams) {                
+                fixOperationParam(param);  
+                if (param.isContainer && !(param.isBinary || param.isFile)) {                    
+                    serializers.add(getCodegenParameterTypeData(param));
                 }
+                extractInlineEnums(param, inlineEnums);
             }
-
-            // The MultipartFile handling above changes the type of some parameters from
-            // `UInt8List`, the default for files, to `MultipartFile`.
-            //
-            // The following block removes the required import for Uint8List if it is no
-            // longer in use.
-            if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))
-                    && op.responses.stream().filter(response -> response.dataType != null)
-                            .noneMatch(response -> response.dataType.equals("Uint8List"))) {
-                // Remove unused imports after processing
-                op.imports.remove("Uint8List");
+            for (CodegenResponse response : op.responses) {
+                fixOperationResponse(response);
+                if (response.isContainer && !(response.isBinary || response.isFile)) {                    
+                    serializers.add(getCodegenResponseTypeData(response));
+                }                
             }
-
-            for (CodegenParameter param : op.allParams) {
-                // Generate serializer factories for all container type parameters.
-                // But skip binary and file parameters, JSON serializers don't make sense there.
-                if (param.isContainer && !(param.isBinary || param.isFile )) {
-                    final Map<String, Object> serializer = new HashMap<>();
-                    serializer.put("isArray", param.isArray);
-                    serializer.put("uniqueItems", param.uniqueItems);
-                    serializer.put("isMap", param.isMap);
-                    serializer.put("baseType", param.baseType);
-                    serializers.add(serializer);
-                }
-            }
-
             resultImports.addAll(rewriteImports(op.imports, false));
             if (op.getHasFormParams() || op.getHasQueryParams()) {
                 resultImports.add("package:" + pubName + "/src/api_util.dart");
             }
-
-            // Generate serializer factories for response types.
-            // But skip binary and file response, JSON serializers don't make sense there.
-            if (op.returnContainer != null && !(op.isResponseBinary || op.isResponseFile)) {
-                final Map<String, Object> serializer = new HashMap<>();
-                serializer.put("isArray", Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer));
-                serializer.put("uniqueItems", op.uniqueItems);
-                serializer.put("isMap", Objects.equals("map", op.returnContainer));
-                serializer.put("baseType", op.returnBaseType);
-                serializers.add(serializer);
-            }
         }
-
+        if (!inlineEnums.isEmpty()) {
+            resultImports.add("package:built_value/built_value.dart");
+        }
         objs.put("imports", resultImports.stream().sorted().collect(Collectors.toList()));
         objs.put("serializers", serializers);
+        objs.put("inlineEnums", inlineEnums.values());
+        objs.put("hasInlineEnums", !inlineEnums.isEmpty());
 
         return objs;
     }

@@ -1,0 +1,24 @@
+
+    {{>serialization/built_value/variable_type}} _responseData;
+
+    try {
+{{#useBuiltValue}}{{>serialization/built_value/deserialize}}{{/useBuiltValue}}
+    } catch (error, stackTrace) {
+      throw DioError(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioErrorType.other,
+        error: error,
+      )..stackTrace = stackTrace;
+    }
+
+    return Response<{{>serialization/built_value/variable_type}}>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );

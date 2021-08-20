@@ -11,24 +11,20 @@ import 'package:{{pubName}}/src/model/date.dart';{{/useDateLibCore}}
 {{#useDateLibTimeMachine}}import 'package:time_machine/time_machine.dart';
 import 'package:{{pubName}}/src/offset_date_serializer.dart';{{/useDateLibTimeMachine}}
 {{#models}}{{#model}}import 'package:{{pubName}}/src/model/{{classFilename}}.dart';
-{{/model}}{{/models}}{{#builtValueSerializerImports}}import '{{{.}}}';
+{{/model}}{{/models}}{{#apiInfo}}{{#apis}}{{#hasInlineEnums}}import 'package:openapi/src/api/{{classFilename}}.dart';
+{{/hasInlineEnums}}{{/apis}}{{/apiInfo}}{{#builtValueSerializerImports}}import '{{{.}}}';
 {{/builtValueSerializerImports}}
 
 part 'serializers.g.dart';
 
 @SerializersFor([{{#models}}{{#model}}
-  {{classname}},{{/model}}{{/models}}
+  {{classname}},{{/model}}{{/models}}{{#apiInfo}}{{#apis}}{{#inlineEnums}}
+  {{enumName}},{{/inlineEnums}}{{/apis}}{{/apiInfo}}
 ])
 Serializers serializers = (_$serializers.toBuilder(){{#apiInfo}}{{#apis}}{{#serializers}}
       ..addBuilderFactory(
-{{#isArray}}
-        const FullType(Built{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}, [FullType({{baseType}})]),
-        () => {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}Builder<{{baseType}}>(),
-{{/isArray}}
-{{#isMap}}
-        const FullType(BuiltMap, [FullType(String), FullType({{baseType}})]),
-        () => MapBuilder<String, {{baseType}}>(),
-{{/isMap}}
+        const {{>serialization/built_value/variable_serializer_type}},
+        () => {{>serialization/built_value/variable_builder_type}},
       ){{/serializers}}{{/apis}}{{/apiInfo}}{{#useDateLibTimeMachine}}
       ..add(const OffsetDateSerializer())
       ..add(const OffsetDateTimeSerializer()){{/useDateLibTimeMachine}}{{#useDateLibCore}}

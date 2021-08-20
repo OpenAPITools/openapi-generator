@@ -7,6 +7,9 @@ import 'package:dio/dio.dart';
 {{#operations}}
 {{#imports}}import '{{.}}';
 {{/imports}}
+{{#hasInlineEnums}}
+part '{{classFilename}}.g.dart';
+{{/hasInlineEnums}}
 
 class {{classname}} {
 
@@ -43,11 +46,11 @@ class {{classname}} {
   @Deprecated('This operation has been deprecated')
   {{/isDeprecated}}
   Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}{{#isPathParam}}
-    required {{>serialization/built_value/api_param_type}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
-    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{>serialization/built_value/api_param_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
-    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{>serialization/built_value/api_param_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}
-    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{>serialization/built_value/api_param_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
-    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{>serialization/built_value/api_param_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}},{{/isFormParam}}{{/allParams}}
+    required {{>serialization/built_value/variable_type}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
+    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}}{{^isContainer}}{{>serialization/built_value/param_default_type}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
+    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}}{{^isContainer}}{{>serialization/built_value/param_default_type}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}
+    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
+    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}},{{/isFormParam}}{{/allParams}}
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -116,35 +119,15 @@ class {{classname}} {
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
-    {{#returnType}}
+    );{{^returnType}}
 
-    {{{returnType}}} _responseData;
-
-    try {
-{{#useBuiltValue}}{{>serialization/built_value/deserialize}}{{/useBuiltValue}}
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<{{{returnType}}}>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );{{/returnType}}{{^returnType}}
-    return _response;{{/returnType}}
+    return _response;{{/returnType}}{{#returnType}}{{#responses}}
+{{#isDefault}}{{>serialization/built_value/deserialize_response_type}}{{/isDefault}}{{#is2xx}}{{>serialization/built_value/deserialize_response_type}}{{/is2xx}}{{/responses}}{{/returnType}}
   }
 
   {{/operation}}
 }
+{{#inlineEnums}}
+{{>serialization/built_value/enum_inline}}
+{{/inlineEnums}}
 {{/operations}}

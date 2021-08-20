@@ -1,24 +1,24 @@
       {{#isResponseFile}}
-      _responseData = _response.data as {{{returnType}}};
+      _responseData = _response.data as {{>serialization/built_value/variable_type}};
       {{/isResponseFile}}
       {{^isResponseFile}}
       {{#returnSimpleType}}
       {{#returnTypeIsPrimitive}}
-      _responseData = _response.data as {{{returnType}}};
+      _responseData = _response.data as {{>serialization/built_value/variable_type}};
       {{/returnTypeIsPrimitive}}
       {{^returnTypeIsPrimitive}}
-      const _responseType = FullType({{{returnType}}});
+      const _responseType = {{>serialization/built_value/variable_serializer_type}};
       _responseData = _serializers.deserialize(
         _response.data!,
         specifiedType: _responseType,
-      ) as {{{returnType}}};
+      ) as {{>serialization/built_value/variable_type}};
       {{/returnTypeIsPrimitive}}
       {{/returnSimpleType}}
       {{^returnSimpleType}}
-      const _responseType = FullType(Built{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}{{#isMap}}Map{{/isMap}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{returnBaseType}}})]);
+      const _responseType = {{>serialization/built_value/variable_serializer_type}};
       _responseData = _serializers.deserialize(
         _response.data!,
         specifiedType: _responseType,
-      ) as {{{returnType}}};
+      ) as {{>serialization/built_value/variable_type}};
       {{/returnSimpleType}}
       {{/isResponseFile}}
