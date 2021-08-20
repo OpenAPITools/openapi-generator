@@ -544,10 +544,6 @@ public class DefaultGenerator implements Generator {
                 throw new RuntimeException("Could not generate model '" + modelName + "'", e);
             }
         }
-        if (GlobalSettings.getProperty("debugModels") != null) {
-            LOGGER.info("############ Model info ############");
-            Json.prettyPrint(allModels);
-        }
 
     }
 
@@ -677,11 +673,6 @@ public class DefaultGenerator implements Generator {
                 throw new RuntimeException("Could not generate api file for '" + tag + "'", e);
             }
         }
-        if (GlobalSettings.getProperty("debugOperations") != null) {
-            LOGGER.info("############ Operation info ############");
-            Json.prettyPrint(allOperations);
-        }
-
     }
 
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
@@ -951,7 +942,16 @@ public class DefaultGenerator implements Generator {
 
         // post-process
         config.postProcess();
-
+        //print the debugModels after post processing
+        if (GlobalSettings.getProperty("debugModels") != null) {
+            LOGGER.info("############ Model info ############");
+            Json.prettyPrint(allModels);
+        }
+        //print the debugOperations after post processing
+        if (GlobalSettings.getProperty("debugOperations") != null) {
+            LOGGER.info("############ Operation info ############");
+            Json.prettyPrint(allOperations);
+        }
         // reset GlobalSettings, so that the running thread can be reused for another generator-run
         GlobalSettings.reset();
 
