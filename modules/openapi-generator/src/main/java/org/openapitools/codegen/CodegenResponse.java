@@ -55,6 +55,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isDefault;
     public boolean simpleType;
     public boolean primitiveType;
+    public boolean isContainer;
     public boolean isMap;
     public boolean isArray;
     public boolean isBinary = false;
@@ -91,7 +92,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
-                isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
+                isMap, isArray, isContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
                 vars, requiredVars, isNull, hasValidation, isShort, isUnboundedInteger,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
@@ -128,6 +129,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 simpleType == that.simpleType &&
                 primitiveType == that.primitiveType &&
                 isMap == that.isMap &&
+                isContainer == that.isContainer &&
                 isArray == that.isArray &&
                 isBinary == that.isBinary &&
                 isFile == that.isFile &&
@@ -323,6 +325,13 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         this.isArray = isArray;
     }
 
+    
+    public boolean getIsContainer() { return isContainer; }
+
+    public void setIsContainer(boolean isContainer)  {
+        this.isContainer = isContainer;
+    }
+
     @Override
     public boolean getIsShort() { return isShort; }
 
@@ -452,6 +461,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", isDefault=").append(isDefault);
         sb.append(", simpleType=").append(simpleType);
         sb.append(", primitiveType=").append(primitiveType);
+        sb.append(", isContainer=").append(isContainer);
         sb.append(", isMap=").append(isMap);
         sb.append(", isArray=").append(isArray);
         sb.append(", isBinary=").append(isBinary);

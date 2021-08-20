@@ -4244,6 +4244,8 @@ public class DefaultCodegen implements CodegenConfig {
                 r.isArray = "list".equalsIgnoreCase(cp.containerType) ||
                         "array".equalsIgnoreCase(cp.containerType) ||
                         "set".equalsIgnoreCase(cp.containerType);
+                r.setUniqueItems("set".equalsIgnoreCase(cp.containerType));
+                r.items = cp.items.clone();                
             } else {
                 r.simpleType = true;
             }
@@ -4259,7 +4261,7 @@ public class DefaultCodegen implements CodegenConfig {
             r.primitiveType = true;
             r.simpleType = true;
         }
-
+        r.isContainer = r.isMap || r.isArray;
         return r;
     }
 
