@@ -177,18 +177,15 @@ bool {{classname}}::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 
 	{{#requiredVars}}
     {{#isWriteOnly}}
-	//Required but write-only. Its absence is reasonable when parsing JSON response.  
-	TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});
+	TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});  //{{baseName}} is required but write-only. Its absence is reasonable when parsing JSON response.
     {{/isWriteOnly}}
     {{^isWriteOnly}}
-	//Required and not write-only.  Its absence is likely a problem.
-	ParseSuccess &= TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});  //{{baseName}} is required and not write-only.  Its absence is likely a problem.
     {{/isWriteOnly}}
 	{{/requiredVars}}
 	{{#optionalVars}}
-	//Optional.  Its absence would be okay.
-	TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});
-	{{/optionalVars}}
+	TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});  //{{baseName}} is optional.  Its absence would be okay.
+    {{/optionalVars}}
 
 	return ParseSuccess;
 	{{/isString}}
