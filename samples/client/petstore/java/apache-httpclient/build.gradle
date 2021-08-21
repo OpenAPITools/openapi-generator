@@ -85,7 +85,7 @@ if(hasProperty('target') && target == 'android') {
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'petstore-apache'
+            pom.artifactId = 'petstore-apache-httpclient'
         }
     }
 

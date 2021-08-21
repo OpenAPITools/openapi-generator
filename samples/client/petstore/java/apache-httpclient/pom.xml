@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>petstore-apache</artifactId>
+    <artifactId>petstore-apache-httpclient</artifactId>
     <packaging>jar</packaging>
-    <name>petstore-apache</name>
+    <name>petstore-apache-httpclient</name>
     <version>1.0.0</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <description>OpenAPI Java</description>
@@ -228,16 +228,16 @@
         </dependency>
 
 
-        <!-- HTTP client: apache client -->
+        <!-- HTTP client: jersey-client -->
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpclient-version}</version>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
-            <version>${httpclient-version}</version>
+            <groupId>com.sun.jersey.contribs</groupId>
+            <artifactId>jersey-multipart</artifactId>
+            <version>${jersey-version}</version>
         </dependency>
 
         <!-- JSON processing: jackson -->
@@ -288,7 +288,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
-        <httpclient-version>4.5.13</httpclient-version>
+        <jersey-version>1.19.4</jersey-version>
         <jackson-version>2.12.1</jackson-version>
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
         <javax-annotation-version>1.3.2</javax-annotation-version>

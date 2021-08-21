@@ -12,7 +12,7 @@
 
 package org.openapitools.client.api;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.sun.jersey.api.client.GenericType;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
@@ -29,14 +29,14 @@ import java.util.List;
 import java.util.Map;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class AnotherFakeApi {
+public class FakeClassnameTags123Api {
   private ApiClient apiClient;
 
-  public AnotherFakeApi() {
+  public FakeClassnameTags123Api() {
     this(Configuration.getDefaultApiClient());
   }
 
-  public AnotherFakeApi(ApiClient apiClient) {
+  public FakeClassnameTags123Api(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
 
@@ -49,22 +49,22 @@ public class AnotherFakeApi {
   }
 
   /**
-   * To test special tags
-   * To test special tags and operation ID starting with number
+   * To test class name in snake case
+   * To test class name in snake case
    * @param body client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client call123testSpecialTags(Client body) throws ApiException {
+  public Client testClassname(Client body) throws ApiException {
     Object localVarPostBody = body;
     
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testClassname");
     }
     
     // create path and map variables
-    String localVarPath = "/another-fake/dummy";
+    String localVarPath = "/fake_classname_test";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -87,22 +87,9 @@ public class AnotherFakeApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] {  };
+    String[] localVarAuthNames = new String[] { "api_key_query" };
 
-    TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
-    return apiClient.invokeAPI(
-        localVarPath,
-        "PATCH",
-        localVarQueryParams,
-        localVarCollectionQueryParams,
-        localVarPostBody,
-        localVarHeaderParams,
-        localVarCookieParams,
-        localVarFormParams,
-        localVarAccept,
-        localVarContentType,
-        localVarAuthNames,
-        localVarReturnType
-    );
-  }
+    GenericType<Client> localVarReturnType = new GenericType<Client>() {};
+    return apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
 }

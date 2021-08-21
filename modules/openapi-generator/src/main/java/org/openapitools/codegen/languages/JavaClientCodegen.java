@@ -84,7 +84,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String RETROFIT_2 = "retrofit2";
     public static final String VERTX = "vertx";
     public static final String MICROPROFILE = "microprofile";
-    public static final String APACHE = "apache";
+    public static final String APACHE = "apache-httpclient";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -168,7 +168,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8");
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
         supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client 1.x. JSON processing: JSON-B");
-        supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 4.5");
+        supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 4.x");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
