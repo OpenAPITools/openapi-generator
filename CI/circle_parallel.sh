@@ -15,6 +15,12 @@ function cleanup {
 trap cleanup EXIT
 
 if [ "$NODE_INDEX" = "1" ]; then
+  echo "Running node $NODE_INDEX to test 'samples' defined in pom.xml ..."
+  java -version
+
+  mvn --no-snapshot-updates --quiet verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+
+elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
   java -version
 
@@ -23,7 +29,7 @@ if [ "$NODE_INDEX" = "1" ]; then
   echo "show ivy2 cache"
   ls -l /home/circleci/.ivy2/cache
 
-elif [ "$NODE_INDEX" = "2" ]; then
+elif [ "$NODE_INDEX" = "3" ]; then
   echo "Running node $NODE_INDEX to test haskell"
   # install haskell
   curl -sSL https://get.haskellstack.org/ | sh
