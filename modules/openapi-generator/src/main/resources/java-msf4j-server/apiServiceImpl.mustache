@@ -24,6 +24,7 @@ public class {{classname}}ServiceImpl extends {{classname}}Service {
     @Override
     public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}}{{^-last}},{{/-last}} {{/allParams}}) throws NotFoundException {
         {{#vendorExtensions.x-dependencies}}
+        // Check dependency: {{& idlDependency}}
         if({{& assertOperation}}){
             return Response.status(400).build();
         }
