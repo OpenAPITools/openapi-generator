@@ -161,7 +161,7 @@ namespace Org.OpenAPITools.Model
                         break;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(string.Format("Failed to parse the json data : `{0}` {1}", jsonString, ex.ToString()));
             }

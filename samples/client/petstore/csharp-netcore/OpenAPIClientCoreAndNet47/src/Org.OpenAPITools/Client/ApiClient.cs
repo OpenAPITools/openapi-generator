@@ -498,10 +498,10 @@ namespace Org.OpenAPITools.Client
                 {
                     response.Data = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     throw ex.InnerException != null ? ex.InnerException : ex;
-                }   
+                }
             }
             else if (typeof(T).Name == "Stream") // for binary response
             {
