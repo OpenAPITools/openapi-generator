@@ -278,12 +278,15 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             }
         }
     }
-    private void fixEnumParam(IJsonSchemaValidationProperties param) {
-        CodegenProperty items = param.getItems();
+
+    private void fixEnumParam(String opName,IJsonSchemaValidationProperties param) {
+        CodegenProperty items;
+        CodegenProperty mostInnerItems;
         boolean isEnum;
         boolean isContainer;
         Map<String, Object> allowableValues;
         String defaultValue;
+        String enumName;
         Map<String, Object> vendorExt;
         if (param instanceof CodegenParameter) {
             final CodegenParameter castedParam = (CodegenParameter)param;
@@ -292,6 +295,9 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             isContainer = castedParam.isContainer;
             defaultValue = castedParam.defaultValue;
             vendorExt = castedParam.vendorExtensions;
+            enumName = castedParam.enumName;
+            mostInnerItems = castedParam.mostInnerItems;
+            items = castedParam.items;
         } else if (param instanceof CodegenProperty) {
             final CodegenProperty castedParam = (CodegenProperty)param;
             allowableValues = castedParam.allowableValues;
@@ -299,14 +305,37 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             isContainer = castedParam.isContainer;
             defaultValue = castedParam.defaultValue;
             vendorExt = castedParam.vendorExtensions;
+            enumName = castedParam.enumName;
+            mostInnerItems = castedParam.mostInnerItems;
+            items = castedParam.items;
         }
         else {
             return;
         }
         if (isEnum) {
+            if (param instanceof CodegenParameter) { 
+                final CodegenParameter castedParam = (CodegenParameter)param;
+                if (!castedParam.enumName.contains(opName)) {
+                    enumName = castedParam.enumName += opName;                    
+                }
+            } else {
+                final CodegenProperty castedParam = (CodegenProperty)param;
+                if (!castedParam.enumName.contains(opName)) {
+                    enumName = castedParam.enumName += opName;                    
+                }
+            }
             if (isContainer) {
-                items.setAllowableValues(allowableValues);
-                fixEnumParam(items);
+                if (items != null) {
+                    items.setAllowableValues(allowableValues);
+                    items.enumName = enumName;
+                    fixEnumParam(opName, items);
+                }
+                if (mostInnerItems != null) {
+                    mostInnerItems.setAllowableValues(allowableValues);
+                    mostInnerItems.enumName = enumName; 
+                    fixEnumParam(opName, mostInnerItems);
+                }
+                
             } else {
                 if (!StringUtils.isEmpty(defaultValue)) {
                     final List<Object> enumVars = (List<Object>) allowableValues.get("enumVars");
@@ -322,12 +351,17 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             }
         } else {
             if (isContainer) {
-                fixEnumParam(items);
+                if (items != null) {
+                    fixEnumParam(opName, items);
+                }
+                if (mostInnerItems != null){
+                    fixEnumParam(opName, mostInnerItems);
+                }
             }
         }
       
     }
-    private void fixOperationParam(CodegenParameter param) {
+    private void fixOperationParam(String opName, CodegenParameter param) {
         if (param.isContainer) {
             if (param.isArray) {
                 if (param.uniqueItems) {
@@ -339,12 +373,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 param.baseType = typeMapping.get("map");
             }
         }
-
-        if (StringUtils.isEmpty(param.datatypeWithEnum)) {
-            param.datatypeWithEnum = param.dataType;
-        }
-
-        fixEnumParam(param);
+        fixEnumParam(opName, param);        
     }
 
     private void fixOperationResponse(CodegenResponse response) {        
@@ -355,7 +384,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 } else {
                     response.baseType = typeMapping.get("array");
                 }
-                // uniqueitems aren't public in CodegenResponse
             } else if (response.isMap) {
                 response.baseType = typeMapping.get("map");
             }    
@@ -430,7 +458,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 op.pathParams,
                 op.queryParams,
                 op.headerParams,
-                op.formParams,
+                op.formParams,                
                 op.cookieParams,
                 op.requiredParams,
                 op.optionalParams).flatMap(Collection::stream).collect(Collectors.toList());
@@ -438,7 +466,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 actualAllParams.add(op.bodyParam);
             }
             for (CodegenParameter param : actualAllParams) {                
-                fixOperationParam(param);  
+                fixOperationParam(op.operationId, param);  
                 if (param.isContainer && !(param.isBinary || param.isFile)) {                    
                     serializers.add(getCodegenParameterTypeData(param));
                 }
