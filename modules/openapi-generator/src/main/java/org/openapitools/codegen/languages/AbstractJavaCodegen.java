@@ -1502,7 +1502,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if (dep.getDep() instanceof RelationalDependencyImpl){
             assertion = "!" + writeRelationalDependency((RelationalDependency) dep.getDep(), true, operation, assertion);
         } else if (dep.getDep() instanceof GeneralPredefinedDependencyImpl) {
-            assertion = writePredefinedDependency((GeneralPredefinedDependency) dep.getDep(), operation, assertion);
+            assertion = writePredefinedDependency((GeneralPredefinedDependency) dep.getDep(), true, operation, assertion);
         }
         return assertion;
     }
@@ -1575,7 +1575,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             } else if (clause.getFirstElement() instanceof ArithmeticDependencyImpl){
                 assertOperation = writeArithmeticDependency((ArithmeticDependency) clause.getFirstElement(), false, operation, assertOperation);
             } else if (clause.getFirstElement() instanceof GeneralPredefinedDependencyImpl){
-                assertOperation = writePredefinedDependency((GeneralPredefinedDependency) clause.getFirstElement(), operation, assertOperation);
+                assertOperation = writePredefinedDependency((GeneralPredefinedDependency) clause.getFirstElement(), false, operation, assertOperation);
             }
 
         }
@@ -1700,8 +1700,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @param assertOperation
      * @return
      */
-    private String writePredefinedDependency(GeneralPredefinedDependency dep, CodegenOperation operation, String assertOperation){
-        if (dep.getNot() != null)
+    private String writePredefinedDependency(GeneralPredefinedDependency dep, boolean alone, CodegenOperation operation, String assertOperation){
+        if(!alone ^ dep.getNot() != null)
             assertOperation += "!";
         assertOperation += "DependencyUtil.doNotSatisfy" + dep.getPredefDepType() + "Dependency(";
 

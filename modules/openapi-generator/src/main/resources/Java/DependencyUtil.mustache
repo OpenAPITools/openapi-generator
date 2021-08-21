@@ -34,7 +34,7 @@ public class DependencyUtil {
         return true;
     }
 
-    result = result && doNotSatisfyOrDependency(assertions);
+    result = result && !doNotSatisfyOrDependency(assertions);
     return !result;
   }
 
