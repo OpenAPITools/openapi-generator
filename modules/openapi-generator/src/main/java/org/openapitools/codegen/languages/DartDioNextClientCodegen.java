@@ -279,6 +279,11 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         }
     }
 
+    /*This does 3 things
+        1) makes sure that inline enums are unique per operation by appending opName to the enum name
+        2) Solves a bug where if we have a container of enum, the "allowableValues" property doesn't get passed down to the "items" property
+        3) provides defaultValueWithEnum as a vendor ext which gives full information about the default value, including its name
+    */
     private void fixEnumParam(String opName,IJsonSchemaValidationProperties param) {
         CodegenProperty items;
         CodegenProperty mostInnerItems;
@@ -361,6 +366,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         }
       
     }
+    /// A workaround for https://github.com/OpenAPITools/openapi-generator/issues/10189
     private void fixOperationParam(String opName, CodegenParameter param) {
         if (param.isContainer) {
             if (param.isArray) {
@@ -376,6 +382,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         fixEnumParam(opName, param);        
     }
 
+    /// A workaround for https://github.com/OpenAPITools/openapi-generator/issues/10189
     private void fixOperationResponse(CodegenResponse response) {        
         if (response.isContainer) {
             if (response.isArray) {
@@ -416,6 +423,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         return typeData;
     }
 
+    //Extracts inline enums to put them later in an "inlineEnums" property for each api
     private void extractInlineEnums(IJsonSchemaValidationProperties property, Map<String, Object> inlineEnums) {
         if (property instanceof CodegenProperty) {
             final CodegenProperty casted = (CodegenProperty) property;
@@ -450,7 +458,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         Set<Map<String, Object>> serializers = new HashSet<>();
         Map<String, Object> inlineEnums = new HashMap<>();
         Set<String> resultImports = new HashSet<>();
-        // enumName
         for (CodegenOperation op : operationList) {            
             List<CodegenParameter> actualAllParams = Stream.of(
                 op.allParams,
@@ -465,7 +472,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             if (op.bodyParam != null) {
                 actualAllParams.add(op.bodyParam);
             }
-            for (CodegenParameter param : actualAllParams) {                
+            for (CodegenParameter param : actualAllParams) {
                 fixOperationParam(op.operationId, param);  
                 if (param.isContainer && !(param.isBinary || param.isFile)) {                    
                     serializers.add(getCodegenParameterTypeData(param));
