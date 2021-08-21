@@ -121,12 +121,14 @@ void main() {
 
         final response = await client.getFakeApi().testEnumParameters(
               enumQueryStringArray: [
-                EnumQueryStringArrayEnum.dollar,
-                EnumQueryStringArrayEnum.greaterThan
+                EnumQueryStringArrayEnumtestEnumParameters.dollar,
+                EnumQueryStringArrayEnumtestEnumParameters.greaterThan
               ].build(),
-              enumFormString: EnumFormStringEnum.abc,
-              enumFormStringArray:
-                  [InnerEnum.dollar, InnerEnum.greaterThan].build(),
+              enumFormString: EnumFormStringEnumtestEnumParameters.abc,
+              enumFormStringArray: [
+                EnumFormStringArrayEnumtestEnumParameters.dollar,
+                EnumFormStringArrayEnumtestEnumParameters.greaterThan,
+              ].build(),
             );
 
         expect(response.statusCode, 200);

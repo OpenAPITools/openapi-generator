@@ -163,7 +163,7 @@ class PetApi {
   /// Returns a [Future] containing a [Response] with a [BuiltList<Pet>] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<BuiltList<Pet>>> findPetsByStatus({ 
-    required BuiltList<StatusEnum> status,
+    required BuiltList<StatusEnumfindPetsByStatus> status,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -190,7 +190,7 @@ class PetApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'status': encodeCollectionQueryParameter<StatusEnum>(_serializers, status, const FullType(BuiltList, [FullType(StatusEnum)]), format: ListFormat.csv,),
+      r'status': encodeCollectionQueryParameter<StatusEnumfindPetsByStatus>(_serializers, status, const FullType(BuiltList, [FullType(StatusEnumfindPetsByStatus)]), format: ListFormat.csv,),
     };
 
     final _response = await _dio.request<Object>(
@@ -759,22 +759,22 @@ class PetApi {
   }
 
 }
-class StatusEnum extends EnumClass {
+class StatusEnumfindPetsByStatus extends EnumClass {
 
   /// Status values that need to be considered for filter
   @BuiltValueEnumConst(wireName: r'available')
-  static const StatusEnum available = _$statusEnum_available;
+  static const StatusEnumfindPetsByStatus available = _$statusEnumfindPetsByStatus_available;
   /// Status values that need to be considered for filter
   @BuiltValueEnumConst(wireName: r'pending')
-  static const StatusEnum pending = _$statusEnum_pending;
+  static const StatusEnumfindPetsByStatus pending = _$statusEnumfindPetsByStatus_pending;
   /// Status values that need to be considered for filter
   @BuiltValueEnumConst(wireName: r'sold')
-  static const StatusEnum sold = _$statusEnum_sold;
+  static const StatusEnumfindPetsByStatus sold = _$statusEnumfindPetsByStatus_sold;
 
-  static Serializer<StatusEnum> get serializer => _$statusEnumSerializer;
+  static Serializer<StatusEnumfindPetsByStatus> get serializer => _$statusEnumfindPetsByStatusSerializer;
 
-  const StatusEnum._(String name): super(name);
+  const StatusEnumfindPetsByStatus._(String name): super(name);
 
-  static BuiltSet<StatusEnum> get values => _$statusEnumValues;
-  static StatusEnum valueOf(String name) => _$statusEnumValueOf(name);
+  static BuiltSet<StatusEnumfindPetsByStatus> get values => _$statusEnumfindPetsByStatusValues;
+  static StatusEnumfindPetsByStatus valueOf(String name) => _$statusEnumfindPetsByStatusValueOf(name);
 }

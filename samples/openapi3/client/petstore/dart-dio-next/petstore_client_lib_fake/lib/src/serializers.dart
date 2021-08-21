@@ -110,45 +110,40 @@ part 'serializers.g.dart';
   SpecialModelName,
   Tag,
   User,
-  InnerEnum,
-  EnumQueryDoubleEnum,
-  EnumFormStringArrayEnum,
-  EnumHeaderStringEnum,
-  EnumQueryStringEnum,
-  EnumFormStringEnum,
-  EnumQueryStringArrayEnum,
-  EnumQueryIntegerEnum,
-  EnumHeaderStringArrayEnum,
-  StatusEnum,
+  EnumFormStringEnumtestEnumParameters,
+  EnumHeaderStringArrayEnumtestEnumParameters,
+  EnumQueryStringArrayEnumtestEnumParameters,
+  EnumQueryIntegerEnumtestEnumParameters,
+  EnumFormStringArrayEnumtestEnumParameters,
+  EnumHeaderStringEnumtestEnumParameters,
+  EnumQueryDoubleEnumtestEnumParameters,
+  EnumQueryStringEnumtestEnumParameters,
+  StatusEnumfindPetsByStatus,
 ])
 Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(InnerEnum)]),
-        () => ListBuilder<InnerEnum>(),
-      )
-      ..addBuilderFactory(
         const FullType(BuiltMap, [FullType(String), FullType(String)]),
         () => MapBuilder<String, String>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltMap, [FullType(String), FullType(String)]),
         () => MapBuilder<String, String>(),
-      )
-      ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(EnumHeaderStringArrayEnum)]),
-        () => ListBuilder<EnumHeaderStringArrayEnum>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(String)]),
         () => ListBuilder<String>(),
       )
       ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(EnumQueryStringArrayEnum)]),
-        () => ListBuilder<EnumQueryStringArrayEnum>(),
+        const FullType(BuiltList, [FullType(EnumQueryStringArrayEnumtestEnumParameters)]),
+        () => ListBuilder<EnumQueryStringArrayEnumtestEnumParameters>(),
       )
       ..addBuilderFactory(
-        const FullType(BuiltList, [FullType(StatusEnum)]),
-        () => ListBuilder<StatusEnum>(),
+        const FullType(BuiltList, [FullType(EnumHeaderStringArrayEnumtestEnumParameters)]),
+        () => ListBuilder<EnumHeaderStringArrayEnumtestEnumParameters>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(EnumFormStringArrayEnumtestEnumParameters)]),
+        () => ListBuilder<EnumFormStringArrayEnumtestEnumParameters>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltSet, [FullType(String)]),
@@ -161,6 +156,10 @@ Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(
         const FullType(BuiltList, [FullType(Pet)]),
         () => ListBuilder<Pet>(),
+      )
+      ..addBuilderFactory(
+        const FullType(BuiltList, [FullType(StatusEnumfindPetsByStatus)]),
+        () => ListBuilder<StatusEnumfindPetsByStatus>(),
       )
       ..addBuilderFactory(
         const FullType(BuiltMap, [FullType(String), FullType(int)]),

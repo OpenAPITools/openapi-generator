@@ -199,7 +199,10 @@ void main() {
         );
 
         final response = await client.getPetApi().findPetsByStatus(
-              status: [StatusEnum.available, StatusEnum.sold].build(),
+              status: [
+                StatusEnumfindPetsByStatus.available,
+                StatusEnumfindPetsByStatus.sold
+              ].build(),
             );
 
         expect(response.statusCode, 200);
