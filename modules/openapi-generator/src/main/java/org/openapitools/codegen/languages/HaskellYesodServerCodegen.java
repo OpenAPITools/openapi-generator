@@ -1,31 +1,44 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
-import io.swagger.models.parameters.Parameter;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.dashize;
 
 public class HaskellYesodServerCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
@@ -84,6 +97,10 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
                         SchemaSupportFeature.Polymorphism
                 )
         );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         // override the mapping to keep the original mapping in Haskell
         specialCharReplacements.put("-", "Dash");
@@ -161,9 +178,9 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         importMapping.clear();
 
         cliOptions.add(new CliOption(PROJECT_NAME,
-            "name of the project (Default: generated from info.title or \"openapi-haskell-yesod-server\")"));
+                "name of the project (Default: generated from info.title or \"openapi-haskell-yesod-server\")"));
         cliOptions.add(new CliOption(API_MODULE_NAME,
-            "name of the API module (Default: generated from info.title or \"API\")"));
+                "name of the API module (Default: generated from info.title or \"API\")"));
     }
 
     @Override
@@ -393,7 +410,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         String path = pathToYesodPath(op.path, op.pathParams);
         String resource = pathToYesodResource(op.path, op.pathParams);
 
-        List <Map<String, Object>> routes = (List <Map<String, Object>>) additionalProperties.get("routes");
+        List<Map<String, Object>> routes = (List<Map<String, Object>>) additionalProperties.get("routes");
         if (routes == null) {
             routes = new ArrayList<Map<String, Object>>();
             additionalProperties.put("routes", routes);
@@ -440,7 +457,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         return op;
     }
 
-    public Boolean hasOverlappedPath(String path, List <Map<String, Object>> routes) {
+    public Boolean hasOverlappedPath(String path, List<Map<String, Object>> routes) {
         for (Map<String, Object> route : routes) {
             String processedPath = (String) route.get("path");
             if (processedPath.startsWith("!")) {

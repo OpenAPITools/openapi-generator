@@ -94,7 +94,7 @@ The following generators are available:
 * [go-server](generators/go-server.md)  
 * [graphql-nodejs-express-server](generators/graphql-nodejs-express-server.md)  
 * [haskell](generators/haskell.md)  
-* [haskell-yesod](generators/haskell-yesod.md)  
+* [haskell-yesod (beta)](generators/haskell-yesod.md)  
 * [java-inflector](generators/java-inflector.md)  
 * [java-msf4j](generators/java-msf4j.md)  
 * [java-pkmst](generators/java-pkmst.md)  
