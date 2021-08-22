@@ -1479,6 +1479,9 @@ def is_valid_type(input_class_simple, valid_classes):
     Returns:
         bool
     """
+    if issubclass(input_class_simple, OpenApiModel) and \
+        valid_classes == (bool, date, datetime, dict, float, int, list, str, none_type,):
+        return True
     valid_type = input_class_simple in valid_classes
     if not valid_type and (
             issubclass(input_class_simple, OpenApiModel) or
