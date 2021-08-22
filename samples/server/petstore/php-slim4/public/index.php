@@ -20,7 +20,7 @@
  * https://github.com/openapitools/openapi-generator
  */
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use OpenAPIServer\SlimRouter;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,9 +29,9 @@ use OpenAPIServer\Mock\OpenApiDataMocker;
 
 // load config file
 $config = [];
-if (is_array($prodConfig = @include(__DIR__ . '/config/prod/config.inc.php'))) {
+if (is_array($prodConfig = @include(__DIR__ . '/../config/prod/config.inc.php'))) {
     $config = $prodConfig;
-} elseif (is_array($devConfig = @include(__DIR__ . '/config/dev/config.inc.php'))) {
+} elseif (is_array($devConfig = @include(__DIR__ . '/../config/dev/config.inc.php'))) {
     $config = $devConfig;
 } else {
     throw new InvalidArgumentException('Config file missed or broken.');
