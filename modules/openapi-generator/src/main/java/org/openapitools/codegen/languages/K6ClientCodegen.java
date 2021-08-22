@@ -82,98 +82,98 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     }
 
-	static class Parameter {
-		String key;
-		Object value;
-		boolean hasExample;
+    static class Parameter {
+        String key;
+        Object value;
+        boolean hasExample;
 
-		public Parameter(String key, Object value) {
-			this.key = key;
-			this.value = value;
-		}
+        public Parameter(String key, Object value) {
+            this.key = key;
+            this.value = value;
+        }
 
-		public Parameter(String key, Object exampleValue, boolean hasExample) {
-			this.key = key;
-			this.value = exampleValue;
-			this.hasExample = hasExample;
-		}
+        public Parameter(String key, Object exampleValue, boolean hasExample) {
+            this.key = key;
+            this.value = exampleValue;
+            this.hasExample = hasExample;
+        }
 
-		@Override
-		public int hashCode() {
-			return key.hashCode();
-		}
+        @Override
+        public int hashCode() {
+            return key.hashCode();
+        }
 
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null || getClass() != obj.getClass())
-				return false;
-			Parameter p = (Parameter) obj;
-			return key.equals(p.key) && value.equals(p.value) && hasExample == p.hasExample;
-		}
-	}
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null || getClass() != obj.getClass())
+                return false;
+            Parameter p = (Parameter) obj;
+            return key.equals(p.key) && value.equals(p.value) && hasExample == p.hasExample;
+        }
+    }
     
-	static class ParameterValueLambda implements Mustache.Lambda {
-		private static final String NO_EXAMPLE_PARAM_VALUE_PREFIX = "TODO_EDIT_THE_";
+    static class ParameterValueLambda implements Mustache.Lambda {
+        private static final String NO_EXAMPLE_PARAM_VALUE_PREFIX = "TODO_EDIT_THE_";
 
-		@Override
-		public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
 
-			// default used if no example is provided
-			String noExampleParamValue = String.join("",
-					quoteExample(
-							String.join("", NO_EXAMPLE_PARAM_VALUE_PREFIX, fragment.execute())), 
-					";",
-					" // specify value as there is no example value for this parameter in OpenAPI spec");
+            // default used if no example is provided
+            String noExampleParamValue = String.join("",
+                    quoteExample(
+                            String.join("", NO_EXAMPLE_PARAM_VALUE_PREFIX, fragment.execute())), 
+                    ";",
+                    " // specify value as there is no example value for this parameter in OpenAPI spec");
 
-			// param has example(s)
-			if (fragment.context() instanceof K6ClientCodegen.Parameter
-					&& ((K6ClientCodegen.Parameter) fragment.context()).hasExample) {
+            // param has example(s)
+            if (fragment.context() instanceof K6ClientCodegen.Parameter
+                    && ((K6ClientCodegen.Parameter) fragment.context()).hasExample) {
 
-				Object rawValue = ((K6ClientCodegen.Parameter) fragment.context()).value;
-				
-				// handle as 'examples'
-				if (rawValue instanceof Map) {
-					
-					@SuppressWarnings("unchecked")
-					Set<String> exampleValues = ((Map<String, Example>) rawValue).values().stream()
-							.map(x -> quoteExample(
-									StringEscapeUtils.escapeEcmaScript(
-											String.valueOf(x.getValue()))))
-							.collect(Collectors.toCollection(() -> new TreeSet<String>()));
-					
-					if (!exampleValues.isEmpty()) {
+                Object rawValue = ((K6ClientCodegen.Parameter) fragment.context()).value;
 
-						writer.write(String.join("", 
-								Arrays.toString(exampleValues.toArray()), 
-								".shift();",
-								" // first element from list extracted from 'examples' field defined at the parameter level of OpenAPI spec"));
+                // handle as 'examples'
+                if (rawValue instanceof Map) {
 
-					} else {
-						writer.write(noExampleParamValue);
-					}
+                    @SuppressWarnings("unchecked")
+                    Set<String> exampleValues = ((Map<String, Example>) rawValue).values().stream()
+                            .map(x -> quoteExample(
+                                    StringEscapeUtils.escapeEcmaScript(
+                                            String.valueOf(x.getValue()))))
+                            .collect(Collectors.toCollection(() -> new TreeSet<String>()));
 
-				// handle as (single) 'example'
-				} else {
-					writer.write(String.join("",
-							quoteExample(
-									StringEscapeUtils.escapeEcmaScript(
-											String.valueOf(
-									((K6ClientCodegen.Parameter) fragment.context()).value))),
-							";", 
-							" // extracted from 'example' field defined at the parameter level of OpenAPI spec"));
-				}
+                    if (!exampleValues.isEmpty()) {
 
-			} else {
-				writer.write(noExampleParamValue);
-			}
-		}
+                        writer.write(String.join("",
+                                Arrays.toString(exampleValues.toArray()),
+                                ".shift();",
+                                " // first element from list extracted from 'examples' field defined at the parameter level of OpenAPI spec"));
 
-		private static String quoteExample(String exampleValue) {
-			return StringUtils.wrap(exampleValue, "'");
-		}
-	}
+                    } else {
+                        writer.write(noExampleParamValue);
+                    }
+
+                // handle as (single) 'example'
+                } else {
+                    writer.write(String.join("",
+                            quoteExample(
+                                    StringEscapeUtils.escapeEcmaScript(
+                                            String.valueOf(
+                                    ((K6ClientCodegen.Parameter) fragment.context()).value))),
+                            ";",
+                            " // extracted from 'example' field defined at the parameter level of OpenAPI spec"));
+                }
+
+            } else {
+                writer.write(noExampleParamValue);
+            }
+        }
+
+        private static String quoteExample(String exampleValue) {
+            return StringUtils.wrap(exampleValue, "'");
+        }
+    }
 
     static class HTTPBody {
         List<Parameter> parameters;
@@ -484,23 +484,23 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                             case "query":
                                 if (parameter.getIn().equals("query"))
                                     queryParams.add(new Parameter(parameter.getName(), getTemplateVariable(parameter.getName())));
-								if (!pathVariables.containsKey(path)) {
-									// use 'example' field defined at the parameter level of OpenAPI spec
-									if (Objects.nonNull(parameter.getExample())) {
-										variables.add(new Parameter(toVarName(parameter.getName()),
-												parameter.getExample(), true));
+                                if (!pathVariables.containsKey(path)) {
+                                    // use 'example' field defined at the parameter level of OpenAPI spec
+                                    if (Objects.nonNull(parameter.getExample())) {
+                                        variables.add(new Parameter(toVarName(parameter.getName()),
+                                                parameter.getExample(), true));
 
-									// use 'examples' field defined at the parameter level of OpenAPI spec
-									} else if (Objects.nonNull(parameter.getExamples())) {
-										variables.add(new Parameter(toVarName(parameter.getName()),
-												parameter.getExamples(), true));
+                                    // use 'examples' field defined at the parameter level of OpenAPI spec
+                                    } else if (Objects.nonNull(parameter.getExamples())) {
+                                        variables.add(new Parameter(toVarName(parameter.getName()),
+                                                parameter.getExamples(), true));
 
-									// no example provided, generated script will contain placeholder value
-									} else {
-										variables.add(new Parameter(toVarName(parameter.getName()),
-												parameter.getName().toUpperCase(Locale.ROOT)));
-									}
-								}
+                                    // no example provided, generated script will contain placeholder value
+                                    } else {
+                                        variables.add(new Parameter(toVarName(parameter.getName()),
+                                                parameter.getName().toUpperCase(Locale.ROOT)));
+                                    }
+                                }
                                 break;
                             default:
                                 break;
@@ -745,8 +745,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         return accepts;
     }
     
-	@Override
-	protected Builder<String, Lambda> addMustacheLambdas() {
-		return super.addMustacheLambdas().put("handleParamValue", new ParameterValueLambda());
-	}
+    @Override
+    protected Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas().put("handleParamValue", new ParameterValueLambda());
+    }
 }
