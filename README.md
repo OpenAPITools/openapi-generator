@@ -821,6 +821,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2021-05-31 - [FlutterでOpen Api Generator(Swagger)を使う](https://aakira.app/blog/2021/05/flutter-open-api/) by [AAkira](https://twitter.com/_a_akira)
 - 2021-06-22 - [Rest API Documentation and Client Generation With OpenAPI](https://dzone.com/articles/rest-api-documentation-and-client-generation-with) by [Prasanth Gullapalli](https://dzone.com/users/1011797/prasanthnath.g@gmail.com.html) 
 - 2021-07-16 - [銀行事業のサーバーサイド開発について / LINE 京都開発室 エンジニア採用説明会](https://www.youtube.com/watch?v=YrrKQHxLPpQ) by 野田誠人, Robert Mitchell
+- 2021-07-29 - [How To Rewrite a Huge Codebase](https://dzone.com/articles/how-to-rewrite-a-huge-code-base) by [Curtis Poe](https://dzone.com/users/4565446/publiusovidius.html)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -884,7 +885,6 @@ Here is a list of template creators:
    * Java (Google APIs Client Library): @charlescapps
    * Java (Rest-assured): @viclovsky
    * Java (Java 11 Native HTTP client): @bbdouglas
-   * Java (MicroProfile): @turkeylurkey
    * Java (Apache HttpClient): @harrywhite4
    * Javascript/NodeJS: @jfiala
    * Javascript (Apollo DataSource): @erithmetic
