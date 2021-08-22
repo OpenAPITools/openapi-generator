@@ -884,6 +884,7 @@ Here is a list of template creators:
    * Java (Google APIs Client Library): @charlescapps
    * Java (Rest-assured): @viclovsky
    * Java (Java 11 Native HTTP client): @bbdouglas
+   * Java (MicroProfile): @turkeylurkey
    * Java (Apache HttpClient): @harrywhite4
    * Javascript/NodeJS: @jfiala
    * Javascript (Apollo DataSource): @erithmetic
