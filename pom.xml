@@ -1339,6 +1339,7 @@
                 <module>samples/client/petstore/java/rest-assured</module>
                 <module>samples/client/petstore/java/rest-assured-jackson</module>
                 <module>samples/client/petstore/java/microprofile-rest-client</module>
+                <module>samples/client/petstore/java/apache-httpclient</module>
                 <module>samples/client/petstore/groovy</module>
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
