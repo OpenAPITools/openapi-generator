@@ -1,122 +1,83 @@
-// Choose a constructor based on the model
-// assumes the following local variables are available and have been put into maps
 // Knowing the details of an operation it will produce a call to a Volley Request constructor
 package {{packageName}}.request
 
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import java.lang.reflect.Type
+{{#authMethods}}
 import {{packageName}}.auth.Authentication
+{{/authMethods}}
 import {{packageName}}.request.IRequestFactory.Companion.escapeString
+import java.lang.reflect.Type
+import java.util.Locale
+import java.util.UUID
 
-class RequestFactory: IRequestFactory {
 
-    /**
-    * Get authentications (key: authentication name, value: authentication).
-    */
-    private var authentications: Map<String, Authentication>? = mapOf(
-        {{#authMethods}}
-            {{#isApiKey}}
-                "{{name}}", ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}")
-            {{/isApiKey}}
-            {{#isBasic}}
-                "{{name}}", HttpBasicAuth()
-            {{/isBasic}}
-            {{#isOAuth}}
-                // TODO: comment out below as OAuth does not exist
-                //"{{name}}", OAuth()
-            {{/isOAuth}}
-        {{/authMethods}}
-    )
+class RequestFactory(vararg headerFactory : () -> Map<String, String>): IRequestFactory {
 
+    companion object {
+      // TODO Generate appropriate header factories based on settings
+      // Where a header factory requires parameters a client will need to bind these
+{{#authMethods}}
     /**
     * Update query and header parameters based on authentication settings.
     *
     * @param authNames The authentications to apply
     */
-    private fun updateParamsForAuth(
-        authNames: Array<String>,
-        queryParams: Map<String, String>,
-        headerParams: Map<String, String>
-    ) : Pair<Map<String, String>, Map<String, String>>  {
-        val updatedQueryParams = queryParams.toMutableMap()
-        val updatedHeaderParams = headerParams.toMutableMap()
 
-        for (authName in authNames) {
-            val auth = authentications!![authName] ?: throw RuntimeException("Authentication undefined: $authName")
-            auth.applyToParams(updatedQueryParams, updatedHeaderParams)
-        }
-        return updatedQueryParams.toMap() to updatedHeaderParams.toMap()
+    {{#isApiKey}}
+        "{{name}}", ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}")
+    {{/isApiKey}}
+    {{#isBasic}}
+        "{{name}}", HttpBasicAuth()
+    {{/isBasic}}
+    {{#isOAuth}}
+        // TODO: comment out below as OAuth does not exist
+        //"{{name}}", OAuth()
+    {{/isOAuth}}
+{{/authMethods}}
+
     }
 
-    private fun getMethodPreconditionCheck() {
-        // TODO: Implement
-    }
+    private val headerFactories : List<() -> Map<String, String>> = listOf(*headerFactory)
 
-    private fun deleteMethodPreconditionCheck() {
-        // TODO: Implement
-    }
-
-    private fun postPutPatchPreconditionCheck() {
-        // TODO: Implement
-    }
-
-    override fun <T> build(method: Int,
-           url : String,
-           body: Any?,
-           headers: Map<String, String>?,
-           params: Map<String, String>?,
-           contentTypeForBody: String?,
-           authNames: Array<String>?,
-           type: Type,
-           responseListener: Response.Listener<T>,
-           errorListener: Response.ErrorListener): Request<T> {
-
-        val updatedParams = updateParamsForAuth(authNames ?: arrayOf(), params ?: mapOf(), headers ?: mapOf())
-
-        // Pivot on the method (verb), and whether parameters are optional
-        val updatedUrl = if (!params.isNullOrEmpty()) {
-            params.asSequence().fold("$url?") {acc, param ->
-                    "$acc${escapeString(param.key)}=${escapeString(param.value)}&"
-                }.trimEnd('&')
+    /**
+    * {@inheritDoc}
+    */
+    @Suppress("UNCHECKED_CAST")
+    override fun <T> build(
+        method: Int,
+        url: String,
+        body: Any?,
+        headers: Map<String, String>?,
+        params: Map<String, String>?,
+        contentTypeForBody: String?,
+        authNames: Array<String>?,
+        type: Type,
+        responseListener: Response.Listener<T>,
+        errorListener: Response.ErrorListener
+    ): Request<T> {
+            val afterMarketHeaders = (headers?.toMutableMap() ?: mutableMapOf())
+            // Factory built and aftermarket
+            // Merge the after market headers on top of the base ones in case we are overriding per call auth
+            val allHeaders = headerFactories.fold(afterMarketHeaders, {acc, factory -> (acc + factory.invoke()).toMutableMap() }   )
+            val updatedUrl = if (!params.isNullOrEmpty()) {
+              params.asSequence().fold("$url?") {acc, param ->
+                "$acc${escapeString(param.key)}=${escapeString(param.value)}&"
+              }.trimEnd('&')
             } else {
-                url
+              url
             }
 
-        return when(method) {
-            Request.Method.GET -> {
-                getMethodPreconditionCheck()
-                GsonRequest<T>(method, updatedUrl,
-                    body,
-                    updatedParams.second,
-                    updatedParams.first.toMutableMap(),
-                    contentTypeForBody,
-                    null,
-                    type,
-                    responseListener,
-                    errorListener)
-            }
-            Request.Method.DELETE -> {
-                deleteMethodPreconditionCheck()
-                StringRequest(method, url, responseListener as Response.Listener<String>, errorListener) as Request<T>
-            }
-            Request.Method.POST, Request.Method.PATCH, Request.Method.PUT -> {
-                postPutPatchPreconditionCheck()
-                GsonRequest<T>(method, updatedUrl,
-                    body,
-                    headers,
-                    updatedParams.first.toMutableMap(),
-                    contentTypeForBody,
-                    null,
-                    type,
-                    responseListener,
-                    errorListener)
-            }
-            else -> {
-                // TODO: Make this better.
-                throw Exception("Unsupported method")
-            }
-        }
+            return GsonRequest(
+                method,
+                updatedUrl,
+                body,
+                allHeaders,
+                params?.toMutableMap(),
+                contentTypeForBody,
+                null,
+                type,
+                responseListener,
+                errorListener)
     }
 }

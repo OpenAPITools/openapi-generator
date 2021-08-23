@@ -81,7 +81,8 @@ interface IRequestFactory {
         }
     }
 
-    fun <T> build(method: Int,
+    fun <T> build(
+        method: Int,
         url : String,
         body: Any?,
         headers: Map<String, String>?,

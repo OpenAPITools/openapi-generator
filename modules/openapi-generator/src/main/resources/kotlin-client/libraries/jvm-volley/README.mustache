@@ -1,0 +1,132 @@
+# {{packageName}} - Kotlin client library for {{appName}}
+
+Design decisions for the Android Kotlin library
+
+A kotlin client for Android using the currently recommended http client, Volley. See https://developer.android.com/training/volley
+
+- Currently sends GsonRequests
+- Currently only supports Gson as a serializer
+- Default the source location to src/main/java as per standard Android builds
+
+
+
+- Reuse model class and other jvm common infrastructure
+- Api calls use co-routines, and execute them using volley callbacks to avoid tying up a thread.
+- Facilitate dependency injection, with default implementations available.
+- Generate a requestFactory that can be overridden
+- Allow the passing of the RequestFactory per tag (api client) or per operation (an extra parameter is created on operations with non-global security), with per operation auth overriding global security.
+- DI scoping of the Request Factory and pre-generated auth header factories allow for thread safe and secure setting of credentials.
+- Lazy header factories allow for refreshing tokens etc
+- Factoring of header factories to the Request Factory allow ambient provision of credentials. Code gen library is credential storage agnostic.
+- Header factories allow the merging of generated headers from open api spec with dynamically added headers
+
+- Injection of http url stack to allow custom http stacks
+- Data classes.
+
+- Optional generation of room database models, and transform methods to these from open api models
+- Room and api models can be extended with additional extension properties.
+
+- Additional supporting files ??
+
+Future improvements
+- Option to generate image requests on certain conditionals e.g content-type gif etc
+- Support for kotlin serialization.
+- Form support ?
+- Support for file inputs
+
+
+Hilt Dependency injection example
+
+Call Site example
+- Including tryInvokeApi wrapper.
+
+## Requires
+
+{{#jvm}}
+* Kotlin 1.4.30
+* Gradle 6.8.3
+{{/jvm}}
+{{#multiplatform}}
+* Kotlin 1.5.10
+{{/multiplatform}}
+
+## Build
+
+{{#jvm}}
+First, create the gradle wrapper script:
+
+```
+gradle wrapper
+```
+
+Then, run:
+
+{{/jvm}}
+```
+./gradlew check assemble
+```
+
+This runs all tests and packages the library.
+
+## Features/Implementation Notes
+
+* Supports JSON inputs/outputs, File inputs, and Form inputs.
+* Supports collection formats for query parameters: csv, tsv, ssv, pipes.
+* Some Kotlin and Java types are fully qualified to avoid conflicts with types defined in OpenAPI definitions.
+{{#jvm}}* Implementation of ApiClient is intended to reduce method counts, specifically to benefit Android targets.{{/jvm}}
+
+{{#generateApiDocs}}
+<a name="documentation-for-api-endpoints"></a>
+## Documentation for API Endpoints
+
+All URIs are relative to *{{{basePath}}}*
+
+Class | Method | HTTP request | Description
+------------ | ------------- | ------------- | -------------
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}
+{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+{{/generateApiDocs}}
+
+{{#generateModelDocs}}
+<a name="documentation-for-models"></a>
+## Documentation for Models
+
+{{#modelPackage}}
+{{#models}}{{#model}} - [{{{modelPackage}}}.{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
+{{/model}}{{/models}}
+{{/modelPackage}}
+{{^modelPackage}}
+No model defined in this package
+{{/modelPackage}}
+{{/generateModelDocs}}
+
+<a name="documentation-for-authorization"></a>{{! TODO: optional documentation for authorization? }}
+## Documentation for Authorization
+
+{{^authMethods}}
+All endpoints do not require authorization.
+{{/authMethods}}
+{{#authMethods}}
+{{#last}}
+Authentication schemes defined for the API:
+{{/last}}
+{{/authMethods}}
+{{#authMethods}}
+<a name="{{name}}"></a>
+### {{name}}
+
+{{#isApiKey}}- **Type**: API key
+- **API key parameter name**: {{keyParamName}}
+- **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
+{{/isApiKey}}
+{{#isBasic}}- **Type**: HTTP basic authentication
+{{/isBasic}}
+{{#isOAuth}}- **Type**: OAuth
+- **Flow**: {{flow}}
+- **Authorization URL**: {{authorizationUrl}}
+- **Scopes**: {{^scopes}}N/A{{/scopes}}
+{{#scopes}}  - {{scope}}: {{description}}
+{{/scopes}}
+{{/isOAuth}}
+
+{{/authMethods}}
