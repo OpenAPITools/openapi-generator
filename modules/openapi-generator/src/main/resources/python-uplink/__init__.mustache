@@ -17,12 +17,12 @@ from {{modelPackage}} import (
 __all__ = [
 {{#models}}
 {{#model}}
-    {{classname}},
+    "{{classname}}",
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
-    {{classname}},
+    "{{classname}}",
 {{/apis}}
 {{/apiInfo}}
 ]
