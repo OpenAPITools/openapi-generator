@@ -17,7 +17,8 @@ abstract class ModelList implements Built<ModelList, ModelListBuilder> {
 
     ModelList._();
 
-    static void _initializeBuilder(ModelListBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ModelListBuilder b) => b;
 
     factory ModelList([void updates(ModelListBuilder b)]) = _$ModelList;
 
@@ -55,10 +56,12 @@ class _$ModelListSerializer implements StructuredSerializer<ModelList> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'123-list':
-                    result.n123list = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.n123list = valueDes;
                     break;
             }
         }

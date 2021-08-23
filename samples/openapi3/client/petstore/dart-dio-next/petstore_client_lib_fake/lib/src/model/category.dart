@@ -21,7 +21,8 @@ abstract class Category implements Built<Category, CategoryBuilder> {
 
     Category._();
 
-    static void _initializeBuilder(CategoryBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(CategoryBuilder b) => b
         ..name = 'default-name';
 
     factory Category([void updates(CategoryBuilder b)]) = _$Category;
@@ -64,14 +65,17 @@ class _$CategorySerializer implements StructuredSerializer<Category> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'id':
-                    result.id = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.id = valueDes;
                     break;
                 case r'name':
-                    result.name = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.name = valueDes;
                     break;
             }
         }

@@ -1,7 +1,7 @@
 package = "{{{packageName}}}"
 version = "{{{packageVersion}}}"
 source = {
-	url = "https://github.com/{{#gitUserId}}{{.}}{{/gitUserId}}{{^gitUserId}}YOUR_GIT_USERNAME{{/gitUserId}}/{{#gitRepoId}}{{.}}{{/gitRepoId}}{{^gitRepoId}}YOUR_GIT_REPO{{/gitRepoId}}.git"
+	url = "https://github.com/{{gitUserId}}{{^gitUserId}}YOUR_GIT_USERNAME{{/gitUserId}}/{{gitRepoId}}{{^gitRepoId}}YOUR_GIT_REPO{{/gitRepoId}}.git"
 }
 
 description = {

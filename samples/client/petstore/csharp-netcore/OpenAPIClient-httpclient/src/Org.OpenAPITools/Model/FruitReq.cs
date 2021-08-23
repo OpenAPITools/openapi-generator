@@ -148,7 +148,7 @@ namespace Org.OpenAPITools.Model
         {
             FruitReq newFruitReq = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newFruitReq;
             }

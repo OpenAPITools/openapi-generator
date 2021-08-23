@@ -1,14 +1,15 @@
 .gitignore
-.htaccess
 README.md
 composer.json
 config/.htaccess
 config/dev/example.inc.php
 config/prod/example.inc.php
-index.php
 lib/Api/AbstractPetApi.php
 lib/Api/AbstractStoreApi.php
 lib/Api/AbstractUserApi.php
+lib/Auth/AbstractAuthenticator.php
+lib/Auth/AbstractAuthenticator.php
+lib/Auth/AbstractAuthenticator.php
 lib/Auth/AbstractAuthenticator.php
 lib/Auth/AbstractAuthenticator.php
 lib/Auth/AbstractAuthenticator.php
@@ -36,4 +37,6 @@ lib/Model/User.php
 lib/SlimRouter.php
 phpcs.xml.dist
 phpunit.xml.dist
-test/BaseModelTest.php
+public/.htaccess
+public/index.php
+tests/BaseModelTest.php

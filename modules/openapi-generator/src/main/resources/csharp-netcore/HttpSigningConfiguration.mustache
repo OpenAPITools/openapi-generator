@@ -193,7 +193,7 @@ namespace {{packageName}}.Client
                 }
                 else if (header.Equals(HEADER_DATE))
                 {
-                    var utcDateTime = dateTime.ToString("r").ToString();
+                    var utcDateTime = dateTime.ToUniversalTime().ToString("r");
                     HttpSignatureHeader.Add(header.ToLower(), utcDateTime);
                     HttpSignedRequestHeader.Add(HEADER_DATE, utcDateTime);
                 }

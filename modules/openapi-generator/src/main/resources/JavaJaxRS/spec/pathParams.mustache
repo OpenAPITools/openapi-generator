@@ -1,1 +1,1 @@
-{{#isPathParam}}@PathParam("{{baseName}}"){{#useBeanValidation}}{{>beanValidationPathParams}}{{/useBeanValidation}}{{#useSwaggerAnnotations}}{{#description}} @ApiParam("{{description}}"){{/description}}{{/useSwaggerAnnotations}} {{{dataType}}} {{paramName}}{{/isPathParam}}
+{{#isPathParam}}@PathParam("{{baseName}}"){{#useBeanValidation}}{{>beanValidationPathParams}}{{/useBeanValidation}}{{#useSwaggerAnnotations}}{{#description}} @ApiParam("{{.}}"){{/description}}{{/useSwaggerAnnotations}} {{{dataType}}} {{paramName}}{{/isPathParam}}

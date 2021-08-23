@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "lengthCm", EmitDefaultValue = false)]
         public decimal LengthCm
-        { 
+        {
             get{ return _LengthCm;}
             set
             {
                 _LengthCm = value;
                 _flagLengthCm = true;
-            } 
+            }
         }
         private decimal _LengthCm;
         private bool _flagLengthCm;

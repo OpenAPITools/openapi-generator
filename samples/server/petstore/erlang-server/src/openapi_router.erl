@@ -9,7 +9,7 @@
 -type init_opts()  :: {
     Operations :: operations(),
     LogicHandler :: atom(),
-    ValidatorState :: jesse_state:state()
+    ValidatorMod :: module()
 }.
 
 -export_type([init_opts/0]).
@@ -171,5 +171,3 @@ prepare_validator() ->
 get_openapi_path() ->
     {ok, AppName} = application:get_application(?MODULE),
     filename:join(openapi_utils:priv_dir(AppName), "openapi.json").
-
-

@@ -1,10 +1,10 @@
 {{#notes}}
-{{{notes}}}
+{{{.}}}
 
 {{/notes}}
 Expected answers:
 {{#responses}}
-  code {{code}} : {{{dataType}}} {{#message}}({{{message}}}){{/message}}
+  code {{code}} : {{{dataType}}} {{#message}}({{{.}}}){{/message}}
   {{#headers}}
              {{#-first}}
              Headers :

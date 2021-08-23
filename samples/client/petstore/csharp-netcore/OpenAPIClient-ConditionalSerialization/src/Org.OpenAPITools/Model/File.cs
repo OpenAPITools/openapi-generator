@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// <value>Test capitalization</value>
         [DataMember(Name = "sourceURI", EmitDefaultValue = false)]
         public string SourceURI
-        { 
+        {
             get{ return _SourceURI;}
             set
             {
                 _SourceURI = value;
                 _flagSourceURI = true;
-            } 
+            }
         }
         private string _SourceURI;
         private bool _flagSourceURI;

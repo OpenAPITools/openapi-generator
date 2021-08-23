@@ -18,6 +18,7 @@ import http from 'http';
 import { User } from '../model/user';
 
 import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
+import { HttpBasicAuth, HttpBearerAuth, ApiKeyAuth, OAuth } from '../model/models';
 
 import { HttpError, RequestFile } from './apis';
 
@@ -28,6 +29,7 @@ let defaultBasePath = 'http://petstore.swagger.io/v2';
 // ===============================================
 
 export enum UserApiApiKeys {
+    api_key,
 }
 
 export class UserApi {
@@ -37,6 +39,8 @@ export class UserApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
+        'petstore_auth': new OAuth(),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -80,6 +84,10 @@ export class UserApi {
 
     public setApiKey(key: UserApiApiKeys, value: string) {
         (this.authentications as any)[UserApiApiKeys[key]].apiKey = value;
+    }
+
+    set accessToken(token: string) {
+        this.authentications.petstore_auth.accessToken = token;
     }
 
     public addInterceptor(interceptor: Interceptor) {
