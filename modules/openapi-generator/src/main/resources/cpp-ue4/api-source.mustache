@@ -56,6 +56,9 @@ void {{classname}}::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManag
 
 FHttpRetrySystem::FManager& {{classname}}::GetHttpRetryManager()
 {
+    if (!RetryManager){
+        UE_LOG(Log{{unrealModuleName}}, Fatal, TEXT("{{classname}}: RetryManager is null"));
+    }
 	return *RetryManager;
 }
 
