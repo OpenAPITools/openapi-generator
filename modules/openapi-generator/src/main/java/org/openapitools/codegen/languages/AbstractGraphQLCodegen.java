@@ -143,6 +143,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         return outputFolder + File.separator + packageName + File.separator + "api" + File.separator;
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + packageName + File.separator + "model" + File.separator;
     }

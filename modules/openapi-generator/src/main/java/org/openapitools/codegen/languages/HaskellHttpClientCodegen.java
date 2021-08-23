@@ -879,15 +879,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     private void processReturnType(CodegenOperation op) {
         String returnType = op.returnType;
         if (returnType == null || returnType.equals("null")) {
-            if (op.hasProduces) {
-                returnType = "res";
-                op.vendorExtensions.put(VENDOR_EXTENSION_X_HAS_UNKNOWN_RETURN, true);
-            } else {
-                returnType = "NoContent";
-                if (!op.vendorExtensions.containsKey(VENDOR_EXTENSION_X_INLINE_ACCEPT)) {
-                    SetNoContent(op, VENDOR_EXTENSION_X_INLINE_ACCEPT);
-                }
-            }
+            returnType = "NoContent";
+            SetNoContent(op, VENDOR_EXTENSION_X_INLINE_ACCEPT);
+            op.hasProduces = false;
         }
         if (returnType.contains(" ")) {
             returnType = "(" + returnType + ")";

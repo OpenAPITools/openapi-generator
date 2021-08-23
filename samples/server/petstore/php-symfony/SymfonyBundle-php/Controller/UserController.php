@@ -100,7 +100,7 @@ class UserController extends Controller
 
             // Set authentication method 'api_key'
             $handler->setapi_key($securityapi_key);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
@@ -184,7 +184,7 @@ class UserController extends Controller
 
             // Set authentication method 'api_key'
             $handler->setapi_key($securityapi_key);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
@@ -268,7 +268,7 @@ class UserController extends Controller
 
             // Set authentication method 'api_key'
             $handler->setapi_key($securityapi_key);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
@@ -340,7 +340,7 @@ class UserController extends Controller
 
             // Set authentication method 'api_key'
             $handler->setapi_key($securityapi_key);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
@@ -419,7 +419,7 @@ class UserController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
@@ -513,7 +513,7 @@ class UserController extends Controller
         try {
             $handler = $this->getApiHandler();
 
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
@@ -575,7 +575,7 @@ class UserController extends Controller
 
             // Set authentication method 'api_key'
             $handler->setapi_key($securityapi_key);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
@@ -665,7 +665,7 @@ class UserController extends Controller
 
             // Set authentication method 'api_key'
             $handler->setapi_key($securityapi_key);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];

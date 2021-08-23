@@ -1,5 +1,5 @@
-// {{{classname}}} {{#description}}{{{.}}}{{/description}}{{^description}}the model '{{{classname}}}'{{/description}}
-type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+// {{{classname}}} {{{description}}}{{^description}}the model '{{{classname}}}'{{/description}}
+type {{{classname}}} {{{format}}}{{^format}}{{dataType}}{{/format}}
 
 // List of {{{name}}}
 const (
@@ -21,7 +21,7 @@ var allowed{{{classname}}}EnumValues = []{{{classname}}}{
 }
 
 func (v *{{{classname}}}) UnmarshalJSON(src []byte) error {
-	var value {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+	var value {{{format}}}{{^format}}{{dataType}}{{/format}}
 	err := json.Unmarshal(src, &value)
 	if err != nil {
 		return err
@@ -39,7 +39,7 @@ func (v *{{{classname}}}) UnmarshalJSON(src []byte) error {
 
 // New{{{classname}}}FromValue returns a pointer to a valid {{{classname}}}
 // for the value passed as argument, or an error if the value passed is not allowed by the enum
-func New{{{classname}}}FromValue(v {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}) (*{{{classname}}}, error) {
+func New{{{classname}}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}}) (*{{{classname}}}, error) {
 	ev := {{{classname}}}(v)
 	if ev.IsValid() {
 		return &ev, nil

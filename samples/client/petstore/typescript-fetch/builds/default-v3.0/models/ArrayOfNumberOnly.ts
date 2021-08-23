@@ -54,4 +54,3 @@ export function ArrayOfNumberOnlyToJSON(value?: ArrayOfNumberOnly | null): any {
     };
 }
 
-

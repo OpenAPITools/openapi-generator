@@ -5,7 +5,7 @@ package {{packageName}}
 {{/-first}}	"{{import}}"{{#-last}}
 )
 {{/-last}}{{/imports}}{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
-type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
+type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{{format}}}
 
 // List of {{{classname}}}
 const (
@@ -18,7 +18,10 @@ const (
 // {{classname}} - {{{description}}}{{/description}}
 type {{classname}} struct {
 {{#vars}}{{#description}}
-	// {{{description}}}{{/description}}
+	// {{{.}}}{{/description}}
+	{{#deprecated}}
+	// Deprecated
+	{{/deprecated}}
 	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 }{{/isEnum}}{{/model}}{{/models}}

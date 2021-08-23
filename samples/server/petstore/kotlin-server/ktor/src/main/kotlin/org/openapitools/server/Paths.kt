@@ -11,17 +11,16 @@
 */
 package org.openapitools.server
 
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.locations.Location
+import io.ktor.locations.*
 import org.openapitools.server.models.*
 
+@KtorExperimentalLocationsAPI
 object Paths {
     /**
      * Add a new pet to the store
      * 
      * @param body Pet object that needs to be added to the store 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/pet") class addPet(val body: Pet)
 
     /**
@@ -30,7 +29,6 @@ object Paths {
      * @param petId Pet id to delete 
      * @param apiKey  (optional)
      */
-    @KtorExperimentalLocationsAPI
     @Location("/pet/{petId}") class deletePet(val petId: kotlin.Long, val apiKey: kotlin.String? = null)
 
     /**
@@ -38,7 +36,6 @@ object Paths {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/pet/findByStatus") class findPetsByStatus(val status: kotlin.collections.List<kotlin.String>)
 
     /**
@@ -46,7 +43,6 @@ object Paths {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/pet/findByTags") class findPetsByTags(val tags: kotlin.collections.List<kotlin.String>)
 
     /**
@@ -54,7 +50,6 @@ object Paths {
      * Returns a single pet
      * @param petId ID of pet to return 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/pet/{petId}") class getPetById(val petId: kotlin.Long)
 
     /**
@@ -62,7 +57,6 @@ object Paths {
      * 
      * @param body Pet object that needs to be added to the store 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/pet") class updatePet(val body: Pet)
 
     /**
@@ -72,7 +66,6 @@ object Paths {
      * @param name Updated name of the pet (optional)
      * @param status Updated status of the pet (optional)
      */
-    @KtorExperimentalLocationsAPI
     @Location("/pet/{petId}") class updatePetWithForm(val petId: kotlin.Long, val name: kotlin.String? = null, val status: kotlin.String? = null)
 
     /**
@@ -82,7 +75,6 @@ object Paths {
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)
      */
-    @KtorExperimentalLocationsAPI
     @Location("/pet/{petId}/uploadImage") class uploadFile(val petId: kotlin.Long, val additionalMetadata: kotlin.String? = null, val file: java.io.File? = null)
 
     /**
@@ -90,22 +82,19 @@ object Paths {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/store/order/{orderId}") class deleteOrder(val orderId: kotlin.String)
 
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      */
-    @KtorExperimentalLocationsAPI
-    @Location("/store/inventory") class getInventory()
+    @Location("/store/inventory") object getInventory
 
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/store/order/{orderId}") class getOrderById(val orderId: kotlin.Long)
 
     /**
@@ -113,7 +102,6 @@ object Paths {
      * 
      * @param body order placed for purchasing the pet 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/store/order") class placeOrder(val body: Order)
 
     /**
@@ -121,7 +109,6 @@ object Paths {
      * This can only be done by the logged in user.
      * @param body Created user object 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/user") class createUser(val body: User)
 
     /**
@@ -129,7 +116,6 @@ object Paths {
      * 
      * @param body List of user object 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/user/createWithArray") class createUsersWithArrayInput(val body: kotlin.collections.List<User>)
 
     /**
@@ -137,7 +123,6 @@ object Paths {
      * 
      * @param body List of user object 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/user/createWithList") class createUsersWithListInput(val body: kotlin.collections.List<User>)
 
     /**
@@ -145,7 +130,6 @@ object Paths {
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/user/{username}") class deleteUser(val username: kotlin.String)
 
     /**
@@ -153,7 +137,6 @@ object Paths {
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/user/{username}") class getUserByName(val username: kotlin.String)
 
     /**
@@ -162,15 +145,13 @@ object Paths {
      * @param username The user name for login 
      * @param password The password for login in clear text 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/user/login") class loginUser(val username: kotlin.String, val password: kotlin.String)
 
     /**
      * Logs out current logged in user session
      * 
      */
-    @KtorExperimentalLocationsAPI
-    @Location("/user/logout") class logoutUser()
+    @Location("/user/logout") object logoutUser
 
     /**
      * Updated user
@@ -178,7 +159,6 @@ object Paths {
      * @param username name that need to be deleted 
      * @param body Updated user object 
      */
-    @KtorExperimentalLocationsAPI
     @Location("/user/{username}") class updateUser(val username: kotlin.String, val body: User)
 
 }

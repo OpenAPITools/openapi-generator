@@ -522,7 +522,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (HYPER_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
             } else if (REQWEST_LIBRARY.equals(getLibrary())) {
-                operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
+                operation.httpMethod = operation.httpMethod.toUpperCase(Locale.ROOT);
             }
 
             // add support for single request parameter using x-group-parameters

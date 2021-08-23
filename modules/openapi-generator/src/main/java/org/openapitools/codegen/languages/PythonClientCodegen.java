@@ -574,6 +574,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     public String toEnumValue(String value, String datatype) {
         if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
+        } else if ("bool".equals(datatype)) {
+            return value.substring(0, 1).toUpperCase(Locale.ROOT) + value.substring(1);
         } else {
             return ensureQuotes(value);
         }

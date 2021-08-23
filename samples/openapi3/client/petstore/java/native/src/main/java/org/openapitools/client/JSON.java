@@ -11,11 +11,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.ext.ContextResolver;
 
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class JSON implements ContextResolver<ObjectMapper> {
+public class JSON {
   private ObjectMapper mapper;
 
   public JSON() {
@@ -39,11 +37,6 @@ public class JSON implements ContextResolver<ObjectMapper> {
    */
   public void setDateFormat(DateFormat dateFormat) {
     mapper.setDateFormat(dateFormat);
-  }
-
-  @Override
-  public ObjectMapper getContext(Class<?> type) {
-    return mapper;
   }
 
   /**
@@ -178,10 +171,10 @@ public class JSON implements ContextResolver<ObjectMapper> {
     visitedClasses.add(modelClass);
 
     // Traverse the oneOf/anyOf composed schemas.
-    Map<String, GenericType> descendants = modelDescendants.get(modelClass);
+    Map<String, Class<?>> descendants = modelDescendants.get(modelClass);
     if (descendants != null) {
-      for (GenericType childType : descendants.values()) {
-        if (isInstanceOf(childType.getRawType(), inst, visitedClasses)) {
+      for (Class<?> childType : descendants.values()) {
+        if (isInstanceOf(childType, inst, visitedClasses)) {
           return true;
         }
       }
@@ -192,12 +185,12 @@ public class JSON implements ContextResolver<ObjectMapper> {
   /**
    * A map of discriminators for all model classes.
    */
-  private static Map<Class<?>, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<Class<?>, ClassDiscriminatorMapping>();
+  private static Map<Class<?>, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<>();
 
   /**
    * A map of oneOf/anyOf descendants for each model class.
    */
-  private static Map<Class<?>, Map<String, GenericType>> modelDescendants = new HashMap<Class<?>, Map<String, GenericType>>();
+  private static Map<Class<?>, Map<String, Class<?>>> modelDescendants = new HashMap<>();
 
   /**
     * Register a model class discriminator.
@@ -217,7 +210,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
     * @param modelClass the model class
     * @param descendants a map of oneOf/anyOf descendants.
     */
-  public static void registerDescendants(Class<?> modelClass, Map<String, GenericType> descendants) {
+  public static void registerDescendants(Class<?> modelClass, Map<String, Class<?>> descendants) {
     modelDescendants.put(modelClass, descendants);
   }
 

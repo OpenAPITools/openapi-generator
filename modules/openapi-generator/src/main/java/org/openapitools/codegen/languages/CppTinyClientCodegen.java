@@ -43,6 +43,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
     protected String controller = "esp32";
 
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -53,6 +54,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "cpp-tiny";
     }
@@ -63,6 +65,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a C++ Arduino REST API client.";
     }
@@ -317,6 +320,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         return "" + paramName;
     }
 
+    @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             return "bool(false)";

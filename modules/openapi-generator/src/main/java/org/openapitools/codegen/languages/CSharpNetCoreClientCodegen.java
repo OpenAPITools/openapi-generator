@@ -265,6 +265,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
                 CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
                 this.optionalEmitDefaultValuesFlag);
+               
+        addSwitch(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION,
+        CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION_DESC,
+        this.conditionalSerialization);        
 
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
@@ -465,33 +469,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        super.postProcessOperationsWithModels(objs, allModels);
-        if (objs != null) {
-            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-            if (operations != null) {
-                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-                for (CodegenOperation operation : ops) {
-                    if (operation.returnType != null) {
-                        operation.returnContainer = operation.returnType;
-                        if (this.returnICollection && (
-                                operation.returnType.startsWith("List") ||
-                                        operation.returnType.startsWith("Collection"))) {
-                            // NOTE: ICollection works for both List<T> and Collection<T>
-                            int genericStart = operation.returnType.indexOf("<");
-                            if (genericStart > 0) {
-                                operation.returnType = "ICollection" + operation.returnType.substring(genericStart);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return objs;
-    }
-
-    @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
@@ -568,6 +545,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setOptionalEmitDefaultValuesFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
         } else {
             additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION)) {
+            setConditionalSerialization(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION, conditionalSerialization);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
@@ -759,6 +742,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.optionalEmitDefaultValuesFlag = flag;
     }
 
+    public void setConditionalSerialization(boolean flag){
+        this.conditionalSerialization = flag;
+    }
+
     public void setOptionalProjectFileFlag(boolean flag) {
         this.optionalProjectFileFlag = flag;
     }
@@ -767,10 +754,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.packageGuid = packageGuid;
     }
 
+    @Override
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
 
+    @Override
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
@@ -841,6 +830,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.licenseId = licenseId;
     }
 
+    @Override
     public void setReleaseNote(String releaseNote) {
         this.releaseNote = releaseNote;
     }
@@ -910,6 +900,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
+        }
+
+        // for function names in the model, escape with the "Property" prefix
+        if (propertySpecialKeywords.contains(name)) {
+            return camelize("property_" + name);
         }
 
         return name;

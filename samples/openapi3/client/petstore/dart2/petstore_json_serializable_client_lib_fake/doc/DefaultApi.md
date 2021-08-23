@@ -17,13 +17,13 @@ Method | HTTP request | Description
 
 
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api_instance = DefaultApi();
 
-try { 
+try {
     final result = api_instance.fooGet();
     print(result);
 } catch (e) {

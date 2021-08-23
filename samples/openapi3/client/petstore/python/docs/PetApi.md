@@ -21,6 +21,7 @@ Add a new pet to the store
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -157,6 +158,7 @@ void (empty response body)
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **405** | Invalid input |  -  |
@@ -171,6 +173,7 @@ Deletes a pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -239,6 +242,7 @@ void (empty response body)
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid pet value |  -  |
@@ -255,6 +259,7 @@ Multiple status values can be provided with comma separated strings
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -377,6 +382,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -394,6 +400,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -514,6 +521,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -531,6 +539,7 @@ Returns a single pet
 ### Example
 
 * Api Key Authentication (api_key):
+
 ```python
 import time
 import petstore_api
@@ -591,6 +600,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -607,6 +617,7 @@ Update an existing pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -743,6 +754,7 @@ void (empty response body)
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid ID supplied |  -  |
@@ -759,6 +771,7 @@ Updates a pet in the store with form data
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -829,6 +842,7 @@ void (empty response body)
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **405** | Invalid input |  -  |

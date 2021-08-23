@@ -13,7 +13,7 @@ package body {{package}}.Clients is
    procedure {{operationId}}
       (Client : in out Client_Type{{#hasParams}};{{/hasParams}}{{#allParams}}
        {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{dataType}}{{^-last}};{{/-last}}{{/allParams}}{{#returnType}};
-       Result : out {{returnType}}{{/returnType}}) is
+       Result : out {{.}}{{/returnType}}) is
       URI   : Swagger.Clients.URI_Type;{{#hasBodyParam}}
       Req   : Swagger.Clients.Request_Type;{{/hasBodyParam}}{{#hasFormParams}}
       Req   : Swagger.Clients.Request_Type;{{/hasFormParams}}

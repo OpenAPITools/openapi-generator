@@ -107,7 +107,7 @@ namespace Org.OpenAPITools.Client
                 var bytes = await response.Content.ReadAsByteArrayAsync();
                 if (headers != null)
                 {
-                    var filePath = String.IsNullOrEmpty(_configuration.TempFolderPath)
+                    var filePath = string.IsNullOrEmpty(_configuration.TempFolderPath)
                         ? Path.GetTempPath()
                         : _configuration.TempFolderPath;
                     var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Client
                 return DateTime.Parse(await response.Content.ReadAsStringAsync(), null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
-            if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
+            if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
                 return Convert.ChangeType(await response.Content.ReadAsStringAsync(), type);
             }
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Client
         }
     }
     /// <summary>
-    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
+    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementations),
     /// encapsulating general REST accessor use cases.
     /// </summary>
     /// <remarks>
@@ -166,10 +166,10 @@ namespace Org.OpenAPITools.Client
     /// </remarks>
     public partial class ApiClient : IDisposable, ISynchronousClient, IAsynchronousClient
     {
-        private readonly String _baseUrl;
+        private readonly string _baseUrl;
 
         private readonly HttpClientHandler _httpClientHandler;
-        private readonly HttpClient _httpClient;    
+        private readonly HttpClient _httpClient;
         private readonly bool _disposeClient;
 
         /// <summary>
@@ -196,9 +196,9 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         public ApiClient() :
                  this(Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath)
-        {    
+        {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
         /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
@@ -206,8 +206,8 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
-        public ApiClient(String basePath)
-        {    
+        public ApiClient(string basePath)
+        {
             if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
 
             _httpClientHandler = new HttpClientHandler();
@@ -215,7 +215,7 @@ namespace Org.OpenAPITools.Client
             _disposeClient = true;
             _baseUrl = basePath;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
         /// </summary>
@@ -228,9 +228,9 @@ namespace Org.OpenAPITools.Client
         /// </remarks>
         public ApiClient(HttpClient client, HttpClientHandler handler = null) :
                  this(client, Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath, handler)
-        {    
+        {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
         /// </summary>
@@ -243,11 +243,11 @@ namespace Org.OpenAPITools.Client
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
-        public ApiClient(HttpClient client, String basePath, HttpClientHandler handler = null)
-        {    
+        public ApiClient(HttpClient client, string basePath, HttpClientHandler handler = null)
+        {
             if (client == null) throw new ArgumentNullException("client cannot be null");
             if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
-            
+
             _httpClientHandler = handler;
             _httpClient = client;
             _baseUrl = basePath;
@@ -300,7 +300,7 @@ namespace Org.OpenAPITools.Client
         /// <exception cref="ArgumentNullException"></exception>
         private HttpRequestMessage NewRequest(
             HttpMethod method,
-            String path,
+            string path,
             RequestOptions options,
             IReadableConfiguration configuration)
         {
@@ -503,7 +503,7 @@ namespace Org.OpenAPITools.Client
             {
                 return await ToApiResponse<T>(response, default(T), req.RequestUri);
             }
-			
+
             object responseData = await deserializer.Deserialize<T>(response);
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data

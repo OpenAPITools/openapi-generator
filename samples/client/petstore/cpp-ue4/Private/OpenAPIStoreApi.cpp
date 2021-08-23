@@ -18,10 +18,10 @@
 #include "HttpModule.h"
 #include "Serialization/JsonSerializer.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
-OpenAPIStoreApi::OpenAPIStoreApi() 
+OpenAPIStoreApi::OpenAPIStoreApi()
 : Url(TEXT("http://petstore.swagger.io/v2"))
 {
 }
@@ -132,10 +132,10 @@ void OpenAPIStoreApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSuccee
 	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
 }
 
-bool OpenAPIStoreApi::DeleteOrder(const DeleteOrderRequest& Request, const FDeleteOrderDelegate& Delegate /*= FDeleteOrderDelegate()*/) const
+FHttpRequestPtr OpenAPIStoreApi::DeleteOrder(const DeleteOrderRequest& Request, const FDeleteOrderDelegate& Delegate /*= FDeleteOrderDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -146,9 +146,10 @@ bool OpenAPIStoreApi::DeleteOrder(const DeleteOrderRequest& Request, const FDele
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnDeleteOrderResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIStoreApi::OnDeleteOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOrderDelegate Delegate) const
@@ -158,10 +159,10 @@ void OpenAPIStoreApi::OnDeleteOrderResponse(FHttpRequestPtr HttpRequest, FHttpRe
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIStoreApi::GetInventory(const GetInventoryRequest& Request, const FGetInventoryDelegate& Delegate /*= FGetInventoryDelegate()*/) const
+FHttpRequestPtr OpenAPIStoreApi::GetInventory(const GetInventoryRequest& Request, const FGetInventoryDelegate& Delegate /*= FGetInventoryDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -172,9 +173,10 @@ bool OpenAPIStoreApi::GetInventory(const GetInventoryRequest& Request, const FGe
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnGetInventoryResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIStoreApi::OnGetInventoryResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetInventoryDelegate Delegate) const
@@ -184,10 +186,10 @@ void OpenAPIStoreApi::OnGetInventoryResponse(FHttpRequestPtr HttpRequest, FHttpR
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIStoreApi::GetOrderById(const GetOrderByIdRequest& Request, const FGetOrderByIdDelegate& Delegate /*= FGetOrderByIdDelegate()*/) const
+FHttpRequestPtr OpenAPIStoreApi::GetOrderById(const GetOrderByIdRequest& Request, const FGetOrderByIdDelegate& Delegate /*= FGetOrderByIdDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -198,9 +200,10 @@ bool OpenAPIStoreApi::GetOrderById(const GetOrderByIdRequest& Request, const FGe
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnGetOrderByIdResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIStoreApi::OnGetOrderByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetOrderByIdDelegate Delegate) const
@@ -210,10 +213,10 @@ void OpenAPIStoreApi::OnGetOrderByIdResponse(FHttpRequestPtr HttpRequest, FHttpR
 	Delegate.ExecuteIfBound(Response);
 }
 
-bool OpenAPIStoreApi::PlaceOrder(const PlaceOrderRequest& Request, const FPlaceOrderDelegate& Delegate /*= FPlaceOrderDelegate()*/) const
+FHttpRequestPtr OpenAPIStoreApi::PlaceOrder(const PlaceOrderRequest& Request, const FPlaceOrderDelegate& Delegate /*= FPlaceOrderDelegate()*/) const
 {
 	if (!IsValid())
-		return false;
+		return nullptr;
 
 	FHttpRequestRef HttpRequest = CreateHttpRequest(Request);
 	HttpRequest->SetURL(*(Url + Request.ComputePath()));
@@ -224,9 +227,10 @@ bool OpenAPIStoreApi::PlaceOrder(const PlaceOrderRequest& Request, const FPlaceO
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnPlaceOrderResponse, Delegate);
-	return HttpRequest->ProcessRequest();
+	HttpRequest->ProcessRequest();
+	return HttpRequest;
 }
 
 void OpenAPIStoreApi::OnPlaceOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlaceOrderDelegate Delegate) const

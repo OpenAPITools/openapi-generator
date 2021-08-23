@@ -155,7 +155,7 @@ class Controller extends AbstractController
     {
         // Figure out what the client accepts
         $accept = preg_split("/[\s,]+/", $accept);
-        
+
         if (in_array('*/*', $accept) || in_array('application/*', $accept)) {
             // Prefer JSON if the client has no preference
             if (in_array('application/json', $produced)) {

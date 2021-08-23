@@ -23,7 +23,7 @@ my $api_instance = {{perlModuleName}}::{{classname}}->new();
 {{#allParams}}my ${{paramName}} = {{#isArray}}[{{/isArray}}{{#isBodyParam}}{{{perlModuleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isArray}}]{{/isArray}}; # {{{dataType}}} | {{{unescapedDescription}}}
 {{/allParams}}
 
-eval { 
+eval {
     {{#returnType}}my $result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}{{paramName}} => ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
     print Dumper($result);{{/returnType}}
 };

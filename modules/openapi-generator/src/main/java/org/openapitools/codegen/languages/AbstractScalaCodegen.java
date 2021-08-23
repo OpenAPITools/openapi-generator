@@ -164,6 +164,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }

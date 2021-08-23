@@ -80,7 +80,7 @@ example.cpp:
 #include "../client/PFXPetApi.h"
 #include "example.h"
 #include <QTimer>
-#include <QEventLoop> 
+#include <QEventLoop>
 
 PFXPet Example::create(){
     PFXPet obj;
@@ -91,7 +91,7 @@ void Example::exampleFunction1(){
      PFXPetApi apiInstance;
      
       //OAuth Authentication supported right now
-        
+
       QEventLoop loop;
       connect(&apiInstance, &PFXPetApi::addPetSignal, [&]() {
           loop.quit();
@@ -149,7 +149,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Servers
 
-Parameterized Servers are supported. Define a server in the API for each endpoint with arbitrary numbers of variables: 
+Parameterized Servers are supported. Define a server in the API for each endpoint with arbitrary numbers of variables:
 
 ```
 servers:
@@ -174,7 +174,7 @@ To change the default variable, use this function in each Api:
 ```
     int setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);
 ```
-The parameter "serverIndex" will choose a server from the server list for each endpoint. There is always at least one server with index 0. The Paramter "operation" should be the desired endpoint operationid. 
+The parameter "serverIndex" will choose a server from the server list for each endpoint. There is always at least one server with index 0. The Paramter "operation" should be the desired endpoint operationid.
 Variable is the name of the variable you wish to change and the value is the new default Value.
 The function will return -1 when the variable does not exists, -2 if value is not defined in the variable enum and -3 if the operation is not found.
 

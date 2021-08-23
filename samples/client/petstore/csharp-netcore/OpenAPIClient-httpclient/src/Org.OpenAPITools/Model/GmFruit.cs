@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
         {
             GmFruit newGmFruit = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newGmFruit;
             }
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Apple: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Apple: {1}", jsonString, exception.ToString()));
             }
 
             try
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Banana: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Banana: {1}", jsonString, exception.ToString()));
             }
 
             // no match found, throw an exception
@@ -230,7 +230,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof(GmFruit).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof(GmFruit).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>
