@@ -1,0 +1,14 @@
+.openapi-generator-ignore
+openapi_client/__init__.py
+openapi_client/api/__init__.py
+openapi_client/api/pet.py
+openapi_client/api/store.py
+openapi_client/api/user.py
+openapi_client/client.py
+openapi_client/model/__init__.py
+openapi_client/model/api_response.py
+openapi_client/model/category.py
+openapi_client/model/order.py
+openapi_client/model/pet.py
+openapi_client/model/tag.py
+openapi_client/model/user.py
