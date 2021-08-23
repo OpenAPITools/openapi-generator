@@ -98,8 +98,9 @@ class {{classname}}(BaseModel):
     @validator("{{name}}")
     def {{name}}_pattern(cls, value):
 {{>optional_validator}}
-        if not re.match(r"{{pattern}}", value):
-            raise ValueError("Value of {{name}} does not match regex pattern ('{{pattern}}')")
+        pattern = r"{{pattern}}"
+        if not re.match(pattern, value):
+            raise ValueError(f"Value of {{name}} does not match regex pattern ('{pattern}')")
         return value
 {{/pattern}}
 {{/vars}}
