@@ -35,9 +35,6 @@ import org.springframework.validation.annotation.Validated;
 {{#useSpringController}}
 import org.springframework.stereotype.Controller;
 {{/useSpringController}}
-{{#vendorExtensions.x-spring-paginated}}
-import org.springframework.data.domain.Pageable;
-{{/vendorExtensions.x-spring-paginated}}
 import org.springframework.web.bind.annotation.*;
 {{#jdk8-no-delegate}}
     {{^reactive}}
