@@ -104,6 +104,7 @@ org.openapitools.codegen.languages.PythonFastAPIServerCodegen
 org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen
 org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen
 org.openapitools.codegen.languages.PythonBluePlanetServerCodegen
+org.openapitools.codegen.languages.PythonUplinkClientCodegen
 org.openapitools.codegen.languages.RClientCodegen
 org.openapitools.codegen.languages.RubyClientCodegen
 org.openapitools.codegen.languages.RubyOnRailsServerCodegen
@@ -139,5 +140,3 @@ org.openapitools.codegen.languages.TypeScriptNodeClientCodegen
 org.openapitools.codegen.languages.TypeScriptReduxQueryClientCodegen
 org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.WsdlSchemaCodegen
-
-org.openapitools.codegen.languages.PythonUplinkClientCodegen
