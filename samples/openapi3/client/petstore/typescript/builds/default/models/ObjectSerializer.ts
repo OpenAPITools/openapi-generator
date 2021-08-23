@@ -7,7 +7,7 @@ export * from './User';
 
 import { ApiResponse } from './ApiResponse';
 import { Category } from './Category';
-import { Order    , OrderStatusEnum     } from './Order';
+import { Order    , OrderStatusEnum    } from './Order';
 import { Pet     , PetStatusEnum   } from './Pet';
 import { Tag } from './Tag';
 import { User } from './User';

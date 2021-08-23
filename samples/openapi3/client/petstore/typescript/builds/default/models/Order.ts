@@ -25,7 +25,6 @@ export class Order {
     */
     'status'?: OrderStatusEnum;
     'complete'?: boolean;
-    'outerArray'?: Array<Array<string>>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -64,12 +63,6 @@ export class Order {
             "name": "complete",
             "baseName": "complete",
             "type": "boolean",
-            "format": ""
-        },
-        {
-            "name": "outerArray",
-            "baseName": "outerArray",
-            "type": "Array<Array<string>>",
             "format": ""
         }    ];
 
