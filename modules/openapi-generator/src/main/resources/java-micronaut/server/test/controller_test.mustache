@@ -1,0 +1,168 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.http.client.HttpClient;
+import io.micronaut.http.client.annotation.Client;
+import io.micronaut.runtime.server.EmbeddedServer;
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MediaType;
+import io.micronaut.http.uri.UriTemplate;
+import io.micronaut.http.cookie.Cookie;
+import io.micronaut.http.client.multipart.MultipartBody;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Assertions;
+import jakarta.inject.Inject;
+import reactor.core.publisher.Mono;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+{{^fullJavaUtil}}
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+
+/**
+ * API tests for {{classname}}
+ */
+@MicronautTest
+public class {{classname}}Test {
+
+    @Inject
+    EmbeddedServer server;
+
+    @Inject
+    @Client("${context-path}")
+    HttpClient client;
+
+    @Inject
+    {{classname}} controller;
+
+    {{#operations}}
+    {{#operation}}
+    /**
+     * This test is used to validate the implementation of {{operationId}}() method
+     *
+     * The method should: {{summary}}
+     {{#notes}}
+     *
+     * {{notes}}
+     {{/notes}}
+     *
+     * TODO fill in the parameters and test return value.
+     */
+    @Test
+    @Disabled("Not Implemented")
+    void {{operationId}}MethodTest() {
+        // given
+        {{#allParams}}
+        {{{dataType}}} {{paramName}} = {{{example}}};
+        {{/allParams}}
+
+        // when
+        {{#returnType}}{{{returnType}}} response = {{/returnType}}controller.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).block();
+
+        // then
+        Assertions.assertTrue(true);
+    }
+
+    /**
+     * This test is used to check that the api available to client through
+     * '{{{path}}}' to the features of {{operationId}}() works as desired.
+     *
+     * TODO fill in the request parameters and test response.
+     */
+    @Disabled("Not Implemented")
+    @Test
+    void {{operationId}}ClientApiTest() throws IOException {
+        // given
+        {{!Create the body}}
+        {{#bodyParam}}
+        {{{dataType}}} body = {{{example}}};
+        {{/bodyParam}}
+        {{#formParams}}
+            {{#-first}}
+        Map<String, Object> form = new HashMap<String, Object>(){{openbrace}}{{openbrace}}
+            // Fill in the body form parameters
+                {{#formParams}}
+                    {{^isFile}}
+            put("{{{baseName}}}", {{{example}}});
+                    {{/isFile}}
+                    {{#isFile}}
+            put("{{{baseName}}}", new FileReader(File.createTempFile("", ".tmp")));
+                    {{/isFile}}
+                {{/formParams}}
+        {{closebrace}}{{closebrace}};
+            {{/-first}}
+        {{/formParams}}
+        {{#isMultipart}}
+            {{^formParams}}
+        MultipartBody body = MultipartBody.builder() // Create multipart body
+                {{#bodyParams}}
+                    {{^isFile}}
+            .addPart("{{{baseName}}}", {{{example}}}.toString())
+                    {{/isFile}}
+                    {{#isFile}}
+                        {{#contentType}}
+            .addPart("{{{baseName}}}", "filename", MediaType.of("{{{contentType}}}"), File.createTempFile("", ".tmp")))
+                        {{/contentType}}
+                        {{^contentType}}
+            .addPart("{{{baseName}}}", "filename", File.createTempFile("", ".tmp")))
+                        {{/contentType}}
+                    {{/isFile}}
+                {{/bodyParams}}
+            .build();
+            {{/formParams}}
+        {{/isMultipart}}
+        {{!Create the uri with path variables}}
+        String uri = UriTemplate.of("{{{path}}}").expand(new HashMap{{^pathParams}}<>(){{/pathParams}}{{#pathParams}}{{#-first}}<String, Object>(){{openbrace}}{{openbrace}}
+            // Fill in the path variables
+        {{#pathParams}}
+            put("{{{baseName}}}", {{{example}}});
+        {{/pathParams}}
+        {{closebrace}}{{closebrace}}{{/-first}}{{/pathParams}});
+        {{!Create the request with body and uri}}
+        MutableHttpRequest<?> request = HttpRequest.{{httpMethod}}{{#bodyParam}}(uri, body){{/bodyParam}}{{#isMultipart}}{{^formParams}}(uri, body){{/formParams}}{{/isMultipart}}{{#formParams}}{{#-first}}(uri, form){{/-first}}{{/formParams}}{{^bodyParam}}{{^isMultipart}}{{^formParams}}(uri){{/formParams}}{{/isMultipart}}{{/bodyParam}}{{!Fill in all the request parameters}}{{#vendorExtensions.x-contentType}}
+            .contentType("{{vendorExtensions.x-contentType}}"){{/vendorExtensions.x-contentType}}{{#vendorExtensions.x-accepts}}
+            .accept("{{vendorExtensions.x-accepts}}"){{/vendorExtensions.x-accepts}}{{#headerParams}}
+            .header("{{{baseName}}}", {{{example}}}){{/headerParams}}{{#cookieParams}}
+            .cookie(Cookie.of("{{{baseName}}}", {{{example}}})){{/cookieParams}};
+        {{!Fill in the query parameters}}
+        {{#queryParams}}
+            {{#-first}}
+        request.getParameters()
+                {{#queryParams}}
+                    {{#isCollectionFormatMulti}}
+            .add("{{{baseName}}}", Arrays.asList()){{#-last}};{{/-last}} // The query format should be multi
+                    {{/isCollectionFormatMulti}}
+                    {{#isDeepObject}}
+            .add("{{{baseName}}}[property]", "value"){{#-last}};{{/-last}} // The query format should be deep-object
+                    {{/isDeepObject}}
+                    {{^isCollectionFormatMulti}}
+                        {{^isDeepObject}}
+            .add("{{{baseName}}}", {{{example}}}.toString()){{#-last}};{{/-last}} // The query parameter format should be {{collectionFormat}}
+                        {{/isDeepObject}}
+                    {{/isCollectionFormatMulti}}
+                {{/queryParams}}
+            {{/-first}}
+        {{/queryParams}}
+
+        // when
+        HttpResponse<?> response = client.toBlocking().exchange(request);
+
+        // then
+        Assertions.assertEquals(HttpStatus.OK, response.status());
+    }
+
+    {{/operation}}
+    {{/operations}}
+}

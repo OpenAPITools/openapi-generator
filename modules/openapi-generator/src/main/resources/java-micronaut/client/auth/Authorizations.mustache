@@ -1,0 +1,21 @@
+{{>common/licenseInfo}}
+package {{invokerPackage}}.auth;
+
+import io.micronaut.core.bind.annotation.Bindable;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import javax.annotation.Generated;
+
+
+{{>common/generatedAnnotation}}
+@Documented
+@Retention(RUNTIME)
+@Target(METHOD)
+@Bindable
+public @interface Authorizations {
+    Authorization[] value();
+}

@@ -1,0 +1,180 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import io.micronaut.http.client.HttpClient
+import io.micronaut.http.client.annotation.Client
+import io.micronaut.runtime.server.EmbeddedServer
+import io.micronaut.http.HttpStatus
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.MediaType
+import io.micronaut.http.uri.UriTemplate
+import io.micronaut.http.cookie.Cookie
+import io.micronaut.http.client.multipart.MultipartBody
+import jakarta.inject.Inject
+import spock.lang.Specification
+import spock.lang.Ignore
+import reactor.core.publisher.Mono
+{{^fullJavaUtil}}
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.List
+import java.util.Map
+{{/fullJavaUtil}}
+
+
+/**
+ * Controller tests for {{classname}}
+ */
+@MicronautTest
+class {{classname}}Spec extends Specification {
+
+    @Inject
+    EmbeddedServer server
+
+    @Inject
+    @Client('${context-path}')
+    HttpClient client
+
+    @Inject
+    {{classname}} controller
+
+    {{#operations}}
+    {{#operation}}
+    /**
+     * This test is used to validate the implementation of {{operationId}}() method
+     *
+     * The method should: {{summary}}
+     {{#notes}}
+     *
+     * {{notes}}
+     {{/notes}}
+     *
+     * TODO fill in the parameters and test return value.
+     */
+    @Ignore("Not Implemented")
+    def '{{operationId}}() method test'() {
+        given:
+        {{#allParams}}
+            {{#isArray}}
+        var {{paramName}} = []
+            {{/isArray}}
+            {{#isMap}}
+        var {{paramName}} = [:]
+            {{/isMap}}
+            {{#isModel}}
+        {{{dataType}}} {{paramName}} = {{{example}}}
+            {{/isModel}}
+            {{^isArray}}
+                {{^isMap}}
+                    {{^isModel}}
+        {{{dataType}}} {{paramName}} = {{{example}}}
+                    {{/isModel}}
+                {{/isMap}}
+            {{/isArray}}
+        {{/allParams}}
+
+        when:
+        {{#returnType}}{{{returnType}}} response = {{/returnType}}controller.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).block()
+
+        then:
+        true
+    }
+
+    /**
+     * This test is used to check that the api available to client through
+     * '{{{path}}}' to the features of {{operationId}}() works as desired.
+     *
+     * TODO fill in the request parameters and test response.
+     */
+    @Ignore("Not Implemented")
+    def '{{operationId}}() test with client through path {{{path}}}'() {
+        given:
+        {{!Create the body}}
+        {{#bodyParam}}
+        {{{dataType}}} body = {{{example}}}
+        {{/bodyParam}}
+        {{#formParams.0}}
+        var form = [
+            // Fill in the body form parameters
+            {{#formParams}}
+                {{^isFile}}
+            '{{{baseName}}}': {{{example}}}{{^-last}},{{/-last}}
+                {{/isFile}}
+                {{#isFile}}
+            '{{{baseName}}}': new FileReader(File.createTempFile("", ".tmp"))
+                {{/isFile}}
+            {{/formParams}}
+        ]
+        {{/formParams.0}}
+        {{#isMultipart}}
+            {{^formParams}}
+        var body = MultipartBody.builder() // Create multipart body
+                {{#bodyParams}}
+                    {{^isFile}}
+            .addPart('{{{baseName}}}', {{{example}}}.toString())
+                    {{/isFile}}
+                    {{#isFile}}
+                        {{#contentType}}
+            .addPart('{{{baseName}}}', 'filename', MediaType.of('{{{contentType}}}'), File.createTempFile('', '.tmp')))
+                        {{/contentType}}
+                        {{^contentType}}
+            .addPart('{{{baseName}}}', 'filename', File.createTempFile('', '.tmp')))
+                        {{/contentType}}
+                    {{/isFile}}
+                {{/bodyParams}}
+            .build()
+            {{/formParams}}
+        {{/isMultipart}}
+        {{!Create the uri with path variables}}
+        var uri = UriTemplate.of('{{{path}}}').expand({{^pathParams}}[:]{{/pathParams}}{{#pathParams.0}}[
+            // Fill in the path variables
+        {{#pathParams}}
+            '{{{baseName}}}': {{{example}}}{{^-last}},{{/-last}}
+        {{/pathParams}}
+        ]{{/pathParams.0}})
+        {{!Create the request with body and uri}}
+        HttpRequest request = HttpRequest.{{httpMethod}}{{#bodyParam}}(uri, body){{/bodyParam}}{{#isMultipart}}{{^formParams}}(uri, body){{/formParams}}{{/isMultipart}}{{#formParams.0}}(uri, form){{/formParams.0}}{{^bodyParam}}{{^isMultipart}}{{^formParams}}(uri){{/formParams}}{{/isMultipart}}{{/bodyParam}}
+        {{!Fill in all the request parameters}}
+        {{#vendorExtensions.x-contentType}}
+            .contentType('{{vendorExtensions.x-contentType}}')
+        {{/vendorExtensions.x-contentType}}
+        {{#vendorExtensions.x-accepts}}
+            .accept('{{vendorExtensions.x-accepts}}')
+        {{/vendorExtensions.x-accepts}}
+        {{#headerParams}}
+            .header('{{{baseName}}}', {{{example}}})
+        {{/headerParams}}
+        {{#cookieParams}}
+            .cookie(Cookie.of('{{{baseName}}}', {{{example}}}))
+        {{/cookieParams}}
+        {{!Fill in the query parameters}}
+        {{#queryParams.0}}
+        request.getParameters()
+            {{#queryParams}}
+                {{#isCollectionFormatMulti}}
+            .add('{{{baseName}}}', []) // The query format should be multi
+                {{/isCollectionFormatMulti}}
+                {{#isDeepObject}}
+            .add('{{{baseName}}}[property]', 'value') // The query format should be deep-object
+                {{/isDeepObject}}
+                {{^isCollectionFormatMulti}}
+                    {{^isDeepObject}}
+            .add('{{{baseName}}}', {{{example}}}.toString()) // The query parameter format should be {{collectionFormat}}
+                    {{/isDeepObject}}
+                {{/isCollectionFormatMulti}}
+            {{/queryParams}}
+        {{/queryParams.0}}
+
+        when:
+        HttpResponse response = client.toBlocking().exchange(request)
+
+        then:
+        response.status() == HttpStatus.OK
+    }
+
+    {{/operation}}
+    {{/operations}}
+}

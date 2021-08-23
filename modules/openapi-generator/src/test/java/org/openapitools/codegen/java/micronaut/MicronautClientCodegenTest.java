@@ -13,6 +13,7 @@ import org.openapitools.codegen.languages.JavaMicronautClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import javax.validation.Path;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -53,6 +54,31 @@ public class MicronautClientCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools");
+    }
+
+    @Test
+    public void testApiAndModelFilesPresent() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "org.test.test");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.test.test.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.test.test.api");
+        String outputPath = generateFiles(codegen, PETSTORE_PATH,
+                CodegenConstants.SUPPORTING_FILES,
+                CodegenConstants.APIS,
+                CodegenConstants.MODELS);
+
+        String apiFolder = outputPath + "src/main/java/org/test/test/api/";
+        assertFileExists(apiFolder + "PetApi.java");
+        assertFileExists(apiFolder + "StoreApi.java");
+        assertFileExists(apiFolder + "UserApi.java");
+
+        String modelFolder = outputPath + "src/main/java/org/test/test/model/";
+        assertFileExists(modelFolder + "Pet.java");
+        assertFileExists(modelFolder + "User.java");
+        assertFileExists(modelFolder + "Order.java");
+
+        String resources = outputPath + "src/main/resources/";
+        assertFileExists(resources + "application.yml");
     }
 
     @Test

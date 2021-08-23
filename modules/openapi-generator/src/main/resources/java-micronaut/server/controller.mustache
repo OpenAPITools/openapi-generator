@@ -1,0 +1,96 @@
+{{>common/licenseInfo}}
+package {{package}};
+
+import io.micronaut.http.annotation.*;
+import io.micronaut.core.annotation.*;
+import io.micronaut.http.client.annotation.Client;
+import io.micronaut.core.convert.format.Format;
+import reactor.core.publisher.Mono;
+{{#imports}}
+import {{import}};
+{{/imports}}
+import javax.annotation.Generated;
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+{{#useBeanValidation}}
+import javax.validation.Valid;
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
+import io.swagger.annotations.*;
+
+{{>common/generatedAnnotation}}
+@Controller("${context-path}")
+public class {{classname}} {
+{{#operations}}
+    {{#operation}}
+    /**
+        {{#summary}}
+     * {{summary}}
+        {{/summary}}
+        {{#notes}}
+     * {{notes}}
+        {{/notes}}
+        {{^summary}}
+            {{^notes}}
+     * {{nickname}}
+            {{/notes}}
+        {{/summary}}
+     *
+        {{#allParams}}
+     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+        {{/allParams}}
+        {{#returnType}}
+     * @return {{returnType}}
+        {{/returnType}}
+        {{#externalDocs}}
+     * {{description}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
+        {{/externalDocs}}
+     */
+    {{!openapi annotations for info}}
+    @ApiOperation(
+        value = "{{{summary}}}",
+        nickname = "{{{operationId}}}"{{#notes}},
+        notes = "{{{notes}}}"{{/notes}}{{#returnBaseType}},
+        response = {{{returnBaseType}}}.class{{/returnBaseType}}{{#returnContainer}},
+        responseContainer = "{{{returnContainer}}}"{{/returnContainer}},
+        authorizations = {{openbrace}}{{#hasAuthMethods}}
+        {{#authMethods}}
+            {{#isOAuth}}
+            @Authorization(value = "{{name}}"{{#scopes}}{{#-first}}, scopes = {
+                {{#scopes}}
+                @AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},{{/-last}}
+                {{/scopes}}
+            }{{/-first}}{{/scopes}}){{^-last}},{{/-last}}
+            {{/isOAuth}}
+            {{^isOAuth}}
+            @Authorization(value = "{{name}}"){{^-last}},{{/-last}}
+            {{/isOAuth}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}{{closebrace}},
+        tags={{openbrace}}{{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}}{{closebrace}})
+    {{!openapi annotations for info about responses}}
+    @ApiResponses(value = {{openbrace}}{{#responses}}
+        @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}{{closebrace}})
+    {{!micronaut annotations}}
+    @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
+    @Produces(value={{openbrace}}{{#produces}}"{{mediaType}}"{{^-last}}, {{/-last}}{{/produces}}{{closebrace}})
+    @Consumes(value={{openbrace}}{{#consumes}}"{{mediaType}}"{{^-last}}, {{/-last}}{{/consumes}}{{closebrace}})
+    {{!the method definition}}
+    public {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}({{^allParams}}){{/allParams}}{{#allParams}}
+        {{>server/params/queryParams}}{{>server/params/pathParams}}{{>server/params/headerParams}}{{>server/params/bodyParams}}{{>server/params/formParams}}{{>server/params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
+    ){{/-last}}{{/allParams}} {{openbrace}}
+        // TODO implement {{nickname}}() body;
+        {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} result = Mono.empty();
+        return result;
+    {{closebrace}}
+    {{^-last}}
+
+    {{/-last}}
+    {{/operation}}
+{{/operations}}
+}
