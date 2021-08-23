@@ -20,7 +20,6 @@ import java.util.*;
 /**
  * ArrayTest
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayTest   {
   @JsonProperty("array_of_string")
@@ -52,7 +51,7 @@ public class ArrayTest   {
    * Get arrayOfString
    * @return arrayOfString
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public List<String> getArrayOfString() {
@@ -80,7 +79,7 @@ public class ArrayTest   {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
@@ -109,7 +108,7 @@ public class ArrayTest   {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 

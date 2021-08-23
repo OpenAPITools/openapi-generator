@@ -43,6 +43,7 @@ public interface FakeClassnameTestApi {
         @Authorization(value = "api_key_query")
          }, tags={ "fake_classname_tags 123#$%^", })
     @ApiResponses(value = { 
+
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @ApiImplicitParams({
     })
@@ -52,7 +53,11 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    default ResponseEntity<Client> testClassname(
+
+
+@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body
+) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

@@ -19,7 +19,6 @@ import java.util.*;
 /**
  * AdditionalPropertiesString
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -36,7 +35,7 @@ public class AdditionalPropertiesString extends HashMap<String, String>  {
    * Get name
    * @return name
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getName() {

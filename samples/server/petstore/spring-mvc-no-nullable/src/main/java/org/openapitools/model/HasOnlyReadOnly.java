@@ -16,7 +16,6 @@ import java.util.*;
 /**
  * HasOnlyReadOnly
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class HasOnlyReadOnly   {
   @JsonProperty("bar")
@@ -34,7 +33,7 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
   */
-  @ApiModelProperty(readOnly = true, value = "")
+  @ApiModelProperty((readOnly = true, value = "")
 
 
   public String getBar() {
@@ -54,7 +53,7 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
   */
-  @ApiModelProperty(readOnly = true, value = "")
+  @ApiModelProperty((readOnly = true, value = "")
 
 
   public String getFoo() {

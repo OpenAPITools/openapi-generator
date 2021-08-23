@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * CatAllOf
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -34,7 +33,7 @@ public class CatAllOf   {
    * Get declawed
    * @return declawed
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Boolean getDeclawed() {

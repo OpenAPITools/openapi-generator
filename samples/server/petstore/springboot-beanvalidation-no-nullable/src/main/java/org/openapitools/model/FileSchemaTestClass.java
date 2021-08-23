@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * FileSchemaTestClass
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileSchemaTestClass   {
   @JsonProperty("file")
@@ -36,7 +35,7 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
@@ -65,7 +64,7 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 

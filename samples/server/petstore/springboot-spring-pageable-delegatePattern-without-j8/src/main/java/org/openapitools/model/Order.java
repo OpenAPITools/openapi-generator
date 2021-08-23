@@ -18,7 +18,6 @@ import java.util.*;
 /**
  * Order
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order   {
   @JsonProperty("id")
@@ -86,7 +85,7 @@ public class Order   {
    * Get id
    * @return id
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Long getId() {
@@ -106,7 +105,7 @@ public class Order   {
    * Get petId
    * @return petId
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Long getPetId() {
@@ -126,7 +125,7 @@ public class Order   {
    * Get quantity
    * @return quantity
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Integer getQuantity() {
@@ -146,7 +145,7 @@ public class Order   {
    * Get shipDate
    * @return shipDate
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
@@ -167,7 +166,7 @@ public class Order   {
    * Order Status
    * @return status
   */
-  @ApiModelProperty(value = "Order Status")
+  @ApiModelProperty((value = "Order Status")
 
 
   public StatusEnum getStatus() {
@@ -187,7 +186,7 @@ public class Order   {
    * Get complete
    * @return complete
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Boolean getComplete() {

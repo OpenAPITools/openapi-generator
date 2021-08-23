@@ -35,6 +35,7 @@ public interface FakeClassnameTestApi {
         @Authorization(value = "api_key_query")
          }, tags={ "fake_classname_tags 123#$%^", })
     @ApiResponses(value = { 
+
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @RequestMapping(
         method = RequestMethod.PATCH,
@@ -42,6 +43,10 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Client> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body);
+    ResponseEntity<Client> testClassname(
+
+
+@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body
+);
 
 }

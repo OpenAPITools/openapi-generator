@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * User
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -55,7 +54,7 @@ public class User   {
    * Get id
    * @return id
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Long getId() {
@@ -75,7 +74,7 @@ public class User   {
    * Get username
    * @return username
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getUsername() {
@@ -95,7 +94,7 @@ public class User   {
    * Get firstName
    * @return firstName
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getFirstName() {
@@ -115,7 +114,7 @@ public class User   {
    * Get lastName
    * @return lastName
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getLastName() {
@@ -135,7 +134,7 @@ public class User   {
    * Get email
    * @return email
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getEmail() {
@@ -155,7 +154,7 @@ public class User   {
    * Get password
    * @return password
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getPassword() {
@@ -175,7 +174,7 @@ public class User   {
    * Get phone
    * @return phone
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getPhone() {
@@ -195,7 +194,7 @@ public class User   {
    * User Status
    * @return userStatus
   */
-  @ApiModelProperty(value = "User Status")
+  @ApiModelProperty((value = "User Status")
 
 
   public Integer getUserStatus() {

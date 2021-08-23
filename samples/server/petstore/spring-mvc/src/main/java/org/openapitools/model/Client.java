@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * Client
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -34,7 +33,7 @@ public class Client   {
    * Get client
    * @return client
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getClient() {

@@ -20,7 +20,6 @@ import java.util.*;
 /**
  * ArrayOfNumberOnly
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayOfNumberOnly   {
   @JsonProperty("ArrayNumber")
@@ -44,7 +43,7 @@ public class ArrayOfNumberOnly   {
    * Get arrayNumber
    * @return arrayNumber
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 

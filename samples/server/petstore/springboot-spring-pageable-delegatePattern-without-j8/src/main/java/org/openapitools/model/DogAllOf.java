@@ -16,7 +16,6 @@ import java.util.*;
 /**
  * DogAllOf
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class DogAllOf   {
   @JsonProperty("breed")
@@ -31,7 +30,7 @@ public class DogAllOf   {
    * Get breed
    * @return breed
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getBreed() {

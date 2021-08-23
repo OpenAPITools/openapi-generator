@@ -21,7 +21,6 @@ import java.util.*;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
@@ -44,7 +43,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get uuid
    * @return uuid
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
@@ -65,7 +64,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get dateTime
    * @return dateTime
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
@@ -94,7 +93,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    * Get map
    * @return map
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 

@@ -18,7 +18,6 @@ import java.util.*;
 /**
  * TestResponse
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TestResponse   {
   @JsonProperty("id")
@@ -42,7 +41,7 @@ public class TestResponse   {
    * Get id
    * @return id
   */
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty((required = true, value = "")
   @NotNull
 
 
@@ -63,7 +62,7 @@ public class TestResponse   {
    * Get stringField
    * @return stringField
   */
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty((required = true, value = "")
   @NotNull
 
 
@@ -84,7 +83,7 @@ public class TestResponse   {
    * Get numberField
    * @return numberField
   */
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty((required = true, value = "")
   @NotNull
 
   @Valid
@@ -106,7 +105,7 @@ public class TestResponse   {
    * Get booleanField
    * @return booleanField
   */
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty((required = true, value = "")
   @NotNull
 
 

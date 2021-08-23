@@ -19,7 +19,6 @@ import java.util.*;
 /**
  * Order
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -90,7 +89,7 @@ public enum StatusEnum {
    * Get id
    * @return id
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Long getId() {
@@ -110,7 +109,7 @@ public enum StatusEnum {
    * Get petId
    * @return petId
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Long getPetId() {
@@ -130,7 +129,7 @@ public enum StatusEnum {
    * Get quantity
    * @return quantity
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Integer getQuantity() {
@@ -150,7 +149,7 @@ public enum StatusEnum {
    * Get shipDate
    * @return shipDate
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
@@ -171,7 +170,7 @@ public enum StatusEnum {
    * Order Status
    * @return status
   */
-  @ApiModelProperty(value = "Order Status")
+  @ApiModelProperty((value = "Order Status")
 
 
   public StatusEnum getStatus() {
@@ -191,7 +190,7 @@ public enum StatusEnum {
    * Get complete
    * @return complete
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Boolean getComplete() {

@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * SpecialModelName
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")
@@ -32,7 +31,7 @@ public class SpecialModelName   {
    * Get $specialPropertyName
    * @return $specialPropertyName
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Long get$SpecialPropertyName() {

@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * ModelApiResponse
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -40,7 +39,7 @@ public class ModelApiResponse   {
    * Get code
    * @return code
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Integer getCode() {
@@ -60,7 +59,7 @@ public class ModelApiResponse   {
    * Get type
    * @return type
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getType() {
@@ -80,7 +79,7 @@ public class ModelApiResponse   {
    * Get message
    * @return message
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getMessage() {

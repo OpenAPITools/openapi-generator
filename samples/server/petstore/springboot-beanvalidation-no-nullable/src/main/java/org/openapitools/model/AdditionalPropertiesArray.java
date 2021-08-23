@@ -18,7 +18,6 @@ import java.util.*;
 /**
  * AdditionalPropertiesArray
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesArray extends HashMap<String, List>  {
   @JsonProperty("name")
@@ -33,7 +32,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List>  {
    * Get name
    * @return name
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getName() {

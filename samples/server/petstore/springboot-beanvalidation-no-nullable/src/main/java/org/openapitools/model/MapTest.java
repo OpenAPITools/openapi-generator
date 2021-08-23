@@ -19,7 +19,6 @@ import java.util.*;
 /**
  * MapTest
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MapTest   {
   @JsonProperty("map_map_of_string")
@@ -90,7 +89,7 @@ public class MapTest   {
    * Get mapMapOfString
    * @return mapMapOfString
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
@@ -119,7 +118,7 @@ public class MapTest   {
    * Get mapOfEnumString
    * @return mapOfEnumString
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -147,7 +146,7 @@ public class MapTest   {
    * Get directMap
    * @return directMap
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Map<String, Boolean> getDirectMap() {
@@ -175,7 +174,7 @@ public class MapTest   {
    * Get indirectMap
    * @return indirectMap
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Map<String, Boolean> getIndirectMap() {

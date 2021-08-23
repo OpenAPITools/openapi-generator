@@ -18,7 +18,6 @@ import java.util.*;
 /**
  * NumberOnly
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -35,7 +34,7 @@ public class NumberOnly   {
    * Get justNumber
    * @return justNumber
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 

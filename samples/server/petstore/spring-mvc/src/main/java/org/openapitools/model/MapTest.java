@@ -21,7 +21,6 @@ import java.util.*;
 /**
  * MapTest
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -95,7 +94,7 @@ public enum InnerEnum {
    * Get mapMapOfString
    * @return mapMapOfString
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
@@ -124,7 +123,7 @@ public enum InnerEnum {
    * Get mapOfEnumString
    * @return mapOfEnumString
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -152,7 +151,7 @@ public enum InnerEnum {
    * Get directMap
    * @return directMap
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Map<String, Boolean> getDirectMap() {
@@ -180,7 +179,7 @@ public enum InnerEnum {
    * Get indirectMap
    * @return indirectMap
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Map<String, Boolean> getIndirectMap() {

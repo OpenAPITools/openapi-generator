@@ -18,7 +18,6 @@ import java.util.*;
 /**
  * OuterComposite
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class OuterComposite   {
   @JsonProperty("my_number")
@@ -39,7 +38,7 @@ public class OuterComposite   {
    * Get myNumber
    * @return myNumber
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
@@ -60,7 +59,7 @@ public class OuterComposite   {
    * Get myString
    * @return myString
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getMyString() {
@@ -80,7 +79,7 @@ public class OuterComposite   {
    * Get myBoolean
    * @return myBoolean
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public Boolean getMyBoolean() {

@@ -20,7 +20,6 @@ import java.util.*;
 /**
  * ArrayTest
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -54,7 +53,7 @@ public class ArrayTest   {
    * Get arrayOfString
    * @return arrayOfString
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public List<String> getArrayOfString() {
@@ -82,7 +81,7 @@ public class ArrayTest   {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
@@ -111,7 +110,7 @@ public class ArrayTest   {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 

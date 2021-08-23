@@ -17,7 +17,6 @@ import java.util.*;
 /**
  * HasOnlyReadOnly
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -37,7 +36,7 @@ public class HasOnlyReadOnly   {
    * Get bar
    * @return bar
   */
-  @ApiModelProperty(readOnly = true, value = "")
+  @ApiModelProperty((readOnly = true, value = "")
 
 
   public String getBar() {
@@ -57,7 +56,7 @@ public class HasOnlyReadOnly   {
    * Get foo
    * @return foo
   */
-  @ApiModelProperty(readOnly = true, value = "")
+  @ApiModelProperty((readOnly = true, value = "")
 
 
   public String getFoo() {

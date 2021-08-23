@@ -39,7 +39,7 @@ public class Name   {
    * Get name
    * @return name
   */
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty((required = true, value = "")
   @NotNull
 
 
@@ -60,7 +60,7 @@ public class Name   {
    * Get snakeCase
    * @return snakeCase
   */
-  @ApiModelProperty(readOnly = true, value = "")
+  @ApiModelProperty((readOnly = true, value = "")
 
 
   public Integer getSnakeCase() {
@@ -80,7 +80,7 @@ public class Name   {
    * Get property
    * @return property
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public String getProperty() {
@@ -100,7 +100,7 @@ public class Name   {
    * Get _123number
    * @return _123number
   */
-  @ApiModelProperty(readOnly = true, value = "")
+  @ApiModelProperty((readOnly = true, value = "")
 
 
   public Integer get123number() {

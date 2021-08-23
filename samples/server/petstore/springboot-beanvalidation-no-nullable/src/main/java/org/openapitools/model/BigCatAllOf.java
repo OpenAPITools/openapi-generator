@@ -16,7 +16,6 @@ import java.util.*;
 /**
  * BigCatAllOf
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BigCatAllOf   {
   /**
@@ -70,7 +69,7 @@ public class BigCatAllOf   {
    * Get kind
    * @return kind
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public KindEnum getKind() {

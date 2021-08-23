@@ -20,7 +20,6 @@ import java.util.*;
 /**
  * EnumArrays
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -113,7 +112,7 @@ public enum ArrayEnumEnum {
    * Get justSymbol
    * @return justSymbol
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public JustSymbolEnum getJustSymbol() {
@@ -141,7 +140,7 @@ public enum ArrayEnumEnum {
    * Get arrayEnum
    * @return arrayEnum
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public List<ArrayEnumEnum> getArrayEnum() {

@@ -20,7 +20,6 @@ import java.util.*;
 /**
  * ArrayOfNumberOnly
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -46,7 +45,7 @@ public class ArrayOfNumberOnly   {
    * Get arrayNumber
    * @return arrayNumber
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 

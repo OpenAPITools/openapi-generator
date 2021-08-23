@@ -19,7 +19,6 @@ import java.util.*;
 /**
  * FileSchemaTestClass
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
@@ -40,7 +39,7 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
@@ -69,7 +68,7 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 

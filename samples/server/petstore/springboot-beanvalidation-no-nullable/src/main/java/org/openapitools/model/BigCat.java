@@ -18,7 +18,6 @@ import java.util.*;
 /**
  * BigCat
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BigCat extends Cat  {
   /**
@@ -72,7 +71,7 @@ public class BigCat extends Cat  {
    * Get kind
    * @return kind
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
 
   public KindEnum getKind() {

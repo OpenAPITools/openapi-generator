@@ -18,7 +18,6 @@ import java.util.*;
 /**
  * NumberOnly
  */
-
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class NumberOnly   {
   @JsonProperty("JustNumber")
@@ -33,7 +32,7 @@ public class NumberOnly   {
    * Get justNumber
    * @return justNumber
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty((value = "")
 
   @Valid
 
