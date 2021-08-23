@@ -289,12 +289,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toExampleValue(Schema schema) {
-        LOGGER.info("toExampleVAlue: ref"+schema.get$ref());
         return toExampleValueRecursive(schema, new ArrayList<>(), 5);
     }
 
     private String toExampleValueRecursive(Schema schema, List<String> includedSchemas, int indentation) {
-//        LOGGER.info("schema "+schema+", "+includedSchemas+", "+indentation);
         String indentationString = "";
         for (int i = 0; i < indentation; i++) indentationString += "    ";
         String example = null;
@@ -339,9 +337,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             // $ref case:
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
             String ref = ModelUtils.getSimpleRef(schema.get$ref());
-            
-            // has the schema already been included?
-            
             if (allDefinitions != null) {
                 Schema refSchema = allDefinitions.get(ref);
                 if (null == refSchema) {
