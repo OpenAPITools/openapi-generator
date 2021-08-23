@@ -35,7 +35,7 @@ import (
 )
 
 func main() {
-    pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store
+    pet := *openapiclient.NewPet("doggie", []string{"http://example.com/photos/1","http://example.com/photos/2"}) // Pet | Pet object that needs to be added to the store
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -367,7 +367,7 @@ import (
 )
 
 func main() {
-    pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store
+    pet := *openapiclient.NewPet("doggie", []string{"http://example.com/photos/1","http://example.com/photos/2"}) // Pet | Pet object that needs to be added to the store
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

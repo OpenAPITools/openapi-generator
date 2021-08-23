@@ -1415,8 +1415,8 @@ components:
     Pet:
       example:
         photoUrls:
-        - photoUrls
-        - photoUrls
+        - http://example.com/photos/1
+        - http://example.com/photos/2
         name: doggie
         id: 0
         category:
@@ -1439,6 +1439,9 @@ components:
           example: doggie
           type: string
         photoUrls:
+          example:
+          - http://example.com/photos/1
+          - http://example.com/photos/2
           items:
             type: string
           type: array

@@ -548,7 +548,13 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 // We can't easily generate a pointer inline, so just use nil in that case
                 return prefix + "{nil}";
             }
-            return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+            String example;
+            if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                example = StringUtils.removeStart(StringUtils.removeEnd(codegenProperty.example, "]"), "[");
+            } else {
+                example = constructExampleCode(codegenProperty.items, modelMaps, processedModelMap);
+            }
+            return prefix + "{" + example + "}";
         } else if (codegenProperty.isMap) { // map
             String prefix = codegenProperty.dataType;
             String dataType = StringUtils.removeStart(codegenProperty.dataType, "map[string][]");

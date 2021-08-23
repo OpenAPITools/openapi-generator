@@ -1355,6 +1355,9 @@ components:
             wrapped: true
           items:
             type: string
+          example:
+            - "http://example.com/photos/1"
+            - "http://example.com/photos/2"
         tags:
           type: array
           xml:
