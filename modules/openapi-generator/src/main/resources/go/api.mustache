@@ -22,20 +22,27 @@ type {{classname}} interface {
 	{{#operation}}
 
 	/*
-	 * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
+	{{operationId}} {{{summary}}}{{^summary}}Method for {{operationId}}{{/summary}}
 	{{#notes}}
-	 * {{{unescapedNotes}}}
+
+	{{{unescapedNotes}}}
 	{{/notes}}
-	 * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
-	 * @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
-	 * @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
-	 */
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
+	 @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
+	 @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+	{{#isDeprecated}}
+
+	Deprecated
+	{{/isDeprecated}}
+	*/
 	{{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
 
-	/*
-	 * {{nickname}}Execute executes the request{{#returnType}}
-	 * @return {{{.}}}{{/returnType}}
-	 */
+	// {{nickname}}Execute executes the request{{#returnType}}
+	//  @return {{{.}}}{{/returnType}}
+	{{#isDeprecated}}
+	// Deprecated
+	{{/isDeprecated}}
 	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
 	{{/operation}}
 }
@@ -46,16 +53,19 @@ type {{classname}}Service service
 {{#operation}}
 
 type {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request struct {
-	ctx _context.Context{{#generateInterfaces}}
-	ApiService {{classname}}
-{{/generateInterfaces}}{{^generateInterfaces}}
-	ApiService *{{classname}}Service
-{{/generateInterfaces}}
+	ctx _context.Context
+	ApiService {{#generateInterfaces}}{{classname}}{{/generateInterfaces}}{{^generateInterfaces}}*{{classname}}Service{{/generateInterfaces}}
 {{#allParams}}
 	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}
 {{/allParams}}
 }
 {{#allParams}}{{^isPathParam}}
+{{#description}}
+// {{.}}
+{{/description}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
 func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
 	r.{{paramName}} = &{{paramName}}
 	return r
@@ -66,14 +76,20 @@ func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Reques
 }
 
 /*
- * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
+{{operationId}} {{{summary}}}{{^summary}}Method for {{operationId}}{{/summary}}
 {{#notes}}
- * {{{unescapedNotes}}}
+
+{{{unescapedNotes}}}
 {{/notes}}
- * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
- * @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
- * @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
- */
+
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
+ @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
+ @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+{{#isDeprecated}}
+
+Deprecated
+{{/isDeprecated}}
+*/
 func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
 	return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request{
 		ApiService: a,
@@ -84,10 +100,11 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParam
 	}
 }
 
-/*
- * Execute executes the request{{#returnType}}
- * @return {{{.}}}{{/returnType}}
- */
+// Execute executes the request{{#returnType}}
+//  @return {{{.}}}{{/returnType}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
 func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.Method{{httpMethod}}
@@ -106,7 +123,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	}
 
 	localVarPath := localBasePath + "{{{path}}}"{{#pathParams}}
-	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.PathEscape(parameterToString(r.{{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")), -1){{/pathParams}}
+	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.PathEscape(parameterToString(r.{{paramName}}, "{{collectionFormat}}")), -1){{/pathParams}}
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -171,15 +188,15 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{collectionFormat}}"))
 			}
 		} else {
-			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{collectionFormat}}"))
 		}
 	}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-	localVarQueryParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+	localVarQueryParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
 	{{/isCollectionFormatMulti}}
 	{{/required}}
 	{{^required}}
@@ -189,14 +206,14 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+				localVarQueryParams.Add("{{baseName}}", parameterToString(s.Index(i), "{{collectionFormat}}"))
 			}
 		} else {
-			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+			localVarQueryParams.Add("{{baseName}}", parameterToString(t, "{{collectionFormat}}"))
 		}
 	{{/isCollectionFormatMulti}}
 	{{^isCollectionFormatMulti}}
-		localVarQueryParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+		localVarQueryParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
 	{{/isCollectionFormatMulti}}
 	}
 	{{/required}}
@@ -224,11 +241,11 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	}
 {{#headerParams}}
 	{{#required}}
-	localVarHeaderParams["{{baseName}}"] = parameterToString(*r.{{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")
+	localVarHeaderParams["{{baseName}}"] = parameterToString(*r.{{paramName}}, "{{collectionFormat}}")
 	{{/required}}
 	{{^required}}
 	if r.{{paramName}} != nil {
-		localVarHeaderParams["{{baseName}}"] = parameterToString(*r.{{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")
+		localVarHeaderParams["{{baseName}}"] = parameterToString(*r.{{paramName}}, "{{collectionFormat}}")
 	}
 	{{/required}}
 {{/headerParams}}
@@ -253,7 +270,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/isFile}}
 {{^isFile}}
 {{#required}}
-	localVarFormParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+	localVarFormParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
 {{/required}}
 {{^required}}
 {{#isModel}}
@@ -267,7 +284,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/isModel}}
 {{^isModel}}
 	if r.{{paramName}} != nil {
-		localVarFormParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}"))
+		localVarFormParams.Add("{{baseName}}", parameterToString(*r.{{paramName}}, "{{collectionFormat}}"))
 	}
 {{/isModel}}
 {{/required}}

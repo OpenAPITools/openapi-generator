@@ -73,4 +73,3 @@ export function GetPetPartTypeResponseToJSON(value?: GetPetPartTypeResponse | nu
     };
 }
 
-

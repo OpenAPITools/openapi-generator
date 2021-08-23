@@ -49,13 +49,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "cultivar", EmitDefaultValue = false)]
         public string Cultivar
-        { 
+        {
             get{ return _Cultivar;}
             set
             {
                 _Cultivar = value;
                 _flagCultivar = true;
-            } 
+            }
         }
         private string _Cultivar;
         private bool _flagCultivar;
@@ -73,13 +73,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "origin", EmitDefaultValue = false)]
         public string Origin
-        { 
+        {
             get{ return _Origin;}
             set
             {
                 _Origin = value;
                 _flagOrigin = true;
-            } 
+            }
         }
         private string _Origin;
         private bool _flagOrigin;

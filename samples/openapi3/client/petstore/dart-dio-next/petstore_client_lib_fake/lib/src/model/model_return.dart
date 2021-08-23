@@ -17,7 +17,8 @@ abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
 
     ModelReturn._();
 
-    static void _initializeBuilder(ModelReturnBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ModelReturnBuilder b) => b;
 
     factory ModelReturn([void updates(ModelReturnBuilder b)]) = _$ModelReturn;
 
@@ -55,10 +56,12 @@ class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'return':
-                    result.return_ = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.return_ = valueDes;
                     break;
             }
         }

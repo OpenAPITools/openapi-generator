@@ -17,7 +17,8 @@ abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelN
 
     SpecialModelName._();
 
-    static void _initializeBuilder(SpecialModelNameBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(SpecialModelNameBuilder b) => b;
 
     factory SpecialModelName([void updates(SpecialModelNameBuilder b)]) = _$SpecialModelName;
 
@@ -55,10 +56,12 @@ class _$SpecialModelNameSerializer implements StructuredSerializer<SpecialModelN
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'$special[property.name]':
-                    result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket = valueDes;
                     break;
             }
         }
