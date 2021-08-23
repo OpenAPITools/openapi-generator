@@ -2575,11 +2575,6 @@ public class DefaultCodegen implements CodegenConfig {
             m.oneOfProps = oneOfProps;
             m.allOfProps = allOfProps;
             m.anyOfProps = anyOfProps;
-/*
-            m.vendorExtensions.put("x-oneOf-as-properties", oneOfProps);
-            m.vendorExtensions.put("x-allOf-as-properties", allOfProps);
-            m.vendorExtensions.put("x-anyOf-as-properties", anyOfProps);
-*/
 
             if (parent != null && composed.getAllOf() != null) { // set parent for allOf only
                 m.parentSchema = parentName;
