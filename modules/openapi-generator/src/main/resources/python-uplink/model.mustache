@@ -40,7 +40,12 @@ class {{classname}}(BaseModel):
         self,
         *,
     {{#requiredVars}}
-        {{name}}: {{>model_field_type}},
+    {{#vendorExtensions.x-has-custom-name}}
+        {{name}}: {{>model_field_type}} = None,
+    {{/vendorExtensions.x-has-custom-name}}
+    {{^vendorExtensions.x-has-custom-name}}
+        {{name}}: {{>model_field_type}} = None,
+    {{/vendorExtensions.x-has-custom-name}}
     {{/requiredVars}}
     {{#optionalVars}}
         {{name}}: Optional[{{>model_field_type}}] = None,
