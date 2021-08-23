@@ -175,17 +175,19 @@ bool {{classname}}::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 
 	bool ParseSuccess = true;
 
-	{{#requiredVars}}
+	{{#vars}}
+	{{#required}}
 	{{#isWriteOnly}}
 	TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});
 	{{/isWriteOnly}}
 	{{^isWriteOnly}}
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});
 	{{/isWriteOnly}}
-	{{/requiredVars}}
-	{{#optionalVars}}
+	{{/required}}
+	{{^required}}
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});
-	{{/optionalVars}}
+	{{/required}}
+	{{/vars}}
 
 	return ParseSuccess;
 	{{/isString}}
