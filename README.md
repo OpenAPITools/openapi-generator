@@ -822,6 +822,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2021-06-22 - [Rest API Documentation and Client Generation With OpenAPI](https://dzone.com/articles/rest-api-documentation-and-client-generation-with) by [Prasanth Gullapalli](https://dzone.com/users/1011797/prasanthnath.g@gmail.com.html) 
 - 2021-07-16 - [銀行事業のサーバーサイド開発について / LINE 京都開発室 エンジニア採用説明会](https://www.youtube.com/watch?v=YrrKQHxLPpQ) by 野田誠人, Robert Mitchell
 - 2021-07-29 - [How To Rewrite a Huge Codebase](https://dzone.com/articles/how-to-rewrite-a-huge-code-base) by [Curtis Poe](https://dzone.com/users/4565446/publiusovidius.html)
+- 2021-08-21 - [Generating Client APIs using Swagger Part 1](https://medium.com/@flowsquad/generating-client-apis-using-swagger-part-1-2d46f13f5e92) by [FlowSquad.io](https://medium.com/@flowsquad)
 
 ## [6 - About Us](#table-of-contents)
 
