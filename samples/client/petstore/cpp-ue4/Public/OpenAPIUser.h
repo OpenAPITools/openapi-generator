@@ -14,7 +14,7 @@
 
 #include "OpenAPIBaseModel.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 /*

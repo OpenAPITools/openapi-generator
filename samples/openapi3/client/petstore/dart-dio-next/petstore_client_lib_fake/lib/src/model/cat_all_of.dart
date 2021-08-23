@@ -56,10 +56,12 @@ class _$CatAllOfSerializer implements StructuredSerializer<CatAllOf> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'declawed':
-                    result.declawed = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(bool)) as bool;
+                    result.declawed = valueDes;
                     break;
             }
         }

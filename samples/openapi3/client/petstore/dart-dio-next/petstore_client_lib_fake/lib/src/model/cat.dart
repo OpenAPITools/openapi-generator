@@ -79,18 +79,22 @@ class _$CatSerializer implements StructuredSerializer<Cat> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'className':
-                    result.className = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.className = valueDes;
                     break;
                 case r'color':
-                    result.color = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.color = valueDes;
                     break;
                 case r'declawed':
-                    result.declawed = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(bool)) as bool;
+                    result.declawed = valueDes;
                     break;
             }
         }
