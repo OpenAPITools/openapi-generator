@@ -3,14 +3,11 @@ package org.openapitools.codegen.languages;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -18,10 +15,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 
 import java.io.File;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import com.google.common.collect.Maps;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +24,6 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
     public static final String PROJECT_NAME = "projectName";
 
     static final Logger LOGGER = LoggerFactory.getLogger(PythonUplinkClientCodegen.class);
-
-    private static final String DEFAULT_PACKAGE_NAME = "openapi_client";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -47,6 +39,8 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
 
     public PythonUplinkClientCodegen() {
         super();
+
+        embeddedTemplateDir = templateDir = "python-uplink";
 
         this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL)
                 .build();
@@ -65,20 +59,26 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
         modifyFeatureSet(features -> features.documentationFeatures(null)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON)));
 
-        // TODO: remove?
-        // super.processOpts();
-
         supportsInheritance = true;
-        modelPackage = packageName + "." + "model";
-        apiPackage = packageName + "." + "api";
-        outputFolder = "generated-code" + File.separatorChar + "python-uplink";
 
         languageSpecificPrimitives.add("List");
         languageSpecificPrimitives.add("Dict");
         typeMapping.put("array", "List");
         typeMapping.put("map", "Dict");
 
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        }
+
         // add the models and apis folders
+        supportingFiles.add(new SupportingFile("__init__.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(new SupportingFile("client.mustache", packagePath(), "client.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "model",
                 "__init__.py"));
         supportingFiles.add(
@@ -87,13 +87,8 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
         modelTemplateFiles.put("model.mustache", ".py");
         apiTemplateFiles.put("api.mustache", ".py");
 
-        embeddedTemplateDir = templateDir = "python-uplink";
-
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
-                .defaultValue(DEFAULT_PACKAGE_NAME));
-        cliOptions
-                .add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.").defaultValue("1.0.0"));
-
+        modelPackage = packageName + "." + "model";
+        apiPackage = packageName + "." + "api";
     }
 
     @Override
@@ -126,11 +121,32 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
                 List<Map<String, Object>> models = (List<Map<String, Object>>) objModel.get("models");
                 for (Map<String, Object> model : models) {
                     CodegenModel cm = (CodegenModel) model.get("model");
+
+                    // Transform imports
                     String[] importModelNames = cm.imports.toArray(new String[0]);
                     cm.imports.clear();
                     for (String importModelName : importModelNames) {
                         if (!isUnionType(importModelName)) {
                             cm.imports.add(toModelImport(importModelName));
+                        }
+                    }
+
+                    // set isAlias if we need to add an alias
+                    for (CodegenProperty var : cm.vars) {
+                        if (!var.name.equals(var.baseName)) {
+                            var.vendorExtensions.put("x-has-custom-name", true);
+                        }
+                    }
+                    // set isAlias if we need to add an alias
+                    for (CodegenProperty var : cm.requiredVars) {
+                        if (!var.name.equals(var.baseName)) {
+                            var.vendorExtensions.put("x-has-custom-name", true);
+                        }
+                    }
+                    // set isAlias if we need to add an alias
+                    for (CodegenProperty var : cm.optionalVars) {
+                        if (!var.name.equals(var.baseName)) {
+                            var.vendorExtensions.put("x-has-custom-name", true);
                         }
                     }
                 }
@@ -268,10 +284,35 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
             return name;
         }
 
+        // For some reason the model import is sometimes already an import
+        // This should prevent creating an import statement that imports an import
+        // statement
+        if (name.startsWith("from " + packageName)) {
+            return name;
+        }
+
         return "from " + modelPackage() + "." + toModelFilename(name) + " import " + toModelName(name);
     }
 
     private boolean isUnionType(String name) {
         return name.startsWith("Union[");
+    }
+
+    @Override
+    public String toApiVarName(String name) {
+        if (name.length() == 0) {
+            return "default_api";
+        }
+
+        return underscore(name);
+    }
+
+    @Override
+    public String toApiFilename(String name) {
+        // replace - with _ e.g. created-at => created_at
+        name = name.replaceAll("-", "_");
+
+        // e.g. PhoneNumberApi.py => phone_number_api.py
+        return underscore(name);
     }
 }

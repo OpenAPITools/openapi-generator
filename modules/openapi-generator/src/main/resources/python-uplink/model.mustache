@@ -1,11 +1,13 @@
 # coding: utf-8
 
+from __future__ import annotations
+
 from datetime import date, datetime  # noqa: F401
 
 import re  # noqa: F401
 from typing import Any, Dict, List, Optional, Union, Literal  # noqa: F401
 
-from pydantic import AnyUrl, BaseModel, EmailStr, validator, Field, Extra  # noqa: F401
+from pydantic import AnyUrl, BaseModel, EmailStr, validator, Field, Extra # noqa: F401
 {{#models}}
 {{#model}}
 {{#imports}}
@@ -28,47 +30,80 @@ class {{classname}}(BaseModel):
     """
 
 {{#requiredVars}}
-    {{name}}: {{>model_field_type}}
+    {{name}}: {{>model_field_type}}{{#vendorExtensions.x-has-custom-name}} = Field(..., alias="{{baseName}}"){{/vendorExtensions.x-has-custom-name}}
 {{/requiredVars}}
 {{#optionalVars}}
-    {{name}}: Optional[{{>model_field_type}}] = None
+    {{name}}: Optional[{{>model_field_type}}] = {{#vendorExtensions.x-has-custom-name}}Field(None, alias="{{baseName}}"){{/vendorExtensions.x-has-custom-name}}{{^vendorExtensions.x-has-custom-name}}None{{/vendorExtensions.x-has-custom-name}}
 {{/optionalVars}}
+
+    def __init__(
+        self,
+        *,
+    {{#requiredVars}}
+        {{name}}: {{>model_field_type}},
+    {{/requiredVars}}
+    {{#optionalVars}}
+        {{name}}: Optional[{{>model_field_type}}] = None,
+    {{/optionalVars}}
+        **kwargs,
+    ):
+        super().__init__(
+            {{#vars}}
+            {{name}}={{name}},
+            {{/vars}}
+            **kwargs,
+        ) 
 {{#vars}}
 {{#maximum}}
 
     @validator("{{name}}")
     def {{name}}_max(cls, value):
-        assert value <= {{maximum}}
+{{>optional_validator}}
+        if value > {{maximum}}:
+            raise ValueError(f"{{name}} must be less than {{maximum}}, currently {value}")
         return value
 {{/maximum}}
 {{#minimum}}
 
     @validator("{{name}}")
     def {{name}}_min(cls, value):
-        assert value >= {{minimum}}
+{{>optional_validator}}
+        if value < {{minimum}}:
+            raise ValueError(f"{{name}} must be greater than {{minimum}}, currently {value}")
         return value
 {{/minimum}}
 {{#minLength}}
 
     @validator("{{name}}")
     def {{name}}_min_length(cls, value):
-        assert len(value) >= {{minLength}}
+{{>optional_validator}}
+        value_len = len(value)
+        if value_len < {{minLength}}:
+            raise ValueError(f"Length of {{name}} must at minimum {{minLength}}, currently {value_len}")
         return value
 {{/minLength}}
 {{#maxLength}}
 
     @validator("{{name}}")
     def {{name}}_max_length(cls, value):
-        assert len(value) <= {{maxLength}}
+{{>optional_validator}}
+        value_len = len(value)
+        if value_len > {{maxLength}}:
+            raise ValueError(f"Length of {{name}} must be at maximum {{maxLength}}, currently {value_len}")
+
         return value
 {{/maxLength}}
 {{#pattern}}
 
     @validator("{{name}}")
     def {{name}}_pattern(cls, value):
-        assert value is not None and re.match(r"{{pattern}}", value)
+{{>optional_validator}}
+        if not re.match(r"{{pattern}}", value):
+            raise ValueError("Value of {{name}} does not match regex pattern ('{{pattern}}')")
         return value
 {{/pattern}}
 {{/vars}}
 {{/model}}
 {{/models}}
+
+{{classname}}.update_forward_refs()

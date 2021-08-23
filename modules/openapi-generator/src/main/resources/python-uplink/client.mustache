@@ -1,0 +1,42 @@
+from contextlib import AbstractAsyncContextManager
+from typing import Dict
+
+import uplink
+
+from {{apiPackage}} import (
+{{#apiInfo}}
+{{#apis}}
+    {{classname}},
+{{/apis}}
+{{/apiInfo}}
+)
+
+
+class Client(AbstractAsyncContextManager):
+    {{#apiInfo}}
+    {{#apis}}
+    {{classVarName}}: {{classname}}
+    {{/apis}}
+    {{/apiInfo}}
+
+    def __init__(self, base_url: str, client: uplink.AiohttpClient, *, extra_service_params: Dict = {}):
+        self.base_url = base_url
+        service_params = {
+            **extra_service_params,
+            "base_url": base_url,
+            "client": client
+        }
+
+        {{#apiInfo}}
+        {{#apis}}
+        self.{{classVarName}} = {{classname}}(**service_params)
+        {{/apis}}
+        {{/apiInfo}}
+
+        self.client = client
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        await self.client.close()
+
+    async def close(self):
+        await self.client.close()
