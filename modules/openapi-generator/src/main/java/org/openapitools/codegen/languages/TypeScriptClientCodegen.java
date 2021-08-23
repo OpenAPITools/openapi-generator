@@ -1214,7 +1214,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            if (objExample instanceof Iterable && itemModelName == null) {
+            if (objExample instanceof Iterable && itemSchema.get$ref() == null) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
                 return fullPrefix + objExample.toString() + closeChars;
             }

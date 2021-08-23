@@ -631,8 +631,19 @@ components:
         complete:
           type: boolean
           default: false
+        outerArray:
+          type: array
+          title: outer1
+          items:
+            $ref: '#/components/schemas/InnerArray'
       xml:
         name: Order
+    InnerArray:
+      title: inner1
+      type: array
+      items:
+        type: string
+      example: ["item1", "item2"]
     Category:
       title: Pet category
       description: A category for a pet
