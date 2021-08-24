@@ -1,5 +1,5 @@
 
-    {{>serialization/built_value/variable_type}} _responseData;
+    {{>serialization/variable_type}} _responseData;
 
     try {
 {{#useBuiltValue}}{{>serialization/built_value/deserialize}}{{/useBuiltValue}}
@@ -12,7 +12,7 @@
       )..stackTrace = stackTrace;
     }
 
-    return Response<{{>serialization/built_value/variable_type}}>(
+    return Response<{{>serialization/variable_type}}>(
       data: _responseData,
       headers: _response.headers,
       isRedirect: _response.isRedirect,

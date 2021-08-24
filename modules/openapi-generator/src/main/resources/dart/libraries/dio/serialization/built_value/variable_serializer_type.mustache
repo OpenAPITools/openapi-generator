@@ -1,1 +1,1 @@
-FullType{{#isNullable}}.nullable{{/isNullable}}({{#isContainer}}{{baseType}}, [{{#isMap}}FullType(String), {{/isMap}}{{#items}}{{>serialization/built_value/variable_serializer_type}}{{/items}}]{{/isContainer}}{{^isContainer}}{{>serialization/built_value/simple_type}}{{/isContainer}})
+FullType{{#isNullable}}.nullable{{/isNullable}}({{#isContainer}}{{baseType}}, [{{#isMap}}FullType(String), {{/isMap}}{{#items}}{{>serialization/built_value/variable_serializer_type}}{{/items}}]{{/isContainer}}{{^isContainer}}{{>serialization/simple_type}}{{/isContainer}})

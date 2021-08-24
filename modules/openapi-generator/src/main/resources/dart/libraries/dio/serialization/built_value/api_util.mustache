@@ -41,7 +41,7 @@ dynamic encodeQueryParameter(
   if (value is String || value is num || value is bool) {
     return value;
   }
-  if (value is Uint8List || value is MultipartFile) {
+  if (value is Uint8List) {
     // Currently not sure how to serialize this
     return value;
   }

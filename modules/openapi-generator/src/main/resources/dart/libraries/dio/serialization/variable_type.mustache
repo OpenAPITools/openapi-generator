@@ -1,0 +1,1 @@
+{{#isContainer}}{{baseType}}<{{#isMap}}String, {{/isMap}}{{#items}}{{>serialization/variable_type}}{{/items}}>{{/isContainer}}{{^isContainer}}{{>serialization/simple_type}}{{/isContainer}}{{#isNullable}}?{{/isNullable}}

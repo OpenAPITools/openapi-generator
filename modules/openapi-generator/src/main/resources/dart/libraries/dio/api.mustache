@@ -46,11 +46,11 @@ class {{classname}} {
   @Deprecated('This operation has been deprecated')
   {{/isDeprecated}}
   Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}{{#isPathParam}}
-    required {{>serialization/built_value/variable_type}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
-    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}}{{^isContainer}}{{>serialization/built_value/param_default_type}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
-    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}}{{^isContainer}}{{>serialization/built_value/param_default_type}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}
-    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
-    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}},{{/isFormParam}}{{/allParams}}
+    required {{>serialization/variable_type}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
+    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{>serialization/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}}{{^isContainer}}{{>serialization/built_value/param_default_type}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
+    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{>serialization/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}}{{^isContainer}}{{>serialization/built_value/param_default_type}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}
+    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{>serialization/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
+    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{>serialization/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} {{paramName}},{{/isFormParam}}{{/allParams}}
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
