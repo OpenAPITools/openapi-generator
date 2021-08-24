@@ -61,7 +61,7 @@ HttpClient yourHttpClient = new HttpClient(yourHandler);
 var api = new YourApiClass(yourHttpClient, yourHandler);
 ```
 
-If you want to use an HttpClient and don't have access to the handler, for example in a DI context in Asp.net Core when using IHttpClientFactory. 
+If you want to use an HttpClient and don't have access to the handler, for example in a DI context in Asp.net Core when using IHttpClientFactory.
 
 ```csharp
 HttpClient yourHttpClient = new HttpClient();
@@ -72,7 +72,7 @@ You'll loose some configuration settings, the features affected are: Setting and
 Here an example of DI setup in a sample web project:
 
 ```csharp
-services.AddHttpClient<YourApiClass>(httpClient => 
+services.AddHttpClient<YourApiClass>(httpClient =>
    new PetApi(httpClient));
 ```
 

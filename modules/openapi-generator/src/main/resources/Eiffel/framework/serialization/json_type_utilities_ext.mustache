@@ -11,7 +11,7 @@ inherit
 	JSON_TYPE_UTILITIES
 
 
-feature -- Factory	
+feature -- Factory
 
 	new_special_for_name (a_type_name: READABLE_STRING_GENERAL; count: INTEGER): detachable SPECIAL [detachable ANY]
 		do

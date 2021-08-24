@@ -28,108 +28,108 @@ User::~User()
 
 void
 User::fromJson(std::string jsonObj)
-{   
+{
     bourne::json object = bourne::json::parse(jsonObj);
 
     const char *idKey = "id";
-    
-    if(object.has_key(idKey)) 
+
+    if(object.has_key(idKey))
     {
         bourne::json value = object[idKey];
 
 
-        
+
         jsonToValue(&id, value, "long");
 
 
     }
 
     const char *usernameKey = "username";
-    
-    if(object.has_key(usernameKey)) 
+
+    if(object.has_key(usernameKey))
     {
         bourne::json value = object[usernameKey];
 
 
-        
+
         jsonToValue(&username, value, "std::string");
 
 
     }
 
     const char *firstNameKey = "firstName";
-    
-    if(object.has_key(firstNameKey)) 
+
+    if(object.has_key(firstNameKey))
     {
         bourne::json value = object[firstNameKey];
 
 
-        
+
         jsonToValue(&firstName, value, "std::string");
 
 
     }
 
     const char *lastNameKey = "lastName";
-    
-    if(object.has_key(lastNameKey)) 
+
+    if(object.has_key(lastNameKey))
     {
         bourne::json value = object[lastNameKey];
 
 
-        
+
         jsonToValue(&lastName, value, "std::string");
 
 
     }
 
     const char *emailKey = "email";
-    
-    if(object.has_key(emailKey)) 
+
+    if(object.has_key(emailKey))
     {
         bourne::json value = object[emailKey];
 
 
-        
+
         jsonToValue(&email, value, "std::string");
 
 
     }
 
     const char *passwordKey = "password";
-    
-    if(object.has_key(passwordKey)) 
+
+    if(object.has_key(passwordKey))
     {
         bourne::json value = object[passwordKey];
 
 
-        
+
         jsonToValue(&password, value, "std::string");
 
 
     }
 
     const char *phoneKey = "phone";
-    
-    if(object.has_key(phoneKey)) 
+
+    if(object.has_key(phoneKey))
     {
         bourne::json value = object[phoneKey];
 
 
-        
+
         jsonToValue(&phone, value, "std::string");
 
 
     }
 
     const char *userStatusKey = "userStatus";
-    
-    if(object.has_key(userStatusKey)) 
+
+    if(object.has_key(userStatusKey))
     {
         bourne::json value = object[userStatusKey];
 
 
-        
+
         jsonToValue(&userStatus, value, "int");
 
 
@@ -143,56 +143,56 @@ User::toJson()
 {
     bourne::json object = bourne::json::object();
 
-    
+
 
 
 
     object["id"] = getId();
 
 
-    
+
 
 
 
     object["username"] = getUsername();
 
 
-    
+
 
 
 
     object["firstName"] = getFirstName();
 
 
-    
+
 
 
 
     object["lastName"] = getLastName();
 
 
-    
+
 
 
 
     object["email"] = getEmail();
 
 
-    
+
 
 
 
     object["password"] = getPassword();
 
 
-    
+
 
 
 
     object["phone"] = getPhone();
 
 
-    
+
 
 
 

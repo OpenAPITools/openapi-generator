@@ -90,6 +90,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     // special property keywords not allowed as these are the function names in the model files
     protected Set<String> propertySpecialKeywords = new HashSet<>(Arrays.asList("ToString", "ToJson", "GetHashCode", "Equals", "ShouldSerializeToString"));
 
+    // A cache to efficiently lookup schema `toModelName()` based on the schema Key
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public AbstractCSharpCodegen() {
         super();
 
@@ -432,6 +435,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         updateValueTypeProperty(processed);
         updateNullableTypeProperty(processed);
         return processed;
+    }
+
+    @Override
+    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
+        List<Map<String, Object>> enumVars = super.buildEnumVars(values, dataType);
+
+        // this is needed for enumRefs like OuterEnum marked as nullable and also have string values
+        // keep isString true so that the index will be used as the enum value instead of a string
+        // this is inline with C# enums with string values
+        if ("string?".equals(dataType)){
+            enumVars.forEach((enumVar) -> {
+                enumVar.put("isString", true);
+            }); 
+        }
+
+        return enumVars;
     }
 
     /**
@@ -1035,6 +1054,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -1058,9 +1084,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
+        String camelizedName = camelize(name);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return camelizedName;
     }
 
     @Override

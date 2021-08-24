@@ -54,13 +54,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "cultivar", IsRequired = true, EmitDefaultValue = false)]
         public string Cultivar
-        { 
+        {
             get{ return _Cultivar;}
             set
             {
                 _Cultivar = value;
                 _flagCultivar = true;
-            } 
+            }
         }
         private string _Cultivar;
         private bool _flagCultivar;
@@ -78,13 +78,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "mealy", EmitDefaultValue = true)]
         public bool Mealy
-        { 
+        {
             get{ return _Mealy;}
             set
             {
                 _Mealy = value;
                 _flagMealy = true;
-            } 
+            }
         }
         private bool _Mealy;
         private bool _flagMealy;

@@ -25,7 +25,7 @@ api_instance = {{{pythonPackageName}}}.{{{classname}}}()
 {{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{unescapedDescription}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
 
-try: 
+try:
 {{#summary}}    # {{{.}}}
 {{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationIdSnakeCase}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}
     pprint(api_response){{/returnType}}

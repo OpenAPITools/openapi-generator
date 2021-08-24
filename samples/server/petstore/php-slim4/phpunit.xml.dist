@@ -12,11 +12,11 @@
 >
     <testsuites>
         <testsuite name="Apis">
-            <directory>./test/Api</directory>
+            <directory>./tests/Api</directory>
         </testsuite>
         <testsuite name="Models">
-            <file>./test/BaseModelTest.php</file>
-            <directory>./test/Model</directory>
+            <file>./tests/BaseModelTest.php</file>
+            <directory>./tests/Model</directory>
         </testsuite>
     </testsuites>
     <filter>

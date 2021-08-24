@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class PkmstProperties {
 
 	private final Swagger swagger = new Swagger();
-	
-	
+
+
 	public Swagger getSwagger() {
 		return swagger;
 	}

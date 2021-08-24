@@ -45,7 +45,7 @@ public class AnotherFakeApi  {
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {

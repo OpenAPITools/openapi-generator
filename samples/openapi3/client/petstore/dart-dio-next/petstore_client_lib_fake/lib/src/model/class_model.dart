@@ -17,7 +17,8 @@ abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
 
     ClassModel._();
 
-    static void _initializeBuilder(ClassModelBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ClassModelBuilder b) => b;
 
     factory ClassModel([void updates(ClassModelBuilder b)]) = _$ClassModel;
 
@@ -55,10 +56,12 @@ class _$ClassModelSerializer implements StructuredSerializer<ClassModel> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'_class':
-                    result.class_ = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.class_ = valueDes;
                     break;
             }
         }
