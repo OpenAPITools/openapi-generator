@@ -144,18 +144,26 @@ namespace Org.OpenAPITools.Model
                 return newQuadrilateral;
             }
 
-            string discriminatorValue = JObject.Parse(jsonString)["quadrilateralType"].ToString();
-            switch (discriminatorValue)
+            try
             {
-                case "ComplexQuadrilateral":
-                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
-                    return newQuadrilateral;
-                case "SimpleQuadrilateral":
-                    newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
-                    return newQuadrilateral;
-                default:
-                    System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
-                    break;
+                var discriminatorObj = JObject.Parse(jsonString)["quadrilateralType"];
+                string discriminatorValue =  discriminatorObj == null ?string.Empty :discriminatorObj.ToString();
+                switch (discriminatorValue)
+                {
+                    case "ComplexQuadrilateral":
+                        newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
+                        return newQuadrilateral;
+                    case "SimpleQuadrilateral":
+                        newQuadrilateral = new Quadrilateral(JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString, Quadrilateral.AdditionalPropertiesSerializerSettings));
+                        return newQuadrilateral;
+                    default:
+                        System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to parse the json data : `{0}` {1}", jsonString, ex.ToString()));
             }
 
             int match = 0;
