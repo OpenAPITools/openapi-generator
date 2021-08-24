@@ -232,7 +232,7 @@ public class URLPathUtils {
             return null;
         }
     }
-    
+
     public static boolean isRelativeUrl(List<Server> servers) {
         if (servers != null && servers.size() > 0) {
             final Server firstServer = servers.get(0);
