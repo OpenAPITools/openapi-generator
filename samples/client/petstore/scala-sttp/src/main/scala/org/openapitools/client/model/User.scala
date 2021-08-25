@@ -28,4 +28,3 @@ case class User(
   userStatus: Option[Int] = None
 )
 
-

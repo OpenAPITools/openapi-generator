@@ -36,7 +36,7 @@ export class Dog {
     static getAttributeTypeMap() {
         return Dog.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }

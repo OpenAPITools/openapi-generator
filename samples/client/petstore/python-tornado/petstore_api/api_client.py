@@ -198,7 +198,7 @@ class ApiClient(object):
 
         if not _preload_content:
             raise tornado.gen.Return(return_data)
-        
+
         response_type = response_types_map.get(response_data.status, None)
 
         if six.PY3 and response_type not in ["file", "bytes"]:
@@ -210,7 +210,7 @@ class ApiClient(object):
             response_data.data = response_data.data.decode(encoding)
 
         # deserialize response data
-        
+
         if response_type:
             return_data = self.deserialize(response_data, response_type)
         else:

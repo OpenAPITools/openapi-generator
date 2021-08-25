@@ -37,42 +37,42 @@ use WWW::OpenAPIClient::ApiClient;
 =head1 Synopsis
 
     package My::Petstore::App;
-    
+
     use WWW::OpenAPIClient::ApiFactory;
-    
+
     my $api_factory = WWW::OpenAPIClient::ApiFactory->new( ... ); # any args for ApiClient constructor
 
     # later...
-    my $pet_api = $api_factory->get_api('Pet');  
-    
+    my $pet_api = $api_factory->get_api('Pet');
+
     # $pet_api isa WWW::OpenAPIClient::PetApi
-    
+
     my $pet = $pet_api->get_pet_by_id(pet_id => $pet_id);
 
     # object attributes have proper accessors:
     printf "Pet's name is %s", $pet->name;
 
     # change the value stored on the object:
-    $pet->name('Dave'); 
+    $pet->name('Dave');
 
 =cut
 
 # Load all the API classes and construct a lookup table at startup time
-my %_apis = map { $_ =~ /^WWW::OpenAPIClient::(.*)$/; $1 => $_ } 
-            grep {$_ =~ /Api$/} 
+my %_apis = map { $_ =~ /^WWW::OpenAPIClient::(.*)$/; $1 => $_ }
+            grep {$_ =~ /Api$/}
             usesub 'WWW::OpenAPIClient';
 
 =head1 new($api_client)
-    
+
     create a new WWW::OpenAPIClient::ApiFactory instance with the given WWW::OpenAPIClient::ApiClient instance.
 
 =head1 new(%parameters)
 
     Any parameters are optional, and are passed to and stored on the api_client object.
-    
+
     See L<WWW::OpenAPIClient::ApiClient> and L<WWW::OpenAPIClient::Configuration> for valid parameters
 
-=cut    
+=cut
 
 sub new {
     my ($class) = shift;
@@ -88,31 +88,31 @@ sub new {
 
 =head1 get_api($which)
 
-    Returns an API object of the requested type. 
-    
-    $which is a nickname for the class: 
-    
+    Returns an API object of the requested type.
+
+    $which is a nickname for the class:
+
         FooBarClient::BazApi has nickname 'Baz'
-        
+
 =cut
 
 sub get_api {
     my ($self, $which) = @_;
     croak "API not specified" unless $which;
     my $api_class = $_apis{"${which}Api"} || croak "No known API for '$which'";
-    return $api_class->new($self->api_client); 
+    return $api_class->new($self->api_client);
 }
 
 =head1 api_client()
 
     Returns the api_client object, should you ever need it.
-    
+
 =cut
 
 sub api_client { $_[0]->{api_client} }
 
 =head1 apis_available()
-=cut 
+=cut
 
 sub apis_available { return map { $_ =~ s/Api$//; $_ } sort keys %_apis }
 

@@ -35,7 +35,7 @@ export class PetByAge {
     static getAttributeTypeMap() {
         return PetByAge.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }

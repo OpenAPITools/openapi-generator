@@ -16,7 +16,7 @@ interface PetApi {
      * 
      * Responses:
      *  - 405: Invalid input
-     * 
+     *
      * @param body Pet object that needs to be added to the store 
      * @return [Call]<[Unit]>
      */
@@ -28,7 +28,7 @@ interface PetApi {
      * 
      * Responses:
      *  - 400: Invalid pet value
-     * 
+     *
      * @param petId Pet id to delete 
      * @param apiKey  (optional)
      * @return [Call]<[Unit]>
@@ -42,7 +42,7 @@ interface PetApi {
      * Responses:
      *  - 200: successful operation
      *  - 400: Invalid status value
-     * 
+     *
      * @param status Status values that need to be considered for filter 
      * @return [Call]<[kotlin.collections.List<Pet>]>
      */
@@ -55,7 +55,7 @@ interface PetApi {
      * Responses:
      *  - 200: successful operation
      *  - 400: Invalid tag value
-     * 
+     *
      * @param tags Tags to filter by 
      * @return [Call]<[kotlin.collections.List<Pet>]>
      */
@@ -70,7 +70,7 @@ interface PetApi {
      *  - 200: successful operation
      *  - 400: Invalid ID supplied
      *  - 404: Pet not found
-     * 
+     *
      * @param petId ID of pet to return 
      * @return [Call]<[Pet]>
      */
@@ -84,7 +84,7 @@ interface PetApi {
      *  - 400: Invalid ID supplied
      *  - 404: Pet not found
      *  - 405: Validation exception
-     * 
+     *
      * @param body Pet object that needs to be added to the store 
      * @return [Call]<[Unit]>
      */
@@ -96,7 +96,7 @@ interface PetApi {
      * 
      * Responses:
      *  - 405: Invalid input
-     * 
+     *
      * @param petId ID of pet that needs to be updated 
      * @param name Updated name of the pet (optional)
      * @param status Updated status of the pet (optional)
@@ -111,7 +111,7 @@ interface PetApi {
      * 
      * Responses:
      *  - 200: successful operation
-     * 
+     *
      * @param petId ID of pet to update 
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)

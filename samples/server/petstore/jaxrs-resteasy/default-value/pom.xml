@@ -6,6 +6,7 @@
     <packaging>war</packaging>
     <name>jaxrs-resteasy-default-value</name>
     <version>1.0.0</version>
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
@@ -174,7 +175,7 @@
         <version>1.1.0.Final</version>
         <scope>provided</scope>
     </dependency>
-        
+
     </dependencies>
     <repositories>
         <repository>

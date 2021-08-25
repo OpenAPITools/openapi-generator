@@ -62,10 +62,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
-        
+
         [DataMember(Name = "enum_string", EmitDefaultValue = false)]
-        public EnumStringEnum? EnumString 
-        { 
+        public EnumStringEnum? EnumString
+        {
             get{ return _EnumString;}
             set
             {
@@ -114,10 +114,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumStringRequired
         /// </summary>
-        
+
         [DataMember(Name = "enum_string_required", IsRequired = true, EmitDefaultValue = false)]
-        public EnumStringRequiredEnum EnumStringRequired 
-        { 
+        public EnumStringRequiredEnum EnumStringRequired
+        {
             get{ return _EnumStringRequired;}
             set
             {
@@ -157,10 +157,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumInteger
         /// </summary>
-        
+
         [DataMember(Name = "enum_integer", EmitDefaultValue = false)]
-        public EnumIntegerEnum? EnumInteger 
-        { 
+        public EnumIntegerEnum? EnumInteger
+        {
             get{ return _EnumInteger;}
             set
             {
@@ -200,10 +200,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumIntegerOnly
         /// </summary>
-        
+
         [DataMember(Name = "enum_integer_only", EmitDefaultValue = false)]
-        public EnumIntegerOnlyEnum? EnumIntegerOnly 
-        { 
+        public EnumIntegerOnlyEnum? EnumIntegerOnly
+        {
             get{ return _EnumIntegerOnly;}
             set
             {
@@ -246,10 +246,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumNumber
         /// </summary>
-        
+
         [DataMember(Name = "enum_number", EmitDefaultValue = false)]
-        public EnumNumberEnum? EnumNumber 
-        { 
+        public EnumNumberEnum? EnumNumber
+        {
             get{ return _EnumNumber;}
             set
             {
@@ -272,10 +272,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
-        
+
         [DataMember(Name = "outerEnum", EmitDefaultValue = true)]
-        public OuterEnum? OuterEnum 
-        { 
+        public OuterEnum? OuterEnum
+        {
             get{ return _OuterEnum;}
             set
             {
@@ -298,10 +298,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets OuterEnumInteger
         /// </summary>
-        
+
         [DataMember(Name = "outerEnumInteger", EmitDefaultValue = false)]
-        public OuterEnumInteger? OuterEnumInteger 
-        { 
+        public OuterEnumInteger? OuterEnumInteger
+        {
             get{ return _OuterEnumInteger;}
             set
             {
@@ -324,10 +324,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets OuterEnumDefaultValue
         /// </summary>
-        
+
         [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumDefaultValue? OuterEnumDefaultValue 
-        { 
+        public OuterEnumDefaultValue? OuterEnumDefaultValue
+        {
             get{ return _OuterEnumDefaultValue;}
             set
             {
@@ -350,10 +350,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets OuterEnumIntegerDefaultValue
         /// </summary>
-        
+
         [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue 
-        { 
+        public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue
+        {
             get{ return _OuterEnumIntegerDefaultValue;}
             set
             {

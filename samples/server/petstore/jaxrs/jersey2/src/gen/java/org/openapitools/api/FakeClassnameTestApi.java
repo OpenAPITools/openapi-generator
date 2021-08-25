@@ -45,7 +45,7 @@ public class FakeClassnameTestApi  {
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {

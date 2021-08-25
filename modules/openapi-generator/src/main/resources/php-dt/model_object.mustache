@@ -1,0 +1,24 @@
+/**
+{{#description
+}} * {{description}}
+{{/description
+}} */
+class {{classname}}
+{
+{{#vars
+}}    /**
+{{#description
+}}     * {{description}}
+{{/description
+}}     * @DTA\Data({{#vendorExtensions}}{{#internal.fromParameters}}subset="{{internal.parameterLocation}}", {{/internal.fromParameters}}{{/vendorExtensions}}field="{{baseName}}"{{^required}}, nullable=true{{/required}})
+{{#vendorExtensions
+}}{{#internal.fromParameters}}{{>model_query_var}}{{/internal.fromParameters
+}}{{^internal.fromParameters}}{{>model_normal_var}}{{/internal.fromParameters
+}}{{/vendorExtensions
+}}{{^vendorExtensions}}{{>model_normal_var}}{{/vendorExtensions
+}}     * @var {{dataType}}|null
+     */
+    public ${{name}};
+
+{{/vars
+}}}
