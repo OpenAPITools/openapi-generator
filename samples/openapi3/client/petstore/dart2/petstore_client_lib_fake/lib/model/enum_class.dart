@@ -78,4 +78,3 @@ class EnumClassTypeTransformer {
   /// Singleton [EnumClassTypeTransformer] instance.
   static EnumClassTypeTransformer _instance;
 }
-

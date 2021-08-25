@@ -206,7 +206,6 @@ class EnumTestEnumStringEnumTypeTransformer {
 
 
 
-
 // ignore_for_file: constant_identifier_names
 
 class EnumTestEnumStringRequiredEnum {
@@ -277,7 +276,6 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
 
 
 
-
 // ignore_for_file: constant_identifier_names
 
 class EnumTestEnumIntegerEnum {
@@ -345,7 +343,6 @@ class EnumTestEnumIntegerEnumTypeTransformer {
 
 
 
-
 // ignore_for_file: constant_identifier_names
 
 class EnumTestEnumNumberEnum {
@@ -410,5 +407,4 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// Singleton [EnumTestEnumNumberEnumTypeTransformer] instance.
   static EnumTestEnumNumberEnumTypeTransformer _instance;
 }
-
 

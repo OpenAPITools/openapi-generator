@@ -151,7 +151,6 @@ class EnumArraysJustSymbolEnumTypeTransformer {
 
 
 
-
 // ignore_for_file: constant_identifier_names
 
 class EnumArraysArrayEnumEnum {
@@ -216,5 +215,4 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// Singleton [EnumArraysArrayEnumEnumTypeTransformer] instance.
   static EnumArraysArrayEnumEnumTypeTransformer _instance;
 }
-
 

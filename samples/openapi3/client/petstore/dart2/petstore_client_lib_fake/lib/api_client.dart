@@ -198,78 +198,78 @@ class ApiClient {
         case 'double':
           return value is double ? value : double.parse('$value');
         case 'AdditionalPropertiesClass':
-          return AdditionalPropertiesClass.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? AdditionalPropertiesClass.fromJson(value.cast<String, dynamic>()) : null;
         case 'Animal':
-          return Animal.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? Animal.fromJson(value.cast<String, dynamic>()) : null;
         case 'ApiResponse':
-          return ApiResponse.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? ApiResponse.fromJson(value.cast<String, dynamic>()) : null;
         case 'ArrayOfArrayOfNumberOnly':
-          return ArrayOfArrayOfNumberOnly.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? ArrayOfArrayOfNumberOnly.fromJson(value.cast<String, dynamic>()) : null;
         case 'ArrayOfNumberOnly':
-          return ArrayOfNumberOnly.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? ArrayOfNumberOnly.fromJson(value.cast<String, dynamic>()) : null;
         case 'ArrayTest':
-          return ArrayTest.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? ArrayTest.fromJson(value.cast<String, dynamic>()) : null;
         case 'Capitalization':
-          return Capitalization.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? Capitalization.fromJson(value.cast<String, dynamic>()) : null;
         case 'Cat':
-          return Cat.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? Cat.fromJson(value.cast<String, dynamic>()) : null;
         case 'CatAllOf':
-          return CatAllOf.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? CatAllOf.fromJson(value.cast<String, dynamic>()) : null;
         case 'Category':
-          return Category.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? Category.fromJson(value.cast<String, dynamic>()) : null;
         case 'ClassModel':
-          return ClassModel.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? ClassModel.fromJson(value.cast<String, dynamic>()) : null;
         case 'DeprecatedObject':
-          return DeprecatedObject.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? DeprecatedObject.fromJson(value.cast<String, dynamic>()) : null;
         case 'Dog':
-          return Dog.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? Dog.fromJson(value.cast<String, dynamic>()) : null;
         case 'DogAllOf':
-          return DogAllOf.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? DogAllOf.fromJson(value.cast<String, dynamic>()) : null;
         case 'EnumArrays':
-          return EnumArrays.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? EnumArrays.fromJson(value.cast<String, dynamic>()) : null;
         case 'EnumClass':
           return EnumClassTypeTransformer().decode(value);
           
         case 'EnumTest':
-          return EnumTest.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? EnumTest.fromJson(value.cast<String, dynamic>()) : null;
         case 'FileSchemaTestClass':
-          return FileSchemaTestClass.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? FileSchemaTestClass.fromJson(value.cast<String, dynamic>()) : null;
         case 'Foo':
-          return Foo.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? Foo.fromJson(value.cast<String, dynamic>()) : null;
         case 'FormatTest':
-          return FormatTest.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? FormatTest.fromJson(value.cast<String, dynamic>()) : null;
         case 'HasOnlyReadOnly':
-          return HasOnlyReadOnly.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? HasOnlyReadOnly.fromJson(value.cast<String, dynamic>()) : null;
         case 'HealthCheckResult':
-          return HealthCheckResult.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? HealthCheckResult.fromJson(value.cast<String, dynamic>()) : null;
         case 'InlineResponseDefault':
-          return InlineResponseDefault.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? InlineResponseDefault.fromJson(value.cast<String, dynamic>()) : null;
         case 'MapTest':
-          return MapTest.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? MapTest.fromJson(value.cast<String, dynamic>()) : null;
         case 'MixedPropertiesAndAdditionalPropertiesClass':
-          return MixedPropertiesAndAdditionalPropertiesClass.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? MixedPropertiesAndAdditionalPropertiesClass.fromJson(value.cast<String, dynamic>()) : null;
         case 'Model200Response':
-          return Model200Response.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? Model200Response.fromJson(value.cast<String, dynamic>()) : null;
         case 'ModelClient':
-          return ModelClient.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? ModelClient.fromJson(value.cast<String, dynamic>()) : null;
         case 'ModelFile':
-          return ModelFile.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? ModelFile.fromJson(value.cast<String, dynamic>()) : null;
         case 'ModelList':
-          return ModelList.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? ModelList.fromJson(value.cast<String, dynamic>()) : null;
         case 'ModelReturn':
-          return ModelReturn.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? ModelReturn.fromJson(value.cast<String, dynamic>()) : null;
         case 'Name':
-          return Name.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? Name.fromJson(value.cast<String, dynamic>()) : null;
         case 'NullableClass':
-          return NullableClass.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? NullableClass.fromJson(value.cast<String, dynamic>()) : null;
         case 'NumberOnly':
-          return NumberOnly.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? NumberOnly.fromJson(value.cast<String, dynamic>()) : null;
         case 'ObjectWithDeprecatedFields':
-          return ObjectWithDeprecatedFields.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? ObjectWithDeprecatedFields.fromJson(value.cast<String, dynamic>()) : null;
         case 'Order':
-          return Order.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? Order.fromJson(value.cast<String, dynamic>()) : null;
         case 'OuterComposite':
-          return OuterComposite.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? OuterComposite.fromJson(value.cast<String, dynamic>()) : null;
         case 'OuterEnum':
           return OuterEnumTypeTransformer().decode(value);
           
@@ -283,17 +283,17 @@ class ApiClient {
           return OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
           
         case 'OuterObjectWithEnumProperty':
-          return OuterObjectWithEnumProperty.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? OuterObjectWithEnumProperty.fromJson(value.cast<String, dynamic>()) : null;
         case 'Pet':
-          return Pet.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? Pet.fromJson(value.cast<String, dynamic>()) : null;
         case 'ReadOnlyFirst':
-          return ReadOnlyFirst.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? ReadOnlyFirst.fromJson(value.cast<String, dynamic>()) : null;
         case 'SpecialModelName':
-          return SpecialModelName.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? SpecialModelName.fromJson(value.cast<String, dynamic>()) : null;
         case 'Tag':
-          return Tag.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? Tag.fromJson(value.cast<String, dynamic>()) : null;
         case 'User':
-          return User.fromJson((value as Map).cast<String, dynamic>());
+          return value is Map ? User.fromJson(value.cast<String, dynamic>()) : null;
         default:
           Match match;
           if (value is List && (match = _regList.firstMatch(targetType)) != null) {

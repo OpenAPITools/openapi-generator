@@ -78,4 +78,3 @@ class OuterEnumTypeTransformer {
   /// Singleton [OuterEnumTypeTransformer] instance.
   static OuterEnumTypeTransformer _instance;
 }
-

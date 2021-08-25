@@ -191,4 +191,3 @@ class OrderStatusEnumTypeTransformer {
   static OrderStatusEnumTypeTransformer _instance;
 }
 
-
