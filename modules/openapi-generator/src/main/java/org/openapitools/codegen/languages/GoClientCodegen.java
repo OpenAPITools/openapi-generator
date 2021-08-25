@@ -48,7 +48,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
-    protected boolean skipReadonlyPropertiesInInt = false;
+    protected boolean skipReadonlyPropertiesInInit = false;
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
@@ -274,12 +274,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return this.useOneOfDiscriminatorLookup;
     }
 
-    public void setSkipReadonlyPropertiesInInit(boolean skipReadonlyPropertiesInInt) {
-        this.skipReadonlyPropertiesInInt = skipReadonlyPropertiesInInt;
+    public void setSkipReadonlyPropertiesInInit(boolean skipReadonlyPropertiesInInit) {
+        this.skipReadonlyPropertiesInInit = skipReadonlyPropertiesInInit;
     }
 
     public boolean getSkipReadonlyPropertiesInInit() {
-        return this.skipReadonlyPropertiesInInt;
+        return this.skipReadonlyPropertiesInInit;
     }
 
     public void setGoImportAlias(String goImportAlias) {
