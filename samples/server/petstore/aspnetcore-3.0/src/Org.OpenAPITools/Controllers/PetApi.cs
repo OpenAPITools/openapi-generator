@@ -100,7 +100,7 @@ namespace Org.OpenAPITools.Controllers
         /// Finds Pets by tags
         /// </summary>
         /// <remarks>Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.</remarks>
-        /// <param name="tags">Tags to filter by</param>
+        /// <param name="tags">Tags to filter by (deprecated)</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid tag value</response>
         [HttpGet]
