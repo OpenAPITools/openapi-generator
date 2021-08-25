@@ -70,4 +70,3 @@ All URIs are relative to http://petstore.swagger.iohttp://petstore.swagger.io/v2
 |*Tag* | A tag for a pet|
 |*User* | A User who is purchasing from the pet store|
 
-

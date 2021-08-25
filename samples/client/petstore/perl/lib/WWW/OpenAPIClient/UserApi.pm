@@ -22,7 +22,7 @@ package WWW::OpenAPIClient::UserApi;
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -52,7 +52,7 @@ sub new {
 # create_user
 #
 # Create user
-# 
+#
 # @param User $user Created user object (required)
 {
     my $params = {
@@ -62,7 +62,7 @@ sub new {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'create_user' } = { 
+    __PACKAGE__->method_documentation->{ 'create_user' } = {
         summary => 'Create user',
         params => $params,
         returns => undef,
@@ -113,7 +113,7 @@ sub create_user {
 # create_users_with_array_input
 #
 # Creates list of users with given input array
-# 
+#
 # @param ARRAY[User] $user List of user object (required)
 {
     my $params = {
@@ -123,7 +123,7 @@ sub create_user {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'create_users_with_array_input' } = { 
+    __PACKAGE__->method_documentation->{ 'create_users_with_array_input' } = {
         summary => 'Creates list of users with given input array',
         params => $params,
         returns => undef,
@@ -174,7 +174,7 @@ sub create_users_with_array_input {
 # create_users_with_list_input
 #
 # Creates list of users with given input array
-# 
+#
 # @param ARRAY[User] $user List of user object (required)
 {
     my $params = {
@@ -184,7 +184,7 @@ sub create_users_with_array_input {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'create_users_with_list_input' } = { 
+    __PACKAGE__->method_documentation->{ 'create_users_with_list_input' } = {
         summary => 'Creates list of users with given input array',
         params => $params,
         returns => undef,
@@ -235,7 +235,7 @@ sub create_users_with_list_input {
 # delete_user
 #
 # Delete user
-# 
+#
 # @param string $username The name that needs to be deleted (required)
 {
     my $params = {
@@ -245,7 +245,7 @@ sub create_users_with_list_input {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'delete_user' } = { 
+    __PACKAGE__->method_documentation->{ 'delete_user' } = {
         summary => 'Delete user',
         params => $params,
         returns => undef,
@@ -298,7 +298,7 @@ sub delete_user {
 # get_user_by_name
 #
 # Get user by user name
-# 
+#
 # @param string $username The name that needs to be fetched. Use user1 for testing. (required)
 {
     my $params = {
@@ -308,7 +308,7 @@ sub delete_user {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'get_user_by_name' } = { 
+    __PACKAGE__->method_documentation->{ 'get_user_by_name' } = {
         summary => 'Get user by user name',
         params => $params,
         returns => 'User',
@@ -365,7 +365,7 @@ sub get_user_by_name {
 # login_user
 #
 # Logs user into the system
-# 
+#
 # @param string $username The user name for login (required)
 # @param string $password The password for login in clear text (required)
 {
@@ -381,7 +381,7 @@ sub get_user_by_name {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'login_user' } = { 
+    __PACKAGE__->method_documentation->{ 'login_user' } = {
         summary => 'Logs user into the system',
         params => $params,
         returns => 'string',
@@ -446,11 +446,11 @@ sub login_user {
 # logout_user
 #
 # Logs out current logged in user session
-# 
+#
 {
     my $params = {
     };
-    __PACKAGE__->method_documentation->{ 'logout_user' } = { 
+    __PACKAGE__->method_documentation->{ 'logout_user' } = {
         summary => 'Logs out current logged in user session',
         params => $params,
         returns => undef,
@@ -491,7 +491,7 @@ sub logout_user {
 # update_user
 #
 # Updated user
-# 
+#
 # @param string $username name that need to be deleted (required)
 # @param User $user Updated user object (required)
 {
@@ -507,7 +507,7 @@ sub logout_user {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'update_user' } = { 
+    __PACKAGE__->method_documentation->{ 'update_user' } = {
         summary => 'Updated user',
         params => $params,
         returns => undef,

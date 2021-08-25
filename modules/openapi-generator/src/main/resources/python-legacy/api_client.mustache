@@ -73,7 +73,7 @@ class ApiClient(object):
             self.default_headers[header_name] = header_value
         self.cookie = cookie
         # Set default User-Agent.
-        self.user_agent = '{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/python{{/httpUserAgent}}'
+        self.user_agent = '{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/python{{/httpUserAgent}}'
         self.client_side_validation = configuration.client_side_validation
 
     {{#asyncio}}
@@ -211,7 +211,7 @@ class ApiClient(object):
             {{#tornado}}
             raise tornado.gen.Return(return_data)
             {{/tornado}}
-        
+
         response_type = response_types_map.get(response_data.status, None)
 
         if six.PY3 and response_type not in ["file", "bytes"]:
@@ -223,7 +223,7 @@ class ApiClient(object):
             response_data.data = response_data.data.decode(encoding)
 
         # deserialize response data
-        
+
         if response_type:
             return_data = self.deserialize(response_data, response_type)
         else:

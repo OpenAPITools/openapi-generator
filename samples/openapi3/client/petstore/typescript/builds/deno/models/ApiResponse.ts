@@ -45,7 +45,7 @@ export class ApiResponse {
     static getAttributeTypeMap() {
         return ApiResponse.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }

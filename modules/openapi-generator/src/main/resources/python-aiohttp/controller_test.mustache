@@ -56,7 +56,7 @@ async def test_{{operationId}}(client):
     {{/formParams}}
     response = await client.request(
         method='{{httpMethod}}',
-        path='{{#contextPath}}{{{.}}}{{/contextPath}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
+        path='{{{contextPath}}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
         headers=headers,{{#bodyParam}}
         json={{paramName}},{{/bodyParam}}{{#formParams}}{{#-first}}
         data=data,{{/-first}}{{/formParams}}{{#queryParams}}{{#-first}}

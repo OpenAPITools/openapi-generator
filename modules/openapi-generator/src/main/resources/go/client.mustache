@@ -363,7 +363,7 @@ func (c *APIClient) prepareRequest(
 				reader = strings.NewReader(body.String())
 			}
 
-			// Define default values for region and service to maintain backward compatibility 
+			// Define default values for region and service to maintain backward compatibility
 			region := auth.Region
 			if region == "" {
 				region = "eu-west-2"

@@ -20,7 +20,7 @@
 #include "HttpModule.h"
 #include "PlatformHttp.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 FString OpenAPIStoreApi::DeleteOrderRequest::ComputePath() const
@@ -29,7 +29,7 @@ FString OpenAPIStoreApi::DeleteOrderRequest::ComputePath() const
 	{ TEXT("orderId"), ToStringFormatArg(OrderId) } };
 
 	FString Path = FString::Format(TEXT("/store/order/{orderId}"), PathParams);
-	
+
 	return Path;
 }
 
@@ -43,6 +43,14 @@ void OpenAPIStoreApi::DeleteOrderRequest::SetupHttpRequest(const FHttpRequestRef
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
+		// Form parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
@@ -91,6 +99,14 @@ void OpenAPIStoreApi::GetInventoryRequest::SetupHttpRequest(const FHttpRequestRe
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
+		// Form parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
@@ -126,7 +142,7 @@ FString OpenAPIStoreApi::GetOrderByIdRequest::ComputePath() const
 	{ TEXT("orderId"), ToStringFormatArg(OrderId) } };
 
 	FString Path = FString::Format(TEXT("/store/order/{orderId}"), PathParams);
-	
+
 	return Path;
 }
 
@@ -140,6 +156,14 @@ void OpenAPIStoreApi::GetOrderByIdRequest::SetupHttpRequest(const FHttpRequestRe
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
+		// Form parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{

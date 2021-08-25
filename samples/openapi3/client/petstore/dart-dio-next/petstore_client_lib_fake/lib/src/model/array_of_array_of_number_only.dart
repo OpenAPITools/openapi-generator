@@ -18,7 +18,8 @@ abstract class ArrayOfArrayOfNumberOnly implements Built<ArrayOfArrayOfNumberOnl
 
     ArrayOfArrayOfNumberOnly._();
 
-    static void _initializeBuilder(ArrayOfArrayOfNumberOnlyBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ArrayOfArrayOfNumberOnlyBuilder b) => b;
 
     factory ArrayOfArrayOfNumberOnly([void updates(ArrayOfArrayOfNumberOnlyBuilder b)]) = _$ArrayOfArrayOfNumberOnly;
 
@@ -56,10 +57,12 @@ class _$ArrayOfArrayOfNumberOnlySerializer implements StructuredSerializer<Array
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'ArrayArrayNumber':
-                    result.arrayArrayNumber.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])])) as BuiltList<BuiltList<num>>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(num)])])) as BuiltList<BuiltList<num>>;
+                    result.arrayArrayNumber.replace(valueDes);
                     break;
             }
         }

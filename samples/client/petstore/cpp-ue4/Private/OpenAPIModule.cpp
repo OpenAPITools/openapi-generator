@@ -22,4 +22,3 @@ void OpenAPIModule::StartupModule()
 void OpenAPIModule::ShutdownModule()
 {
 }
-

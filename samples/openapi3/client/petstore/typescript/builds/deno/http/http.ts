@@ -64,7 +64,7 @@ export class HttpException extends Error {
 /**
  * Represents the body of an outgoing HTTP request.
  */
-export type RequestBody = undefined | string | FormData;
+export type RequestBody = undefined | string | FormData | URLSearchParams;
 
 /**
  * Represents an HTTP request context
@@ -142,7 +142,7 @@ export class RequestContext {
         this.headers["Cookie"] += name + "=" + value + "; ";
     }
 
-    public setHeaderParam(key: string, value: string): void  { 
+    public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
     }
 }

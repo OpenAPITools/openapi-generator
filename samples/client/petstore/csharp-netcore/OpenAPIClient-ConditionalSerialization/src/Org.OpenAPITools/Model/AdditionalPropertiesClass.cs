@@ -61,13 +61,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map_property", EmitDefaultValue = false)]
         public Dictionary<string, string> MapProperty
-        { 
+        {
             get{ return _MapProperty;}
             set
             {
                 _MapProperty = value;
                 _flagMapProperty = true;
-            } 
+            }
         }
         private Dictionary<string, string> _MapProperty;
         private bool _flagMapProperty;
@@ -85,13 +85,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map_of_map_property", EmitDefaultValue = false)]
         public Dictionary<string, Dictionary<string, string>> MapOfMapProperty
-        { 
+        {
             get{ return _MapOfMapProperty;}
             set
             {
                 _MapOfMapProperty = value;
                 _flagMapOfMapProperty = true;
-            } 
+            }
         }
         private Dictionary<string, Dictionary<string, string>> _MapOfMapProperty;
         private bool _flagMapOfMapProperty;
@@ -109,13 +109,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "anytype_1", EmitDefaultValue = true)]
         public Object Anytype1
-        { 
+        {
             get{ return _Anytype1;}
             set
             {
                 _Anytype1 = value;
                 _flagAnytype1 = true;
-            } 
+            }
         }
         private Object _Anytype1;
         private bool _flagAnytype1;
@@ -133,13 +133,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_1", EmitDefaultValue = false)]
         public Object MapWithUndeclaredPropertiesAnytype1
-        { 
+        {
             get{ return _MapWithUndeclaredPropertiesAnytype1;}
             set
             {
                 _MapWithUndeclaredPropertiesAnytype1 = value;
                 _flagMapWithUndeclaredPropertiesAnytype1 = true;
-            } 
+            }
         }
         private Object _MapWithUndeclaredPropertiesAnytype1;
         private bool _flagMapWithUndeclaredPropertiesAnytype1;
@@ -157,13 +157,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_2", EmitDefaultValue = false)]
         public Object MapWithUndeclaredPropertiesAnytype2
-        { 
+        {
             get{ return _MapWithUndeclaredPropertiesAnytype2;}
             set
             {
                 _MapWithUndeclaredPropertiesAnytype2 = value;
                 _flagMapWithUndeclaredPropertiesAnytype2 = true;
-            } 
+            }
         }
         private Object _MapWithUndeclaredPropertiesAnytype2;
         private bool _flagMapWithUndeclaredPropertiesAnytype2;
@@ -181,13 +181,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_3", EmitDefaultValue = false)]
         public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3
-        { 
+        {
             get{ return _MapWithUndeclaredPropertiesAnytype3;}
             set
             {
                 _MapWithUndeclaredPropertiesAnytype3 = value;
                 _flagMapWithUndeclaredPropertiesAnytype3 = true;
-            } 
+            }
         }
         private Dictionary<string, Object> _MapWithUndeclaredPropertiesAnytype3;
         private bool _flagMapWithUndeclaredPropertiesAnytype3;
@@ -206,13 +206,13 @@ namespace Org.OpenAPITools.Model
         /// <value>an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</value>
         [DataMember(Name = "empty_map", EmitDefaultValue = false)]
         public Object EmptyMap
-        { 
+        {
             get{ return _EmptyMap;}
             set
             {
                 _EmptyMap = value;
                 _flagEmptyMap = true;
-            } 
+            }
         }
         private Object _EmptyMap;
         private bool _flagEmptyMap;
@@ -230,13 +230,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_string", EmitDefaultValue = false)]
         public Dictionary<string, string> MapWithUndeclaredPropertiesString
-        { 
+        {
             get{ return _MapWithUndeclaredPropertiesString;}
             set
             {
                 _MapWithUndeclaredPropertiesString = value;
                 _flagMapWithUndeclaredPropertiesString = true;
-            } 
+            }
         }
         private Dictionary<string, string> _MapWithUndeclaredPropertiesString;
         private bool _flagMapWithUndeclaredPropertiesString;

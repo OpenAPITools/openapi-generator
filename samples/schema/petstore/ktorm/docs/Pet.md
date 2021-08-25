@@ -1,5 +1,5 @@
 
-# Table `Pet` 
+# Table `Pet`
 (mapped from: Pet)
 
 ## Properties

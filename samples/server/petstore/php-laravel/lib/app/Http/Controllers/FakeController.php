@@ -554,6 +554,8 @@ class FakeController extends Controller
         }
         $context = $input['context'];
 
+        $language = $input['language'];
+
 
         return response('How about implementing testQueryParameterCollectionFormat as a put method ?');
     }

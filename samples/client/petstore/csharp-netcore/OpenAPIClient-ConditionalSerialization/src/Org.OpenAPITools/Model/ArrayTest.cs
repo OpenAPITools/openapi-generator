@@ -51,13 +51,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "array_of_string", EmitDefaultValue = false)]
         public List<string> ArrayOfString
-        { 
+        {
             get{ return _ArrayOfString;}
             set
             {
                 _ArrayOfString = value;
                 _flagArrayOfString = true;
-            } 
+            }
         }
         private List<string> _ArrayOfString;
         private bool _flagArrayOfString;
@@ -75,13 +75,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "array_array_of_integer", EmitDefaultValue = false)]
         public List<List<long>> ArrayArrayOfInteger
-        { 
+        {
             get{ return _ArrayArrayOfInteger;}
             set
             {
                 _ArrayArrayOfInteger = value;
                 _flagArrayArrayOfInteger = true;
-            } 
+            }
         }
         private List<List<long>> _ArrayArrayOfInteger;
         private bool _flagArrayArrayOfInteger;
@@ -99,13 +99,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "array_array_of_model", EmitDefaultValue = false)]
         public List<List<ReadOnlyFirst>> ArrayArrayOfModel
-        { 
+        {
             get{ return _ArrayArrayOfModel;}
             set
             {
                 _ArrayArrayOfModel = value;
                 _flagArrayArrayOfModel = true;
-            } 
+            }
         }
         private List<List<ReadOnlyFirst>> _ArrayArrayOfModel;
         private bool _flagArrayArrayOfModel;

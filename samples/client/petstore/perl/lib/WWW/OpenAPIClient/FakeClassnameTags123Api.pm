@@ -22,7 +22,7 @@ package WWW::OpenAPIClient::FakeClassnameTags123Api;
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -52,7 +52,7 @@ sub new {
 # test_classname
 #
 # To test class name in snake case
-# 
+#
 # @param Client $client client model (required)
 {
     my $params = {
@@ -62,7 +62,7 @@ sub new {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'test_classname' } = { 
+    __PACKAGE__->method_documentation->{ 'test_classname' } = {
         summary => 'To test class name in snake case',
         params => $params,
         returns => 'Client',
