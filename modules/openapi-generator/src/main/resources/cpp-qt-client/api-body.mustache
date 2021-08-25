@@ -661,8 +661,12 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
-    });{{#authMethods}}{{#isOAuth}}{{#isCode}}QString scope("{{#scopes}}{{scope}}{{/scopes}}");
-    auto token = auth.getToken(scope);
+    });{{#authMethods}}{{#isOAuth}}{{#isCode}}
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = auth.getToken(scope.join(" "));
     if(token.isValid())
         input.headers.insert("Authorization", "Bearer " + token.getToken());
 
@@ -743,8 +747,13 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
         emit {{nickname}}SignalFull(worker{{#returnType}}, output{{/returnType}});{{#authMethods}}{{#isOAuth}}{{#isCode}}
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
         connect(&auth, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
         //TODO get clientID and Secret in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
-        auth.setVariables();
+        //auth.setVariables();
         emit auth.authenticationNeeded();{{/isCode}}{{/isOAuth}}{{/authMethods}}
     } else {
         emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);

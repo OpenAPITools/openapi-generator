@@ -76,7 +76,7 @@ private:
     bool isRequestCompressionEnabled;
     {{prefix}}HttpRequestInput latestInput;
     {{prefix}}HttpRequestWorker *latestWorker;
-    QString latestScope;
+    QStringList latestScope;
     OauthCode auth;
 {{#operations}}{{#operation}}
     void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}

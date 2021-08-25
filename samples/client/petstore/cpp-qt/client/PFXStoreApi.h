@@ -91,7 +91,7 @@ private:
     bool isRequestCompressionEnabled;
     PFXHttpRequestInput latestInput;
     PFXHttpRequestWorker *latestWorker;
-    QString latestScope;
+    QStringList latestScope;
     OauthCode auth;
 
     void deleteOrderCallback(PFXHttpRequestWorker *worker);
