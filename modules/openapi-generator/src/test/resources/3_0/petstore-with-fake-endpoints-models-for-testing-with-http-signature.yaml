@@ -29,6 +29,24 @@ paths:
                 properties:
                   string:
                     $ref: '#/components/schemas/Foo'
+        4XX:
+          description: client error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  string:
+                    $ref: '#/components/schemas/Foo'
+        404:
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  string:
+                    $ref: '#/components/schemas/Foo'
   /pet:
     servers:
     - url: 'http://petstore.swagger.io/v2'
