@@ -29,7 +29,8 @@ abstract class Dog implements Built<Dog, DogBuilder> {
 
     Dog._();
 
-    static void _initializeBuilder(DogBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(DogBuilder b) => b
         ..color = 'red';
 
     factory Dog([void updates(DogBuilder b)]) = _$Dog;
@@ -78,18 +79,22 @@ class _$DogSerializer implements StructuredSerializer<Dog> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'className':
-                    result.className = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.className = valueDes;
                     break;
                 case r'color':
-                    result.color = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.color = valueDes;
                     break;
                 case r'breed':
-                    result.breed = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.breed = valueDes;
                     break;
             }
         }

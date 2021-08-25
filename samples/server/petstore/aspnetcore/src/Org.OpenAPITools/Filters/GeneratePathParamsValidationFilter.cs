@@ -94,4 +94,3 @@ namespace Org.OpenAPITools.Filters
         }
     }
 }
-

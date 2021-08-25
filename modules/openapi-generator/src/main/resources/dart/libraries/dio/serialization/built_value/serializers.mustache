@@ -11,7 +11,9 @@ import 'package:{{pubName}}/src/model/date.dart';{{/useDateLibCore}}
 {{#useDateLibTimeMachine}}import 'package:time_machine/time_machine.dart';
 import 'package:{{pubName}}/src/offset_date_serializer.dart';{{/useDateLibTimeMachine}}
 {{#models}}{{#model}}import 'package:{{pubName}}/src/model/{{classFilename}}.dart';
-{{/model}}{{/models}}
+{{/model}}{{/models}}{{#builtValueSerializerImports}}import '{{{.}}}';
+{{/builtValueSerializerImports}}
+
 part 'serializers.g.dart';
 
 @SerializersFor([{{#models}}{{#model}}

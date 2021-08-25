@@ -75,4 +75,3 @@ export function AnimalToJSON(value?: Animal | null): any {
     };
 }
 
-

@@ -1,0 +1,40 @@
+{{>licenseInfo}}
+package {{invokerPackage}}.auth;
+
+import io.micronaut.context.annotation.AliasFor;
+import io.micronaut.core.bind.annotation.Bindable;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import javax.annotation.Generated;
+
+
+{{>generatedAnnotation}}
+@Documented
+@Retention(RUNTIME)
+@Target(METHOD)
+@Bindable
+@Repeatable(Authorizations.class)
+public @interface Authorization {
+    /**
+     * The name of the authorization
+     */
+    @AliasFor(annotation=Bindable.class, member="value")
+    String value() default "";
+
+    /**
+     * The name of the authorization
+     */
+    @AliasFor(annotation=Bindable.class, member="value")
+    String name() default "";
+
+    /**
+     * The scopes for the oauth authorization
+     */
+    String[] scopes() default {};
+}

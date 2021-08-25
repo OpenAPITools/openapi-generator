@@ -50,10 +50,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>
-        
+
         [DataMember(Name = "pet_type", EmitDefaultValue = false)]
-        public PetTypeEnum? PetType 
-        { 
+        public PetTypeEnum? PetType
+        {
             get{ return _PetType;}
             set
             {
@@ -89,13 +89,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name
-        { 
+        {
             get{ return _Name;}
             set
             {
                 _Name = value;
                 _flagName = true;
-            } 
+            }
         }
         private string _Name;
         private bool _flagName;

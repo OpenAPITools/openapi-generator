@@ -1,0 +1,6 @@
+generatorName: haskell-yesod
+outputDir: samples/server/petstore/haskell-yesod
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/haskell-yesod
+additionalProperties:
+  hideGenerationTimestamp: "true"

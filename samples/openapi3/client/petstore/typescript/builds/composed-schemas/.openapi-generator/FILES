@@ -1,4 +1,5 @@
 .gitignore
+DefaultApi.md
 README.md
 apis/DefaultApi.ts
 apis/baseapi.ts

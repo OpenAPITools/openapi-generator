@@ -61,7 +61,6 @@ interface UserApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
     public function createUser(User $user, &$responseCode, array &$responseHeaders);
 
@@ -75,7 +74,6 @@ interface UserApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
     public function createUsersWithArrayInput(array $user, &$responseCode, array &$responseHeaders);
 
@@ -89,7 +87,6 @@ interface UserApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
     public function createUsersWithListInput(array $user, &$responseCode, array &$responseHeaders);
 
@@ -103,7 +100,6 @@ interface UserApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
     public function deleteUser($username, &$responseCode, array &$responseHeaders);
 
@@ -117,7 +113,6 @@ interface UserApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return \OpenAPI\Server\Model\User
-     *
      */
     public function getUserByName($username, &$responseCode, array &$responseHeaders);
 
@@ -132,7 +127,6 @@ interface UserApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return \string
-     *
      */
     public function loginUser($username, $password, &$responseCode, array &$responseHeaders);
 
@@ -145,7 +139,6 @@ interface UserApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
     public function logoutUser(&$responseCode, array &$responseHeaders);
 
@@ -160,7 +153,6 @@ interface UserApiInterface
      * @param  \array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
-     *
      */
     public function updateUser($username, User $user, &$responseCode, array &$responseHeaders);
 }
