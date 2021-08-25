@@ -11,7 +11,7 @@
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-) {{/discriminator}}{{#parent}}: {{{parent}}}(){{/parent}}{
+) {{/discriminator}}{{#parent}}: {{{.}}}(){{/parent}}{
 {{#discriminator}}
     {{#requiredVars}}
         {{>interfaceReqVar}}

@@ -56,10 +56,12 @@ class _$ModelReturnSerializer implements StructuredSerializer<ModelReturn> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'return':
-                    result.return_ = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.return_ = valueDes;
                     break;
             }
         }

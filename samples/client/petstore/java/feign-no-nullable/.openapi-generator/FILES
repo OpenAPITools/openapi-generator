@@ -27,6 +27,7 @@ src/main/java/org/openapitools/client/api/FakeClassnameTags123Api.java
 src/main/java/org/openapitools/client/api/PetApi.java
 src/main/java/org/openapitools/client/api/StoreApi.java
 src/main/java/org/openapitools/client/api/UserApi.java
+src/main/java/org/openapitools/client/auth/ApiErrorDecoder.java
 src/main/java/org/openapitools/client/auth/ApiKeyAuth.java
 src/main/java/org/openapitools/client/auth/DefaultApi20Impl.java
 src/main/java/org/openapitools/client/auth/HttpBasicAuth.java

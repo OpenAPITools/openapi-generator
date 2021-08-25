@@ -19,7 +19,7 @@ To test class name in snake case
 
 To test class name in snake case
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeClassnameTags123Api;
@@ -33,7 +33,7 @@ my $api_instance = WWW::OpenAPIClient::FakeClassnameTags123Api->new(
 
 my $client = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
 
-eval { 
+eval {
     my $result = $api_instance->test_classname(client => $client);
     print Dumper($result);
 };

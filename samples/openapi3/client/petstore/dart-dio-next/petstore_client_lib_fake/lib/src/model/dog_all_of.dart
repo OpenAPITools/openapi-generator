@@ -56,10 +56,12 @@ class _$DogAllOfSerializer implements StructuredSerializer<DogAllOf> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'breed':
-                    result.breed = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.breed = valueDes;
                     break;
             }
         }

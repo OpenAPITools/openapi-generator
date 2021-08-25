@@ -21,10 +21,10 @@
              nuget.org gallery uses information you add in the portal. -->
         <description>{{packageDescription}}</description>
         {{#termsOfService}}
-        <copyright>{{termsOfService}}</copyright>
+        <copyright>{{.}}</copyright>
         {{/termsOfService}}
         {{#licenseUrl}}
-        <licenseUrl>{{licenseUrl}}</licenseUrl>
+        <licenseUrl>{{.}}</licenseUrl>
         {{/licenseUrl}}
 
         <!-- Dependencies are automatically installed when the package is installed -->

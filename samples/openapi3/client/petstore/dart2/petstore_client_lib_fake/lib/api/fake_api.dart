@@ -1176,7 +1176,9 @@ class FakeApi {
   /// * [List<String>] url (required):
   ///
   /// * [List<String>] context (required):
-  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) async {
+  ///
+  /// * [Map<String, String>] language:
+  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, { Map<String, String> language }) async {
     // Verify required params are set.
     if (pipe == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pipe');
@@ -1207,6 +1209,9 @@ class FakeApi {
       queryParams.addAll(_convertParametersForCollectionFormat('ssv', 'http', http));
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'url', url));
       queryParams.addAll(_convertParametersForCollectionFormat('multi', 'context', context));
+    if (language != null) {
+      queryParams.addAll(_convertParametersForCollectionFormat('', 'language', language));
+    }
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -1238,8 +1243,10 @@ class FakeApi {
   /// * [List<String>] url (required):
   ///
   /// * [List<String>] context (required):
-  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) async {
-    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
+  ///
+  /// * [Map<String, String>] language:
+  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, { Map<String, String> language }) async {
+    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context,  language: language );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

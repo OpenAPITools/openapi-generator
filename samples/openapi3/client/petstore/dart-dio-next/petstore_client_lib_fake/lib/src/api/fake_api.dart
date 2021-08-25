@@ -647,7 +647,7 @@ class FakeApi {
   /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testBodyWithBinary({ 
-    required MultipartFile body,
+    MultipartFile? body,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -672,7 +672,7 @@ class FakeApi {
     dynamic _bodyData;
 
     try {
-      _bodyData = body.finalize();
+      _bodyData = body?.finalize();
 
     } catch(error, stackTrace) {
       throw DioError(
@@ -1065,9 +1065,9 @@ class FakeApi {
   /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testEnumParameters({ 
     BuiltList<String>? enumHeaderStringArray,
-    String? enumHeaderString,
+    String? enumHeaderString = '-efg',
     BuiltList<String>? enumQueryStringArray,
-    String? enumQueryString,
+    String? enumQueryString = '-efg',
     int? enumQueryInteger,
     double? enumQueryDouble,
     BuiltList<String>? enumFormStringArray,
@@ -1353,6 +1353,7 @@ class FakeApi {
   /// * [http] 
   /// * [url] 
   /// * [context] 
+  /// * [language] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1368,6 +1369,7 @@ class FakeApi {
     required BuiltList<String> http,
     required BuiltList<String> url,
     required BuiltList<String> context,
+    BuiltMap<String, String>? language,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1394,6 +1396,7 @@ class FakeApi {
       r'http': encodeCollectionQueryParameter<String>(_serializers, http, const FullType(BuiltList, [FullType(String)]), format: ListFormat.ssv,),
       r'url': encodeCollectionQueryParameter<String>(_serializers, url, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
       r'context': encodeCollectionQueryParameter<String>(_serializers, context, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi,),
+      if (language != null) r'language': encodeQueryParameter(_serializers, language, const FullType(BuiltMap, [FullType(String), FullType(String)]), ),
     };
 
     final _response = await _dio.request<Object>(

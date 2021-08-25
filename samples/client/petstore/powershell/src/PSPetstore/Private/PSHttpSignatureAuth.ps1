@@ -403,7 +403,7 @@ function ConvertTo-ECDSAANS1Format{
     )
 
     $derLength = 68 #default lenght for ECDSA code signinged bit 0x44
-    $rbytesLength = 32 #R length 0x20 
+    $rbytesLength = 32 #R length 0x20
     $sbytesLength = 32 #S length 0x20
     [byte[]]$rBytes = $signedBytes[0..31]
     [byte[]]$sBytes = $signedBytes[32..63]
@@ -424,11 +424,11 @@ function ConvertTo-ECDSAANS1Format{
 
     $derBytes += 48  # start of the sequence 0x30
     $derBytes += $derLength  # total length r lenth, type and r bytes
-    
+
     $derBytes += 2 # tag for integer
     $derBytes += $rbytesLength # length of r
     $derBytes += $rBytes
-    
+
     $derBytes += 2 #tag for integer
     $derBytes += $sbytesLength #length of s
     $derBytes += $sBytes

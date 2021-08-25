@@ -136,7 +136,7 @@ class DefaultApi(object):
 
         # Authentication setting
         auth_settings = []  # noqa: E501
-        
+
         response_types_map = {
         }
 

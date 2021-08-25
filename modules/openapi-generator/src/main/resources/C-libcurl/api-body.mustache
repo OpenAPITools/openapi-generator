@@ -91,11 +91,11 @@ end:
 {{#operations}}
 {{#operation}}
 {{#summary}}
-// {{{summary}}}
+// {{{.}}}
 //
 {{/summary}}
 {{#notes}}
-// {{{notes}}}
+// {{{.}}}
 //
 {{/notes}}
 {{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{#isArray}}{{{.}}}_t*{{/isArray}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t*{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}

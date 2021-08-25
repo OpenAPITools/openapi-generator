@@ -641,7 +641,7 @@ public class ApiClient extends JavaTimeFormatter {
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
 
         String finalUri = builder.build(false).toUriString();
-        Map<String, Object> uriParams = new HashMap();
+        Map<String, Object> uriParams = new HashMap<>();
         uriParams.putAll(pathParams);
 
         if (queryParams != null && !queryParams.isEmpty()) {

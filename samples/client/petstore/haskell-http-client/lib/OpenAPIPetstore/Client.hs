@@ -69,7 +69,7 @@ dispatchLbs manager config request  = do
 -- | pair of decoded http body and http response
 data MimeResult res =
   MimeResult { mimeResult :: Either MimeError res -- ^ decoded http body
-             , mimeResultResponse :: NH.Response BCL.ByteString -- ^ http response 
+             , mimeResultResponse :: NH.Response BCL.ByteString -- ^ http response
              }
   deriving (Show, Functor, Foldable, Traversable)
 
@@ -77,7 +77,7 @@ data MimeResult res =
 data MimeError =
   MimeError {
     mimeError :: String -- ^ unrender/parser error
-  , mimeErrorResponse :: NH.Response BCL.ByteString -- ^ http response 
+  , mimeErrorResponse :: NH.Response BCL.ByteString -- ^ http response
   } deriving (Eq, Show)
 
 -- | send a request returning the 'MimeResult'
@@ -171,7 +171,7 @@ _toInitRequest
   => OpenAPIPetstoreConfig -- ^ config
   -> OpenAPIPetstoreRequest req contentType res accept -- ^ request
   -> IO (InitRequest req contentType res accept) -- ^ initialized request
-_toInitRequest config req0  = 
+_toInitRequest config req0  =
   runConfigLogWithExceptions "Client" config $ do
     parsedReq <- P.liftIO $ NH.parseRequest $ BCL.unpack $ BCL.append (configHost config) (BCL.concat (rUrlPath req0))
     req1 <- P.liftIO $ _applyAuthMethods req0 config
@@ -202,7 +202,7 @@ modifyInitRequest (InitRequest req) f = InitRequest (f req)
 modifyInitRequestM :: Monad m => InitRequest req contentType res accept -> (NH.Request -> m NH.Request) -> m (InitRequest req contentType res accept)
 modifyInitRequestM (InitRequest req) f = fmap InitRequest (f req)
 
--- ** Logging 
+-- ** Logging
 
 -- | Run a block using the configured logger instance
 runConfigLog

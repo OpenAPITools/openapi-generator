@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
@@ -110,4 +111,3 @@ public interface UserApi  {
     @Path("/{username}")
     public void updateUser(@PathParam("username") String username, User body) throws ApiException, ProcessingException;
 }
-

@@ -64,9 +64,9 @@ Each Service/operation function must accept the [OperationId]Params object and r
 `type AddPetArgs = { bodyParams:AddPetBodyParams }
 type IPetApiService = abstract member AddPet:HttpContext -> AddPetArgs->AddPetResult`
 
-[OperationId]Result is a discriminated union of all possible OpenAPI response types for that operation. 
+[OperationId]Result is a discriminated union of all possible OpenAPI response types for that operation.
 
-This means that service implementations can only return status codes that have been declared in the OpenAPI specification. 
+This means that service implementations can only return status codes that have been declared in the OpenAPI specification.
 However, if the OpenAPI spec declares a default Response for an operation, the service can manually set the status code.
 
 For example:
@@ -75,7 +75,7 @@ For example:
 type FindPetsByStatusStatusCode400Response = { content:string; }
 type FindPetsByStatusResult = FindPetsByStatusDefaultStatusCode of FindPetsByStatusDefaultStatusCodeResponse | FindPetsByStatusStatusCode400 of FindPetsByStatusStatusCode400Response`
 
-## Note on nullable/optional properties 
+## Note on nullable/optional properties
 
 Currently, handler parameters and models do not distinguish between required properties and optional (or nullable) properties***.
 
@@ -121,7 +121,7 @@ Additional handlers can be configured in the Customization.fs
 
 `let handlers : HttpHandler list = [
     // insert your handlers here
-    GET >=> 
+    GET >=>
       choose [
         route "/login" >=> redirectToLogin
         route "/logout" >=> logout
@@ -165,7 +165,7 @@ You must implement your own validation logic for the key in CustomHandlers.setAp
 
 ## .openapi-generator-ignore
 
-It is recommended to add src/impl/** and the project's .fsproj file to the .openapi-generator-ignore file. 
+It is recommended to add src/impl/** and the project's .fsproj file to the .openapi-generator-ignore file.
 
 This will allow you to regenerate model, operation and parameter files without overriding your implementations of business logic, authentication, data layers, and so on.
 
