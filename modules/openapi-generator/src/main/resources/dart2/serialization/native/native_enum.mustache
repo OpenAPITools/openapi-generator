@@ -57,7 +57,7 @@ class {{{classname}}}TypeTransformer {
   /// and users are still using an old app with the old code.
   {{{classname}}} decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch (data) {
+      switch (data.toString()) {
         {{#allowableValues}}
           {{#enumVars}}
         case {{#isString}}r{{/isString}}{{{value}}}: return {{{classname}}}.{{{name}}};
