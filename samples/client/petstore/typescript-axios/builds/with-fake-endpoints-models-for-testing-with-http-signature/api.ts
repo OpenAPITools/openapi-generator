@@ -1136,6 +1136,55 @@ export interface ReadOnlyFirst {
     baz?: string;
 }
 /**
+ * 
+ * @export
+ * @interface ReadOnlyWithDefault
+ */
+export interface ReadOnlyWithDefault {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadOnlyWithDefault
+     */
+    prop1?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadOnlyWithDefault
+     */
+    prop2?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadOnlyWithDefault
+     */
+    prop3?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReadOnlyWithDefault
+     */
+    boolProp1?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReadOnlyWithDefault
+     */
+    boolProp2?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReadOnlyWithDefault
+     */
+    intProp1?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReadOnlyWithDefault
+     */
+    intProp2?: number;
+}
+/**
  * Model for testing reserved words
  * @export
  * @interface Return

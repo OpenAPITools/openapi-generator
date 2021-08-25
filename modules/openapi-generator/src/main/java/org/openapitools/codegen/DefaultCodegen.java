@@ -3906,9 +3906,9 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             op.responses.sort((a, b) -> {
-                int aDefault = "0".equals(a.code) ? 1 : 0;
-                int bDefault = "0".equals(b.code) ? 1 : 0;
-                return aDefault - bDefault;
+                int aScore = a.isWildcard() ? 2 : a.isRange() ? 1 : 0;
+                int bScore = b.isWildcard() ? 2 : b.isRange() ? 1 : 0;
+                return Integer.compare(aScore, bScore);
             });
 
             if (methodResponse != null) {
