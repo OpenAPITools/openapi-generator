@@ -138,13 +138,15 @@ class EnumArraysJustSymbolEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumArraysJustSymbolEnum decode(dynamic data, {bool allowNull}) {
-    switch ('$data') {
-      case r'>=': return EnumArraysJustSymbolEnum.greaterThanEqual;
-      case r'$': return EnumArraysJustSymbolEnum.dollar;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case r'>=': return EnumArraysJustSymbolEnum.greaterThanEqual;
+        case r'$': return EnumArraysJustSymbolEnum.dollar;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }
@@ -205,13 +207,15 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumArraysArrayEnumEnum decode(dynamic data, {bool allowNull}) {
-    switch ('$data') {
-      case r'fish': return EnumArraysArrayEnumEnum.fish;
-      case r'crab': return EnumArraysArrayEnumEnum.crab;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case r'fish': return EnumArraysArrayEnumEnum.fish;
+        case r'crab': return EnumArraysArrayEnumEnum.crab;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }

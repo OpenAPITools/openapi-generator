@@ -63,14 +63,16 @@ class EnumClassTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumClass decode(dynamic data, {bool allowNull}) {
-    switch ('$data') {
-      case r'_abc': return EnumClass.abc;
-      case r'-efg': return EnumClass.efg;
-      case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case r'_abc': return EnumClass.abc;
+        case r'-efg': return EnumClass.efg;
+        case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }

@@ -177,14 +177,16 @@ class PetStatusEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   PetStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch ('$data') {
-      case r'available': return PetStatusEnum.available;
-      case r'pending': return PetStatusEnum.pending;
-      case r'sold': return PetStatusEnum.sold;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case r'available': return PetStatusEnum.available;
+        case r'pending': return PetStatusEnum.pending;
+        case r'sold': return PetStatusEnum.sold;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }

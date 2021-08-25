@@ -204,14 +204,16 @@ class EnumTestEnumStringEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumStringEnum decode(dynamic data, {bool allowNull}) {
-    switch ('$data') {
-      case r'UPPER': return EnumTestEnumStringEnum.UPPER;
-      case r'lower': return EnumTestEnumStringEnum.lower;
-      case r'': return EnumTestEnumStringEnum.empty;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case r'UPPER': return EnumTestEnumStringEnum.UPPER;
+        case r'lower': return EnumTestEnumStringEnum.lower;
+        case r'': return EnumTestEnumStringEnum.empty;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }
@@ -274,14 +276,16 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumStringRequiredEnum decode(dynamic data, {bool allowNull}) {
-    switch ('$data') {
-      case r'UPPER': return EnumTestEnumStringRequiredEnum.UPPER;
-      case r'lower': return EnumTestEnumStringRequiredEnum.lower;
-      case r'': return EnumTestEnumStringRequiredEnum.empty;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case r'UPPER': return EnumTestEnumStringRequiredEnum.UPPER;
+        case r'lower': return EnumTestEnumStringRequiredEnum.lower;
+        case r'': return EnumTestEnumStringRequiredEnum.empty;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }
@@ -342,13 +346,15 @@ class EnumTestEnumIntegerEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumIntegerEnum decode(dynamic data, {bool allowNull}) {
-    switch ('$data') {
-      case 1: return EnumTestEnumIntegerEnum.number1;
-      case -1: return EnumTestEnumIntegerEnum.numberNegative1;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case 1: return EnumTestEnumIntegerEnum.number1;
+        case -1: return EnumTestEnumIntegerEnum.numberNegative1;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }
@@ -409,13 +415,15 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumTestEnumNumberEnum decode(dynamic data, {bool allowNull}) {
-    switch ('$data') {
-      case '1.1': return EnumTestEnumNumberEnum.number1Period1;
-      case '-1.2': return EnumTestEnumNumberEnum.numberNegative1Period2;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case '1.1': return EnumTestEnumNumberEnum.number1Period1;
+        case '-1.2': return EnumTestEnumNumberEnum.numberNegative1Period2;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }

@@ -160,13 +160,15 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   MapTestMapOfEnumStringEnum decode(dynamic data, {bool allowNull}) {
-    switch ('$data') {
-      case r'UPPER': return MapTestMapOfEnumStringEnum.UPPER;
-      case r'lower': return MapTestMapOfEnumStringEnum.lower;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case r'UPPER': return MapTestMapOfEnumStringEnum.UPPER;
+        case r'lower': return MapTestMapOfEnumStringEnum.lower;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }

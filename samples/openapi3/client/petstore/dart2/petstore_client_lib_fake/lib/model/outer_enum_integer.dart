@@ -63,14 +63,16 @@ class OuterEnumIntegerTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OuterEnumInteger decode(dynamic data, {bool allowNull}) {
-    switch ('$data') {
-      case 0: return OuterEnumInteger.number0;
-      case 1: return OuterEnumInteger.number1;
-      case 2: return OuterEnumInteger.number2;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case 0: return OuterEnumInteger.number0;
+        case 1: return OuterEnumInteger.number1;
+        case 2: return OuterEnumInteger.number2;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }
