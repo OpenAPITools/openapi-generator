@@ -175,7 +175,7 @@ class OrderStatusEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OrderStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch (data.toString()) {
+    switch ('$data') {
       case r'placed': return OrderStatusEnum.placed;
       case r'approved': return OrderStatusEnum.approved;
       case r'delivered': return OrderStatusEnum.delivered;

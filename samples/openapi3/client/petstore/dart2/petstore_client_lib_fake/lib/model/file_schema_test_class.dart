@@ -51,8 +51,12 @@ class FileSchemaTestClass {
   static FileSchemaTestClass fromJson(Map<String, dynamic> json) => json == null
     ? null
     : FileSchemaTestClass(
-        file: ModelFile.fromJson((json[r'file'] as Map).cast<String, dynamic>()),
-        files: ModelFile.listFromJson(json[r'files'] as List),
+        file: json[r'file'] is Map
+          ? ModelFile.fromJson((json[r'file'] as Map).cast<String, dynamic>())
+          : null,
+        files: json[r'files'] is List
+          ? ModelFile.listFromJson(json[r'files'] as List)
+          : null,
     );
 
   static List<FileSchemaTestClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

@@ -63,7 +63,9 @@ class MixedPropertiesAndAdditionalPropertiesClass {
         dateTime: json[r'dateTime'] == null
           ? null
           : DateTime.parse(json[r'dateTime'].toString()),
-            map: json[r'map'] as Map<String, Animal>,
+        map: json[r'map'] == null
+          ? null
+          : json[r'map'] as Map<String, Animal>,
     );
 
   static List<MixedPropertiesAndAdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

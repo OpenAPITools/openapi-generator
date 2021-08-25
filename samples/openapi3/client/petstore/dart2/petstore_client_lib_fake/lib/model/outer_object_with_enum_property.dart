@@ -41,7 +41,9 @@ class OuterObjectWithEnumProperty {
   static OuterObjectWithEnumProperty fromJson(Map<String, dynamic> json) => json == null
     ? null
     : OuterObjectWithEnumProperty(
-        value: OuterEnumInteger.fromJson((json[r'value'] as Map).cast<String, dynamic>()),
+        value: json[r'value'] is Map
+          ? OuterEnumInteger.fromJson((json[r'value'] as Map).cast<String, dynamic>())
+          : null,
     );
 
   static List<OuterObjectWithEnumProperty> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

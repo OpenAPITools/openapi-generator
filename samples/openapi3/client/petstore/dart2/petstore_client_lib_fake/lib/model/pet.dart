@@ -81,12 +81,16 @@ class Pet {
     ? null
     : Pet(
         id: json[r'id'] as int,
-        category: Category.fromJson((json[r'category'] as Map).cast<String, dynamic>()),
+        category: json[r'category'] is Map
+          ? Category.fromJson((json[r'category'] as Map).cast<String, dynamic>())
+          : null,
         name: json[r'name'] as String,
         photoUrls: json[r'photoUrls'] == null
           ? null
           : (json[r'photoUrls'] as Set).cast<String>(),
-        tags: Tag.listFromJson(json[r'tags'] as List),
+        tags: json[r'tags'] is List
+          ? Tag.listFromJson(json[r'tags'] as List)
+          : null,
         status: PetStatusEnum.fromJson((json[r'status'] as Map).cast<String, dynamic>()),
     );
 
@@ -171,7 +175,7 @@ class PetStatusEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   PetStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch (data.toString()) {
+    switch ('$data') {
       case r'available': return PetStatusEnum.available;
       case r'pending': return PetStatusEnum.pending;
       case r'sold': return PetStatusEnum.sold;

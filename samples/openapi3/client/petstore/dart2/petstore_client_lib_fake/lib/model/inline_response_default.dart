@@ -43,7 +43,9 @@ class InlineResponseDefault {
   static InlineResponseDefault fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineResponseDefault(
-        string: Foo.fromJson((json[r'string'] as Map).cast<String, dynamic>()),
+        string: json[r'string'] is Map
+          ? Foo.fromJson((json[r'string'] as Map).cast<String, dynamic>())
+          : null,
     );
 
   static List<InlineResponseDefault> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

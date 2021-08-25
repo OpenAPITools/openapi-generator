@@ -52,7 +52,9 @@ class EnumArrays {
     ? null
     : EnumArrays(
         justSymbol: EnumArraysJustSymbolEnum.fromJson((json[r'just_symbol'] as Map).cast<String, dynamic>()),
-        arrayEnum: EnumArraysArrayEnumEnum.listFromJson(json[r'array_enum']),
+        arrayEnum: json[r'array_enum'] is List
+          ? EnumArraysArrayEnumEnum.listFromJson(json[r'array_enum'] as List)
+          : null,
     );
 
   static List<EnumArrays> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
@@ -134,7 +136,7 @@ class EnumArraysJustSymbolEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumArraysJustSymbolEnum decode(dynamic data, {bool allowNull}) {
-    switch (data.toString()) {
+    switch ('$data') {
       case r'>=': return EnumArraysJustSymbolEnum.greaterThanEqual;
       case r'$': return EnumArraysJustSymbolEnum.dollar;
       default:
@@ -201,7 +203,7 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumArraysArrayEnumEnum decode(dynamic data, {bool allowNull}) {
-    switch (data.toString()) {
+    switch ('$data') {
       case r'fish': return EnumArraysArrayEnumEnum.fish;
       case r'crab': return EnumArraysArrayEnumEnum.crab;
       default:

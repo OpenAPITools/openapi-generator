@@ -71,7 +71,9 @@ class ObjectWithDeprecatedFields {
         id: json[r'id'] == null
           ? null
           : num.parse(json[r'id'].toString()),
-        deprecatedRef: DeprecatedObject.fromJson((json[r'deprecatedRef'] as Map).cast<String, dynamic>()),
+        deprecatedRef: json[r'deprecatedRef'] is Map
+          ? DeprecatedObject.fromJson((json[r'deprecatedRef'] as Map).cast<String, dynamic>())
+          : null,
         bars: json[r'bars'] == null
           ? null
           : (json[r'bars'] as List).cast<String>(),
