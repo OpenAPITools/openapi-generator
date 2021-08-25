@@ -1914,3 +1914,30 @@ components:
           type: boolean
       required:
         - lengthCm
+    ReadOnlyWithDefault:
+      type: object
+      properties:
+        prop1:
+          type: string
+          readOnly: true
+        prop2:
+          type: string
+          readOnly: true
+          default: 'defaultProp2'
+        prop3:
+          type: string
+          default: 'defaultProp3'
+        boolProp1:
+          default: false
+          type: boolean
+          readOnly: true
+        boolProp2:
+          type: boolean
+          default: true
+        intProp1:
+          type: number
+          default: 100
+          readOnly: true
+        intProp2:
+          type: number
+          default: 120
