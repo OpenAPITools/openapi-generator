@@ -14,7 +14,7 @@ from uplink import (
     json,
 )
 
-from typing import Dict, List  # noqa: F401
+from typing import Dict, List, Optional # noqa: F401
 
 {{#imports}}
 {{{import}}}
@@ -24,6 +24,22 @@ from typing import Dict, List  # noqa: F401
 {{#operations}}
 class {{classname}}(Consumer):
 {{#operation}}
+
+    async def {{operationId}}(self{{#hasParams}}, *{{#allParams}}, {{>public_method_argument_definition}}{{/allParams}}{{/hasParams}}){{#returnType}} -> {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}:
+        """{{{summary}}}"""
+        return await self.__{{operationId}}(
+            {{#allParams}}
+            {{#isPathParam}}
+            {{baseName}}={{paramName}},
+            {{/isPathParam}}
+            {{^isPathParam}}
+            {{paramName}}={{paramName}},
+            {{/isPathParam}}
+            {{/allParams}}
+        )
+{{/operation}}
+{{#operation}}
+
 {{#vendorExtensions.x-operation-produces}}
     @returns.{{.}}
 {{/vendorExtensions.x-operation-produces}}
@@ -31,8 +47,7 @@ class {{classname}}(Consumer):
     @{{.}}
 {{/vendorExtensions.x-operation-consumes}}
     @{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}")
-    def {{operationId}}(self{{#hasParams}}, *{{#allParams}}, {{>endpoint_argument_definition}}{{/allParams}}{{/hasParams}}){{#returnType}} -> {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}:
-        """{{{summary}}}"""
-
+    def __{{operationId}}(self{{#hasParams}}, *{{#allParams}}, {{>endpoint_argument_definition}}{{/allParams}}{{/hasParams}}){{#returnType}} -> {{{returnType}}}{{/returnType}}{{^returnType}}{{/returnType}}:
+        """Internal uplink method for {{operationId}}"""
 {{/operation}}
 {{/operations}}

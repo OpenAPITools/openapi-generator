@@ -22,7 +22,7 @@ class {{classname}}(BaseModel):
 
     {{classname}} - a model defined in OpenAPI
     {{#requiredVars}}
-        {{name}}: {{#description}}{{.}}{{/description}}{{^description}}The {{name}} of this {{classname}}{{/description}}.
+        {{name}}: {{#description}}{{{.}}}{{/description}}{{^description}}The {{name}} of this {{classname}}{{/description}}.
     {{/requiredVars}}
     {{#optionalVars}}
         {{name}}: {{#description}}{{.}}{{/description}}{{^description}}The {{name}} of this {{classname}}{{/description}} [Optional].
