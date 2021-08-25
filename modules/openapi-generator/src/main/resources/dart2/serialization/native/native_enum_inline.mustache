@@ -56,7 +56,7 @@ class {{{enumName}}}TypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   {{{enumName}}} decode(dynamic data, {bool allowNull}) {
-    switch (data.toString()) {
+    switch ('$data') {
       {{#allowableValues}}
         {{#enumVars}}
       case {{#isString}}r{{/isString}}{{{value}}}: return {{{enumName}}}.{{{name}}};

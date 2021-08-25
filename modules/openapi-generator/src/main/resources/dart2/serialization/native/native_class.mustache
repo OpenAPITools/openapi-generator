@@ -108,7 +108,7 @@ class {{{classname}}} {
         {{#items.isArray}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
           ? null
-          : (json[r'{{{baseName}}}'] as List).map(
+          : (json[r'{{{baseName}}}'] as {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}).map(
       {{#items.complexType}}
               {{items.complexType}}.listFromJson(json[r'{{{baseName}}}'] as List)
       {{/items.complexType}}
@@ -118,7 +118,9 @@ class {{{classname}}} {
             ).toList(growable: false),
         {{/items.isArray}}
         {{^items.isArray}}
-        {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}'] as List),
+        {{{name}}}: json[r'{{{baseName}}}'] is {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}
+          ? {{{complexType}}}.listFromJson(json[r'{{{baseName}}}'] as {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}})
+          : null,
         {{/items.isArray}}
       {{/isArray}}
       {{^isArray}}
@@ -126,43 +128,53 @@ class {{{classname}}} {
           {{#items.isArray}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
           ? null
-              {{#items.complexType}}
-          : {{items.complexType}}.mapListFromJson(json[r'{{{baseName}}}']),
-              {{/items.complexType}}
-              {{^items.complexType}}
-          : (json[r'{{{baseName}}}'] as Map).cast<String, List>(),
-              {{/items.complexType}}
-          {{/items.isArray}}
-          {{^items.isArray}}
-              {{#items.isMap}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null
-          ? null
             {{#items.complexType}}
-          : {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']),
+          : json[r'{{{baseName}}}'] is Map
+            ? {{items.complexType}}.mapListFromJson((json[r'{{{baseName}}}'] as Map).cast<String, dynamic>())
+            : null,
             {{/items.complexType}}
             {{^items.complexType}}
-          : (json[r'{{{baseName}}}'] as Map).cast<String, dynamic>(),
+          : json[r'{{{baseName}}}'] is Map
+            ? (json[r'{{{baseName}}}'] as Map).cast<String, List>()
+            : null,
             {{/items.complexType}}
-          {{/items.isMap}}
-          {{^items.isMap}}
-            {{{name}}}: json[r'{{{baseName}}}'] as {{{datatypeWithEnum}}},
-          {{/items.isMap}}
+          {{/items.isArray}}
+          {{^items.isArray}}
+            {{#items.isMap}}
+        {{{name}}}: json[r'{{{baseName}}}'] == null
+          ? null
+              {{#items.complexType}}
+          : {{items.complexType}}.mapFromJson((json[r'{{{baseName}}}'] as Map).cast<String, dynamic>()),
+              {{/items.complexType}}
+              {{^items.complexType}}
+          : (json[r'{{{baseName}}}'] as Map).cast<String, dynamic>(),
+              {{/items.complexType}}
+            {{/items.isMap}}
+            {{^items.isMap}}
+        {{{name}}}: json[r'{{{baseName}}}'] == null
+          ? null
+          : json[r'{{{baseName}}}'] as {{{datatypeWithEnum}}},
+            {{/items.isMap}}
           {{/items.isArray}}
         {{/isMap}}
         {{^isMap}}
-            {{#isBinary}}
+          {{#isBinary}}
         {{{name}}}: null, // No support for decoding binary content from JSON
-            {{/isBinary}}
-            {{^isBinary}}
-        {{{name}}}: {{{complexType}}}.fromJson((json[r'{{{baseName}}}'] as Map).cast<String, dynamic>()),
-            {{/isBinary}}
+          {{/isBinary}}
+          {{^isBinary}}
+        {{{name}}}: json[r'{{{baseName}}}'] is Map
+          ? {{{complexType}}}.fromJson((json[r'{{{baseName}}}'] as Map).cast<String, dynamic>())
+          : null,
+          {{/isBinary}}
         {{/isMap}}
       {{/isArray}}
     {{/complexType}}
     {{^complexType}}
       {{#isArray}}
         {{#isEnum}}
-        {{{name}}}: {{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']),
+        {{{name}}}: json[r'{{{baseName}}}'] is {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}
+          ? {{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}'] as {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}})
+          : null,
         {{/isEnum}}
         {{^isEnum}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
@@ -183,12 +195,12 @@ class {{{classname}}} {
           : {{{datatypeWithEnum}}}.parse(json[r'{{{baseName}}}'].toString()),
           {{/isNumber}}
           {{^isNumber}}
-    {{^isEnum}}
+            {{^isEnum}}
         {{{name}}}: json[r'{{{baseName}}}'] as {{{datatypeWithEnum}}},
-    {{/isEnum}}
-    {{#isEnum}}
+            {{/isEnum}}
+            {{#isEnum}}
         {{{name}}}: {{{enumName}}}.fromJson((json[r'{{{baseName}}}'] as Map).cast<String, dynamic>()),
-    {{/isEnum}}
+            {{/isEnum}}
           {{/isNumber}}
         {{/isMap}}
       {{/isArray}}
