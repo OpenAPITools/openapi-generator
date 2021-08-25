@@ -91,7 +91,9 @@ class Pet {
         tags: json[r'tags'] is List
           ? Tag.listFromJson(json[r'tags'] as List)
           : null,
-        status: PetStatusEnum.fromJson((json[r'status'] as Map).cast<String, dynamic>()),
+        status: json[r'status'] is Map
+          ? PetStatusEnum.fromJson((json[r'status'] as Map).cast<String, dynamic>())
+          : null,
     );
 
   static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>

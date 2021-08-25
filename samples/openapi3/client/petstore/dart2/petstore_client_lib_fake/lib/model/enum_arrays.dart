@@ -51,7 +51,9 @@ class EnumArrays {
   static EnumArrays fromJson(Map<String, dynamic> json) => json == null
     ? null
     : EnumArrays(
-        justSymbol: EnumArraysJustSymbolEnum.fromJson((json[r'just_symbol'] as Map).cast<String, dynamic>()),
+        justSymbol: json[r'just_symbol'] is Map
+          ? EnumArraysJustSymbolEnum.fromJson((json[r'just_symbol'] as Map).cast<String, dynamic>())
+          : null,
         arrayEnum: json[r'array_enum'] is List
           ? EnumArraysArrayEnumEnum.listFromJson(json[r'array_enum'] as List)
           : null,

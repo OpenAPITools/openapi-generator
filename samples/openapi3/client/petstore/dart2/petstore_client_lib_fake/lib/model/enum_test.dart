@@ -97,10 +97,18 @@ class EnumTest {
   static EnumTest fromJson(Map<String, dynamic> json) => json == null
     ? null
     : EnumTest(
-        enumString: EnumTestEnumStringEnum.fromJson((json[r'enum_string'] as Map).cast<String, dynamic>()),
-        enumStringRequired: EnumTestEnumStringRequiredEnum.fromJson((json[r'enum_string_required'] as Map).cast<String, dynamic>()),
-        enumInteger: EnumTestEnumIntegerEnum.fromJson((json[r'enum_integer'] as Map).cast<String, dynamic>()),
-        enumNumber: EnumTestEnumNumberEnum.fromJson((json[r'enum_number'] as Map).cast<String, dynamic>()),
+        enumString: json[r'enum_string'] is Map
+          ? EnumTestEnumStringEnum.fromJson((json[r'enum_string'] as Map).cast<String, dynamic>())
+          : null,
+        enumStringRequired: json[r'enum_string_required'] is Map
+          ? EnumTestEnumStringRequiredEnum.fromJson((json[r'enum_string_required'] as Map).cast<String, dynamic>())
+          : null,
+        enumInteger: json[r'enum_integer'] is Map
+          ? EnumTestEnumIntegerEnum.fromJson((json[r'enum_integer'] as Map).cast<String, dynamic>())
+          : null,
+        enumNumber: json[r'enum_number'] is Map
+          ? EnumTestEnumNumberEnum.fromJson((json[r'enum_number'] as Map).cast<String, dynamic>())
+          : null,
         outerEnum: json[r'outerEnum'] is Map
           ? OuterEnum.fromJson((json[r'outerEnum'] as Map).cast<String, dynamic>())
           : null,

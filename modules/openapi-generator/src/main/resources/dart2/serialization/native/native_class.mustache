@@ -199,7 +199,9 @@ class {{{classname}}} {
         {{{name}}}: json[r'{{{baseName}}}'] as {{{datatypeWithEnum}}},
             {{/isEnum}}
             {{#isEnum}}
-        {{{name}}}: {{{enumName}}}.fromJson((json[r'{{{baseName}}}'] as Map).cast<String, dynamic>()),
+        {{{name}}}: json[r'{{{baseName}}}'] is Map
+          ? {{{enumName}}}.fromJson((json[r'{{{baseName}}}'] as Map).cast<String, dynamic>())
+          : null,
             {{/isEnum}}
           {{/isNumber}}
         {{/isMap}}

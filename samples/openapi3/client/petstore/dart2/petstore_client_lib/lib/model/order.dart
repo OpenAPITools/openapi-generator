@@ -90,7 +90,9 @@ class Order {
         shipDate: json[r'shipDate'] == null
           ? null
           : DateTime.parse(json[r'shipDate'].toString()),
-        status: OrderStatusEnum.fromJson((json[r'status'] as Map).cast<String, dynamic>()),
+        status: json[r'status'] is Map
+          ? OrderStatusEnum.fromJson((json[r'status'] as Map).cast<String, dynamic>())
+          : null,
         complete: json[r'complete'] as bool,
     );
 
