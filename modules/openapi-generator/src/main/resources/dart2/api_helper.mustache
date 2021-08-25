@@ -21,16 +21,17 @@ Iterable<QueryParam> _convertParametersForCollectionFormat(
   // preconditions
   if (name != null && name.isNotEmpty && value != null) {
     if (value is List) {
-      // get the collection format, default: csv
-      final normalizedFormat = (collectionFormat == null || collectionFormat.isEmpty)
-        ? 'csv'
-        : collectionFormat;
-
-      if (normalizedFormat == 'multi') {
+      if (collectionFormat == 'multi') {
         return value.map((dynamic value) => QueryParam(name, parameterToString(value)),);
       }
 
-      final delimiter = _delimiters[normalizedFormat] ?? ',';
+      // Default collection format is 'csv'.
+      if (collectionFormat == null || collectionFormat.isEmpty) {
+        // ignore: parameter_assignments
+        collectionFormat = 'csv';
+      }
+
+      final delimiter = _delimiters[collectionFormat] ?? ',';
 
       params.add(QueryParam(name, value.map<dynamic>(parameterToString).join(delimiter)),);
     } else {
