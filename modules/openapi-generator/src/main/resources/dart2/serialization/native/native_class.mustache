@@ -24,6 +24,7 @@ class {{{classname}}} {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
   {{#vars}}
     ({{{name}}} == null ? 0 : {{{name}}}.hashCode){{^-last}} +{{/-last}}{{#-last}};{{/-last}}
   {{/vars}}
@@ -71,6 +72,7 @@ class {{{classname}}} {
 
   /// Returns a new [{{{classname}}}] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static {{{classname}}} fromJson(Map<String, dynamic> json) => json == null
     ? null
     : {{{classname}}}(
@@ -81,10 +83,10 @@ class {{{classname}}} {
     {{#pattern}}
           : _dateEpochMarker == '{{{pattern}}}'
             ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
-            : DateTime.parse(json[r'{{{baseName}}}']),
+            : DateTime.parse(json[r'{{{baseName}}}'].toString()),
     {{/pattern}}
     {{^pattern}}
-          : DateTime.parse(json[r'{{{baseName}}}']),
+          : DateTime.parse(json[r'{{{baseName}}}'].toString()),
     {{/pattern}}
   {{/isDateTime}}
   {{#isDate}}
@@ -93,10 +95,10 @@ class {{{classname}}} {
     {{#pattern}}
           : _dateEpochMarker == '{{{pattern}}}'
             ? DateTime.fromMillisecondsSinceEpoch(json[r'{{{baseName}}}'] as int, isUtc: true)
-            : DateTime.parse(json[r'{{{baseName}}}']),
+            : DateTime.parse(json[r'{{{baseName}}}'].toString()),
     {{/pattern}}
     {{^pattern}}
-          : DateTime.parse(json[r'{{{baseName}}}']),
+          : DateTime.parse(json[r'{{{baseName}}}'].toString()),
     {{/pattern}}
   {{/isDate}}
   {{^isDateTime}}
@@ -108,7 +110,7 @@ class {{{classname}}} {
           ? null
           : (json[r'{{{baseName}}}'] as List).map(
       {{#items.complexType}}
-              {{items.complexType}}.listFromJson(json[r'{{{baseName}}}'])
+              {{items.complexType}}.listFromJson(json[r'{{{baseName}}}'] as List)
       {{/items.complexType}}
       {{^items.complexType}}
               (e) => e == null ? null : (e as List).cast<{{items.items.dataType}}>()
@@ -116,7 +118,7 @@ class {{{classname}}} {
             ).toList(growable: false),
         {{/items.isArray}}
         {{^items.isArray}}
-        {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}']),
+        {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}'] as List),
         {{/items.isArray}}
       {{/isArray}}
       {{^isArray}}
@@ -139,11 +141,11 @@ class {{{classname}}} {
           : {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']),
             {{/items.complexType}}
             {{^items.complexType}}
-          : (json[r'{{{baseName}}}'] as Map).cast<String, Map>(),
+          : (json[r'{{{baseName}}}'] as Map).cast<String, dynamic>(),
             {{/items.complexType}}
           {{/items.isMap}}
           {{^items.isMap}}
-            {{{name}}}: json[r'{{{baseName}}}']
+            {{{name}}}: json[r'{{{baseName}}}'] as {{{datatypeWithEnum}}},
           {{/items.isMap}}
           {{/items.isArray}}
         {{/isMap}}
@@ -152,7 +154,7 @@ class {{{classname}}} {
         {{{name}}}: null, // No support for decoding binary content from JSON
             {{/isBinary}}
             {{^isBinary}}
-        {{{name}}}: {{{complexType}}}.fromJson(json[r'{{{baseName}}}']),
+        {{{name}}}: {{{complexType}}}.fromJson((json[r'{{{baseName}}}'] as Map).cast<String, dynamic>()),
             {{/isBinary}}
         {{/isMap}}
       {{/isArray}}
@@ -170,22 +172,22 @@ class {{{classname}}} {
       {{/isArray}}
       {{^isArray}}
         {{#isMap}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null ?
-          null :
-          (json[r'{{{baseName}}}'] as Map).cast<String, {{{items.datatype}}}>(),
+        {{{name}}}: json[r'{{{baseName}}}'] == null
+          ? null
+          : (json[r'{{{baseName}}}'] as Map).cast<String, {{{items.datatype}}}>(),
         {{/isMap}}
         {{^isMap}}
           {{#isNumber}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null ?
-          null :
-          json[r'{{{baseName}}}'].toDouble(),
+        {{{name}}}: json[r'{{{baseName}}}'] == null
+          ? null
+          : {{{datatypeWithEnum}}}.parse(json[r'{{{baseName}}}'].toString()),
           {{/isNumber}}
           {{^isNumber}}
     {{^isEnum}}
-        {{{name}}}: json[r'{{{baseName}}}'],
+        {{{name}}}: json[r'{{{baseName}}}'] as {{{datatypeWithEnum}}},
     {{/isEnum}}
     {{#isEnum}}
-        {{{name}}}: {{{enumName}}}.fromJson(json[r'{{{baseName}}}']),
+        {{{name}}}: {{{enumName}}}.fromJson((json[r'{{{baseName}}}'] as Map).cast<String, dynamic>()),
     {{/isEnum}}
           {{/isNumber}}
         {{/isMap}}
@@ -199,12 +201,14 @@ class {{{classname}}} {
   static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <{{{classname}}}>[]
-      : json.map((dynamic value) => {{{classname}}}.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => {{{classname}}}.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, {{{classname}}}> mapFromJson(Map<String, dynamic> json) {
     final map = <String, {{{classname}}}>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = {{{classname}}}.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = {{{classname}}}.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -213,8 +217,8 @@ class {{{classname}}} {
   static Map<String, List<{{{classname}}}>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<{{{classname}}}>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = {{{classname}}}.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = {{{classname}}}.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

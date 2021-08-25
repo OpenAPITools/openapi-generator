@@ -61,9 +61,12 @@ class {{{classname}}} {
     {{/allParams}}
 
   {{/hasParams}}
+    // ignore: prefer_const_declarations
     final path = r'{{{path}}}'{{#pathParams}}
+      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
       .replaceAll('{' + '{{{baseName}}}' + '}', {{{paramName}}}.toString()){{/pathParams}};
 
+    // ignore: prefer_final_locals
     Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
 
     final queryParams = <QueryParam>[];
@@ -131,7 +134,7 @@ class {{{classname}}} {
     {{/formParams}}
     {{/isMultipart}}
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       '{{{httpMethod}}}',
       queryParams,
@@ -223,7 +226,7 @@ class {{{classname}}} {
     {{/isArray}}
     {{/json_serializable}}
     }
-    return Future<{{{returnType}}}>.value(null);
+    return Future<{{{returnType}}}>.value();
     {{/returnType}}
   }
   {{/operation}}

@@ -13,7 +13,7 @@ class HttpBearerAuth implements Authentication {
     if (accessToken is! String && accessToken is! HttpBearerAuthProvider) {
       throw ArgumentError('Type of Bearer accessToken should be a String or a String Function().');
     }
-    this._accessToken = accessToken;
+    _accessToken = accessToken;
   }
 
   @override
