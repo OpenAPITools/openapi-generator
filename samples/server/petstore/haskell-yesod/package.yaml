@@ -1,0 +1,80 @@
+name:    open-api-petstore
+version: "0.0.0"
+
+dependencies:
+
+- base >=4.9.1.0 && <5
+- yesod >=1.6 && <1.7
+- yesod-core >=1.6 && <1.7
+- yesod-static >=1.6 && <1.7
+- classy-prelude >=1.5 && <1.6
+- classy-prelude-yesod >=1.5 && <1.6
+- template-haskell
+- wai-extra >=3.0 && <3.1
+- yaml >=0.11 && <0.12
+- http-client-tls >=0.3 && <0.4
+- warp >=3.0 && <3.4
+- aeson >=1.4 && <1.5
+- monad-logger >=0.3 && <0.4
+- fast-logger >=2.2 && <3.1
+- wai-logger >=2.2 && <2.4
+- file-embed
+- wai
+- foreign-store
+- text
+- containers
+
+# The library contains all of our application code. The executable
+# defined below is just a thin wrapper.
+library:
+  source-dirs: src
+  when:
+  - condition: (flag(dev)) || (flag(library-only))
+    then:
+      ghc-options:
+      - -Wall
+      - -fwarn-tabs
+      - -O0
+      cpp-options: -DDEVELOPMENT
+    else:
+      ghc-options:
+      - -Wall
+      - -fwarn-tabs
+      - -O2
+
+# Runnable executable for our application
+executables:
+  open-api-petstore:
+    main: main.hs
+    source-dirs: app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - open-api-petstore
+    when:
+    - condition: flag(library-only)
+      buildable: false
+
+# Test suite
+tests:
+  open-api-petstore-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options: -Wall
+    dependencies:
+    - open-api-petstore
+    - hspec >=2.0.0
+    - yesod-test
+
+# Define flags used by "yesod devel" to make compilation faster
+flags:
+  library-only:
+    description: Build for use with "yesod devel"
+    manual: false
+    default: false
+  dev:
+    description: Turn on development settings, like auto-reload templates.
+    manual: false
+    default: false
