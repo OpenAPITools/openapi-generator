@@ -23,6 +23,7 @@ class NumberOnly {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (justNumber == null ? 0 : justNumber.hashCode);
 
   @override
@@ -38,23 +39,26 @@ class NumberOnly {
 
   /// Returns a new [NumberOnly] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static NumberOnly fromJson(Map<String, dynamic> json) => json == null
     ? null
     : NumberOnly(
-        justNumber: json[r'JustNumber'] == null ?
-          null :
-          json[r'JustNumber'].toDouble(),
+        justNumber: json[r'JustNumber'] == null
+          ? null
+          : num.parse(json[r'JustNumber'].toString()),
     );
 
   static List<NumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <NumberOnly>[]
-      : json.map((dynamic value) => NumberOnly.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => NumberOnly.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, NumberOnly> mapFromJson(Map<String, dynamic> json) {
     final map = <String, NumberOnly>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = NumberOnly.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = NumberOnly.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -63,8 +67,8 @@ class NumberOnly {
   static Map<String, List<NumberOnly>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<NumberOnly>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = NumberOnly.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = NumberOnly.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

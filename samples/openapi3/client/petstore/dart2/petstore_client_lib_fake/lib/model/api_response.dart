@@ -31,6 +31,7 @@ class ApiResponse {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (code == null ? 0 : code.hashCode) +
     (type == null ? 0 : type.hashCode) +
     (message == null ? 0 : message.hashCode);
@@ -54,23 +55,26 @@ class ApiResponse {
 
   /// Returns a new [ApiResponse] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static ApiResponse fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ApiResponse(
-        code: json[r'code'],
-        type: json[r'type'],
-        message: json[r'message'],
+        code: json[r'code'] as int,
+        type: json[r'type'] as String,
+        message: json[r'message'] as String,
     );
 
   static List<ApiResponse> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ApiResponse>[]
-      : json.map((dynamic value) => ApiResponse.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => ApiResponse.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, ApiResponse> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ApiResponse>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ApiResponse.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = ApiResponse.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -79,8 +83,8 @@ class ApiResponse {
   static Map<String, List<ApiResponse>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ApiResponse>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = ApiResponse.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = ApiResponse.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

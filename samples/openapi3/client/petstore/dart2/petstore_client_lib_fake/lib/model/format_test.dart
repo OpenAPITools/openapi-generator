@@ -95,6 +95,7 @@ class FormatTest {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (integer == null ? 0 : integer.hashCode) +
     (int32 == null ? 0 : int32.hashCode) +
     (int64 == null ? 0 : int64.hashCode) +
@@ -162,42 +163,45 @@ class FormatTest {
 
   /// Returns a new [FormatTest] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static FormatTest fromJson(Map<String, dynamic> json) => json == null
     ? null
     : FormatTest(
-        integer: json[r'integer'],
-        int32: json[r'int32'],
-        int64: json[r'int64'],
-        number: json[r'number'] == null ?
-          null :
-          json[r'number'].toDouble(),
-        float: json[r'float'],
-        double_: json[r'double'],
-        decimal: json[r'decimal'],
-        string: json[r'string'],
-        byte: json[r'byte'],
+        integer: json[r'integer'] as int,
+        int32: json[r'int32'] as int,
+        int64: json[r'int64'] as int,
+        number: json[r'number'] == null
+          ? null
+          : num.parse(json[r'number'].toString()),
+        float: json[r'float'] as double,
+        double_: json[r'double'] as double,
+        decimal: json[r'decimal'] as double,
+        string: json[r'string'] as String,
+        byte: json[r'byte'] as String,
         binary: null, // No support for decoding binary content from JSON
         date: json[r'date'] == null
           ? null
-          : DateTime.parse(json[r'date']),
+          : DateTime.parse(json[r'date'].toString()),
         dateTime: json[r'dateTime'] == null
           ? null
-          : DateTime.parse(json[r'dateTime']),
-        uuid: json[r'uuid'],
-        password: json[r'password'],
-        patternWithDigits: json[r'pattern_with_digits'],
-        patternWithDigitsAndDelimiter: json[r'pattern_with_digits_and_delimiter'],
+          : DateTime.parse(json[r'dateTime'].toString()),
+        uuid: json[r'uuid'] as String,
+        password: json[r'password'] as String,
+        patternWithDigits: json[r'pattern_with_digits'] as String,
+        patternWithDigitsAndDelimiter: json[r'pattern_with_digits_and_delimiter'] as String,
     );
 
   static List<FormatTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <FormatTest>[]
-      : json.map((dynamic value) => FormatTest.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => FormatTest.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, FormatTest> mapFromJson(Map<String, dynamic> json) {
     final map = <String, FormatTest>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = FormatTest.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = FormatTest.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -206,8 +210,8 @@ class FormatTest {
   static Map<String, List<FormatTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<FormatTest>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = FormatTest.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = FormatTest.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

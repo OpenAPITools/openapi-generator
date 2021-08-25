@@ -23,6 +23,7 @@ class InlineResponseDefault {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (string == null ? 0 : string.hashCode);
 
   @override
@@ -38,21 +39,24 @@ class InlineResponseDefault {
 
   /// Returns a new [InlineResponseDefault] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static InlineResponseDefault fromJson(Map<String, dynamic> json) => json == null
     ? null
     : InlineResponseDefault(
-        string: Foo.fromJson(json[r'string']),
+        string: Foo.fromJson((json[r'string'] as Map).cast<String, dynamic>()),
     );
 
   static List<InlineResponseDefault> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <InlineResponseDefault>[]
-      : json.map((dynamic value) => InlineResponseDefault.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => InlineResponseDefault.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, InlineResponseDefault> mapFromJson(Map<String, dynamic> json) {
     final map = <String, InlineResponseDefault>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = InlineResponseDefault.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = InlineResponseDefault.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -61,8 +65,8 @@ class InlineResponseDefault {
   static Map<String, List<InlineResponseDefault>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<InlineResponseDefault>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = InlineResponseDefault.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = InlineResponseDefault.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

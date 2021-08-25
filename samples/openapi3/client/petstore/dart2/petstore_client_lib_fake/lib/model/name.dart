@@ -35,6 +35,7 @@ class Name {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (name == null ? 0 : name.hashCode) +
     (snakeCase == null ? 0 : snakeCase.hashCode) +
     (property == null ? 0 : property.hashCode) +
@@ -60,24 +61,27 @@ class Name {
 
   /// Returns a new [Name] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static Name fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Name(
-        name: json[r'name'],
-        snakeCase: json[r'snake_case'],
-        property: json[r'property'],
-        n123number: json[r'123Number'],
+        name: json[r'name'] as int,
+        snakeCase: json[r'snake_case'] as int,
+        property: json[r'property'] as String,
+        n123number: json[r'123Number'] as int,
     );
 
   static List<Name> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Name>[]
-      : json.map((dynamic value) => Name.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => Name.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, Name> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Name>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Name.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = Name.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -86,8 +90,8 @@ class Name {
   static Map<String, List<Name>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Name>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = Name.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = Name.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

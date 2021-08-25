@@ -80,7 +80,7 @@ class ApiClient {
       ? '?${urlEncodedQueryParams.join('&')}'
       : '';
 
-    final Uri uri = Uri.parse('$basePath$path$queryString');
+    final uri = Uri.parse('$basePath$path$queryString');
 
     if (nullableContentType != null) {
       headerParams['Content-Type'] = nullableContentType;
@@ -98,7 +98,8 @@ class ApiClient {
         body.finalize().listen(
           request.sink.add,
           onDone: request.sink.close,
-          onError: (error, trace) => request.sink.close(),
+          // ignore: avoid_types_on_closure_parameters
+          onError: (Object error, StackTrace trace) => request.sink.close(),
           cancelOnError: true,
         );
         final response = await _client.send(request);
@@ -197,78 +198,78 @@ class ApiClient {
         case 'double':
           return value is double ? value : double.parse('$value');
         case 'AdditionalPropertiesClass':
-          return AdditionalPropertiesClass.fromJson(value);
+          return AdditionalPropertiesClass.fromJson((value as Map).cast<String, dynamic>());
         case 'Animal':
-          return Animal.fromJson(value);
+          return Animal.fromJson((value as Map).cast<String, dynamic>());
         case 'ApiResponse':
-          return ApiResponse.fromJson(value);
+          return ApiResponse.fromJson((value as Map).cast<String, dynamic>());
         case 'ArrayOfArrayOfNumberOnly':
-          return ArrayOfArrayOfNumberOnly.fromJson(value);
+          return ArrayOfArrayOfNumberOnly.fromJson((value as Map).cast<String, dynamic>());
         case 'ArrayOfNumberOnly':
-          return ArrayOfNumberOnly.fromJson(value);
+          return ArrayOfNumberOnly.fromJson((value as Map).cast<String, dynamic>());
         case 'ArrayTest':
-          return ArrayTest.fromJson(value);
+          return ArrayTest.fromJson((value as Map).cast<String, dynamic>());
         case 'Capitalization':
-          return Capitalization.fromJson(value);
+          return Capitalization.fromJson((value as Map).cast<String, dynamic>());
         case 'Cat':
-          return Cat.fromJson(value);
+          return Cat.fromJson((value as Map).cast<String, dynamic>());
         case 'CatAllOf':
-          return CatAllOf.fromJson(value);
+          return CatAllOf.fromJson((value as Map).cast<String, dynamic>());
         case 'Category':
-          return Category.fromJson(value);
+          return Category.fromJson((value as Map).cast<String, dynamic>());
         case 'ClassModel':
-          return ClassModel.fromJson(value);
+          return ClassModel.fromJson((value as Map).cast<String, dynamic>());
         case 'DeprecatedObject':
-          return DeprecatedObject.fromJson(value);
+          return DeprecatedObject.fromJson((value as Map).cast<String, dynamic>());
         case 'Dog':
-          return Dog.fromJson(value);
+          return Dog.fromJson((value as Map).cast<String, dynamic>());
         case 'DogAllOf':
-          return DogAllOf.fromJson(value);
+          return DogAllOf.fromJson((value as Map).cast<String, dynamic>());
         case 'EnumArrays':
-          return EnumArrays.fromJson(value);
+          return EnumArrays.fromJson((value as Map).cast<String, dynamic>());
         case 'EnumClass':
           return EnumClassTypeTransformer().decode(value);
           
         case 'EnumTest':
-          return EnumTest.fromJson(value);
+          return EnumTest.fromJson((value as Map).cast<String, dynamic>());
         case 'FileSchemaTestClass':
-          return FileSchemaTestClass.fromJson(value);
+          return FileSchemaTestClass.fromJson((value as Map).cast<String, dynamic>());
         case 'Foo':
-          return Foo.fromJson(value);
+          return Foo.fromJson((value as Map).cast<String, dynamic>());
         case 'FormatTest':
-          return FormatTest.fromJson(value);
+          return FormatTest.fromJson((value as Map).cast<String, dynamic>());
         case 'HasOnlyReadOnly':
-          return HasOnlyReadOnly.fromJson(value);
+          return HasOnlyReadOnly.fromJson((value as Map).cast<String, dynamic>());
         case 'HealthCheckResult':
-          return HealthCheckResult.fromJson(value);
+          return HealthCheckResult.fromJson((value as Map).cast<String, dynamic>());
         case 'InlineResponseDefault':
-          return InlineResponseDefault.fromJson(value);
+          return InlineResponseDefault.fromJson((value as Map).cast<String, dynamic>());
         case 'MapTest':
-          return MapTest.fromJson(value);
+          return MapTest.fromJson((value as Map).cast<String, dynamic>());
         case 'MixedPropertiesAndAdditionalPropertiesClass':
-          return MixedPropertiesAndAdditionalPropertiesClass.fromJson(value);
+          return MixedPropertiesAndAdditionalPropertiesClass.fromJson((value as Map).cast<String, dynamic>());
         case 'Model200Response':
-          return Model200Response.fromJson(value);
+          return Model200Response.fromJson((value as Map).cast<String, dynamic>());
         case 'ModelClient':
-          return ModelClient.fromJson(value);
+          return ModelClient.fromJson((value as Map).cast<String, dynamic>());
         case 'ModelFile':
-          return ModelFile.fromJson(value);
+          return ModelFile.fromJson((value as Map).cast<String, dynamic>());
         case 'ModelList':
-          return ModelList.fromJson(value);
+          return ModelList.fromJson((value as Map).cast<String, dynamic>());
         case 'ModelReturn':
-          return ModelReturn.fromJson(value);
+          return ModelReturn.fromJson((value as Map).cast<String, dynamic>());
         case 'Name':
-          return Name.fromJson(value);
+          return Name.fromJson((value as Map).cast<String, dynamic>());
         case 'NullableClass':
-          return NullableClass.fromJson(value);
+          return NullableClass.fromJson((value as Map).cast<String, dynamic>());
         case 'NumberOnly':
-          return NumberOnly.fromJson(value);
+          return NumberOnly.fromJson((value as Map).cast<String, dynamic>());
         case 'ObjectWithDeprecatedFields':
-          return ObjectWithDeprecatedFields.fromJson(value);
+          return ObjectWithDeprecatedFields.fromJson((value as Map).cast<String, dynamic>());
         case 'Order':
-          return Order.fromJson(value);
+          return Order.fromJson((value as Map).cast<String, dynamic>());
         case 'OuterComposite':
-          return OuterComposite.fromJson(value);
+          return OuterComposite.fromJson((value as Map).cast<String, dynamic>());
         case 'OuterEnum':
           return OuterEnumTypeTransformer().decode(value);
           
@@ -282,41 +283,41 @@ class ApiClient {
           return OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
           
         case 'OuterObjectWithEnumProperty':
-          return OuterObjectWithEnumProperty.fromJson(value);
+          return OuterObjectWithEnumProperty.fromJson((value as Map).cast<String, dynamic>());
         case 'Pet':
-          return Pet.fromJson(value);
+          return Pet.fromJson((value as Map).cast<String, dynamic>());
         case 'ReadOnlyFirst':
-          return ReadOnlyFirst.fromJson(value);
+          return ReadOnlyFirst.fromJson((value as Map).cast<String, dynamic>());
         case 'SpecialModelName':
-          return SpecialModelName.fromJson(value);
+          return SpecialModelName.fromJson((value as Map).cast<String, dynamic>());
         case 'Tag':
-          return Tag.fromJson(value);
+          return Tag.fromJson((value as Map).cast<String, dynamic>());
         case 'User':
-          return User.fromJson(value);
+          return User.fromJson((value as Map).cast<String, dynamic>());
         default:
           Match match;
           if (value is List && (match = _regList.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
             return value
-              .map((v) => _deserialize(v, targetType, growable: growable))
+              .map<dynamic>((dynamic value) => _deserialize(value, targetType, growable: growable))
               .toList(growable: growable);
           }
           if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
             return value
-              .map((v) => _deserialize(v, targetType, growable: growable))
+              .map<dynamic>((dynamic value) => _deserialize(value, targetType, growable: growable))
               .toSet();
           }
           if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
-            return Map.fromIterables(
-              value.keys,
-              value.values.map((v) => _deserialize(v, targetType, growable: growable)),
+            return Map<String, dynamic>.fromIterables(
+              value.keys.cast<String>(),
+              value.values.map<dynamic>((dynamic value) => _deserialize(value, targetType, growable: growable)),
             );
           }
           break;
       }
-    } catch (error, trace) {
+    } on Exception catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', error, trace,);
     }
     throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);

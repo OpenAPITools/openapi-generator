@@ -31,8 +31,10 @@ class FakeClassnameTags123Api {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake_classname_test';
 
+    // ignore: prefer_final_locals
     Object postBody = modelClient;
 
     final queryParams = <QueryParam>[];
@@ -44,7 +46,7 @@ class FakeClassnameTags123Api {
     final authNames = <String>['api_key_query'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PATCH',
       queryParams,
@@ -75,6 +77,6 @@ class FakeClassnameTags123Api {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
         }
-    return Future<ModelClient>.value(null);
+    return Future<ModelClient>.value();
   }
 }

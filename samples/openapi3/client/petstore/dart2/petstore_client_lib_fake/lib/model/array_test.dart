@@ -31,6 +31,7 @@ class ArrayTest {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (arrayOfString == null ? 0 : arrayOfString.hashCode) +
     (arrayArrayOfInteger == null ? 0 : arrayArrayOfInteger.hashCode) +
     (arrayArrayOfModel == null ? 0 : arrayArrayOfModel.hashCode);
@@ -54,6 +55,7 @@ class ArrayTest {
 
   /// Returns a new [ArrayTest] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static ArrayTest fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ArrayTest(
@@ -68,19 +70,21 @@ class ArrayTest {
         arrayArrayOfModel: json[r'array_array_of_model'] == null
           ? null
           : (json[r'array_array_of_model'] as List).map(
-              ReadOnlyFirst.listFromJson(json[r'array_array_of_model'])
+              ReadOnlyFirst.listFromJson(json[r'array_array_of_model'] as List)
             ).toList(growable: false),
     );
 
   static List<ArrayTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ArrayTest>[]
-      : json.map((dynamic value) => ArrayTest.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => ArrayTest.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, ArrayTest> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ArrayTest>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ArrayTest.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = ArrayTest.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -89,8 +93,8 @@ class ArrayTest {
   static Map<String, List<ArrayTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ArrayTest>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = ArrayTest.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = ArrayTest.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

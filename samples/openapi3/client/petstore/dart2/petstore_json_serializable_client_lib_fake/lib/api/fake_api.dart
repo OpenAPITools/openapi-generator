@@ -19,8 +19,10 @@ class FakeApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> fakeHealthGetWithHttpInfo() async {
+    // ignore: prefer_const_declarations
     final path = r'/fake/health';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -32,7 +34,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -57,7 +59,7 @@ class FakeApi {
 
       return HealthCheckResult.fromJson(json.decode(response.body));
     }
-    return Future<HealthCheckResult>.value(null);
+    return Future<HealthCheckResult>.value();
   }
 
   /// test http signature authentication
@@ -80,8 +82,10 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/http-signature-test';
 
+    // ignore: prefer_final_locals
     Object postBody = pet;
 
     final queryParams = <QueryParam>[];
@@ -101,7 +105,7 @@ class FakeApi {
     final authNames = <String>['http_signature_test'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -143,8 +147,10 @@ class FakeApi {
   Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool body }) async {
     // Verify required params are set.
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/outer/boolean';
 
+    // ignore: prefer_final_locals
     Object postBody = body;
 
     final queryParams = <QueryParam>[];
@@ -156,7 +162,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -186,7 +192,7 @@ class FakeApi {
 
       return response.body as bool;
     }
-    return Future<bool>.value(null);
+    return Future<bool>.value();
   }
 
   /// Test serialization of object with outer number type
@@ -200,8 +206,10 @@ class FakeApi {
   Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite outerComposite }) async {
     // Verify required params are set.
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/outer/composite';
 
+    // ignore: prefer_final_locals
     Object postBody = outerComposite;
 
     final queryParams = <QueryParam>[];
@@ -213,7 +221,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -243,7 +251,7 @@ class FakeApi {
 
       return OuterComposite.fromJson(json.decode(response.body));
     }
-    return Future<OuterComposite>.value(null);
+    return Future<OuterComposite>.value();
   }
 
   /// Test serialization of outer number types
@@ -257,8 +265,10 @@ class FakeApi {
   Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num body }) async {
     // Verify required params are set.
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/outer/number';
 
+    // ignore: prefer_final_locals
     Object postBody = body;
 
     final queryParams = <QueryParam>[];
@@ -270,7 +280,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -300,7 +310,7 @@ class FakeApi {
 
       return response.body as num;
     }
-    return Future<num>.value(null);
+    return Future<num>.value();
   }
 
   /// Test serialization of outer string types
@@ -314,8 +324,10 @@ class FakeApi {
   Future<Response> fakeOuterStringSerializeWithHttpInfo({ String body }) async {
     // Verify required params are set.
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/outer/string';
 
+    // ignore: prefer_final_locals
     Object postBody = body;
 
     final queryParams = <QueryParam>[];
@@ -327,7 +339,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -357,7 +369,7 @@ class FakeApi {
 
       return response.body as String;
     }
-    return Future<String>.value(null);
+    return Future<String>.value();
   }
 
   /// Test serialization of enum (int) properties with examples
@@ -374,8 +386,10 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: outerObjectWithEnumProperty');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/property/enum-int';
 
+    // ignore: prefer_final_locals
     Object postBody = outerObjectWithEnumProperty;
 
     final queryParams = <QueryParam>[];
@@ -387,7 +401,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -417,7 +431,7 @@ class FakeApi {
 
       return OuterObjectWithEnumProperty.fromJson(json.decode(response.body));
     }
-    return Future<OuterObjectWithEnumProperty>.value(null);
+    return Future<OuterObjectWithEnumProperty>.value();
   }
 
   /// For this test, the body has to be a binary file.
@@ -434,8 +448,10 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/body-with-binary';
 
+    // ignore: prefer_final_locals
     Object postBody = body;
 
     final queryParams = <QueryParam>[];
@@ -447,7 +463,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,
@@ -485,8 +501,10 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: fileSchemaTestClass');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/body-with-file-schema';
 
+    // ignore: prefer_final_locals
     Object postBody = fileSchemaTestClass;
 
     final queryParams = <QueryParam>[];
@@ -498,7 +516,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,
@@ -537,8 +555,10 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/body-with-query-params';
 
+    // ignore: prefer_final_locals
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
@@ -552,7 +572,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,
@@ -592,8 +612,10 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake';
 
+    // ignore: prefer_final_locals
     Object postBody = modelClient;
 
     final queryParams = <QueryParam>[];
@@ -605,7 +627,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PATCH',
       queryParams,
@@ -637,7 +659,7 @@ class FakeApi {
 
       return ModelClient.fromJson(json.decode(response.body));
     }
-    return Future<ModelClient>.value(null);
+    return Future<ModelClient>.value();
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -704,8 +726,10 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: byte');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -756,7 +780,7 @@ class FakeApi {
       formParams[r'callback'] = parameterToString(callback);
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -856,8 +880,10 @@ class FakeApi {
   Future<Response> testEnumParametersWithHttpInfo({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async {
     // Verify required params are set.
 
+    // ignore: prefer_const_declarations
     final path = r'/fake';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -895,7 +921,7 @@ class FakeApi {
       formParams[r'enum_form_string'] = parameterToString(enumFormString);
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -980,8 +1006,10 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredInt64Group');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -1007,7 +1035,7 @@ class FakeApi {
     final authNames = <String>['bearer_test'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'DELETE',
       queryParams,
@@ -1063,8 +1091,10 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requestBody');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/inline-additionalProperties';
 
+    // ignore: prefer_final_locals
     Object postBody = requestBody;
 
     final queryParams = <QueryParam>[];
@@ -1076,7 +1106,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -1121,8 +1151,10 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: param2');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/jsonFormData';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -1140,7 +1172,7 @@ class FakeApi {
       formParams[r'param2'] = parameterToString(param2);
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -1203,8 +1235,10 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: context');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/test-query-paramters';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -1225,7 +1259,7 @@ class FakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,

@@ -77,7 +77,7 @@ class ApiClient {
       ? '?${urlEncodedQueryParams.join('&')}'
       : '';
 
-    final Uri uri = Uri.parse('$basePath$path$queryString');
+    final uri = Uri.parse('$basePath$path$queryString');
 
     if (nullableContentType != null) {
       headerParams['Content-Type'] = nullableContentType;
@@ -95,7 +95,8 @@ class ApiClient {
         body.finalize().listen(
           request.sink.add,
           onDone: request.sink.close,
-          onError: (error, trace) => request.sink.close(),
+          // ignore: avoid_types_on_closure_parameters
+          onError: (Object error, StackTrace trace) => request.sink.close(),
           cancelOnError: true,
         );
         final response = await _client.send(request);
@@ -194,41 +195,41 @@ class ApiClient {
         case 'double':
           return value is double ? value : double.parse('$value');
         case 'ApiResponse':
-          return ApiResponse.fromJson(value);
+          return ApiResponse.fromJson((value as Map).cast<String, dynamic>());
         case 'Category':
-          return Category.fromJson(value);
+          return Category.fromJson((value as Map).cast<String, dynamic>());
         case 'Order':
-          return Order.fromJson(value);
+          return Order.fromJson((value as Map).cast<String, dynamic>());
         case 'Pet':
-          return Pet.fromJson(value);
+          return Pet.fromJson((value as Map).cast<String, dynamic>());
         case 'Tag':
-          return Tag.fromJson(value);
+          return Tag.fromJson((value as Map).cast<String, dynamic>());
         case 'User':
-          return User.fromJson(value);
+          return User.fromJson((value as Map).cast<String, dynamic>());
         default:
           Match match;
           if (value is List && (match = _regList.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
             return value
-              .map((v) => _deserialize(v, targetType, growable: growable))
+              .map<dynamic>((dynamic value) => _deserialize(value, targetType, growable: growable))
               .toList(growable: growable);
           }
           if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
             return value
-              .map((v) => _deserialize(v, targetType, growable: growable))
+              .map<dynamic>((dynamic value) => _deserialize(value, targetType, growable: growable))
               .toSet();
           }
           if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
-            return Map.fromIterables(
-              value.keys,
-              value.values.map((v) => _deserialize(v, targetType, growable: growable)),
+            return Map<String, dynamic>.fromIterables(
+              value.keys.cast<String>(),
+              value.values.map<dynamic>((dynamic value) => _deserialize(value, targetType, growable: growable)),
             );
           }
           break;
       }
-    } catch (error, trace) {
+    } on Exception catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', error, trace,);
     }
     throw ApiException(HttpStatus.internalServerError, 'Could not find a suitable class for deserialization',);

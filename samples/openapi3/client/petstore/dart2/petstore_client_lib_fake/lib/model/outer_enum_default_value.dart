@@ -10,6 +10,9 @@
 part of openapi.api;
 
 
+
+// ignore_for_file: constant_identifier_names
+
 class OuterEnumDefaultValue {
   /// Instantiate a new enum with the provided [value].
   const OuterEnumDefaultValue._(this.value);
@@ -39,17 +42,15 @@ class OuterEnumDefaultValue {
   static List<OuterEnumDefaultValue> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <OuterEnumDefaultValue>[]
-      : json
-          .map((value) => OuterEnumDefaultValue.fromJson(value))
-          .toList(growable: true == growable);
+      : json.map(OuterEnumDefaultValue.fromJson).toList(growable: true == growable);
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumDefaultValue] to String,
 /// and [decode] dynamic data back to [OuterEnumDefaultValue].
 class OuterEnumDefaultValueTypeTransformer {
-  const OuterEnumDefaultValueTypeTransformer._();
+  factory OuterEnumDefaultValueTypeTransformer() => _instance ??= const OuterEnumDefaultValueTypeTransformer._();
 
-  factory OuterEnumDefaultValueTypeTransformer() => _instance ??= OuterEnumDefaultValueTypeTransformer._();
+  const OuterEnumDefaultValueTypeTransformer._();
 
   String encode(OuterEnumDefaultValue data) => data.value;
 
@@ -62,7 +63,7 @@ class OuterEnumDefaultValueTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OuterEnumDefaultValue decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data.toString()) {
       case r'placed': return OuterEnumDefaultValue.placed;
       case r'approved': return OuterEnumDefaultValue.approved;
       case r'delivered': return OuterEnumDefaultValue.delivered;
@@ -77,3 +78,4 @@ class OuterEnumDefaultValueTypeTransformer {
   /// Singleton [OuterEnumDefaultValueTypeTransformer] instance.
   static OuterEnumDefaultValueTypeTransformer _instance;
 }
+

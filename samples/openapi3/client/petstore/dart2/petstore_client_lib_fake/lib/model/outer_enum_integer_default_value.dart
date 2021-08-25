@@ -10,6 +10,9 @@
 part of openapi.api;
 
 
+
+// ignore_for_file: constant_identifier_names
+
 class OuterEnumIntegerDefaultValue {
   /// Instantiate a new enum with the provided [value].
   const OuterEnumIntegerDefaultValue._(this.value);
@@ -39,17 +42,15 @@ class OuterEnumIntegerDefaultValue {
   static List<OuterEnumIntegerDefaultValue> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <OuterEnumIntegerDefaultValue>[]
-      : json
-          .map((value) => OuterEnumIntegerDefaultValue.fromJson(value))
-          .toList(growable: true == growable);
+      : json.map(OuterEnumIntegerDefaultValue.fromJson).toList(growable: true == growable);
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumIntegerDefaultValue] to int,
 /// and [decode] dynamic data back to [OuterEnumIntegerDefaultValue].
 class OuterEnumIntegerDefaultValueTypeTransformer {
-  const OuterEnumIntegerDefaultValueTypeTransformer._();
+  factory OuterEnumIntegerDefaultValueTypeTransformer() => _instance ??= const OuterEnumIntegerDefaultValueTypeTransformer._();
 
-  factory OuterEnumIntegerDefaultValueTypeTransformer() => _instance ??= OuterEnumIntegerDefaultValueTypeTransformer._();
+  const OuterEnumIntegerDefaultValueTypeTransformer._();
 
   int encode(OuterEnumIntegerDefaultValue data) => data.value;
 
@@ -62,7 +63,7 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OuterEnumIntegerDefaultValue decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data.toString()) {
       case 0: return OuterEnumIntegerDefaultValue.number0;
       case 1: return OuterEnumIntegerDefaultValue.number1;
       case 2: return OuterEnumIntegerDefaultValue.number2;
@@ -77,3 +78,4 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
   /// Singleton [OuterEnumIntegerDefaultValueTypeTransformer] instance.
   static OuterEnumIntegerDefaultValueTypeTransformer _instance;
 }
+

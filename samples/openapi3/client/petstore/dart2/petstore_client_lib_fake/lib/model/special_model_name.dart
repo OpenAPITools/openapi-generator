@@ -23,6 +23,7 @@ class SpecialModelName {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == null ? 0 : dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode);
 
   @override
@@ -38,21 +39,24 @@ class SpecialModelName {
 
   /// Returns a new [SpecialModelName] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static SpecialModelName fromJson(Map<String, dynamic> json) => json == null
     ? null
     : SpecialModelName(
-        dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: json[r'$special[property.name]'],
+        dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: json[r'$special[property.name]'] as int,
     );
 
   static List<SpecialModelName> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <SpecialModelName>[]
-      : json.map((dynamic value) => SpecialModelName.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => SpecialModelName.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, SpecialModelName> mapFromJson(Map<String, dynamic> json) {
     final map = <String, SpecialModelName>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = SpecialModelName.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = SpecialModelName.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -61,8 +65,8 @@ class SpecialModelName {
   static Map<String, List<SpecialModelName>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<SpecialModelName>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = SpecialModelName.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = SpecialModelName.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

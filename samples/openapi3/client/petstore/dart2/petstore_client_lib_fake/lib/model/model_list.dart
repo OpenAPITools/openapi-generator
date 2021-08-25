@@ -23,6 +23,7 @@ class ModelList {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (n123list == null ? 0 : n123list.hashCode);
 
   @override
@@ -38,21 +39,24 @@ class ModelList {
 
   /// Returns a new [ModelList] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static ModelList fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ModelList(
-        n123list: json[r'123-list'],
+        n123list: json[r'123-list'] as String,
     );
 
   static List<ModelList> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ModelList>[]
-      : json.map((dynamic value) => ModelList.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => ModelList.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, ModelList> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ModelList>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ModelList.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = ModelList.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -61,8 +65,8 @@ class ModelList {
   static Map<String, List<ModelList>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ModelList>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = ModelList.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = ModelList.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

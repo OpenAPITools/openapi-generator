@@ -44,6 +44,7 @@ class Order {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (id == null ? 0 : id.hashCode) +
     (petId == null ? 0 : petId.hashCode) +
     (quantity == null ? 0 : quantity.hashCode) +
@@ -79,28 +80,31 @@ class Order {
 
   /// Returns a new [Order] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static Order fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Order(
-        id: json[r'id'],
-        petId: json[r'petId'],
-        quantity: json[r'quantity'],
+        id: json[r'id'] as int,
+        petId: json[r'petId'] as int,
+        quantity: json[r'quantity'] as int,
         shipDate: json[r'shipDate'] == null
           ? null
-          : DateTime.parse(json[r'shipDate']),
-        status: OrderStatusEnum.fromJson(json[r'status']),
-        complete: json[r'complete'],
+          : DateTime.parse(json[r'shipDate'].toString()),
+        status: OrderStatusEnum.fromJson((json[r'status'] as Map).cast<String, dynamic>()),
+        complete: json[r'complete'] as bool,
     );
 
   static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Order>[]
-      : json.map((dynamic value) => Order.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => Order.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, Order> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Order>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Order.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = Order.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -109,8 +113,8 @@ class Order {
   static Map<String, List<Order>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Order>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = Order.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = Order.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
@@ -118,6 +122,9 @@ class Order {
 }
 
 /// Order Status
+
+// ignore_for_file: constant_identifier_names
+
 class OrderStatusEnum {
   /// Instantiate a new enum with the provided [value].
   const OrderStatusEnum._(this.value);
@@ -147,17 +154,15 @@ class OrderStatusEnum {
   static List<OrderStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <OrderStatusEnum>[]
-      : json
-          .map((value) => OrderStatusEnum.fromJson(value))
-          .toList(growable: true == growable);
+      : json.map(OrderStatusEnum.fromJson).toList(growable: true == growable);
 }
 
 /// Transformation class that can [encode] an instance of [OrderStatusEnum] to String,
 /// and [decode] dynamic data back to [OrderStatusEnum].
 class OrderStatusEnumTypeTransformer {
-  const OrderStatusEnumTypeTransformer._();
+  factory OrderStatusEnumTypeTransformer() => _instance ??= const OrderStatusEnumTypeTransformer._();
 
-  factory OrderStatusEnumTypeTransformer() => _instance ??= OrderStatusEnumTypeTransformer._();
+  const OrderStatusEnumTypeTransformer._();
 
   String encode(OrderStatusEnum data) => data.value;
 
@@ -170,7 +175,7 @@ class OrderStatusEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OrderStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data.toString()) {
       case r'placed': return OrderStatusEnum.placed;
       case r'approved': return OrderStatusEnum.approved;
       case r'delivered': return OrderStatusEnum.delivered;
@@ -185,4 +190,5 @@ class OrderStatusEnumTypeTransformer {
   /// Singleton [OrderStatusEnumTypeTransformer] instance.
   static OrderStatusEnumTypeTransformer _instance;
 }
+
 

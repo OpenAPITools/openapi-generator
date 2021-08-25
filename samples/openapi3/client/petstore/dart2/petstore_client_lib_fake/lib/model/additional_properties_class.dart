@@ -27,6 +27,7 @@ class AdditionalPropertiesClass {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (mapProperty == null ? 0 : mapProperty.hashCode) +
     (mapOfMapProperty == null ? 0 : mapOfMapProperty.hashCode);
 
@@ -46,26 +47,29 @@ class AdditionalPropertiesClass {
 
   /// Returns a new [AdditionalPropertiesClass] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static AdditionalPropertiesClass fromJson(Map<String, dynamic> json) => json == null
     ? null
     : AdditionalPropertiesClass(
-        mapProperty: json[r'map_property'] == null ?
-          null :
-          (json[r'map_property'] as Map).cast<String, String>(),
+        mapProperty: json[r'map_property'] == null
+          ? null
+          : (json[r'map_property'] as Map).cast<String, String>(),
         mapOfMapProperty: json[r'map_of_map_property'] == null
           ? null
-          : (json[r'map_of_map_property'] as Map).cast<String, Map>(),
+          : (json[r'map_of_map_property'] as Map).cast<String, dynamic>(),
     );
 
   static List<AdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <AdditionalPropertiesClass>[]
-      : json.map((dynamic value) => AdditionalPropertiesClass.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => AdditionalPropertiesClass.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, AdditionalPropertiesClass> mapFromJson(Map<String, dynamic> json) {
     final map = <String, AdditionalPropertiesClass>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = AdditionalPropertiesClass.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = AdditionalPropertiesClass.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -74,8 +78,8 @@ class AdditionalPropertiesClass {
   static Map<String, List<AdditionalPropertiesClass>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<AdditionalPropertiesClass>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = AdditionalPropertiesClass.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = AdditionalPropertiesClass.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

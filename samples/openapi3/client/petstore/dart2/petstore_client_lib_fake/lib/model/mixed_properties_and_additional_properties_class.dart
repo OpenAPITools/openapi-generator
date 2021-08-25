@@ -31,6 +31,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (uuid == null ? 0 : uuid.hashCode) +
     (dateTime == null ? 0 : dateTime.hashCode) +
     (map == null ? 0 : map.hashCode);
@@ -54,25 +55,28 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
   /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static MixedPropertiesAndAdditionalPropertiesClass fromJson(Map<String, dynamic> json) => json == null
     ? null
     : MixedPropertiesAndAdditionalPropertiesClass(
-        uuid: json[r'uuid'],
+        uuid: json[r'uuid'] as String,
         dateTime: json[r'dateTime'] == null
           ? null
-          : DateTime.parse(json[r'dateTime']),
-            map: json[r'map']
+          : DateTime.parse(json[r'dateTime'].toString()),
+            map: json[r'map'] as Map<String, Animal>,
     );
 
   static List<MixedPropertiesAndAdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <MixedPropertiesAndAdditionalPropertiesClass>[]
-      : json.map((dynamic value) => MixedPropertiesAndAdditionalPropertiesClass.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => MixedPropertiesAndAdditionalPropertiesClass.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, MixedPropertiesAndAdditionalPropertiesClass> mapFromJson(Map<String, dynamic> json) {
     final map = <String, MixedPropertiesAndAdditionalPropertiesClass>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = MixedPropertiesAndAdditionalPropertiesClass.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = MixedPropertiesAndAdditionalPropertiesClass.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -81,8 +85,8 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   static Map<String, List<MixedPropertiesAndAdditionalPropertiesClass>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<MixedPropertiesAndAdditionalPropertiesClass>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = MixedPropertiesAndAdditionalPropertiesClass.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = MixedPropertiesAndAdditionalPropertiesClass.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

@@ -27,6 +27,7 @@ class Tag {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (id == null ? 0 : id.hashCode) +
     (name == null ? 0 : name.hashCode);
 
@@ -46,22 +47,25 @@ class Tag {
 
   /// Returns a new [Tag] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static Tag fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Tag(
-        id: json[r'id'],
-        name: json[r'name'],
+        id: json[r'id'] as int,
+        name: json[r'name'] as String,
     );
 
   static List<Tag> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Tag>[]
-      : json.map((dynamic value) => Tag.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => Tag.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, Tag> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Tag>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Tag.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = Tag.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -70,8 +74,8 @@ class Tag {
   static Map<String, List<Tag>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Tag>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = Tag.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = Tag.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

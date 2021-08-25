@@ -52,6 +52,7 @@ class User {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (id == null ? 0 : id.hashCode) +
     (username == null ? 0 : username.hashCode) +
     (firstName == null ? 0 : firstName.hashCode) +
@@ -95,28 +96,31 @@ class User {
 
   /// Returns a new [User] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static User fromJson(Map<String, dynamic> json) => json == null
     ? null
     : User(
-        id: json[r'id'],
-        username: json[r'username'],
-        firstName: json[r'firstName'],
-        lastName: json[r'lastName'],
-        email: json[r'email'],
-        password: json[r'password'],
-        phone: json[r'phone'],
-        userStatus: json[r'userStatus'],
+        id: json[r'id'] as int,
+        username: json[r'username'] as String,
+        firstName: json[r'firstName'] as String,
+        lastName: json[r'lastName'] as String,
+        email: json[r'email'] as String,
+        password: json[r'password'] as String,
+        phone: json[r'phone'] as String,
+        userStatus: json[r'userStatus'] as int,
     );
 
   static List<User> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <User>[]
-      : json.map((dynamic value) => User.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => User.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, User> mapFromJson(Map<String, dynamic> json) {
     final map = <String, User>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = User.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = User.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -125,8 +129,8 @@ class User {
   static Map<String, List<User>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<User>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = User.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = User.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

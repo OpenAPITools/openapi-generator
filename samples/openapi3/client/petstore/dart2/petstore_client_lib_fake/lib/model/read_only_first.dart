@@ -27,6 +27,7 @@ class ReadOnlyFirst {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (bar == null ? 0 : bar.hashCode) +
     (baz == null ? 0 : baz.hashCode);
 
@@ -46,22 +47,25 @@ class ReadOnlyFirst {
 
   /// Returns a new [ReadOnlyFirst] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static ReadOnlyFirst fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ReadOnlyFirst(
-        bar: json[r'bar'],
-        baz: json[r'baz'],
+        bar: json[r'bar'] as String,
+        baz: json[r'baz'] as String,
     );
 
   static List<ReadOnlyFirst> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ReadOnlyFirst>[]
-      : json.map((dynamic value) => ReadOnlyFirst.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => ReadOnlyFirst.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, ReadOnlyFirst> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ReadOnlyFirst>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ReadOnlyFirst.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = ReadOnlyFirst.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -70,8 +74,8 @@ class ReadOnlyFirst {
   static Map<String, List<ReadOnlyFirst>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ReadOnlyFirst>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = ReadOnlyFirst.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = ReadOnlyFirst.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

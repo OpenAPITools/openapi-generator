@@ -10,6 +10,9 @@
 part of openapi.api;
 
 
+
+// ignore_for_file: constant_identifier_names
+
 class EnumClass {
   /// Instantiate a new enum with the provided [value].
   const EnumClass._(this.value);
@@ -39,17 +42,15 @@ class EnumClass {
   static List<EnumClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <EnumClass>[]
-      : json
-          .map((value) => EnumClass.fromJson(value))
-          .toList(growable: true == growable);
+      : json.map(EnumClass.fromJson).toList(growable: true == growable);
 }
 
 /// Transformation class that can [encode] an instance of [EnumClass] to String,
 /// and [decode] dynamic data back to [EnumClass].
 class EnumClassTypeTransformer {
-  const EnumClassTypeTransformer._();
+  factory EnumClassTypeTransformer() => _instance ??= const EnumClassTypeTransformer._();
 
-  factory EnumClassTypeTransformer() => _instance ??= EnumClassTypeTransformer._();
+  const EnumClassTypeTransformer._();
 
   String encode(EnumClass data) => data.value;
 
@@ -62,7 +63,7 @@ class EnumClassTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumClass decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data.toString()) {
       case r'_abc': return EnumClass.abc;
       case r'-efg': return EnumClass.efg;
       case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
@@ -77,3 +78,4 @@ class EnumClassTypeTransformer {
   /// Singleton [EnumClassTypeTransformer] instance.
   static EnumClassTypeTransformer _instance;
 }
+

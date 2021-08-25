@@ -17,8 +17,10 @@ class DefaultApi {
 
   /// Performs an HTTP 'GET /foo' operation and returns the [Response].
   Future<Response> fooGetWithHttpInfo() async {
+    // ignore: prefer_const_declarations
     final path = r'/foo';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -30,7 +32,7 @@ class DefaultApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -54,6 +56,6 @@ class DefaultApi {
 
       return InlineResponseDefault.fromJson(json.decode(response.body));
     }
-    return Future<InlineResponseDefault>.value(null);
+    return Future<InlineResponseDefault>.value();
   }
 }

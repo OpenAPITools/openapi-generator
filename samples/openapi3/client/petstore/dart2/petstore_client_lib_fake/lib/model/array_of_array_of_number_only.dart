@@ -23,6 +23,7 @@ class ArrayOfArrayOfNumberOnly {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (arrayArrayNumber == null ? 0 : arrayArrayNumber.hashCode);
 
   @override
@@ -38,6 +39,7 @@ class ArrayOfArrayOfNumberOnly {
 
   /// Returns a new [ArrayOfArrayOfNumberOnly] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static ArrayOfArrayOfNumberOnly fromJson(Map<String, dynamic> json) => json == null
     ? null
     : ArrayOfArrayOfNumberOnly(
@@ -51,12 +53,14 @@ class ArrayOfArrayOfNumberOnly {
   static List<ArrayOfArrayOfNumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ArrayOfArrayOfNumberOnly>[]
-      : json.map((dynamic value) => ArrayOfArrayOfNumberOnly.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => ArrayOfArrayOfNumberOnly.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, ArrayOfArrayOfNumberOnly> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ArrayOfArrayOfNumberOnly>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = ArrayOfArrayOfNumberOnly.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = ArrayOfArrayOfNumberOnly.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -65,8 +69,8 @@ class ArrayOfArrayOfNumberOnly {
   static Map<String, List<ArrayOfArrayOfNumberOnly>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ArrayOfArrayOfNumberOnly>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = ArrayOfArrayOfNumberOnly.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = ArrayOfArrayOfNumberOnly.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

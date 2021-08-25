@@ -31,9 +31,12 @@ class StoreApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/store/order/{order_id}'
+      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
       .replaceAll('{' + 'order_id' + '}', orderId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -45,7 +48,7 @@ class StoreApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'DELETE',
       queryParams,
@@ -78,8 +81,10 @@ class StoreApi {
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> getInventoryWithHttpInfo() async {
+    // ignore: prefer_const_declarations
     final path = r'/store/inventory';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -91,7 +96,7 @@ class StoreApi {
     final authNames = <String>['api_key'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -117,7 +122,7 @@ class StoreApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return Map<String, int>.from(await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, int>'),);
     }
-    return Future<Map<String, int>>.value(null);
+    return Future<Map<String, int>>.value();
   }
 
   /// Find purchase order by ID
@@ -136,9 +141,12 @@ class StoreApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/store/order/{order_id}'
+      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
       .replaceAll('{' + 'order_id' + '}', orderId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -150,7 +158,7 @@ class StoreApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -181,7 +189,7 @@ class StoreApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
         }
-    return Future<Order>.value(null);
+    return Future<Order>.value();
   }
 
   /// Place an order for a pet
@@ -198,8 +206,10 @@ class StoreApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: order');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/store/order';
 
+    // ignore: prefer_final_locals
     Object postBody = order;
 
     final queryParams = <QueryParam>[];
@@ -211,7 +221,7 @@ class StoreApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -240,6 +250,6 @@ class StoreApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
         }
-    return Future<Order>.value(null);
+    return Future<Order>.value();
   }
 }

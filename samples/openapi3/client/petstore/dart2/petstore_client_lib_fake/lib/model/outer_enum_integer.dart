@@ -10,6 +10,9 @@
 part of openapi.api;
 
 
+
+// ignore_for_file: constant_identifier_names
+
 class OuterEnumInteger {
   /// Instantiate a new enum with the provided [value].
   const OuterEnumInteger._(this.value);
@@ -39,17 +42,15 @@ class OuterEnumInteger {
   static List<OuterEnumInteger> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <OuterEnumInteger>[]
-      : json
-          .map((value) => OuterEnumInteger.fromJson(value))
-          .toList(growable: true == growable);
+      : json.map(OuterEnumInteger.fromJson).toList(growable: true == growable);
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumInteger] to int,
 /// and [decode] dynamic data back to [OuterEnumInteger].
 class OuterEnumIntegerTypeTransformer {
-  const OuterEnumIntegerTypeTransformer._();
+  factory OuterEnumIntegerTypeTransformer() => _instance ??= const OuterEnumIntegerTypeTransformer._();
 
-  factory OuterEnumIntegerTypeTransformer() => _instance ??= OuterEnumIntegerTypeTransformer._();
+  const OuterEnumIntegerTypeTransformer._();
 
   int encode(OuterEnumInteger data) => data.value;
 
@@ -62,7 +63,7 @@ class OuterEnumIntegerTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OuterEnumInteger decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data.toString()) {
       case 0: return OuterEnumInteger.number0;
       case 1: return OuterEnumInteger.number1;
       case 2: return OuterEnumInteger.number2;
@@ -77,3 +78,4 @@ class OuterEnumIntegerTypeTransformer {
   /// Singleton [OuterEnumIntegerTypeTransformer] instance.
   static OuterEnumIntegerTypeTransformer _instance;
 }
+

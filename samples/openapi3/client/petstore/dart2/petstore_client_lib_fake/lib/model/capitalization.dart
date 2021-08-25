@@ -44,6 +44,7 @@ class Capitalization {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (smallCamel == null ? 0 : smallCamel.hashCode) +
     (capitalCamel == null ? 0 : capitalCamel.hashCode) +
     (smallSnake == null ? 0 : smallSnake.hashCode) +
@@ -79,26 +80,29 @@ class Capitalization {
 
   /// Returns a new [Capitalization] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static Capitalization fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Capitalization(
-        smallCamel: json[r'smallCamel'],
-        capitalCamel: json[r'CapitalCamel'],
-        smallSnake: json[r'small_Snake'],
-        capitalSnake: json[r'Capital_Snake'],
-        sCAETHFlowPoints: json[r'SCA_ETH_Flow_Points'],
-        ATT_NAME: json[r'ATT_NAME'],
+        smallCamel: json[r'smallCamel'] as String,
+        capitalCamel: json[r'CapitalCamel'] as String,
+        smallSnake: json[r'small_Snake'] as String,
+        capitalSnake: json[r'Capital_Snake'] as String,
+        sCAETHFlowPoints: json[r'SCA_ETH_Flow_Points'] as String,
+        ATT_NAME: json[r'ATT_NAME'] as String,
     );
 
   static List<Capitalization> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Capitalization>[]
-      : json.map((dynamic value) => Capitalization.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => Capitalization.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, Capitalization> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Capitalization>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Capitalization.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = Capitalization.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -107,8 +111,8 @@ class Capitalization {
   static Map<String, List<Capitalization>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Capitalization>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = Capitalization.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = Capitalization.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

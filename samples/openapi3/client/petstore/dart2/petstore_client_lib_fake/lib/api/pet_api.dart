@@ -29,8 +29,10 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet';
 
+    // ignore: prefer_final_locals
     Object postBody = pet;
 
     final queryParams = <QueryParam>[];
@@ -42,7 +44,7 @@ class PetApi {
     final authNames = <String>['petstore_auth'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -83,9 +85,12 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
+      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -101,7 +106,7 @@ class PetApi {
     final authNames = <String>['petstore_auth'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'DELETE',
       queryParams,
@@ -144,8 +149,10 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: status');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/findByStatus';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -159,7 +166,7 @@ class PetApi {
     final authNames = <String>['petstore_auth'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -192,7 +199,7 @@ class PetApi {
         .cast<Pet>()
         .toList(growable: false);
     }
-    return Future<List<Pet>>.value(null);
+    return Future<List<Pet>>.value();
   }
 
   /// Finds Pets by tags
@@ -211,8 +218,10 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: tags');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/findByTags';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -226,7 +235,7 @@ class PetApi {
     final authNames = <String>['petstore_auth'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -259,7 +268,7 @@ class PetApi {
         .cast<Pet>()
         .toSet();
     }
-    return Future<Set<Pet>>.value(null);
+    return Future<Set<Pet>>.value();
   }
 
   /// Find pet by ID
@@ -278,9 +287,12 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
+      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -292,7 +304,7 @@ class PetApi {
     final authNames = <String>['api_key'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -323,7 +335,7 @@ class PetApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
         }
-    return Future<Pet>.value(null);
+    return Future<Pet>.value();
   }
 
   /// Update an existing pet
@@ -340,8 +352,10 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet';
 
+    // ignore: prefer_final_locals
     Object postBody = pet;
 
     final queryParams = <QueryParam>[];
@@ -353,7 +367,7 @@ class PetApi {
     final authNames = <String>['petstore_auth'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,
@@ -398,9 +412,12 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
+      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -418,7 +435,7 @@ class PetApi {
       formParams[r'status'] = parameterToString(status);
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -469,9 +486,12 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/{petId}/uploadImage'
+      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -497,7 +517,7 @@ class PetApi {
       postBody = mp;
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -532,7 +552,7 @@ class PetApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
         }
-    return Future<ApiResponse>.value(null);
+    return Future<ApiResponse>.value();
   }
 
   /// uploads an image (required)
@@ -558,9 +578,12 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredFile');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/{petId}/uploadImageWithRequiredFile'
+      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
       .replaceAll('{' + 'petId' + '}', petId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -586,7 +609,7 @@ class PetApi {
       postBody = mp;
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -621,6 +644,6 @@ class PetApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
         }
-    return Future<ApiResponse>.value(null);
+    return Future<ApiResponse>.value();
   }
 }

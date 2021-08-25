@@ -27,6 +27,7 @@ class Model200Response {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (name == null ? 0 : name.hashCode) +
     (class_ == null ? 0 : class_.hashCode);
 
@@ -46,22 +47,25 @@ class Model200Response {
 
   /// Returns a new [Model200Response] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static Model200Response fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Model200Response(
-        name: json[r'name'],
-        class_: json[r'class'],
+        name: json[r'name'] as int,
+        class_: json[r'class'] as String,
     );
 
   static List<Model200Response> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Model200Response>[]
-      : json.map((dynamic value) => Model200Response.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => Model200Response.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, Model200Response> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Model200Response>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Model200Response.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = Model200Response.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -70,8 +74,8 @@ class Model200Response {
   static Map<String, List<Model200Response>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Model200Response>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = Model200Response.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = Model200Response.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

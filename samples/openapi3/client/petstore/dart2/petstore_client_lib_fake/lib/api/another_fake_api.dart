@@ -31,8 +31,10 @@ class AnotherFakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/another-fake/dummy';
 
+    // ignore: prefer_final_locals
     Object postBody = modelClient;
 
     final queryParams = <QueryParam>[];
@@ -44,7 +46,7 @@ class AnotherFakeApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PATCH',
       queryParams,
@@ -75,6 +77,6 @@ class AnotherFakeApi {
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
         }
-    return Future<ModelClient>.value(null);
+    return Future<ModelClient>.value();
   }
 }

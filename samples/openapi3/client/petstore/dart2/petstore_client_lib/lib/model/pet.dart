@@ -44,6 +44,7 @@ class Pet {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (id == null ? 0 : id.hashCode) +
     (category == null ? 0 : category.hashCode) +
     (name == null ? 0 : name.hashCode) +
@@ -75,28 +76,31 @@ class Pet {
 
   /// Returns a new [Pet] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
+  // ignore: prefer_constructors_over_static_methods
   static Pet fromJson(Map<String, dynamic> json) => json == null
     ? null
     : Pet(
-        id: json[r'id'],
-        category: Category.fromJson(json[r'category']),
-        name: json[r'name'],
+        id: json[r'id'] as int,
+        category: Category.fromJson((json[r'category'] as Map).cast<String, dynamic>()),
+        name: json[r'name'] as String,
         photoUrls: json[r'photoUrls'] == null
           ? null
           : (json[r'photoUrls'] as List).cast<String>(),
-        tags: Tag.listFromJson(json[r'tags']),
-        status: PetStatusEnum.fromJson(json[r'status']),
+        tags: Tag.listFromJson(json[r'tags'] as List),
+        status: PetStatusEnum.fromJson((json[r'status'] as Map).cast<String, dynamic>()),
     );
 
   static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Pet>[]
-      : json.map((dynamic value) => Pet.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((dynamic value) => Pet.fromJson((value as Map).cast<String, dynamic>()))
+          .toList(growable: true == growable);
 
   static Map<String, Pet> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Pet>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) => map[key] = Pet.fromJson(value));
+      json.forEach((key, dynamic value) => map[key] = Pet.fromJson((value as Map).cast<String, dynamic>()));
     }
     return map;
   }
@@ -105,8 +109,8 @@ class Pet {
   static Map<String, List<Pet>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Pet>>{};
     if (json?.isNotEmpty == true) {
-      json.forEach((key, value) {
-        map[key] = Pet.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
+      json.forEach((key, dynamic value) {
+        map[key] = Pet.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;
@@ -114,6 +118,9 @@ class Pet {
 }
 
 /// pet status in the store
+
+// ignore_for_file: constant_identifier_names
+
 class PetStatusEnum {
   /// Instantiate a new enum with the provided [value].
   const PetStatusEnum._(this.value);
@@ -143,17 +150,15 @@ class PetStatusEnum {
   static List<PetStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <PetStatusEnum>[]
-      : json
-          .map((value) => PetStatusEnum.fromJson(value))
-          .toList(growable: true == growable);
+      : json.map(PetStatusEnum.fromJson).toList(growable: true == growable);
 }
 
 /// Transformation class that can [encode] an instance of [PetStatusEnum] to String,
 /// and [decode] dynamic data back to [PetStatusEnum].
 class PetStatusEnumTypeTransformer {
-  const PetStatusEnumTypeTransformer._();
+  factory PetStatusEnumTypeTransformer() => _instance ??= const PetStatusEnumTypeTransformer._();
 
-  factory PetStatusEnumTypeTransformer() => _instance ??= PetStatusEnumTypeTransformer._();
+  const PetStatusEnumTypeTransformer._();
 
   String encode(PetStatusEnum data) => data.value;
 
@@ -166,7 +171,7 @@ class PetStatusEnumTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   PetStatusEnum decode(dynamic data, {bool allowNull}) {
-    switch (data) {
+    switch (data.toString()) {
       case r'available': return PetStatusEnum.available;
       case r'pending': return PetStatusEnum.pending;
       case r'sold': return PetStatusEnum.sold;
@@ -181,4 +186,5 @@ class PetStatusEnumTypeTransformer {
   /// Singleton [PetStatusEnumTypeTransformer] instance.
   static PetStatusEnumTypeTransformer _instance;
 }
+
 

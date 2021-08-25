@@ -31,8 +31,10 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/user';
 
+    // ignore: prefer_final_locals
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
@@ -44,7 +46,7 @@ class UserApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -85,8 +87,10 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/user/createWithArray';
 
+    // ignore: prefer_final_locals
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
@@ -98,7 +102,7 @@ class UserApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -137,8 +141,10 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/user/createWithList';
 
+    // ignore: prefer_final_locals
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
@@ -150,7 +156,7 @@ class UserApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -191,9 +197,12 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/user/{username}'
+      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
       .replaceAll('{' + 'username' + '}', username.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -205,7 +214,7 @@ class UserApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'DELETE',
       queryParams,
@@ -246,9 +255,12 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/user/{username}'
+      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
       .replaceAll('{' + 'username' + '}', username.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -260,7 +272,7 @@ class UserApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -290,7 +302,7 @@ class UserApi {
 
       return User.fromJson(json.decode(response.body));
     }
-    return Future<User>.value(null);
+    return Future<User>.value();
   }
 
   /// Logs user into the system
@@ -313,8 +325,10 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: password');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/user/login';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -329,7 +343,7 @@ class UserApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -362,15 +376,17 @@ class UserApi {
 
       return response.body as String;
     }
-    return Future<String>.value(null);
+    return Future<String>.value();
   }
 
   /// Logs out current logged in user session
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> logoutUserWithHttpInfo() async {
+    // ignore: prefer_const_declarations
     final path = r'/user/logout';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -382,7 +398,7 @@ class UserApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
@@ -424,9 +440,12 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/user/{username}'
+      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
       .replaceAll('{' + 'username' + '}', username.toString());
 
+    // ignore: prefer_final_locals
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
@@ -438,7 +457,7 @@ class UserApi {
     final authNames = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,
