@@ -2,18 +2,18 @@
 {{#emitJSDoc}}
   /**
    * The {{classname}} model module.
-   * @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
+   * @module {{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}
    * @version {{projectVersion}}
    */
 
   /**
    * Constructs a new <code>{{classname}}</code>.{{#description}}
-   * {{description}}{{/description}}
-   * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
+   * {{.}}{{/description}}
+   * @alias module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}
    * @class{{#useInheritance}}{{#parent}}
-   * @extends {{#parentModel}}module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-is-array}}Array{{/vendorExtensions.x-is-array}}{{#vendorExtensions.x-is-map}}Object{{/vendorExtensions.x-is-map}}{{/parentModel}}{{/parent}}{{#interfaces}}
-   * @implements module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
-   * @param {{name}} {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{#description}}{{{description}}}{{/description}}{{/vendorExtensions.x-all-required}}
+   * @extends {{#parentModel}}module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-is-array}}Array{{/vendorExtensions.x-is-array}}{{#vendorExtensions.x-is-map}}Object{{/vendorExtensions.x-is-map}}{{/parentModel}}{{/parent}}{{#interfaces}}
+   * @implements module:{{#invokerPackage}}{{.}}/{{/invokerPackage}}{{#modelPackage}}{{.}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
+   * @param {{name}} {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{{description}}}{{/vendorExtensions.x-all-required}}
    */
 {{/emitJSDoc}}
   var exports = function({{#vendorExtensions.x-all-required}}{{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) {
@@ -97,29 +97,29 @@
 {{#vars}}
 {{#emitJSDoc}}
   /**{{#description}}
-   * {{{description}}}{{/description}}
+   * {{{.}}}{{/description}}
    * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}{{#defaultValue}}
-   * @default {{{defaultValue}}}{{/defaultValue}}
+   * @default {{{.}}}{{/defaultValue}}
    */
 {{/emitJSDoc}}
-  exports.prototype['{{baseName}}'] = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}undefined{{/defaultValue}};
+  exports.prototype['{{baseName}}'] = {{{defaultValue}}}{{^defaultValue}}undefined{{/defaultValue}};
 {{/vars}}{{#useInheritance}}{{#interfaceModels}}
   // Implement {{classname}} interface:{{#allVars}}
 {{#emitJSDoc}}
   /**{{#description}}
-   * {{{description}}}{{/description}}
+   * {{{.}}}{{/description}}
    * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}{{#defaultValue}}
-   * @default {{{defaultValue}}}{{/defaultValue}}
+   * @default {{{.}}}{{/defaultValue}}
    */
 {{/emitJSDoc}}
-exports.prototype['{{baseName}}'] = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}undefined{{/defaultValue}};
+exports.prototype['{{baseName}}'] = {{{defaultValue}}}{{^defaultValue}}undefined{{/defaultValue}};
 {{/allVars}}{{/interfaceModels}}{{/useInheritance}}
 {{#emitModelMethods}}{{#vars}}
 {{#emitJSDoc}}
   /**{{#description}}
-   * Returns {{{description}}}{{/description}}{{#minimum}}
-   * minimum: {{minimum}}{{/minimum}}{{#maximum}}
-   * maximum: {{maximum}}{{/maximum}}
+   * Returns {{{.}}}{{/description}}{{#minimum}}
+   * minimum: {{.}}{{/minimum}}{{#maximum}}
+   * maximum: {{.}}{{/maximum}}
    * @return {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=>
    */
 {{/emitJSDoc}}
@@ -129,8 +129,8 @@ exports.prototype['{{baseName}}'] = {{#defaultValue}}{{{defaultValue}}}{{/defaul
 
 {{#emitJSDoc}}
   /**{{#description}}
-   * Sets {{{description}}}{{/description}}
-   * @param {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{name}}{{#description}} {{{description}}}{{/description}}
+   * Sets {{{.}}}{{/description}}
+   * @param {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{name}}{{#description}} {{{.}}}{{/description}}
    */
 {{/emitJSDoc}}
   exports.prototype.{{setter}} = function({{name}}) {

@@ -73,4 +73,3 @@ export function FindPetsByUserResponseToJSON(value?: FindPetsByUserResponse | nu
     };
 }
 
-

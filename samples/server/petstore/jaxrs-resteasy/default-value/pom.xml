@@ -6,6 +6,7 @@
     <packaging>war</packaging>
     <name>jaxrs-resteasy-default-value</name>
     <version>1.0.0</version>
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
@@ -129,7 +130,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
-            <version>2.11.2</version>
+            <version>${jackson-version}</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -174,7 +175,7 @@
         <version>1.1.0.Final</version>
         <scope>provided</scope>
     </dependency>
-        
+
     </dependencies>
     <repositories>
         <repository>
@@ -187,6 +188,7 @@
     </repositories>
     <properties>
         <swagger-core-version>1.5.22</swagger-core-version>
+        <jackson-version>2.11.2</jackson-version>
         <jetty-version>9.2.9.v20150224</jetty-version>
         <resteasy-version>3.13.0.Final</resteasy-version>
         <slf4j-version>1.6.3</slf4j-version>

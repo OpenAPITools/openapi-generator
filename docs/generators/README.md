@@ -39,6 +39,7 @@ The following generators are available:
 * [ocaml](ocaml.md)  
 * [perl](perl.md)  
 * [php](php.md)  
+* [php-dt](php-dt.md)  
 * [powershell](powershell.md)  
 * [python](python.md)
 * [python-legacy](python-legacy.md)

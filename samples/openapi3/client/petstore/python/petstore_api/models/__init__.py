@@ -62,6 +62,7 @@ from petstore_api.model.integer_enum import IntegerEnum
 from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
 from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
 from petstore_api.model.isosceles_triangle import IsoscelesTriangle
+from petstore_api.model.legs import Legs
 from petstore_api.model.list import List
 from petstore_api.model.mammal import Mammal
 from petstore_api.model.map_test import MapTest

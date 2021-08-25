@@ -14,7 +14,7 @@ import { {{{ classname }}} } from "../models/{{{ classFilename }}}";
 
 export abstract class AbstractObservable{{classname}} {
     {{#operation}}
-    public abstract {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    public abstract {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
 
     {{/operation}}
 }

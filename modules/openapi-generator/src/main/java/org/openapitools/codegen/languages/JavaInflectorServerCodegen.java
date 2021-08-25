@@ -69,7 +69,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
-        additionalProperties.put("jackson", "true");
+        additionalProperties.put(JACKSON, "true");
     }
 
     @Override

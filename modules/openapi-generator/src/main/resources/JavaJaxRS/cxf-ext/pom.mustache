@@ -5,9 +5,18 @@
   <packaging>jar</packaging>
   <name>{{artifactId}}</name>
   {{#appDescription}}
-  <description>{{appDescription}}</description>
+  <description>{{.}}</description>
   {{/appDescription}}
   <version>{{artifactVersion}}</version>
+
+{{#parentOverridden}}
+  <parent>
+    <groupId>{{parentGroupId}}</groupId>
+    <artifactId>{{parentArtifactId}}</artifactId>
+    <version>{{parentVersion}}</version>
+  </parent>
+{{/parentOverridden}}
+
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
@@ -131,7 +140,7 @@
         <version>${cxf-version}</version>
         <scope>test</scope>
     </dependency>
-    
+
      <!-- CXF server -->
     <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -183,13 +192,13 @@
         <version>${jackson-jaxrs-version}</version>
     </dependency>
 {{/java8}}
-{{#useBeanValidationFeature}}    
+{{#useBeanValidationFeature}}
     <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-validator</artifactId>
         <version>5.2.2.Final</version>
     </dependency>
-{{/useBeanValidationFeature}}    
+{{/useBeanValidationFeature}}
   </dependencies>
   <repositories>
     <repository>

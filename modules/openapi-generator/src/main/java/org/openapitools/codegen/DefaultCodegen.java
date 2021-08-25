@@ -256,6 +256,9 @@ public class DefaultCodegen implements CodegenConfig {
     // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;
 
+    // A cache to efficiently lookup schema `toModelName()` based on the schema Key
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     @Override
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -2322,7 +2325,13 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String toModelName(final String name) {
-        return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        if (schemaKeyToModelNameCache.containsKey(name)) {
+            return schemaKeyToModelNameCache.get(name);
+        }
+
+        String camelizedName = camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        schemaKeyToModelNameCache.put(name, camelizedName);
+        return camelizedName;
     }
 
     private static class NamedSchema {
@@ -2393,7 +2402,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         m.isAlias = (typeAliases.containsKey(name)
                 || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
-        m.discriminator = createDiscriminator(name, schema, this.openAPI);
+        m.setDiscriminator(createDiscriminator(name, schema, this.openAPI));
         if (!this.getLegacyDiscriminatorBehavior()) {
             m.addDiscriminatorMappedModelsImports();
         }
@@ -2453,7 +2462,7 @@ public class DefaultCodegen implements CodegenConfig {
                     for (Schema innerSchema : composed.getAllOf()) { // TODO need to work with anyOf, oneOf as well
                         if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
                             LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", name);
-                            m.discriminator = createDiscriminator(name, innerSchema, this.openAPI);
+                            m.setDiscriminator(createDiscriminator(name, innerSchema, this.openAPI));
                             if (!this.getLegacyDiscriminatorBehavior()) {
                                 m.addDiscriminatorMappedModelsImports();
                             }
@@ -2479,6 +2488,9 @@ public class DefaultCodegen implements CodegenConfig {
 
             // interfaces (schemas defined in allOf, anyOf, oneOf)
             List<Schema> interfaces = ModelUtils.getInterfaces(composed);
+            List<CodegenProperty> anyOfProps = new ArrayList<>();
+            List<CodegenProperty> allOfProps = new ArrayList<>();
+            List<CodegenProperty> oneOfProps = new ArrayList<>();
             if (!interfaces.isEmpty()) {
                 // m.interfaces is for backward compatibility
                 if (m.interfaces == null)
@@ -2490,11 +2502,11 @@ public class DefaultCodegen implements CodegenConfig {
                     if (StringUtils.isBlank(interfaceSchema.get$ref())) {
                         // primitive type
                         String languageType = getTypeDeclaration(interfaceSchema);
+                        CodegenProperty interfaceProperty = fromProperty(languageType, interfaceSchema);
                         if (ModelUtils.isArraySchema(interfaceSchema) || ModelUtils.isMapSchema(interfaceSchema)) {
-                            CodegenProperty cp = fromProperty("composedSchemaImports", interfaceSchema);
-                            while (cp != null) {
-                                addImport(m, cp.complexType);
-                                cp = cp.items;
+                            while (interfaceProperty != null) {
+                                addImport(m, interfaceProperty.complexType);
+                                interfaceProperty = interfaceProperty.items;
                             }
                         }
 
@@ -2503,12 +2515,15 @@ public class DefaultCodegen implements CodegenConfig {
                                 LOGGER.warn("{} (anyOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                             } else {
                                 m.anyOf.add(languageType);
+                                anyOfProps.add(interfaceProperty);
+
                             }
                         } else if (composed.getOneOf() != null) {
                             if (m.oneOf.contains(languageType)) {
                                 LOGGER.warn("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                             } else {
                                 m.oneOf.add(languageType);
+                                oneOfProps.add(interfaceProperty);
                             }
                         } else if (composed.getAllOf() != null) {
                             // no need to add primitive type to allOf, which should comprise of schemas (models) only
@@ -2525,6 +2540,7 @@ public class DefaultCodegen implements CodegenConfig {
                         refSchema = allDefinitions.get(ref);
                     }
                     final String modelName = toModelName(ref);
+                    CodegenProperty interfaceProperty = fromProperty(modelName, interfaceSchema);
                     m.interfaces.add(modelName);
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
@@ -2543,15 +2559,22 @@ public class DefaultCodegen implements CodegenConfig {
 
                     if (composed.getAnyOf() != null) {
                         m.anyOf.add(modelName);
+                        anyOfProps.add(interfaceProperty);
                     } else if (composed.getOneOf() != null) {
                         m.oneOf.add(modelName);
+                        oneOfProps.add(interfaceProperty);
                     } else if (composed.getAllOf() != null) {
                         m.allOf.add(modelName);
+                        allOfProps.add(interfaceProperty);
                     } else {
                         LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
                     }
                 }
             }
+
+            m.oneOfProps = oneOfProps;
+            m.allOfProps = allOfProps;
+            m.anyOfProps = anyOfProps;
 
             if (parent != null && composed.getAllOf() != null) { // set parent for allOf only
                 m.parentSchema = parentName;
@@ -3883,9 +3906,9 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             op.responses.sort((a, b) -> {
-                int aDefault = "0".equals(a.code) ? 1 : 0;
-                int bDefault = "0".equals(b.code) ? 1 : 0;
-                return aDefault - bDefault;
+                int aScore = a.isWildcard() ? 2 : a.isRange() ? 1 : 0;
+                int bScore = b.isWildcard() ? 2 : b.isRange() ? 1 : 0;
+                return Integer.compare(aScore, bScore);
             });
 
             if (methodResponse != null) {
@@ -4333,6 +4356,9 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.unescapedDescription = parameter.getDescription();
         if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired();
+        }
+        if (parameter.getDeprecated() != null) {
+            codegenParameter.isDeprecated = parameter.getDeprecated();
         }
         codegenParameter.jsonSchema = Json.pretty(parameter);
 
@@ -6660,7 +6686,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenModel cm = new CodegenModel();
 
-        cm.discriminator = createDiscriminator("", cs, openAPI);
+        cm.setDiscriminator(createDiscriminator("", cs, openAPI));
         if (!this.getLegacyDiscriminatorBehavior()) {
             cm.addDiscriminatorMappedModelsImports();
         }

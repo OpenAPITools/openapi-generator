@@ -56,25 +56,25 @@ namespace {{packageName}}
             services
                 .AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("{{#version}}{{{version}}}{{/version}}{{^version}}v1{{/version}}", new Info
+                    c.SwaggerDoc("{{{version}}}{{^version}}v1{{/version}}", new Info
                     {
-                        Version = "{{#version}}{{{version}}}{{/version}}{{^version}}v1{{/version}}",
-                        Title = "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}}",
-                        Description = "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} (ASP.NET Core 2.0)",
+                        Version = "{{{version}}}{{^version}}v1{{/version}}",
+                        Title = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}",
+                        Description = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}} (ASP.NET Core 2.0)",
                         Contact = new Contact()
                         {
-                           Name = "{{#infoName}}{{{infoName}}}{{/infoName}}{{^infoName}}OpenAPI-Generator Contributors{{/infoName}}",
-                           Url = "{{#infoUrl}}{{{infoUrl}}}{{/infoUrl}}{{^infoUrl}}https://github.com/openapitools/openapi-generator{{/infoUrl}}",
-                           Email = "{{#infoEmail}}{{{infoEmail}}}{{/infoEmail}}"
+                           Name = "{{{infoName}}}{{^infoName}}OpenAPI-Generator Contributors{{/infoName}}",
+                           Url = "{{{infoUrl}}}{{^infoUrl}}https://github.com/openapitools/openapi-generator{{/infoUrl}}",
+                           Email = "{{{infoEmail}}}"
                         },
-                        TermsOfService = "{{#termsOfService}}{{{termsOfService}}}{{/termsOfService}}"
+                        TermsOfService = "{{{termsOfService}}}"
                     });
                     c.CustomSchemaIds(type => type.FriendlyId(true));
                     c.DescribeAllEnumsAsStrings();
                     c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
                     {{#basePathWithoutHost}}
                     // Sets the basePath property in the Swagger document generated
-                    c.DocumentFilter<BasePathFilter>("{{{basePathWithoutHost}}}");
+                    c.DocumentFilter<BasePathFilter>("{{{.}}}");
                     {{/basePathWithoutHost}}
 
                     // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
@@ -100,10 +100,10 @@ namespace {{packageName}}
                 .UseSwaggerUI(c =>
                 {
                     //TODO: Either use the SwaggerGen generated Swagger contract (generated from C# classes)
-                    c.SwaggerEndpoint("/swagger/{{#version}}{{{version}}}{{/version}}{{^version}}v1{{/version}}/openapi.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}}");
+                    c.SwaggerEndpoint("/swagger/{{{version}}}{{^version}}v1{{/version}}/openapi.json", "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}");
 
                     //TODO: Or alternatively use the original Swagger contract that's included in the static files
-                    // c.SwaggerEndpoint("/openapi-original.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} Original");
+                    // c.SwaggerEndpoint("/openapi-original.json", "{{{appName}}}{{^appName}}{{packageName}}{{/appName}} Original");
                 }){{/useSwashbuckle}};
 
             if (_hostingEnv.IsDevelopment())
