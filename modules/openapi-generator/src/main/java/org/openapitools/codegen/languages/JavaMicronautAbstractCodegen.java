@@ -1,15 +1,13 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.SupportingFile;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
 
@@ -22,11 +20,21 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_TEST = "test";
     public static final String OPT_TEST_JUNIT = "junit";
     public static final String OPT_TEST_SPOCK = "spock";
+    public static final String OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR = "requiredPropertiesInConstructor";
+    public static final String OPT_MICRONAUT_VERSION = "micronautVersion";
+    public static final String OPT_USE_AUTH = "useAuth";
 
     protected String title;
     protected boolean useBeanValidation;
     protected String buildTool;
     protected String testTool;
+    protected boolean requiredPropertiesInConstructor = true;
+    protected String micronautVersion = "3.0.0";
+
+    public static final String CONTENT_TYPE_APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
+    public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
+    public static final String CONTENT_TYPE_MULTIPART_FORM_DATA = "multipart/form-data";
+    public static final String CONTENT_TYPE_ANY = "*/*";
 
     public JavaMicronautAbstractCodegen() {
         super();
@@ -73,7 +81,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         cliOptions.add(new CliOption(OPT_TITLE, "Client service name").defaultValue(title));
+        cliOptions.add(new CliOption(OPT_MICRONAUT_VERSION, "Micronaut version, only >=3.0.0 versions are supported").defaultValue(micronautVersion));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, "Allow only to create models with all the required properties provided in constructor", requiredPropertiesInConstructor));
 
         CliOption buildToolOption = new CliOption(OPT_BUILD, "Specify for which build tool to generate files").defaultValue(buildTool);
         buildToolOption.setEnum(new HashMap<String, String>() {{
@@ -117,11 +127,22 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             additionalProperties.put(INVOKER_PACKAGE, invokerPackage);
         }
 
+        if (additionalProperties.containsKey(OPT_MICRONAUT_VERSION)) {
+            micronautVersion = (String) additionalProperties.get(OPT_MICRONAUT_VERSION);
+        } else {
+            additionalProperties.put(OPT_MICRONAUT_VERSION, micronautVersion);
+        }
+
         // Get boolean properties
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR)) {
+            this.requiredPropertiesInConstructor = convertPropertyToBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR);
+        }
+        writePropertyBack(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, requiredPropertiesInConstructor);
 
         // Get enum properties
         if (additionalProperties.containsKey(OPT_BUILD)) {
@@ -201,6 +222,14 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         modelTemplateFiles.clear();
         modelTemplateFiles.put("common/model/model.mustache", ".java");
 
+        // Add test files
+        modelTestTemplateFiles.clear();
+        if (testTool.equals(OPT_TEST_JUNIT)) {
+            modelTestTemplateFiles.put("common/test/model_test.mustache", ".java");
+        } else if (testTool.equals(OPT_TEST_SPOCK)) {
+            modelTestTemplateFiles.put("common/test/model_test.groovy.mustache", ".groovy");
+        }
+
         // Set properties for documentation
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage()).replace('.', '/');
@@ -259,5 +288,211 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
     public boolean isUseBeanValidation() {
         return useBeanValidation;
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+
+        Map<String, CodegenModel> models = allModels.stream()
+                .map(v -> ((Map<String, CodegenModel>) v).get("model"))
+                .collect(Collectors.toMap(v -> v.classname, v -> v));
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+
+        for (CodegenOperation op : operationList) {
+            // Set whether body is supported in request
+            op.vendorExtensions.put("methodAllowsBody",
+                    op.httpMethod.equals("PUT") || op.httpMethod.equals("POST") || op.httpMethod.equals("PATCH"));
+
+            // Set response example
+            if (op.returnType != null) {
+                String example;
+                String groovyExample;
+                if (models.containsKey(op.returnType)) {
+                    CodegenModel m = models.get(op.returnType);
+                    example = getExampleValue(m.defaultValue, null, m.classname, true,
+                            null, null, null, m.requiredVars, false);
+                    groovyExample = getExampleValue(m.defaultValue, null, m.classname, true,
+                            null, null, null, m.requiredVars, true);
+                } else {
+                    example = getExampleValue(null, null, op.returnType, false, null,
+                            op.returnBaseType, null, null, false);
+                    groovyExample = getExampleValue(null, null, op.returnType, false, null,
+                            op.returnBaseType, null, null, true);
+                }
+                op.vendorExtensions.put("example", example);
+                op.vendorExtensions.put("groovyExample", groovyExample);
+            }
+
+            // Remove the "*/*" contentType from operations as it is ambiguous
+            if (CONTENT_TYPE_ANY.equals(op.vendorExtensions.get("x-contentType"))) {
+                op.vendorExtensions.put("x-contentType", CONTENT_TYPE_APPLICATION_JSON);
+            }
+            op.consumes = op.consumes == null ? null : op.consumes.stream()
+                    .filter(contentType -> !CONTENT_TYPE_ANY.equals(contentType.get("mediaType")))
+                    .collect(Collectors.toList());
+            op.produces = op.produces == null ? null : op.produces.stream()
+                    .filter(contentType -> !CONTENT_TYPE_ANY.equals(contentType.get("mediaType")))
+                    .collect(Collectors.toList());
+
+            // Force form parameters are only set if the content-type is according
+            // formParams correspond to urlencoded type
+            // bodyParams correspond to multipart body
+            if (CONTENT_TYPE_APPLICATION_FORM_URLENCODED.equals(op.vendorExtensions.get("x-contentType"))) {
+                op.formParams.addAll(op.bodyParams);
+                op.bodyParams.forEach(p -> {
+                    p.isBodyParam = false;
+                    p.isFormParam = true;
+                });
+                op.bodyParams.clear();
+            } else if (CONTENT_TYPE_MULTIPART_FORM_DATA.equals(op.vendorExtensions.get("x-contentType"))) {
+                op.bodyParams.addAll(op.formParams);
+                op.formParams.forEach(p -> {
+                    p.isBodyParam = true;
+                    p.isFormParam = false;
+                });
+                op.formParams.clear();
+            }
+        }
+
+        return objs;
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        for (String modelName: objs.keySet()) {
+            CodegenModel model = ((Map<String, List<Map<String, CodegenModel>>>) objs.get(modelName))
+                    .get("models").get(0).get("model");
+            if (model.getParentModel() != null) {
+                model.vendorExtensions.put("requiredParentVars", model.getParentModel().requiredVars);
+            }
+
+            List<CodegenProperty> requiredVars = model.vars.stream().filter(v -> v.required).collect(Collectors.toList());
+            model.vendorExtensions.put("requiredVars", requiredVars);
+        }
+
+        return objs;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        p.example = getParameterExampleValue(p, false);
+        p.vendorExtensions.put("groovyExample", getParameterExampleValue(p, true));
+    }
+
+    protected String getParameterExampleValue(CodegenParameter p, boolean groovy) {
+        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get("values");
+
+        return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
+                p.items == null ? null : p.items.dataType,
+                p.items == null ? null : p.items.defaultValue,
+                p.requiredVars, groovy);
+    }
+
+    protected String getPropertyExampleValue(CodegenProperty p, boolean groovy) {
+        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get("values");
+
+        return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
+                p.items == null ? null : p.items.dataType,
+                p.items == null ? null : p.items.defaultValue,
+                null, groovy);
+    }
+
+    public String getExampleValue(
+            String defaultValue, String example, String dataType, Boolean isModel, List<Object> allowableValues,
+            String itemsType, String itemsExample, List<CodegenProperty> requiredVars, boolean groovy
+    ) {
+        example = defaultValue != null ? defaultValue : example;
+        String containerType = dataType == null ? null : dataType.split("<")[0];
+
+        if ("String".equals(dataType)) {
+            if (groovy) {
+                example = example != null ? "'" + escapeTextGroovy(example) + "'" : "'example'";
+            } else {
+                example = example != null ? "\"" + escapeText(example) + "\"" : "\"example\"";
+            }
+        } else if ("Integer".equals(dataType) || "Short".equals(dataType)) {
+            example = example != null ? example : "56";
+        } else if ("Long".equals(dataType)) {
+            example = StringUtils.appendIfMissingIgnoreCase(example != null ? example : "56", "L");
+        } else if ("Float".equals(dataType)) {
+            example = StringUtils.appendIfMissingIgnoreCase(example != null ? example : "3.4", "F");
+        } else if ("Double".equals(dataType)) {
+            example = StringUtils.appendIfMissingIgnoreCase(example != null ? example : "3.4", "D");
+        } else if ("Boolean".equals(dataType)) {
+            example = example != null ? example : "false";
+        } else if ("File".equals(dataType)) {
+            example = null;
+        } else if ("LocalDate".equals(dataType)) {
+            example = "LocalDate.of(2001, 2, 3)";
+        } else if ("LocalDateTime".equals(dataType)) {
+            example = "LocalDateTime.of(2001, 2, 3, 4, 5)";
+        } else if ("BigDecimal".equals(dataType)) {
+            example = "new BigDecimal(78)";
+        } else if (allowableValues != null && !allowableValues.isEmpty()) {
+            example = dataType + ".fromValue(\"" + allowableValues.get(0) + "\")";
+        } else if ((isModel != null && isModel) || (isModel == null && !languageSpecificPrimitives.contains(dataType))) {
+            if (requiredVars == null) {
+                example = null;
+            } else {
+                if (requiredPropertiesInConstructor) {
+                    StringBuilder builder = new StringBuilder();
+                    builder.append("new ").append(dataType).append("(");
+                    for (int i = 0; i < requiredVars.size(); ++i) {
+                        if (i != 0) {
+                            builder.append(", ");
+                        }
+                        builder.append(getPropertyExampleValue(requiredVars.get(i), groovy));
+                    }
+                    builder.append(")");
+                    example = builder.toString();
+                } else {
+                    example = "new " + dataType + "()";
+                }
+            }
+        }
+
+        if ("List".equals(containerType)) {
+            String innerExample;
+            if ("String".equals(itemsType)) {
+                itemsExample = itemsExample != null ? itemsExample : "example";
+                if (groovy) {
+                    innerExample = "'" + escapeTextGroovy(itemsExample) + "'";
+                } else {
+                    innerExample = "\"" + escapeText(itemsExample) + "\"";
+                }
+            } else {
+                innerExample = itemsExample != null ? itemsExample : "";
+            }
+
+            if (groovy) {
+                example = "[" + innerExample + "]";
+            } else {
+                example = "Arrays.asList(" + innerExample + ")";
+            }
+        } else if ("Set".equals(containerType)) {
+            if (groovy) {
+                example = "[].asSet()";
+            } else {
+                example = "new HashSet<>()";
+            }
+        } else if ("Map".equals(containerType)) {
+            if (groovy) {
+                example = "[]";
+            } else {
+                example = "new HashMap<>()";
+            }
+        } else if (example == null) {
+            example = "null";
+        }
+
+        return example;
+    }
+
+    public String escapeTextGroovy(String text) {
+        return text == null ? null : text.replaceAll("'", "\\'");
     }
 }

@@ -1,4 +1,4 @@
-package {{package}}
+package {{controllerPackage}}
 
 {{#imports}}import {{import}}
 {{/imports}}
@@ -17,12 +17,6 @@ import jakarta.inject.Inject
 import spock.lang.Specification
 import spock.lang.Ignore
 import reactor.core.publisher.Mono
-{{^fullJavaUtil}}
-import java.util.ArrayList
-import java.util.HashMap
-import java.util.List
-import java.util.Map
-{{/fullJavaUtil}}
 
 
 /**
@@ -65,12 +59,12 @@ class {{classname}}Spec extends Specification {
         var {{paramName}} = [:]
             {{/isMap}}
             {{#isModel}}
-        {{{dataType}}} {{paramName}} = {{{example}}}
+        {{{dataType}}} {{paramName}} = {{{vendorExtensions.groovyExample}}}
             {{/isModel}}
             {{^isArray}}
                 {{^isMap}}
                     {{^isModel}}
-        {{{dataType}}} {{paramName}} = {{{example}}}
+        {{{dataType}}} {{paramName}} = {{{vendorExtensions.groovyExample}}}
                     {{/isModel}}
                 {{/isMap}}
             {{/isArray}}
@@ -94,17 +88,17 @@ class {{classname}}Spec extends Specification {
         given:
         {{!Create the body}}
         {{#bodyParam}}
-        {{{dataType}}} body = {{{example}}}
+        {{{dataType}}} body = {{{vendorExtensions.groovyExample}}}
         {{/bodyParam}}
         {{#formParams.0}}
         var form = [
             // Fill in the body form parameters
             {{#formParams}}
                 {{^isFile}}
-            '{{{baseName}}}': {{{example}}}{{^-last}},{{/-last}}
+            '{{{baseName}}}': {{{vendorExtensions.groovyExample}}}{{^-last}},{{/-last}}
                 {{/isFile}}
                 {{#isFile}}
-            '{{{baseName}}}': new FileReader(File.createTempFile("", ".tmp"))
+            '{{{baseName}}}': new FileReader(File.createTempFile('test', '.tmp')){{^-last}},{{/-last}}
                 {{/isFile}}
             {{/formParams}}
         ]
@@ -114,14 +108,14 @@ class {{classname}}Spec extends Specification {
         var body = MultipartBody.builder() // Create multipart body
                 {{#bodyParams}}
                     {{^isFile}}
-            .addPart('{{{baseName}}}', {{{example}}}.toString())
+            .addPart('{{{baseName}}}', {{{vendorExtensions.groovyExample}}}.toString())
                     {{/isFile}}
                     {{#isFile}}
                         {{#contentType}}
-            .addPart('{{{baseName}}}', 'filename', MediaType.of('{{{contentType}}}'), File.createTempFile('', '.tmp')))
+            .addPart('{{{baseName}}}', 'filename', MediaType.of('{{{contentType}}}'), File.createTempFile('test', '.tmp'))
                         {{/contentType}}
                         {{^contentType}}
-            .addPart('{{{baseName}}}', 'filename', File.createTempFile('', '.tmp')))
+            .addPart('{{{baseName}}}', 'filename', File.createTempFile('test', '.tmp'))
                         {{/contentType}}
                     {{/isFile}}
                 {{/bodyParams}}
@@ -132,7 +126,7 @@ class {{classname}}Spec extends Specification {
         var uri = UriTemplate.of('{{{path}}}').expand({{^pathParams}}[:]{{/pathParams}}{{#pathParams.0}}[
             // Fill in the path variables
         {{#pathParams}}
-            '{{{baseName}}}': {{{example}}}{{^-last}},{{/-last}}
+            '{{{baseName}}}': {{{vendorExtensions.groovyExample}}}{{^-last}},{{/-last}}
         {{/pathParams}}
         ]{{/pathParams.0}})
         {{!Create the request with body and uri}}
@@ -145,24 +139,24 @@ class {{classname}}Spec extends Specification {
             .accept('{{vendorExtensions.x-accepts}}')
         {{/vendorExtensions.x-accepts}}
         {{#headerParams}}
-            .header('{{{baseName}}}', {{{example}}})
+            .header('{{{baseName}}}', {{{vendorExtensions.groovyExample}}}{{^isString}}.toString(){{/isString}})
         {{/headerParams}}
         {{#cookieParams}}
-            .cookie(Cookie.of('{{{baseName}}}', {{{example}}}))
+            .cookie(Cookie.of('{{{baseName}}}', {{{vendorExtensions.groovyExample}}}))
         {{/cookieParams}}
         {{!Fill in the query parameters}}
         {{#queryParams.0}}
         request.getParameters()
             {{#queryParams}}
                 {{#isCollectionFormatMulti}}
-            .add('{{{baseName}}}', []) // The query format should be multi
+            .add('{{{baseName}}}', {{{vendorExtensions.groovyExample}}}) // The query format should be multi
                 {{/isCollectionFormatMulti}}
                 {{#isDeepObject}}
             .add('{{{baseName}}}[property]', 'value') // The query format should be deep-object
                 {{/isDeepObject}}
                 {{^isCollectionFormatMulti}}
                     {{^isDeepObject}}
-            .add('{{{baseName}}}', {{{example}}}.toString()) // The query parameter format should be {{collectionFormat}}
+            .add('{{{baseName}}}', {{{vendorExtensions.groovyExample}}}{{^isString}}.toString(){{/isString}}){{#collectionFormat}} // The query parameter format should be {{collectionFormat}}{{/collectionFormat}}
                     {{/isDeepObject}}
                 {{/isCollectionFormatMulti}}
             {{/queryParams}}

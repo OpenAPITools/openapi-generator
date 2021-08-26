@@ -61,6 +61,9 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
         }
         writePropertyBack(OPT_CONFIGURE_AUTH, configureAuthorization);
 
+        // Write property that is present in server
+        writePropertyBack(OPT_USE_AUTH, true);
+
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
 
         // Query files
@@ -87,13 +90,10 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
         // Add test files
         apiTestTemplateFiles.clear();
-        modelTestTemplateFiles.clear();
         if (testTool.equals(OPT_TEST_JUNIT)) {
             apiTestTemplateFiles.put("client/test/api_test.mustache", ".java");
-            modelTestTemplateFiles.put("client/test/model_test.mustache", ".java");
         } else if (testTool.equals(OPT_TEST_SPOCK)) {
             apiTestTemplateFiles.put("client/test/api_test.groovy.mustache", ".groovy");
-            modelTestTemplateFiles.put("client/test/model_test.groovy.mustache", ".groovy");
         }
 
         // Add documentation files
