@@ -698,6 +698,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         for (Object model : models) {
             @SuppressWarnings("unchecked") Map<String, Object> mo = (Map<String, Object>) model;
             CodegenModel cm = (CodegenModel) mo.get("model");
+            if (getGenerateRoomModels()) {
+                cm.vendorExtensions.put("x-has-data-class-body", true);
+            }
 
             // escape the variable base name for use as a string literal
             List<CodegenProperty> vars = Stream.of(
