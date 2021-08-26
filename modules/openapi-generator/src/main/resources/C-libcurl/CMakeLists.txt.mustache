@@ -7,6 +7,8 @@ set(CMAKE_C_VISIBILITY_PRESET default)
 set(CMAKE_CXX_VISIBILITY_PRESET default)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN OFF)
 
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
+
 find_package(OpenSSL)
 
 if (OPENSSL_FOUND)
