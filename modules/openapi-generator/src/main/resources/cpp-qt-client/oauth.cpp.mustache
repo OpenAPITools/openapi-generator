@@ -10,7 +10,7 @@ OauthCode::OauthCode(QObject *parent) : OauthBase(parent)
 
 }
 
-void OauthCode::setVariables(QString authUrl, QString tokenUrl, QString scope, QString accessType, QString state, QString redirectUri, QString clientId, QString clientSecret ){
+void OauthCode::setVariables(QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType){
 
     m_authUrl = QUrl(authUrl);
     m_tokenUrl = QUrl(tokenUrl);
@@ -25,7 +25,7 @@ void OauthCode::setVariables(QString authUrl, QString tokenUrl, QString scope, Q
 
 void OauthCode::authenticationNeededCallback()
 {
-    QDesktopServices::openUrl(QUrl(m_authUrl.toString() + "?scope=" + m_scope + "&access_type=" + m_accessType + "&response_type=code" + "&state=" + m_state + "&redirect_uri=" + m_redirectUri + "&client_id=" + m_clientId));
+    QDesktopServices::openUrl(QUrl(m_authUrl.toString() + "?scope=" + m_scope + (m_accessType=="" ? "" : "&access_type=" + m_accessType) + "&response_type=code" + "&state=" + m_state + "&redirect_uri=" + m_redirectUri + "&client_id=" + m_clientId));
     m_server.start();
 }
 

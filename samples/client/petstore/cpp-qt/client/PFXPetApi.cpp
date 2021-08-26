@@ -858,14 +858,14 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
 
 void PFXPetApi::tokenAvailable(){
 
-    auto token = auth.getToken(latestScope);
+    auto token = auth.getToken(latestScope.join(" "));
     //Only inject header when token is valid. If not we run the auth process again and remove the token
     if(token.isValid()){
         latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+        latestWorker->execute(&latestInput);
     }else{
-        auth.removeToken(latestScope);
+        auth.removeToken(latestScope.join(" "));
+        qDebug() << "Could not retrieve a valid token";
     }
-
-    latestWorker->execute(&latestInput);
 }
 } // namespace test_namespace

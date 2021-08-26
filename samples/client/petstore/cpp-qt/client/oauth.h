@@ -99,7 +99,7 @@ class OauthCode : public OauthBase
     Q_OBJECT
 public:
     OauthCode(QObject *parent = nullptr);
-    void setVariables( QString authUrl, QString tokenUrl, QString scope, QString accessType, QString state, QString redirectUri, QString clientId, QString clientSecret);
+    void setVariables( QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType = "");
 private:
     ReplyServer m_server;
     QUrl m_authUrl;

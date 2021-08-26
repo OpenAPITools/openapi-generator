@@ -752,8 +752,10 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
         scope.append("{{scope}}");
     {{/scopes}}
         QString scopeStr = scope.join(" ");
-        //TODO get clientID and Secret in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
-        //auth.setVariables();
+        QString authorizationUrl("{{authorizationUrl}}");
+        QString tokenUrl("{{tokenUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        auth.setVariables(authorizationUrl, tokenUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
         emit auth.authenticationNeeded();{{/isCode}}{{/isOAuth}}{{/authMethods}}
     } else {
         emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
@@ -765,15 +767,15 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
 {{/operations}}
 void {{classname}}::tokenAvailable(){
 
-    auto token = auth.getToken(latestScope);
+    auto token = auth.getToken(latestScope.join(" "));
     //Only inject header when token is valid. If not we run the auth process again and remove the token
     if(token.isValid()){
         latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+        latestWorker->execute(&latestInput);
     }else{
-        auth.removeToken(latestScope);
+        auth.removeToken(latestScope.join(" "));
+        qDebug() << "Could not retrieve a valid token";
     }
-
-    latestWorker->execute(&latestInput);
 }
 {{#cppNamespaceDeclarations}}
 } // namespace {{this}}
