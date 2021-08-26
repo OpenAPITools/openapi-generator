@@ -284,9 +284,6 @@ public class CodegenConstants {
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS_DESC = "Make API response's headers case-insensitive";
 
-    public static final String GENERATE_ROOM_MODELS = "generateRoomModels";
-    public static final String GENERATE_ROOM_MODELS_DESC = "Generate Room database models in addition to API models";
-
     public static final String ROOM_MODEL_PACKAGE = "roomModelPackage";
     public static final String ROOM_MODEL_PACKAGE_DESC = "package for generated room models";
 

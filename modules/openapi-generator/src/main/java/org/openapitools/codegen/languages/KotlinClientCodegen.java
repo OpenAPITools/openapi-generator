@@ -50,6 +50,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String USE_COROUTINES = "useCoroutines";
     public static final String DO_NOT_USE_RX_AND_COROUTINES = "doNotUseRxAndCoroutines";
+    public static final String GENERATE_ROOM_MODELS = "generateRoomModels";
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
@@ -71,6 +72,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRxAndCoroutines = true;
+    protected boolean generateRoomModels = false;
 
     protected String authFolder;
 
@@ -208,6 +210,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
 
+        cliOptions.add(CliOption.newBoolean(GENERATE_ROOM_MODELS, "Generate Room database models in addition to API models", false));
+
         cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in oder to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
     }
 
@@ -221,6 +225,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public String getHelp() {
         return "Generates a Kotlin client.";
+    }
+
+    public boolean getGenerateRoomModels() { return generateRoomModels; }
+
+    public void setGenerateRoomModels(Boolean generateRoomModels) {
+        this.generateRoomModels = generateRoomModels;
     }
 
     public void setUseRxJava(boolean useRxJava) {
@@ -477,6 +487,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_VOLLEY, true);
+
+        if (additionalProperties.containsKey(GENERATE_ROOM_MODELS)) {
+            this.setGenerateRoomModels(convertPropertyToBooleanAndWriteBack(GENERATE_ROOM_MODELS));
+        } else {
+            additionalProperties.put(GENERATE_ROOM_MODELS, generateRoomModels);
+        }
 
         supportingFiles.add(new SupportingFile("auth/authentication.mustache", authFolder, "Authentication.kt"));
         supportingFiles.add(new SupportingFile("auth/httpbasicauth.mustache", authFolder, "HttpBasicAuth.kt"));
