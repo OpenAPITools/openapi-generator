@@ -15,7 +15,7 @@ import (
 	"errors"
 )
 
-// UserApiService is a service that implents the logic for the UserApiServicer
+// UserApiService is a service that implements the logic for the UserApiServicer
 // This service should implement the business logic for every endpoint for the UserApi API.
 // Include any external packages or services that will be required by this service.
 type UserApiService struct {

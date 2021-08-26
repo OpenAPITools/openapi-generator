@@ -131,7 +131,7 @@
 #'
 #' \tabular{ll}{
 #' X-Rate-Limit \tab calls per hour allowed by the user \cr
-#' X-Expires-After \tab date in UTC when toekn expires \cr
+#' X-Expires-After \tab date in UTC when token expires \cr
 #' }
 #' \item status code : 400 | Invalid username/password supplied
 #'

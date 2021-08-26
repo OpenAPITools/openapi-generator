@@ -1203,7 +1203,7 @@ class FakeApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: context');
     }
 
-    final path = r'/fake/test-query-paramters';
+    final path = r'/fake/test-query-parameters';
 
     Object postBody;
 

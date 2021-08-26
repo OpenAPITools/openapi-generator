@@ -4423,7 +4423,7 @@ class FakeApi
             );
         }
 
-        $resourcePath = '/fake/test-query-paramters';
+        $resourcePath = '/fake/test-query-parameters';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];

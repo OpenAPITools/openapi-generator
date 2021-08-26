@@ -244,7 +244,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             varName = "_u";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (!varName.matches("^[A-Z_0-9]*$")) {
             varName = getNameUsingModelPropertyNaming(varName);
         }

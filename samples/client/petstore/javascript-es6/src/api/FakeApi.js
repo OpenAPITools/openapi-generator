@@ -834,7 +834,7 @@ export default class FakeApi {
       let accepts = [];
       let returnType = null;
       return this.apiClient.callApi(
-        '/fake/test-query-paramters', 'PUT',
+        '/fake/test-query-parameters', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

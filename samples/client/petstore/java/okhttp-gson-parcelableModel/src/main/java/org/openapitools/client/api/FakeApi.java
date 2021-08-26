@@ -1791,7 +1791,7 @@ public class FakeApi {
         Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/fake/test-query-paramters";
+        String localVarPath = "/fake/test-query-parameters";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
