@@ -21,7 +21,7 @@ class OuterEnumIntegerDefaultValue {
   final int value;
 
   @override
-  String toString() => value.toString();
+  String toString() => '$value';
 
   int toJson() => value;
 
@@ -39,10 +39,10 @@ class OuterEnumIntegerDefaultValue {
   static OuterEnumIntegerDefaultValue fromJson(dynamic value) =>
     OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
 
-  static List<OuterEnumIntegerDefaultValue> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <OuterEnumIntegerDefaultValue>[]
-      : json.map(OuterEnumIntegerDefaultValue.fromJson).toList(growable: true == growable);
+  static List<OuterEnumIntegerDefaultValue> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(OuterEnumIntegerDefaultValue.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <OuterEnumIntegerDefaultValue>[];
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumIntegerDefaultValue] to int,
@@ -64,7 +64,7 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
   /// and users are still using an old app with the old code.
   OuterEnumIntegerDefaultValue decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch ('$data') {
         case 0: return OuterEnumIntegerDefaultValue.number0;
         case 1: return OuterEnumIntegerDefaultValue.number1;
         case 2: return OuterEnumIntegerDefaultValue.number2;

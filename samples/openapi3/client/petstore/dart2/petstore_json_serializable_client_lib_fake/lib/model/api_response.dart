@@ -61,9 +61,6 @@ class ApiResponse {
   Map<String, dynamic> toJson() => _$ApiResponseToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 

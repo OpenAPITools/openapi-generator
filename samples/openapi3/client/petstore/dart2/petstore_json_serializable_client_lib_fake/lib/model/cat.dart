@@ -61,9 +61,6 @@ class Cat {
   Map<String, dynamic> toJson() => _$CatToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 

@@ -42,9 +42,6 @@ class ModelFile {
   Map<String, dynamic> toJson() => _$ModelFileToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 

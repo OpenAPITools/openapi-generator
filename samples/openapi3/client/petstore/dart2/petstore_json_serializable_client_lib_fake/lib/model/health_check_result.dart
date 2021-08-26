@@ -41,9 +41,6 @@ class HealthCheckResult {
   Map<String, dynamic> toJson() => _$HealthCheckResultToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 

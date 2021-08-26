@@ -41,9 +41,6 @@ class ArrayOfNumberOnly {
   Map<String, dynamic> toJson() => _$ArrayOfNumberOnlyToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 

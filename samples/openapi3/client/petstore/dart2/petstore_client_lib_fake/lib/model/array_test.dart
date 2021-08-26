@@ -54,48 +54,58 @@ class ArrayTest {
   }
 
   /// Returns a new [ArrayTest] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
+  /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ArrayTest fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : ArrayTest(
-        arrayOfString: json[r'array_of_string'] == null
-          ? null
-          : (json[r'array_of_string'] as List).cast<String>(),
-        arrayArrayOfInteger: json[r'array_array_of_integer'] == null
-          ? null
-          : (json[r'array_array_of_integer'] as List).map(
+  static ArrayTest fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return ArrayTest(
+        arrayOfString: json[r'array_of_string'] is List
+          ? (json[r'array_of_string'] as List).cast<String>()
+          : null,
+        arrayArrayOfInteger: json[r'array_array_of_integer'] is List
+          ? (json[r'array_array_of_integer'] as List).map(
               (e) => e == null ? null : (e as List).cast<int>()
-            ).toList(growable: false),
-        arrayArrayOfModel: json[r'array_array_of_model'] == null
-          ? null
-          : (json[r'array_array_of_model'] as List).map(
-              ReadOnlyFirst.listFromJson(json[r'array_array_of_model'] as List)
-            ).toList(growable: false),
-    );
+            ).toList(growable: false)
+          : null,
+        arrayArrayOfModel: json[r'array_array_of_model'] is List
+          ? (json[r'array_array_of_model'] as List).map(
+              ReadOnlyFirst.listFromJson(json[r'array_array_of_model'])
+            ).toList(growable: false)
+          : null,
+      );
+    }
+    return null;
+  }
 
-  static List<ArrayTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <ArrayTest>[]
-      : json
-          .map((dynamic value) => ArrayTest.fromJson((value as Map).cast<String, dynamic>()))
-          .toList(growable: true == growable);
+  static List<ArrayTest> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(ArrayTest.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <ArrayTest>[];
 
-  static Map<String, ArrayTest> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, ArrayTest> mapFromJson(dynamic json) {
     final map = <String, ArrayTest>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) => map[key] = ArrayTest.fromJson((value as Map).cast<String, dynamic>()));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = ArrayTest.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of ArrayTest-objects as value to a dart map
-  static Map<String, List<ArrayTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<ArrayTest>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ArrayTest>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) {
-        map[key] = ArrayTest.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = ArrayTest.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }

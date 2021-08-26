@@ -36,38 +36,46 @@ class OuterObjectWithEnumProperty {
   }
 
   /// Returns a new [OuterObjectWithEnumProperty] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
+  /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static OuterObjectWithEnumProperty fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : OuterObjectWithEnumProperty(
-        value: json[r'value'] is Map
-          ? OuterEnumInteger.fromJson((json[r'value'] as Map).cast<String, dynamic>())
-          : null,
-    );
+  static OuterObjectWithEnumProperty fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return OuterObjectWithEnumProperty(
+        value: OuterEnumInteger.fromJson(json[r'value']),
+      );
+    }
+    return null;
+  }
 
-  static List<OuterObjectWithEnumProperty> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <OuterObjectWithEnumProperty>[]
-      : json
-          .map((dynamic value) => OuterObjectWithEnumProperty.fromJson((value as Map).cast<String, dynamic>()))
-          .toList(growable: true == growable);
+  static List<OuterObjectWithEnumProperty> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(OuterObjectWithEnumProperty.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <OuterObjectWithEnumProperty>[];
 
-  static Map<String, OuterObjectWithEnumProperty> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, OuterObjectWithEnumProperty> mapFromJson(dynamic json) {
     final map = <String, OuterObjectWithEnumProperty>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) => map[key] = OuterObjectWithEnumProperty.fromJson((value as Map).cast<String, dynamic>()));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = OuterObjectWithEnumProperty.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of OuterObjectWithEnumProperty-objects as value to a dart map
-  static Map<String, List<OuterObjectWithEnumProperty>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<OuterObjectWithEnumProperty>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<OuterObjectWithEnumProperty>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) {
-        map[key] = OuterObjectWithEnumProperty.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = OuterObjectWithEnumProperty.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }

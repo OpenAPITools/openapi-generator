@@ -212,7 +212,7 @@ class ApiClient {
           {{#json_serializable}} return _$enumDecode(_${{{classname}}}EnumMap, value);{{/json_serializable}}
             {{/isEnum}}
             {{^isEnum}}
-          return value is Map ? {{{classname}}}.fromJson(value.cast<String, dynamic>()) : null;
+          return {{{classname}}}.fromJson(value);
             {{/isEnum}}
           {{/model}}
         {{/models}}

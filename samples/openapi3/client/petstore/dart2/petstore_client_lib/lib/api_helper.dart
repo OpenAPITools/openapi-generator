@@ -59,7 +59,7 @@ String parameterToString(dynamic value) {
   if (value is DateTime) {
     return value.toUtc().toIso8601String();
   }
-  return value.toString();
+  return '$value';
 }
 
 /// Returns the decoded body as UTF-8 if the given headers indicate an 'application/json'
@@ -69,4 +69,37 @@ Future<String> _decodeBodyBytes(Response response) async {
   return contentType != null && contentType.toLowerCase().startsWith('application/json')
     ? response.bodyBytes == null ? null : utf8.decode(response.bodyBytes)
     : response.body;
+}
+
+/// Returns a valid [T] value found at the specified Map [key], null otherwise.
+T mapValueOfType<T>(dynamic map, String key) {
+  final dynamic value = map is Map ? map[key] : null;
+  return value is T ? value : null;
+}
+
+/// Returns a valid Map<K, V> found at the specified Map [key], null otherwise.
+Map<K, V> mapCastOfType<K, V>(dynamic map, String key) {
+  final dynamic value = map is Map ? map[key] : null;
+  return value is Map ? value.cast<K, V>() : null;
+}
+
+/// Returns a valid [DateTime] found at the specified Map [key], null otherwise.
+DateTime mapDateTime(dynamic map, String key, [String pattern]) {
+  final dynamic value = map is Map ? map[key] : null;
+  if (value != null) {
+    int millis;
+    if (value is int) {
+      millis = value;
+    } else if (value is String) {
+      if (pattern == _dateEpochMarker) {
+        millis = int.tryParse(value);
+      } else {
+        return DateTime.tryParse(value);
+      }
+    }
+    if (millis != null) {
+      return DateTime.fromMillisecondsSinceEpoch(millis, isUtc: true);
+    }
+  }
+  return null;
 }

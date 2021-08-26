@@ -49,10 +49,7 @@ class {{{classname}}} {
   Map<String, dynamic> toJson() => _${{{classname}}}ToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 {{#vars}}
     {{#isEnum}}

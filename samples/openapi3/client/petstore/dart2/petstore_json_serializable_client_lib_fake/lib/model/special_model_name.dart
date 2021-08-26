@@ -41,9 +41,6 @@ class SpecialModelName {
   Map<String, dynamic> toJson() => _$SpecialModelNameToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 

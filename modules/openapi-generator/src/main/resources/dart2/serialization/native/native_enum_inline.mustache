@@ -10,7 +10,7 @@ class {{{enumName}}} {
   final {{{dataType}}} value;
 
   @override
-  String toString() => value{{^isString}}.toString(){{/isString}};
+  String toString() => {{#isString}}value{{/isString}}{{^isString}}'$value'{{/isString}};
 
   {{{dataType}}} toJson() => value;
 
@@ -32,10 +32,10 @@ class {{{enumName}}} {
   static {{{enumName}}} fromJson(dynamic value) =>
     {{{enumName}}}TypeTransformer().decode(value);
 
-  static List<{{{enumName}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <{{{enumName}}}>[]
-      : json.map({{{enumName}}}.fromJson).toList(growable: true == growable);
+  static List<{{{enumName}}}> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map({{{enumName}}}.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <{{{enumName}}}>[];
 }
 
 /// Transformation class that can [encode] an instance of [{{{enumName}}}] to {{{dataType}}},
@@ -57,7 +57,7 @@ class {{{enumName}}}TypeTransformer {
   /// and users are still using an old app with the old code.
   {{{enumName}}} decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch ('$data') {
         {{#allowableValues}}
           {{#enumVars}}
         case {{#isString}}r{{/isString}}{{{value}}}: return {{{enumName}}}.{{{name}}};

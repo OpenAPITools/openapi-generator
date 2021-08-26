@@ -46,37 +46,47 @@ class ReadOnlyFirst {
   }
 
   /// Returns a new [ReadOnlyFirst] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
+  /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ReadOnlyFirst fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : ReadOnlyFirst(
-        bar: json[r'bar'] as String,
-        baz: json[r'baz'] as String,
-    );
+  static ReadOnlyFirst fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return ReadOnlyFirst(
+        bar: mapValueOfType<String>(json, r'bar'),
+        baz: mapValueOfType<String>(json, r'baz'),
+      );
+    }
+    return null;
+  }
 
-  static List<ReadOnlyFirst> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <ReadOnlyFirst>[]
-      : json
-          .map((dynamic value) => ReadOnlyFirst.fromJson((value as Map).cast<String, dynamic>()))
-          .toList(growable: true == growable);
+  static List<ReadOnlyFirst> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(ReadOnlyFirst.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <ReadOnlyFirst>[];
 
-  static Map<String, ReadOnlyFirst> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, ReadOnlyFirst> mapFromJson(dynamic json) {
     final map = <String, ReadOnlyFirst>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) => map[key] = ReadOnlyFirst.fromJson((value as Map).cast<String, dynamic>()));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = ReadOnlyFirst.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of ReadOnlyFirst-objects as value to a dart map
-  static Map<String, List<ReadOnlyFirst>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<ReadOnlyFirst>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ReadOnlyFirst>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) {
-        map[key] = ReadOnlyFirst.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = ReadOnlyFirst.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }

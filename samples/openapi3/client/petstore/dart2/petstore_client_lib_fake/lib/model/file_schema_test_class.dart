@@ -46,41 +46,47 @@ class FileSchemaTestClass {
   }
 
   /// Returns a new [FileSchemaTestClass] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
+  /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static FileSchemaTestClass fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : FileSchemaTestClass(
-        file: json[r'file'] is Map
-          ? ModelFile.fromJson((json[r'file'] as Map).cast<String, dynamic>())
-          : null,
-        files: json[r'files'] is List
-          ? ModelFile.listFromJson(json[r'files'] as List)
-          : null,
-    );
+  static FileSchemaTestClass fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return FileSchemaTestClass(
+        file: ModelFile.fromJson(json[r'file']),
+        files: ModelFile.listFromJson(json[r'files']),
+      );
+    }
+    return null;
+  }
 
-  static List<FileSchemaTestClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <FileSchemaTestClass>[]
-      : json
-          .map((dynamic value) => FileSchemaTestClass.fromJson((value as Map).cast<String, dynamic>()))
-          .toList(growable: true == growable);
+  static List<FileSchemaTestClass> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(FileSchemaTestClass.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <FileSchemaTestClass>[];
 
-  static Map<String, FileSchemaTestClass> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, FileSchemaTestClass> mapFromJson(dynamic json) {
     final map = <String, FileSchemaTestClass>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) => map[key] = FileSchemaTestClass.fromJson((value as Map).cast<String, dynamic>()));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = FileSchemaTestClass.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of FileSchemaTestClass-objects as value to a dart map
-  static Map<String, List<FileSchemaTestClass>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<FileSchemaTestClass>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<FileSchemaTestClass>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) {
-        map[key] = FileSchemaTestClass.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = FileSchemaTestClass.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }

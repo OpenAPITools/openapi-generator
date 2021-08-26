@@ -95,43 +95,53 @@ class User {
   }
 
   /// Returns a new [User] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
+  /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static User fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : User(
-        id: json[r'id'] as int,
-        username: json[r'username'] as String,
-        firstName: json[r'firstName'] as String,
-        lastName: json[r'lastName'] as String,
-        email: json[r'email'] as String,
-        password: json[r'password'] as String,
-        phone: json[r'phone'] as String,
-        userStatus: json[r'userStatus'] as int,
-    );
+  static User fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return User(
+        id: mapValueOfType<int>(json, r'id'),
+        username: mapValueOfType<String>(json, r'username'),
+        firstName: mapValueOfType<String>(json, r'firstName'),
+        lastName: mapValueOfType<String>(json, r'lastName'),
+        email: mapValueOfType<String>(json, r'email'),
+        password: mapValueOfType<String>(json, r'password'),
+        phone: mapValueOfType<String>(json, r'phone'),
+        userStatus: mapValueOfType<int>(json, r'userStatus'),
+      );
+    }
+    return null;
+  }
 
-  static List<User> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <User>[]
-      : json
-          .map((dynamic value) => User.fromJson((value as Map).cast<String, dynamic>()))
-          .toList(growable: true == growable);
+  static List<User> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(User.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <User>[];
 
-  static Map<String, User> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, User> mapFromJson(dynamic json) {
     final map = <String, User>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) => map[key] = User.fromJson((value as Map).cast<String, dynamic>()));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = User.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of User-objects as value to a dart map
-  static Map<String, List<User>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<User>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<User>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) {
-        map[key] = User.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = User.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }

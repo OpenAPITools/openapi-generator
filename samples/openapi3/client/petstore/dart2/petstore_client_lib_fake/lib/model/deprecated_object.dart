@@ -38,36 +38,46 @@ class DeprecatedObject {
   }
 
   /// Returns a new [DeprecatedObject] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
+  /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static DeprecatedObject fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : DeprecatedObject(
-        name: json[r'name'] as String,
-    );
+  static DeprecatedObject fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return DeprecatedObject(
+        name: mapValueOfType<String>(json, r'name'),
+      );
+    }
+    return null;
+  }
 
-  static List<DeprecatedObject> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <DeprecatedObject>[]
-      : json
-          .map((dynamic value) => DeprecatedObject.fromJson((value as Map).cast<String, dynamic>()))
-          .toList(growable: true == growable);
+  static List<DeprecatedObject> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(DeprecatedObject.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <DeprecatedObject>[];
 
-  static Map<String, DeprecatedObject> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, DeprecatedObject> mapFromJson(dynamic json) {
     final map = <String, DeprecatedObject>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) => map[key] = DeprecatedObject.fromJson((value as Map).cast<String, dynamic>()));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = DeprecatedObject.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of DeprecatedObject-objects as value to a dart map
-  static Map<String, List<DeprecatedObject>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<DeprecatedObject>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<DeprecatedObject>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) {
-        map[key] = DeprecatedObject.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = DeprecatedObject.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }

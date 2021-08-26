@@ -92,59 +92,53 @@ class EnumTest {
   }
 
   /// Returns a new [EnumTest] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
+  /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static EnumTest fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : EnumTest(
-        enumString: json[r'enum_string'] is Map
-          ? EnumTestEnumStringEnum.fromJson((json[r'enum_string'] as Map).cast<String, dynamic>())
-          : null,
-        enumStringRequired: json[r'enum_string_required'] is Map
-          ? EnumTestEnumStringRequiredEnum.fromJson((json[r'enum_string_required'] as Map).cast<String, dynamic>())
-          : null,
-        enumInteger: json[r'enum_integer'] is Map
-          ? EnumTestEnumIntegerEnum.fromJson((json[r'enum_integer'] as Map).cast<String, dynamic>())
-          : null,
-        enumNumber: json[r'enum_number'] is Map
-          ? EnumTestEnumNumberEnum.fromJson((json[r'enum_number'] as Map).cast<String, dynamic>())
-          : null,
-        outerEnum: json[r'outerEnum'] is Map
-          ? OuterEnum.fromJson((json[r'outerEnum'] as Map).cast<String, dynamic>())
-          : null,
-        outerEnumInteger: json[r'outerEnumInteger'] is Map
-          ? OuterEnumInteger.fromJson((json[r'outerEnumInteger'] as Map).cast<String, dynamic>())
-          : null,
-        outerEnumDefaultValue: json[r'outerEnumDefaultValue'] is Map
-          ? OuterEnumDefaultValue.fromJson((json[r'outerEnumDefaultValue'] as Map).cast<String, dynamic>())
-          : null,
-        outerEnumIntegerDefaultValue: json[r'outerEnumIntegerDefaultValue'] is Map
-          ? OuterEnumIntegerDefaultValue.fromJson((json[r'outerEnumIntegerDefaultValue'] as Map).cast<String, dynamic>())
-          : null,
-    );
+  static EnumTest fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return EnumTest(
+        enumString: EnumTestEnumStringEnum.fromJson(json[r'enum_string']),
+        enumStringRequired: EnumTestEnumStringRequiredEnum.fromJson(json[r'enum_string_required']),
+        enumInteger: EnumTestEnumIntegerEnum.fromJson(json[r'enum_integer']),
+        enumNumber: EnumTestEnumNumberEnum.fromJson(json[r'enum_number']),
+        outerEnum: OuterEnum.fromJson(json[r'outerEnum']),
+        outerEnumInteger: OuterEnumInteger.fromJson(json[r'outerEnumInteger']),
+        outerEnumDefaultValue: OuterEnumDefaultValue.fromJson(json[r'outerEnumDefaultValue']),
+        outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue.fromJson(json[r'outerEnumIntegerDefaultValue']),
+      );
+    }
+    return null;
+  }
 
-  static List<EnumTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <EnumTest>[]
-      : json
-          .map((dynamic value) => EnumTest.fromJson((value as Map).cast<String, dynamic>()))
-          .toList(growable: true == growable);
+  static List<EnumTest> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(EnumTest.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <EnumTest>[];
 
-  static Map<String, EnumTest> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, EnumTest> mapFromJson(dynamic json) {
     final map = <String, EnumTest>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) => map[key] = EnumTest.fromJson((value as Map).cast<String, dynamic>()));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = EnumTest.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of EnumTest-objects as value to a dart map
-  static Map<String, List<EnumTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<EnumTest>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<EnumTest>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) {
-        map[key] = EnumTest.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = EnumTest.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }
@@ -180,10 +174,10 @@ class EnumTestEnumStringEnum {
   static EnumTestEnumStringEnum fromJson(dynamic value) =>
     EnumTestEnumStringEnumTypeTransformer().decode(value);
 
-  static List<EnumTestEnumStringEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <EnumTestEnumStringEnum>[]
-      : json.map(EnumTestEnumStringEnum.fromJson).toList(growable: true == growable);
+  static List<EnumTestEnumStringEnum> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(EnumTestEnumStringEnum.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <EnumTestEnumStringEnum>[];
 }
 
 /// Transformation class that can [encode] an instance of [EnumTestEnumStringEnum] to String,
@@ -205,7 +199,7 @@ class EnumTestEnumStringEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumStringEnum decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch ('$data') {
         case r'UPPER': return EnumTestEnumStringEnum.UPPER;
         case r'lower': return EnumTestEnumStringEnum.lower;
         case r'': return EnumTestEnumStringEnum.empty;
@@ -252,10 +246,10 @@ class EnumTestEnumStringRequiredEnum {
   static EnumTestEnumStringRequiredEnum fromJson(dynamic value) =>
     EnumTestEnumStringRequiredEnumTypeTransformer().decode(value);
 
-  static List<EnumTestEnumStringRequiredEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <EnumTestEnumStringRequiredEnum>[]
-      : json.map(EnumTestEnumStringRequiredEnum.fromJson).toList(growable: true == growable);
+  static List<EnumTestEnumStringRequiredEnum> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(EnumTestEnumStringRequiredEnum.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <EnumTestEnumStringRequiredEnum>[];
 }
 
 /// Transformation class that can [encode] an instance of [EnumTestEnumStringRequiredEnum] to String,
@@ -277,7 +271,7 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumStringRequiredEnum decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch ('$data') {
         case r'UPPER': return EnumTestEnumStringRequiredEnum.UPPER;
         case r'lower': return EnumTestEnumStringRequiredEnum.lower;
         case r'': return EnumTestEnumStringRequiredEnum.empty;
@@ -306,7 +300,7 @@ class EnumTestEnumIntegerEnum {
   final int value;
 
   @override
-  String toString() => value.toString();
+  String toString() => '$value';
 
   int toJson() => value;
 
@@ -322,10 +316,10 @@ class EnumTestEnumIntegerEnum {
   static EnumTestEnumIntegerEnum fromJson(dynamic value) =>
     EnumTestEnumIntegerEnumTypeTransformer().decode(value);
 
-  static List<EnumTestEnumIntegerEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <EnumTestEnumIntegerEnum>[]
-      : json.map(EnumTestEnumIntegerEnum.fromJson).toList(growable: true == growable);
+  static List<EnumTestEnumIntegerEnum> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(EnumTestEnumIntegerEnum.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <EnumTestEnumIntegerEnum>[];
 }
 
 /// Transformation class that can [encode] an instance of [EnumTestEnumIntegerEnum] to int,
@@ -347,7 +341,7 @@ class EnumTestEnumIntegerEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumIntegerEnum decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch ('$data') {
         case 1: return EnumTestEnumIntegerEnum.number1;
         case -1: return EnumTestEnumIntegerEnum.numberNegative1;
         default:
@@ -375,7 +369,7 @@ class EnumTestEnumNumberEnum {
   final double value;
 
   @override
-  String toString() => value.toString();
+  String toString() => '$value';
 
   double toJson() => value;
 
@@ -391,10 +385,10 @@ class EnumTestEnumNumberEnum {
   static EnumTestEnumNumberEnum fromJson(dynamic value) =>
     EnumTestEnumNumberEnumTypeTransformer().decode(value);
 
-  static List<EnumTestEnumNumberEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <EnumTestEnumNumberEnum>[]
-      : json.map(EnumTestEnumNumberEnum.fromJson).toList(growable: true == growable);
+  static List<EnumTestEnumNumberEnum> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(EnumTestEnumNumberEnum.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <EnumTestEnumNumberEnum>[];
 }
 
 /// Transformation class that can [encode] an instance of [EnumTestEnumNumberEnum] to double,
@@ -416,7 +410,7 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumTestEnumNumberEnum decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch ('$data') {
         case '1.1': return EnumTestEnumNumberEnum.number1Period1;
         case '-1.2': return EnumTestEnumNumberEnum.numberNegative1Period2;
         default:

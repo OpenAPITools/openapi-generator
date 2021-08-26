@@ -51,9 +51,6 @@ class Tag {
   Map<String, dynamic> toJson() => _$TagToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 

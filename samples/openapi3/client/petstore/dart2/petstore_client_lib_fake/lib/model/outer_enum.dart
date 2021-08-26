@@ -39,10 +39,10 @@ class OuterEnum {
   static OuterEnum fromJson(dynamic value) =>
     OuterEnumTypeTransformer().decode(value);
 
-  static List<OuterEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <OuterEnum>[]
-      : json.map(OuterEnum.fromJson).toList(growable: true == growable);
+  static List<OuterEnum> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(OuterEnum.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <OuterEnum>[];
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnum] to String,
@@ -64,7 +64,7 @@ class OuterEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   OuterEnum decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch ('$data') {
         case r'placed': return OuterEnum.placed;
         case r'approved': return OuterEnum.approved;
         case r'delivered': return OuterEnum.delivered;

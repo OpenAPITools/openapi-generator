@@ -71,9 +71,6 @@ class Name {
   Map<String, dynamic> toJson() => _$NameToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 

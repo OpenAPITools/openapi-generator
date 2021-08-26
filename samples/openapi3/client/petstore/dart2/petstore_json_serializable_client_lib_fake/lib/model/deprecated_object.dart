@@ -41,9 +41,6 @@ class DeprecatedObject {
   Map<String, dynamic> toJson() => _$DeprecatedObjectToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 

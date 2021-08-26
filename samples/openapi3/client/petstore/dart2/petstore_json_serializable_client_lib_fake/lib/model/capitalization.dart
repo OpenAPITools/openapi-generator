@@ -92,9 +92,6 @@ class Capitalization {
   Map<String, dynamic> toJson() => _$CapitalizationToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 

@@ -198,78 +198,78 @@ class ApiClient {
         case 'double':
           return value is double ? value : double.parse('$value');
         case 'AdditionalPropertiesClass':
-          return value is Map ? AdditionalPropertiesClass.fromJson(value.cast<String, dynamic>()) : null;
+          return AdditionalPropertiesClass.fromJson(value);
         case 'Animal':
-          return value is Map ? Animal.fromJson(value.cast<String, dynamic>()) : null;
+          return Animal.fromJson(value);
         case 'ApiResponse':
-          return value is Map ? ApiResponse.fromJson(value.cast<String, dynamic>()) : null;
+          return ApiResponse.fromJson(value);
         case 'ArrayOfArrayOfNumberOnly':
-          return value is Map ? ArrayOfArrayOfNumberOnly.fromJson(value.cast<String, dynamic>()) : null;
+          return ArrayOfArrayOfNumberOnly.fromJson(value);
         case 'ArrayOfNumberOnly':
-          return value is Map ? ArrayOfNumberOnly.fromJson(value.cast<String, dynamic>()) : null;
+          return ArrayOfNumberOnly.fromJson(value);
         case 'ArrayTest':
-          return value is Map ? ArrayTest.fromJson(value.cast<String, dynamic>()) : null;
+          return ArrayTest.fromJson(value);
         case 'Capitalization':
-          return value is Map ? Capitalization.fromJson(value.cast<String, dynamic>()) : null;
+          return Capitalization.fromJson(value);
         case 'Cat':
-          return value is Map ? Cat.fromJson(value.cast<String, dynamic>()) : null;
+          return Cat.fromJson(value);
         case 'CatAllOf':
-          return value is Map ? CatAllOf.fromJson(value.cast<String, dynamic>()) : null;
+          return CatAllOf.fromJson(value);
         case 'Category':
-          return value is Map ? Category.fromJson(value.cast<String, dynamic>()) : null;
+          return Category.fromJson(value);
         case 'ClassModel':
-          return value is Map ? ClassModel.fromJson(value.cast<String, dynamic>()) : null;
+          return ClassModel.fromJson(value);
         case 'DeprecatedObject':
-          return value is Map ? DeprecatedObject.fromJson(value.cast<String, dynamic>()) : null;
+          return DeprecatedObject.fromJson(value);
         case 'Dog':
-          return value is Map ? Dog.fromJson(value.cast<String, dynamic>()) : null;
+          return Dog.fromJson(value);
         case 'DogAllOf':
-          return value is Map ? DogAllOf.fromJson(value.cast<String, dynamic>()) : null;
+          return DogAllOf.fromJson(value);
         case 'EnumArrays':
-          return value is Map ? EnumArrays.fromJson(value.cast<String, dynamic>()) : null;
+          return EnumArrays.fromJson(value);
         case 'EnumClass':
           return EnumClassTypeTransformer().decode(value);
           
         case 'EnumTest':
-          return value is Map ? EnumTest.fromJson(value.cast<String, dynamic>()) : null;
+          return EnumTest.fromJson(value);
         case 'FileSchemaTestClass':
-          return value is Map ? FileSchemaTestClass.fromJson(value.cast<String, dynamic>()) : null;
+          return FileSchemaTestClass.fromJson(value);
         case 'Foo':
-          return value is Map ? Foo.fromJson(value.cast<String, dynamic>()) : null;
+          return Foo.fromJson(value);
         case 'FormatTest':
-          return value is Map ? FormatTest.fromJson(value.cast<String, dynamic>()) : null;
+          return FormatTest.fromJson(value);
         case 'HasOnlyReadOnly':
-          return value is Map ? HasOnlyReadOnly.fromJson(value.cast<String, dynamic>()) : null;
+          return HasOnlyReadOnly.fromJson(value);
         case 'HealthCheckResult':
-          return value is Map ? HealthCheckResult.fromJson(value.cast<String, dynamic>()) : null;
+          return HealthCheckResult.fromJson(value);
         case 'InlineResponseDefault':
-          return value is Map ? InlineResponseDefault.fromJson(value.cast<String, dynamic>()) : null;
+          return InlineResponseDefault.fromJson(value);
         case 'MapTest':
-          return value is Map ? MapTest.fromJson(value.cast<String, dynamic>()) : null;
+          return MapTest.fromJson(value);
         case 'MixedPropertiesAndAdditionalPropertiesClass':
-          return value is Map ? MixedPropertiesAndAdditionalPropertiesClass.fromJson(value.cast<String, dynamic>()) : null;
+          return MixedPropertiesAndAdditionalPropertiesClass.fromJson(value);
         case 'Model200Response':
-          return value is Map ? Model200Response.fromJson(value.cast<String, dynamic>()) : null;
+          return Model200Response.fromJson(value);
         case 'ModelClient':
-          return value is Map ? ModelClient.fromJson(value.cast<String, dynamic>()) : null;
+          return ModelClient.fromJson(value);
         case 'ModelFile':
-          return value is Map ? ModelFile.fromJson(value.cast<String, dynamic>()) : null;
+          return ModelFile.fromJson(value);
         case 'ModelList':
-          return value is Map ? ModelList.fromJson(value.cast<String, dynamic>()) : null;
+          return ModelList.fromJson(value);
         case 'ModelReturn':
-          return value is Map ? ModelReturn.fromJson(value.cast<String, dynamic>()) : null;
+          return ModelReturn.fromJson(value);
         case 'Name':
-          return value is Map ? Name.fromJson(value.cast<String, dynamic>()) : null;
+          return Name.fromJson(value);
         case 'NullableClass':
-          return value is Map ? NullableClass.fromJson(value.cast<String, dynamic>()) : null;
+          return NullableClass.fromJson(value);
         case 'NumberOnly':
-          return value is Map ? NumberOnly.fromJson(value.cast<String, dynamic>()) : null;
+          return NumberOnly.fromJson(value);
         case 'ObjectWithDeprecatedFields':
-          return value is Map ? ObjectWithDeprecatedFields.fromJson(value.cast<String, dynamic>()) : null;
+          return ObjectWithDeprecatedFields.fromJson(value);
         case 'Order':
-          return value is Map ? Order.fromJson(value.cast<String, dynamic>()) : null;
+          return Order.fromJson(value);
         case 'OuterComposite':
-          return value is Map ? OuterComposite.fromJson(value.cast<String, dynamic>()) : null;
+          return OuterComposite.fromJson(value);
         case 'OuterEnum':
           return OuterEnumTypeTransformer().decode(value);
           
@@ -283,17 +283,17 @@ class ApiClient {
           return OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
           
         case 'OuterObjectWithEnumProperty':
-          return value is Map ? OuterObjectWithEnumProperty.fromJson(value.cast<String, dynamic>()) : null;
+          return OuterObjectWithEnumProperty.fromJson(value);
         case 'Pet':
-          return value is Map ? Pet.fromJson(value.cast<String, dynamic>()) : null;
+          return Pet.fromJson(value);
         case 'ReadOnlyFirst':
-          return value is Map ? ReadOnlyFirst.fromJson(value.cast<String, dynamic>()) : null;
+          return ReadOnlyFirst.fromJson(value);
         case 'SpecialModelName':
-          return value is Map ? SpecialModelName.fromJson(value.cast<String, dynamic>()) : null;
+          return SpecialModelName.fromJson(value);
         case 'Tag':
-          return value is Map ? Tag.fromJson(value.cast<String, dynamic>()) : null;
+          return Tag.fromJson(value);
         case 'User':
-          return value is Map ? User.fromJson(value.cast<String, dynamic>()) : null;
+          return User.fromJson(value);
         default:
           Match match;
           if (value is List && (match = _regList.firstMatch(targetType)) != null) {

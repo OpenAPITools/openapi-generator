@@ -126,65 +126,59 @@ class NullableClass {
   }
 
   /// Returns a new [NullableClass] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
+  /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static NullableClass fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : NullableClass(
-        integerProp: json[r'integer_prop'] as int,
+  static NullableClass fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return NullableClass(
+        integerProp: mapValueOfType<int>(json, r'integer_prop'),
         numberProp: json[r'number_prop'] == null
           ? null
-          : num.parse(json[r'number_prop'].toString()),
-        booleanProp: json[r'boolean_prop'] as bool,
-        stringProp: json[r'string_prop'] as String,
-        dateProp: json[r'date_prop'] == null
-          ? null
-          : DateTime.parse(json[r'date_prop'].toString()),
-        datetimeProp: json[r'datetime_prop'] == null
-          ? null
-          : DateTime.parse(json[r'datetime_prop'].toString()),
-        arrayNullableProp: json[r'array_nullable_prop'] is List
-          ? Object.listFromJson(json[r'array_nullable_prop'] as List)
-          : null,
-        arrayAndItemsNullableProp: json[r'array_and_items_nullable_prop'] is List
-          ? Object.listFromJson(json[r'array_and_items_nullable_prop'] as List)
-          : null,
-        arrayItemsNullable: json[r'array_items_nullable'] is List
-          ? Object.listFromJson(json[r'array_items_nullable'] as List)
-          : null,
-        objectNullableProp: json[r'object_nullable_prop'] == null
-          ? null
-          : json[r'object_nullable_prop'] as Map<String, Object>,
-        objectAndItemsNullableProp: json[r'object_and_items_nullable_prop'] == null
-          ? null
-          : json[r'object_and_items_nullable_prop'] as Map<String, Object>,
-        objectItemsNullable: json[r'object_items_nullable'] == null
-          ? null
-          : json[r'object_items_nullable'] as Map<String, Object>,
-    );
+          : num.parse('${json[r'number_prop']}'),
+        booleanProp: mapValueOfType<bool>(json, r'boolean_prop'),
+        stringProp: mapValueOfType<String>(json, r'string_prop'),
+        dateProp: mapDateTime(json, r'date_prop', ''),
+        datetimeProp: mapDateTime(json, r'datetime_prop', ''),
+        arrayNullableProp: Object.listFromJson(json[r'array_nullable_prop']),
+        arrayAndItemsNullableProp: Object.listFromJson(json[r'array_and_items_nullable_prop']),
+        arrayItemsNullable: Object.listFromJson(json[r'array_items_nullable']),
+        objectNullableProp: mapValueOfType<Map<String, Object>>(json, r'object_nullable_prop'),
+        objectAndItemsNullableProp: mapValueOfType<Map<String, Object>>(json, r'object_and_items_nullable_prop'),
+        objectItemsNullable: mapValueOfType<Map<String, Object>>(json, r'object_items_nullable'),
+      );
+    }
+    return null;
+  }
 
-  static List<NullableClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <NullableClass>[]
-      : json
-          .map((dynamic value) => NullableClass.fromJson((value as Map).cast<String, dynamic>()))
-          .toList(growable: true == growable);
+  static List<NullableClass> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(NullableClass.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <NullableClass>[];
 
-  static Map<String, NullableClass> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, NullableClass> mapFromJson(dynamic json) {
     final map = <String, NullableClass>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) => map[key] = NullableClass.fromJson((value as Map).cast<String, dynamic>()));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = NullableClass.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of NullableClass-objects as value to a dart map
-  static Map<String, List<NullableClass>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<NullableClass>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<NullableClass>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) {
-        map[key] = NullableClass.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = NullableClass.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }

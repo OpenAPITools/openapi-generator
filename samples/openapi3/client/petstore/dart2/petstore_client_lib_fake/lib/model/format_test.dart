@@ -162,57 +162,63 @@ class FormatTest {
   }
 
   /// Returns a new [FormatTest] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
+  /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static FormatTest fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : FormatTest(
-        integer: json[r'integer'] as int,
-        int32: json[r'int32'] as int,
-        int64: json[r'int64'] as int,
+  static FormatTest fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return FormatTest(
+        integer: mapValueOfType<int>(json, r'integer'),
+        int32: mapValueOfType<int>(json, r'int32'),
+        int64: mapValueOfType<int>(json, r'int64'),
         number: json[r'number'] == null
           ? null
-          : num.parse(json[r'number'].toString()),
-        float: json[r'float'] as double,
-        double_: json[r'double'] as double,
-        decimal: json[r'decimal'] as double,
-        string: json[r'string'] as String,
-        byte: json[r'byte'] as String,
+          : num.parse('${json[r'number']}'),
+        float: mapValueOfType<double>(json, r'float'),
+        double_: mapValueOfType<double>(json, r'double'),
+        decimal: mapValueOfType<double>(json, r'decimal'),
+        string: mapValueOfType<String>(json, r'string'),
+        byte: mapValueOfType<String>(json, r'byte'),
         binary: null, // No support for decoding binary content from JSON
-        date: json[r'date'] == null
-          ? null
-          : DateTime.parse(json[r'date'].toString()),
-        dateTime: json[r'dateTime'] == null
-          ? null
-          : DateTime.parse(json[r'dateTime'].toString()),
-        uuid: json[r'uuid'] as String,
-        password: json[r'password'] as String,
-        patternWithDigits: json[r'pattern_with_digits'] as String,
-        patternWithDigitsAndDelimiter: json[r'pattern_with_digits_and_delimiter'] as String,
-    );
+        date: mapDateTime(json, r'date', ''),
+        dateTime: mapDateTime(json, r'dateTime', ''),
+        uuid: mapValueOfType<String>(json, r'uuid'),
+        password: mapValueOfType<String>(json, r'password'),
+        patternWithDigits: mapValueOfType<String>(json, r'pattern_with_digits'),
+        patternWithDigitsAndDelimiter: mapValueOfType<String>(json, r'pattern_with_digits_and_delimiter'),
+      );
+    }
+    return null;
+  }
 
-  static List<FormatTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <FormatTest>[]
-      : json
-          .map((dynamic value) => FormatTest.fromJson((value as Map).cast<String, dynamic>()))
-          .toList(growable: true == growable);
+  static List<FormatTest> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(FormatTest.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <FormatTest>[];
 
-  static Map<String, FormatTest> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, FormatTest> mapFromJson(dynamic json) {
     final map = <String, FormatTest>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) => map[key] = FormatTest.fromJson((value as Map).cast<String, dynamic>()));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = FormatTest.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of FormatTest-objects as value to a dart map
-  static Map<String, List<FormatTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<FormatTest>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<FormatTest>>{};
-    if (json?.isNotEmpty == true) {
-      json.forEach((key, dynamic value) {
-        map[key] = FormatTest.listFromJson(value as List, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = FormatTest.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }

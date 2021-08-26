@@ -92,10 +92,7 @@ class Pet {
   Map<String, dynamic> toJson() => _$PetToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 
 /// pet status in the store

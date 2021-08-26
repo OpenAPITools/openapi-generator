@@ -71,9 +71,6 @@ class ObjectWithDeprecatedFields {
   Map<String, dynamic> toJson() => _$ObjectWithDeprecatedFieldsToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => '${toJson()}';
 }
 

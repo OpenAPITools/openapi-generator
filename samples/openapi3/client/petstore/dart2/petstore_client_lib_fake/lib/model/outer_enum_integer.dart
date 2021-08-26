@@ -21,7 +21,7 @@ class OuterEnumInteger {
   final int value;
 
   @override
-  String toString() => value.toString();
+  String toString() => '$value';
 
   int toJson() => value;
 
@@ -39,10 +39,10 @@ class OuterEnumInteger {
   static OuterEnumInteger fromJson(dynamic value) =>
     OuterEnumIntegerTypeTransformer().decode(value);
 
-  static List<OuterEnumInteger> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <OuterEnumInteger>[]
-      : json.map(OuterEnumInteger.fromJson).toList(growable: true == growable);
+  static List<OuterEnumInteger> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(OuterEnumInteger.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <OuterEnumInteger>[];
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumInteger] to int,
@@ -64,7 +64,7 @@ class OuterEnumIntegerTypeTransformer {
   /// and users are still using an old app with the old code.
   OuterEnumInteger decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch ('$data') {
         case 0: return OuterEnumInteger.number0;
         case 1: return OuterEnumInteger.number1;
         case 2: return OuterEnumInteger.number2;

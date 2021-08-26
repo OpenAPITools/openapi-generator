@@ -39,10 +39,10 @@ class EnumClass {
   static EnumClass fromJson(dynamic value) =>
     EnumClassTypeTransformer().decode(value);
 
-  static List<EnumClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <EnumClass>[]
-      : json.map(EnumClass.fromJson).toList(growable: true == growable);
+  static List<EnumClass> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(EnumClass.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <EnumClass>[];
 }
 
 /// Transformation class that can [encode] an instance of [EnumClass] to String,
@@ -64,7 +64,7 @@ class EnumClassTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumClass decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch ('$data') {
         case r'_abc': return EnumClass.abc;
         case r'-efg': return EnumClass.efg;
         case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
