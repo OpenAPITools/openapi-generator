@@ -187,6 +187,7 @@ Class | Method | HTTP request | Description
  - [IntegerEnumOneValue](docs/IntegerEnumOneValue.md)
  - [IntegerEnumWithDefaultValue](docs/IntegerEnumWithDefaultValue.md)
  - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
+ - [Legs](docs/Legs.md)
  - [List](docs/List.md)
  - [Mammal](docs/Mammal.md)
  - [MapTest](docs/MapTest.md)

@@ -49,7 +49,7 @@ interface {{classname}}
      * Operation {{{operationId}}}
     {{#summary}}
      *
-     * {{{summary}}}
+     * {{{.}}}
     {{/summary}}
      *
     {{#description}}
@@ -67,7 +67,7 @@ interface {{classname}}
      * @deprecated
     {{/isDeprecated}}
      */
-    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}, {{/allParams}}&$responseCode, array &$responseHeaders);
+    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}}{{^required}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/required}}, {{/allParams}}&$responseCode, array &$responseHeaders);
 {{/operation}}
 }
 {{/operations}}

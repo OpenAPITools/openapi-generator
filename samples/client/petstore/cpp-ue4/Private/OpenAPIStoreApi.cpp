@@ -18,10 +18,10 @@
 #include "HttpModule.h"
 #include "Serialization/JsonSerializer.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
-OpenAPIStoreApi::OpenAPIStoreApi() 
+OpenAPIStoreApi::OpenAPIStoreApi()
 : Url(TEXT("http://petstore.swagger.io/v2"))
 {
 }
@@ -146,7 +146,7 @@ FHttpRequestPtr OpenAPIStoreApi::DeleteOrder(const DeleteOrderRequest& Request, 
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnDeleteOrderResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -173,7 +173,7 @@ FHttpRequestPtr OpenAPIStoreApi::GetInventory(const GetInventoryRequest& Request
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnGetInventoryResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -200,7 +200,7 @@ FHttpRequestPtr OpenAPIStoreApi::GetOrderById(const GetOrderByIdRequest& Request
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnGetOrderByIdResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -227,7 +227,7 @@ FHttpRequestPtr OpenAPIStoreApi::PlaceOrder(const PlaceOrderRequest& Request, co
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnPlaceOrderResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;

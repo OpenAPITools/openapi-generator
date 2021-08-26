@@ -1222,6 +1222,16 @@ paths:
             type: string
           type: array
         style: form
+      - explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          additionalProperties:
+            format: string
+            type: string
+          type: object
+        style: form
       responses:
         "200":
           description: Success

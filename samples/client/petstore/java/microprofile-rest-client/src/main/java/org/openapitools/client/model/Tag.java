@@ -35,7 +35,7 @@ public class Tag  {
 
   @JsonbProperty("name")
   private String name;
-  
+
  /**
    * Get id
    * @return id

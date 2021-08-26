@@ -45,7 +45,7 @@ public class FakeClassnameTags123Api  {
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {

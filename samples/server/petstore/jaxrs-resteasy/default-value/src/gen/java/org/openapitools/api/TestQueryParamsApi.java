@@ -40,7 +40,7 @@ public class TestQueryParamsApi  {
     @io.swagger.annotations.ApiOperation(value = "test query params", notes = "desc", response = TestResponse.class, tags={ "verify-default-value", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "default response", response = TestResponse.class) })
-    public Response queryParamsTest(  @DefaultValue("11.2") @QueryParam("queryNumber") BigDecimal queryNumber,  @DefaultValue("qwerty") @QueryParam("queryString") String queryString,  @DefaultValue("qwerty") @QueryParam("queryStringWrapped") String queryStringWrapped,  @DefaultValue("qwerty\"with quotes\" test") @QueryParam("queryStringQuotes") String queryStringQuotes,  @DefaultValue("qwerty\"with quotes\" test") @QueryParam("queryStringQuotesWrapped") String queryStringQuotesWrapped,  @DefaultValue("true") @QueryParam("queryBoolean") Boolean queryBoolean,@Context SecurityContext securityContext)
+    public Response queryParamsTest( @DefaultValue("11.2") @QueryParam("queryNumber") BigDecimal queryNumber, @DefaultValue("qwerty") @QueryParam("queryString") String queryString, @DefaultValue("qwerty") @QueryParam("queryStringWrapped") String queryStringWrapped, @DefaultValue("qwerty\"with quotes\" test") @QueryParam("queryStringQuotes") String queryStringQuotes, @DefaultValue("qwerty\"with quotes\" test") @QueryParam("queryStringQuotesWrapped") String queryStringQuotesWrapped, @DefaultValue("true") @QueryParam("queryBoolean") Boolean queryBoolean,@Context SecurityContext securityContext)
     throws NotFoundException {
         return service.queryParamsTest(queryNumber,queryString,queryStringWrapped,queryStringQuotes,queryStringQuotesWrapped,queryBoolean,securityContext);
     }

@@ -60,13 +60,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
         public string PetType
-        { 
+        {
             get{ return _PetType;}
             set
             {
                 _PetType = value;
                 _flagPetType = true;
-            } 
+            }
         }
         private string _PetType;
         private bool _flagPetType;

@@ -6,6 +6,14 @@
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
 
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{parentGroupId}}</groupId>
+        <artifactId>{{parentArtifactId}}</artifactId>
+        <version>{{parentVersion}}</version>
+    </parent>
+{{/parentOverridden}}
+
     <build>
         <!-- Main source directory -->
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -76,14 +84,14 @@
             <artifactId>swagger-annotations</artifactId>
             <version>[1.5.3,1.5.16]</version>
         </dependency>
-        
+
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
-        
+
 {{#useBeanValidation}}
        <!-- Bean Validation API support -->
        <dependency>

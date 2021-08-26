@@ -1,10 +1,10 @@
     /// <summary>
-    /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+    /// {{description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
-    public {{^hasChildren}}sealed {{/hasChildren}}class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
+    public {{^hasChildren}}sealed {{/hasChildren}}class {{classname}}: {{#parent}}{{{.}}}, {{/parent}} IEquatable<{{classname}}>
     { {{#vars}}{{^isInherited}}
         /// <summary>
-        /// {{^description}}{{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// {{description}}{{^description}}{{{name}}}{{/description}}
         /// </summary>
         public {{>nullableDataType}} {{name}} { get; private set; }
 {{/isInherited}}{{/vars}}
@@ -118,7 +118,7 @@
             /// <summary>
             /// Sets value for {{classname}}.{{{name}}} property.
             /// </summary>
-            /// <param name="value">{{^description}}{{{name}}}{{/description}}{{#description}}{{description}}{{/description}}</param>
+            /// <param name="value">{{description}}{{^description}}{{{name}}}{{/description}}</param>
             public {{classname}}Builder {{name}}({{>nullableDataType}} value)
             {
                 _{{name}} = value;
