@@ -56,9 +56,7 @@ void {{classname}}::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManag
 
 FHttpRetrySystem::FManager& {{classname}}::GetHttpRetryManager()
 {
-    if (!RetryManager){
-        UE_LOG(Log{{unrealModuleName}}, Fatal, TEXT("{{classname}}: RetryManager is null"));
-    }
+	checkf(RetryManager, TEXT("{{classname}}: RetryManager is null.  You may have meant to set it with SetHttpRetryManager first, or you may not be using a custom RetryManager at all."))
 	return *RetryManager;
 }
 
