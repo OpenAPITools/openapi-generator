@@ -53,9 +53,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String groupId = "org.openapitools";
     protected String packageName = "org.openapitools";
     protected String apiSuffix = "Api";
-    protected String roomModelPackage = "";
 
-    protected Map<String, String> roomModelTemplateFiles = new HashMap<String, String>();
     protected String sourceFolder = "src/main/kotlin";
     protected String testFolder = "src/test/kotlin";
 
@@ -394,11 +392,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-//            if (generateRoomModels) {
-//                cm.vendorExtensions.put("x-has-data-class-body", true);
-//                break;
-//            }
-
             if (cm.getDiscriminator() != null) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
                 break;
@@ -444,8 +437,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             this.setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
             if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE))
                 this.setModelPackage(packageName + ".models");
-            if (!additionalProperties.containsKey(CodegenConstants.ROOM_MODEL_PACKAGE))
-                this.setRoomModelPackage(packageName + ".models.room");
             if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE))
                 this.setApiPackage(packageName + ".apis");
         } else {
@@ -501,7 +492,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
-        additionalProperties.put(CodegenConstants.ROOM_MODEL_PACKAGE, roomModelPackage);
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -550,12 +540,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public void setSerializableModel(boolean serializableModel) {
         this.serializableModel = serializableModel;
     }
-
-    public void setRoomModelPackage(String roomModelPackage) {
-        this.roomModelPackage = roomModelPackage;
-    }
-
-    public Map<String, String> getRoomModelTemplateFiles() { return roomModelTemplateFiles; }
 
     public boolean nonPublicApi() {
         return nonPublicApi;
@@ -734,15 +718,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public String toModelFilename(String name) {
         // Should be the same as the model name
         return toModelName(name);
-    }
-
-    public String roomModelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + roomModelPackage.replace('.', File.separatorChar);
-    }
-
-    public String roomModelFilename(String templateName, String modelName) {
-        String suffix = "RoomModel" + roomModelTemplateFiles.get(templateName);
-        return roomModelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
     }
 
     /**

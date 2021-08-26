@@ -73,6 +73,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRxAndCoroutines = true;
     protected boolean generateRoomModels = false;
+    protected String roomModelPackage = "";
+
 
     protected String authFolder;
 
@@ -298,6 +300,25 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         this.collectionType = collectionType;
     }
 
+    public void setRoomModelPackage(String roomModelPackage) {
+        this.roomModelPackage = roomModelPackage;
+    }
+
+    @Override
+    public String modelFilename(String templateName, String modelName) {
+        String suffix = modelTemplateFiles().get(templateName);
+        // If this was a proper template method, i wouldn't have to make myself throw up by doing this....
+        if (getGenerateRoomModels() && suffix.startsWith("RoomModel")) {
+            return roomModelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
+        } else {
+            return modelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
+        }
+    }
+
+    public String roomModelFileFolder() {
+        return outputFolder + File.separator + sourceFolder + File.separator + roomModelPackage.replace('.', File.separatorChar);
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -494,11 +515,19 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             this.setGenerateRoomModels(convertPropertyToBooleanAndWriteBack(GENERATE_ROOM_MODELS));
             // Hide this option behind a property getter and setter in case we need to check it elsewhere
             if (getGenerateRoomModels()) {
-                 modelTemplateFiles.put("model_room.mustache", ".kt");
+                 modelTemplateFiles.put("model_room.mustache", "RoomModel.kt");
+                 supportingFiles.add(new SupportingFile("IStorable.mustache", infrastructureFolder, "IStorable.kt"));
+
             }
         } else {
             additionalProperties.put(GENERATE_ROOM_MODELS, generateRoomModels);
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            if (!additionalProperties.containsKey(CodegenConstants.ROOM_MODEL_PACKAGE))
+                this.setRoomModelPackage(packageName + ".models.room");
+        }
+        additionalProperties.put(CodegenConstants.ROOM_MODEL_PACKAGE, roomModelPackage);
 
         supportingFiles.add(new SupportingFile("auth/authentication.mustache", authFolder, "Authentication.kt"));
         supportingFiles.add(new SupportingFile("auth/httpbasicauth.mustache", authFolder, "HttpBasicAuth.kt"));
@@ -508,13 +537,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("request/GsonRequest.mustache", requestFolder, "GsonRequest.kt"));
         supportingFiles.add(new SupportingFile("request/IRequestFactory.mustache", requestFolder, "IRequestFactory.kt"));
         supportingFiles.add(new SupportingFile("request/RequestFactory.mustache", requestFolder, "RequestFactory.kt"));
-
-//        KotlinClientCodegen kotlinConfig = (KotlinClientCodegen) config;
-//        if (kotlinConfig.getGenerateRoomModels()) {
-            supportingFiles.add(new SupportingFile("IStorable.mustache", infrastructureFolder, "IStorable.kt"));
-
- //       }
-
 
         addSupportingSerializerAdapters(infrastructureFolder);
     }
