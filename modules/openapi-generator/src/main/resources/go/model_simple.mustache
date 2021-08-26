@@ -43,7 +43,6 @@ func New{{classname}}({{#requiredVars}}{{nameInCamelCase}} {{dataType}}{{^-last}
 {{^required}}
 {{#defaultValue}}
 {{^vendorExtensions.x-golang-is-container}}
-{{#skipReadonlyPropertiesInInt}}
 {{#isNullable}}
 	var {{nameInCamelCase}} {{{datatypeWithEnum}}} = {{{.}}}
 	this.{{name}} = *New{{{dataType}}}(&{{nameInCamelCase}})
@@ -52,19 +51,6 @@ func New{{classname}}({{#requiredVars}}{{nameInCamelCase}} {{dataType}}{{^-last}
 	var {{nameInCamelCase}} {{{dataType}}} = {{{.}}}
 	this.{{name}} = &{{nameInCamelCase}}
 {{/isNullable}}
-{{/skipReadonlyPropertiesInInt}}
-{{^skipReadonlyPropertiesInInt}}
-{{^isReadOnly}}
-{{#isNullable}}
-	var {{nameInCamelCase}} {{{datatypeWithEnum}}} = {{{.}}}
-	this.{{name}} = *New{{{dataType}}}(&{{nameInCamelCase}})
-{{/isNullable}}
-{{^isNullable}}
-	var {{nameInCamelCase}} {{{dataType}}} = {{{.}}}
-	this.{{name}} = &{{nameInCamelCase}}
-{{/isNullable}}
-{{/isReadOnly}}
-{{/skipReadonlyPropertiesInInt}}
 {{/vendorExtensions.x-golang-is-container}}
 {{/defaultValue}}
 {{/required}}
@@ -80,7 +66,6 @@ func New{{classname}}WithDefaults() *{{classname}} {
 {{#vars}}
 {{#defaultValue}}
 {{^vendorExtensions.x-golang-is-container}}
-{{#skipReadonlyPropertiesInInt}}
 {{#isNullable}}
 {{!we use datatypeWithEnum here, since it will represent the non-nullable name of the datatype, e.g. int64 for NullableInt64}}
 	var {{nameInCamelCase}} {{{datatypeWithEnum}}} = {{{.}}}
@@ -90,20 +75,6 @@ func New{{classname}}WithDefaults() *{{classname}} {
 	var {{nameInCamelCase}} {{{dataType}}} = {{{.}}}
 	this.{{name}} = {{^required}}&{{/required}}{{nameInCamelCase}}
 {{/isNullable}}
-{{/skipReadonlyPropertiesInInt}}
-{{^skipReadonlyPropertiesInInt}}
-{{^isReadOnly}}
-{{#isNullable}}
-{{!we use datatypeWithEnum here, since it will represent the non-nullable name of the datatype, e.g. int64 for NullableInt64}}
-	var {{nameInCamelCase}} {{{datatypeWithEnum}}} = {{{.}}}
-	this.{{name}} = *New{{{dataType}}}(&{{nameInCamelCase}})
-{{/isNullable}}
-{{^isNullable}}
-	var {{nameInCamelCase}} {{{dataType}}} = {{{.}}}
-	this.{{name}} = {{^required}}&{{/required}}{{nameInCamelCase}}
-{{/isNullable}}
-{{/isReadOnly}}
-{{/skipReadonlyPropertiesInInt}}
 {{/vendorExtensions.x-golang-is-container}}
 {{/defaultValue}}
 {{/vars}}
