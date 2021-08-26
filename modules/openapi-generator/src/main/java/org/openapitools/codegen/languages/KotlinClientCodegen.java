@@ -155,7 +155,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         outputFolder = "generated-code" + File.separator + "kotlin-client";
         modelTemplateFiles.put("model.mustache", ".kt");
-        roomModelTemplateFiles.put("model_room.mustache", ".kt");
+        if (generateRoomModels) {
+            modelTemplateFiles.put("model_room.mustache", ".kt");
+        }
         apiTemplateFiles.put("api.mustache", ".kt");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -490,6 +492,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (additionalProperties.containsKey(GENERATE_ROOM_MODELS)) {
             this.setGenerateRoomModels(convertPropertyToBooleanAndWriteBack(GENERATE_ROOM_MODELS));
+            // Hide this option behind a property getter and setter in case we need to check it elsewhere
+            if (getGenerateRoomModels()) {
+                 modelTemplateFiles.put("model_room.mustache", ".kt");
+            }
         } else {
             additionalProperties.put(GENERATE_ROOM_MODELS, generateRoomModels);
         }
