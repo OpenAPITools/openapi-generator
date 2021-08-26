@@ -52,7 +52,7 @@ public enum JustSymbolEnum {
 }
 
   private @Valid JustSymbolEnum justSymbol;
- 
+
 public enum ArrayEnumEnum {
 
     FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));

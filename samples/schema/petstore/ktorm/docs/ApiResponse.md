@@ -1,5 +1,5 @@
 
-# Table `ApiResponse` 
+# Table `ApiResponse`
 (mapped from: ApiResponse)
 
 ## Properties

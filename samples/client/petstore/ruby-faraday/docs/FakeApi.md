@@ -1115,7 +1115,7 @@ No authorization required
 
 ## test_query_parameter_collection_format
 
-> test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+> test_query_parameter_collection_format(pipe, ioutil, http, url, context, opts)
 
 
 
@@ -1133,10 +1133,13 @@ ioutil = ['inner_example'] # Array<String> |
 http = ['inner_example'] # Array<String> | 
 url = ['inner_example'] # Array<String> | 
 context = ['inner_example'] # Array<String> | 
+opts = {
+  language: { key: 'inner_example'} # Hash<String, String> | 
+}
 
 begin
   
-  api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+  api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, opts)
 rescue Petstore::ApiError => e
   puts "Error when calling FakeApi->test_query_parameter_collection_format: #{e}"
 end
@@ -1146,12 +1149,12 @@ end
 
 This returns an Array which contains the response data (`nil` in this case), status code and headers.
 
-> <Array(nil, Integer, Hash)> test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context)
+> <Array(nil, Integer, Hash)> test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, opts)
 
 ```ruby
 begin
   
-  data, status_code, headers = api_instance.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context)
+  data, status_code, headers = api_instance.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => nil
@@ -1169,6 +1172,7 @@ end
 | **http** | [**Array&lt;String&gt;**](String.md) |  |  |
 | **url** | [**Array&lt;String&gt;**](String.md) |  |  |
 | **context** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **language** | [**Hash&lt;String, String&gt;**](String.md) |  | [optional] |
 
 ### Return type
 

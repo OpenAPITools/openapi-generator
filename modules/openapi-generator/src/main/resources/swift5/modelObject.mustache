@@ -9,14 +9,14 @@
 {{/allVars}}
 {{#allVars}}
 {{#isEnum}}
-    {{#description}}/** {{{description}}} */
+    {{#description}}/** {{{.}}} */
     {{/description}}{{#deprecated}}@available(*, deprecated, message: "This property is deprecated.")
-    {{/deprecated}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var {{{name}}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
+    {{/deprecated}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var {{{name}}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
 {{/isEnum}}
 {{^isEnum}}
-    {{#description}}/** {{{description}}} */
+    {{#description}}/** {{{.}}} */
     {{/description}}{{#deprecated}}@available(*, deprecated, message: "This property is deprecated.")
-    {{/deprecated}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var {{{name}}}: {{{datatype}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
+    {{/deprecated}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var {{{name}}}: {{{datatype}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
     {{#objcCompatible}}
     {{#vendorExtensions.x-swift-optional-scalar}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var {{{name}}}Num: NSNumber? {
@@ -30,7 +30,7 @@
 {{/allVars}}
 {{#hasVars}}
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#allVars}}{{{name}}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{^required}} = nil{{/required}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/allVars}}) {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#allVars}}{{{name}}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}}{{^required}} = nil{{/required}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/allVars}}) {
         {{#allVars}}
         self.{{{name}}} = {{{name}}}
         {{/allVars}}

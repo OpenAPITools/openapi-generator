@@ -8,7 +8,7 @@ use crate::header;
 {{#model}}
 
 {{#description}}
-/// {{{description}}}
+/// {{{.}}}
 {{/description}}
 {{#isEnum}}
 /// Enumeration of values.
@@ -18,7 +18,7 @@ use crate::header;
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]{{#xmlName}}
-#[serde(rename = "{{{xmlName}}}")]{{/xmlName}}
+#[serde(rename = "{{{.}}}")]{{/xmlName}}
 pub enum {{{classname}}} {
 {{#allowableValues}}
   {{#enumVars}}
@@ -65,7 +65,7 @@ impl std::str::FromStr for {{{classname}}} {
 {{/isMap}}
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
-#[serde(rename = "{{{xmlName}}}")]
+#[serde(rename = "{{{.}}}")]
 {{/xmlName}}
 pub struct {{{classname}}}({{{dataType}}});
 
@@ -246,10 +246,10 @@ impl std::str::FromStr for {{{classname}}} {
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
-#[serde(rename = "{{{xmlName}}}")]
+#[serde(rename = "{{{.}}}")]
 {{/xmlName}}
 pub struct {{{classname}}} {
-{{#vars}}{{#description}}    /// {{{description}}}
+{{#vars}}{{#description}}    /// {{{.}}}
 {{/description}}{{#isEnum}}    // Note: inline enums are not fully supported by openapi-generator
 {{/isEnum}}
     #[serde(rename = "{{{baseName}}}")]
@@ -276,7 +276,7 @@ pub struct {{{classname}}} {
 impl {{{classname}}} {
     pub fn new({{#vars}}{{^defaultValue}}{{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vars}}) -> {{{classname}}} {
         {{{classname}}} {
-{{#vars}}            {{{name}}}: {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}},
+{{#vars}}            {{{name}}}: {{{defaultValue}}}{{^defaultValue}}{{{name}}}{{/defaultValue}},
 {{/vars}}
         }
     }

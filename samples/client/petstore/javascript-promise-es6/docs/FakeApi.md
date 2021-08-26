@@ -800,7 +800,7 @@ No authorization required
 
 ## testQueryParameterCollectionFormat
 
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, opts)
 
 
 
@@ -817,7 +817,10 @@ let ioutil = ["null"]; // [String] |
 let http = ["null"]; // [String] | 
 let url = ["null"]; // [String] | 
 let context = ["null"]; // [String] | 
-apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context).then(() => {
+let opts = {
+  'language': {key: "null"} // {String: String} | 
+};
+apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, opts).then(() => {
   console.log('API called successfully.');
 }, (error) => {
   console.error(error);
@@ -835,6 +838,7 @@ Name | Type | Description  | Notes
  **http** | [**[String]**](String.md)|  | 
  **url** | [**[String]**](String.md)|  | 
  **context** | [**[String]**](String.md)|  | 
+ **language** | [**{String: String}**](String.md)|  | [optional] 
 
 ### Return type
 

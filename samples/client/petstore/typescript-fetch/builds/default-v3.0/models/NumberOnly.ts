@@ -54,4 +54,3 @@ export function NumberOnlyToJSON(value?: NumberOnly | null): any {
     };
 }
 
-

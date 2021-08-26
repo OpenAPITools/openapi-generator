@@ -66,14 +66,17 @@ class _$ReadOnlyFirstSerializer implements StructuredSerializer<ReadOnlyFirst> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'bar':
-                    result.bar = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.bar = valueDes;
                     break;
                 case r'baz':
-                    result.baz = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.baz = valueDes;
                     break;
             }
         }

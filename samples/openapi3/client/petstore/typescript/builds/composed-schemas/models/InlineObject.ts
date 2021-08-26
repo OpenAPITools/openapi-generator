@@ -28,7 +28,7 @@ export class InlineObject {
     static getAttributeTypeMap() {
         return InlineObject.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }

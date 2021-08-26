@@ -96,4 +96,3 @@ export function InlineResponse200ToJSON(value?: InlineResponse200 | null): any {
     };
 }
 
-

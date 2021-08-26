@@ -33,7 +33,7 @@ void {{classname}}::startService(int const& port) {
 	std::shared_ptr<restbed::Settings> settings = std::make_shared<restbed::Settings>();
 	settings->set_port(port);
 	settings->set_root("{{contextPath}}");
-	
+
 	this->start(settings);
 }
 
@@ -217,7 +217,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::{{httpMe
 		});
 	{{/hasBodyParam}}
 }
-{{/vendorExtensions.x-codegen-other-methods}}  
+{{/vendorExtensions.x-codegen-other-methods}}
 
 
 {{/operation}}

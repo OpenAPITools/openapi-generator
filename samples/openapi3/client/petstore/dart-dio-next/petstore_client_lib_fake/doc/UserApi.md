@@ -26,14 +26,14 @@ Create user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getUserApi();
 final User user = ; // User | Created user object
 
-try { 
+try {
     api.createUser(user);
 } catch on DioError (e) {
     print('Exception when calling UserApi->createUser: $e\n');
@@ -66,14 +66,14 @@ No authorization required
 
 Creates list of users with given input array
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getUserApi();
 final BuiltList<User> user = ; // BuiltList<User> | List of user object
 
-try { 
+try {
     api.createUsersWithArrayInput(user);
 } catch on DioError (e) {
     print('Exception when calling UserApi->createUsersWithArrayInput: $e\n');
@@ -106,14 +106,14 @@ No authorization required
 
 Creates list of users with given input array
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getUserApi();
 final BuiltList<User> user = ; // BuiltList<User> | List of user object
 
-try { 
+try {
     api.createUsersWithListInput(user);
 } catch on DioError (e) {
     print('Exception when calling UserApi->createUsersWithListInput: $e\n');
@@ -148,14 +148,14 @@ Delete user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getUserApi();
 final String username = username_example; // String | The name that needs to be deleted
 
-try { 
+try {
     api.deleteUser(username);
 } catch on DioError (e) {
     print('Exception when calling UserApi->deleteUser: $e\n');
@@ -188,14 +188,14 @@ No authorization required
 
 Get user by user name
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getUserApi();
 final String username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
 
-try { 
+try {
     final response = api.getUserByName(username);
     print(response);
 } catch on DioError (e) {
@@ -229,7 +229,7 @@ No authorization required
 
 Logs user into the system
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
@@ -237,7 +237,7 @@ final api = Openapi().getUserApi();
 final String username = username_example; // String | The user name for login
 final String password = password_example; // String | The password for login in clear text
 
-try { 
+try {
     final response = api.loginUser(username, password);
     print(response);
 } catch on DioError (e) {
@@ -272,13 +272,13 @@ No authorization required
 
 Logs out current logged in user session
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getUserApi();
 
-try { 
+try {
     api.logoutUser();
 } catch on DioError (e) {
     print('Exception when calling UserApi->logoutUser: $e\n');
@@ -310,7 +310,7 @@ Updated user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
@@ -318,7 +318,7 @@ final api = Openapi().getUserApi();
 final String username = username_example; // String | name that need to be deleted
 final User user = ; // User | Updated user object
 
-try { 
+try {
     api.updateUser(username, user);
 } catch on DioError (e) {
     print('Exception when calling UserApi->updateUser: $e\n');

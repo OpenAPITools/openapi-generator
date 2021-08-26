@@ -13,12 +13,12 @@ namespace {{modelPackage}} {
   /// {{description}}
   /// </summary>
   [DataContract]
-  public class {{classname}}{{#parent}} : {{{parent}}}{{/parent}} {
+  public class {{classname}}{{#parent}} : {{{.}}}{{/parent}} {
     {{#vars}}
     /// <summary>
-    /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{{description}}}{{/description}}
+    /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{{description}}}
     /// </summary>{{#description}}
-    /// <value>{{{description}}}</value>{{/description}}
+    /// <value>{{{.}}}</value>{{/description}}
     [DataMember(Name="{{baseName}}", EmitDefaultValue=false)]
     [JsonProperty(PropertyName = "{{baseName}}")]
     {{#deprecated}}

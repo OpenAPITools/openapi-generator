@@ -22,7 +22,7 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
-### Example 
+### Example
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
@@ -73,7 +73,7 @@ void (empty response body)
 
 Deletes a pet
 
-### Example 
+### Example
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
@@ -128,7 +128,7 @@ Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 
-### Example 
+### Example
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
@@ -183,7 +183,7 @@ Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
-### Example 
+### Example
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
@@ -238,7 +238,7 @@ Find pet by ID
 
 Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions
 
-### Example 
+### Example
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
@@ -296,7 +296,7 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
-### Example 
+### Example
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
@@ -348,7 +348,7 @@ void (empty response body)
 
 Updates a pet in the store with form data
 
-### Example 
+### Example
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
@@ -406,7 +406,7 @@ void (empty response body)
 
 uploads an image
 
-### Example 
+### Example
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 

@@ -77,4 +77,3 @@ export function ArrayTestToJSON(value?: ArrayTest | null): any {
     };
 }
 
-

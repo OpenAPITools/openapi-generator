@@ -14,14 +14,14 @@ feature -- Test routines
 
 {{#operations}}
     {{#operation}}
-    
+
     test_{{operationId}}
             -- {{summary}}
-            -- 
-            -- {{notes}} 
+            --
+            -- {{notes}}
         local
             {{#returnType}}
-            l_response: {{{returnType}}}
+            l_response: {{{.}}}
             {{/returnType}}
             {{#allParams}}
             l_{{paramName}}: {{{dataType}}}
@@ -37,10 +37,10 @@ feature -- Test routines
             {{/isContainer}}
             {{^isContainer}}
             -- l_{{paramName}}
-            {{/isContainer}}        
+            {{/isContainer}}
             {{/required}}
             {{/allParams}}
-                      
+
             {{#returnType}}
             -- l_response := api.{{operationId}}{{#hasParams}}({{#allParams}}l_{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}
             {{/returnType}}
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 
     api: {{classname}}
             -- Create an object instance of `{{classname}}'.
-        once            
+        once
             create { {{classname}} } Result
         end
 
