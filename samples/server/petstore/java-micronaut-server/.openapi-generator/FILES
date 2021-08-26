@@ -2,7 +2,6 @@
 .mvn/wrapper/MavenWrapperDownloader.java
 .mvn/wrapper/maren-wrapper.properties
 .mvn/wrapper/maven-wrapper.jar
-.openapi-generator-ignore
 README.md
 build.gradle
 docs/controllers/PetController.md
@@ -34,12 +33,3 @@ src/main/java/org/openapitools/model/Pet.java
 src/main/java/org/openapitools/model/Tag.java
 src/main/java/org/openapitools/model/User.java
 src/main/resources/application.yml
-src/test/groovy/org/openapitools/controller/PetControllerSpec.groovy
-src/test/groovy/org/openapitools/controller/StoreControllerSpec.groovy
-src/test/groovy/org/openapitools/controller/UserControllerSpec.groovy
-src/test/groovy/org/openapitools/model/CategorySpec.groovy
-src/test/groovy/org/openapitools/model/ModelApiResponseSpec.groovy
-src/test/groovy/org/openapitools/model/OrderSpec.groovy
-src/test/groovy/org/openapitools/model/PetSpec.groovy
-src/test/groovy/org/openapitools/model/TagSpec.groovy
-src/test/groovy/org/openapitools/model/UserSpec.groovy

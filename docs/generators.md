@@ -96,6 +96,7 @@ The following generators are available:
 * [haskell](generators/haskell.md)  
 * [haskell-yesod (beta)](generators/haskell-yesod.md)  
 * [java-inflector](generators/java-inflector.md)  
+* [java-micronaut-server (beta)](generators/java-micronaut-server.md)  
 * [java-msf4j](generators/java-msf4j.md)  
 * [java-pkmst](generators/java-pkmst.md)  
 * [java-play-framework](generators/java-play-framework.md)  
