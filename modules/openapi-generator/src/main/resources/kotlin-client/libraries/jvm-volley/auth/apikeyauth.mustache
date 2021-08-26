@@ -1,26 +1,11 @@
-{{>licenseInfo}}
-package {{packageName}}.auth
+// Api Key auth supports query header and cookie.
+// Query is supported in the path generation only with a hardcoded value.
+// TODO: Not sure about cookie auth
 
-import kotlin.collections.MutableMap
-import kotlin.collections.MutableList
-
-class ApiKeyAuth(private val location: String, val paramName: String) : Authentication {
-    var apiKey: String? = null
-    var apiKeyPrefix: String? = null
-
-    override fun applyToParams(queryParams: MutableMap<String, String>, headerParams: MutableMap<String, String>) {
-        if (apiKey == null) {
-            return
-        }
-        val value: String = if (apiKeyPrefix != null) {
-            "$apiKeyPrefix $apiKey"
-        } else {
-            apiKey!!
-        }
-        if ("query" == location) {
-            queryParams[paramName] = value
-        } else if ("header" == location) {
-            headerParams[paramName] = value
-        }
-    }
+val apiKeyAuthHeaderFactoryBuilder = { paramName: String, apiKeyPrefix: String?, apiKey: String? ->
+{ mapOf("$paramName" to if (apiKeyPrefix != null) {
+"$apiKeyPrefix $apiKey"
+} else {
+apiKey!!
+})}
 }

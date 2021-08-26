@@ -37,7 +37,7 @@ class {{classname}} (
     {{#isDeprecated}}
     @Deprecated("This api was deprecated")
     {{/isDeprecated}}
-    suspend fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/allParams}}: {{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+    suspend fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}{{#operationAuthMethod}}, opAuthHeaderFactory = () -> map<String, String>{{/operationAuthMethod}}){{/-last}}{{/allParams}}: {{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         {{#bodyParam}}
         var body: Any? = {{paramName}}
         {{/bodyParam}}
@@ -67,6 +67,8 @@ class {{classname}} (
         val formParams: Map<String, String> = HashMap()
 
         // TODO: Cater for allowing empty values
+        // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
+        // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
             {{#queryParams}}
             "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}),
@@ -78,8 +80,6 @@ class {{classname}} (
             "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}),
             {{/headerParams}}
         )
-
-        val authNames = arrayOf<String>({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
 
         return suspendCoroutine { continuation ->
             val responseListener = Response.Listener<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> { response ->
@@ -101,7 +101,6 @@ class {{classname}} (
                     headerParams,
                     queryParams,
                     contentType,
-                    authNames,
                     type,
                     responseListener,
                     errorListener)

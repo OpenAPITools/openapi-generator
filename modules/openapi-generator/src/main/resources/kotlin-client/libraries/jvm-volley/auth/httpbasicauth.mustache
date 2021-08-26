@@ -1,16 +1,3 @@
-{{>licenseInfo}}
-package {{packageName}}.auth
-
-import android.util.Base64
-import kotlin.collections.MutableMap
-import kotlin.collections.MutableList
-
-class HttpBasicAuth: Authentication {
-    var username: String? = null
-    var password: String? = null
-
-    override fun applyToParams(queryParams: MutableMap<String, String>, headerParams: MutableMap<String, String>) {
-        val str = username ?: "" + ":" + password ?: ""
-        headerParams.put("Authorization", "Basic " + Base64.encodeToString(str.toByteArray(), Base64.DEFAULT))
-    }
+val basicAuthHeaderFactoryBuilder = { username: String?, password: String? ->
+        { mapOf("Authorization" to "Basic " + Base64.encodeToString("${username ?: ""}:${password ?: ""}".toByteArray(), Base64.DEFAULT))}
 }

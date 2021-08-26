@@ -88,7 +88,6 @@ interface IRequestFactory {
         headers: Map<String, String>?,
         params: Map<String, String>?,
         contentTypeForBody: String?,
-        authNames: Array<String>?,
         type: Type,
         responseListener: Response.Listener<T>,
         errorListener: Response.ErrorListener): Request<T>
