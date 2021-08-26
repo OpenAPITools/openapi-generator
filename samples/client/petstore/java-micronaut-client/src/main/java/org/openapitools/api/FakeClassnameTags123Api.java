@@ -31,18 +31,17 @@ import javax.validation.constraints.*;
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
 @Client("${base-path}")
 public interface FakeClassnameTags123Api {
-
-  /**
-   * To test class name in snake case
-   * To test class name in snake case
-   *
-   * @param _body client model (required)
-   * @return ModelClient
-   */
-  @Patch(uri="/fake_classname_test")
-  @Produces(value={"application/json"})
-  @Consumes(value={"application/json"})
-  Mono<ModelClient> testClassname(
+    /**
+     * To test class name in snake case
+     * To test class name in snake case
+     *
+     * @param _body client model (required)
+     * @return ModelClient
+     */
+    @Patch(uri="/fake_classname_test")
+    @Produces(value={"application/json"})
+    @Consumes(value={"application/json"})
+    Mono<ModelClient> testClassname(
         @Body @Valid @NotNull ModelClient _body
   );
 }

@@ -4,7 +4,7 @@ This is a generated client based on [Micronaut](https://micronaut.io/) framework
 
 ## Configuration
 
-A Micronaut's application can be created by defyning a main class and running:
+A Micronaut's application can be created by defining a main class and running:
 ```java
 import io.micronaut.runtime.Micronaut;
 import io.micronaut.context.ApplicationContext;
@@ -25,12 +25,12 @@ All the properties can be changed in the [application.yml][src/main/resources/ap
 
 Description on how to create Apis is given inside individual api guides:
 
-* [AnotherFakeApi](docs//AnotherFakeApi.md)
-* [FakeApi](docs//FakeApi.md)
-* [FakeClassnameTags123Api](docs//FakeClassnameTags123Api.md)
-* [PetApi](docs//PetApi.md)
-* [StoreApi](docs//StoreApi.md)
-* [UserApi](docs//UserApi.md)
+* [AnotherFakeApi](docs/apis/AnotherFakeApi.md)
+* [FakeApi](docs/apis/FakeApi.md)
+* [FakeClassnameTags123Api](docs/apis/FakeClassnameTags123Api.md)
+* [PetApi](docs/apis/PetApi.md)
+* [StoreApi](docs/apis/StoreApi.md)
+* [UserApi](docs/apis/UserApi.md)
 
 
 ## Auth methods

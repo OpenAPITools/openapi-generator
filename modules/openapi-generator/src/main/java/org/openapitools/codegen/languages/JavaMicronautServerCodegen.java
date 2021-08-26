@@ -110,7 +110,7 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
 
         // Add Application.java file
         String invokerFolder = (sourceFolder + '/' + invokerPackage).replace('.', '/');
-        supportingFiles.add(new SupportingFile("common/configuration/Application.mustache", invokerFolder, "Application.java"));
+        supportingFiles.add(new SupportingFile("common/configuration/Application.mustache", invokerFolder, "Application.java").doNotOverwrite());
     }
 
     @Override

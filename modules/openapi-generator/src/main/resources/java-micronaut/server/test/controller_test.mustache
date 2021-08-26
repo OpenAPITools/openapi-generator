@@ -104,21 +104,19 @@ public class {{classname}}Test {
         {{#bodyParam}}
         {{{dataType}}} body = {{{example}}};
         {{/bodyParam}}
-        {{#formParams}}
-            {{#-first}}
+        {{#formParams.0}}
         Map<String, Object> form = new HashMap<String, Object>(){{openbrace}}{{openbrace}}
             // Fill in the body form parameters
-                {{#formParams}}
-                    {{^isFile}}
+            {{#formParams}}
+                {{^isFile}}
             put("{{{baseName}}}", {{{example}}});
-                    {{/isFile}}
-                    {{#isFile}}
+                {{/isFile}}
+                {{#isFile}}
             put("{{{baseName}}}", new FileReader(File.createTempFile("test", ".tmp")));
-                    {{/isFile}}
-                {{/formParams}}
+                {{/isFile}}
+            {{/formParams}}
         {{closebrace}}{{closebrace}};
-            {{/-first}}
-        {{/formParams}}
+        {{/formParams.0}}
         {{#isMultipart}}
             {{^formParams}}
         MultipartBody body = MultipartBody.builder() // Create multipart body
@@ -139,12 +137,12 @@ public class {{classname}}Test {
             {{/formParams}}
         {{/isMultipart}}
         {{!Create the uri with path variables}}
-        String uri = UriTemplate.of("{{{path}}}").expand(new HashMap{{^pathParams}}<>(){{/pathParams}}{{#pathParams}}{{#-first}}<String, Object>(){{openbrace}}{{openbrace}}
+        String uri = UriTemplate.of("{{{path}}}").expand(new HashMap{{^pathParams}}<>(){{/pathParams}}{{#pathParams.0}}<String, Object>(){{openbrace}}{{openbrace}}
             // Fill in the path variables
         {{#pathParams}}
             put("{{{baseName}}}", {{{example}}});
         {{/pathParams}}
-        {{closebrace}}{{closebrace}}{{/-first}}{{/pathParams}});
+        {{closebrace}}{{closebrace}}{{/pathParams.0}});
         {{!Create the request with body and uri}}
         MutableHttpRequest<?> request = HttpRequest.{{httpMethod}}{{#vendorExtensions.methodAllowsBody}}{{#bodyParam}}(uri, body){{/bodyParam}}{{#isMultipart}}{{^formParams}}(uri, body){{/formParams}}{{/isMultipart}}{{#formParams.0}}(uri, form){{/formParams.0}}{{^bodyParam}}{{^isMultipart}}{{^formParams}}(uri, null){{/formParams}}{{/isMultipart}}{{/bodyParam}}{{/vendorExtensions.methodAllowsBody}}{{^vendorExtensions.methodAllowsBody}}(uri){{/vendorExtensions.methodAllowsBody}}{{!Fill in all the request parameters}}{{#vendorExtensions.x-contentType}}
             .contentType("{{vendorExtensions.x-contentType}}"){{/vendorExtensions.x-contentType}}{{#vendorExtensions.x-accepts}}
@@ -152,24 +150,22 @@ public class {{classname}}Test {
             .header("{{{baseName}}}", {{^isString}}String.valueOf({{/isString}}{{{example}}}{{^isString}}){{/isString}}){{/headerParams}}{{#cookieParams}}
             .cookie(Cookie.of("{{{baseName}}}", {{{example}}})){{/cookieParams}};
         {{!Fill in the query parameters}}
-        {{#queryParams}}
-            {{#-first}}
+        {{#queryParams.0}}
         request.getParameters()
-                {{#queryParams}}
-                    {{#isCollectionFormatMulti}}
+            {{#queryParams}}
+                {{#isCollectionFormatMulti}}
             .add("{{{baseName}}}", {{{example}}}){{#-last}};{{/-last}} // The query format should be multi
-                    {{/isCollectionFormatMulti}}
-                    {{#isDeepObject}}
+                {{/isCollectionFormatMulti}}
+                {{#isDeepObject}}
             .add("{{{baseName}}}[property]", "value"){{#-last}};{{/-last}} // The query format should be deep-object
-                    {{/isDeepObject}}
-                    {{^isCollectionFormatMulti}}
-                        {{^isDeepObject}}
+                {{/isDeepObject}}
+                {{^isCollectionFormatMulti}}
+                    {{^isDeepObject}}
             .add("{{{baseName}}}", {{^isString}}String.valueOf({{/isString}}{{{example}}}{{^isString}}){{/isString}}){{#-last}};{{/-last}} // The query parameter format should be {{collectionFormat}}
-                        {{/isDeepObject}}
-                    {{/isCollectionFormatMulti}}
-                {{/queryParams}}
-            {{/-first}}
-        {{/queryParams}}
+                    {{/isDeepObject}}
+                {{/isCollectionFormatMulti}}
+            {{/queryParams}}
+        {{/queryParams.0}}
 
         // when
         HttpResponse<?> response = client.toBlocking().exchange(request{{#returnType}}, {{#returnContainer}}Argument.of({{#isArray}}List{{/isArray}}{{#isMap}}Map{{/isMap}}.class, {{#isMap}}String.class, {{/isMap}}{{{returnBaseType}}}.class){{/returnContainer}}{{^returnContainer}}{{{returnType}}}.class{{/returnContainer}}{{/returnType}});{{^returnType}} // To retrieve body you must specify required type (e.g. Map.class) as second argument {{/returnType}}
@@ -178,9 +174,7 @@ public class {{classname}}Test {
         Assertions.assertEquals(HttpStatus.OK, response.status());
         {{#generateControllerFromExamples}}
             {{#returnType}}
-                {{#vendorExtensions.example}}
         Assertions.assertEquals(response.body(), {{{vendorExtensions.example}}});
-                {{/vendorExtensions.example}}
             {{/returnType}}
         {{/generateControllerFromExamples}}
     }

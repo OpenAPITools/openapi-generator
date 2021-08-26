@@ -379,8 +379,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
-        p.example = getParameterExampleValue(p, false);
         p.vendorExtensions.put("groovyExample", getParameterExampleValue(p, true));
+        p.example = getParameterExampleValue(p, false);
     }
 
     protected String getParameterExampleValue(CodegenParameter p, boolean groovy) {
@@ -481,7 +481,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             }
         } else if ("Map".equals(containerType)) {
             if (groovy) {
-                example = "[]";
+                example = "[:]";
             } else {
                 example = "new HashMap<>()";
             }
@@ -493,6 +493,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     public String escapeTextGroovy(String text) {
-        return text == null ? null : text.replaceAll("'", "\\'");
+        if (text == null) {
+            return null;
+        }
+        return escapeText(text).replaceAll("'", "\\'");
     }
 }
