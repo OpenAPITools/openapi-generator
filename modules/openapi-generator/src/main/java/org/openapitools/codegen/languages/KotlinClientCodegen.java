@@ -51,6 +51,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String USE_COROUTINES = "useCoroutines";
     public static final String DO_NOT_USE_RX_AND_COROUTINES = "doNotUseRxAndCoroutines";
     public static final String GENERATE_ROOM_MODELS = "generateRoomModels";
+    public static final String ROOM_MODEL_PACKAGE = "roomModelPackage";
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
@@ -524,10 +525,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            if (!additionalProperties.containsKey(CodegenConstants.ROOM_MODEL_PACKAGE))
+            if (!additionalProperties.containsKey(ROOM_MODEL_PACKAGE))
                 this.setRoomModelPackage(packageName + ".models.room");
         }
-        additionalProperties.put(CodegenConstants.ROOM_MODEL_PACKAGE, roomModelPackage);
+        additionalProperties.put(ROOM_MODEL_PACKAGE, roomModelPackage);
 
         supportingFiles.add(new SupportingFile("auth/authentication.mustache", authFolder, "Authentication.kt"));
         supportingFiles.add(new SupportingFile("auth/httpbasicauth.mustache", authFolder, "HttpBasicAuth.kt"));
