@@ -89,6 +89,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String RETROFIT_2 = "retrofit2";
     public static final String VERTX = "vertx";
     public static final String MICROPROFILE = "microprofile";
+    public static final String APACHE = "apache-httpclient";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -172,8 +173,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8");
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
-        supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client 1.x. JSON processing: Jackson 2.9.x");
-
+        supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client 1.x. JSON processing: JSON-B");
+        supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 4.x");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -182,7 +183,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(libraryOption);
         setLibrary(OKHTTP_GSON);
 
-        CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library, default depends from the library");
+        CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library, default depends on value of the option library");
         Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_GSON, "Use Gson as serialization library");
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
@@ -361,7 +362,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // helper for client library that allow to parse/format java.time.OffsetDateTime or org.threeten.bp.OffsetDateTime
-        if (additionalProperties.containsKey("jsr310") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY1) || isLibrary(JERSEY2))) {
+        if (additionalProperties.containsKey("jsr310") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY1) || isLibrary(JERSEY2) || isLibrary(APACHE))) {
             supportingFiles.add(new SupportingFile("JavaTimeFormatter.mustache", invokerFolder, "JavaTimeFormatter.java"));
         }
 
@@ -515,6 +516,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 oapiAnnotationLib = OAPI_ANNOTATION_MICROPROFILE;
                 additionalProperties.put(OAPI_ANNOTATION_LIB, OAPI_ANNOTATION_MICROPROFILE);
             }
+        } else if (APACHE.equals(getLibrary())) {
+            setJava8ModeAndAdditionalProperties(true);
+            forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
@@ -627,6 +631,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if (FEIGN.equals(getLibrary())) {
                 supportingFiles.add(new SupportingFile("auth/OauthPasswordGrant.mustache", authFolder, "OauthPasswordGrant.java"));
                 supportingFiles.add(new SupportingFile("auth/OauthClientCredentialsGrant.mustache", authFolder, "OauthClientCredentialsGrant.java"));
+                supportingFiles.add(new SupportingFile("auth/ApiErrorDecoder.mustache", authFolder, "ApiErrorDecoder.java"));
             }
         }
     }

@@ -69,14 +69,17 @@ class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'just_symbol':
-                    result.justSymbol = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(EnumArraysJustSymbolEnum)) as EnumArraysJustSymbolEnum;
+                    result.justSymbol = valueDes;
                     break;
                 case r'array_enum':
-                    result.arrayEnum.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)])) as BuiltList<EnumArraysArrayEnumEnum>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)])) as BuiltList<EnumArraysArrayEnumEnum>;
+                    result.arrayEnum.replace(valueDes);
                     break;
             }
         }

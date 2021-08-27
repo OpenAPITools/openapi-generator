@@ -881,6 +881,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (returnType == null || returnType.equals("null")) {
             returnType = "NoContent";
             SetNoContent(op, VENDOR_EXTENSION_X_INLINE_ACCEPT);
+            op.hasProduces = false;
         }
         if (returnType.contains(" ")) {
             returnType = "(" + returnType + ")";

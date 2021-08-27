@@ -66,14 +66,17 @@ class _$Model200ResponseSerializer implements StructuredSerializer<Model200Respo
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'name':
-                    result.name = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.name = valueDes;
                     break;
                 case r'class':
-                    result.class_ = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.class_ = valueDes;
                     break;
             }
         }

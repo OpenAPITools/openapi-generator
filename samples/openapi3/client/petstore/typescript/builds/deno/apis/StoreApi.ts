@@ -4,7 +4,8 @@ import {Configuration} from '../configuration.ts';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http.ts';
 import {ObjectSerializer} from '../models/ObjectSerializer.ts';
 import {ApiException} from './exception.ts';
-import {isCodeInRange} from '../util.ts';
+import {canConsumeForm, isCodeInRange} from '../util.ts';
+
 
 import { Order } from '../models/Order.ts';
 
@@ -35,16 +36,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
-
-        // Apply auth methods
 
         return requestContext;
     }
@@ -63,14 +55,6 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
 
         let authMethod = null;
         // Apply auth methods
@@ -104,16 +88,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
-
-        // Apply auth methods
 
         return requestContext;
     }
@@ -138,12 +113,6 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
 
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
@@ -156,7 +125,6 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        // Apply auth methods
 
         return requestContext;
     }

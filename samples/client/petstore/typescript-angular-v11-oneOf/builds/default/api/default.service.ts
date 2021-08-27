@@ -117,7 +117,7 @@ export class DefaultService {
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
-                localVarHeaders: localVarHeaders,
+                headers: localVarHeaders,
                 observe: observe,
                 reportProgress: reportProgress
             }

@@ -107,30 +107,37 @@ class _$PetSerializer implements StructuredSerializer<Pet> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'id':
-                    result.id = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.id = valueDes;
                     break;
                 case r'category':
-                    result.category.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(Category)) as Category);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(Category)) as Category;
+                    result.category.replace(valueDes);
                     break;
                 case r'name':
-                    result.name = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.name = valueDes;
                     break;
                 case r'photoUrls':
-                    result.photoUrls.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltSet, [FullType(String)])) as BuiltSet<String>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltSet, [FullType(String)])) as BuiltSet<String>;
+                    result.photoUrls.replace(valueDes);
                     break;
                 case r'tags':
-                    result.tags.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(Tag)])) as BuiltList<Tag>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(Tag)])) as BuiltList<Tag>;
+                    result.tags.replace(valueDes);
                     break;
                 case r'status':
-                    result.status = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(PetStatusEnum)) as PetStatusEnum;
+                    result.status = valueDes;
                     break;
             }
         }

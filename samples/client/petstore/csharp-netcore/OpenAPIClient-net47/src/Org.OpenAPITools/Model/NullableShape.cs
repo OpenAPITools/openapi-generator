@@ -153,18 +153,26 @@ namespace Org.OpenAPITools.Model
                 return newNullableShape;
             }
 
-            string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
-            switch (discriminatorValue)
+            try
             {
-                case "Quadrilateral":
-                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
-                    return newNullableShape;
-                case "Triangle":
-                    newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
-                    return newNullableShape;
-                default:
-                    System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for NullableShape. Possible values: Quadrilateral Triangle", discriminatorValue));
-                    break;
+                var discriminatorObj = JObject.Parse(jsonString)["shapeType"];
+                string discriminatorValue =  discriminatorObj == null ?string.Empty :discriminatorObj.ToString();
+                switch (discriminatorValue)
+                {
+                    case "Quadrilateral":
+                        newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
+                        return newNullableShape;
+                    case "Triangle":
+                        newNullableShape = new NullableShape(JsonConvert.DeserializeObject<Triangle>(jsonString, NullableShape.AdditionalPropertiesSerializerSettings));
+                        return newNullableShape;
+                    default:
+                        System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for NullableShape. Possible values: Quadrilateral Triangle", discriminatorValue));
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to parse the json data : `{0}` {1}", jsonString, ex.ToString()));
             }
 
             int match = 0;

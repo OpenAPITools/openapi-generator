@@ -145,7 +145,8 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
                         "TArray",
                         "TArray<uint8>",  // For byte arrays
                         "TMap",
-                        "TSharedPtr<FJsonObject>")
+                        "TSharedPtr<FJsonObject>",
+                        "TSharedPtr<FJsonValue>")
         );
 
         supportingFiles.add(new SupportingFile("model-base-header.mustache", publicFolder, modelNamePrefix + "BaseModel.h"));
@@ -185,6 +186,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         typeMapping.put("Object", "TSharedPtr<FJsonObject>");
         typeMapping.put("file", "HttpFileInput");
         typeMapping.put("UUID", "FGuid");
+        typeMapping.put("AnyType", "TSharedPtr<FJsonValue>");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("HttpFileInput", "#include \"" + modelNamePrefix + "Helpers.h\"");

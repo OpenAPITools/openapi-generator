@@ -67,14 +67,17 @@ class _$AdditionalPropertiesClassSerializer implements StructuredSerializer<Addi
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'map_property':
-                    result.mapProperty.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)])) as BuiltMap<String, String>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(String)])) as BuiltMap<String, String>;
+                    result.mapProperty.replace(valueDes);
                     break;
                 case r'map_of_map_property':
-                    result.mapOfMapProperty.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])) as BuiltMap<String, BuiltMap<String, String>>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])])) as BuiltMap<String, BuiltMap<String, String>>;
+                    result.mapOfMapProperty.replace(valueDes);
                     break;
             }
         }
