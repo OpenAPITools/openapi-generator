@@ -527,6 +527,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             if (!additionalProperties.containsKey(ROOM_MODEL_PACKAGE))
                 this.setRoomModelPackage(packageName + ".models.room");
+            else
+                this.setRoomModelPackage(additionalProperties.get(ROOM_MODEL_PACKAGE).toString());
         }
         additionalProperties.put(ROOM_MODEL_PACKAGE, roomModelPackage);
 
