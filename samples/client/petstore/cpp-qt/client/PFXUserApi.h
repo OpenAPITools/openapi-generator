@@ -115,6 +115,9 @@ private:
     PFXHttpRequestWorker *latestWorker;
     QStringList latestScope;
     OauthCode auth;
+    OauthImplicit implicit;
+    int OauthMethod = 0;
+    
 
     void createUserCallback(PFXHttpRequestWorker *worker);
     void createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker);

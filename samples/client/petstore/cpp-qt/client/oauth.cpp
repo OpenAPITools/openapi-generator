@@ -2,15 +2,12 @@
 
 namespace OpenAPI {
 
-OauthCode::OauthCode(QObject *parent) : OauthBase(parent)
-{
-    connect(&m_server, SIGNAL(dataReceived(QMap<QString,QString>)), this, SLOT(onVerificationReceived(QMap<QString,QString>)));
-    connect(this, SIGNAL(authenticationNeeded()), this, SLOT(authenticationNeededCallback()));
-    connect(this, SIGNAL(tokenReceived()), &m_server, SLOT(stop()));
+/*
+ * Base class to perform oauth2 flows
+ *
+ */
 
-}
-
-void OauthCode::setVariables(QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType){
+void OauthBase::setVariables(QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType){
 
     m_authUrl = QUrl(authUrl);
     m_tokenUrl = QUrl(tokenUrl);
@@ -18,9 +15,57 @@ void OauthCode::setVariables(QString authUrl, QString tokenUrl, QString scope, Q
     m_accessType = accessType;
     m_state = state;
     m_redirectUri = redirectUri;
-    m_clientId = clientId;
-    m_clientSecret = clientSecret;
+    m_clientId = clientId;    m_clientSecret = clientSecret;
 
+}
+
+void OauthBase::onFinish(QNetworkReply *rep)
+{
+    //TODO emit error signal when token is wrong
+    QJsonDocument document = QJsonDocument::fromJson(rep->readAll());
+    QJsonObject rootObj = document.object();
+    QString token = rootObj.find("access_token").value().toString();
+    QString scope = rootObj.find("scope").value().toString();
+    QString type = rootObj.find("token_type").value().toString();
+    int expiresIn = rootObj.find("expires_in").value().toInt();
+    addToken(oauthToken(token, expiresIn, scope, type));
+}
+
+oauthToken OauthBase::getToken(QString scope)
+{
+    auto tokenIt = m_oauthTokenMap.find(scope);
+    return tokenIt != m_oauthTokenMap.end() ? tokenIt.value() : oauthToken();
+}
+
+void OauthBase::addToken(oauthToken token)
+{
+    m_oauthTokenMap.insert(token.getScope(),token);
+    emit tokenReceived();
+
+}
+
+void OauthBase::removeToken(QString scope)
+{
+    m_oauthTokenMap.remove(scope);
+}
+
+/*
+ * Class to perform the authorization code flow
+ *
+ */
+
+OauthCode::OauthCode(QObject *parent) : OauthBase(parent){}
+
+void OauthCode::link(){
+    connect(&m_server, SIGNAL(dataReceived(QMap<QString,QString>)), this, SLOT(onVerificationReceived(QMap<QString,QString>)));
+    connect(this, SIGNAL(authenticationNeeded()), this, SLOT(authenticationNeededCallback()));
+    connect(this, SIGNAL(tokenReceived()), &m_server, SLOT(stop()));
+}
+
+void OauthCode::unlink()
+{
+    disconnect(this,0,0,0);
+    disconnect(&m_server,0,0,0);
 }
 
 void OauthCode::authenticationNeededCallback()
@@ -54,36 +99,53 @@ void OauthCode::onVerificationReceived(const QMap<QString, QString> response) {
         manager->post(request, postData.query().toUtf8());
 }
 
-void OauthCode::onFinish(QNetworkReply *rep)
-{
-    //TODO emit error signal when token is wrong
-    QJsonDocument document = QJsonDocument::fromJson(rep->readAll());
-    QJsonObject rootObj = document.object();
-    QString token = rootObj.find("access_token").value().toString();
-    QString scope = rootObj.find("scope").value().toString();
-    QString type = rootObj.find("token_type").value().toString();
-    int expiresIn = rootObj.find("expires_in").value().toInt();
+/*
+ * Class to perform the implicit flow
+ *
+ */
 
-    this->m_oauthTokenMap.insert(scope,oauthToken(token, expiresIn, scope, type));
-    emit tokenReceived();
+OauthImplicit::OauthImplicit(QObject *parent) : OauthBase(parent){}
+
+void OauthImplicit::link()
+{
+    //TODO correct linking
+    connect(&m_server, SIGNAL(dataReceived(QMap<QString,QString>)), this, SLOT(ImplicitTokenReceived(QMap<QString,QString>)));
+    connect(this, SIGNAL(authenticationNeeded()), this, SLOT(authenticationNeededCallback()));
+    connect(this, SIGNAL(tokenReceived()), &m_server, SLOT(stop()));
+    m_linked = true;
 }
 
-oauthToken OauthBase::getToken(QString scope)
+void OauthImplicit::unlink()
 {
-    auto tokenIt = m_oauthTokenMap.find(scope);
-    return tokenIt != m_oauthTokenMap.end() ? tokenIt.value() : oauthToken();
+     disconnect(this,0,0,0);
+     disconnect(&m_server,0,0,0);
+     m_linked = false;
 }
 
-void OauthBase::removeToken(QString scope)
+void OauthImplicit::authenticationNeededCallback()
 {
-    m_oauthTokenMap.remove(scope);
+     QDesktopServices::openUrl(QUrl(m_authUrl.toString() + "?scope=" + m_scope + (m_accessType=="" ? "" : "&access_type=" + m_accessType) + "&response_type=token" + "&state=" + m_state + "&redirect_uri=" + m_redirectUri + "&client_id=" + m_clientId));
+     m_server.start();
 }
+
+void OauthImplicit::ImplicitTokenReceived(const QMap<QString, QString> response)
+{
+    QString token = response.find("access_token").value();
+    QString scope = response.find("scope").value();
+    QString type = response.find("token_type").value();
+    int expiresIn = response.find("expires_in").value().toInt();
+    addToken(oauthToken(token, expiresIn, scope, type));
+}
+
+/*
+ * Class that provides a simple reply server
+ *
+ */
 
 ReplyServer::ReplyServer(QObject *parent) : QTcpServer(parent)
 {
       connect(this, SIGNAL(newConnection()), this, SLOT(onConnected()));
-      m_reply = "You can close this window now!";
-
+      m_reply ="you can close this window now!";
 }
 
 void ReplyServer::start()
@@ -96,7 +158,6 @@ void ReplyServer::start()
     {
         qDebug() << "Server started!";
     }
-
 }
 
 void ReplyServer::stop()
@@ -123,7 +184,29 @@ void ReplyServer::read()
     }
     qDebug() << "Socket connected";
 
-    socket->write(m_reply);
+    QTextStream os(socket);
+                     os.setAutoDetectUnicode(true);
+                     os << "HTTP/1.0 200 Ok\r\n"
+                         "Content-Type: text/html; charset=\"utf-8\"\r\n"
+                         "\r\n"
+                        <<"<!DOCTYPE html>\
+                        <html>\
+                        <head>\
+                        <script>\
+                        window.onload = function hashFunction() {\
+                             var query = location.hash.substr(1);\
+                             if (query != \"\") {\
+                                 var xhttp = new XMLHttpRequest();\
+                                 xhttp.open(\"GET\", \"/?\" + query, true);\
+                                 xhttp.send();\
+                             }\
+                        }\
+                        </script>\
+                        </head>\
+                        <body>\
+                        <h2>You can close this window now!</h2>\
+                        </body>\
+                        </html>";
 
     QByteArray data = socket->readLine();
     QString splitGetLine = QString(data);
@@ -147,7 +230,7 @@ void ReplyServer::read()
         queryParams.insert(key, value);
     }
     if (!queryParams.contains("state")) {
-        socket->write(m_reply);
+
         socket->close();
         return;
     }
@@ -155,4 +238,6 @@ void ReplyServer::read()
 
     emit dataReceived(queryParams);
 }
+
+
 }

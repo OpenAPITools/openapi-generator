@@ -93,6 +93,9 @@ private:
     PFXHttpRequestWorker *latestWorker;
     QStringList latestScope;
     OauthCode auth;
+    OauthImplicit implicit;
+    int OauthMethod = 0;
+    
 
     void deleteOrderCallback(PFXHttpRequestWorker *worker);
     void getInventoryCallback(PFXHttpRequestWorker *worker);

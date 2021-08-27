@@ -48,8 +48,8 @@ public:
     QString getToken(){return m_token;};
     QString getScope(){return m_scope;};
     QString getType(){return m_type;};
-
     bool isValid(){return QDateTime::currentDateTime() < m_validUntil;};
+
 private:
     QString m_token;
     QDateTime m_validUntil;
@@ -62,7 +62,7 @@ class ReplyServer : public QTcpServer
     Q_OBJECT
 public:
     explicit ReplyServer(QObject *parent = nullptr);
-
+    void setReply(QByteArray reply){m_reply = reply;};
     void run();
 private:
     QByteArray m_reply;
@@ -77,42 +77,69 @@ public slots:
     void stop();
 };
 
+//Base class
 class OauthBase : public QObject
 {
     Q_OBJECT
-
 public: 
     OauthBase(QObject* parent = nullptr) : QObject(parent) {};
     oauthToken getToken(QString scope);
+    void addToken(oauthToken token);
     void removeToken(QString scope);
+    void setVariables( QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType = "");
+    bool linked(){return m_linked;};
+    virtual void link()=0;
+    virtual void unlink()=0;
 
 protected:
     QMap<QString, oauthToken> m_oauthTokenMap;
+    QUrl m_authUrl;
+    QUrl m_tokenUrl;
+    QString m_scope, m_accessType, m_state, m_redirectUri, m_clientId, m_clientSecret;
+    bool m_linked;
+
+public slots:
+    virtual void authenticationNeededCallback()=0;
+    void onFinish(QNetworkReply *rep);
 
 signals:
     void authenticationNeeded();
     void tokenReceived();
 };
 
+// Authorization code flow
 class OauthCode : public OauthBase
 {
     Q_OBJECT
 public:
     OauthCode(QObject *parent = nullptr);
-    void setVariables( QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType = "");
+    void link() override;
+    void unlink() override;
+
 private:
     ReplyServer m_server;
-    QUrl m_authUrl;
-    QUrl m_tokenUrl;
-    QString m_scope, m_accessType, m_state, m_redirectUri, m_clientId, m_clientSecret;
-
 
 public slots:
-    void authenticationNeededCallback();
+    void authenticationNeededCallback() override;
     void onVerificationReceived(const QMap<QString, QString> response);
-    void onFinish(QNetworkReply *rep);
 
+};
 
+// Implicit flow
+class OauthImplicit : public OauthBase
+{
+    Q_OBJECT
+public:
+    OauthImplicit(QObject *parent = nullptr);
+    void link() override;
+    void unlink() override;
+
+private:
+    ReplyServer m_server;
+
+public slots:
+    void authenticationNeededCallback() override;
+    void ImplicitTokenReceived(const QMap<QString, QString> response);
 };
 
 } // namespace test_namespace

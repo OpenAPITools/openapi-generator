@@ -78,6 +78,9 @@ private:
     {{prefix}}HttpRequestWorker *latestWorker;
     QStringList latestScope;
     OauthCode auth;
+    OauthImplicit implicit;
+    int OauthMethod = 0;
+    
 {{#operations}}{{#operation}}
     void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}
 

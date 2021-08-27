@@ -47,6 +47,7 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
                 .includeSecurityFeatures(SecurityFeature.ApiKey)
                 .includeSecurityFeatures(SecurityFeature.BearerToken)
                 .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode)
+                .includeSecurityFeatures(SecurityFeature.OAuth2_Implicit)
                 .includeGlobalFeatures(GlobalFeature.ParameterStyling)
         );
 

@@ -121,6 +121,9 @@ private:
     PFXHttpRequestWorker *latestWorker;
     QStringList latestScope;
     OauthCode auth;
+    OauthImplicit implicit;
+    int OauthMethod = 0;
+    
 
     void addPetCallback(PFXHttpRequestWorker *worker);
     void deletePetCallback(PFXHttpRequestWorker *worker);

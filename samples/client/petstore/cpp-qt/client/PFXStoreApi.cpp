@@ -437,15 +437,32 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
 }
 
 void PFXStoreApi::tokenAvailable(){
-
-    auto token = auth.getToken(latestScope.join(" "));
-    //Only inject header when token is valid. If not we run the auth process again and remove the token
-    if(token.isValid()){
-        latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
-        latestWorker->execute(&latestInput);
-    }else{
-        auth.removeToken(latestScope.join(" "));
-        qDebug() << "Could not retrieve a valid token";
+  
+    oauthToken token; 
+    switch (OauthMethod) {
+    case 1: //implicit flow
+        token = implicit.getToken(latestScope.join(" "));
+        if(token.isValid()){
+            latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            latestWorker->execute(&latestInput);
+        }else{
+            implicit.removeToken(latestScope.join(" "));
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 2: //authorization flow
+        token = auth.getToken(latestScope.join(" "));
+        if(token.isValid()){
+            latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            latestWorker->execute(&latestInput);
+        }else{
+            auth.removeToken(latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    default:
+        qDebug() << "No Oauth method set!";
+        break;
     }
 }
 } // namespace test_namespace
