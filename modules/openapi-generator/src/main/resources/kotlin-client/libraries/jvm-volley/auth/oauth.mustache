@@ -1,14 +1,5 @@
-{{>licenseInfo}}
-package {{invokerPackage}}.auth;
-
-import {{invokerPackage}}.Pair;
-
-import java.util.Map;
-import java.util.List;
-
-public class OAuth implements Authentication {
-  @Override
-  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
-    // TODO stub
-  }
+val basicAuthHeaderFactoryBuilder = { username: String?, password: String? ->
+{
+    throw NotImplementedError("OAuth security scheme header factory not impemented yet - see open api generator auth/oauth.mustache")
+    mapOf("" to "")}
 }
