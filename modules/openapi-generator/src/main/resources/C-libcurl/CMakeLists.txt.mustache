@@ -87,7 +87,7 @@ add_library(${pkgName} ${SRCS} ${HDRS})
 # Link dependent libraries
 if(NOT CMAKE_VERSION VERSION_LESS 3.4)
     target_link_libraries(${pkgName} OpenSSL::SSL OpenSSL::Crypto)
-end()
+endif()
 target_link_libraries(${pkgName} ${CURL_LIBRARIES} )
 
 include(PostTarget OPTIONAL)
