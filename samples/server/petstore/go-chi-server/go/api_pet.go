@@ -103,18 +103,18 @@ func (c *PetApiController) Routes() Routes {
 
 // AddPet - Add a new pet to the store
 func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
-	pet := Pet{}
+	petParam := Pet{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&pet); err != nil {
+	if err := d.Decode(&petParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertPetRequired(pet); err != nil {
+	if err := AssertPetRequired(petParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.AddPet(r.Context(), pet)
+	result, err := c.service.AddPet(r.Context(), petParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -127,14 +127,14 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 
 // DeletePet - Deletes a pet
 func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
-	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
+	petIdParam, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 
-	apiKey := r.Header.Get("api_key")
-	result, err := c.service.DeletePet(r.Context(), petId, apiKey)
+	apiKeyParam := r.Header.Get("api_key")
+	result, err := c.service.DeletePet(r.Context(), petIdParam, apiKeyParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -148,8 +148,8 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 // FindPetsByStatus - Finds Pets by status
 func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	status := strings.Split(query.Get("status"), ",")
-	result, err := c.service.FindPetsByStatus(r.Context(), status)
+	statusParam := strings.Split(query.Get("status"), ",")
+	result, err := c.service.FindPetsByStatus(r.Context(), statusParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -164,8 +164,8 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 // Deprecated
 func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	tags := strings.Split(query.Get("tags"), ",")
-	result, err := c.service.FindPetsByTags(r.Context(), tags)
+	tagsParam := strings.Split(query.Get("tags"), ",")
+	result, err := c.service.FindPetsByTags(r.Context(), tagsParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -178,13 +178,13 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 
 // GetPetById - Find pet by ID
 func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
-	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
+	petIdParam, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 
-	result, err := c.service.GetPetById(r.Context(), petId)
+	result, err := c.service.GetPetById(r.Context(), petIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -197,18 +197,18 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 
 // UpdatePet - Update an existing pet
 func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
-	pet := Pet{}
+	petParam := Pet{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&pet); err != nil {
+	if err := d.Decode(&petParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertPetRequired(pet); err != nil {
+	if err := AssertPetRequired(petParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.UpdatePet(r.Context(), pet)
+	result, err := c.service.UpdatePet(r.Context(), petParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -225,15 +225,15 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
+	petIdParam, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 
-				name := r.FormValue("name")
-				status := r.FormValue("status")
-	result, err := c.service.UpdatePetWithForm(r.Context(), petId, name, status)
+				nameParam := r.FormValue("name")
+				statusParam := r.FormValue("status")
+	result, err := c.service.UpdatePetWithForm(r.Context(), petIdParam, nameParam, statusParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -250,20 +250,20 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	petId, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
+	petIdParam, err := parseInt64Parameter(chi.URLParam(r, "petId"), true)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 
-				additionalMetadata := r.FormValue("additionalMetadata")
+				additionalMetadataParam := r.FormValue("additionalMetadata")
 	
-	file, err := ReadFormFileToTempFile(r, "file")
+	fileParam, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-			result, err := c.service.UploadFile(r.Context(), petId, additionalMetadata, file)
+			result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, fileParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
