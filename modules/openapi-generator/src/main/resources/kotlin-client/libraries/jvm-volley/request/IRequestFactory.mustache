@@ -29,27 +29,11 @@ interface IRequestFactory {
             DATE_FORMAT.timeZone = TimeZone.getTimeZone("UTC")
         }
 
-        fun parseDateTime(str: String?): Date {
-            return try {
-                DATE_TIME_FORMAT.parse(str)
-            } catch (e: ParseException) {
-                throw RuntimeException(e)
-            }
-        }
-
-        fun parseDate(str: String?): Date {
-            return try {
-                DATE_FORMAT.parse(str)
-            } catch (e: ParseException) {
-                throw RuntimeException(e)
-            }
-        }
-
-        fun formatDateTime(datetime: Date?): String {
+        fun formatDateTime(datetime: Date): String {
             return DATE_TIME_FORMAT.format(datetime)
         }
 
-        fun formatDate(date: Date?): String {
+        fun formatDate(date: Date): String {
             return DATE_FORMAT.format(date)
         }
 
@@ -61,25 +45,24 @@ interface IRequestFactory {
             }
         }
 
-        fun parameterToString(param: Any?): String {
-            return if (param == null) {
-                ""
-            } else if (param is Date) {
-                formatDateTime(param as Date?)
-            } else if (param is Collection<*>) {
-                val b = StringBuilder()
-                for (o in param) {
-                    if (b.length > 0) {
-                        b.append(",")
-                    }
-                    b.append(o.toString())
+        fun parameterToString(param: Any?) =
+            when (param) {
+                null -> ""
+                is Date -> formatDateTime(param)
+                is Collection<*> -> {
+                  val b = StringBuilder()
+                  for (o in param) {
+                      if (b.isNotEmpty()) {
+                          b.append(",")
+                      }
+                      b.append(o.toString())
+                  }
+                  b.toString()
                 }
-                b.toString()
-            } else {
-                param.toString()
+                else -> param.toString()
             }
         }
-    }
+
 
     fun <T> build(
         method: Int,

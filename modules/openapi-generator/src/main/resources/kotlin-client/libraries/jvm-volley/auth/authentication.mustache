@@ -1,16 +1,16 @@
 companion object Authentication{
-// TODO Generate appropriate header factories based on settings
-// Where a header factory requires parameters a client will need to bind these
-{{#isApiKey}}
-    {{>apikeyauth}}
-    "{{name}}", ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}")
-{{/isApiKey}}
-{{#isBasic}}
-    {{>auth/httpbasicauth}}
-{{/isBasic}}
-{{#isOAuth}}
-    // TODO: comment out below as OAuth does not exist
-    //"{{name}}", OAuth()
-{{/isOAuth}}
+  // Where a header factory requires parameters a client will need to bind these
+  // TODO Generate appropriate header factories based on settings
+  {{#isApiKey}}
+      {{>auth/apikeyauth}}
+      // If implementing api key in query parameter use the ^isKeyInHeader property
+  {{/isApiKey}}
+  {{#isBasic}}
+      {{>auth/httpbasicauth}}
+  {{/isBasic}}
+  {{#isOAuth}}
+      // TODO: comment out below as OAuth does not exist
+      //"{{name}}", OAuth()
+  {{/isOAuth}}
 
 }

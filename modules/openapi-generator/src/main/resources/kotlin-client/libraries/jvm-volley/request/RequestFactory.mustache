@@ -1,10 +1,11 @@
 // Knowing the details of an operation it will produce a call to a Volley Request constructor
 package {{packageName}}.request
 
+
 import com.android.volley.Request
 import com.android.volley.Response
 {{#authMethods}}
-import {{packageName}}.auth.Authentication
+import android.util.Base64
 {{/authMethods}}
 import {{packageName}}.request.IRequestFactory.Companion.escapeString
 import java.lang.reflect.Type

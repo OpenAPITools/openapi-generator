@@ -19,6 +19,11 @@ import {{packageName}}.request.RequestFactory
 {{/imports}}
 
 {{#operations}}
+/*
+* If you wish to use a custom http stack with your client you
+* can pass that to the request queue like:
+* Volley.newRequestQueue(context.applicationContext, myCustomHttpStack)
+*/
 class {{classname}} (
     val context: Context,
     val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
@@ -64,7 +69,9 @@ class {{classname}} (
         val path = "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", IRequestFactory.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
         // form params
-        val formParams: Map<String, String> = HashMap()
+        // TODO: Comment this back in and use them when using form parameters
+        // TODO: Investigate how form parameters are used in volley
+        // val formParams: Map<String, String> = HashMap()
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -90,7 +97,7 @@ class {{classname}} (
                 continuation.resumeWithException(error)
             }
 
-            val type = object : TypeToken<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}>() {}.type
+            val responseType = object : TypeToken<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}>() {}.type
 
             // Call the correct request builder based on whether we have a return type or a body.
             // All other switching on types must be done in code inside the builder
@@ -101,7 +108,7 @@ class {{classname}} (
                     headerParams,
                     queryParams,
                     contentType,
-                    type,
+                    responseType,
                     responseListener,
                     errorListener)
 
