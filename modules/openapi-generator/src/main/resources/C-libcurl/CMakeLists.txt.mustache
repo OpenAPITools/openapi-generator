@@ -12,7 +12,7 @@ option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 find_package(OpenSSL)
 
 if (OPENSSL_FOUND)
-	message (STATUS "OPENSSL found")
+    message (STATUS "OPENSSL found")
 
     set(CMAKE_C_FLAGS "-DOPENSSL")
     if(CMAKE_VERSION VERSION_LESS 3.4)
@@ -21,19 +21,19 @@ if (OPENSSL_FOUND)
         link_directories(${OPENSSL_LIBRARIES})
     endif()
 
-	message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
+    message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
 else()
-	message (STATUS "OpenSSL Not found.")
+    message (STATUS "OpenSSL Not found.")
 endif()
 
 set(pkgName "{{projectName}}")
 
 find_package(CURL 7.58.0 REQUIRED)
 if(CURL_FOUND)
-	include_directories(${CURL_INCLUDE_DIR})
-	set(PLATFORM_LIBRARIES ${PLATFORM_LIBRARIES} ${CURL_LIBRARIES} )
+    include_directories(${CURL_INCLUDE_DIR})
+    set(PLATFORM_LIBRARIES ${PLATFORM_LIBRARIES} ${CURL_LIBRARIES} )
 else(CURL_FOUND)
-	message(FATAL_ERROR "Could not find the CURL library and development files.")
+    message(FATAL_ERROR "Could not find the CURL library and development files.")
 endif()
 
 set(SRCS
