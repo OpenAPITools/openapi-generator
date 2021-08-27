@@ -49,8 +49,6 @@ func NewNullableClassWithDefaults() *NullableClass {
 	this := NullableClass{}
 	var booleanProp bool = false
 	this.BooleanProp = *NewNullableBool(&booleanProp)
-	var booleanProp bool = false
-	this.BooleanProp = *NewNullableBool(&booleanProp)
 	return &this
 }
 

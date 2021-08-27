@@ -40,8 +40,6 @@ func NewCategoryWithDefaults() *Category {
 	this := Category{}
 	var name string = "default-name"
 	this.Name = name
-	var name string = "default-name"
-	this.Name = name
 	return &this
 }
 

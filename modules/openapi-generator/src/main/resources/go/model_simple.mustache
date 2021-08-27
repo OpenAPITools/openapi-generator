@@ -75,17 +75,6 @@ func New{{classname}}WithDefaults() *{{classname}} {
 	var {{nameInCamelCase}} {{{dataType}}} = {{{.}}}
 	this.{{name}} = {{^required}}&{{/required}}{{nameInCamelCase}}
 {{/isNullable}}
-{{^isReadOnly}}
-{{#isNullable}}
-{{!we use datatypeWithEnum here, since it will represent the non-nullable name of the datatype, e.g. int64 for NullableInt64}}
-	var {{nameInCamelCase}} {{{datatypeWithEnum}}} = {{{.}}}
-	this.{{name}} = *New{{{dataType}}}(&{{nameInCamelCase}})
-{{/isNullable}}
-{{^isNullable}}
-	var {{nameInCamelCase}} {{{dataType}}} = {{{.}}}
-	this.{{name}} = {{^required}}&{{/required}}{{nameInCamelCase}}
-{{/isNullable}}
-{{/isReadOnly}}
 {{/vendorExtensions.x-golang-is-container}}
 {{/defaultValue}}
 {{/vars}}

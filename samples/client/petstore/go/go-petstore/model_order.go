@@ -44,8 +44,6 @@ func NewOrderWithDefaults() *Order {
 	this := Order{}
 	var complete bool = false
 	this.Complete = &complete
-	var complete bool = false
-	this.Complete = &complete
 	return &this
 }
 

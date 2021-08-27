@@ -40,8 +40,6 @@ func NewFooWithDefaults() *Foo {
 	this := Foo{}
 	var bar string = "bar"
 	this.Bar = &bar
-	var bar string = "bar"
-	this.Bar = &bar
 	return &this
 }
 
