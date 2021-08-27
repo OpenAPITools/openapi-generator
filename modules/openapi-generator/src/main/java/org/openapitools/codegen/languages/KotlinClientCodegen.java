@@ -322,16 +322,24 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     @Override
     public void processOpts() {
+        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
+            setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
+        } else {
+            // Set the value to defaults if we haven't overridden
+            if (MULTIPLATFORM.equals(getLibrary())) {
+                setSourceFolder("src/commonMain/kotlin");
+            }
+            else if (JVM_VOLLEY.equals(getLibrary())){
+                // Android plugin wants it's source in java
+                setSourceFolder("src/main/java");
+            }
+            else {
+                setSourceFolder(super.sourceFolder);
+            }
+            additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
+        }
+
         super.processOpts();
-
-        if (MULTIPLATFORM.equals(getLibrary())) {
-            sourceFolder = "src/commonMain/kotlin";
-        }
-        else if (JVM_VOLLEY.equals(getLibrary())){
-            // Android plugin wants it's source in java
-            sourceFolder = "src/main/java";
-        }
-
 
         boolean hasRx = additionalProperties.containsKey(USE_RX_JAVA);
         boolean hasRx2 = additionalProperties.containsKey(USE_RX_JAVA2);
