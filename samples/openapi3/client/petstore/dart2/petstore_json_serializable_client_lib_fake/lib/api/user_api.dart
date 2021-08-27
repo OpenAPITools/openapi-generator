@@ -198,9 +198,7 @@ class UserApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/user/{username}'
-      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
-      .replaceAll('{' + 'username' + '}', username.toString());
+    final path = r'/user/{username}'.replaceAll('{username}', '$username');
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -256,9 +254,7 @@ class UserApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/user/{username}'
-      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
-      .replaceAll('{' + 'username' + '}', username.toString());
+    final path = r'/user/{username}'.replaceAll('{username}', '$username');
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -441,9 +437,7 @@ class UserApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/user/{username}'
-      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
-      .replaceAll('{' + 'username' + '}', username.toString());
+    final path = r'/user/{username}'.replaceAll('{username}', '$username');
 
     // ignore: prefer_final_locals
     Object postBody = user;

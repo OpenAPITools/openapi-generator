@@ -32,9 +32,7 @@ class StoreApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/store/order/{orderId}'
-      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
-      .replaceAll('{' + 'orderId' + '}', orderId.toString());
+    final path = r'/store/order/{orderId}'.replaceAll('{orderId}', '$orderId');
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -142,9 +140,7 @@ class StoreApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/store/order/{orderId}'
-      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
-      .replaceAll('{' + 'orderId' + '}', orderId.toString());
+    final path = r'/store/order/{orderId}'.replaceAll('{orderId}', '$orderId');
 
     // ignore: prefer_final_locals
     Object postBody;

@@ -93,9 +93,7 @@ class PetApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/pet/{petId}'
-      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
-      .replaceAll('{' + 'petId' + '}', petId.toString());
+    final path = r'/pet/{petId}'.replaceAll('{petId}', '$petId');
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -295,9 +293,7 @@ class PetApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/pet/{petId}'
-      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
-      .replaceAll('{' + 'petId' + '}', petId.toString());
+    final path = r'/pet/{petId}'.replaceAll('{petId}', '$petId');
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -427,9 +423,7 @@ class PetApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/pet/{petId}'
-      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
-      .replaceAll('{' + 'petId' + '}', petId.toString());
+    final path = r'/pet/{petId}'.replaceAll('{petId}', '$petId');
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -501,9 +495,7 @@ class PetApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/pet/{petId}/uploadImage'
-      // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
-      .replaceAll('{' + 'petId' + '}', petId.toString());
+    final path = r'/pet/{petId}/uploadImage'.replaceAll('{petId}', '$petId');
 
     // ignore: prefer_final_locals
     Object postBody;
