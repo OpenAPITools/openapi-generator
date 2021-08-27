@@ -50,6 +50,10 @@ func NewEnumTestWithDefaults() *EnumTest {
 	this := EnumTest{}
 	var outerEnumDefaultValue OuterEnumDefaultValue = OUTERENUMDEFAULTVALUE_PLACED
 	this.OuterEnumDefaultValue = &outerEnumDefaultValue
+	var outerEnumDefaultValue OuterEnumDefaultValue = OUTERENUMDEFAULTVALUE_PLACED
+	this.OuterEnumDefaultValue = &outerEnumDefaultValue
+	var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OUTERENUMINTEGERDEFAULTVALUE__0
+	this.OuterEnumIntegerDefaultValue = &outerEnumIntegerDefaultValue
 	var outerEnumIntegerDefaultValue OuterEnumIntegerDefaultValue = OUTERENUMINTEGERDEFAULTVALUE__0
 	this.OuterEnumIntegerDefaultValue = &outerEnumIntegerDefaultValue
 	return &this

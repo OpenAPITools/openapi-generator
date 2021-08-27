@@ -39,6 +39,8 @@ func NewAnimalWithDefaults() *Animal {
 	this := Animal{}
 	var color string = "red"
 	this.Color = &color
+	var color string = "red"
+	this.Color = &color
 	return &this
 }
 

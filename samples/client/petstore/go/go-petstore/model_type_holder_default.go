@@ -44,6 +44,10 @@ func NewTypeHolderDefaultWithDefaults() *TypeHolderDefault {
 	this := TypeHolderDefault{}
 	var stringItem string = "what"
 	this.StringItem = stringItem
+	var stringItem string = "what"
+	this.StringItem = stringItem
+	var boolItem bool = true
+	this.BoolItem = boolItem
 	var boolItem bool = true
 	this.BoolItem = boolItem
 	return &this

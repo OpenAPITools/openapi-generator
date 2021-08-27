@@ -58,12 +58,18 @@ func NewReadOnlyWithDefaultWithDefaults() *ReadOnlyWithDefault {
 	this.Prop2 = &prop2
 	var prop3 string = "defaultProp3"
 	this.Prop3 = &prop3
+	var prop3 string = "defaultProp3"
+	this.Prop3 = &prop3
 	var boolProp1 bool = false
 	this.BoolProp1 = &boolProp1
 	var boolProp2 bool = true
 	this.BoolProp2 = &boolProp2
+	var boolProp2 bool = true
+	this.BoolProp2 = &boolProp2
 	var intProp1 float32 = 100
 	this.IntProp1 = &intProp1
+	var intProp2 float32 = 120
+	this.IntProp2 = &intProp2
 	var intProp2 float32 = 120
 	this.IntProp2 = &intProp2
 	return &this
