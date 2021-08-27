@@ -34,16 +34,10 @@ type _ReadOnlyWithDefault ReadOnlyWithDefault
 // will change when the set of required properties is changed
 func NewReadOnlyWithDefault() *ReadOnlyWithDefault {
 	this := ReadOnlyWithDefault{}
-	var prop2 string = "defaultProp2"
-	this.Prop2 = &prop2
 	var prop3 string = "defaultProp3"
 	this.Prop3 = &prop3
-	var boolProp1 bool = false
-	this.BoolProp1 = &boolProp1
 	var boolProp2 bool = true
 	this.BoolProp2 = &boolProp2
-	var intProp1 float32 = 100
-	this.IntProp1 = &intProp1
 	var intProp2 float32 = 120
 	this.IntProp2 = &intProp2
 	return &this
@@ -54,16 +48,10 @@ func NewReadOnlyWithDefault() *ReadOnlyWithDefault {
 // but it doesn't guarantee that properties required by API are set
 func NewReadOnlyWithDefaultWithDefaults() *ReadOnlyWithDefault {
 	this := ReadOnlyWithDefault{}
-	var prop2 string = "defaultProp2"
-	this.Prop2 = &prop2
 	var prop3 string = "defaultProp3"
 	this.Prop3 = &prop3
-	var boolProp1 bool = false
-	this.BoolProp1 = &boolProp1
 	var boolProp2 bool = true
 	this.BoolProp2 = &boolProp2
-	var intProp1 float32 = 100
-	this.IntProp1 = &intProp1
 	var intProp2 float32 = 120
 	this.IntProp2 = &intProp2
 	return &this
