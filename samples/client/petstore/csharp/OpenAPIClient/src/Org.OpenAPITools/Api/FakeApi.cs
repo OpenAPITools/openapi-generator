@@ -3116,7 +3116,7 @@ namespace Org.OpenAPITools.Api
             if (booleanGroup != null) localVarHeaderParams.Add("boolean_group", this.Configuration.ApiClient.ParameterToString(booleanGroup)); // header parameter
 
             // authentication (bearer_test) required
-            // http beerer authentication required
+            // http bearer authentication required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
@@ -3571,7 +3571,7 @@ namespace Org.OpenAPITools.Api
             if (context == null)
                 throw new ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
 
-            var localVarPath = "/fake/test-query-paramters";
+            var localVarPath = "/fake/test-query-parameters";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -3665,7 +3665,7 @@ namespace Org.OpenAPITools.Api
             if (context == null)
                 throw new ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
 
-            var localVarPath = "/fake/test-query-paramters";
+            var localVarPath = "/fake/test-query-parameters";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);

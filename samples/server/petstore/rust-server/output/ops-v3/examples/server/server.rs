@@ -51,7 +51,7 @@ pub async fn create(addr: &str, https: bool) {
 
             // Server authentication
             ssl.set_private_key_file("examples/server-key.pem", SslFiletype::PEM).expect("Failed to set private key");
-            ssl.set_certificate_chain_file("examples/server-chain.pem").expect("Failed to set cerificate chain");
+            ssl.set_certificate_chain_file("examples/server-chain.pem").expect("Failed to set certificate chain");
             ssl.check_private_key().expect("Failed to check private key");
 
             let tls_acceptor = Arc::new(ssl.build());
@@ -147,7 +147,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op10_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op11_get(
@@ -156,7 +156,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op11_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op12_get(
@@ -165,7 +165,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op12_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op13_get(
@@ -174,7 +174,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op13_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op14_get(
@@ -183,7 +183,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op14_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op15_get(
@@ -192,7 +192,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op15_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op16_get(
@@ -201,7 +201,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op16_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op17_get(
@@ -210,7 +210,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op17_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op18_get(
@@ -219,7 +219,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op18_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op19_get(
@@ -228,7 +228,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op19_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op1_get(
@@ -237,7 +237,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op1_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op20_get(
@@ -246,7 +246,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op20_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op21_get(
@@ -255,7 +255,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op21_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op22_get(
@@ -264,7 +264,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op22_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op23_get(
@@ -273,7 +273,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op23_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op24_get(
@@ -282,7 +282,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op24_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op25_get(
@@ -291,7 +291,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op25_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op26_get(
@@ -300,7 +300,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op26_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op27_get(
@@ -309,7 +309,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op27_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op28_get(
@@ -318,7 +318,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op28_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op29_get(
@@ -327,7 +327,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op29_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op2_get(
@@ -336,7 +336,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op2_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op30_get(
@@ -345,7 +345,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op30_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op31_get(
@@ -354,7 +354,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op31_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op32_get(
@@ -363,7 +363,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op32_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op33_get(
@@ -372,7 +372,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op33_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op34_get(
@@ -381,7 +381,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op34_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op35_get(
@@ -390,7 +390,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op35_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op36_get(
@@ -399,7 +399,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op36_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op37_get(
@@ -408,7 +408,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op37_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op3_get(
@@ -417,7 +417,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op3_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op4_get(
@@ -426,7 +426,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op4_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op5_get(
@@ -435,7 +435,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op5_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op6_get(
@@ -444,7 +444,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op6_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op7_get(
@@ -453,7 +453,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op7_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op8_get(
@@ -462,7 +462,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op8_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn op9_get(
@@ -471,7 +471,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("op9_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
 }

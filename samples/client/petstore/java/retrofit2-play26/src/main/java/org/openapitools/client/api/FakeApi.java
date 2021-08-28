@@ -228,7 +228,7 @@ public interface FakeApi {
    * @param context  (required)
    * @return Call&lt;Void&gt;
    */
-  @PUT("fake/test-query-paramters")
+  @PUT("fake/test-query-parameters")
   CompletionStage<Response<Void>> testQueryParameterCollectionFormat(
     @retrofit2.http.Query("pipe") CSVParams pipe, @retrofit2.http.Query("ioutil") CSVParams ioutil, @retrofit2.http.Query("http") SSVParams http, @retrofit2.http.Query("url") CSVParams url, @retrofit2.http.Query("context") List<String> context
   );

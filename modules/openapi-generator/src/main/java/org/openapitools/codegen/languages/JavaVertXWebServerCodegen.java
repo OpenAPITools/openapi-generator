@@ -58,7 +58,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         artifactVersion = apiVersion;
         this.setDateLibrary("java8");
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.ARTIFACT_VERSION, this.getArtifactVersion());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);

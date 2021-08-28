@@ -133,7 +133,7 @@ import javax.validation.Valid;
     void testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2);
 
     @PUT
-    @Path("/test-query-paramters")
+    @Path("/test-query-parameters")
     @ApiOperation(value = "", notes = "To test the collection format in query parameters", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })

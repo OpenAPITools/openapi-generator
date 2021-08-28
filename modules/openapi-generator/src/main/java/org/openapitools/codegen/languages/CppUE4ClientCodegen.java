@@ -124,7 +124,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
         // Write defaults namespace in properties so that it can be accessible in templates.
         // At this point command line has not been parsed so if value is given
-        // in command line it will superseed this content
+        // in command line it will supersede this content
         additionalProperties.put("cppNamespace", cppNamespace);
         additionalProperties.put("unrealModuleName", unrealModuleName);
 
@@ -494,7 +494,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }

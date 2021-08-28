@@ -222,7 +222,7 @@ public class FakeApiController implements FakeApi {
     }
 
     /**
-     * PUT /fake/test-query-paramters
+     * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
      *
      * @param pipe  (required)

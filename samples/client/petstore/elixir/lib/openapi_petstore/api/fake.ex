@@ -541,7 +541,7 @@ defmodule OpenapiPetstore.Api.Fake do
     }
     %{}
     |> method(:put)
-    |> url("/fake/test-query-paramters")
+    |> url("/fake/test-query-parameters")
     |> add_param(:query, :"pipe", pipe)
     |> add_param(:query, :"ioutil", ioutil)
     |> add_param(:query, :"http", http)

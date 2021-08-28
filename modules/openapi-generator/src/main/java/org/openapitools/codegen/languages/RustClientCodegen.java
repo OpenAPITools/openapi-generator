@@ -361,7 +361,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$"))
             return name;
 

@@ -361,7 +361,7 @@ public interface FakeApi {
 
 
     /**
-     * PUT /fake/test-query-paramters
+     * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
      *
      * @param pipe  (required)
@@ -376,7 +376,7 @@ public interface FakeApi {
         @ApiResponse(code = 200, message = "Success") })
     @RequestMapping(
         method = RequestMethod.PUT,
-        value = "/fake/test-query-paramters"
+        value = "/fake/test-query-parameters"
     )
     default ResponseEntity<Void> testQueryParameterCollectionFormat(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "ioutil", required = true) List<String> ioutil,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
