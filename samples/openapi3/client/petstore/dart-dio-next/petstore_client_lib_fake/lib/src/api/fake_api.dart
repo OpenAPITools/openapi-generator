@@ -1377,7 +1377,7 @@ class FakeApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/fake/test-query-paramters';
+    final _path = r'/fake/test-query-parameters';
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{

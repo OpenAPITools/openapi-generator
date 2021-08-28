@@ -112,7 +112,7 @@ This library is intended to be imported qualified.
 | MODULE              | NOTES                                               |
 | ------------------- | --------------------------------------------------- |
 | OpenAPIPetstore.Client    | use the "dispatch" functions to send requests       |
-| OpenAPIPetstore.Core      | core funcions, config and request types             |
+| OpenAPIPetstore.Core      | core functions, config and request types            |
 | OpenAPIPetstore.API       | construct api requests                              |
 | OpenAPIPetstore.Model     | describes api models                                |
 | OpenAPIPetstore.MimeTypes | encoding/decoding MIME types (content-types/accept) |

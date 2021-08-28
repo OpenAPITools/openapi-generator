@@ -3040,7 +3040,7 @@ class FakeApi(object):
             settings={
                 'response_type': None,
                 'auth': [],
-                'endpoint_path': '/fake/test-query-paramters',
+                'endpoint_path': '/fake/test-query-parameters',
                 'operation_id': 'test_query_parameter_collection_format',
                 'http_method': 'PUT',
                 'servers': None,

@@ -97,7 +97,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 .stability(Stability.BETA)
                 .build();
 
-        outputFolder = "generated-code" + File.separator + "powershell-expiermental";
+        outputFolder = "generated-code" + File.separator + "powershell-experimental";
         modelTemplateFiles.put("model.mustache", ".ps1");
         apiTemplateFiles.put("api.mustache", ".ps1");
         modelTestTemplateFiles.put("model_test.mustache", ".ps1");
@@ -825,7 +825,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         // remove \t, \n, \r
         // replace \ with \\
         // replace " with \"
-        // outter unescape to retain the original multi-byte characters
+        // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(
@@ -1061,7 +1061,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
 
-        // check if return type is oneOf/anyeOf model
+        // check if return type is oneOf/anyOf model
         for (CodegenOperation op : operationList) {
             if (op.returnType != null) {
                 // look up the model to see if it's anyOf/oneOf

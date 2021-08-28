@@ -756,7 +756,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             name = "_" + name;
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z0-9_]*$")) {
             return name;
         }
@@ -1529,15 +1529,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // Iterate over all of the parent model properties
         boolean removedChildEnum = false;
-        for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
+        for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
             // Look for enums
-            if (parentModelCodegenPropery.isEnum) {
+            if (parentModelCodegenProperty.isEnum) {
                 // Now that we have found an enum in the parent class,
                 // and search the child class for the same enum.
                 Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                 while (iterator.hasNext()) {
                     CodegenProperty codegenProperty = iterator.next();
-                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
                         // We found an enum in the child class that is
                         // a duplicate of the one in the parent, so remove it.
                         iterator.remove();
@@ -1942,7 +1942,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         if (!supportsAdditionalPropertiesWithComposedSchema) {
-            // The additional (undeclared) propertiees are modeled in Java as a HashMap.
+            // The additional (undeclared) properties are modeled in Java as a HashMap.
             //
             // 1. supportsAdditionalPropertiesWithComposedSchema is set to false:
             //    The generated model class extends from the HashMap. That does not work

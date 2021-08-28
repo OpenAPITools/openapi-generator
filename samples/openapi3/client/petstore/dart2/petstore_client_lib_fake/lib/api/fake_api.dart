@@ -1229,7 +1229,7 @@ class FakeApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/fake/test-query-paramters';
+    final path = r'/fake/test-query-parameters';
 
     // ignore: prefer_final_locals
     Object postBody;

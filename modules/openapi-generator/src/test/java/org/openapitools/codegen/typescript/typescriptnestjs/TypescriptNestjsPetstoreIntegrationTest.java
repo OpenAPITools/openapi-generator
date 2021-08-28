@@ -1,12 +1,11 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.typescript.typescriptangular;
+package org.openapitools.codegen.typescript.typescriptnestjs;
 
 import org.openapitools.codegen.AbstractIntegrationTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
+import org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen;
 import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class TypescriptAngularPestoreIntegrationTest extends AbstractIntegrationTest {
+public class TypescriptNestjsPetstoreIntegrationTest extends AbstractIntegrationTest {
 
     @Override
     protected CodegenConfig getCodegenConfig() {
-        return new TypeScriptAngularClientCodegen();
+        return new TypeScriptNestjsClientCodegen();
     }
 
     @Override
