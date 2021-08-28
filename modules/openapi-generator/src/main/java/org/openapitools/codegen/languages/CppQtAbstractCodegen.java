@@ -273,7 +273,7 @@ public class CppQtAbstractCodegen extends AbstractCppCodegen implements CodegenC
         String varName = name;
         varName = sanitizeName(name);
 
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (varName.matches("^[A-Z_]*$")) {
             varName = varName.toLowerCase(Locale.ROOT);
         }

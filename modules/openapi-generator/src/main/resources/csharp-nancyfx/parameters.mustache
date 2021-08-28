@@ -126,7 +126,7 @@ namespace {{packageName}}.{{packageContext}}.Utils
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException(string.Format("Could not get '{0}' value of '{1}' type dynamicly",
+                throw new InvalidOperationException(string.Format("Could not get '{0}' value of '{1}' type dynamically",
                     name, typeof(TValue)), e);
             }
         }

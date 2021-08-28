@@ -51,7 +51,7 @@ public interface PetApi {
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
-    default Mono<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Mono<Pet> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().addPet(body, exchange);
     }
 
@@ -76,7 +76,7 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
-    default Mono<ResponseEntity<Void>> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> deletePet(@ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().deletePet(petId, apiKey, exchange);
     }
 
@@ -156,7 +156,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }
     )
-    default Mono<ResponseEntity<Pet>> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("petId") Long petId, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Pet>> getPetById(@ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().getPetById(petId, exchange);
     }
 
@@ -185,7 +185,7 @@ public interface PetApi {
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
-    default Mono<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Mono<Pet> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().updatePet(body, exchange);
     }
 
@@ -210,7 +210,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" }
     )
-    default Mono<ResponseEntity<Void>> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false)  String name,@ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false)  String status, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,@ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().updatePetWithForm(petId, name, status, exchange);
     }
 
@@ -236,7 +236,7 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    default Mono<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "file", required = false) Flux<Part> file, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "file", required = false) Flux<Part> file, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().uploadFile(petId, additionalMetadata, file, exchange);
     }
 

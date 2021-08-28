@@ -1119,7 +1119,7 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake

@@ -1442,7 +1442,7 @@ sub test_query_parameter_collection_format {
     }
 
     # parse inputs
-    my $_resource_path = '/fake/test-query-paramters';
+    my $_resource_path = '/fake/test-query-parameters';
 
     my $_method = 'PUT';
     my $query_params = {};

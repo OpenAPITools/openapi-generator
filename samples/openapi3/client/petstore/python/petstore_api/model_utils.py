@@ -446,7 +446,7 @@ class ModelSimple(OpenApiModel):
         )
 
     def __contains__(self, name):
-        """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
+        """used by `in` operator to check if an attribute value was set in an instance: `'attr' in instance`"""
         if name in self.required_properties:
             return name in self.__dict__
 
@@ -501,7 +501,7 @@ class ModelNormal(OpenApiModel):
         )
 
     def __contains__(self, name):
-        """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
+        """used by `in` operator to check if an attribute value was set in an instance: `'attr' in instance`"""
         if name in self.required_properties:
             return name in self.__dict__
 
@@ -648,7 +648,7 @@ class ModelComposed(OpenApiModel):
         return value
 
     def __contains__(self, name):
-        """used by `in` operator to check if an attrbute value was set in an instance: `'attr' in instance`"""
+        """used by `in` operator to check if an attribute value was set in an instance: `'attr' in instance`"""
 
         if name in self.required_properties:
             return name in self.__dict__

@@ -595,7 +595,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "_u";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }

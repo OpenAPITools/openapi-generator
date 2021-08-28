@@ -86,7 +86,7 @@ export class BaseAPI {
             map((res) => {
                 const { status, response } = res;
                 if (status >= 200 && status < 300) {
-                    return responseOpts?.respone === 'raw' ? res : response;
+                    return responseOpts?.response === 'raw' ? res : response;
                 }
                 throw res;
             })
@@ -165,7 +165,7 @@ export interface RequestOpts extends AjaxRequest {
 }
 
 export interface ResponseOpts {
-    respone?: 'raw';
+    response?: 'raw';
 }
 
 export interface OperationOpts {
