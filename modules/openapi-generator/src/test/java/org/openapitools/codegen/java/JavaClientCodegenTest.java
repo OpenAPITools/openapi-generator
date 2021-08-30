@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.java;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -55,6 +56,7 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.SpringCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -1163,5 +1165,79 @@ public class JavaClientCodegenTest {
                 "multipartSingle(org.springframework.core.io.AbstractResource file)",
                 "formParams.add(\"file\", file);"
         );
+    }
+
+    @Test
+    public void reactiveOneOfInheritance() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-oneof.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        List<File> files = generator.opts(input).generate();
+
+        Assert.assertEquals(files.size(), 4);
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/model/CustomOneOfArraySchemaOneOf.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/model/CustomOneOfSchema.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/model/ObjA.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/model/ObjB.java");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ObjA.java"), "implements CustomOneOfArraySchemaOneOf, CustomOneOfSchema");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ObjB.java"), "implements CustomOneOfArraySchemaOneOf, CustomOneOfSchema");
+    }
+
+    @Test
+    public void nonreactiveOneOfInheritance() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-oneof.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, "false");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        List<File> files = generator.opts(input).generate();
+
+        Assert.assertEquals(files.size(), 4);
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/model/CustomOneOfArraySchemaOneOf.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/model/CustomOneOfSchema.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/model/ObjA.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/model/ObjB.java");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ObjA.java"), "implements CustomOneOfArraySchemaOneOf, CustomOneOfSchema");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ObjB.java"), "implements CustomOneOfArraySchemaOneOf, CustomOneOfSchema");
     }
 }
