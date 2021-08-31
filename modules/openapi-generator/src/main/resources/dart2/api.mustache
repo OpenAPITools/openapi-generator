@@ -62,7 +62,8 @@ class {{{classname}}} {
 
   {{/hasParams}}
     // ignore: prefer_const_declarations
-    final path = r'{{{path}}}'{{#pathParams}}.replaceAll({{=<% %>=}}'{<% baseName %>}'<%={{ }}=%>, {{{paramName}}}{{^isString}}.toString(){{/isString}}){{/pathParams}};
+    final path = r'{{{path}}}'{{#pathParams}}
+      .replaceAll({{=<% %>=}}'{<% baseName %>}'<%={{ }}=%>, {{{paramName}}}{{^isString}}.toString(){{/isString}}){{/pathParams}};
 
     // ignore: prefer_final_locals
     Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
