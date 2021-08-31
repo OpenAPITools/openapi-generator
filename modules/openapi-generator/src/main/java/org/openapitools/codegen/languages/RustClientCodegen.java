@@ -263,7 +263,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         // If none of them is provided then fallback to default version
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+        } else if (openAPI != null && openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
         	setPackageVersion(openAPI.getInfo().getVersion());
         }
 
