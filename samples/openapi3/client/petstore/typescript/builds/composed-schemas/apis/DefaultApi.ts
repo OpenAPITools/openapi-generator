@@ -4,7 +4,8 @@ import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
-import {isCodeInRange} from '../util';
+import {canConsumeForm, isCodeInRange} from '../util';
+
 
 import { Cat } from '../models/Cat';
 import { Dog } from '../models/Dog';
@@ -31,12 +32,6 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
 
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
@@ -49,7 +44,6 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        // Apply auth methods
 
         return requestContext;
     }
@@ -68,12 +62,6 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
 
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
@@ -86,7 +74,6 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        // Apply auth methods
 
         return requestContext;
     }
@@ -105,12 +92,6 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
 
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
@@ -123,7 +104,6 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        // Apply auth methods
 
         return requestContext;
     }

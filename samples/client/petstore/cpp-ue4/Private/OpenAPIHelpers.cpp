@@ -71,7 +71,7 @@ const FString& HttpMultipartFormData::GetBoundary() const
 {
 	if (Boundary.IsEmpty())
 	{
-		// Generate a random boundary with enough entropy, should avoid occurences of the boundary in the data.
+		// Generate a random boundary with enough entropy, should avoid occurrences of the boundary in the data.
 		// Since the boundary is generated at every request, in case of failure, retries should succeed.
 		Boundary = FGuid::NewGuid().ToString(EGuidFormats::Short);
 	}

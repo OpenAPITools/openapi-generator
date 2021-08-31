@@ -296,7 +296,7 @@ module XAuthIDAlias
       @config.base_url(opts[:operation]) + path
     end
 
-    # Update hearder and query params based on authentication settings.
+    # Update header and query params based on authentication settings.
     #
     # @param [Hash] header_params Header parameters
     # @param [Hash] query_params Query parameters

@@ -28,7 +28,8 @@ let primitives = [
 
 const supportedMediaTypes: { [mediaType: string]: number } = {
   "application/json": Infinity,
-  "application/octet-stream": 0
+  "application/octet-stream": 0,
+  "application/x-www-form-urlencoded": 0
 }
 
 

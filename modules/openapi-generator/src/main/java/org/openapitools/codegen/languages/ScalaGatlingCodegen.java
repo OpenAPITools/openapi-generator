@@ -345,7 +345,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     /**
      * Creates all the necessary openapi vendor extensions and feeder files for gatling
      *
-     * @param operation     OpoenAPI Operation
+     * @param operation     OpenAPI Operation
      * @param parameters    OpenAPI Parameters
      * @param parameterType OpenAPI Parameter Type
      */

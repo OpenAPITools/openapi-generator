@@ -26,3 +26,12 @@ export function isCodeInRange(codeRange: string, code: number): boolean {
         return true;
     }
 }
+
+/**
+* Returns if it can consume form
+*
+* @param consumes array
+*/
+export function canConsumeForm(contentTypes: string[]): boolean {
+    return contentTypes.indexOf('multipart/form-data') !== -1
+}

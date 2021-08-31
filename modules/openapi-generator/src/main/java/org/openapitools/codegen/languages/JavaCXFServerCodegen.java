@@ -75,7 +75,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         outputFolder = "generated-code/JavaJaxRS-CXF";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(USE_TAGS, String.valueOf(true));
 
