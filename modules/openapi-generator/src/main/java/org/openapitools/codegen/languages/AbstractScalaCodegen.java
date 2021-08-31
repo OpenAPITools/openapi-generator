@@ -80,6 +80,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "case",
                 "catch",
                 "class",
+                "clone",
                 "def",
                 "do",
                 "else",
