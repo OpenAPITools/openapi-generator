@@ -62,4 +62,3 @@ export function CategoryToJSON(value?: Category | null): any {
     };
 }
 
-

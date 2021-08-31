@@ -1,7 +1,7 @@
 #!/bin/sh
 # ref: https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
 #
-# Usage example: /bin/sh ./git_push.sh wing328 openapi-pestore-perl "minor update"
+# Usage example: /bin/sh ./git_push.sh wing328 openapi-petstore-perl "minor update"
 
 git_user_id=$1
 git_repo_id=$2
@@ -28,7 +28,7 @@ git init
 # Adds the files in the local repository and stages them for commit.
 git add .
 
-# Commits the tracked changes and prepares them to be pushed to a remote repository. 
+# Commits the tracked changes and prepares them to be pushed to a remote repository.
 git commit -m "$release_note"
 
 # Sets the new remote
@@ -49,4 +49,3 @@ git pull origin master
 # Pushes (Forces) the changes in the local repository up to the remote repository
 echo "Git pushing to https://github.com/${git_user_id}/${git_repo_id}.git"
 git push origin master 2>&1 | grep -v 'To https'
-

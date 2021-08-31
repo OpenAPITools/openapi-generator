@@ -83,7 +83,8 @@ declare -a xml_files=(
     "${root}/modules/openapi-generator-maven-plugin/examples/java-client.xml"
     "${root}/modules/openapi-generator-maven-plugin/examples/non-java-invalid-spec.xml"
     "${root}/modules/openapi-generator-maven-plugin/examples/non-java.xml"
-    "${root}/samples/meta-codegen/lib/pom.xml"
+    "${root}/modules/openapi-generator-maven-plugin/examples/kotlin.xml"
+    "${root}/modules/openapi-generator-maven-plugin/examples/spring.xml"
     "${root}/pom.xml"
 )
 

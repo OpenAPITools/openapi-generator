@@ -3,7 +3,7 @@
     "pins": [
       {
         "package": "AnyCodable",
-        "repositoryURL": "https://github.com/Flight-School/AnyCodable.git",
+        "repositoryURL": "https://github.com/Flight-School/AnyCodable",
         "state": {
           "branch": null,
           "revision": "69261f239f0fffaf51495dadc4f8483fbfe97025",

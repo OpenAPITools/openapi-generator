@@ -14,7 +14,7 @@ case class {{classname}} (
     {{/isEnum}}
     {{^isEnum}}
         {{#description}}
-            /* {{{description}}} */
+            /* {{{.}}} */
         {{/description}}
                   {{{name}}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}{{^-last}},{{/-last}}
     {{/isEnum}}

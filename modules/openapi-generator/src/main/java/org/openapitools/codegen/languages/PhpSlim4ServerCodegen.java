@@ -57,6 +57,10 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     public PhpSlim4ServerCodegen() {
         super();
 
+        // PDS skeleton recommends tests folder
+        // https://github.com/php-pds/skeleton
+        this.testBasePath = "tests";
+
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
@@ -203,8 +207,8 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
-        supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
+        supportingFiles.add(new SupportingFile("index.mustache", "public", "index.php"));
+        supportingFiles.add(new SupportingFile(".htaccess", "public", ".htaccess"));
         supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
         supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
         supportingFiles.add(new SupportingFile("phpcs.xml.mustache", "", "phpcs.xml.dist"));
@@ -297,7 +301,7 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         // remove \t, \n, \r
         // replace \ with \\
         // replace " with \"
-        // outter unescape to retain the original multi-byte characters
+        // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         input = super.escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(

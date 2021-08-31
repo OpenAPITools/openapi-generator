@@ -26,7 +26,7 @@ void UserAPI_createUser(apiClient_t *apiClient, user_t * body);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **body** | **[user_t](user.md) \*** | Created user object | 
 
 ### Return type
@@ -54,7 +54,7 @@ void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * body);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **body** | **[list_t](user.md) \*** | List of user object | 
 
 ### Return type
@@ -82,7 +82,7 @@ void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * body);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **body** | **[list_t](user.md) \*** | List of user object | 
 
 ### Return type
@@ -112,7 +112,7 @@ void UserAPI_deleteUser(apiClient_t *apiClient, char * username);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **username** | **char \*** | The name that needs to be deleted | 
 
 ### Return type
@@ -140,7 +140,7 @@ user_t* UserAPI_getUserByName(apiClient_t *apiClient, char * username);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **username** | **char \*** | The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
@@ -169,7 +169,7 @@ char* UserAPI_loginUser(apiClient_t *apiClient, char * username, char * password
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **username** | **char \*** | The user name for login | 
 **password** | **char \*** | The password for login in clear text | 
 
@@ -200,7 +200,7 @@ void UserAPI_logoutUser(apiClient_t *apiClient);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 
 ### Return type
 
@@ -229,7 +229,7 @@ void UserAPI_updateUser(apiClient_t *apiClient, char * username, user_t * body);
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**apiClient** | **apiClient_t \*** | context containing the client configuration | 
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
 **username** | **char \*** | name that need to be deleted | 
 **body** | **[user_t](user.md) \*** | Updated user object | 
 

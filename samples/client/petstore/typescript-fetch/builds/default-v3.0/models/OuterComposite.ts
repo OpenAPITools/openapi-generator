@@ -70,4 +70,3 @@ export function OuterCompositeToJSON(value?: OuterComposite | null): any {
     };
 }
 
-

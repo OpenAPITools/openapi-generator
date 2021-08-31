@@ -59,7 +59,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
@@ -69,7 +69,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
-        additionalProperties.put("jackson", "true");
+        additionalProperties.put(JACKSON, "true");
     }
 
     @Override

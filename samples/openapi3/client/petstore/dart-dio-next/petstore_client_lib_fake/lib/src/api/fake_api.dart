@@ -137,6 +137,7 @@ class FakeApi {
         'secure': <Map<String, String>>[
           {
             'type': 'http',
+            'scheme': 'signature',
             'name': 'http_signature_test',
           },
         ],
@@ -646,7 +647,7 @@ class FakeApi {
   /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testBodyWithBinary({ 
-    required MultipartFile body,
+    MultipartFile? body,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -671,7 +672,7 @@ class FakeApi {
     dynamic _bodyData;
 
     try {
-      _bodyData = body.finalize();
+      _bodyData = body?.finalize();
 
     } catch(error, stackTrace) {
       throw DioError(
@@ -988,6 +989,7 @@ class FakeApi {
         'secure': <Map<String, String>>[
           {
             'type': 'http',
+            'scheme': 'basic',
             'name': 'http_basic_test',
           },
         ],
@@ -1063,9 +1065,9 @@ class FakeApi {
   /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> testEnumParameters({ 
     BuiltList<String>? enumHeaderStringArray,
-    String? enumHeaderString,
+    String? enumHeaderString = '-efg',
     BuiltList<String>? enumQueryStringArray,
-    String? enumQueryString,
+    String? enumQueryString = '-efg',
     int? enumQueryInteger,
     double? enumQueryDouble,
     BuiltList<String>? enumFormStringArray,
@@ -1094,7 +1096,7 @@ class FakeApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      if (enumQueryStringArray != null) r'enum_query_string_array': encodeCollectionQueryParameter<String>(_serializers, enumQueryStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi),
+      if (enumQueryStringArray != null) r'enum_query_string_array': encodeCollectionQueryParameter<String>(_serializers, enumQueryStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi,),
       if (enumQueryString != null) r'enum_query_string': encodeQueryParameter(_serializers, enumQueryString, const FullType(String)),
       if (enumQueryInteger != null) r'enum_query_integer': encodeQueryParameter(_serializers, enumQueryInteger, const FullType(int)),
       if (enumQueryDouble != null) r'enum_query_double': encodeQueryParameter(_serializers, enumQueryDouble, const FullType(double)),
@@ -1104,7 +1106,7 @@ class FakeApi {
 
     try {
       _bodyData = <String, dynamic>{
-        if (enumFormStringArray != null) r'enum_form_string_array': encodeCollectionQueryParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
+        if (enumFormStringArray != null) r'enum_form_string_array': encodeCollectionQueryParameter<String>(_serializers, enumFormStringArray, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
         if (enumFormString != null) r'enum_form_string': encodeQueryParameter(_serializers, enumFormString, const FullType(String)),
       };
 
@@ -1178,6 +1180,7 @@ class FakeApi {
         'secure': <Map<String, String>>[
           {
             'type': 'http',
+            'scheme': 'bearer',
             'name': 'bearer_test',
           },
         ],
@@ -1350,6 +1353,7 @@ class FakeApi {
   /// * [http] 
   /// * [url] 
   /// * [context] 
+  /// * [language] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1365,6 +1369,7 @@ class FakeApi {
     required BuiltList<String> http,
     required BuiltList<String> url,
     required BuiltList<String> context,
+    BuiltMap<String, String>? language,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -1372,7 +1377,7 @@ class FakeApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/fake/test-query-paramters';
+    final _path = r'/fake/test-query-parameters';
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -1386,11 +1391,12 @@ class FakeApi {
     );
 
     final _queryParameters = <String, dynamic>{
-      r'pipe': encodeCollectionQueryParameter<String>(_serializers, pipe, const FullType(BuiltList, [FullType(String)]), format: ListFormat.pipes),
-      r'ioutil': encodeCollectionQueryParameter<String>(_serializers, ioutil, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
-      r'http': encodeCollectionQueryParameter<String>(_serializers, http, const FullType(BuiltList, [FullType(String)]), format: ListFormat.ssv),
-      r'url': encodeCollectionQueryParameter<String>(_serializers, url, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv),
-      r'context': encodeCollectionQueryParameter<String>(_serializers, context, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi),
+      r'pipe': encodeCollectionQueryParameter<String>(_serializers, pipe, const FullType(BuiltList, [FullType(String)]), format: ListFormat.pipes,),
+      r'ioutil': encodeCollectionQueryParameter<String>(_serializers, ioutil, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
+      r'http': encodeCollectionQueryParameter<String>(_serializers, http, const FullType(BuiltList, [FullType(String)]), format: ListFormat.ssv,),
+      r'url': encodeCollectionQueryParameter<String>(_serializers, url, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
+      r'context': encodeCollectionQueryParameter<String>(_serializers, context, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi,),
+      if (language != null) r'language': encodeQueryParameter(_serializers, language, const FullType(BuiltMap, [FullType(String), FullType(String)]), ),
     };
 
     final _response = await _dio.request<Object>(

@@ -19,7 +19,7 @@
 #include "HttpRetrySystem.h"
 #include "Containers/Ticker.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 typedef TSharedRef<TJsonWriter<>> JsonWriter;
@@ -50,7 +50,7 @@ struct OPENAPI_API HttpRetryParams
 };
 
 class OPENAPI_API Model
-{ 
+{
 public:
 	virtual ~Model() {}
 	virtual void WriteJson(JsonWriter& Writer) const = 0;

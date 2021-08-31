@@ -18,38 +18,38 @@ public interface UserApi extends ApiClient.Api {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param body Created user object (required)
+   * @param user Created user object (required)
    */
   @RequestLine("POST /user")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
-  void createUser(User body);
+  void createUser(User user);
 
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param user List of user object (required)
    */
   @RequestLine("POST /user/createWithArray")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
-  void createUsersWithArrayInput(List<User> body);
+  void createUsersWithArrayInput(List<User> user);
 
   /**
    * Creates list of users with given input array
    * 
-   * @param body List of user object (required)
+   * @param user List of user object (required)
    */
   @RequestLine("POST /user/createWithList")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
-  void createUsersWithListInput(List<User> body);
+  void createUsersWithListInput(List<User> user);
 
   /**
    * Delete user
@@ -138,12 +138,12 @@ public interface UserApi extends ApiClient.Api {
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param body Updated user object (required)
+   * @param user Updated user object (required)
    */
   @RequestLine("PUT /user/{username}")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
-  void updateUser(@Param("username") String username, User body);
+  void updateUser(@Param("username") String username, User user);
 }

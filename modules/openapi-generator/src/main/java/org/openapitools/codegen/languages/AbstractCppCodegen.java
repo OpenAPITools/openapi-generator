@@ -275,6 +275,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
      * @param name the name of the property
      * @return getter name based on naming convention
      */
+    @Override
     public String toBooleanGetter(String name) {
         return "is" + getterAndSetterCapitalize(name);
     }
@@ -284,6 +285,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         return "std::shared_ptr<" + toModelName(str) + ">";
     }
 
+    @Override
     public void processOpts() {
         super.processOpts();
 

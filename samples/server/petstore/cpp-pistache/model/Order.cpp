@@ -55,13 +55,7 @@ bool Order::validate(std::stringstream& msg, const std::string& pathPrefix) cons
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "Order" : pathPrefix;
 
-        
-    
-    
-    
-    
-    
-
+                            
     return success;
 }
 

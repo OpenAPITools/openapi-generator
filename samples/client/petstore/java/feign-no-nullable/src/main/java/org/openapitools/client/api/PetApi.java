@@ -92,7 +92,9 @@ public interface PetApi extends ApiClient.Api {
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
    * @return Set&lt;Pet&gt;
+   * @deprecated
    */
+  @Deprecated
   @RequestLine("GET /pet/findByTags?tags={tags}")
   @Headers({
     "Accept: application/json",
@@ -113,7 +115,9 @@ public interface PetApi extends ApiClient.Api {
    *   <li>tags - Tags to filter by (required)</li>
    *   </ul>
    * @return Set&lt;Pet&gt;
+   * @deprecated
    */
+  @Deprecated
   @RequestLine("GET /pet/findByTags?tags={tags}")
   @Headers({
   "Accept: application/json",

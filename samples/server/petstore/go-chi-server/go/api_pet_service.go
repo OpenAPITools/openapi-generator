@@ -16,8 +16,8 @@ import (
 	"os"
 )
 
-// PetApiService is a service that implents the logic for the PetApiServicer
-// This service should implement the business logic for every endpoint for the PetApi API. 
+// PetApiService is a service that implements the logic for the PetApiServicer
+// This service should implement the business logic for every endpoint for the PetApi API.
 // Include any external packages or services that will be required by this service.
 type PetApiService struct {
 }
@@ -67,6 +67,7 @@ func (s *PetApiService) FindPetsByStatus(ctx context.Context, status []string) (
 }
 
 // FindPetsByTags - Finds Pets by tags
+// Deprecated
 func (s *PetApiService) FindPetsByTags(ctx context.Context, tags []string) (ImplResponse, error) {
 	// TODO - update FindPetsByTags with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
@@ -138,4 +139,3 @@ func (s *PetApiService) UploadFile(ctx context.Context, petId int64, additionalM
 
 	return Response(http.StatusNotImplemented, nil), errors.New("UploadFile method not implemented")
 }
-

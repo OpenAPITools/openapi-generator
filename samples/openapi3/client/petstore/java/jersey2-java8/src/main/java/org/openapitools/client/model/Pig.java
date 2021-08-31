@@ -304,7 +304,7 @@ public class Pig extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `BasquePig`. If the actual instanct is not `BasquePig`,
+     * Get the actual instance of `BasquePig`. If the actual instance is not `BasquePig`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `BasquePig`
@@ -315,7 +315,7 @@ public class Pig extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `DanishPig`. If the actual instanct is not `DanishPig`,
+     * Get the actual instance of `DanishPig`. If the actual instance is not `DanishPig`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `DanishPig`

@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './AdditionalPropertiesClass';
 export * from './Animal';
 export * from './ArrayOfArrayOfNumberOnly';
@@ -9,6 +11,7 @@ export * from './CatAllOf';
 export * from './Category';
 export * from './ClassModel';
 export * from './Client';
+export * from './DeprecatedObject';
 export * from './Dog';
 export * from './DogAllOf';
 export * from './EnumArrays';
@@ -29,6 +32,7 @@ export * from './ModelFile';
 export * from './Name';
 export * from './NullableClass';
 export * from './NumberOnly';
+export * from './ObjectWithDeprecatedFields';
 export * from './Order';
 export * from './OuterComposite';
 export * from './OuterEnum';

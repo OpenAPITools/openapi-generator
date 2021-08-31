@@ -75,7 +75,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         outputFolder = "generated-code/JavaJaxRS-CXF";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(USE_TAGS, String.valueOf(true));
 
@@ -242,7 +242,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         model.imports.remove("ToStringSerializer");
 
         //Add imports for Jackson when model has inner enum
-        if (additionalProperties.containsKey("jackson")) {
+        if (additionalProperties.containsKey(JACKSON)) {
             if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonCreator");
                 model.imports.add("JsonValue");

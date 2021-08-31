@@ -51,9 +51,9 @@ c.Proxy = webProxy;
 ```
 
 ### Connections
-Each ApiClass (properly the ApiClient inside it) will create an istance of HttpClient. It will use that for the entire lifecycle and dispose it when called the Dispose method.
+Each ApiClass (properly the ApiClient inside it) will create an instance of HttpClient. It will use that for the entire lifecycle and dispose it when called the Dispose method.
 
-To better manager the connections it's a common practice to reuse the HttpClient and HttpClientHander (see [here](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net) for details). To use your own HttpClient instance just pass it to the ApiClass constructor.
+To better manager the connections it's a common practice to reuse the HttpClient and HttpClientHandler (see [here](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net) for details). To use your own HttpClient instance just pass it to the ApiClass constructor.
 
 ```csharp
 HttpClientHandler yourHandler = new HttpClientHandler();
@@ -61,7 +61,7 @@ HttpClient yourHttpClient = new HttpClient(yourHandler);
 var api = new YourApiClass(yourHttpClient, yourHandler);
 ```
 
-If you want to use an HttpClient and don't have access to the handler, for example in a DI context in Asp.net Core when using IHttpClientFactory. 
+If you want to use an HttpClient and don't have access to the handler, for example in a DI context in Asp.net Core when using IHttpClientFactory.
 
 ```csharp
 HttpClient yourHttpClient = new HttpClient();
@@ -72,7 +72,7 @@ You'll loose some configuration settings, the features affected are: Setting and
 Here an example of DI setup in a sample web project:
 
 ```csharp
-services.AddHttpClient<YourApiClass>(httpClient => 
+services.AddHttpClient<YourApiClass>(httpClient =>
    new PetApi(httpClient));
 ```
 
@@ -144,7 +144,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -192,6 +192,7 @@ Class | Method | HTTP request | Description
  - [Model.ClassModel](docs/ClassModel.md)
  - [Model.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [Model.DanishPig](docs/DanishPig.md)
+ - [Model.DeprecatedObject](docs/DeprecatedObject.md)
  - [Model.Dog](docs/Dog.md)
  - [Model.DogAllOf](docs/DogAllOf.md)
  - [Model.Drawing](docs/Drawing.md)
@@ -221,6 +222,7 @@ Class | Method | HTTP request | Description
  - [Model.NullableClass](docs/NullableClass.md)
  - [Model.NullableShape](docs/NullableShape.md)
  - [Model.NumberOnly](docs/NumberOnly.md)
+ - [Model.ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [Model.Order](docs/Order.md)
  - [Model.OuterComposite](docs/OuterComposite.md)
  - [Model.OuterEnum](docs/OuterEnum.md)

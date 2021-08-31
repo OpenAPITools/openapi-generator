@@ -1,0 +1,78 @@
+{{>licenseInfo}}
+package {{invokerPackage}}.query;
+
+import io.micronaut.context.annotation.AliasFor;
+import io.micronaut.core.bind.annotation.Bindable;
+import javax.annotation.Generated;
+import java.lang.annotation.*;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+
+/**
+ * Indicates that the parameter is a query parameter
+ */
+{{>generatedAnnotation}}
+@Documented
+@Retention(RUNTIME)
+@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
+@Bindable
+@Inherited
+public @interface QueryParam {
+
+    /**
+     * @return The name of the parameter
+     */
+    @AliasFor(annotation = Bindable.class, member = "value")
+    String value() default "";
+
+    /**
+     * @return The name of the parameter
+     */
+    @AliasFor(annotation = Bindable.class, member = "value")
+    String name() default "";
+
+    /**
+     * @see Bindable#defaultValue()
+     * @return The default value
+     */
+    @AliasFor(annotation = Bindable.class, member = "defaultValue")
+    String defaultValue() default "";
+
+    /**
+     * @return The format of the given values in the URL
+     */
+    Format format() default Format.CSV;
+
+    /**
+     * The possible formats of the query parameter in the URL.
+     * The conversion of various types is according to openapi v3 specification:
+     * @see <a href="https://swagger.io/specification/">openapi v3 specification</a>
+     * Values are serialized using Jackson object mapper
+     */
+    public static enum Format {
+        /**
+         * The values of iterator are comma-delimited.
+         * Ambiguity can arise if values of Iterator contain commas inside themselves. In such case, the MULTI format
+         * should be preferred.
+         * Null values are not supported and will be removed during the conversion process.
+         */
+        CSV,
+        /**
+         * The values are space-delimited, similarly to comma-delimited format.
+         */
+        SSV,
+        /**
+         * The values a delimited by pipes "|", similarly to comma-delimited format.
+         */
+        PIPES,
+        /**
+         * The values are repeated as separate parameters, e.g.: color=blue&color=black&color=brown.
+         */
+        MULTI,
+        /**
+         * The format supports 1-depth recursion into objects with setting each attribute as a separate parameter, e.g.:
+         * 'color[R]=100&color[G]=200&color[B]=150'.
+         */
+        DEEP_OBJECT
+    }
+}

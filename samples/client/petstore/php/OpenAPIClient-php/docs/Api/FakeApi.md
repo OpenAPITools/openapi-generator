@@ -20,7 +20,7 @@ Method | HTTP request | Description
 [**testGroupParameters()**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties()**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData()**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat()**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat()**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 
 
 ## `fakeHealthGet()`
@@ -972,7 +972,7 @@ No authorization required
 ## `testQueryParameterCollectionFormat()`
 
 ```php
-testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context)
+testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context, $language)
 ```
 
 
@@ -997,9 +997,10 @@ $ioutil = array('ioutil_example'); // string[]
 $http = array('http_example'); // string[]
 $url = array('url_example'); // string[]
 $context = array('context_example'); // string[]
+$language = array('key' => 'language_example'); // array<string,string>
 
 try {
-    $apiInstance->testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context);
+    $apiInstance->testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context, $language);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testQueryParameterCollectionFormat: ', $e->getMessage(), PHP_EOL;
 }
@@ -1014,6 +1015,7 @@ Name | Type | Description  | Notes
  **http** | [**string[]**](../Model/string.md)|  |
  **url** | [**string[]**](../Model/string.md)|  |
  **context** | [**string[]**](../Model/string.md)|  |
+ **language** | [**array<string,string>**](../Model/string.md)|  | [optional]
 
 ### Return type
 

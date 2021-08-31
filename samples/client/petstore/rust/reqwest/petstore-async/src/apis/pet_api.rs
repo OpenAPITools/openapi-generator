@@ -18,7 +18,7 @@ use super::{Error, configuration};
 #[derive(Clone, Debug)]
 pub struct AddPetParams {
     /// Pet object that needs to be added to the store
-    pub body: crate::models::Pet
+    pub pet: crate::models::Pet
 }
 
 /// struct for passing parameters to the method `delete_pet`
@@ -54,7 +54,7 @@ pub struct GetPetByIdParams {
 #[derive(Clone, Debug)]
 pub struct UpdatePetParams {
     /// Pet object that needs to be added to the store
-    pub body: crate::models::Pet
+    pub pet: crate::models::Pet
 }
 
 /// struct for passing parameters to the method `update_pet_with_form`
@@ -84,6 +84,7 @@ pub struct UploadFileParams {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetSuccess {
+    Status200(crate::models::Pet),
     UnknownValue(serde_json::Value),
 }
 
@@ -122,6 +123,7 @@ pub enum GetPetByIdSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetSuccess {
+    Status200(crate::models::Pet),
     UnknownValue(serde_json::Value),
 }
 
@@ -209,7 +211,7 @@ pub enum UploadFileError {
 
 pub async fn add_pet(configuration: &configuration::Configuration, params: AddPetParams) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
     // unbox the parameters
-    let body = params.body;
+    let pet = params.pet;
 
 
     let local_var_client = &configuration.client;
@@ -223,7 +225,7 @@ pub async fn add_pet(configuration: &configuration::Configuration, params: AddPe
     if let Some(ref local_var_token) = configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    local_var_req_builder = local_var_req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&pet);
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;
@@ -394,7 +396,7 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
 
 pub async fn update_pet(configuration: &configuration::Configuration, params: UpdatePetParams) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
     // unbox the parameters
-    let body = params.body;
+    let pet = params.pet;
 
 
     let local_var_client = &configuration.client;
@@ -408,7 +410,7 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
     if let Some(ref local_var_token) = configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    local_var_req_builder = local_var_req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&pet);
 
     let local_var_req = local_var_req_builder.build()?;
     let local_var_resp = local_var_client.execute(local_var_req).await?;

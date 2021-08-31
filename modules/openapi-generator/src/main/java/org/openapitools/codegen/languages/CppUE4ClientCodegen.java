@@ -124,7 +124,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
         // Write defaults namespace in properties so that it can be accessible in templates.
         // At this point command line has not been parsed so if value is given
-        // in command line it will superseed this content
+        // in command line it will supersede this content
         additionalProperties.put("cppNamespace", cppNamespace);
         additionalProperties.put("unrealModuleName", unrealModuleName);
 
@@ -145,7 +145,8 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
                         "TArray",
                         "TArray<uint8>",  // For byte arrays
                         "TMap",
-                        "TSharedPtr<FJsonObject>")
+                        "TSharedPtr<FJsonObject>",
+                        "TSharedPtr<FJsonValue>")
         );
 
         supportingFiles.add(new SupportingFile("model-base-header.mustache", publicFolder, modelNamePrefix + "BaseModel.h"));
@@ -185,6 +186,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         typeMapping.put("Object", "TSharedPtr<FJsonObject>");
         typeMapping.put("file", "HttpFileInput");
         typeMapping.put("UUID", "FGuid");
+        typeMapping.put("AnyType", "TSharedPtr<FJsonValue>");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("HttpFileInput", "#include \"" + modelNamePrefix + "Helpers.h\"");
@@ -492,7 +494,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }
@@ -539,14 +541,17 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    @Override
     public String toBooleanGetter(String name) {
         return "Is" + getterAndSetterCapitalize(name);
     }
 
+    @Override
     public String toGetter(String name) {
         return "Get" + getterAndSetterCapitalize(name);
     }
 
+    @Override
     public String toSetter(String name) {
         return "Set" + getterAndSetterCapitalize(name);
     }

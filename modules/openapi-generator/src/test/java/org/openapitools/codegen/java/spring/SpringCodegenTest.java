@@ -224,7 +224,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void interfaceDefaultImplDisableWithReponseWrapper() {
+    public void interfaceDefaultImplDisableWithResponseWrapper() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(RESPONSE_WRAPPER, "aWrapper");
@@ -329,7 +329,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void springcloudWithJava8DisabeJdk8() {
+    public void springcloudWithJava8DisableJdk8() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");

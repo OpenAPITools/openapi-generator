@@ -143,6 +143,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         return outputFolder + File.separator + packageName + File.separator + "api" + File.separator;
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + packageName + File.separator + "model" + File.separator;
     }
@@ -152,7 +153,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$"))
             return name;
 
