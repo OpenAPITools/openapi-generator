@@ -1,5 +1,0 @@
-# The following is no longer necessary as this Dart template uses
-# exact types for properties as defined in the OpenAPI specification file.
-# analyzer:
-#   strong-mode:
-#     implicit-casts: false
