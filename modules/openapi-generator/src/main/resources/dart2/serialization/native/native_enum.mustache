@@ -10,7 +10,7 @@ class {{{classname}}} {
   final {{{dataType}}} value;
 
   @override
-  String toString() => {{#isString}}value{{/isString}}{{^isString}}'$value'{{/isString}};
+  String toString() => {{#isString}}value ?? ''{{/isString}}{{^isString}}value == null ? '' : value.toString(){{/isString}};
 
   {{{dataType}}} toJson() => value;
 
