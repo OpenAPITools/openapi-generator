@@ -47,10 +47,10 @@ public class MainApiVerticle extends AbstractVerticle {
                 Swagger swagger = new SwaggerParser().parse(readFile.result().toString(Charset.forName("utf-8")));
                 Router swaggerRouter = SwaggerRouter.swaggerRouter(router, swagger, vertx.eventBus(), new OperationIdServiceIdResolver());
 
-                deployVerticles(startFuture);
+                deployVerticals(startFuture);
 
                 vertx.createHttpServer()
-                    .requestHandler(swaggerRouter::accept) 
+                    .requestHandler(swaggerRouter::accept)
                     .listen(serverPort, h -> {
                         if (h.succeeded()) {
                             startFuture.complete();
@@ -61,10 +61,10 @@ public class MainApiVerticle extends AbstractVerticle {
             } else {
                 startFuture.fail(readFile.cause());
             }
-        });                
+        });
     }
-      
-    public void deployVerticles(Future<Void> startFuture) {
+
+    public void deployVerticals(Future<Void> startFuture) {
         {{#apiInfo}}{{#apis}}
         vertx.deployVerticle("{{apiPackage}}.{{classname}}Verticle", res -> {
             if (res.succeeded()) {

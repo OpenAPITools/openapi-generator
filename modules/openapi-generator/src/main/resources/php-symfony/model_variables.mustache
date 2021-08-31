@@ -1,6 +1,6 @@
     /**
     {{#description}}
-     * {{description}}
+     * {{.}}
      *
     {{/description}}
      * @var {{{vendorExtensions.x-comment-type}}}{{^required}}|null{{/required}}
@@ -43,7 +43,7 @@
 {{^isContainer}}
     {{#isDate}}
      * @Assert\Date()
-     * @Type("DateTime")
+     * @Type("DateTime<'Y-m-d'>")
     {{/isDate}}
     {{#isDateTime}}
      * @Assert\DateTime()
@@ -59,12 +59,12 @@
 {{#hasValidation}}
     {{#maxLength}}
      * @Assert\Length(
-     *   max = {{maxLength}}
+     *   max = {{.}}
      * )
     {{/maxLength}}
     {{#minLength}}
      * @Assert\Length(
-     *   min = {{minLength}}
+     *   min = {{.}}
      * )
     {{/minLength}}
     {{#minimum}}
@@ -84,16 +84,16 @@
     {{/exclusiveMaximum}}
     {{/maximum}}
     {{#pattern}}
-     * @Assert\Regex("/{{pattern}}/")
+     * @Assert\Regex("/{{.}}/")
     {{/pattern}}
     {{#maxItems}}
      * @Assert\Count(
-     *   max = {{maxItems}}
+     *   max = {{.}}
      * )
     {{/maxItems}}
     {{#minItems}}
      * @Assert\Count(
-     *   min = {{minItems}}
+     *   min = {{.}}
      * )
     {{/minItems}}
 {{/hasValidation}}

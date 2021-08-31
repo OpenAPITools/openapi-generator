@@ -1136,6 +1136,55 @@ export interface ReadOnlyFirst {
     baz?: string;
 }
 /**
+ * 
+ * @export
+ * @interface ReadOnlyWithDefault
+ */
+export interface ReadOnlyWithDefault {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadOnlyWithDefault
+     */
+    prop1?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadOnlyWithDefault
+     */
+    prop2?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadOnlyWithDefault
+     */
+    prop3?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReadOnlyWithDefault
+     */
+    boolProp1?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReadOnlyWithDefault
+     */
+    boolProp2?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReadOnlyWithDefault
+     */
+    intProp1?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReadOnlyWithDefault
+     */
+    intProp2?: number;
+}
+/**
  * Model for testing reserved words
  * @export
  * @interface Return
@@ -2163,7 +2212,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             assertParamExists('testQueryParameterCollectionFormat', 'url', url)
             // verify required parameter 'context' is not null or undefined
             assertParamExists('testQueryParameterCollectionFormat', 'context', context)
-            const localVarPath = `/fake/test-query-paramters`;
+            const localVarPath = `/fake/test-query-parameters`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2218,7 +2267,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             assertParamExists('testUniqueItemsHeaderAndQueryParameterCollectionFormat', 'queryUnique', queryUnique)
             // verify required parameter 'headerUnique' is not null or undefined
             assertParamExists('testUniqueItemsHeaderAndQueryParameterCollectionFormat', 'headerUnique', headerUnique)
-            const localVarPath = `/fake/test-unique-paramters`;
+            const localVarPath = `/fake/test-unique-parameters`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

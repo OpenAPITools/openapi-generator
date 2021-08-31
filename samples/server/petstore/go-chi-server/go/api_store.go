@@ -79,9 +79,9 @@ func (c *StoreApiController) Routes() Routes {
 
 // DeleteOrder - Delete purchase order by ID
 func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
-	orderId := chi.URLParam(r, "orderId")
+	orderIdParam := chi.URLParam(r, "orderId")
 	
-	result, err := c.service.DeleteOrder(r.Context(), orderId)
+	result, err := c.service.DeleteOrder(r.Context(), orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -107,13 +107,13 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 
 // GetOrderById - Find purchase order by ID
 func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) {
-	orderId, err := parseInt64Parameter(chi.URLParam(r, "orderId"), true)
+	orderIdParam, err := parseInt64Parameter(chi.URLParam(r, "orderId"), true)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 
-	result, err := c.service.GetOrderById(r.Context(), orderId)
+	result, err := c.service.GetOrderById(r.Context(), orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -126,18 +126,18 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 
 // PlaceOrder - Place an order for a pet
 func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
-	order := Order{}
+	orderParam := Order{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&order); err != nil {
+	if err := d.Decode(&orderParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertOrderRequired(order); err != nil {
+	if err := AssertOrderRequired(orderParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.PlaceOrder(r.Context(), order)
+	result, err := c.service.PlaceOrder(r.Context(), orderParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

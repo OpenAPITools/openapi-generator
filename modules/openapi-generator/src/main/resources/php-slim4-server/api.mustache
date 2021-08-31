@@ -45,10 +45,10 @@ abstract class {{classname}}
     /**
      * {{httpMethod}} {{operationId}}
      {{#summary}}
-     * Summary: {{summary}}
+     * Summary: {{.}}
      {{/summary}}
      {{#notes}}
-     * Notes: {{notes}}
+     * Notes: {{.}}
      {{/notes}}
      {{#hasProduces}}
      * Output-Formats: [{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}]

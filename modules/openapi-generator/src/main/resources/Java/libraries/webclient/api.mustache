@@ -54,9 +54,9 @@ public class {{classname}} {
     /**
      * {{summary}}
      * {{notes}}
-{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{message}}{{/message}}
+{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
 {{/responses}}{{#allParams}}     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}
-{{/allParams}}{{#returnType}}     * @return {{returnType}}
+{{/allParams}}{{#returnType}}     * @return {{.}}
 {{/returnType}}     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
 {{#externalDocs}}
      * {{description}}
@@ -95,7 +95,7 @@ public class {{classname}} {
         {{#hasQueryParams}}
 
         {{#queryParams}}
-        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
         {{/queryParams}}
         {{/hasQueryParams}}
         {{#hasHeaderParams}}
@@ -109,7 +109,7 @@ public class {{classname}} {
         {{#hasCookieParams}}
 
         {{#cookieParams}}
-        cookieParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        cookieParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
         {{/cookieParams}}
         {{/hasCookieParams}}
         {{#hasFormParams}}
@@ -138,9 +138,9 @@ public class {{classname}} {
     /**
      * {{summary}}
      * {{notes}}
-{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{message}}{{/message}}
+{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
 {{/responses}}{{#allParams}}     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}
-{{/allParams}}{{#returnType}}     * @return {{returnType}}
+{{/allParams}}{{#returnType}}     * @return {{.}}
 {{/returnType}}     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
 {{#externalDocs}}
     * {{description}}

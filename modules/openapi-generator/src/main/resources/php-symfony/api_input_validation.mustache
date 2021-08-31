@@ -49,12 +49,12 @@
 {{#hasValidation}}
     {{#maxLength}}
         $asserts[] = new Assert\Length([
-            'max' => {{maxLength}}
+            'max' => {{.}}
         ]);
     {{/maxLength}}
     {{#minLength}}
         $asserts[] = new Assert\Length([
-            'min' => {{minLength}}
+            'min' => {{.}}
         ]);
     {{/minLength}}
     {{#minimum}}
@@ -74,16 +74,16 @@
     {{/exclusiveMaximum}}
     {{/maximum}}
     {{#pattern}}
-        $asserts[] = new Assert\Regex("/{{pattern}}/");
+        $asserts[] = new Assert\Regex("/{{.}}/");
     {{/pattern}}
     {{#maxItems}}
         $asserts[] = new Assert\Count([
-            'max' => {{maxItems}}
+            'max' => {{.}}
         ]);
     {{/maxItems}}
     {{#minItems}}
         $asserts[] = new Assert\Count([
-            'min' => {{minItems}}
+            'min' => {{.}}
         ]);
     {{/minItems}}
 {{/hasValidation}}

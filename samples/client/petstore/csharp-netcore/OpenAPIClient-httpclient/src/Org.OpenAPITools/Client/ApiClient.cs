@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Client
         }
     }
     /// <summary>
-    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
+    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementations),
     /// encapsulating general REST accessor use cases.
     /// </summary>
     /// <remarks>
@@ -169,12 +169,12 @@ namespace Org.OpenAPITools.Client
         private readonly string _baseUrl;
 
         private readonly HttpClientHandler _httpClientHandler;
-        private readonly HttpClient _httpClient;    
+        private readonly HttpClient _httpClient;
         private readonly bool _disposeClient;
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
-        /// These settings can be adjusted to accomodate custom serialization rules.
+        /// These settings can be adjusted to accommodate custom serialization rules.
         /// </summary>
         public JsonSerializerSettings SerializerSettings { get; set; } = new JsonSerializerSettings
         {
@@ -191,23 +191,23 @@ namespace Org.OpenAPITools.Client
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
-        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
+        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         public ApiClient() :
                  this(Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath)
-        {    
+        {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
-        /// **IMPORTANT** This will also create an istance of HttpClient, which is less than ideal.
-        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHander</see>.
+        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
         public ApiClient(string basePath)
-        {    
+        {
             if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
 
             _httpClientHandler = new HttpClientHandler();
@@ -215,7 +215,7 @@ namespace Org.OpenAPITools.Client
             _disposeClient = true;
             _baseUrl = basePath;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
         /// </summary>
@@ -228,9 +228,9 @@ namespace Org.OpenAPITools.Client
         /// </remarks>
         public ApiClient(HttpClient client, HttpClientHandler handler = null) :
                  this(client, Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath, handler)
-        {    
+        {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
         /// </summary>
@@ -244,10 +244,10 @@ namespace Org.OpenAPITools.Client
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
         /// </remarks>
         public ApiClient(HttpClient client, string basePath, HttpClientHandler handler = null)
-        {    
+        {
             if (client == null) throw new ArgumentNullException("client cannot be null");
             if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
-            
+
             _httpClientHandler = handler;
             _httpClient = client;
             _baseUrl = basePath;
@@ -503,7 +503,7 @@ namespace Org.OpenAPITools.Client
             {
                 return await ToApiResponse<T>(response, default(T), req.RequestUri);
             }
-			
+
             object responseData = await deserializer.Deserialize<T>(response);
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data

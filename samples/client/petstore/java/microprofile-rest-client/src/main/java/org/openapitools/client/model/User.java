@@ -56,7 +56,7 @@ public class User  {
   **/
   @JsonbProperty("userStatus")
   private Integer userStatus;
-  
+
  /**
    * Get id
    * @return id

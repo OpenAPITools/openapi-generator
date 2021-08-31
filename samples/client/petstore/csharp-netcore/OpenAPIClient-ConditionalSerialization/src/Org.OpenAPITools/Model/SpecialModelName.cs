@@ -49,13 +49,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "$special[property.name]", EmitDefaultValue = false)]
         public long SpecialPropertyName
-        { 
+        {
             get{ return _SpecialPropertyName;}
             set
             {
                 _SpecialPropertyName = value;
                 _flagSpecialPropertyName = true;
-            } 
+            }
         }
         private long _SpecialPropertyName;
         private bool _flagSpecialPropertyName;
@@ -73,13 +73,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "_special_model.name_", EmitDefaultValue = false)]
         public string _SpecialModelName
-        { 
+        {
             get{ return __SpecialModelName;}
             set
             {
                 __SpecialModelName = value;
                 _flag_SpecialModelName = true;
-            } 
+            }
         }
         private string __SpecialModelName;
         private bool _flag_SpecialModelName;

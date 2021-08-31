@@ -563,7 +563,7 @@ For C-like languages which also require header files, you may create two files p
 apiTemplateFiles.put("api-header.mustache", ".h");
 apiTemplateFiles.put("api-body.mustache", ".m");
 ```
-Here, an Operation with tag `Pet` will generate two files: `SWGPetApi.h` and `SWGPetApi.m`. The `SWG` prefix and `Api` suffix are options specific to the Objective-C geneator.
+Here, an Operation with tag `Pet` will generate two files: `SWGPetApi.h` and `SWGPetApi.m`. The `SWG` prefix and `Api` suffix are options specific to the Objective-C generator.
 
 ### Models
 

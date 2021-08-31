@@ -5,7 +5,7 @@ use lib File::Spec->catdir($FindBin::Bin, '..', 'lib');
 
 use Moose::Util qw(apply_all_roles);
 use Getopt::Std;
- 
+
 my %options=();
 getopts("wnphmHc:", \%options);
 help if $options{h};
@@ -64,8 +64,8 @@ Usage: autodoc [OPTION] [-c My::App::Class]
 
   -w           wide format (default)
   -n           narrow format
-  -p           POD format 
-  -H           HTML format 
+  -p           POD format
+  -H           HTML format
   -m           Markdown format
   -h           print this help message
   -c           your application class
@@ -74,4 +74,3 @@ HELP
 
     exit(0);
 }
-

@@ -17,7 +17,8 @@ abstract class DeprecatedObject implements Built<DeprecatedObject, DeprecatedObj
 
     DeprecatedObject._();
 
-    static void _initializeBuilder(DeprecatedObjectBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(DeprecatedObjectBuilder b) => b;
 
     factory DeprecatedObject([void updates(DeprecatedObjectBuilder b)]) = _$DeprecatedObject;
 
@@ -55,10 +56,12 @@ class _$DeprecatedObjectSerializer implements StructuredSerializer<DeprecatedObj
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'name':
-                    result.name = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.name = valueDes;
                     break;
             }
         }

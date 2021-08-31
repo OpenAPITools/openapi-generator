@@ -3,9 +3,11 @@ import { BaseAPIRequestFactory, RequiredError } from './baseapi';
 import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import * as FormData from "form-data";
+import { URLSearchParams } from 'url';
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
-import {isCodeInRange} from '../util';
+import {canConsumeForm, isCodeInRange} from '../util';
+
 import { injectable } from "inversify";
 
 import { ApiResponse } from '../models/ApiResponse';
@@ -36,12 +38,6 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
-
-        // Query Params
-
-        // Header Params
-
-        // Form Params
 
 
         // Body Params
@@ -90,15 +86,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
         // Header Params
         requestContext.setHeaderParam("api_key", ObjectSerializer.serialize(apiKey, "string", ""));
 
-        // Form Params
-
-
-        // Body Params
 
         let authMethod = null;
         // Apply auth methods
@@ -136,12 +126,6 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             requestContext.setQueryParam("status", ObjectSerializer.serialize(status, "Array<'available' | 'pending' | 'sold'>", ""));
         }
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
 
         let authMethod = null;
         // Apply auth methods
@@ -179,12 +163,6 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             requestContext.setQueryParam("tags", ObjectSerializer.serialize(tags, "Array<string>", ""));
         }
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
 
         let authMethod = null;
         // Apply auth methods
@@ -218,14 +196,6 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
 
         let authMethod = null;
         // Apply auth methods
@@ -256,12 +226,6 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
-
-        // Query Params
-
-        // Header Params
-
-        // Form Params
 
 
         // Body Params
@@ -312,12 +276,17 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
         // Form Params
-        let localVarFormParams = new FormData();
+        const useForm = canConsumeForm([
+            'application/x-www-form-urlencoded',
+        ]);
+
+        let localVarFormParams
+        if (useForm) {
+            localVarFormParams = new FormData();
+        } else {
+            localVarFormParams = new URLSearchParams();
+        }
 
         if (name !== undefined) {
              // TODO: replace .append with .set
@@ -327,9 +296,15 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
              // TODO: replace .append with .set
              localVarFormParams.append('status', status as any);
         }
+
         requestContext.setBody(localVarFormParams);
 
-        // Body Params
+        if(!useForm) {
+            const contentType = ObjectSerializer.getPreferredMediaType([
+                "application/x-www-form-urlencoded"
+            ]);
+            requestContext.setHeaderParam("Content-Type", contentType);
+        }
 
         let authMethod = null;
         // Apply auth methods
@@ -366,12 +341,17 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
         // Form Params
-        let localVarFormParams = new FormData();
+        const useForm = canConsumeForm([
+            'multipart/form-data',
+        ]);
+
+        let localVarFormParams
+        if (useForm) {
+            localVarFormParams = new FormData();
+        } else {
+            localVarFormParams = new URLSearchParams();
+        }
 
         if (additionalMetadata !== undefined) {
              // TODO: replace .append with .set
@@ -379,11 +359,19 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         }
         if (file !== undefined) {
              // TODO: replace .append with .set
-             localVarFormParams.append('file', file.data, file.name);
+             if (localVarFormParams instanceof FormData) {
+                 localVarFormParams.append('file', file.data, file.name);
+             }
         }
+
         requestContext.setBody(localVarFormParams);
 
-        // Body Params
+        if(!useForm) {
+            const contentType = ObjectSerializer.getPreferredMediaType([
+                "multipart/form-data"
+            ]);
+            requestContext.setHeaderParam("Content-Type", contentType);
+        }
 
         let authMethod = null;
         // Apply auth methods

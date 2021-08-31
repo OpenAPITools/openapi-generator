@@ -176,7 +176,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
         typeMapping.put("set", "`Set");
-        typeMapping.put("passsword", "string");
+        typeMapping.put("password", "string");
         typeMapping.put("DateTime", "string");
 
 //        supportedLibraries.put(CO_HTTP, "HTTP client: CoHttp.");

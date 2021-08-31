@@ -201,7 +201,7 @@ bool ModelBase::fromString( const utility::string_t& val, std::shared_ptr<T>& ou
     if(outVal == nullptr)
     {
         outVal = std::shared_ptr<T>(new T());
-    }    
+    }
     if( outVal != nullptr )
     {
         ok = outVal->fromJson(web::json::value::parse(val));
