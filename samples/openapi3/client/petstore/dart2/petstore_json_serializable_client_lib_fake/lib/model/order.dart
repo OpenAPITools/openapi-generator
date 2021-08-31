@@ -92,7 +92,7 @@ class Order {
   Map<String, dynamic> toJson() => _$OrderToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 
 /// Order Status

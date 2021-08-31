@@ -199,6 +199,6 @@ class FormatTest {
   Map<String, dynamic> toJson() => _$FormatTestToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

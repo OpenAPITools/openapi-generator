@@ -41,6 +41,6 @@ class Foo {
   Map<String, dynamic> toJson() => _$FooToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

@@ -51,6 +51,6 @@ class Category {
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

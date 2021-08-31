@@ -51,6 +51,6 @@ class FileSchemaTestClass {
   Map<String, dynamic> toJson() => _$FileSchemaTestClassToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

@@ -41,6 +41,6 @@ class CatAllOf {
   Map<String, dynamic> toJson() => _$CatAllOfToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

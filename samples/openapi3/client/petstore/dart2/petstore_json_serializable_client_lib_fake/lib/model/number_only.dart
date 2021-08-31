@@ -41,6 +41,6 @@ class NumberOnly {
   Map<String, dynamic> toJson() => _$NumberOnlyToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

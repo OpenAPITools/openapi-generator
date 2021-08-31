@@ -21,7 +21,7 @@ class OuterEnumInteger {
   final int value;
 
   @override
-  String toString() => '$value';
+  String toString() => value == null ? '' : value.toString();
 
   int toJson() => value;
 

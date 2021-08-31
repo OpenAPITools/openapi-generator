@@ -156,7 +156,7 @@ class EnumTestEnumStringEnum {
   final String value;
 
   @override
-  String toString() => value;
+  String toString() => value ?? '';
 
   String toJson() => value;
 
@@ -228,7 +228,7 @@ class EnumTestEnumStringRequiredEnum {
   final String value;
 
   @override
-  String toString() => value;
+  String toString() => value ?? '';
 
   String toJson() => value;
 
@@ -300,7 +300,7 @@ class EnumTestEnumIntegerEnum {
   final int value;
 
   @override
-  String toString() => '$value';
+  String toString() => value == null ? '' : value.toString();
 
   int toJson() => value;
 
@@ -369,7 +369,7 @@ class EnumTestEnumNumberEnum {
   final double value;
 
   @override
-  String toString() => '$value';
+  String toString() => value == null ? '' : value.toString();
 
   double toJson() => value;
 

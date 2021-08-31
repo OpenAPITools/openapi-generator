@@ -51,6 +51,6 @@ class ReadOnlyFirst {
   Map<String, dynamic> toJson() => _$ReadOnlyFirstToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

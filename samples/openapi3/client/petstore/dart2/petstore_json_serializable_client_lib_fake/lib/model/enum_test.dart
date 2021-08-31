@@ -111,7 +111,7 @@ class EnumTest {
   Map<String, dynamic> toJson() => _$EnumTestToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 
 

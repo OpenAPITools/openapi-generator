@@ -61,6 +61,6 @@ class ArrayTest {
   Map<String, dynamic> toJson() => _$ArrayTestToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

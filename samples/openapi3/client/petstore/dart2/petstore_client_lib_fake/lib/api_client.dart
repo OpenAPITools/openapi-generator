@@ -194,7 +194,6 @@ class ApiClient {
           }
           final valueString = '$value'.toLowerCase();
           return valueString == 'true' || valueString == '1';
-          break;
         case 'double':
           return value is double ? value : double.parse('$value');
         case 'AdditionalPropertiesClass':
@@ -315,7 +314,6 @@ class ApiClient {
               value.values.map<dynamic>((dynamic value) => _deserialize(value, targetType, growable: growable)),
             );
           }
-          break;
       }
     } on Exception catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError, 'Exception during deserialization.', error, trace,);

@@ -151,6 +151,6 @@ class NullableClass {
   Map<String, dynamic> toJson() => _$NullableClassToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

@@ -25,14 +25,14 @@ class StoreApi {
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future<Response> deleteOrderWithHttpInfo(String orderId) async {
+  Future<Response> deleteOrderWithHttpInfo(String orderId,) async {
     // Verify required params are set.
     if (orderId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/store/order/{order_id}'.replaceAll('{order_id}', '$orderId');
+    final path = r'/store/order/{order_id}'.replaceAll('{order_id}', orderId);
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -67,7 +67,7 @@ class StoreApi {
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
   Future<void> deleteOrder(String orderId) async {
-    final response = await deleteOrderWithHttpInfo(orderId);
+    final response = await deleteOrderWithHttpInfo(orderId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -134,14 +134,14 @@ class StoreApi {
   ///
   /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
-  Future<Response> getOrderByIdWithHttpInfo(int orderId) async {
+  Future<Response> getOrderByIdWithHttpInfo(int orderId,) async {
     // Verify required params are set.
     if (orderId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/store/order/{order_id}'.replaceAll('{order_id}', '$orderId');
+    final path = r'/store/order/{order_id}'.replaceAll('{order_id}', orderId.toString());
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -176,7 +176,7 @@ class StoreApi {
   /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
   Future<Order> getOrderById(int orderId) async {
-    final response = await getOrderByIdWithHttpInfo(orderId);
+    final response = await getOrderByIdWithHttpInfo(orderId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -198,7 +198,7 @@ class StoreApi {
   ///
   /// * [Order] order (required):
   ///   order placed for purchasing the pet
-  Future<Response> placeOrderWithHttpInfo(Order order) async {
+  Future<Response> placeOrderWithHttpInfo(Order order,) async {
     // Verify required params are set.
     if (order == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: order');
@@ -238,7 +238,7 @@ class StoreApi {
   /// * [Order] order (required):
   ///   order placed for purchasing the pet
   Future<Order> placeOrder(Order order) async {
-    final response = await placeOrderWithHttpInfo(order);
+    final response = await placeOrderWithHttpInfo(order,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

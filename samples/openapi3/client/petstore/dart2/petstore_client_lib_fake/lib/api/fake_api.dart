@@ -75,7 +75,7 @@ class FakeApi {
   ///
   /// * [String] header1:
   ///   header parameter
-  Future<Response> fakeHttpSignatureTestWithHttpInfo(Pet pet, { String query1, String header1 }) async {
+  Future<Response> fakeHttpSignatureTestWithHttpInfo(Pet pet, { String query1, String header1, }) async {
     // Verify required params are set.
     if (pet == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
@@ -129,7 +129,7 @@ class FakeApi {
   /// * [String] header1:
   ///   header parameter
   Future<void> fakeHttpSignatureTest(Pet pet, { String query1, String header1 }) async {
-    final response = await fakeHttpSignatureTestWithHttpInfo(pet,  query1: query1, header1: header1 );
+    final response = await fakeHttpSignatureTestWithHttpInfo(pet,  query1: query1, header1: header1, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -143,7 +143,7 @@ class FakeApi {
   ///
   /// * [bool] body:
   ///   Input boolean as post body
-  Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool body }) async {
+  Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool body, }) async {
     // Verify required params are set.
 
     // ignore: prefer_const_declarations
@@ -180,7 +180,7 @@ class FakeApi {
   /// * [bool] body:
   ///   Input boolean as post body
   Future<bool> fakeOuterBooleanSerialize({ bool body }) async {
-    final response = await fakeOuterBooleanSerializeWithHttpInfo( body: body );
+    final response = await fakeOuterBooleanSerializeWithHttpInfo( body: body, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -201,7 +201,7 @@ class FakeApi {
   ///
   /// * [OuterComposite] outerComposite:
   ///   Input composite as post body
-  Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite outerComposite }) async {
+  Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite outerComposite, }) async {
     // Verify required params are set.
 
     // ignore: prefer_const_declarations
@@ -238,7 +238,7 @@ class FakeApi {
   /// * [OuterComposite] outerComposite:
   ///   Input composite as post body
   Future<OuterComposite> fakeOuterCompositeSerialize({ OuterComposite outerComposite }) async {
-    final response = await fakeOuterCompositeSerializeWithHttpInfo( outerComposite: outerComposite );
+    final response = await fakeOuterCompositeSerializeWithHttpInfo( outerComposite: outerComposite, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -259,7 +259,7 @@ class FakeApi {
   ///
   /// * [num] body:
   ///   Input number as post body
-  Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num body }) async {
+  Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num body, }) async {
     // Verify required params are set.
 
     // ignore: prefer_const_declarations
@@ -296,7 +296,7 @@ class FakeApi {
   /// * [num] body:
   ///   Input number as post body
   Future<num> fakeOuterNumberSerialize({ num body }) async {
-    final response = await fakeOuterNumberSerializeWithHttpInfo( body: body );
+    final response = await fakeOuterNumberSerializeWithHttpInfo( body: body, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -317,7 +317,7 @@ class FakeApi {
   ///
   /// * [String] body:
   ///   Input string as post body
-  Future<Response> fakeOuterStringSerializeWithHttpInfo({ String body }) async {
+  Future<Response> fakeOuterStringSerializeWithHttpInfo({ String body, }) async {
     // Verify required params are set.
 
     // ignore: prefer_const_declarations
@@ -354,7 +354,7 @@ class FakeApi {
   /// * [String] body:
   ///   Input string as post body
   Future<String> fakeOuterStringSerialize({ String body }) async {
-    final response = await fakeOuterStringSerializeWithHttpInfo( body: body );
+    final response = await fakeOuterStringSerializeWithHttpInfo( body: body, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -375,7 +375,7 @@ class FakeApi {
   ///
   /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
   ///   Input enum (int) as post body
-  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
+  Future<Response> fakePropertyEnumIntegerSerializeWithHttpInfo(OuterObjectWithEnumProperty outerObjectWithEnumProperty,) async {
     // Verify required params are set.
     if (outerObjectWithEnumProperty == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: outerObjectWithEnumProperty');
@@ -415,7 +415,7 @@ class FakeApi {
   /// * [OuterObjectWithEnumProperty] outerObjectWithEnumProperty (required):
   ///   Input enum (int) as post body
   Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async {
-    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty);
+    final response = await fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -436,7 +436,7 @@ class FakeApi {
   ///
   /// * [MultipartFile] body (required):
   ///   image to upload
-  Future<Response> testBodyWithBinaryWithHttpInfo(MultipartFile body) async {
+  Future<Response> testBodyWithBinaryWithHttpInfo(MultipartFile body,) async {
     // Verify required params are set.
     if (body == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
@@ -476,7 +476,7 @@ class FakeApi {
   /// * [MultipartFile] body (required):
   ///   image to upload
   Future<void> testBodyWithBinary(MultipartFile body) async {
-    final response = await testBodyWithBinaryWithHttpInfo(body);
+    final response = await testBodyWithBinaryWithHttpInfo(body,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -489,7 +489,7 @@ class FakeApi {
   /// Parameters:
   ///
   /// * [FileSchemaTestClass] fileSchemaTestClass (required):
-  Future<Response> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) async {
+  Future<Response> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass,) async {
     // Verify required params are set.
     if (fileSchemaTestClass == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: fileSchemaTestClass');
@@ -528,7 +528,7 @@ class FakeApi {
   ///
   /// * [FileSchemaTestClass] fileSchemaTestClass (required):
   Future<void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) async {
-    final response = await testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
+    final response = await testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -540,7 +540,7 @@ class FakeApi {
   /// * [String] query (required):
   ///
   /// * [User] user (required):
-  Future<Response> testBodyWithQueryParamsWithHttpInfo(String query, User user) async {
+  Future<Response> testBodyWithQueryParamsWithHttpInfo(String query, User user,) async {
     // Verify required params are set.
     if (query == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: query');
@@ -584,7 +584,7 @@ class FakeApi {
   ///
   /// * [User] user (required):
   Future<void> testBodyWithQueryParams(String query, User user) async {
-    final response = await testBodyWithQueryParamsWithHttpInfo(query, user);
+    final response = await testBodyWithQueryParamsWithHttpInfo(query, user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -600,7 +600,7 @@ class FakeApi {
   ///
   /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> testClientModelWithHttpInfo(ModelClient modelClient) async {
+  Future<Response> testClientModelWithHttpInfo(ModelClient modelClient,) async {
     // Verify required params are set.
     if (modelClient == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
@@ -642,7 +642,7 @@ class FakeApi {
   /// * [ModelClient] modelClient (required):
   ///   client model
   Future<ModelClient> testClientModel(ModelClient modelClient) async {
-    final response = await testClientModelWithHttpInfo(modelClient);
+    final response = await testClientModelWithHttpInfo(modelClient,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -704,7 +704,7 @@ class FakeApi {
   ///
   /// * [String] callback:
   ///   None
-  Future<Response> testEndpointParametersWithHttpInfo(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback }) async {
+  Future<Response> testEndpointParametersWithHttpInfo(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback, }) async {
     // Verify required params are set.
     if (number == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: number');
@@ -833,7 +833,7 @@ class FakeApi {
   /// * [String] callback:
   ///   None
   Future<void> testEndpointParameters(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback }) async {
-    final response = await testEndpointParametersWithHttpInfo(number, double_, patternWithoutDelimiter, byte,  integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback );
+    final response = await testEndpointParametersWithHttpInfo(number, double_, patternWithoutDelimiter, byte,  integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -870,7 +870,7 @@ class FakeApi {
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<Response> testEnumParametersWithHttpInfo({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async {
+  Future<Response> testEnumParametersWithHttpInfo({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, }) async {
     // Verify required params are set.
 
     // ignore: prefer_const_declarations
@@ -956,7 +956,7 @@ class FakeApi {
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
   Future<void> testEnumParameters({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString }) async {
-    final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString );
+    final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -987,7 +987,7 @@ class FakeApi {
   ///
   /// * [int] int64Group:
   ///   Integer in group parameters
-  Future<Response> testGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int stringGroup, bool booleanGroup, int int64Group }) async {
+  Future<Response> testGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int stringGroup, bool booleanGroup, int int64Group, }) async {
     // Verify required params are set.
     if (requiredStringGroup == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredStringGroup');
@@ -1064,7 +1064,7 @@ class FakeApi {
   /// * [int] int64Group:
   ///   Integer in group parameters
   Future<void> testGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int stringGroup, bool booleanGroup, int int64Group }) async {
-    final response = await testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group,  stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group );
+    final response = await testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group,  stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1078,7 +1078,7 @@ class FakeApi {
   ///
   /// * [Map<String, String>] requestBody (required):
   ///   request body
-  Future<Response> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody) async {
+  Future<Response> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody,) async {
     // Verify required params are set.
     if (requestBody == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requestBody');
@@ -1118,7 +1118,7 @@ class FakeApi {
   /// * [Map<String, String>] requestBody (required):
   ///   request body
   Future<void> testInlineAdditionalProperties(Map<String, String> requestBody) async {
-    final response = await testInlineAdditionalPropertiesWithHttpInfo(requestBody);
+    final response = await testInlineAdditionalPropertiesWithHttpInfo(requestBody,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1135,7 +1135,7 @@ class FakeApi {
   ///
   /// * [String] param2 (required):
   ///   field2
-  Future<Response> testJsonFormDataWithHttpInfo(String param, String param2) async {
+  Future<Response> testJsonFormDataWithHttpInfo(String param, String param2,) async {
     // Verify required params are set.
     if (param == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: param');
@@ -1187,7 +1187,7 @@ class FakeApi {
   /// * [String] param2 (required):
   ///   field2
   Future<void> testJsonFormData(String param, String param2) async {
-    final response = await testJsonFormDataWithHttpInfo(param, param2);
+    final response = await testJsonFormDataWithHttpInfo(param, param2,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1210,7 +1210,7 @@ class FakeApi {
   /// * [List<String>] context (required):
   ///
   /// * [Map<String, String>] language:
-  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, { Map<String, String> language }) async {
+  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, { Map<String, String> language, }) async {
     // Verify required params are set.
     if (pipe == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pipe');
@@ -1280,7 +1280,7 @@ class FakeApi {
   ///
   /// * [Map<String, String>] language:
   Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, { Map<String, String> language }) async {
-    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context,  language: language );
+    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context,  language: language, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

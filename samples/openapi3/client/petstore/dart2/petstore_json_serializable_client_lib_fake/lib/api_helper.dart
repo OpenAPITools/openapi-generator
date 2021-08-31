@@ -74,7 +74,7 @@ String parameterToString(dynamic value) {
   if (value is OuterEnumIntegerDefaultValue) {
     return value.toString();
   }
-  return '$value';
+  return value.toString();
 }
 
 /// Returns the decoded body as UTF-8 if the given headers indicate an 'application/json'

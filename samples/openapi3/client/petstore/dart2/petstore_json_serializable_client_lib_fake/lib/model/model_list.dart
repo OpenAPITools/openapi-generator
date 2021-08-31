@@ -41,6 +41,6 @@ class ModelList {
   Map<String, dynamic> toJson() => _$ModelListToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

@@ -51,6 +51,6 @@ class Animal {
   Map<String, dynamic> toJson() => _$AnimalToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

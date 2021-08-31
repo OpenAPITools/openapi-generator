@@ -51,6 +51,6 @@ class AdditionalPropertiesClass {
   Map<String, dynamic> toJson() => _$AdditionalPropertiesClassToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

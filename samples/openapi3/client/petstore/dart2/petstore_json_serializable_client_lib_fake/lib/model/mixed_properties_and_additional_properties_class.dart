@@ -61,6 +61,6 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   Map<String, dynamic> toJson() => _$MixedPropertiesAndAdditionalPropertiesClassToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

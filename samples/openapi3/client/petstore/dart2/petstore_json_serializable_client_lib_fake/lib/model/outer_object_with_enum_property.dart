@@ -41,6 +41,6 @@ class OuterObjectWithEnumProperty {
   Map<String, dynamic> toJson() => _$OuterObjectWithEnumPropertyToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

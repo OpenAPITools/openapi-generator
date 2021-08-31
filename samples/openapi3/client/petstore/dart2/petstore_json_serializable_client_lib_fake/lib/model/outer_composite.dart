@@ -61,6 +61,6 @@ class OuterComposite {
   Map<String, dynamic> toJson() => _$OuterCompositeToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

@@ -61,6 +61,6 @@ class Dog {
   Map<String, dynamic> toJson() => _$DogToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

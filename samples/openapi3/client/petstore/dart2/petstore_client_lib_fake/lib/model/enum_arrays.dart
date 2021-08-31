@@ -104,7 +104,7 @@ class EnumArraysJustSymbolEnum {
   final String value;
 
   @override
-  String toString() => value;
+  String toString() => value ?? '';
 
   String toJson() => value;
 
@@ -173,7 +173,7 @@ class EnumArraysArrayEnumEnum {
   final String value;
 
   @override
-  String toString() => value;
+  String toString() => value ?? '';
 
   String toJson() => value;
 

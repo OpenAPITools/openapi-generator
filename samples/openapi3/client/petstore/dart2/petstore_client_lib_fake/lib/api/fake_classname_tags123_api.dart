@@ -25,7 +25,7 @@ class FakeClassnameTags123Api {
   ///
   /// * [ModelClient] modelClient (required):
   ///   client model
-  Future<Response> testClassnameWithHttpInfo(ModelClient modelClient) async {
+  Future<Response> testClassnameWithHttpInfo(ModelClient modelClient,) async {
     // Verify required params are set.
     if (modelClient == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
@@ -67,7 +67,7 @@ class FakeClassnameTags123Api {
   /// * [ModelClient] modelClient (required):
   ///   client model
   Future<ModelClient> testClassname(ModelClient modelClient) async {
-    final response = await testClassnameWithHttpInfo(modelClient);
+    final response = await testClassnameWithHttpInfo(modelClient,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

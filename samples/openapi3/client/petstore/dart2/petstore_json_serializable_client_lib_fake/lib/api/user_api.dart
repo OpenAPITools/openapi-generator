@@ -25,7 +25,7 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Created user object
-  Future<Response> createUserWithHttpInfo(User user) async {
+  Future<Response> createUserWithHttpInfo(User user,) async {
     // Verify required params are set.
     if (user == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
@@ -67,7 +67,7 @@ class UserApi {
   /// * [User] user (required):
   ///   Created user object
   Future<void> createUser(User user) async {
-    final response = await createUserWithHttpInfo(user);
+    final response = await createUserWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -81,7 +81,7 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<Response> createUsersWithArrayInputWithHttpInfo(List<User> user) async {
+  Future<Response> createUsersWithArrayInputWithHttpInfo(List<User> user,) async {
     // Verify required params are set.
     if (user == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
@@ -121,7 +121,7 @@ class UserApi {
   /// * [List<User>] user (required):
   ///   List of user object
   Future<void> createUsersWithArrayInput(List<User> user) async {
-    final response = await createUsersWithArrayInputWithHttpInfo(user);
+    final response = await createUsersWithArrayInputWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -135,7 +135,7 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<Response> createUsersWithListInputWithHttpInfo(List<User> user) async {
+  Future<Response> createUsersWithListInputWithHttpInfo(List<User> user,) async {
     // Verify required params are set.
     if (user == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
@@ -175,7 +175,7 @@ class UserApi {
   /// * [List<User>] user (required):
   ///   List of user object
   Future<void> createUsersWithListInput(List<User> user) async {
-    final response = await createUsersWithListInputWithHttpInfo(user);
+    final response = await createUsersWithListInputWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -191,14 +191,14 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future<Response> deleteUserWithHttpInfo(String username) async {
+  Future<Response> deleteUserWithHttpInfo(String username,) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/user/{username}'.replaceAll('{username}', '$username');
+    final path = r'/user/{username}'.replaceAll('{username}', username);
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -233,7 +233,7 @@ class UserApi {
   /// * [String] username (required):
   ///   The name that needs to be deleted
   Future<void> deleteUser(String username) async {
-    final response = await deleteUserWithHttpInfo(username);
+    final response = await deleteUserWithHttpInfo(username,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -247,14 +247,14 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be fetched. Use user1 for testing.
-  Future<Response> getUserByNameWithHttpInfo(String username) async {
+  Future<Response> getUserByNameWithHttpInfo(String username,) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/user/{username}'.replaceAll('{username}', '$username');
+    final path = r'/user/{username}'.replaceAll('{username}', username);
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -287,7 +287,7 @@ class UserApi {
   /// * [String] username (required):
   ///   The name that needs to be fetched. Use user1 for testing.
   Future<User> getUserByName(String username) async {
-    final response = await getUserByNameWithHttpInfo(username);
+    final response = await getUserByNameWithHttpInfo(username,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -312,7 +312,7 @@ class UserApi {
   ///
   /// * [String] password (required):
   ///   The password for login in clear text
-  Future<Response> loginUserWithHttpInfo(String username, String password) async {
+  Future<Response> loginUserWithHttpInfo(String username, String password,) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -361,7 +361,7 @@ class UserApi {
   /// * [String] password (required):
   ///   The password for login in clear text
   Future<String> loginUser(String username, String password) async {
-    final response = await loginUserWithHttpInfo(username, password);
+    final response = await loginUserWithHttpInfo(username, password,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -427,7 +427,7 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Updated user object
-  Future<Response> updateUserWithHttpInfo(String username, User user) async {
+  Future<Response> updateUserWithHttpInfo(String username, User user,) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -437,7 +437,7 @@ class UserApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/user/{username}'.replaceAll('{username}', '$username');
+    final path = r'/user/{username}'.replaceAll('{username}', username);
 
     // ignore: prefer_final_locals
     Object postBody = user;
@@ -475,7 +475,7 @@ class UserApi {
   /// * [User] user (required):
   ///   Updated user object
   Future<void> updateUser(String username, User user) async {
-    final response = await updateUserWithHttpInfo(username, user);
+    final response = await updateUserWithHttpInfo(username, user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

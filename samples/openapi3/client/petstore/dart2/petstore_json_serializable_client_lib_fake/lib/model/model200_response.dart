@@ -51,6 +51,6 @@ class Model200Response {
   Map<String, dynamic> toJson() => _$Model200ResponseToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

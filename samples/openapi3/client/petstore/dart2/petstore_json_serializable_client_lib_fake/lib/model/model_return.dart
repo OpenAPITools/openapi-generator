@@ -41,6 +41,6 @@ class ModelReturn {
   Map<String, dynamic> toJson() => _$ModelReturnToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

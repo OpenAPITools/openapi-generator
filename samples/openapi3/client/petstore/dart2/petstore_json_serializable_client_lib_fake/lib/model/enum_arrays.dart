@@ -51,7 +51,7 @@ class EnumArrays {
   Map<String, dynamic> toJson() => _$EnumArraysToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 
 

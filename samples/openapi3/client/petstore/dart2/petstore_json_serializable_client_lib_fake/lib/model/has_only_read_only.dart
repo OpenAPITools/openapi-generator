@@ -51,6 +51,6 @@ class HasOnlyReadOnly {
   Map<String, dynamic> toJson() => _$HasOnlyReadOnlyToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

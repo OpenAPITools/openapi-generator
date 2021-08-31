@@ -41,6 +41,6 @@ class InlineResponseDefault {
   Map<String, dynamic> toJson() => _$InlineResponseDefaultToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 

@@ -2,4 +2,4 @@
 # exact types for properties as defined in the OpenAPI specification file.
 # analyzer:
 #   strong-mode:
-#     implicit-casts: true
+#     implicit-casts: false

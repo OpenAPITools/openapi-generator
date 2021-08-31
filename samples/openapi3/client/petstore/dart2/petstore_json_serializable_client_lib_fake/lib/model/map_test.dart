@@ -71,7 +71,7 @@ class MapTest {
   Map<String, dynamic> toJson() => _$MapTestToJson(this);
 
   @override
-  String toString() => '${toJson()}';
+  String toString() => toJson().toString();
 }
 
 
