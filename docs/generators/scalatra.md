@@ -76,6 +76,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>case</li>
 <li>catch</li>
 <li>class</li>
+<li>clone</li>
 <li>def</li>
 <li>do</li>
 <li>else</li>
