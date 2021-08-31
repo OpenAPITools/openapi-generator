@@ -50,6 +50,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
         case .options, .post, .put, .patch, .delete, .trace, .connect:
             encoding = JSONDataEncoding()
+
         default:
             fatalError("Unsupported HTTPMethod - \(xMethod.rawValue)")
         }
@@ -122,13 +123,14 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                         onProgressReady(progress)
                     }
                 }
-                
+
                 self.processRequest(request: upload, managerId, apiResponseQueue, completion)
             } else if contentType == "application/x-www-form-urlencoded" {
                 encoding = URLEncoding(destination: .httpBody)
             } else {
                 fatalError("Unsupported Media Type - \(contentType)")
             }
+
         default:
             fatalError("Unsupported HTTPMethod - \(xMethod.rawValue)")
         }
