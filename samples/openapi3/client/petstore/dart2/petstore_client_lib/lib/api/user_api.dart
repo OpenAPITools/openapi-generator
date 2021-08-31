@@ -198,7 +198,8 @@ class UserApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/user/{username}'.replaceAll('{username}', username);
+    final path = r'/user/{username}'
+      .replaceAll('{username}', username);
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -254,7 +255,8 @@ class UserApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/user/{username}'.replaceAll('{username}', username);
+    final path = r'/user/{username}'
+      .replaceAll('{username}', username);
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -435,7 +437,8 @@ class UserApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/user/{username}'.replaceAll('{username}', username);
+    final path = r'/user/{username}'
+      .replaceAll('{username}', username);
 
     // ignore: prefer_final_locals
     Object postBody = user;

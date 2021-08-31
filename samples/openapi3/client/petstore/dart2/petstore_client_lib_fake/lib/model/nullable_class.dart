@@ -135,7 +135,7 @@ class NullableClass {
         integerProp: mapValueOfType<int>(json, r'integer_prop'),
         numberProp: json[r'number_prop'] == null
           ? null
-          : num.parse('${json[r'number_prop']}'),
+          : num.parse(json[r'number_prop'].toString()),
         booleanProp: mapValueOfType<bool>(json, r'boolean_prop'),
         stringProp: mapValueOfType<String>(json, r'string_prop'),
         dateProp: mapDateTime(json, r'date_prop', ''),

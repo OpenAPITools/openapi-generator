@@ -86,7 +86,8 @@ class PetApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/pet/{petId}'.replaceAll('{petId}', petId.toString());
+    final path = r'/pet/{petId}'
+      .replaceAll('{petId}', petId.toString());
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -288,7 +289,8 @@ class PetApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/pet/{petId}'.replaceAll('{petId}', petId.toString());
+    final path = r'/pet/{petId}'
+      .replaceAll('{petId}', petId.toString());
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -412,7 +414,8 @@ class PetApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/pet/{petId}'.replaceAll('{petId}', petId.toString());
+    final path = r'/pet/{petId}'
+      .replaceAll('{petId}', petId.toString());
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -484,7 +487,8 @@ class PetApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/pet/{petId}/uploadImage'.replaceAll('{petId}', petId.toString());
+    final path = r'/pet/{petId}/uploadImage'
+      .replaceAll('{petId}', petId.toString());
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -575,7 +579,8 @@ class PetApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{petId}', petId.toString());
+    final path = r'/fake/{petId}/uploadImageWithRequiredFile'
+      .replaceAll('{petId}', petId.toString());
 
     // ignore: prefer_final_locals
     Object postBody;

@@ -64,7 +64,7 @@ class OuterEnumIntegerDefaultValueTypeTransformer {
   /// and users are still using an old app with the old code.
   OuterEnumIntegerDefaultValue decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch ('$data') {
+      switch (data.toString()) {
         case 0: return OuterEnumIntegerDefaultValue.number0;
         case 1: return OuterEnumIntegerDefaultValue.number1;
         case 2: return OuterEnumIntegerDefaultValue.number2;

@@ -64,7 +64,7 @@ class EnumClassTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumClass decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch ('$data') {
+      switch (data.toString()) {
         case r'_abc': return EnumClass.abc;
         case r'-efg': return EnumClass.efg;
         case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;

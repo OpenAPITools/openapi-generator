@@ -173,7 +173,7 @@ class FormatTest {
         int64: mapValueOfType<int>(json, r'int64'),
         number: json[r'number'] == null
           ? null
-          : num.parse('${json[r'number']}'),
+          : num.parse(json[r'number'].toString()),
         float: mapValueOfType<double>(json, r'float'),
         double_: mapValueOfType<double>(json, r'double'),
         decimal: mapValueOfType<double>(json, r'decimal'),

@@ -32,7 +32,8 @@ class StoreApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/store/order/{order_id}'.replaceAll('{order_id}', orderId);
+    final path = r'/store/order/{order_id}'
+      .replaceAll('{order_id}', orderId);
 
     // ignore: prefer_final_locals
     Object postBody;
@@ -140,7 +141,8 @@ class StoreApi {
     }
 
     // ignore: prefer_const_declarations
-    final path = r'/store/order/{order_id}'.replaceAll('{order_id}', orderId.toString());
+    final path = r'/store/order/{order_id}'
+      .replaceAll('{order_id}', orderId.toString());
 
     // ignore: prefer_final_locals
     Object postBody;

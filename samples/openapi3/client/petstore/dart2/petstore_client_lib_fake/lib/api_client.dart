@@ -185,17 +185,17 @@ class ApiClient {
     try {
       switch (targetType) {
         case 'String':
-          return '$value';
+          return value is String ? value : value.toString();
         case 'int':
           return value is int ? value : int.parse('$value');
+        case 'double':
+          return value is double ? value : double.parse('$value');
         case 'bool':
           if (value is bool) {
             return value;
           }
           final valueString = '$value'.toLowerCase();
           return valueString == 'true' || valueString == '1';
-        case 'double':
-          return value is double ? value : double.parse('$value');
         case 'AdditionalPropertiesClass':
           return AdditionalPropertiesClass.fromJson(value);
         case 'Animal':

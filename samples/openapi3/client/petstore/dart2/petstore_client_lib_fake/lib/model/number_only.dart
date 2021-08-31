@@ -46,7 +46,7 @@ class NumberOnly {
       return NumberOnly(
         justNumber: json[r'JustNumber'] == null
           ? null
-          : num.parse('${json[r'JustNumber']}'),
+          : num.parse(json[r'JustNumber'].toString()),
       );
     }
     return null;

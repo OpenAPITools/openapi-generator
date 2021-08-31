@@ -64,7 +64,7 @@ class OuterEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   OuterEnum decode(dynamic data, {bool allowNull}) {
     if (data != null) {
-      switch ('$data') {
+      switch (data.toString()) {
         case r'placed': return OuterEnum.placed;
         case r'approved': return OuterEnum.approved;
         case r'delivered': return OuterEnum.delivered;
