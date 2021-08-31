@@ -35,8 +35,8 @@ apiKey!!
    companion object Authentication{
   // Where a header factory requires parameters a client will need to bind these
   // TODO Generate appropriate header factories based on settings
-      // TODO: comment out below as OAuth does not exist
-      //"petstore_auth", OAuth()
+      // TODO: Oauth not implemented yet - comment out below as OAuth does not exist
+
 
 }
 
