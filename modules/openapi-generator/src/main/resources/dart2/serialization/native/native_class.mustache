@@ -159,7 +159,7 @@ class {{{classname}}} {
               {{#isNumber}}
         {{{name}}}: json[r'{{{baseName}}}'] == null
           ? null
-          : {{{datatypeWithEnum}}}.parse('${json[r'{{{baseName}}}']}'),
+          : {{{datatypeWithEnum}}}.parse(json[r'{{{baseName}}}'].toString()),
               {{/isNumber}}
               {{^isNumber}}
                 {{^isEnum}}
