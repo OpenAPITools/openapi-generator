@@ -11,9 +11,13 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.io.IOException
 import java.net.URLConnection
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -22,6 +26,9 @@ import java.time.OffsetDateTime
 import java.time.OffsetTime
 import java.util.Date
 import java.util.Locale
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 import com.squareup.moshi.adapter
 
 open class ApiClient(val baseUrl: String) {
@@ -132,7 +139,7 @@ open class ApiClient(val baseUrl: String) {
     }
 
 
-    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
+    protected suspend inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
         val url = httpUrl.newBuilder()
@@ -177,7 +184,16 @@ open class ApiClient(val baseUrl: String) {
             headers.forEach { header -> addHeader(header.key, header.value) }
         }.build()
 
-        val response = client.newCall(request).execute()
+        val response: Response = suspendCoroutine { continuation ->
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    continuation.resumeWithException(e)
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    continuation.resume(response)
+                }
+            })
+        }
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
