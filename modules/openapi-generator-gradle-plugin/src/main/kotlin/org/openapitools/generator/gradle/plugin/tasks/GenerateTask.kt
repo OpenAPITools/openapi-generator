@@ -91,9 +91,17 @@ open class GenerateTask : DefaultTask() {
     /**
      * The Open API 2.0/3.x specification location.
      */
+    @Optional
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
+
+    /**
+     * The Open API 2.0/3.x specification location in remote source.
+     */
+    @Optional
+    @Input
+    val remoteSpec = project.objects.property<String?>()
 
     /**
      * The template directory holding a custom template.
@@ -451,23 +459,6 @@ open class GenerateTask : DefaultTask() {
     @Input
     val engine = project.objects.property<String?>()
 
-    private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
-        if (isPresent) {
-            val item: T? = get()
-            if (item != null) {
-                when (get()) {
-                    is String -> if ((get() as String).isNotEmpty()) {
-                        block(get())
-                    }
-                    is String? -> if (true == (get() as String?)?.isNotEmpty()) {
-                        block(get())
-                    }
-                    else -> block(get())
-                }
-            }
-        }
-    }
-
     @Suppress("unused")
     @TaskAction
     fun doWork() {
@@ -531,10 +522,6 @@ open class GenerateTask : DefaultTask() {
 
             skipOverwrite.ifNotEmpty { value ->
                 configurator.setSkipOverwrite(value ?: false)
-            }
-
-            inputSpec.ifNotEmpty { value ->
-                configurator.setInputSpec(value)
             }
 
             generatorName.ifNotEmpty { value ->
@@ -646,6 +633,9 @@ open class GenerateTask : DefaultTask() {
                     configurator.setTemplatingEngineName("handlebars")
                 }
             }
+
+            val spec = SpecificationHandler.getInputSpec(inputSpec = inputSpec, remoteSpec = remoteSpec)
+            configurator.setInputSpec(spec)
 
             if (globalProperties.isPresent) {
                 globalProperties.get().forEach { entry ->

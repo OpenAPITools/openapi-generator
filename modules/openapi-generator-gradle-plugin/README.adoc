@@ -154,6 +154,11 @@ apply plugin: 'org.openapi.generator'
 |None
 |The Open API 2.0/3.x specification location.
 
+|remoteSpec
+|String
+|None
+|The Open API 2.0/3.x specification location in remote source.
+
 |templateDir
 |String
 |None
@@ -414,6 +419,11 @@ openApiGenerate {
 |String
 |None
 |The input specification to validate. Supports all formats supported by the Parser.
+
+|remoteSpec
+|String
+|None
+|The input specification to validate. Should be used for remote spec location.
 
 |recommend
 |Boolean

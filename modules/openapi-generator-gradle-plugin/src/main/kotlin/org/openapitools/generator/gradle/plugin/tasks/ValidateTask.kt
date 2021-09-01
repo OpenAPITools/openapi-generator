@@ -54,9 +54,15 @@ import org.openapitools.codegen.validations.oas.RuleConfiguration
  * @author Jim Schubert
  */
 open class ValidateTask : DefaultTask() {
+
+    @Optional
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
+
+    @Optional
+    @Input
+    val remoteSpec = project.objects.property<String?>()
 
     @Optional
     @Input
@@ -75,7 +81,7 @@ open class ValidateTask : DefaultTask() {
     fun doWork() {
         val logger = Logging.getLogger(javaClass)
 
-        val spec = inputSpec.get()
+        val spec = SpecificationHandler.getInputSpec(inputSpec = inputSpec, remoteSpec = remoteSpec)
         val recommendations = recommend.get()
 
         logger.quiet("Validating spec $spec")
