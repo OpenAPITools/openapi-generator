@@ -178,6 +178,16 @@ class GenerateTaskDslTest : WiremockTestBase() {
                 .withPluginClasspath()
                 .build()
 
+        // delete the build directory from the last run
+        File(temp, "build/kotlin").deleteRecursively()
+
+        // re-run
+        val resultSecondRun = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--build-cache", "--info")
+            .withPluginClasspath()
+            .build()
+
         // re-run without deletes
         val resultThirdRun = GradleRunner.create()
                 .withProjectDir(temp)
