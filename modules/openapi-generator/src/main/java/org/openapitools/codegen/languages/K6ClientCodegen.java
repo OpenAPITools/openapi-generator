@@ -16,28 +16,60 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.servers.Server;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.dashize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
-import java.io.File;
-import java.util.*;
+import com.google.common.collect.ImmutableMap.Builder;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Template;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.servers.Server;
 
 public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -53,10 +85,17 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     static class Parameter {
         String key;
         Object value;
+        boolean hasExample;
 
         public Parameter(String key, Object value) {
             this.key = key;
             this.value = value;
+        }
+
+        public Parameter(String key, Object exampleValue, boolean hasExample) {
+            this.key = key;
+            this.value = exampleValue;
+            this.hasExample = hasExample;
         }
 
         @Override
@@ -71,7 +110,68 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (obj == null || getClass() != obj.getClass())
                 return false;
             Parameter p = (Parameter) obj;
-            return key.equals(p.key) && value.equals(p.value);
+            return key.equals(p.key) && value.equals(p.value) && hasExample == p.hasExample;
+        }
+    }
+    
+    static class ParameterValueLambda implements Mustache.Lambda {
+        private static final String NO_EXAMPLE_PARAM_VALUE_PREFIX = "TODO_EDIT_THE_";
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+
+            // default used if no example is provided
+            String noExampleParamValue = String.join("",
+                    quoteExample(
+                            String.join("", NO_EXAMPLE_PARAM_VALUE_PREFIX, fragment.execute())), 
+                    ";",
+                    " // specify value as there is no example value for this parameter in OpenAPI spec");
+
+            // param has example(s)
+            if (fragment.context() instanceof K6ClientCodegen.Parameter
+                    && ((K6ClientCodegen.Parameter) fragment.context()).hasExample) {
+
+                Object rawValue = ((K6ClientCodegen.Parameter) fragment.context()).value;
+
+                // handle as 'examples'
+                if (rawValue instanceof Map) {
+
+                    @SuppressWarnings("unchecked")
+                    Set<String> exampleValues = ((Map<String, Example>) rawValue).values().stream()
+                            .map(x -> quoteExample(
+                                    StringEscapeUtils.escapeEcmaScript(
+                                            String.valueOf(x.getValue()))))
+                            .collect(Collectors.toCollection(() -> new TreeSet<String>()));
+
+                    if (!exampleValues.isEmpty()) {
+
+                        writer.write(String.join("",
+                                Arrays.toString(exampleValues.toArray()),
+                                ".shift();",
+                                " // first element from list extracted from 'examples' field defined at the parameter level of OpenAPI spec"));
+
+                    } else {
+                        writer.write(noExampleParamValue);
+                    }
+
+                // handle as (single) 'example'
+                } else {
+                    writer.write(String.join("",
+                            quoteExample(
+                                    StringEscapeUtils.escapeEcmaScript(
+                                            String.valueOf(
+                                    ((K6ClientCodegen.Parameter) fragment.context()).value))),
+                            ";",
+                            " // extracted from 'example' field defined at the parameter level of OpenAPI spec"));
+                }
+
+            } else {
+                writer.write(noExampleParamValue);
+            }
+        }
+
+        private static String quoteExample(String exampleValue) {
+            return StringUtils.wrap(exampleValue, "'");
         }
     }
 
@@ -165,7 +265,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(K6ClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String MODULE_NAME = "moduleName";
@@ -345,8 +445,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                         }
                     }
 
-                    List<CodegenParameter> formParameteres = fromRequestBodyToFormParameters(requestBody, imports);
-                    for (CodegenParameter parameter : formParameteres) {
+                    List<CodegenParameter> formParameters = fromRequestBodyToFormParameters(requestBody, imports);
+                    for (CodegenParameter parameter : formParameters) {
                         String reference = "";
                         if (parameter.isModel) {
                             Schema nestedSchema = ModelUtils.getSchema(openAPI, parameter.baseType);
@@ -384,7 +484,23 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                             case "query":
                                 if (parameter.getIn().equals("query"))
                                     queryParams.add(new Parameter(parameter.getName(), getTemplateVariable(parameter.getName())));
-                                variables.add(new Parameter(toVarName(parameter.getName()), parameter.getName().toUpperCase(Locale.ROOT)));
+                                if (!pathVariables.containsKey(path)) {
+                                    // use 'example' field defined at the parameter level of OpenAPI spec
+                                    if (Objects.nonNull(parameter.getExample())) {
+                                        variables.add(new Parameter(toVarName(parameter.getName()),
+                                                parameter.getExample(), true));
+
+                                    // use 'examples' field defined at the parameter level of OpenAPI spec
+                                    } else if (Objects.nonNull(parameter.getExamples())) {
+                                        variables.add(new Parameter(toVarName(parameter.getName()),
+                                                parameter.getExamples(), true));
+
+                                    // no example provided, generated script will contain placeholder value
+                                    } else {
+                                        variables.add(new Parameter(toVarName(parameter.getName()),
+                                                parameter.getName().toUpperCase(Locale.ROOT)));
+                                    }
+                                }
                                 break;
                             default:
                                 break;
@@ -432,7 +548,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    //
     private String generateNestedModelTemplate(CodegenModel model) {
         StringBuilder reference = new StringBuilder();
         int modelEntrySetSize = model.getAllVars().size();
@@ -480,7 +595,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "_u";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -628,5 +743,10 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return accepts;
+    }
+    
+    @Override
+    protected Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas().put("handleParamValue", new ParameterValueLambda());
     }
 }

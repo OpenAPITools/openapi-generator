@@ -165,7 +165,7 @@ module Petstore
       @config.base_url(operation) + path
     end
 
-    # Update hearder and query params based on authentication settings.
+    # Update header and query params based on authentication settings.
     #
     # @param [Hash] header_params Header parameters
     # @param [Hash] query_params Query parameters
@@ -289,7 +289,7 @@ module Petstore
         form_or_body = post_body
       else
         # use HTTP forms in the payload
-        # TDOD use HTTP form encoding
+        # TODO use HTTP form encoding
         form_or_body = form_params
       end
 

@@ -104,4 +104,3 @@ export function OrderToJSON(value?: Order | null): any {
     };
 }
 
-

@@ -6,6 +6,8 @@
     <packaging>war</packaging>
     <name>jaxrs-resteasy-eap-joda-server</name>
     <version>1.0.0</version>
+
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
@@ -155,7 +157,7 @@
             <artifactId>jackson-datatype-joda</artifactId>
             <version>2.9.9</version>
         </dependency>
-        
+
     </dependencies>
     <repositories>
         <repository>

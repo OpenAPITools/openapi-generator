@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "123-list", EmitDefaultValue = false)]
         public string _123List
-        { 
+        {
             get{ return __123List;}
             set
             {
                 __123List = value;
                 _flag_123List = true;
-            } 
+            }
         }
         private string __123List;
         private bool _flag_123List;

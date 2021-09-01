@@ -18,10 +18,10 @@
 #include "HttpModule.h"
 #include "Serialization/JsonSerializer.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
-OpenAPIUserApi::OpenAPIUserApi() 
+OpenAPIUserApi::OpenAPIUserApi()
 : Url(TEXT("http://petstore.swagger.io/v2"))
 {
 }
@@ -65,6 +65,7 @@ void OpenAPIUserApi::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryMana
 
 FHttpRetrySystem::FManager& OpenAPIUserApi::GetHttpRetryManager()
 {
+	checkf(RetryManager, TEXT("OpenAPIUserApi: RetryManager is null.  You may have meant to set it with SetHttpRetryManager first, or you may not be using a custom RetryManager at all."))
 	return *RetryManager;
 }
 
@@ -146,7 +147,7 @@ FHttpRequestPtr OpenAPIUserApi::CreateUser(const CreateUserRequest& Request, con
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUserResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -173,7 +174,7 @@ FHttpRequestPtr OpenAPIUserApi::CreateUsersWithArrayInput(const CreateUsersWithA
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUsersWithArrayInputResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -200,7 +201,7 @@ FHttpRequestPtr OpenAPIUserApi::CreateUsersWithListInput(const CreateUsersWithLi
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUsersWithListInputResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -227,7 +228,7 @@ FHttpRequestPtr OpenAPIUserApi::DeleteUser(const DeleteUserRequest& Request, con
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnDeleteUserResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -254,7 +255,7 @@ FHttpRequestPtr OpenAPIUserApi::GetUserByName(const GetUserByNameRequest& Reques
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnGetUserByNameResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -281,7 +282,7 @@ FHttpRequestPtr OpenAPIUserApi::LoginUser(const LoginUserRequest& Request, const
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnLoginUserResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -308,7 +309,7 @@ FHttpRequestPtr OpenAPIUserApi::LogoutUser(const LogoutUserRequest& Request, con
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnLogoutUserResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
@@ -335,7 +336,7 @@ FHttpRequestPtr OpenAPIUserApi::UpdateUser(const UpdateUserRequest& Request, con
 	}
 
 	Request.SetupHttpRequest(HttpRequest);
-	
+
 	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnUpdateUserResponse, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;

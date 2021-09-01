@@ -268,7 +268,7 @@ public interface FakeApi {
    * @param url  (required)
    * @param context  (required)
    */
-  @Put(uri="/fake/test-query-paramters")
+  @Put(uri="/fake/test-query-parameters")
   @Consumes(value={"application/json"})
   Mono<Object> testQueryParameterCollectionFormat(
         @QueryParam(name="pipe", format=QueryParam.Format.CSV) @NotNull List<String> pipe, 

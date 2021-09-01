@@ -74,7 +74,7 @@ object ApiMethods {
 trait ApiModel
 
 /**
- * Single trait defining a credential that can be transformed to a paramName / paramValue tupple
+ * Single trait defining a credential that can be transformed to a paramName / paramValue tuple
  */
 sealed trait Credentials {
   def asQueryParam: Option[(String, String)] = None
@@ -169,7 +169,7 @@ object CollectionFormats {
 object ParametersMap {
 
   /**
-   * Pimp parameters maps (Map[String, Any]) in order to transform them in a sequence of String -> Any tupples,
+   * Pimp parameters maps (Map[String, Any]) in order to transform them in a sequence of String -> Any tuples,
    * with valid url-encoding, arrays handling, files preservation, ...
    */
   implicit class ParametersMapImprovements(val m: Map[String, Any]) {

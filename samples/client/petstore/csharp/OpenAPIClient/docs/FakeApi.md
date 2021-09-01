@@ -20,7 +20,7 @@ Method | HTTP request | Description
 [**TestGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-[**TestQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+[**TestQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 
 
 
@@ -1279,7 +1279,7 @@ No authorization required
 
 ## TestQueryParameterCollectionFormat
 
-> void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+> void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Dictionary<string, string> language = null)
 
 
 
@@ -1307,10 +1307,11 @@ namespace Example
             var http = new List<string>(); // List<string> | 
             var url = new List<string>(); // List<string> | 
             var context = new List<string>(); // List<string> | 
+            var language = new Dictionary<string, string>(); // Dictionary<string, string> |  (optional) 
 
             try
             {
-                apiInstance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+                apiInstance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language);
             }
             catch (ApiException e)
             {
@@ -1333,6 +1334,7 @@ Name | Type | Description  | Notes
  **http** | [**List&lt;string&gt;**](string.md)|  | 
  **url** | [**List&lt;string&gt;**](string.md)|  | 
  **context** | [**List&lt;string&gt;**](string.md)|  | 
+ **language** | [**Dictionary&lt;string, string&gt;**](string.md)|  | [optional] 
 
 ### Return type
 

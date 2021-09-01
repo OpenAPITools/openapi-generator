@@ -62,4 +62,3 @@ export function ItemIdToJSON(value?: ItemId | null): any {
     };
 }
 
-

@@ -56,13 +56,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
         public string ShapeType
-        { 
+        {
             get{ return _ShapeType;}
             set
             {
                 _ShapeType = value;
                 _flagShapeType = true;
-            } 
+            }
         }
         private string _ShapeType;
         private bool _flagShapeType;

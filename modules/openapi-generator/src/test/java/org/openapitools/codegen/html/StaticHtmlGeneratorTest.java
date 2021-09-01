@@ -56,7 +56,7 @@ public class StaticHtmlGeneratorTest {
         Assert.assertEquals(openAPI.getInfo().getTitle(), "ping test");
     }
 
-    @Test(description = "ensure that snake_case propery names wont be converted to snakeUnderscorecase")
+    @Test(description = "ensure that snake_case property names wont be converted to snakeUnderscorecase")
     public void testFromPropertyWithUnderscores() {
         final Schema schema = new Schema()
             .description("a sample model with property containing an underscore")

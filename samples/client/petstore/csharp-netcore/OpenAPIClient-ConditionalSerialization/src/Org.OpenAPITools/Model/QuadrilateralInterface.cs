@@ -56,13 +56,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
         public string QuadrilateralType
-        { 
+        {
             get{ return _QuadrilateralType;}
             set
             {
                 _QuadrilateralType = value;
                 _flagQuadrilateralType = true;
-            } 
+            }
         }
         private string _QuadrilateralType;
         private bool _flagQuadrilateralType;

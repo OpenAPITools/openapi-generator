@@ -881,6 +881,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (returnType == null || returnType.equals("null")) {
             returnType = "NoContent";
             SetNoContent(op, VENDOR_EXTENSION_X_INLINE_ACCEPT);
+            op.hasProduces = false;
         }
         if (returnType.contains(" ")) {
             returnType = "(" + returnType + ")";
@@ -952,10 +953,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
     }
 
-    private void SetNoContent(CodegenOperation op, String inlineExtentionName) {
+    private void SetNoContent(CodegenOperation op, String inlineExtensionName) {
         Map<String, String> m = new HashMap<>();
         m.put(X_MEDIA_DATA_TYPE, MIME_NO_CONTENT);
-        op.vendorExtensions.put(inlineExtentionName, m);
+        op.vendorExtensions.put(inlineExtensionName, m);
     }
 
     private String toDedupedModelName(String paramNameType, String dataType, Boolean appendDataType) {
@@ -1417,7 +1418,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         // remove \t, \n, \r
         // replace \ with \\
         // replace " with \"
-        // outter unescape to retain the original multi-byte characters
+        // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(

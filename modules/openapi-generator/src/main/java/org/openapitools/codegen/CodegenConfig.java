@@ -229,7 +229,7 @@ public interface CodegenConfig {
     /**
      * Library template (sub-template).
      *
-     * @return libray template
+     * @return library template
      */
     String getLibrary();
 
