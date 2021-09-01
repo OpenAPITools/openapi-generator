@@ -2,7 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'package:dio/dio.dart';
+import 'package:dio_http/dio_http.dart';
 
 abstract class AuthInterceptor extends Interceptor {
   /// Get auth information on given route for the given type.

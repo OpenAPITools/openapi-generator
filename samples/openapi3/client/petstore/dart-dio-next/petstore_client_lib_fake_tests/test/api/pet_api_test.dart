@@ -1,6 +1,6 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:dio/dio.dart';
-import 'package:dio/src/parameter.dart';
+import 'package:dio_http/dio_http.dart';
+import 'package:dio_http/src/parameter.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:openapi/openapi.dart';

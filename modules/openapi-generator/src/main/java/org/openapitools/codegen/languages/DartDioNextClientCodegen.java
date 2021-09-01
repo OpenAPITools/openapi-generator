@@ -47,7 +47,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     public static final String SERIALIZATION_LIBRARY_BUILT_VALUE = "built_value";
     public static final String SERIALIZATION_LIBRARY_DEFAULT = SERIALIZATION_LIBRARY_BUILT_VALUE;
 
-    private static final String DIO_IMPORT = "package:dio/dio.dart";
+    private static final String DIO_IMPORT = "package:dio_http/dio_http.dart";
     private static final String CLIENT_NAME = "clientName";
 
     private String dateLibrary;
