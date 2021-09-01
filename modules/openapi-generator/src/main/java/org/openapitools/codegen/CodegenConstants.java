@@ -393,5 +393,5 @@ public class CodegenConstants {
     public static final String USE_ONE_OF_INTERFACES_DESC = "Flag to indicate whether to use the utils.OneOfImplementorAdditionalData related logic";
 
     public static final String ADD_ONE_OF_INTERFACE_IMPORTS = "addOneOfInterfaceImports";
-    public static final String ADD_ONE_OF_INTERFACE_IMPORTS_DESC = "whether or not the oneOf imports machinery should add oneOf interfaces as imports in implementing classes";
+    public static final String ADD_ONE_OF_INTERFACE_IMPORTS_DESC = "Whether or not the oneOf imports machinery should add oneOf interfaces as imports in implementing classes.";
 }
