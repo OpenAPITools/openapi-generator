@@ -2,6 +2,7 @@ package org.openapitools.generator.gradle.plugin
 
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 import java.io.File
 import kotlin.test.assertEquals

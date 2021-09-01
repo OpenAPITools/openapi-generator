@@ -36,6 +36,7 @@ import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.validations.oas.OpenApiEvaluator
 import org.openapitools.codegen.validations.oas.RuleConfiguration
+import org.openapitools.generator.gradle.plugin.service.SpecificationHandler
 
 /**
  * A generator which validates an Open API spec. This task outputs a list of validation issues and errors.
