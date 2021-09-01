@@ -23,7 +23,7 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import org.openapitools.client.models.room.ApiResponseRoomModel
-import org.openapitools.client.models.infrastructure.ITransformForStorage
+import org.openapitools.client.infrastructure.ITransformForStorage
 
 /**
  * Describes the result of uploading an image resource

@@ -23,7 +23,7 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import org.openapitools.client.models.room.CategoryRoomModel
-import org.openapitools.client.models.infrastructure.ITransformForStorage
+import org.openapitools.client.infrastructure.ITransformForStorage
 
 /**
  * A category for a pet

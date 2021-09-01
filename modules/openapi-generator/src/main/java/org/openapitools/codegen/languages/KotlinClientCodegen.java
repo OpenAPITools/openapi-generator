@@ -525,7 +525,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             // Hide this option behind a property getter and setter in case we need to check it elsewhere
             if (getGenerateRoomModels()) {
                  modelTemplateFiles.put("model_room.mustache", "RoomModel.kt");
-                 supportingFiles.add(new SupportingFile("IStorable.mustache", infrastructureFolder, "IStorable.kt"));
+                 supportingFiles.add(new SupportingFile("infrastructure/ITransformForStorage.mustache", infrastructureFolder, "ITransformForStorage.kt"));
 
             }
         } else {

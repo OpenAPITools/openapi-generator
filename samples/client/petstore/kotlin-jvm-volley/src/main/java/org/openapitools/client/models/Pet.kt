@@ -25,7 +25,7 @@ import org.openapitools.client.models.Tag
 
 import com.squareup.moshi.Json
 import org.openapitools.client.models.room.PetRoomModel
-import org.openapitools.client.models.infrastructure.ITransformForStorage
+import org.openapitools.client.infrastructure.ITransformForStorage
 
 /**
  * A pet for sale in the pet store
