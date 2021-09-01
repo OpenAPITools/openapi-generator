@@ -133,7 +133,7 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
                     cm.imports.clear();
                     for (String importModelName : importModelNames) {
                         if (!isUnionType(importModelName)) {
-                            cm.imports.add("TEST" + toModelImport(importModelName));
+                            cm.imports.add(toModelImport(importModelName));
                         }
                     }
 
