@@ -17,6 +17,9 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +58,9 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
         typeMapping.put("object", "Dict");
         typeMapping.put("AnyType", "Any");
         typeMapping.put("file", "bytes");
+
+        // Data types of the above values which are automatically imported
+        defaultIncludes = Sets.newHashSet("Union");
 
         modifyFeatureSet(features -> features.documentationFeatures(null)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON)));
@@ -127,7 +133,7 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
                     cm.imports.clear();
                     for (String importModelName : importModelNames) {
                         if (!isUnionType(importModelName)) {
-                            cm.imports.add(toModelImport(importModelName));
+                            cm.imports.add("TEST" + toModelImport(importModelName));
                         }
                     }
 
@@ -281,6 +287,9 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
     @Override
     public String toModelImport(String name) {
         if (isUnionType(name)) {
+            // name = name.replaceFirst("Union[", "");
+            // name = name.replaceAll("]", "");
+
             return name;
         }
 
@@ -292,6 +301,36 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
         }
 
         return "from " + modelPackage() + "." + toModelFilename(name) + " import " + toModelName(name);
+    }
+
+    /**
+     * Maps the fully qualified model import to the initial given name. In case of
+     * union types the map will have multiple entries. For example for "classA |
+     * classB" the map will two entries have ["model.classA","classA"] and
+     * ["model.classB","classB"].
+     *
+     * @param name the name of the "Model"
+     * @return Map between the fully qualified model import and the initial given
+     *         name.
+     */
+    @Override
+    public Map<String, String> toModelImportMap(String name) {
+        return toImportMap(splitComposedType(name));
+    }
+
+    private String[] splitComposedType(String name) {
+        String[] split = name.replace(" ", "").split("[\\[\\],]");
+        return split;
+    }
+
+    private Map<String, String> toImportMap(String... names) {
+        Map<String, String> result = Maps.newHashMap();
+        for (String name : names) {
+            if (needToImport(name)) {
+                result.put(toModelImport(name), name);
+            }
+        }
+        return result;
     }
 
     private boolean isUnionType(String name) {

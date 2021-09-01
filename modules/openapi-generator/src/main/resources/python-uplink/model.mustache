@@ -109,6 +109,9 @@ class {{classname}}(BaseModel):
         return value
 {{/pattern}}
 {{/vars}}
+
+    class Config:
+        allow_population_by_field_name = True
 {{/model}}
 {{/models}}
 

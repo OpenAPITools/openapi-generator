@@ -628,9 +628,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return type;
             }
         } else {
-            type = toModelName(openAPIType);
+            type = openAPIType;
         }
-        return type;
+        return toModelName(type);
     }
 
 
