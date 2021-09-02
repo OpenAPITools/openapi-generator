@@ -1,6 +1,7 @@
 package {{apiPackage}}
 
 import android.content.Context
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -30,7 +31,8 @@ class {{classname}} (
         Volley.newRequestQueue(context.applicationContext)
     }),
     val requestFactory: IRequestFactory = RequestFactory(),
-    val basePath: String = "{{{basePath}}}") {
+    val basePath: String = "{{{basePath}}}",
+    val retryPolicy: DefaultRetryPolicy? = null) {
 
     {{#operation}}
     /**
@@ -111,6 +113,10 @@ class {{classname}} (
                     responseType,
                     responseListener,
                     errorListener)
+
+            if (retryPolicy != null) {
+                request.retryPolicy = retryPolicy
+            }
 
             requestQueue.value.add(request)
         }

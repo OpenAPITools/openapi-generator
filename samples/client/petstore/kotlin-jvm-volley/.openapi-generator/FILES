@@ -22,7 +22,7 @@ src/main/java/org/openapitools/client/apis/UserApi.kt
 src/main/java/org/openapitools/client/infrastructure/BigDecimalAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/BigIntegerAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/ByteArrayAdapter.kt
-src/main/java/org/openapitools/client/infrastructure/IStorable.kt
+src/main/java/org/openapitools/client/infrastructure/ITransformForStorage.kt
 src/main/java/org/openapitools/client/infrastructure/LocalDateAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/LocalDateTimeAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/OffsetDateTimeAdapter.kt

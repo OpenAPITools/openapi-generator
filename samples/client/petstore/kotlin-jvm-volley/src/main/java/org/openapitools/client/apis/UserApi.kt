@@ -1,6 +1,7 @@
 package org.openapitools.client.apis
 
 import android.content.Context
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -28,7 +29,8 @@ class UserApi (
         Volley.newRequestQueue(context.applicationContext)
     }),
     val requestFactory: IRequestFactory = RequestFactory(),
-    val basePath: String = "http://petstore.swagger.io/v2") {
+    val basePath: String = "http://petstore.swagger.io/v2",
+    val retryPolicy: DefaultRetryPolicy? = null) {
 
     /**
     * Create user
@@ -90,6 +92,10 @@ class UserApi (
                     responseType,
                     responseListener,
                     errorListener)
+
+            if (retryPolicy != null) {
+                request.retryPolicy = retryPolicy
+            }
 
             requestQueue.value.add(request)
         }
@@ -155,6 +161,10 @@ class UserApi (
                     responseListener,
                     errorListener)
 
+            if (retryPolicy != null) {
+                request.retryPolicy = retryPolicy
+            }
+
             requestQueue.value.add(request)
         }
     }
@@ -218,6 +228,10 @@ class UserApi (
                     responseType,
                     responseListener,
                     errorListener)
+
+            if (retryPolicy != null) {
+                request.retryPolicy = retryPolicy
+            }
 
             requestQueue.value.add(request)
         }
@@ -283,6 +297,10 @@ class UserApi (
                     responseListener,
                     errorListener)
 
+            if (retryPolicy != null) {
+                request.retryPolicy = retryPolicy
+            }
+
             requestQueue.value.add(request)
         }
     }
@@ -346,6 +364,10 @@ class UserApi (
                     responseType,
                     responseListener,
                     errorListener)
+
+            if (retryPolicy != null) {
+                request.retryPolicy = retryPolicy
+            }
 
             requestQueue.value.add(request)
         }
@@ -417,6 +439,10 @@ class UserApi (
                     responseListener,
                     errorListener)
 
+            if (retryPolicy != null) {
+                request.retryPolicy = retryPolicy
+            }
+
             requestQueue.value.add(request)
         }
     }
@@ -476,6 +502,10 @@ class UserApi (
                     responseType,
                     responseListener,
                     errorListener)
+
+            if (retryPolicy != null) {
+                request.retryPolicy = retryPolicy
+            }
 
             requestQueue.value.add(request)
         }
@@ -544,6 +574,10 @@ class UserApi (
                     responseType,
                     responseListener,
                     errorListener)
+
+            if (retryPolicy != null) {
+                request.retryPolicy = retryPolicy
+            }
 
             requestQueue.value.add(request)
         }
