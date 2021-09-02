@@ -344,7 +344,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     }
                     if (!fixedPath.equals(pathname)) {
                         LOGGER.warn(
-                                "Path '{}' is not consistant with Python variable names. It will be replaced by '{}'",
+                                "Path '{}' is not consistent with Python variable names. It will be replaced by '{}'",
                                 pathname, fixedPath);
                         paths.remove(pathname);
                         path.addExtension("x-python-connexion-openapi-name", pathname);
@@ -376,7 +376,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                                 String pythonParameterName = this.toParamName(swaggerParameterName);
                                 if (!swaggerParameterName.equals(pythonParameterName)) {
                                     LOGGER.warn(
-                                            "Parameter name '{}' is not consistant with Python variable names. It will be replaced by '{}'",
+                                            "Parameter name '{}' is not consistent with Python variable names. It will be replaced by '{}'",
                                             swaggerParameterName, pythonParameterName);
                                     parameter.addExtension("x-python-connexion-openapi-name", swaggerParameterName);
                                     parameter.setName(pythonParameterName);
@@ -439,7 +439,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         }
                         break;
                     case OPENIDCONNECT:
-                        LOGGER.warn("Security type {} is not supported by connextion yet", securityScheme.getType().toString());
+                        LOGGER.warn("Security type {} is not supported by connexion yet", securityScheme.getType().toString());
                     case OAUTH2:
                         addSecurityExtension(securityScheme, "x-tokenInfoFunc", baseFunctionName + "info_from_" + securityName);
                         addSecurityExtension(securityScheme, "x-scopeValidateFunc", baseFunctionName + "validate_scope_" + securityName);
@@ -503,7 +503,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     String openapiPathname = (String) pathExtensions.remove("x-python-connexion-openapi-name");
                     if (openapiPathname != null && !openapiPathname.equals(pythonPathname)) {
                         LOGGER.info(
-                                "Path '{}' is not consistant with the original OpenAPI definition. It will be replaced back by '{}'",
+                                "Path '{}' is not consistent with the original OpenAPI definition. It will be replaced back by '{}'",
                                 pythonPathname, openapiPathname);
                         paths.remove(pythonPathname);
                         paths.put(openapiPathname, path);
@@ -652,7 +652,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     operation.vendorExtensions.put("x-prefered-consume", consume);
                 } else if (operation.consumes.size() > 1) {
                     Map<String, String> consume = operation.consumes.get(0);
-                    skipTests.put("reason", "Connexion does not support multiple consummes. See https://github.com/zalando/connexion/pull/760");
+                    skipTests.put("reason", "Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760");
                     operation.vendorExtensions.put("x-prefered-consume", consume);
                     if ("multipart/form-data".equals(consume.get(MEDIA_TYPE))) {
                         operation.isMultipart = Boolean.TRUE;

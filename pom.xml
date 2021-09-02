@@ -1211,7 +1211,7 @@
                 <module>samples/client/petstore/bash</module>-->
                 <module>samples/client/petstore/ruby-faraday</module>
                 <module>samples/client/petstore/ruby</module>
-                <!-- comment out as it's not working as the momment
+                <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
                 <module>samples/client/petstore/cpp-qt</module>
@@ -1287,6 +1287,7 @@
                 <module>samples/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
                 <module>samples/server/petstore/springboot-useoptional</module>
+                <module>samples/server/petstore/springboot-reactive</module>
                 <module>samples/server/petstore/jaxrs-cxf</module>
                 <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
@@ -1488,7 +1489,7 @@
                 <module>samples/client/petstore/swift5/rxswiftLibrary</module>
                 <module>samples/client/petstore/swift5/urlsessionLibrary</module>
                 <!-- swift 5 tests -->
-                <!-- temporarily commment them because they are flaky
+                <!-- temporarily comment them because they are flaky
                 <module>samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/combineLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>

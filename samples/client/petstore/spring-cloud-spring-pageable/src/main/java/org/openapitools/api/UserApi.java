@@ -15,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -43,7 +42,7 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user"
     )
-    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body);
+    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object", required = true) @Valid @RequestBody User body);
 
 
     /**
@@ -61,7 +60,7 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithArray"
     )
-    ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
+    ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body);
 
 
     /**
@@ -79,7 +78,7 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithList"
     )
-    ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
+    ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body);
 
 
     /**
@@ -101,7 +100,7 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = "/user/{username}"
     )
-    ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username);
+    ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username);
 
 
     /**
@@ -126,7 +125,7 @@ public interface UserApi {
         value = "/user/{username}",
         produces = "application/json"
     )
-    ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username);
+    ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username);
 
 
     /**
@@ -206,6 +205,6 @@ public interface UserApi {
         method = RequestMethod.PUT,
         value = "/user/{username}"
     )
-    ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body);
+    ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,@ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body);
 
 }

@@ -63,7 +63,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         modelPackage = "com.prokarma.pkmst.model";
         invokerPackage = "com.prokarma.pkmst.controller";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.GROUP_ID, this.getGroupId());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());

@@ -251,16 +251,12 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
                 }
             });
         }
-        return objs;
-    }
 
-    @Override
-    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
-        List<CodegenSecurity> codegenSecurities = super.fromSecurity(securitySchemeMap);
-        if (Boolean.FALSE.equals(codegenSecurities.isEmpty())) {
+        // generate authenticator only when hasAuthMethods === true
+        if (objs.containsKey("hasAuthMethods") && Boolean.TRUE.equals(objs.get("hasAuthMethods"))) {
             supportingFiles.add(new SupportingFile("abstract_authenticator.mustache", toSrcPath(authPackage, srcBasePath), toAbstractName("Authenticator") + ".php"));
         }
-        return codegenSecurities;
+        return objs;
     }
 
     @Override
@@ -301,7 +297,7 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         // remove \t, \n, \r
         // replace \ with \\
         // replace " with \"
-        // outter unescape to retain the original multi-byte characters
+        // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         input = super.escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(

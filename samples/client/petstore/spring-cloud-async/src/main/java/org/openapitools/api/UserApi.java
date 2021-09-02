@@ -15,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -44,7 +43,7 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user"
     )
-    CompletableFuture<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body);
+    CompletableFuture<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object", required = true) @Valid @RequestBody User body);
 
 
     /**
@@ -62,7 +61,7 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithArray"
     )
-    CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
+    CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body);
 
 
     /**
@@ -80,7 +79,7 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithList"
     )
-    CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> body);
+    CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body);
 
 
     /**
@@ -102,7 +101,7 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = "/user/{username}"
     )
-    CompletableFuture<ResponseEntity<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username);
+    CompletableFuture<ResponseEntity<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username);
 
 
     /**
@@ -127,7 +126,7 @@ public interface UserApi {
         value = "/user/{username}",
         produces = "application/json"
     )
-    CompletableFuture<ResponseEntity<User>> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username);
+    CompletableFuture<ResponseEntity<User>> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username);
 
 
     /**
@@ -190,6 +189,6 @@ public interface UserApi {
         method = RequestMethod.PUT,
         value = "/user/{username}"
     )
-    CompletableFuture<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User body);
+    CompletableFuture<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,@ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body);
 
 }

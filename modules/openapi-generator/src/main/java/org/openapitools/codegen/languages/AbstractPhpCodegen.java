@@ -195,7 +195,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
             this.setGitUserId((String) additionalProperties.get(CodegenConstants.GIT_USER_ID));
         }
-        
+
         if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
             this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
         }
@@ -441,7 +441,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String toModelName(String name) {
         name = toGenericName(name);
 
-        // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
+        // add prefix and/or suffix only if name does not start wth \ (e.g. \DateTime)
         if (!name.matches("^\\\\.*")) {
             if (!StringUtils.isEmpty(modelNamePrefix)) {
                 name = modelNamePrefix + "_" + name;
@@ -631,7 +631,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumDefaultValue(String value, String datatype) {
-        return datatype + "_" + value;
+        return "self::" + datatype + "_" + value;
     }
 
     @Override

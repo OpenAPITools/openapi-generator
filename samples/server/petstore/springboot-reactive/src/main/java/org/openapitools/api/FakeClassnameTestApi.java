@@ -50,7 +50,7 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Client>> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> body, @ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Client>> testClassname(@ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testClassname(body, exchange);
     }
 

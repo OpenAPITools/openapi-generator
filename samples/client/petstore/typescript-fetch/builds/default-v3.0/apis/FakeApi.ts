@@ -898,7 +898,7 @@ export class FakeApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/fake/test-query-paramters`,
+            path: `/fake/test-query-parameters`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

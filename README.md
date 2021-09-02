@@ -54,6 +54,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/datadog.png" width="128" height="128">](https://datadoghq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/thales.jpg" width="128" height="128">](https://cpl.thalesgroup.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/apideck.jpg" width="128" height="128">](https://www.apideck.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/pexa.png" width="128" height="128">](https://www.pexa.com.au/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS and Checkly for sponsoring the API monitoring
 
@@ -1029,7 +1030,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | C++               | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08)                                                                                                                     |
 | C#                | @mandrean (2017/08) @frankyjuang (2019/09) @shibayan (2020/02) @Blackclaws (2021/03) @lucamazzanti (2021/05)                                                                               |
 | Clojure           |                                                                                                                                                                                                                                   |
-| Dart              | @jaumard (2018/09) @josh-burton (2019/12) @amondnet (2019/12) @sbu-WBT (2020/12) @kuhnroyal (2020/12) @agilob (2020/12)                                                                                                      |
+| Dart              | @jaumard (2018/09) @josh-burton (2019/12) @amondnet (2019/12) @sbu-WBT (2020/12) @kuhnroyal (2020/12) @agilob (2020/12) @ahmednfwela (2021/08)                                                                                                      |
 | Eiffel            | @jvelilla (2017/09)                                                                                                                                                                                                               |
 | Elixir            | @mrmstn (2018/12)                                                                                                                                                                                                                 |
 | Elm               | @eriktim (2018/09)                                                                                                                                                                                                                |

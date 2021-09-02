@@ -1234,7 +1234,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'context' when calling FakeApi.test_query_parameter_collection_format"
       end
       # resource path
-      local_var_path = '/fake/test-query-paramters'
+      local_var_path = '/fake/test-query-parameters'
 
       # query parameters
       query_params = opts[:query_params] || {}
