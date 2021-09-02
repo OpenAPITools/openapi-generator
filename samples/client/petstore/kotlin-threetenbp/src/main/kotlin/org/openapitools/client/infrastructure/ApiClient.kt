@@ -21,9 +21,6 @@ import java.io.IOException
 import java.net.URLConnection
 import java.util.Date
 import java.util.Locale
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
@@ -155,7 +152,7 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
-    protected suspend inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
+    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
         // take authMethod from operation
@@ -203,16 +200,8 @@ open class ApiClient(val baseUrl: String) {
             headers.forEach { header -> addHeader(header.key, header.value) }
         }.build()
 
-        val response: Response = suspendCoroutine { continuation ->
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    continuation.resumeWithException(e)
-                }
-                override fun onResponse(call: Call, response: Response) {
-                    continuation.resume(response)
-                }
-            })
-        }
+        val response = client.newCall(request).execute()
+
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>

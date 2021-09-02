@@ -28,7 +28,7 @@ import java.util.Date
 import java.util.Locale
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.suspendCancellableCoroutine
 import com.google.gson.reflect.TypeToken
 
 open class ApiClient(val baseUrl: String) {
@@ -202,16 +202,19 @@ open class ApiClient(val baseUrl: String) {
             headers.forEach { header -> addHeader(header.key, header.value) }
         }.build()
 
-        val response: Response = suspendCoroutine { continuation ->
-            client.newCall(request).enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
+        val response: Response = suspendCancellableCoroutine { continuation ->
+            val call = client.newCall(request)
+            continuation.invokeOnCancellation { call.cancel() }
+            call.enqueue(object : Callback {
+                override fun onFailure(c: Call, e: IOException) {
                     continuation.resumeWithException(e)
                 }
-                override fun onResponse(call: Call, response: Response) {
+                override fun onResponse(c: Call, response: Response) {
                     continuation.resume(response)
                 }
             })
         }
+
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
