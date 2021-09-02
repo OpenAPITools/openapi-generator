@@ -42,7 +42,7 @@ public class PetApiController implements PetApi {
      *         or Invalid input (status code 405)
      * @see PetApi#addPet
      */
-    public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body) {
+    public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -151,7 +151,7 @@ public class PetApiController implements PetApi {
      *         or Validation exception (status code 405)
      * @see PetApi#updatePet
      */
-    public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body) {
+    public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

@@ -54,7 +54,7 @@ public interface PetApi {
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
-    default Mono<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Mono<Pet> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().addPet(body, exchange);
     }
 
@@ -206,7 +206,7 @@ public interface PetApi {
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
-    default Mono<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Mono<Pet> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().updatePet(body, exchange);
     }
 

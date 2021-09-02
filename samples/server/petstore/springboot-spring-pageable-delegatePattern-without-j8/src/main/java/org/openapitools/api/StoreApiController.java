@@ -77,7 +77,7 @@ public class StoreApiController implements StoreApi {
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body) {
+    public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid @RequestBody Order body) {
         return delegate.placeOrder(body);
     }
 

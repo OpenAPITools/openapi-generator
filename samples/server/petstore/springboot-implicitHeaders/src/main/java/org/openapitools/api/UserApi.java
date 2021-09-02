@@ -48,7 +48,7 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user"
     )
-    default ResponseEntity<Void> createUser(@ApiParam(value = "Created user object", required = true) @Valid @RequestBody User body) {
+    default ResponseEntity<Void> createUser(@ApiParam(value = "Created user object", required = true )   @Valid @RequestBody User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -71,7 +71,7 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithArray"
     )
-    default ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body) {
+    default ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -94,7 +94,7 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithList"
     )
-    default ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body) {
+    default ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -243,7 +243,7 @@ public interface UserApi {
         method = RequestMethod.PUT,
         value = "/user/{username}"
     )
-    default ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,@ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body) {
+    default ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,@ApiParam(value = "Updated user object", required = true )   @Valid @RequestBody User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

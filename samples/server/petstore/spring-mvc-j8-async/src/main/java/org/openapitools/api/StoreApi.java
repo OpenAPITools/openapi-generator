@@ -145,7 +145,7 @@ public interface StoreApi {
         value = "/store/order",
         produces = { "application/xml", "application/json" }
     )
-    default CompletableFuture<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body) {
+    default CompletableFuture<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid @RequestBody Order body) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

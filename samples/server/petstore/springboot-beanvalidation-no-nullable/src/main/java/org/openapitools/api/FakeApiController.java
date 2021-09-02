@@ -49,7 +49,7 @@ public class FakeApiController implements FakeApi {
      * @return successful operation (status code 200)
      * @see FakeApi#createXmlItem
      */
-    public ResponseEntity<Void> createXmlItem(@ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem) {
+    public ResponseEntity<Void> createXmlItem(@ApiParam(value = "XmlItem Body", required = true )   @Valid @RequestBody XmlItem xmlItem) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -62,7 +62,7 @@ public class FakeApiController implements FakeApi {
      * @return Output boolean (status code 200)
      * @see FakeApi#fakeOuterBooleanSerialize
      */
-    public ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Boolean body) {
+    public ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body" )   @Valid @RequestBody(required = false) Boolean body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -75,7 +75,7 @@ public class FakeApiController implements FakeApi {
      * @return Output composite (status code 200)
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) OuterComposite body) {
+    public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body" )   @Valid @RequestBody(required = false) OuterComposite body) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
                 String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
@@ -95,7 +95,7 @@ public class FakeApiController implements FakeApi {
      * @return Output number (status code 200)
      * @see FakeApi#fakeOuterNumberSerialize
      */
-    public ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) BigDecimal body) {
+    public ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body" )   @Valid @RequestBody(required = false) BigDecimal body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -108,7 +108,7 @@ public class FakeApiController implements FakeApi {
      * @return Output string (status code 200)
      * @see FakeApi#fakeOuterStringSerialize
      */
-    public ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) String body) {
+    public ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" )   @Valid @RequestBody(required = false) String body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -121,7 +121,7 @@ public class FakeApiController implements FakeApi {
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithFileSchema
      */
-    public ResponseEntity<Void> testBodyWithFileSchema(@ApiParam(value = "", required = true) @Valid @RequestBody FileSchemaTestClass body) {
+    public ResponseEntity<Void> testBodyWithFileSchema(@ApiParam(value = "", required = true )   @Valid @RequestBody FileSchemaTestClass body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -134,7 +134,7 @@ public class FakeApiController implements FakeApi {
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithQueryParams
      */
-    public ResponseEntity<Void> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "", required = true) @Valid @RequestBody User body) {
+    public ResponseEntity<Void> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "", required = true )   @Valid @RequestBody User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -147,7 +147,7 @@ public class FakeApiController implements FakeApi {
      * @return successful operation (status code 200)
      * @see FakeApi#testClientModel
      */
-    public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model", required = true) @Valid @RequestBody Client body) {
+    public ResponseEntity<Client> testClientModel(@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"client\" : \"client\" }";
@@ -232,7 +232,7 @@ public class FakeApiController implements FakeApi {
      * @return successful operation (status code 200)
      * @see FakeApi#testInlineAdditionalProperties
      */
-    public ResponseEntity<Void> testInlineAdditionalProperties(@ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> param) {
+    public ResponseEntity<Void> testInlineAdditionalProperties(@ApiParam(value = "request body", required = true )   @Valid @RequestBody Map<String, String> param) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

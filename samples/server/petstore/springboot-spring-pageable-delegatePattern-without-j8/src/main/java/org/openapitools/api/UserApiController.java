@@ -39,7 +39,7 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUser
      */
-    public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object", required = true) @Valid @RequestBody User body) {
+    public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object", required = true )   @Valid @RequestBody User body) {
         return delegate.createUser(body);
     }
 
@@ -50,7 +50,7 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    public ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body) {
+    public ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body) {
         return delegate.createUsersWithArrayInput(body);
     }
 
@@ -61,7 +61,7 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    public ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body) {
+    public ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body) {
         return delegate.createUsersWithListInput(body);
     }
 
@@ -124,7 +124,7 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,@ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body) {
+    public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,@ApiParam(value = "Updated user object", required = true )   @Valid @RequestBody User body) {
         return delegate.updateUser(username, body);
     }
 

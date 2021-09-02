@@ -50,7 +50,7 @@ public interface PetApi {
         value = "/pet",
         consumes = "application/json"
     )
-    default ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body) {
+    default ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -243,7 +243,7 @@ public interface PetApi {
         value = "/pet",
         consumes = "application/json"
     )
-    default ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body) {
+    default ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

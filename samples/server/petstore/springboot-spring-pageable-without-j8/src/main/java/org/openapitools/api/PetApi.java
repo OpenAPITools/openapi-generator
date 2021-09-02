@@ -45,7 +45,7 @@ public interface PetApi {
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
-    ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body);
+    ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body);
 
 
     /**
@@ -187,7 +187,7 @@ public interface PetApi {
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
-    ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body);
+    ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body);
 
 
     /**

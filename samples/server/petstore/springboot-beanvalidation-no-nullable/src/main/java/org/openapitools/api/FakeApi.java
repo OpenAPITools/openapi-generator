@@ -47,7 +47,7 @@ public interface FakeApi {
         value = "/fake/create_xml_item",
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" }
     )
-    ResponseEntity<Void> createXmlItem(@ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody XmlItem xmlItem);
+    ResponseEntity<Void> createXmlItem(@ApiParam(value = "XmlItem Body", required = true )   @Valid @RequestBody XmlItem xmlItem);
 
 
     /**
@@ -67,7 +67,7 @@ public interface FakeApi {
         value = "/fake/outer/boolean",
         produces = { "*/*" }
     )
-    ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Boolean body);
+    ResponseEntity<Boolean> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body" )   @Valid @RequestBody(required = false) Boolean body);
 
 
     /**
@@ -87,7 +87,7 @@ public interface FakeApi {
         value = "/fake/outer/composite",
         produces = { "*/*" }
     )
-    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) OuterComposite body);
+    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body" )   @Valid @RequestBody(required = false) OuterComposite body);
 
 
     /**
@@ -107,7 +107,7 @@ public interface FakeApi {
         value = "/fake/outer/number",
         produces = { "*/*" }
     )
-    ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) BigDecimal body);
+    ResponseEntity<BigDecimal> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body" )   @Valid @RequestBody(required = false) BigDecimal body);
 
 
     /**
@@ -127,7 +127,7 @@ public interface FakeApi {
         value = "/fake/outer/string",
         produces = { "*/*" }
     )
-    ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) String body);
+    ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" )   @Valid @RequestBody(required = false) String body);
 
 
     /**
@@ -147,7 +147,7 @@ public interface FakeApi {
         value = "/fake/body-with-file-schema",
         consumes = { "application/json" }
     )
-    ResponseEntity<Void> testBodyWithFileSchema(@ApiParam(value = "", required = true) @Valid @RequestBody FileSchemaTestClass body);
+    ResponseEntity<Void> testBodyWithFileSchema(@ApiParam(value = "", required = true )   @Valid @RequestBody FileSchemaTestClass body);
 
 
     /**
@@ -167,7 +167,7 @@ public interface FakeApi {
         value = "/fake/body-with-query-params",
         consumes = { "application/json" }
     )
-    ResponseEntity<Void> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "", required = true) @Valid @RequestBody User body);
+    ResponseEntity<Void> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "", required = true )   @Valid @RequestBody User body);
 
 
     /**
@@ -188,7 +188,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Client> testClientModel(@ApiParam(value = "client model", required = true) @Valid @RequestBody Client body);
+    ResponseEntity<Client> testClientModel(@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body);
 
 
     /**
@@ -300,7 +300,7 @@ public interface FakeApi {
         value = "/fake/inline-additionalProperties",
         consumes = { "application/json" }
     )
-    ResponseEntity<Void> testInlineAdditionalProperties(@ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> param);
+    ResponseEntity<Void> testInlineAdditionalProperties(@ApiParam(value = "request body", required = true )   @Valid @RequestBody Map<String, String> param);
 
 
     /**

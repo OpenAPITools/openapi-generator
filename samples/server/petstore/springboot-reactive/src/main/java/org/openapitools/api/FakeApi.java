@@ -55,7 +55,7 @@ public interface FakeApi {
         value = "/fake/create_xml_item",
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" }
     )
-    default Mono<ResponseEntity<Void>> createXmlItem(@ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody Mono<XmlItem> xmlItem, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> createXmlItem(@ApiParam(value = "XmlItem Body", required = true )   @Valid @RequestBody Mono<XmlItem> xmlItem, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().createXmlItem(xmlItem, exchange);
     }
 
@@ -77,7 +77,7 @@ public interface FakeApi {
         value = "/fake/outer/boolean",
         produces = { "*/*" }
     )
-    default Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Mono<Boolean> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body" )   @Valid @RequestBody(required = false) Mono<Boolean> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().fakeOuterBooleanSerialize(body, exchange);
     }
 
@@ -99,7 +99,7 @@ public interface FakeApi {
         value = "/fake/outer/composite",
         produces = { "*/*" }
     )
-    default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) Mono<OuterComposite> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body" )   @Valid @RequestBody(required = false) Mono<OuterComposite> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().fakeOuterCompositeSerialize(body, exchange);
     }
 
@@ -121,7 +121,7 @@ public interface FakeApi {
         value = "/fake/outer/number",
         produces = { "*/*" }
     )
-    default Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) Mono<BigDecimal> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body" )   @Valid @RequestBody(required = false) Mono<BigDecimal> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().fakeOuterNumberSerialize(body, exchange);
     }
 
@@ -143,7 +143,7 @@ public interface FakeApi {
         value = "/fake/outer/string",
         produces = { "*/*" }
     )
-    default Mono<ResponseEntity<String>> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) Mono<String> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<String>> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" )   @Valid @RequestBody(required = false) Mono<String> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().fakeOuterStringSerialize(body, exchange);
     }
 
@@ -165,7 +165,7 @@ public interface FakeApi {
         value = "/fake/body-with-file-schema",
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Void>> testBodyWithFileSchema(@ApiParam(value = "", required = true) @Valid @RequestBody Mono<FileSchemaTestClass> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> testBodyWithFileSchema(@ApiParam(value = "", required = true )   @Valid @RequestBody Mono<FileSchemaTestClass> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testBodyWithFileSchema(body, exchange);
     }
 
@@ -187,7 +187,7 @@ public interface FakeApi {
         value = "/fake/body-with-query-params",
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Void>> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "", required = true) @Valid @RequestBody Mono<User> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "", required = true )   @Valid @RequestBody Mono<User> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testBodyWithQueryParams(query, body, exchange);
     }
 
@@ -210,7 +210,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Client>> testClientModel(@ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Client>> testClientModel(@ApiParam(value = "client model", required = true )   @Valid @RequestBody Mono<Client> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testClientModel(body, exchange);
     }
 
@@ -330,7 +330,7 @@ public interface FakeApi {
         value = "/fake/inline-additionalProperties",
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(@ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<Map<String, String>> param, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(@ApiParam(value = "request body", required = true )   @Valid @RequestBody Mono<Map<String, String>> param, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testInlineAdditionalProperties(param, exchange);
     }
 
