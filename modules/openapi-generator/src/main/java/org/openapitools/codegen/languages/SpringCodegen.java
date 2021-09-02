@@ -488,6 +488,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         // add lambda for mustache templates
+        additionalProperties.put("lambdaRemoveDoubleQuote",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement(""))));
         additionalProperties.put("lambdaEscapeDoubleQuote",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
