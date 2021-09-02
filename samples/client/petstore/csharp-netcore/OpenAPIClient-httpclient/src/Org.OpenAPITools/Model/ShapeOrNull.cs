@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Quadrilateral`. If the actual instanct is not `Quadrilateral`,
+        /// Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Quadrilateral</returns>
@@ -109,7 +109,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Triangle`. If the actual instanct is not `Triangle`,
+        /// Get the actual instance of `Triangle`. If the actual instance is not `Triangle`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Triangle</returns>
@@ -154,18 +154,26 @@ namespace Org.OpenAPITools.Model
                 return newShapeOrNull;
             }
 
-            string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
-            switch (discriminatorValue)
+            try
             {
-                case "Quadrilateral":
-                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
-                    return newShapeOrNull;
-                case "Triangle":
-                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
-                    return newShapeOrNull;
-                default:
-                    System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for ShapeOrNull. Possible values: Quadrilateral Triangle", discriminatorValue));
-                    break;
+                var discriminatorObj = JObject.Parse(jsonString)["shapeType"];
+                string discriminatorValue =  discriminatorObj == null ?string.Empty :discriminatorObj.ToString();
+                switch (discriminatorValue)
+                {
+                    case "Quadrilateral":
+                        newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
+                        return newShapeOrNull;
+                    case "Triangle":
+                        newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
+                        return newShapeOrNull;
+                    default:
+                        System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for ShapeOrNull. Possible values: Quadrilateral Triangle", discriminatorValue));
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to parse the json data : `{0}` {1}", jsonString, ex.ToString()));
             }
 
             int match = 0;

@@ -1,0 +1,136 @@
+{{>licenseInfo}}
+package {{package}};
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import {{invokerPackage}}.ApiException;
+import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.Configuration;
+import {{modelPackage}}.*;
+import {{invokerPackage}}.Pair;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+{{>generatedAnnotation}}
+{{#operations}}
+public class {{classname}} {
+  private ApiClient apiClient;
+
+  public {{classname}}() {
+    this(Configuration.getDefaultApiClient());
+  }
+
+  public {{classname}}(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
+
+  public ApiClient getApiClient() {
+    return apiClient;
+  }
+
+  public void setApiClient(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
+
+  {{#operation}}
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   {{/allParams}}
+   {{#returnType}}
+   * @return {{returnType}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+    Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    {{#allParams}}{{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    if ({{paramName}} == null) {
+      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
+    }
+    {{/required}}{{/allParams}}
+    // create path and map variables
+    String localVarPath = "{{{path}}}"{{#pathParams}}
+      .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
+
+    // query params
+    {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
+    {{javaUtilPrefix}}List<Pair> localVarCollectionQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
+    {{javaUtilPrefix}}Map<String, String> localVarHeaderParams = new {{javaUtilPrefix}}HashMap<String, String>();
+    {{javaUtilPrefix}}Map<String, String> localVarCookieParams = new {{javaUtilPrefix}}HashMap<String, String>();
+    {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}HashMap<String, Object>();
+
+    {{#queryParams}}
+    {{#collectionFormat}}localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", {{/collectionFormat}}{{^collectionFormat}}localVarQueryParams.addAll(apiClient.parameterToPair({{/collectionFormat}}"{{baseName}}", {{paramName}}));
+    {{/queryParams}}
+
+    {{#headerParams}}if ({{paramName}} != null)
+      localVarHeaderParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
+    {{/headerParams}}
+
+    {{#cookieParams}}if ({{paramName}} != null)
+      localVarCookieParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));
+    {{/cookieParams}}
+
+    {{#formParams}}if ({{paramName}} != null)
+      localVarFormParams.put("{{baseName}}", {{paramName}});
+    {{/formParams}}
+
+    final String[] localVarAccepts = {
+      {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
+
+    {{#returnType}}
+    TypeReference<{{{returnType}}}> localVarReturnType = new TypeReference<{{{returnType}}}>() {};
+    return apiClient.invokeAPI(
+    {{/returnType}}
+    {{^returnType}}
+    apiClient.invokeAPI(
+    {{/returnType}}
+        localVarPath,
+        "{{httpMethod}}",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}
+    );
+  }
+  {{/operation}}
+}
+{{/operations}}

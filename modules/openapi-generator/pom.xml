@@ -207,7 +207,7 @@
                         <groupId>se.bjurr.violations</groupId>
                         <artifactId>violations-maven-plugin</artifactId>
                         <configuration>
-                            <!-- Should be decreased continuousle as issues are fixed, and will eventually
+                            <!-- Should be decreased continuously as issues are fixed, and will eventually
                                 reach 0. -->
                             <maxViolations>65</maxViolations>
                         </configuration>

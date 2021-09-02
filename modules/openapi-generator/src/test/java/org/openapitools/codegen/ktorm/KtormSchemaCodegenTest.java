@@ -277,7 +277,7 @@ public class KtormSchemaCodegenTest {
     }
 
     @Test
-    public void testDontAddSorrogateKey() {
+    public void testDontAddSurrogateKey() {
         final Schema schema = new Schema()
             .description("a sample model")
             .addProperties("key" , new IntegerSchema())
@@ -291,7 +291,7 @@ public class KtormSchemaCodegenTest {
     }
 
     @Test
-    public void testAddSorrogateKey() {
+    public void testAddSurrogateKey() {
         final Schema schema = new Schema()
             .description("a sample model")
             .addProperties("key", new IntegerSchema());

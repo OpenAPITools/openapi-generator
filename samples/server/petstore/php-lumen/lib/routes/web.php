@@ -168,7 +168,7 @@ $router->post('/v2/fake/property/enum-int', 'FakeApi@fakePropertyEnumIntegerSeri
  * Summary: 
  * Notes: To test the collection format in query parameters
  */
-$router->put('/v2/fake/test-query-paramters', 'FakeApi@testQueryParameterCollectionFormat');
+$router->put('/v2/fake/test-query-parameters', 'FakeApi@testQueryParameterCollectionFormat');
 
 /**
  * patch testClassname

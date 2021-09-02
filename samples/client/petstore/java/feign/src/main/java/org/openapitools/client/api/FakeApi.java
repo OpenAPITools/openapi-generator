@@ -440,7 +440,7 @@ public interface FakeApi extends ApiClient.Api {
    * @param context  (required)
    * @param language  (optional)
    */
-  @RequestLine("PUT /fake/test-query-paramters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}&language={language}")
+  @RequestLine("PUT /fake/test-query-parameters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}&language={language}")
   @Headers({
     "Accept: application/json",
   })
@@ -465,7 +465,7 @@ public interface FakeApi extends ApiClient.Api {
    *   <li>language -  (optional)</li>
    *   </ul>
    */
-  @RequestLine("PUT /fake/test-query-paramters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}&language={language}")
+  @RequestLine("PUT /fake/test-query-parameters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}&language={language}")
   @Headers({
   "Accept: application/json",
   })

@@ -63,7 +63,7 @@ public @interface QueryParam {
     public static enum Format {
         /**
          * The values of iterator are comma-delimited.
-         * Ambiguity can arise if values of Iterator contain commas inside themselves. In such case, the MUTLI format
+         * Ambiguity can arise if values of Iterator contain commas inside themselves. In such case, the MULTI format
          * should be preferred.
          * Null values are not supported and will be removed during the conversion process.
          */

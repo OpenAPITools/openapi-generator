@@ -215,7 +215,9 @@ cabal.project.local
 samples/client/petstore/haskell-http-client/docs/haddock-bundle.min.js
 samples/client/petstore/haskell-http-client/docs/meta.json
 samples/client/petstore/haskell-http-client/docs/quick-jump.css
+samples/client/petstore/haskell-http-client/stack.yaml.lock
 samples/server/petstore/haskell-servant/stack.yaml.lock
+samples/server/petstore/haskell-yesod/stack.yaml.lock
 
 # R
 .Rproj.user
