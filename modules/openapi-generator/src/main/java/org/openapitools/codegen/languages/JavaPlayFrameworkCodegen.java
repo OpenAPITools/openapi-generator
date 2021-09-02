@@ -74,7 +74,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         projectTestFolder = projectFolder + "/test";
         testFolder = projectTestFolder;
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
@@ -82,7 +82,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         additionalProperties.put("java8", true);
-        additionalProperties.put("jackson", "true");
+        additionalProperties.put(JACKSON, "true");
 
         cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(getConfigPackage()));

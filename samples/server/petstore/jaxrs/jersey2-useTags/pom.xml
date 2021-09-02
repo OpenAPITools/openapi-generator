@@ -6,6 +6,7 @@
   <name>jaxrs-jersey2-useTags</name>
   <version>1.0.0</version>
 
+
   <licenses>
     <license>
       <name>Unlicense</name>
@@ -13,7 +14,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
@@ -157,7 +158,7 @@
       <version>2.2</version>
     </dependency>
 
-  
+
     <!-- Bean Validation API support -->
     <dependency>
         <groupId>javax.validation</groupId>

@@ -60,4 +60,3 @@ namespace Org.OpenAPITools.Authentication
         }
     }
 }
-

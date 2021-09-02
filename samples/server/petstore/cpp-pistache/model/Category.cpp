@@ -47,9 +47,7 @@ bool Category::validate(std::stringstream& msg, const std::string& pathPrefix) c
     bool success = true;
     const std::string _pathPrefix = pathPrefix.empty() ? "Category" : pathPrefix;
 
-        
-    
-
+            
     return success;
 }
 

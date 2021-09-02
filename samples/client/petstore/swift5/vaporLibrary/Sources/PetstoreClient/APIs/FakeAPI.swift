@@ -21,20 +21,20 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func createXmlItemRaw(xmlItem: XmlItem, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake/create_xml_item"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake/create_xml_item"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            try request.content.encode(xmlItem, using: Configuration.contentConfiguration.requireEncoder(for: XmlItem.defaultContentType))
+            try localVariableRequest.content.encode(xmlItem, using: Configuration.contentConfiguration.requireEncoder(for: XmlItem.defaultContentType))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -69,23 +69,22 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func fakeOuterBooleanSerializeRaw(body: Bool? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake/outer/boolean"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake/outer/boolean"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            if let body = body {
-
-                try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Bool.defaultContentType))
+            if let localVariableBody = body {
+                try localVariableRequest.content.encode(localVariableBody, using: Configuration.contentConfiguration.requireEncoder(for: Bool.defaultContentType))
             }
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -119,23 +118,22 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func fakeOuterCompositeSerializeRaw(body: OuterComposite? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake/outer/composite"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake/outer/composite"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            if let body = body {
-
-                try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: OuterComposite.defaultContentType))
+            if let localVariableBody = body {
+                try localVariableRequest.content.encode(localVariableBody, using: Configuration.contentConfiguration.requireEncoder(for: OuterComposite.defaultContentType))
             }
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -169,23 +167,22 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func fakeOuterNumberSerializeRaw(body: Double? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake/outer/number"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake/outer/number"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            if let body = body {
-
-                try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Double.defaultContentType))
+            if let localVariableBody = body {
+                try localVariableRequest.content.encode(localVariableBody, using: Configuration.contentConfiguration.requireEncoder(for: Double.defaultContentType))
             }
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -219,23 +216,22 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func fakeOuterStringSerializeRaw(body: String? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake/outer/string"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake/outer/string"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            if let body = body {
-
-                try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: String.defaultContentType))
+            if let localVariableBody = body {
+                try localVariableRequest.content.encode(localVariableBody, using: Configuration.contentConfiguration.requireEncoder(for: String.defaultContentType))
             }
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -269,20 +265,20 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func testBodyWithFileSchemaRaw(body: FileSchemaTestClass, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake/body-with-file-schema"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake/body-with-file-schema"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.PUT, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.PUT, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: FileSchemaTestClass.defaultContentType))
+            try localVariableRequest.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: FileSchemaTestClass.defaultContentType))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -316,23 +312,27 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func testBodyWithQueryParamsRaw(query: String, body: User, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake/body-with-query-params"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake/body-with-query-params"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.PUT, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.PUT, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             struct QueryParams: Content {
                 var query: String
+
+                enum CodingKeys: String, CodingKey {
+                    case query = "query"
+                }
             }
-            try request.query.encode(QueryParams(query: query))
-            try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: User.defaultContentType))
+            try localVariableRequest.query.encode(QueryParams(query: query))
+            try localVariableRequest.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: User.defaultContentType))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -367,20 +367,20 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func testClientModelRaw(body: Client, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.PATCH, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.PATCH, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            try request.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Client.defaultContentType))
+            try localVariableRequest.content.encode(body, using: Configuration.contentConfiguration.requireEncoder(for: Client.defaultContentType))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -432,15 +432,15 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func testEndpointParametersRaw(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
             struct FormParams: Content {
@@ -460,8 +460,8 @@ open class FakeAPI {
                 var password: String?
                 var callback: String?
             }
-            try request.content.encode(FormParams(integer: integer, int32: int32, int64: int64, number: number, float: float, double: double, string: string, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
-            try beforeSend(&request)
+            try localVariableRequest.content.encode(FormParams(integer: integer, int32: int32, int64: int64, number: number, float: float, double: double, string: string, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -590,34 +590,41 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func testEnumParametersRaw(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.GET, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
-            request.headers.add(name: "enum_header_string_array", value: enumHeaderStringArray?.map { $0.rawValue.description }.description ?? "")
+            localVariableRequest.headers.add(name: "enum_header_string_array", value: enumHeaderStringArray?.map { $0.rawValue.description }.description ?? "")
             
-            request.headers.add(name: "enum_header_string", value: enumHeaderString?.rawValue.description ?? "")
+            localVariableRequest.headers.add(name: "enum_header_string", value: enumHeaderString?.rawValue.description ?? "")
             
             struct QueryParams: Content {
                 var enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]?
                 var enumQueryString: EnumQueryString_testEnumParameters?
                 var enumQueryInteger: EnumQueryInteger_testEnumParameters?
                 var enumQueryDouble: EnumQueryDouble_testEnumParameters?
+
+                enum CodingKeys: String, CodingKey {
+                    case enumQueryStringArray = "enum_query_string_array"
+                    case enumQueryString = "enum_query_string"
+                    case enumQueryInteger = "enum_query_integer"
+                    case enumQueryDouble = "enum_query_double"
+                }
             }
-            try request.query.encode(QueryParams(enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble))
+            try localVariableRequest.query.encode(QueryParams(enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble))
             struct FormParams: Content {
                 static let defaultContentType = Vapor.HTTPMediaType.formData
                 var enumFormStringArray: [EnumFormStringArray_testEnumParameters]?
                 var enumFormString: EnumFormString_testEnumParameters?
             }
-            try request.content.encode(FormParams(enumFormStringArray: enumFormStringArray, enumFormString: enumFormString), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
-            try beforeSend(&request)
+            try localVariableRequest.content.encode(FormParams(enumFormStringArray: enumFormStringArray, enumFormString: enumFormString), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -668,29 +675,36 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func testGroupParametersRaw(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.DELETE, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.DELETE, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
-            request.headers.add(name: "required_boolean_group", value: requiredBooleanGroup.description)
+            localVariableRequest.headers.add(name: "required_boolean_group", value: requiredBooleanGroup.description)
             
-            request.headers.add(name: "boolean_group", value: booleanGroup?.description ?? "")
+            localVariableRequest.headers.add(name: "boolean_group", value: booleanGroup?.description ?? "")
             
             struct QueryParams: Content {
                 var requiredStringGroup: Int
                 var requiredInt64Group: Int64
                 var stringGroup: Int?
                 var int64Group: Int64?
+
+                enum CodingKeys: String, CodingKey {
+                    case requiredStringGroup = "required_string_group"
+                    case requiredInt64Group = "required_int64_group"
+                    case stringGroup = "string_group"
+                    case int64Group = "int64_group"
+                }
             }
-            try request.query.encode(QueryParams(requiredStringGroup: requiredStringGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, int64Group: int64Group))
+            try localVariableRequest.query.encode(QueryParams(requiredStringGroup: requiredStringGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, int64Group: int64Group))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -730,20 +744,20 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func testInlineAdditionalPropertiesRaw(param: [String: String], headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake/inline-additionalProperties"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake/inline-additionalProperties"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.POST, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
-            try request.content.encode(param, using: Configuration.contentConfiguration.requireEncoder(for: [String: String].defaultContentType))
+            try localVariableRequest.content.encode(param, using: Configuration.contentConfiguration.requireEncoder(for: [String: String].defaultContentType))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -778,15 +792,15 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func testJsonFormDataRaw(param: String, param2: String, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake/jsonFormData"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake/jsonFormData"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.GET, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             
             struct FormParams: Content {
@@ -794,8 +808,8 @@ open class FakeAPI {
                 var param: String
                 var param2: String
             }
-            try request.content.encode(FormParams(param: param, param2: param2), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
-            try beforeSend(&request)
+            try localVariableRequest.content.encode(FormParams(param: param, param2: param2), using: Configuration.contentConfiguration.requireEncoder(for: FormParams.defaultContentType))
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -824,7 +838,7 @@ open class FakeAPI {
 
 
     /**
-     PUT /fake/test-query-paramters
+     PUT /fake/test-query-parameters
      To test the collection format in query parameters
      - parameter pipe: (query)  
      - parameter ioutil: (query)  
@@ -834,15 +848,15 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func testQueryParameterCollectionFormatRaw(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let path = "/fake/test-query-paramters"
-        let URLString = PetstoreClient.basePath + path
+        let localVariablePath = "/fake/test-query-parameters"
+        let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
-        guard let apiClient = Configuration.apiClient else {
+        guard let localVariableApiClient = Configuration.apiClient else {
             fatalError("Configuration.apiClient is not set.")
         }
 
-        return apiClient.send(.PUT, headers: headers, to: URI(string: URLString)) { request in
-            try Configuration.apiWrapper(&request)
+        return localVariableApiClient.send(.PUT, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+            try Configuration.apiWrapper(&localVariableRequest)
             
             struct QueryParams: Content {
                 var pipe: [String]
@@ -850,10 +864,18 @@ open class FakeAPI {
                 var http: [String]
                 var url: [String]
                 var context: [String]
+
+                enum CodingKeys: String, CodingKey {
+                    case pipe = "pipe"
+                    case ioutil = "ioutil"
+                    case http = "http"
+                    case url = "url"
+                    case context = "context"
+                }
             }
-            try request.query.encode(QueryParams(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context))
+            try localVariableRequest.query.encode(QueryParams(pipe: pipe, ioutil: ioutil, http: http, url: url, context: context))
             
-            try beforeSend(&request)
+            try beforeSend(&localVariableRequest)
         }
     }
 
@@ -863,7 +885,7 @@ open class FakeAPI {
     }
 
     /**
-     PUT /fake/test-query-paramters
+     PUT /fake/test-query-parameters
      To test the collection format in query parameters
      - parameter pipe: (query)  
      - parameter ioutil: (query)  

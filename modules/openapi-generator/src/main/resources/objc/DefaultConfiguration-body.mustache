@@ -36,7 +36,7 @@
         _mutableApiKey = [NSMutableDictionary dictionary];
         _mutableApiKeyPrefix = [NSMutableDictionary dictionary];
         _mutableDefaultHeaders = [NSMutableDictionary dictionary];
-        {{#httpUserAgent}}_mutableDefaultHeaders[@"User-Agent"] = @"{{httpUserAgent}}";{{/httpUserAgent}}
+        {{#httpUserAgent}}_mutableDefaultHeaders[@"User-Agent"] = @"{{.}}";{{/httpUserAgent}}
         _logger = [{{classPrefix}}Logger sharedLogger];
     }
     return self;

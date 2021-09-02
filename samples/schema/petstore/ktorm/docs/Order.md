@@ -1,5 +1,5 @@
 
-# Table `Order` 
+# Table `Order`
 (mapped from: Order)
 
 ## Properties

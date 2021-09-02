@@ -18,4 +18,3 @@ case class Tag (
   name: Option[String] = None
 ) extends ApiModel
 
-

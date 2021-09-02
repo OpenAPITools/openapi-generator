@@ -191,7 +191,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name);
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$"))
             return name;
 
@@ -419,7 +419,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
      * <p>
      * Note the 'parent' attribute in the codegen model is used in the following scenarios:
      * - Indicate a polymorphic association with some other type (e.g. class inheritance).
-     * - If the specification has a discriminator, cogegen create a “parent” based on the discriminator.
+     * - If the specification has a discriminator, codegen create a “parent” based on the discriminator.
      * - Use of the 'additionalProperties' attribute in the OAS specification.
      * This is the specific scenario when codegen invokes this function.
      *

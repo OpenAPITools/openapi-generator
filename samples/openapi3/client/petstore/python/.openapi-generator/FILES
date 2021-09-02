@@ -18,6 +18,7 @@ docs/ArrayTest.md
 docs/Banana.md
 docs/BananaReq.md
 docs/BasquePig.md
+docs/BooleanEnum.md
 docs/Capitalization.md
 docs/Cat.md
 docs/CatAllOf.md
@@ -58,6 +59,7 @@ docs/IntegerEnum.md
 docs/IntegerEnumOneValue.md
 docs/IntegerEnumWithDefaultValue.md
 docs/IsoscelesTriangle.md
+docs/Legs.md
 docs/List.md
 docs/Mammal.md
 docs/MapTest.md
@@ -131,6 +133,7 @@ petstore_api/model/array_test.py
 petstore_api/model/banana.py
 petstore_api/model/banana_req.py
 petstore_api/model/basque_pig.py
+petstore_api/model/boolean_enum.py
 petstore_api/model/capitalization.py
 petstore_api/model/cat.py
 petstore_api/model/cat_all_of.py
@@ -168,6 +171,7 @@ petstore_api/model/integer_enum.py
 petstore_api/model/integer_enum_one_value.py
 petstore_api/model/integer_enum_with_default_value.py
 petstore_api/model/isosceles_triangle.py
+petstore_api/model/legs.py
 petstore_api/model/list.py
 petstore_api/model/mammal.py
 petstore_api/model/map_test.py

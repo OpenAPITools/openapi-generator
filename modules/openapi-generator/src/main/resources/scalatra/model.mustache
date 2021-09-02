@@ -8,7 +8,7 @@ package {{package}}
 case class {{classname}}(
   {{#vars}}
   {{#description}}
-  /* {{{description}}} */
+  /* {{{.}}} */
   {{/description}}
   {{name}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}{{^-last}},{{/-last}}
 

@@ -16,6 +16,7 @@ docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultApi.md
+docs/DeprecatedObject.md
 docs/Dog.md
 docs/DogAllOf.md
 docs/EnumArrays.md
@@ -38,6 +39,7 @@ docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
 docs/NumberOnly.md
+docs/ObjectWithDeprecatedFields.md
 docs/Order.md
 docs/OuterComposite.md
 docs/OuterEnum.md
@@ -73,6 +75,7 @@ lib/WWW/OpenAPIClient/Object/CatAllOf.pm
 lib/WWW/OpenAPIClient/Object/Category.pm
 lib/WWW/OpenAPIClient/Object/ClassModel.pm
 lib/WWW/OpenAPIClient/Object/Client.pm
+lib/WWW/OpenAPIClient/Object/DeprecatedObject.pm
 lib/WWW/OpenAPIClient/Object/Dog.pm
 lib/WWW/OpenAPIClient/Object/DogAllOf.pm
 lib/WWW/OpenAPIClient/Object/EnumArrays.pm
@@ -93,6 +96,7 @@ lib/WWW/OpenAPIClient/Object/ModelReturn.pm
 lib/WWW/OpenAPIClient/Object/Name.pm
 lib/WWW/OpenAPIClient/Object/NullableClass.pm
 lib/WWW/OpenAPIClient/Object/NumberOnly.pm
+lib/WWW/OpenAPIClient/Object/ObjectWithDeprecatedFields.pm
 lib/WWW/OpenAPIClient/Object/Order.pm
 lib/WWW/OpenAPIClient/Object/OuterComposite.pm
 lib/WWW/OpenAPIClient/Object/OuterEnum.pm

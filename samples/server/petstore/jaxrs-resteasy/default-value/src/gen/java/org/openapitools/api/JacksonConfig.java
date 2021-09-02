@@ -1,8 +1,8 @@
 package org.openapitools.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
@@ -21,7 +21,6 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
     public JacksonConfig() throws Exception {
 
         objectMapper = new ObjectMapper()
-            .setDateFormat(new RFC3339DateFormat())
             .registerModule(new JodaModule() {
                 {
                     addSerializer(DateTime.class, new StdSerializer<DateTime>(DateTime.class) {
@@ -38,7 +37,8 @@ public class JacksonConfig implements ContextResolver<ObjectMapper> {
                     });
 
                 }
-            });
+            })
+            .setDateFormat(new RFC3339DateFormat());
     }
 
     public ObjectMapper getContext(Class<?> arg0) {

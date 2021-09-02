@@ -2,50 +2,27 @@
 package {{apiPackage}}
 
 import com.google.gson.Gson
-import io.ktor.application.call
-import io.ktor.auth.UserIdPrincipal
-import io.ktor.auth.authentication
-import io.ktor.auth.authenticate
-import io.ktor.auth.OAuthAccessTokenResponse
-import io.ktor.auth.OAuthServerSettings
-import io.ktor.http.ContentType
-import io.ktor.http.HttpStatusCode
-import io.ktor.response.respond
-import io.ktor.response.respondText
-import io.ktor.routing.Route
+import io.ktor.application.*
+import io.ktor.auth.*
+import io.ktor.http.*
+import io.ktor.response.*
 {{#featureLocations}}
 import {{packageName}}.Paths
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.locations.delete
-import io.ktor.locations.get
-import io.ktor.locations.post
-import io.ktor.locations.put
-import io.ktor.locations.options
-import io.ktor.locations.head
+import io.ktor.locations.*
 {{/featureLocations}}
-{{^featureLocations}}
-import io.ktor.routing.delete
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.put
-import io.ktor.routing.options
-import io.ktor.routing.head
-import io.ktor.routing.route
-{{/featureLocations}}
-
+import io.ktor.routing.*
 import {{packageName}}.infrastructure.ApiPrincipal
-
-
 {{#imports}}import {{import}}
 {{/imports}}
 
 {{#operations}}
-    {{#featureLocations}}
+{{#featureLocations}}
 @KtorExperimentalLocationsAPI
-    {{/featureLocations}}
+{{/featureLocations}}
 fun Route.{{classname}}() {
     val gson = Gson()
     val empty = mutableMapOf<String, Any?>()
+
 {{#operation}}
     {{#hasAuthMethods}}
         {{#authMethods}}

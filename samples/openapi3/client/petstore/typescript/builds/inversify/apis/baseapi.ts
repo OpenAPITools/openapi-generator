@@ -15,7 +15,7 @@ export const COLLECTION_FORMATS = {
 
 
 /**
- * 
+ *
  * @export
  * @class BaseAPI
  */
@@ -27,7 +27,7 @@ export class BaseAPIRequestFactory {
 };
 
 /**
- * 
+ *
  * @export
  * @class RequiredError
  * @extends {Error}
