@@ -71,7 +71,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useOptional|Use Optional container for optional parameters| |false|
-|useSpringfox|Whether or not to use Springfox. Defaults to true| |true|
 |useTags|use tags for creating interface and controller classnames| |false|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|

@@ -70,7 +70,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String API_FIRST = "apiFirst";
     public static final String OAS3 = "oas3";
     public static final String SPRING_CONTROLLER = "springController";
-    public static final String USE_SPRING_FOX = "useSpringfox";
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
@@ -103,7 +102,6 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean unhandledException = false;
     protected boolean useSpringController = false;
     protected boolean oas3 = false;
-    protected boolean useSpringfox = true;
 
     public SpringCodegen() {
         super();
@@ -178,7 +176,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(OAS3, "Use OAS 3 Swagger annotations instead of OAS 2 annotations", oas3));
         cliOptions.add(CliOption.newBoolean(SPRING_CONTROLLER, "Annotate the generated API as a Spring Controller", useSpringController));
-        cliOptions.add(CliOption.newBoolean(USE_SPRING_FOX, "Whether or not to use Springfox. Defaults to true", useSpringfox));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING, "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).", unhandledException));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
@@ -344,10 +341,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setOas3(Boolean.parseBoolean(additionalProperties.get(OAS3).toString()));
         }
 
-        if (additionalProperties.containsKey(USE_SPRING_FOX)) {
-            this.setUseSpringfox(Boolean.parseBoolean(additionalProperties.get(USE_SPRING_FOX).toString()));
-        }
-
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
             this.setReturnSuccessCode(Boolean.parseBoolean(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
@@ -472,15 +465,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
 
-
-        if (this.useSpringfox) {
-            // if apiFirst or reactive are enabled, then springfox cannot be used. Check if they are active
-            // before enabling.
-            if (!this.apiFirst && !this.reactive) {
-                additionalProperties.put("useSpringfox", true);
-            }
+        if (!this.apiFirst && !this.reactive) {
+            additionalProperties.put("useSpringfox", true);
         }
-
 
         // Some well-known Spring or Spring-Cloud response wrappers
         if (isNotEmpty(this.responseWrapper)) {
@@ -837,10 +824,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setOas3(boolean oas3) {
         this.oas3 = oas3;
-    }
-
-    public void setUseSpringfox(boolean useSpringfox) {
-        this.useSpringfox = useSpringfox;
     }
 
     public void setReturnSuccessCode(boolean returnSuccessCode) {
