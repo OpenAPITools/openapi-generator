@@ -95,7 +95,7 @@ public enum StatusEnum {
    * Get id
    * @return id
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public Long getId() {
@@ -115,7 +115,7 @@ public enum StatusEnum {
    * Get category
    * @return category
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
   @Valid
 
@@ -136,7 +136,7 @@ public enum StatusEnum {
    * Get name
    * @return name
   */
-  @ApiModelProperty((example = "doggie", required = true, value = "")
+  @ApiModelProperty(example = "doggie", required = true, value = "")
   @NotNull
 
 
@@ -162,7 +162,7 @@ public enum StatusEnum {
    * Get photoUrls
    * @return photoUrls
   */
-  @ApiModelProperty((required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
 
@@ -191,7 +191,7 @@ public enum StatusEnum {
    * Get tags
    * @return tags
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
   @Valid
 
@@ -212,7 +212,7 @@ public enum StatusEnum {
    * pet status in the store
    * @return status
   */
-  @ApiModelProperty((value = "pet status in the store")
+  @ApiModelProperty(value = "pet status in the store")
 
 
   public StatusEnum getStatus() {

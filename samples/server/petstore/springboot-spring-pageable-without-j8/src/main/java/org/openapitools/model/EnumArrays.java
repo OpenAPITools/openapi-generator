@@ -107,7 +107,7 @@ public class EnumArrays   {
    * Get justSymbol
    * @return justSymbol
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public JustSymbolEnum getJustSymbol() {
@@ -135,7 +135,7 @@ public class EnumArrays   {
    * Get arrayEnum
    * @return arrayEnum
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public List<ArrayEnumEnum> getArrayEnum() {

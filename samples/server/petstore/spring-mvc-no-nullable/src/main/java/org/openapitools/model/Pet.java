@@ -91,7 +91,7 @@ public class Pet   {
    * Get id
    * @return id
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public Long getId() {
@@ -111,7 +111,7 @@ public class Pet   {
    * Get category
    * @return category
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
   @Valid
 
@@ -132,7 +132,7 @@ public class Pet   {
    * Get name
    * @return name
   */
-  @ApiModelProperty((example = "doggie", required = true, value = "")
+  @ApiModelProperty(example = "doggie", required = true, value = "")
   @NotNull
 
 
@@ -161,7 +161,7 @@ public class Pet   {
    * Get photoUrls
    * @return photoUrls
   */
-  @ApiModelProperty((required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
 
@@ -190,7 +190,7 @@ public class Pet   {
    * Get tags
    * @return tags
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
   @Valid
 
@@ -211,7 +211,7 @@ public class Pet   {
    * pet status in the store
    * @return status
   */
-  @ApiModelProperty((value = "pet status in the store")
+  @ApiModelProperty(value = "pet status in the store")
 
 
   public StatusEnum getStatus() {

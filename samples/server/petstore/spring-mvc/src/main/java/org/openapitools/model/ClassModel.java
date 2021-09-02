@@ -34,7 +34,7 @@ public class ClassModel   {
    * Get propertyClass
    * @return propertyClass
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public String getPropertyClass() {

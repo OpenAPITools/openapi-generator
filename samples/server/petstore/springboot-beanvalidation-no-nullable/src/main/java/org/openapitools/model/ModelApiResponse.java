@@ -35,7 +35,7 @@ public class ModelApiResponse   {
    * Get code
    * @return code
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public Integer getCode() {
@@ -55,7 +55,7 @@ public class ModelApiResponse   {
    * Get type
    * @return type
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public String getType() {
@@ -75,7 +75,7 @@ public class ModelApiResponse   {
    * Get message
    * @return message
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public String getMessage() {

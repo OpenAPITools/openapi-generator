@@ -74,7 +74,7 @@ public enum KindEnum {
    * Get kind
    * @return kind
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public KindEnum getKind() {

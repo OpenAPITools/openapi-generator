@@ -195,7 +195,7 @@ public enum EnumNumberEnum {
    * Get enumString
    * @return enumString
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public EnumStringEnum getEnumString() {
@@ -215,7 +215,7 @@ public enum EnumNumberEnum {
    * Get enumStringRequired
    * @return enumStringRequired
   */
-  @ApiModelProperty((required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
 
@@ -236,7 +236,7 @@ public enum EnumNumberEnum {
    * Get enumInteger
    * @return enumInteger
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public EnumIntegerEnum getEnumInteger() {
@@ -256,7 +256,7 @@ public enum EnumNumberEnum {
    * Get enumNumber
    * @return enumNumber
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public EnumNumberEnum getEnumNumber() {
@@ -276,7 +276,7 @@ public enum EnumNumberEnum {
    * Get outerEnum
    * @return outerEnum
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
   @Valid
 

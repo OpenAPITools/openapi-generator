@@ -31,7 +31,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
    * Get name
    * @return name
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public String getName() {

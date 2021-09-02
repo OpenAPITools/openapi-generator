@@ -29,7 +29,7 @@ public class DogAllOf   {
    * Get breed
    * @return breed
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public String getBreed() {

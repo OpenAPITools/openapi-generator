@@ -43,7 +43,7 @@ public class ArrayOfNumberOnly   {
    * Get arrayNumber
    * @return arrayNumber
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
   @Valid
 

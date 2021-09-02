@@ -30,7 +30,7 @@ public class NumberOnly   {
    * Get justNumber
    * @return justNumber
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
   @Valid
 

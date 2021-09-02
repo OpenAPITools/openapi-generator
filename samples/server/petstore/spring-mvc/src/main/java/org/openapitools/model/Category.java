@@ -36,7 +36,7 @@ public class Category   {
    * Get id
    * @return id
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public Long getId() {
@@ -56,7 +56,7 @@ public class Category   {
    * Get name
    * @return name
   */
-  @ApiModelProperty((required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
 

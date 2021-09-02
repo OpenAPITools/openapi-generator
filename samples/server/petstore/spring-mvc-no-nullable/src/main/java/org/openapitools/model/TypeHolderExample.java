@@ -49,7 +49,7 @@ public class TypeHolderExample   {
    * Get stringItem
    * @return stringItem
   */
-  @ApiModelProperty((example = "what", required = true, value = "")
+  @ApiModelProperty(example = "what", required = true, value = "")
   @NotNull
 
 
@@ -70,7 +70,7 @@ public class TypeHolderExample   {
    * Get numberItem
    * @return numberItem
   */
-  @ApiModelProperty((example = "1.234", required = true, value = "")
+  @ApiModelProperty(example = "1.234", required = true, value = "")
   @NotNull
 
   @Valid
@@ -92,7 +92,7 @@ public class TypeHolderExample   {
    * Get floatItem
    * @return floatItem
   */
-  @ApiModelProperty((example = "1.234", required = true, value = "")
+  @ApiModelProperty(example = "1.234", required = true, value = "")
   @NotNull
 
 
@@ -113,7 +113,7 @@ public class TypeHolderExample   {
    * Get integerItem
    * @return integerItem
   */
-  @ApiModelProperty((example = "-2", required = true, value = "")
+  @ApiModelProperty(example = "-2", required = true, value = "")
   @NotNull
 
 
@@ -134,7 +134,7 @@ public class TypeHolderExample   {
    * Get boolItem
    * @return boolItem
   */
-  @ApiModelProperty((example = "true", required = true, value = "")
+  @ApiModelProperty(example = "true", required = true, value = "")
   @NotNull
 
 
@@ -163,7 +163,7 @@ public class TypeHolderExample   {
    * Get arrayItem
    * @return arrayItem
   */
-  @ApiModelProperty((example = "[0, 1, 2, 3]", required = true, value = "")
+  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   @NotNull
 
 

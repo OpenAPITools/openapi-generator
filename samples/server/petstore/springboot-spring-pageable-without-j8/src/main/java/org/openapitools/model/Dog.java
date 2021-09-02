@@ -32,7 +32,7 @@ public class Dog extends Animal  {
    * Get breed
    * @return breed
   */
-  @ApiModelProperty((value = "")
+  @ApiModelProperty(value = "")
 
 
   public String getBreed() {
