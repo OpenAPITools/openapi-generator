@@ -37,6 +37,8 @@ public class ClassModel {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   private String propertyClass;
 
+  public ClassModel() { 
+  }
 
   public ClassModel propertyClass(String propertyClass) {
     
