@@ -527,6 +527,7 @@ defmodule OpenapiPetstore.Api.Fake do
   - http ([String.t]): 
   - url ([String.t]): 
   - context ([String.t]): 
+  - allow_empty (String.t): 
   - opts (KeywordList): [optional] Optional parameters
     - :language (%{optional(String.t) => String.t}): 
   ## Returns
@@ -534,8 +535,8 @@ defmodule OpenapiPetstore.Api.Fake do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec test_query_parameter_collection_format(Tesla.Env.client, list(String.t), list(String.t), list(String.t), list(String.t), list(String.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def test_query_parameter_collection_format(connection, pipe, ioutil, http, url, context, opts \\ []) do
+  @spec test_query_parameter_collection_format(Tesla.Env.client, list(String.t), list(String.t), list(String.t), list(String.t), list(String.t), String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_query_parameter_collection_format(connection, pipe, ioutil, http, url, context, allow_empty, opts \\ []) do
     optional_params = %{
       :"language" => :query
     }
@@ -547,6 +548,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> add_param(:query, :"http", http)
     |> add_param(:query, :"url", url)
     |> add_param(:query, :"context", context)
+    |> add_param(:query, :"allowEmpty", allow_empty)
     |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
