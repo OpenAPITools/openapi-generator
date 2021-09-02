@@ -840,6 +840,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (property.isByteArray) {
             model.imports.add("Arrays");
         }
+
+        if (model.getVendorExtensions().containsKey("x-jackson-optional-nullable-helpers")) {
+            model.imports.add("Arrays");
+        }
     }
 
     @Override
