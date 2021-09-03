@@ -32,17 +32,17 @@ public:
 	{{#operations}}{{#operation}}class {{operationIdCamelCase}}Request;
 	class {{operationIdCamelCase}}Response;
 	{{/operation}}{{/operations}}
-    {{#operations}}{{#operation}}DECLARE_DELEGATE_OneParam(F{{operationIdCamelCase}}Delegate, const {{operationIdCamelCase}}Response&);
-    {{/operation}}{{/operations}}
-    {{#operations}}{{#operation}}{{#description}}/* {{{.}}} */
+	{{#operations}}{{#operation}}DECLARE_DELEGATE_FourParams(F{{operationIdCamelCase}}Delegate, const {{operationIdCamelCase}}Response&, FHttpRequestPtr, FHttpResponsePtr, bool bHttpSuccdeded);
+	{{/operation}}{{/operations}}
+	{{#operations}}{{#operation}}{{#description}}/* {{{.}}} */
 	{{/description}}FHttpRequestPtr {{operationIdCamelCase}}(const {{operationIdCamelCase}}Request& Request, const F{{operationIdCamelCase}}Delegate& Delegate = F{{operationIdCamelCase}}Delegate()) const;
-    {{/operation}}{{/operations}}
+	{{/operation}}{{/operations}}
 private:
-    {{#operations}}{{#operation}}void On{{operationIdCamelCase}}Response(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, F{{operationIdCamelCase}}Delegate Delegate) const;
-    {{/operation}}{{/operations}}
+	{{#operations}}{{#operation}}void On{{operationIdCamelCase}}ProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, F{{operationIdCamelCase}}Delegate Delegate) const;
+	{{/operation}}{{/operations}}
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
 	bool IsValid() const;
-	void HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const;
+	void TryBuildResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, Response& InOutResponse) const;
 
 	FString Url;
 	TMap<FString,FString> AdditionalHeaderParams;

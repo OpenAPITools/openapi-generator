@@ -68,24 +68,46 @@ class {{dllapi}} Response
 public:
 	virtual ~Response() {}
 	virtual bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) = 0;
+	bool ErrorFromJson(const TSharedPtr<FJsonValue>& JsonValue);
 
-	void SetSuccessful(bool InSuccessful) { Successful = InSuccessful; }
-	bool IsSuccessful() const { return Successful; }
+	void SetHttpRequestSuccessful(bool InHttpRequestSuccessful) { HttpRequestSuccessful = InHttpRequestSuccessful; }
+	bool IsHttpRequestSuccessful() const { return HttpRequestSuccessful; }
+
+	void SetHttpClientConnectionError(bool InHttpClientConnectionError) { HttpClientConnectionError = InHttpClientConnectionError; }
+	bool IsHttpClientConnectionError() const { return HttpClientConnectionError; }
 
 	virtual void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode);
-	EHttpResponseCodes::Type GetHttpResponseCode() const { return ResponseCode; }
+	EHttpResponseCodes::Type GetHttpResponseCode() const { return HttpResponseCode; }
 
-	void SetResponseString(const FString& InResponseString) { ResponseString = InResponseString; }
-	const FString& GetResponseString() const { return ResponseString; }
+	void SetRestRequestSuccessful(bool InRestRequestSuccessful) { RestRequestSuccessful = InRestRequestSuccessful; }
+	bool IsRestRequestSuccessful() const { return RestRequestSuccessful; }
+
+	void SetRestResponseContent(const FString& InResponseContent) { RestResponseContent = InResponseContent; }
+	const FString& GetRestResponseContent() const { return RestResponseContent; }
+
+	void SetRestResponseDescription(const FString& InResponseDescription) { RestResponseDescription = InResponseDescription; }
+	const FString& GetRestResponseDescription() const { return RestResponseDescription; }
 
 	void SetHttpResponse(const FHttpResponsePtr& InHttpResponse) { HttpResponse = InHttpResponse; }
 	const FHttpResponsePtr& GetHttpResponse() const { return HttpResponse; }
 
+	void SetHttpRequest(const FHttpRequestPtr& InHttpRequest) { HttpRequest = InHttpRequest; }
+	const FHttpRequestPtr& GetHttpRequest() const { return HttpRequest; }
+
+	void SetRestContentFullyParsed(bool InRestContentFullyParsed) { RestContentFullyParsed = InRestContentFullyParsed; }
+	bool IsRestContentFullyParsed() const { return RestContentFullyParsed; }
+
 private:
-	bool Successful;
-	EHttpResponseCodes::Type ResponseCode;
-	FString ResponseString;
+	FHttpRequestPtr HttpRequest;
+	bool HttpRequestSuccessful = false;
+	bool HttpClientConnectionError = false;
+	EHttpResponseCodes::Type HttpResponseCode = EHttpResponseCodes::Unknown;
 	FHttpResponsePtr HttpResponse;
+	bool RestRequestSuccessful = false;
+	FString RestResponseContent;
+	FString RestResponseDescription;
+	bool RestContentFullyParsed = false;
+
 };
 
 {{#cppNamespaceDeclarations}}
