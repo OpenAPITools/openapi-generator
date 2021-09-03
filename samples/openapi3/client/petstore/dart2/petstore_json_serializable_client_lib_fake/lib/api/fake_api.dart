@@ -1184,8 +1184,10 @@ class FakeApi {
   ///
   /// * [List<String>] context (required):
   ///
+  /// * [String] allowEmpty (required):
+  ///
   /// * [Map<String, String>] language:
-  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, { Map<String, String> language }) async {
+  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String> language }) async {
     // Verify required params are set.
     if (pipe == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pipe');
@@ -1202,8 +1204,11 @@ class FakeApi {
     if (context == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: context');
     }
+    if (allowEmpty == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: allowEmpty');
+    }
 
-    final path = r'/fake/test-query-paramters';
+    final path = r'/fake/test-query-parameters';
 
     Object postBody;
 
@@ -1219,6 +1224,7 @@ class FakeApi {
     if (language != null) {
       queryParams.addAll(_convertParametersForCollectionFormat('', 'language', language));
     }
+      queryParams.addAll(_convertParametersForCollectionFormat('', 'allowEmpty', allowEmpty));
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
@@ -1251,9 +1257,11 @@ class FakeApi {
   ///
   /// * [List<String>] context (required):
   ///
+  /// * [String] allowEmpty (required):
+  ///
   /// * [Map<String, String>] language:
-  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, { Map<String, String> language }) async {
-    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context,  language: language );
+  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String> language }) async {
+    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty,  language: language );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

@@ -341,7 +341,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test(description = "tests if API version specification is used if no version is provided in additional properties")
-    public void openApiversionTest() {
+    public void openApiVersionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         OpenAPI api = TestUtils.createOpenAPI();

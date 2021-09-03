@@ -750,7 +750,7 @@ open class FakeAPI {
     }
 
     /**
-     - PUT /fake/test-query-paramters
+     - PUT /fake/test-query-parameters
      - To test the collection format in query parameters
      - parameter pipe: (query)  
      - parameter ioutil: (query)  
@@ -760,7 +760,7 @@ open class FakeAPI {
      - returns: RequestBuilder<Void> 
      */
     open class func testQueryParameterCollectionFormatWithRequestBuilder(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String]) -> RequestBuilder<Void> {
-        let localVariablePath = "/fake/test-query-paramters"
+        let localVariablePath = "/fake/test-query-parameters"
         let localVariableURLString = PetstoreClient.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 

@@ -304,7 +304,7 @@ public class Shape extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Quadrilateral`. If the actual instanct is not `Quadrilateral`,
+     * Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Quadrilateral`
@@ -315,7 +315,7 @@ public class Shape extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Triangle`. If the actual instanct is not `Triangle`,
+     * Get the actual instance of `Triangle`. If the actual instance is not `Triangle`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Triangle`

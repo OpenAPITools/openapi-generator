@@ -25,7 +25,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 
 
 # **fakeHealthGet**
@@ -761,7 +761,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testQueryParameterCollectionFormat**
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
 
 
 
@@ -777,10 +777,11 @@ final ioutil = []; // List<String> |
 final http = []; // List<String> | 
 final url = []; // List<String> | 
 final context = []; // List<String> | 
+final allowEmpty = allowEmpty_example; // String | 
 final language = ; // Map<String, String> | 
 
 try {
-    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language);
+    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
 } catch (e) {
     print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
@@ -795,6 +796,7 @@ Name | Type | Description  | Notes
  **http** | [**List<String>**](String.md)|  | [default to const []]
  **url** | [**List<String>**](String.md)|  | [default to const []]
  **context** | [**List<String>**](String.md)|  | [default to const []]
+ **allowEmpty** | **String**|  | 
  **language** | [**Map<String, String>**](String.md)|  | [optional] [default to const {}]
 
 ### Return type

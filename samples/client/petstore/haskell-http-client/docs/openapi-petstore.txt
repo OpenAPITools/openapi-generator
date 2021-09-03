@@ -2716,7 +2716,7 @@ testJsonFormData :: Consumes TestJsonFormData MimeFormUrlEncoded => Param -> Par
 data TestJsonFormData
 
 -- | <pre>
---   PUT /fake/test-query-paramters
+--   PUT /fake/test-query-parameters
 --   </pre>
 --   
 --   To test the collection format in query parameters

@@ -44,7 +44,7 @@ public interface PetApi {
         value = "/pet",
         consumes = "application/json"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body);
 
 
     /**
@@ -65,7 +65,7 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deletePet(@ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey);
 
 
     /**
@@ -139,7 +139,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         produces = "application/json"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Pet>> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("petId") Long petId);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Pet>> getPetById(@ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId);
 
 
     /**
@@ -164,7 +164,7 @@ public interface PetApi {
         value = "/pet",
         consumes = "application/json"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body);
 
 
     /**
@@ -187,7 +187,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         consumes = "application/x-www-form-urlencoded"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
 
 
     /**
@@ -211,6 +211,6 @@ public interface PetApi {
         produces = "application/json",
         consumes = "multipart/form-data"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file to upload") @RequestParam("file") MultipartFile file);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file to upload") @RequestParam("file") MultipartFile file);
 
 }

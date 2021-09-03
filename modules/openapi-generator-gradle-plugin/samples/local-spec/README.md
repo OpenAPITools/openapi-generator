@@ -7,11 +7,11 @@ First, publish the openapi-generator-gradle-plugin locally via `./gradlew assemb
 Then, run the following tasks in this example directory.
 
 ```bash
-gradle openApiGenerate              # expected outcome: BUILD SCCESSFUL
-gradle openApiMeta                  # expected outcome: BUILD SCCESSFUL
+gradle openApiGenerate              # expected outcome: BUILD SUCCESSFUL
+gradle openApiMeta                  # expected outcome: BUILD SUCCESSFUL
 gradle openApiValidate              # expected outcome: BUILD FAILED 
-gradle buildGoSdk                   # expected outcome: BUILD SCCESSFUL
-gradle buildDotnetSdk               # expected outcome: BUILD SCCESSFUL
+gradle buildGoSdk                   # expected outcome: BUILD SUCCESSFUL
+gradle buildDotnetSdk               # expected outcome: BUILD SUCCESSFUL
 gradle generateGoWithInvalidSpec    # expected outcome: BUILD FAILED 
 ```
 

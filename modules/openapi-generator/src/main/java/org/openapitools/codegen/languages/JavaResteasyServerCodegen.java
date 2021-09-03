@@ -39,7 +39,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         artifactId = "openapi-jaxrs-resteasy-server";
         outputFolder = "generated-code/JavaJaxRS-Resteasy";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
 
         apiTemplateFiles.put("apiService.mustache", ".java");
