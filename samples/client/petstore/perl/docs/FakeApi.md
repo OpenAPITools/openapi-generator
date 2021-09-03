@@ -813,7 +813,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_query_parameter_collection_format**
-> test_query_parameter_collection_format(pipe => $pipe, ioutil => $ioutil, http => $http, url => $url, context => $context, language => $language)
+> test_query_parameter_collection_format(pipe => $pipe, ioutil => $ioutil, http => $http, url => $url, context => $context, allow_empty => $allow_empty, language => $language)
 
 
 
@@ -831,10 +831,11 @@ my $ioutil = [("null")]; # ARRAY[string] |
 my $http = [("null")]; # ARRAY[string] | 
 my $url = [("null")]; # ARRAY[string] | 
 my $context = [("null")]; # ARRAY[string] | 
+my $allow_empty = "allow_empty_example"; # string | 
 my $language = ('key' =>  "null"}; # HASH[string,string] | 
 
 eval {
-    $api_instance->test_query_parameter_collection_format(pipe => $pipe, ioutil => $ioutil, http => $http, url => $url, context => $context, language => $language);
+    $api_instance->test_query_parameter_collection_format(pipe => $pipe, ioutil => $ioutil, http => $http, url => $url, context => $context, allow_empty => $allow_empty, language => $language);
 };
 if ($@) {
     warn "Exception when calling FakeApi->test_query_parameter_collection_format: $@\n";
@@ -850,6 +851,7 @@ Name | Type | Description  | Notes
  **http** | [**ARRAY[string]**](string.md)|  | 
  **url** | [**ARRAY[string]**](string.md)|  | 
  **context** | [**ARRAY[string]**](string.md)|  | 
+ **allow_empty** | **string**|  | 
  **language** | [**HASH[string,string]**](string.md)|  | [optional] 
 
 ### Return type

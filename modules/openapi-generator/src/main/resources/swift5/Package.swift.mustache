@@ -9,9 +9,16 @@ let package = Package(
         .macOS(.v10_15),
         {{/useVapor}}
         {{^useVapor}}
+        {{#useAlamofire}}
+        .iOS(.v10),
+        .macOS(.v10_12),
+        .tvOS(.v10),
+        {{/useAlamofire}}
+        {{^useAlamofire}}
         .iOS(.v9),
         .macOS(.v10_11),
         .tvOS(.v9),
+        {{/useAlamofire}}
         .watchOS(.v3),
         {{/useVapor}}
     ],
@@ -26,7 +33,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.1"),
         {{#useAlamofire}}
-        .package(url: "https://github.com/Alamofire/Alamofire", from: "4.9.1"),
+        .package(url: "https://github.com/Alamofire/Alamofire", from: "5.4.3"),
         {{/useAlamofire}}
         {{#useVapor}}
         .package(url: "https://github.com/vapor/vapor", from: "4.0.0")
