@@ -85,9 +85,9 @@ private:
     int _timeOut;
     QString _workingDirectory;
     QNetworkAccessManager* _manager;
-    QMap<QString, QString> defaultHeaders;
-    bool isResponseCompressionEnabled;
-    bool isRequestCompressionEnabled;
+    QMap<QString, QString> _defaultHeaders;
+    bool _isResponseCompressionEnabled;
+    bool _isRequestCompressionEnabled;
 
     void deleteOrderCallback(PFXHttpRequestWorker *worker);
     void getInventoryCallback(PFXHttpRequestWorker *worker);

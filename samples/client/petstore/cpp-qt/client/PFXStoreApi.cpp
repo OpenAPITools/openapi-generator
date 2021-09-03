@@ -19,15 +19,15 @@ namespace test_namespace {
 PFXStoreApi::PFXStoreApi(const int timeOut)
     : _timeOut(timeOut),
       _manager(nullptr),
-      isResponseCompressionEnabled(false),
-      isRequestCompressionEnabled(false) {
+      _isResponseCompressionEnabled(false),
+      _isRequestCompressionEnabled(false) {
     initializeServerConfigs();
 }
 
 PFXStoreApi::~PFXStoreApi() {
 }
 
-void PFXStoreApi::initializeServerConfigs(){
+void PFXStoreApi::initializeServerConfigs() {
     //Default server
     QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
     //varying endpoint server
@@ -49,23 +49,24 @@ void PFXStoreApi::initializeServerConfigs(){
 * returns 0 on success and -1, -2 or -3 on failure.
 * -1 when the variable does not exist and -2 if the value is not defined in the enum and -3 if the operation or server index is not found
 */
-int PFXStoreApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value){
+int PFXStoreApi::setDefaultServerValue(int serverIndex, const QString &operation, const QString &variable, const QString &value) {
     auto it = _serverConfigs.find(operation);
-    if(it != _serverConfigs.end() && serverIndex < it.value().size() ){
+    if (it != _serverConfigs.end() && serverIndex < it.value().size()) {
       return _serverConfigs[operation][serverIndex].setDefaultValue(variable,value);
     }
     return -3;
 }
-void PFXStoreApi::setServerIndex(const QString &operation, int serverIndex){
-    if(_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size() )
+void PFXStoreApi::setServerIndex(const QString &operation, int serverIndex) {
+    if (_serverIndices.contains(operation) && serverIndex < _serverConfigs.find(operation).value().size()) {
         _serverIndices[operation] = serverIndex;
+    }
 }
 
-void PFXStoreApi::setApiKey(const QString &apiKeyName, const QString &apiKey){
+void PFXStoreApi::setApiKey(const QString &apiKeyName, const QString &apiKey) {
     _apiKeys.insert(apiKeyName,apiKey);
 }
 
-void PFXStoreApi::setBearerToken(const QString &token){
+void PFXStoreApi::setBearerToken(const QString &token) {
     _bearerToken = token;
 }
 
@@ -98,14 +99,14 @@ void PFXStoreApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     * returns the index of the new server config on success and -1 if the operation is not found
     */
-int PFXStoreApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
-    if(_serverConfigs.contains(operation)){
+int PFXStoreApi::addServerConfiguration(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+    if (_serverConfigs.contains(operation)) {
         _serverConfigs[operation].append(PFXServerConfiguration(
                     url,
                     description,
                     variables));
         return _serverConfigs[operation].size()-1;
-    }else{
+    } else {
         return -1;
     }
 }
@@ -128,85 +129,85 @@ void PFXStoreApi::setNewServerForAllOperations(const QUrl &url, const QString &d
     * @param description A String that describes the server
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
-void PFXStoreApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
+void PFXStoreApi::setNewServer(const QString &operation, const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
     setServerIndex(operation, addServerConfiguration(operation, url, description, variables));
 }
 
 void PFXStoreApi::addHeaders(const QString &key, const QString &value) {
-    defaultHeaders.insert(key, value);
+    _defaultHeaders.insert(key, value);
 }
 
 void PFXStoreApi::enableRequestCompression() {
-    isRequestCompressionEnabled = true;
+    _isRequestCompressionEnabled = true;
 }
 
 void PFXStoreApi::enableResponseCompression() {
-    isResponseCompressionEnabled = true;
+    _isResponseCompressionEnabled = true;
 }
 
-void PFXStoreApi::abortRequests(){
+void PFXStoreApi::abortRequests() {
     emit abortRequestsSignal();
 }
 
-QString PFXStoreApi::getParamStylePrefix(const QString &style){
-    if(style == "matrix"){
+QString PFXStoreApi::getParamStylePrefix(const QString &style) {
+    if (style == "matrix") {
         return ";";
-    }else if(style == "label"){
+    } else if (style == "label") {
         return ".";
-    }else if(style == "form"){
+    } else if (style == "form") {
         return "&";
-    }else if(style == "simple"){
+    } else if (style == "simple") {
         return "";
-    }else if(style == "spaceDelimited"){
+    } else if (style == "spaceDelimited") {
         return "&";
-    }else if(style == "pipeDelimited"){
+    } else if (style == "pipeDelimited") {
         return "&";
-    }else{
+    } else {
         return "none";
     }
 }
 
-QString PFXStoreApi::getParamStyleSuffix(const QString &style){
-    if(style == "matrix"){
+QString PFXStoreApi::getParamStyleSuffix(const QString &style) {
+    if (style == "matrix") {
         return "=";
-    }else if(style == "label"){
+    } else if (style == "label") {
         return "";
-    }else if(style == "form"){
+    } else if (style == "form") {
         return "=";
-    }else if(style == "simple"){
+    } else if (style == "simple") {
         return "";
-    }else if(style == "spaceDelimited"){
+    } else if (style == "spaceDelimited") {
         return "=";
-    }else if(style == "pipeDelimited"){
+    } else if (style == "pipeDelimited") {
         return "=";
-    }else{
+    } else {
         return "none";
     }
 }
 
 QString PFXStoreApi::getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode) {
 
-    if(style == "matrix"){
+    if (style == "matrix") {
         return (isExplode) ? ";" + name + "=" : ",";
 
-    }else if(style == "label"){
+    } else if (style == "label") {
         return (isExplode) ? "." : ",";
 
-    }else if(style == "form"){
+    } else if (style == "form") {
         return (isExplode) ? "&" + name + "=" : ",";
 
-    }else if(style == "simple"){
+    } else if (style == "simple") {
         return ",";
-    }else if(style == "spaceDelimited"){
+    } else if (style == "spaceDelimited") {
         return (isExplode) ? "&" + name + "=" : " ";
 
-    }else if(style == "pipeDelimited"){
+    } else if (style == "pipeDelimited") {
         return (isExplode) ? "&" + name + "=" : "|";
 
-    }else if(style == "deepObject"){
+    } else if (style == "deepObject") {
         return (isExplode) ? "&" : "none";
 
-    }else {
+    } else {
         return "none";
     }
 }
@@ -220,7 +221,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
         order_idPathParam.append("orderId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
         QString pathStyle = "";
-        if(pathStyle == "")
+        if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
         pathSuffix = getParamStyleSuffix(pathStyle);
@@ -234,7 +235,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     PFXHttpRequestInput input(fullPath, "DELETE");
 
 
-    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 
@@ -270,7 +271,7 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
 void PFXStoreApi::getInventory() {
     QString fullPath = QString(_serverConfigs["getInventory"][_serverIndices.value("getInventory")].URL()+"/store/inventory");
     
-    if(_apiKeys.contains("api_key")){
+    if (_apiKeys.contains("api_key")) {
         addHeaders("api_key",_apiKeys.find("api_key").value());
     }
     
@@ -280,7 +281,7 @@ void PFXStoreApi::getInventory() {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 
@@ -332,7 +333,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
         order_idPathParam.append("orderId").append("}");
         QString pathPrefix, pathSuffix, pathDelimiter;
         QString pathStyle = "";
-        if(pathStyle == "")
+        if (pathStyle == "")
             pathStyle = "simple";
         pathPrefix = getParamStylePrefix(pathStyle);
         pathSuffix = getParamStyleSuffix(pathStyle);
@@ -346,7 +347,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 
@@ -393,7 +394,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
         QByteArray output = body.asJson().toUtf8();
         input.request_body.append(output);
     }
-    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+    for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 
