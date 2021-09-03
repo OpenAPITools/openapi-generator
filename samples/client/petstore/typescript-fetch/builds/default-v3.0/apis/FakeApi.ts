@@ -133,6 +133,7 @@ export interface TestQueryParameterCollectionFormatRequest {
     http: Array<string>;
     url: Array<string>;
     context: Array<string>;
+    allowEmpty: string;
     language?: { [key: string]: string; };
 }
 
@@ -869,6 +870,10 @@ export class FakeApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('context','Required parameter requestParameters.context was null or undefined when calling testQueryParameterCollectionFormat.');
         }
 
+        if (requestParameters.allowEmpty === null || requestParameters.allowEmpty === undefined) {
+            throw new runtime.RequiredError('allowEmpty','Required parameter requestParameters.allowEmpty was null or undefined when calling testQueryParameterCollectionFormat.');
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters.pipe) {
@@ -893,6 +898,10 @@ export class FakeApi extends runtime.BaseAPI {
 
         if (requestParameters.language !== undefined) {
             queryParameters['language'] = requestParameters.language;
+        }
+
+        if (requestParameters.allowEmpty !== undefined) {
+            queryParameters['allowEmpty'] = requestParameters.allowEmpty;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

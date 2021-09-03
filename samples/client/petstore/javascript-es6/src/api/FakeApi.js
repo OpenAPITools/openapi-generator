@@ -786,11 +786,12 @@ export default class FakeApi {
      * @param {Array.<String>} http 
      * @param {Array.<String>} url 
      * @param {Array.<String>} context 
+     * @param {String} allowEmpty 
      * @param {Object} opts Optional parameters
      * @param {Object.<String, {String: String}>} opts.language 
      * @param {module:api/FakeApi~testQueryParameterCollectionFormatCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, opts, callback) {
+    testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, opts, callback) {
       opts = opts || {};
       let postBody = null;
       // verify the required parameter 'pipe' is set
@@ -813,6 +814,10 @@ export default class FakeApi {
       if (context === undefined || context === null) {
         throw new Error("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
       }
+      // verify the required parameter 'allowEmpty' is set
+      if (allowEmpty === undefined || allowEmpty === null) {
+        throw new Error("Missing the required parameter 'allowEmpty' when calling testQueryParameterCollectionFormat");
+      }
 
       let pathParams = {
       };
@@ -822,7 +827,8 @@ export default class FakeApi {
         'http': this.apiClient.buildCollectionParam(http, 'ssv'),
         'url': this.apiClient.buildCollectionParam(url, 'csv'),
         'context': this.apiClient.buildCollectionParam(context, 'multi'),
-        'language': opts['language']
+        'language': opts['language'],
+        'allowEmpty': allowEmpty
       };
       let headerParams = {
       };
