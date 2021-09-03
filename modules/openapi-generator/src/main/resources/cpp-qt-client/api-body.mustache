@@ -23,7 +23,9 @@ void {{classname}}::initializeServerConfigs(){
     //Default server
     QList<{{prefix}}ServerConfiguration> defaultConf = QList<{{prefix}}ServerConfiguration>();
     //varying endpoint server
+    {{#servers}}
     QList<{{prefix}}ServerConfiguration> serverConf = QList<{{prefix}}ServerConfiguration>();
+{{/servers}}
 {{#vendorExtensions.x-cpp-global-server-list}}
     defaultConf.append({{prefix}}ServerConfiguration(
     QUrl("{{{url}}}"),
@@ -125,9 +127,9 @@ int {{classname}}::addServerConfiguration(const QString &operation, const QUrl &
     * @param description A String that describes the server
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
-void {{classname}}::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables){
-    for(auto e : _serverIndices.keys()){
-        setServerIndex(e, addServerConfiguration(e, url, description, variables));
+void {{classname}}::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, {{prefix}}ServerVariable> &variables) {
+    for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
+        setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
 }
 
@@ -157,7 +159,7 @@ void {{classname}}::abortRequests(){
     emit abortRequestsSignal();
 }
 
-QString {{classname}}::getParamStylePrefix(QString style){
+QString {{classname}}::getParamStylePrefix(const QString &style){
     if(style == "matrix"){
         return ";";
     }else if(style == "label"){
@@ -175,7 +177,7 @@ QString {{classname}}::getParamStylePrefix(QString style){
     }
 }
 
-QString {{classname}}::getParamStyleSuffix(QString style){
+QString {{classname}}::getParamStyleSuffix(const QString &style){
     if(style == "matrix"){
         return "=";
     }else if(style == "label"){
@@ -193,7 +195,7 @@ QString {{classname}}::getParamStyleSuffix(QString style){
     }
 }
 
-QString {{classname}}::getParamStyleDelimiter(QString style, QString name, bool isExplode){
+QString {{classname}}::getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode) {
 
     if(style == "matrix"){
         return (isExplode) ? ";" + name + "=" : ",";
@@ -653,12 +655,14 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         }
     }
 {{/cookieParams}}
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<{{prefix}}HttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -667,15 +671,11 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
 }
 
 void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     {{#returnType}}
     {{#isArray}}

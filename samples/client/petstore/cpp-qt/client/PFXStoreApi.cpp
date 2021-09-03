@@ -31,7 +31,6 @@ void PFXStoreApi::initializeServerConfigs(){
     //Default server
     QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
     //varying endpoint server
-    QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
     defaultConf.append(PFXServerConfiguration(
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
@@ -117,9 +116,9 @@ int PFXStoreApi::addServerConfiguration(const QString &operation, const QUrl &ur
     * @param description A String that describes the server
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
-void PFXStoreApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
-    for(auto e : _serverIndices.keys()){
-        setServerIndex(e, addServerConfiguration(e, url, description, variables));
+void PFXStoreApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+    for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
+        setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
 }
 
@@ -149,7 +148,7 @@ void PFXStoreApi::abortRequests(){
     emit abortRequestsSignal();
 }
 
-QString PFXStoreApi::getParamStylePrefix(QString style){
+QString PFXStoreApi::getParamStylePrefix(const QString &style){
     if(style == "matrix"){
         return ";";
     }else if(style == "label"){
@@ -167,7 +166,7 @@ QString PFXStoreApi::getParamStylePrefix(QString style){
     }
 }
 
-QString PFXStoreApi::getParamStyleSuffix(QString style){
+QString PFXStoreApi::getParamStyleSuffix(const QString &style){
     if(style == "matrix"){
         return "=";
     }else if(style == "label"){
@@ -185,7 +184,7 @@ QString PFXStoreApi::getParamStyleSuffix(QString style){
     }
 }
 
-QString PFXStoreApi::getParamStyleDelimiter(QString style, QString name, bool isExplode){
+QString PFXStoreApi::getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode) {
 
     if(style == "matrix"){
         return (isExplode) ? ";" + name + "=" : ",";
@@ -235,12 +234,14 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     PFXHttpRequestInput input(fullPath, "DELETE");
 
 
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -249,15 +250,11 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
 }
 
 void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -283,12 +280,14 @@ void PFXStoreApi::getInventory() {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -297,15 +296,11 @@ void PFXStoreApi::getInventory() {
 }
 
 void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     QMap<QString, qint32> output;
     QString json(worker->response);
@@ -351,12 +346,14 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -365,15 +362,11 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
 }
 
 void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     PFXOrder output(QString(worker->response));
     worker->deleteLater();
@@ -400,12 +393,14 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
         QByteArray output = body.asJson().toUtf8();
         input.request_body.append(output);
     }
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -414,15 +409,11 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
 }
 
 void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     PFXOrder output(QString(worker->response));
     worker->deleteLater();

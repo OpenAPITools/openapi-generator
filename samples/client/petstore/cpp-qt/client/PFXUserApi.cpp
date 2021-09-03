@@ -31,7 +31,6 @@ void PFXUserApi::initializeServerConfigs(){
     //Default server
     QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
     //varying endpoint server
-    QList<PFXServerConfiguration> serverConf = QList<PFXServerConfiguration>();
     defaultConf.append(PFXServerConfiguration(
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
@@ -125,9 +124,9 @@ int PFXUserApi::addServerConfiguration(const QString &operation, const QUrl &url
     * @param description A String that describes the server
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
-void PFXUserApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables){
-    for(auto e : _serverIndices.keys()){
-        setServerIndex(e, addServerConfiguration(e, url, description, variables));
+void PFXUserApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+    for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
+        setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
 }
 
@@ -157,7 +156,7 @@ void PFXUserApi::abortRequests(){
     emit abortRequestsSignal();
 }
 
-QString PFXUserApi::getParamStylePrefix(QString style){
+QString PFXUserApi::getParamStylePrefix(const QString &style){
     if(style == "matrix"){
         return ";";
     }else if(style == "label"){
@@ -175,7 +174,7 @@ QString PFXUserApi::getParamStylePrefix(QString style){
     }
 }
 
-QString PFXUserApi::getParamStyleSuffix(QString style){
+QString PFXUserApi::getParamStyleSuffix(const QString &style){
     if(style == "matrix"){
         return "=";
     }else if(style == "label"){
@@ -193,7 +192,7 @@ QString PFXUserApi::getParamStyleSuffix(QString style){
     }
 }
 
-QString PFXUserApi::getParamStyleDelimiter(QString style, QString name, bool isExplode){
+QString PFXUserApi::getParamStyleDelimiter(const QString &style, const QString &name, bool isExplode) {
 
     if(style == "matrix"){
         return (isExplode) ? ";" + name + "=" : ",";
@@ -233,12 +232,14 @@ void PFXUserApi::createUser(const PFXUser &body) {
         QByteArray output = body.asJson().toUtf8();
         input.request_body.append(output);
     }
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -247,15 +248,11 @@ void PFXUserApi::createUser(const PFXUser &body) {
 }
 
 void PFXUserApi::createUserCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -281,12 +278,14 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithArrayInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -295,15 +294,11 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
 }
 
 void PFXUserApi::createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -329,12 +324,14 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
         QByteArray bytes = doc.toJson();
         input.request_body.append(bytes);
     }
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithListInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -343,15 +340,11 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
 }
 
 void PFXUserApi::createUsersWithListInputCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -387,12 +380,14 @@ void PFXUserApi::deleteUser(const QString &username) {
     PFXHttpRequestInput input(fullPath, "DELETE");
 
 
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::deleteUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -401,15 +396,11 @@ void PFXUserApi::deleteUser(const QString &username) {
 }
 
 void PFXUserApi::deleteUserCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -445,12 +436,14 @@ void PFXUserApi::getUserByName(const QString &username) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::getUserByNameCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -459,15 +452,11 @@ void PFXUserApi::getUserByName(const QString &username) {
 }
 
 void PFXUserApi::getUserByNameCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     PFXUser output(QString(worker->response));
     worker->deleteLater();
@@ -521,12 +510,14 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::loginUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -535,15 +526,11 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
 }
 
 void PFXUserApi::loginUserCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     QString output;
     ::test_namespace::fromStringValue(QString(worker->response), output);
@@ -567,12 +554,14 @@ void PFXUserApi::logoutUser() {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::logoutUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -581,15 +570,11 @@ void PFXUserApi::logoutUser() {
 }
 
 void PFXUserApi::logoutUserCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
@@ -629,12 +614,14 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
         QByteArray output = body.asJson().toUtf8();
         input.request_body.append(output);
     }
-    foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
+    for (auto keyValueIt = defaultHeaders.keyValueBegin(); keyValueIt != defaultHeaders.keyValueEnd(); keyValueIt++) {
+        input.headers.insert(keyValueIt->first, keyValueIt->second);
+    }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::updateUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, [this](){
-        if(findChildren<PFXHttpRequestWorker*>().count() == 0){
+    connect(worker, &QObject::destroyed, this, [this]() {
+        if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
     });
@@ -643,15 +630,11 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
 }
 
 void PFXUserApi::updateUserCallback(PFXHttpRequestWorker *worker) {
-    QString msg;
     QString error_str = worker->error_str;
     QNetworkReply::NetworkError error_type = worker->error_type;
 
-    if (worker->error_type == QNetworkReply::NoError) {
-        msg = QString("Success! %1 bytes").arg(worker->response.length());
-    } else {
-        msg = "Error: " + worker->error_str;
-        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
+    if (worker->error_type != QNetworkReply::NoError) {
+        error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     worker->deleteLater();
 
