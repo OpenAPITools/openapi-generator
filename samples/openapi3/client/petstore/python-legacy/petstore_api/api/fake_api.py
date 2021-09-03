@@ -2415,14 +2415,14 @@ class FakeApi(object):
             collection_formats=collection_formats,
             _request_auth=local_var_params.get('_request_auth'))
 
-    def test_query_parameter_collection_format(self, pipe, ioutil, http, url, context, **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format(self, pipe, ioutil, http, url, context, allow_empty, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, async_req=True)
+        >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, async_req=True)
         >>> result = thread.get()
 
         :param pipe: (required)
@@ -2435,6 +2435,8 @@ class FakeApi(object):
         :type url: list[str]
         :param context: (required)
         :type context: list[str]
+        :param allow_empty: (required)
+        :type allow_empty: str
         :param language:
         :type language: dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
@@ -2453,16 +2455,16 @@ class FakeApi(object):
         :rtype: None
         """
         kwargs['_return_http_data_only'] = True
-        return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, **kwargs)  # noqa: E501
+        return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, **kwargs)  # noqa: E501
 
-    def test_query_parameter_collection_format_with_http_info(self, pipe, ioutil, http, url, context, **kwargs):  # noqa: E501
+    def test_query_parameter_collection_format_with_http_info(self, pipe, ioutil, http, url, context, allow_empty, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, async_req=True)
+        >>> thread = api.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, async_req=True)
         >>> result = thread.get()
 
         :param pipe: (required)
@@ -2475,6 +2477,8 @@ class FakeApi(object):
         :type url: list[str]
         :param context: (required)
         :type context: list[str]
+        :param allow_empty: (required)
+        :type allow_empty: str
         :param language:
         :type language: dict(str, str)
         :param async_req: Whether to execute the request asynchronously.
@@ -2508,6 +2512,7 @@ class FakeApi(object):
             'http',
             'url',
             'context',
+            'allow_empty',
             'language'
         ]
         all_params.extend(
@@ -2548,6 +2553,10 @@ class FakeApi(object):
         if self.api_client.client_side_validation and ('context' not in local_var_params or  # noqa: E501
                                                         local_var_params['context'] is None):  # noqa: E501
             raise ApiValueError("Missing the required parameter `context` when calling `test_query_parameter_collection_format`")  # noqa: E501
+        # verify the required parameter 'allow_empty' is set
+        if self.api_client.client_side_validation and ('allow_empty' not in local_var_params or  # noqa: E501
+                                                        local_var_params['allow_empty'] is None):  # noqa: E501
+            raise ApiValueError("Missing the required parameter `allow_empty` when calling `test_query_parameter_collection_format`")  # noqa: E501
 
         collection_formats = {}
 
@@ -2571,6 +2580,8 @@ class FakeApi(object):
             collection_formats['context'] = 'multi'  # noqa: E501
         if 'language' in local_var_params and local_var_params['language'] is not None:  # noqa: E501
             query_params.append(('language', local_var_params['language']))  # noqa: E501
+        if 'allow_empty' in local_var_params and local_var_params['allow_empty'] is not None:  # noqa: E501
+            query_params.append(('allowEmpty', local_var_params['allow_empty']))  # noqa: E501
 
         header_params = {}
 
