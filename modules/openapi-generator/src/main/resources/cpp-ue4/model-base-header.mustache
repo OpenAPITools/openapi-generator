@@ -83,10 +83,10 @@ public:
 	bool IsRestRequestSuccessful() const { return RestRequestSuccessful; }
 
 	void SetRestResponseContent(const FString& InResponseContent) { RestResponseContent = InResponseContent; }
-	const FString& GetRestResponseContent() const { return RestResponseContent; }
+	const TOptional<FString>& GetRestResponseContent() const { return RestResponseContent; }
 
 	void SetRestResponseDescription(const FString& InResponseDescription) { RestResponseDescription = InResponseDescription; }
-	const FString& GetRestResponseDescription() const { return RestResponseDescription; }
+	const TOptional<FString>& GetRestResponseDescription() const { return RestResponseDescription; }
 
 	void SetHttpResponse(const FHttpResponsePtr& InHttpResponse) { HttpResponse = InHttpResponse; }
 	const FHttpResponsePtr& GetHttpResponse() const { return HttpResponse; }
@@ -104,8 +104,8 @@ private:
 	EHttpResponseCodes::Type HttpResponseCode = EHttpResponseCodes::Unknown;
 	FHttpResponsePtr HttpResponse;
 	bool RestRequestSuccessful = false;
-	FString RestResponseContent;
-	FString RestResponseDescription;
+	TOptional<FString> RestResponseContent;
+	TOptional<FString> RestResponseDescription;
 	bool RestContentFullyParsed = false;
 
 };
