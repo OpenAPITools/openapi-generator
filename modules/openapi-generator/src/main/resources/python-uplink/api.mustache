@@ -1,15 +1,14 @@
 from uplink import (
     Consumer,
-    get,
     Path,
     Query,
     Body,
-    post,
+    Header,
     get,
+    post,
     patch,
     put,
     delete,
-    Header,
     returns,
     json,
 )
