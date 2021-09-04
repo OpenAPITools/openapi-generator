@@ -210,20 +210,20 @@ class ApiClient {
           if (value is List && (match = _regList.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
             return value
-              .map<dynamic>((dynamic value) => _deserialize(value, targetType, growable: growable))
+              .map<dynamic>((dynamic v) => _deserialize(v, targetType, growable: growable))
               .toList(growable: growable);
           }
           if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
             return value
-              .map<dynamic>((dynamic value) => _deserialize(value, targetType, growable: growable))
+              .map<dynamic>((dynamic v) => _deserialize(v, targetType, growable: growable))
               .toSet();
           }
           if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
             targetType = match[1]; // ignore: parameter_assignments
             return Map<String, dynamic>.fromIterables(
               value.keys.cast<String>(),
-              value.values.map<dynamic>((dynamic value) => _deserialize(value, targetType, growable: growable)),
+              value.values.map<dynamic>((dynamic v) => _deserialize(v, targetType, growable: growable)),
             );
           }
       }

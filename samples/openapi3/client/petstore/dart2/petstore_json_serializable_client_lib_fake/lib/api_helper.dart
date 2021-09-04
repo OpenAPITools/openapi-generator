@@ -31,7 +31,7 @@ Iterable<QueryParam> _convertParametersForCollectionFormat(
   if (name != null && name.isNotEmpty && value != null) {
     if (value is List) {
       if (collectionFormat == 'multi') {
-        return value.map((dynamic value) => QueryParam(name, parameterToString(value)),);
+        return value.map((dynamic v) => QueryParam(name, parameterToString(v)),);
       }
 
       // Default collection format is 'csv'.
