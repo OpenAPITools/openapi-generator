@@ -53,7 +53,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isNotEmpty ? contentTypes[0] : null,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -108,7 +108,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isNotEmpty ? contentTypes[0] : null,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -161,7 +161,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isNotEmpty ? contentTypes[0] : null,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -217,7 +217,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isNotEmpty ? contentTypes[0] : null,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -273,7 +273,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isNotEmpty ? contentTypes[0] : null,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -343,7 +343,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isNotEmpty ? contentTypes[0] : null,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -397,7 +397,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isNotEmpty ? contentTypes[0] : null,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -454,7 +454,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isNotEmpty ? contentTypes[0] : null,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
