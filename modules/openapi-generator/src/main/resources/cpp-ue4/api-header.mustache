@@ -32,7 +32,7 @@ public:
 	{{#operations}}{{#operation}}class {{operationIdCamelCase}}Request;
 	class {{operationIdCamelCase}}Response;
 	{{/operation}}{{/operations}}
-	{{#operations}}{{#operation}}DECLARE_DELEGATE_FourParams(F{{operationIdCamelCase}}Delegate, const {{operationIdCamelCase}}Response&, FHttpRequestPtr, FHttpResponsePtr, bool bHttpSuccdeded);
+	{{#operations}}{{#operation}}DECLARE_DELEGATE_OneParam(F{{operationIdCamelCase}}Delegate, const {{operationIdCamelCase}}Response&);
 	{{/operation}}{{/operations}}
 	{{#operations}}{{#operation}}{{#description}}/* {{{.}}} */
 	{{/description}}FHttpRequestPtr {{operationIdCamelCase}}(const {{operationIdCamelCase}}Request& Request, const F{{operationIdCamelCase}}Delegate& Delegate = F{{operationIdCamelCase}}Delegate()) const;

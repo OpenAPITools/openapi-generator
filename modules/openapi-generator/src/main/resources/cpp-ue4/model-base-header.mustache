@@ -68,7 +68,6 @@ class {{dllapi}} Response
 public:
 	virtual ~Response() {}
 	virtual bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) = 0;
-	bool ErrorFromJson(const TSharedPtr<FJsonValue>& JsonValue);
 
 	void SetHttpRequestSuccessful(bool InHttpRequestSuccessful) { HttpRequestSuccessful = InHttpRequestSuccessful; }
 	bool IsHttpRequestSuccessful() const { return HttpRequestSuccessful; }

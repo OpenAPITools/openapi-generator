@@ -161,7 +161,7 @@ void {{classname}}::On{{operationIdCamelCase}}ProcessRequestComplete(FHttpReques
 {
 	{{operationIdCamelCase}}Response Response;
 	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
-	Delegate.ExecuteIfBound(Response, HttpRequest, HttpResponse, bHttpSucceeded);
+	Delegate.ExecuteIfBound(Response);
 }
 
 {{/operation}}
