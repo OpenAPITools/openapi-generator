@@ -97,14 +97,43 @@ public:
 	bool IsRestContentFullyParsed() const { return RestContentFullyParsed; }
 
 private:
+    //Unreal's underlying HTTP request.
 	FHttpRequestPtr HttpRequest;
+
+    //Success or failure of HTTP request as reported by Unreal's HTTP layer.  Canceling the request will also
+    //result in failure here.
 	bool HttpRequestSuccessful = false;
+
+    //Derived information as to whether this was a failure to connect entirely, or alternatively if any data was
+    //sent down the line before the connection failed.
+    //Applications take note here:  If data was sent down the line, it may not be safe to resend, depending on what your
+    //request was asking of the application server.  We don't know if the server processed it or not.
 	bool HttpClientConnectionError = false;
+
+    //Unreal's underlying HTTP response. This is a TSharedPtr and can be checked for IsValid()
+    //IsValid() may return false if there was no response.
+    FHttpResponsePtr HttpResponse;
+
+    //The HTTP response from the server, or EHttpResponseCodes::Unknown if there was no HTTP response.
 	EHttpResponseCodes::Type HttpResponseCode = EHttpResponseCodes::Unknown;
-	FHttpResponsePtr HttpResponse;
+
+    //The REST layer's assessment as to the success of the request.  Typically a response in the 2xx range results in true.
 	bool RestRequestSuccessful = false;
+
+    //The raw (string) content of the REST response.  Note this is TOptional.  If IsSet() == false, then there was no content.
+    //In case of a parsing problem or unexpected result, this will still contain whatever the server sent back.
 	TOptional<FString> RestResponseContent;
+
+    //The REST layer's description of the response type that was received from the server.  This descriptive text comes
+    //from the API Schema upon receiving specified HTTP response codes.
+    //Note this is TOptional.  If IsSet() == false, then there likely was no description for the given response code in
+    //the Schema.
 	TOptional<FString> RestResponseDescription;
+
+    //An assessment from the REST layer as to if the content was fully and properly parsed.
+    //Note, this may need to be treated skeptically.  A partially successful parse will still
+    //result in data being populated.  And a failure to 'fully' parse may be a pedantic failure from an overly
+    //strict reading of the Schema, or a malformed Schema that works well enough.
 	bool RestContentFullyParsed = false;
 
 };
