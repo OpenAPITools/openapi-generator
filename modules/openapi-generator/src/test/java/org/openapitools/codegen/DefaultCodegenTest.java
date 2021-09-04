@@ -796,11 +796,11 @@ public class DefaultCodegenTest {
         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.getAllowableValues().get("enumVars");
         Assert.assertNotNull(enumVars);
         Assert.assertNotNull(enumVars.get(0));
-        Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOGVAR");
+        Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOG_VARIABLE");
         Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"dog\"");
         Assert.assertEquals(enumVars.get(0).getOrDefault("enumDescription", ""), "This is a dog");
         Assert.assertNotNull(enumVars.get(1));
-        Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CATVAR");
+        Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CAT_VARIABLE");
         Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"cat\"");
         Assert.assertEquals(enumVars.get(1).getOrDefault("enumDescription", ""), "This is a cat");
     }
@@ -2010,7 +2010,7 @@ public class DefaultCodegenTest {
         allowableValues.put("values", Arrays.asList("dog", "cat"));
         cm.setAllowableValues(allowableValues);
         cm.dataType = "String";
-        final List<String> aliases = Arrays.asList("DOGVAR", "CATVAR");
+        final List<String> aliases = Arrays.asList("Dog variable", "Cat variable");
         final List<String> descriptions = Arrays.asList("This is a dog", "This is a cat");
         Map<String, Object> extensions = new HashMap<>();
         extensions.put("x-enum-varnames", aliases);

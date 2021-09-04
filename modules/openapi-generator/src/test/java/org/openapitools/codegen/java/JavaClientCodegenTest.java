@@ -267,7 +267,7 @@ public class JavaClientCodegenTest {
         Assert.assertNotNull(enumVars);
         Map<String, String> testedEnumVar = enumVars.get(0);
         Assert.assertNotNull(testedEnumVar);
-        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""), "ONE");
+        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""), "NUMBER_ONE");
         Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
     }
 

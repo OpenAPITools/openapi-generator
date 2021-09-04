@@ -874,7 +874,7 @@ WeatherType:
     - Rainy
 ```
 
-In the example for the integer value `42`, the description will be `Blue sky` and the name of the enum item will be `Sunny` (some generators changes it to `SUNNY` to respect some coding convention).
+In the example for the integer value `42`, the description will be `Blue sky` and the name of the enum item will be `Sunny`, `SUNNY`, or `sunny` depending on the enum conventions of the target language. The name will be modified to be a valid enum name if necessary, for example spaces might become underscores.
 
 ### ObjC
 #### x-objc-operationId

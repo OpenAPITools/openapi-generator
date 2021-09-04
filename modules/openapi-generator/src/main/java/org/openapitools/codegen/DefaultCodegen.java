@@ -5726,14 +5726,18 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String dataType) {
         if (vendorExtensions != null) {
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-varnames", "name");
-            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-descriptions", "enumDescription");
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-varnames", "name", dataType);
+            updateEnumVarsWithExtensions(enumVars, vendorExtensions, "x-enum-descriptions", "enumDescription", dataType);
         }
     }
 
-    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key) {
+    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions, String extensionKey, String key, String dataType) {
         if (vendorExtensions.containsKey(extensionKey)) {
             List<String> values = (List<String>) vendorExtensions.get(extensionKey);
+            if (extensionKey.equals("x-enum-varnames"))
+            {
+                values = values.stream().map(v -> toEnumVarName(v, dataType)).collect(Collectors.toList());
+            }
             int size = Math.min(enumVars.size(), values.size());
             for (int i = 0; i < size; i++) {
                 enumVars.get(i).put(key, values.get(i));
