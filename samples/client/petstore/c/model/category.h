@@ -16,6 +16,10 @@
 typedef struct category_t category_t;
 
 
+#undef stdin
+#undef stderr
+#undef stdout
+
 
 
 typedef struct category_t {

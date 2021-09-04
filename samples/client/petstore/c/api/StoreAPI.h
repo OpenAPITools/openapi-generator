@@ -7,6 +7,10 @@
 #include "../include/binary.h"
 #include "../model/order.h"
 
+#undef stdin
+#undef stderr
+#undef stdout
+
 
 // Delete purchase order by ID
 //

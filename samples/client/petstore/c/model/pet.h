@@ -18,6 +18,10 @@ typedef struct pet_t pet_t;
 #include "category.h"
 #include "tag.h"
 
+#undef stdin
+#undef stderr
+#undef stdout
+
 // Enum STATUS for pet
 
 typedef enum  { openapi_petstore_pet_STATUS_NULL = 0, openapi_petstore_pet_STATUS_available, openapi_petstore_pet_STATUS_pending, openapi_petstore_pet_STATUS_sold } openapi_petstore_pet_STATUS_e;
