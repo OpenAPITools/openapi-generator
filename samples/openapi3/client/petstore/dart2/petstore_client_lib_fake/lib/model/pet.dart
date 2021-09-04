@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -128,9 +129,6 @@ class Pet {
 }
 
 /// pet status in the store
-
-// ignore_for_file: constant_identifier_names
-
 class PetStatusEnum {
   /// Instantiate a new enum with the provided [value].
   const PetStatusEnum._(this.value);
@@ -198,4 +196,5 @@ class PetStatusEnumTypeTransformer {
   /// Singleton [PetStatusEnumTypeTransformer] instance.
   static PetStatusEnumTypeTransformer _instance;
 }
+
 

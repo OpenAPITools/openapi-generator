@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -39,9 +40,8 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json', 'application/xml'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>['application/json', 'application/xml'];
 
 
     return apiClient.invokeAPI(
@@ -51,7 +51,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -62,7 +62,7 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future<Pet> addPet(Pet pet) async {
+  Future<Pet> addPet(Pet pet,) async {
     final response = await addPetWithHttpInfo(pet,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -107,9 +107,8 @@ class PetApi {
       headerParams[r'api_key'] = parameterToString(apiKey);
     }
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -119,7 +118,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -132,7 +131,7 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<void> deletePet(int petId, { String apiKey }) async {
+  Future<void> deletePet(int petId, { String apiKey, }) async {
     final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -167,9 +166,8 @@ class PetApi {
 
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'status', status));
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -179,7 +177,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -192,7 +190,7 @@ class PetApi {
   ///
   /// * [List<String>] status (required):
   ///   Status values that need to be considered for filter
-  Future<List<Pet>> findPetsByStatus(List<String> status) async {
+  Future<List<Pet>> findPetsByStatus(List<String> status,) async {
     final response = await findPetsByStatusWithHttpInfo(status,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -201,7 +199,8 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'List<Pet>') as List)
+      final responseBody = await _decodeBodyBytes(response);
+      return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
         .toList(growable: false);
     }
@@ -236,9 +235,8 @@ class PetApi {
 
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'tags', tags));
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -248,7 +246,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -261,7 +259,7 @@ class PetApi {
   ///
   /// * [List<String>] tags (required):
   ///   Tags to filter by
-  Future<List<Pet>> findPetsByTags(List<String> tags) async {
+  Future<List<Pet>> findPetsByTags(List<String> tags,) async {
     final response = await findPetsByTagsWithHttpInfo(tags,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -270,7 +268,8 @@ class PetApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return (await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'List<Pet>') as List)
+      final responseBody = await _decodeBodyBytes(response);
+      return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
         .toList(growable: false);
     }
@@ -304,9 +303,8 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['api_key'];
+    const authNames = <String>['api_key'];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -316,7 +314,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -329,7 +327,7 @@ class PetApi {
   ///
   /// * [int] petId (required):
   ///   ID of pet to return
-  Future<Pet> getPetById(int petId) async {
+  Future<Pet> getPetById(int petId,) async {
     final response = await getPetByIdWithHttpInfo(petId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -367,9 +365,8 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json', 'application/xml'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>['application/json', 'application/xml'];
 
 
     return apiClient.invokeAPI(
@@ -379,7 +376,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -390,7 +387,7 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future<Pet> updatePet(Pet pet) async {
+  Future<Pet> updatePet(Pet pet,) async {
     final response = await updatePetWithHttpInfo(pet,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -435,9 +432,8 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/x-www-form-urlencoded'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (name != null) {
       formParams[r'name'] = parameterToString(name);
@@ -453,7 +449,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -470,7 +466,7 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future<void> updatePetWithForm(int petId, { String name, String status }) async {
+  Future<void> updatePetWithForm(int petId, { String name, String status, }) async {
     final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -508,9 +504,8 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['multipart/form-data'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>['multipart/form-data'];
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
@@ -534,7 +529,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -551,7 +546,7 @@ class PetApi {
   ///
   /// * [MultipartFile] file:
   ///   file to upload
-  Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
+  Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file, }) async {
     final response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));

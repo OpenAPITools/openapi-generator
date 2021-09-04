@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -42,9 +43,8 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -54,7 +54,7 @@ class StoreApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -67,7 +67,7 @@ class StoreApi {
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future<void> deleteOrder(String orderId) async {
+  Future<void> deleteOrder(String orderId,) async {
     final response = await deleteOrderWithHttpInfo(orderId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -90,9 +90,8 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['api_key'];
+    const authNames = <String>['api_key'];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -102,7 +101,7 @@ class StoreApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -152,9 +151,8 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -164,7 +162,7 @@ class StoreApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -177,7 +175,7 @@ class StoreApi {
   ///
   /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
-  Future<Order> getOrderById(int orderId) async {
+  Future<Order> getOrderById(int orderId,) async {
     final response = await getOrderByIdWithHttpInfo(orderId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -216,9 +214,8 @@ class StoreApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
     return apiClient.invokeAPI(
@@ -228,7 +225,7 @@ class StoreApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -239,7 +236,7 @@ class StoreApi {
   ///
   /// * [Order] order (required):
   ///   order placed for purchasing the pet
-  Future<Order> placeOrder(Order order) async {
+  Future<Order> placeOrder(Order order,) async {
     final response = await placeOrderWithHttpInfo(order,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));

@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -27,9 +28,8 @@ class DefaultApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -39,7 +39,7 @@ class DefaultApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }

@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -41,9 +42,8 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
     return apiClient.invokeAPI(
@@ -53,7 +53,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -66,7 +66,7 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Created user object
-  Future<void> createUser(User user) async {
+  Future<void> createUser(User user,) async {
     final response = await createUserWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -97,9 +97,8 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
     return apiClient.invokeAPI(
@@ -109,7 +108,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -120,7 +119,7 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<void> createUsersWithArrayInput(List<User> user) async {
+  Future<void> createUsersWithArrayInput(List<User> user,) async {
     final response = await createUsersWithArrayInputWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -151,9 +150,8 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
     return apiClient.invokeAPI(
@@ -163,7 +161,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -174,7 +172,7 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<void> createUsersWithListInput(List<User> user) async {
+  Future<void> createUsersWithListInput(List<User> user,) async {
     final response = await createUsersWithListInputWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -208,9 +206,8 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -220,7 +217,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -233,7 +230,7 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future<void> deleteUser(String username) async {
+  Future<void> deleteUser(String username,) async {
     final response = await deleteUserWithHttpInfo(username,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -265,9 +262,8 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -277,7 +273,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -288,7 +284,7 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be fetched. Use user1 for testing.
-  Future<User> getUserByName(String username) async {
+  Future<User> getUserByName(String username,) async {
     final response = await getUserByNameWithHttpInfo(username,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -335,9 +331,8 @@ class UserApi {
       queryParams.addAll(_convertParametersForCollectionFormat('', 'username', username));
       queryParams.addAll(_convertParametersForCollectionFormat('', 'password', password));
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -347,7 +342,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -361,7 +356,7 @@ class UserApi {
   ///
   /// * [String] password (required):
   ///   The password for login in clear text
-  Future<String> loginUser(String username, String password) async {
+  Future<String> loginUser(String username, String password,) async {
     final response = await loginUserWithHttpInfo(username, password,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -389,9 +384,8 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>[];
 
 
     return apiClient.invokeAPI(
@@ -401,7 +395,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -447,9 +441,8 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>['application/json'];
 
 
     return apiClient.invokeAPI(
@@ -459,7 +452,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isNotEmpty ? contentTypes[0] : null,
       authNames,
     );
   }
@@ -475,7 +468,7 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Updated user object
-  Future<void> updateUser(String username, User user) async {
+  Future<void> updateUser(String username, User user,) async {
     final response = await updateUserWithHttpInfo(username, user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));

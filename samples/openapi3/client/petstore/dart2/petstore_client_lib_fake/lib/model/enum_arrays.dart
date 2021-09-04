@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -93,9 +94,6 @@ class EnumArrays {
 }
 
 
-
-// ignore_for_file: constant_identifier_names
-
 class EnumArraysJustSymbolEnum {
   /// Instantiate a new enum with the provided [value].
   const EnumArraysJustSymbolEnum._(this.value);
@@ -163,8 +161,6 @@ class EnumArraysJustSymbolEnumTypeTransformer {
 
 
 
-// ignore_for_file: constant_identifier_names
-
 class EnumArraysArrayEnumEnum {
   /// Instantiate a new enum with the provided [value].
   const EnumArraysArrayEnumEnum._(this.value);
@@ -229,4 +225,5 @@ class EnumArraysArrayEnumEnumTypeTransformer {
   /// Singleton [EnumArraysArrayEnumEnumTypeTransformer] instance.
   static EnumArraysArrayEnumEnumTypeTransformer _instance;
 }
+
 

@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -145,9 +146,6 @@ class EnumTest {
 }
 
 
-
-// ignore_for_file: constant_identifier_names
-
 class EnumTestEnumStringEnum {
   /// Instantiate a new enum with the provided [value].
   const EnumTestEnumStringEnum._(this.value);
@@ -217,8 +215,6 @@ class EnumTestEnumStringEnumTypeTransformer {
 }
 
 
-
-// ignore_for_file: constant_identifier_names
 
 class EnumTestEnumStringRequiredEnum {
   /// Instantiate a new enum with the provided [value].
@@ -290,8 +286,6 @@ class EnumTestEnumStringRequiredEnumTypeTransformer {
 
 
 
-// ignore_for_file: constant_identifier_names
-
 class EnumTestEnumIntegerEnum {
   /// Instantiate a new enum with the provided [value].
   const EnumTestEnumIntegerEnum._(this.value);
@@ -359,8 +353,6 @@ class EnumTestEnumIntegerEnumTypeTransformer {
 
 
 
-// ignore_for_file: constant_identifier_names
-
 class EnumTestEnumNumberEnum {
   /// Instantiate a new enum with the provided [value].
   const EnumTestEnumNumberEnum._(this.value);
@@ -425,4 +417,5 @@ class EnumTestEnumNumberEnumTypeTransformer {
   /// Singleton [EnumTestEnumNumberEnumTypeTransformer] instance.
   static EnumTestEnumNumberEnumTypeTransformer _instance;
 }
+
 
