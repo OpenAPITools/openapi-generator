@@ -184,7 +184,7 @@ class GenerateTaskDslTest : WiremockTestBase() {
         // re-run
         val resultSecondRun = GradleRunner.create()
             .withProjectDir(temp)
-            .withArguments("openApiGenerate", "--build-cache", "--info")
+            .withArguments(taskName, "--build-cache", "--info")
             .withPluginClasspath()
             .build()
 
