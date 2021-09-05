@@ -114,7 +114,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
              if (localVarFormParams instanceof FormData) {
                  {{#platforms}}
                  {{#node}}
-                 localVarFormParams.append('{{baseName}}', {{paramName}}.data, {{paramName}}.name);
+                 localVarFormParams.append('{{baseName}}', {{paramName}}.data.buffer, {{paramName}}.name);
                  {{/node}}
                  {{^node}}
                  localVarFormParams.append('{{baseName}}', {{paramName}}, {{paramName}}.name);
