@@ -3258,7 +3258,6 @@ public class DefaultCodegen implements CodegenConfig {
         property.isMap = true;
         property.isContainer = true;
         property.containerType = "map";
-        property.baseType = getSchemaType(p);
         // TODO remove this hack in the future, code should use minProperties and maxProperties for object schemas
         property.minItems = p.getMinProperties();
         property.maxItems = p.getMaxProperties();
@@ -3476,7 +3475,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         } else if (isFreeFormObject(p)) {
             property.isFreeFormObject = true;
-            setMapProperties(property, p);
+            if (ModelUtils.isMapSchema(p)) {
+                setMapProperties(property, p);
+            }
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
             ArraySchema arraySchema = (ArraySchema) p;
