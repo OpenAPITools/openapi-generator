@@ -63,6 +63,7 @@ docs/OuterEnumIntegerDefaultValue.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
+docs/ReadOnlyWithDefault.md
 docs/Return.md
 docs/SpecialModelName.md
 docs/StoreApi.md
@@ -122,6 +123,7 @@ model_outer_enum_integer.go
 model_outer_enum_integer_default_value.go
 model_pet.go
 model_read_only_first.go
+model_read_only_with_default.go
 model_return.go
 model_tag.go
 model_user.go

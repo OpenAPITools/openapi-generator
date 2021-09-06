@@ -94,4 +94,3 @@ export function CapitalizationToJSON(value?: Capitalization | null): any {
     };
 }
 
-

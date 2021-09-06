@@ -21,7 +21,8 @@ abstract class Animal implements Built<Animal, AnimalBuilder> {
 
     Animal._();
 
-    static void _initializeBuilder(AnimalBuilder b) => b
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(AnimalBuilder b) => b
         ..color = 'red';
 
     factory Animal([void updates(AnimalBuilder b)]) = _$Animal;
@@ -64,14 +65,17 @@ class _$AnimalSerializer implements StructuredSerializer<Animal> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'className':
-                    result.className = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.className = valueDes;
                     break;
                 case r'color':
-                    result.color = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.color = valueDes;
                     break;
             }
         }

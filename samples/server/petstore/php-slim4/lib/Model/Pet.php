@@ -82,6 +82,7 @@ class Pet extends BaseModel
     "status" : {
       "type" : "string",
       "description" : "pet status in the store",
+      "deprecated" : true,
       "enum" : [ "available", "pending", "sold" ]
     }
   },

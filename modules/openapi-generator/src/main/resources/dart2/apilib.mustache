@@ -1,5 +1,5 @@
 {{>header}}
-{{#pubLibrary}}library {{{pubLibrary}}};{{/pubLibrary}}{{^pubLibrary}}library {{{pubName}}}.api;{{/pubLibrary}}
+{{#pubLibrary}}library {{{.}}};{{/pubLibrary}}{{^pubLibrary}}library {{{pubName}}}.api;{{/pubLibrary}}
 
 import 'dart:async';
 import 'dart:convert';

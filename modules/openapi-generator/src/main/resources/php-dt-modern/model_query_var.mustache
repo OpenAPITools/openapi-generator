@@ -1,0 +1,51 @@
+{{#isArray
+}}{{#isPrimitiveType
+}}    #[DTA\Strategy("QueryStringScalarArray", ["type" => {{>list_item_type}}, "format" => "{{internal.collectionFormat}}"], "{{internal.parameterLocation}}")]
+    #[DTA\Validator("QueryStringScalarArray", ["type" => {{>list_item_type}}, "format" => "{{internal.collectionFormat}}"{{#minItems}}, "min_items" => {{minItems}}{{/minItems}}{{#maxItems}}, "max_items" => {{maxItems}}{{/maxItems}}], subset: "{{internal.parameterLocation}}")]
+{{/isPrimitiveType
+}}{{^isPrimitiveType
+}}    // TODO add validator(s) and strategy for list of {{>list_item_type}} and collection format {{internal.collectionFormat}} inside query string
+{{/isPrimitiveType
+}}{{/isArray
+}}{{#isMap
+}}    // TODO add validator(s) and strategy for map of {{>map_item_type}} and collection format {{internal.collectionFormat}} inside query string
+{{/isMap
+}}{{^isContainer
+}}{{#isPrimitiveType
+}}    #[DTA\Strategy("QueryStringScalar", ["type" => "{{dataType}}"], "{{internal.parameterLocation}}")]
+    #[DTA\Validator("QueryStringScalar", ["type" => "{{dataType}}"], subset: "{{internal.parameterLocation}}")]
+{{/isPrimitiveType
+}}{{#isDate
+}}    #[DTA\Strategy("Date", subset: "{{internal.parameterLocation}}")]
+    #[DTA\Validator("Date", subset: "{{internal.parameterLocation}}")]
+{{/isDate
+}}{{#isDateTime
+}}    #[DTA\Strategy("DateTime", subset: "{{internal.parameterLocation}}")]
+    #[DTA\Validator("Date", ["format" => \DateTime::RFC3339], subset: "{{internal.parameterLocation}}")]
+{{/isDateTime
+}}{{^isPrimitiveType
+}}{{^isDate}}{{^isDateTime
+}}    // TODO add validator(s) and strategy for {{dataType}} inside query string
+{{/isDateTime}}{{/isDate
+}}{{/isPrimitiveType
+}}{{/isContainer
+}}{{#hasValidation
+}}{{#minLength}}{{#maxLength
+}}    #[DTA\Validator("StringLength", ["min" => {{minLength}}, "max" => {{maxLength}}], subset: "{{internal.parameterLocation}}")]
+{{/maxLength}}{{/minLength
+}}{{^minLength}}{{#maxLength
+}}    #[DTA\Validator("StringLength", ["max" => {{maxLength}}], subset: "{{internal.parameterLocation}}")]
+{{/maxLength}}{{/minLength
+}}{{#minLength}}{{^maxLength
+}}    #[DTA\Validator("StringLength", ["min" => {{minLength}}], subset: "{{internal.parameterLocation}}")]
+{{/maxLength}}{{/minLength
+}}{{#minimum
+}}    #[DTA\Validator("GreaterThan", ["min" => {{minimum}}{{^exclusiveMinimum}}, "inclusive" => true{{/exclusiveMinimum}}], subset: "{{internal.parameterLocation}}")]
+{{/minimum
+}}{{#maximum
+}}    #[DTA\Validator("LessThan", ["max" => {{maximum}}{{^exclusiveMaximum}}, "inclusive" => true{{/exclusiveMaximum}}], subset: "{{internal.parameterLocation}}")]
+{{/maximum
+}}{{#pattern
+}}    #[DTA\Validator("Regex", ["pattern" => "{{{pattern}}}"], subset: "{{internal.parameterLocation}}")]
+{{/pattern
+}}{{/hasValidation}}

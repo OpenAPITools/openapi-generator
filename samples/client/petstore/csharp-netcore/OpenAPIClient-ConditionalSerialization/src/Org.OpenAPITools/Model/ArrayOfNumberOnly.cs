@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "ArrayNumber", EmitDefaultValue = false)]
         public List<decimal> ArrayNumber
-        { 
+        {
             get{ return _ArrayNumber;}
             set
             {
                 _ArrayNumber = value;
                 _flagArrayNumber = true;
-            } 
+            }
         }
         private List<decimal> _ArrayNumber;
         private bool _flagArrayNumber;

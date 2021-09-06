@@ -62,4 +62,3 @@ export function AdditionalPropertiesClassToJSON(value?: AdditionalPropertiesClas
     };
 }
 
-

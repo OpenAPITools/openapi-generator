@@ -46,6 +46,3 @@ get_api_key(header, KeyParam, Req) ->
 get_api_key(qs_val, KeyParam, Req) ->
     QS = cowboy_req:parse_qs(Req),
     { openapi_utils:get_opt(KeyParam, QS), Req}.
-
-
-

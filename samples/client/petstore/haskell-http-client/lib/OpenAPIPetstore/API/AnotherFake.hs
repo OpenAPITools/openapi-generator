@@ -65,7 +65,7 @@ import qualified Prelude as P
 -- 
 -- To test special tags and operation ID starting with number
 -- 
-op123testSpecialTags 
+op123testSpecialTags
   :: (Consumes Op123testSpecialTags MimeJSON, MimeRender MimeJSON Client)
   => Client -- ^ "body" -  client model
   -> OpenAPIPetstoreRequest Op123testSpecialTags MimeJSON Client MimeJSON

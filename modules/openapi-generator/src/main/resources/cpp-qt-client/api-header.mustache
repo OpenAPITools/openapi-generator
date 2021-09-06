@@ -78,11 +78,11 @@ private:
 
 signals:
 {{#operations}}{{#operation}}
-    void {{nickname}}Signal({{#returnType}}{{{returnType}}} summary{{/returnType}});{{/operation}}{{/operations}}
+    void {{nickname}}Signal({{#returnType}}{{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
-    void {{nickname}}SignalFull({{prefix}}HttpRequestWorker *worker{{#returnType}}, {{{returnType}}} summary{{/returnType}});{{/operation}}{{/operations}}
+    void {{nickname}}SignalFull({{prefix}}HttpRequestWorker *worker{{#returnType}}, {{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
-    void {{nickname}}SignalE({{#returnType}}{{{returnType}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
+    void {{nickname}}SignalE({{#returnType}}{{{.}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
     void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
 

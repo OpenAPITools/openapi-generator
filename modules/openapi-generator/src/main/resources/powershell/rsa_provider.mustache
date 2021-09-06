@@ -11,7 +11,7 @@ namespace RSAEncryption
 {
     public class RSAEncryptionProvider
     {
-        public static RSACryptoServiceProvider GetRSAProviderFromPemFile(String pemfile,SecureString keyPassPharse = null)
+        public static RSACryptoServiceProvider GetRSAProviderFromPemFile(String pemfile,SecureString keyPassPhrase = null)
         {
             const String pempubheader = "-----BEGIN PUBLIC KEY-----";
             const String pempubfooter = "-----END PUBLIC KEY-----";
@@ -31,7 +31,7 @@ namespace RSAEncryption
 
             if (isPrivateKeyFile)
             {
-                pemkey = ConvertPrivateKeyToBytes(pemstr,keyPassPharse);
+                pemkey = ConvertPrivateKeyToBytes(pemstr,keyPassPhrase);
                 if (pemkey == null)
                 {
                     return null;
@@ -41,7 +41,7 @@ namespace RSAEncryption
             return null ;
         }
 
-        static byte[] ConvertPrivateKeyToBytes(String instr, SecureString keyPassPharse = null)
+        static byte[] ConvertPrivateKeyToBytes(String instr, SecureString keyPassPhrase = null)
         {
             const String pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
             const String pemprivfooter = "-----END RSA PRIVATE KEY-----";
@@ -88,11 +88,11 @@ namespace RSAEncryption
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
                 catch (System.FormatException)
-                {   //data is not in base64 fromat
+                {   //data is not in base64 format
                     return null;
                 }
 
-                byte[] deskey = GetEncryptedKey(salt, keyPassPharse, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
+                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
                 if (deskey == null)
                     return null;
 
@@ -213,19 +213,19 @@ namespace RSAEncryption
         {
             IntPtr unmanagedPswd = IntPtr.Zero;
             int HASHLENGTH = 16;    //MD5 bytes
-            byte[] keymaterial = new byte[HASHLENGTH * miter];     //to store contatenated Mi hashed results
+            byte[] keymaterial = new byte[HASHLENGTH * miter];     //to store concatenated Mi hashed results
 
             byte[] psbytes = new byte[secpswd.Length];
             unmanagedPswd = Marshal.SecureStringToGlobalAllocAnsi(secpswd);
             Marshal.Copy(unmanagedPswd, psbytes, 0, psbytes.Length);
             Marshal.ZeroFreeGlobalAllocAnsi(unmanagedPswd);
 
-            // --- contatenate salt and pswd bytes into fixed data array ---
+            // --- concatenate salt and pswd bytes into fixed data array ---
             byte[] data00 = new byte[psbytes.Length + salt.Length];
             Array.Copy(psbytes, data00, psbytes.Length);      //copy the pswd bytes
             Array.Copy(salt, 0, data00, psbytes.Length, salt.Length); //concatenate the salt bytes
 
-            // ---- do multi-hashing and contatenate results  D1, D2 ...  into keymaterial bytes ----
+            // ---- do multi-hashing and concatenate results  D1, D2 ...  into keymaterial bytes ----
             MD5 md5 = new MD5CryptoServiceProvider();
             byte[] result = null;
             byte[] hashtarget = new byte[HASHLENGTH + data00.Length];   //fixed length initial hashtarget
@@ -244,7 +244,7 @@ namespace RSAEncryption
 
                 for (int i = 0; i < count; i++)
                     result = md5.ComputeHash(result);
-                Array.Copy(result, 0, keymaterial, j * HASHLENGTH, result.Length);  //contatenate to keymaterial
+                Array.Copy(result, 0, keymaterial, j * HASHLENGTH, result.Length);  //concatenate to keymaterial
             }
             byte[] deskey = new byte[24];
             Array.Copy(keymaterial, deskey, deskey.Length);

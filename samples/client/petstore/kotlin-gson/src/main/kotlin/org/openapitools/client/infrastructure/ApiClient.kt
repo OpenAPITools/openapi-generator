@@ -11,9 +11,13 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.io.IOException
 import java.net.URLConnection
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -22,6 +26,7 @@ import java.time.OffsetDateTime
 import java.time.OffsetTime
 import java.util.Date
 import java.util.Locale
+import com.google.gson.reflect.TypeToken
 
 open class ApiClient(val baseUrl: String) {
     companion object {
@@ -124,7 +129,7 @@ open class ApiClient(val baseUrl: String) {
             return f as T
         }
         return when(mediaType) {
-            JsonMediaType -> Serializer.gson.fromJson(bodyContent, T::class.java)
+            JsonMediaType -> Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType())
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -195,6 +200,7 @@ open class ApiClient(val baseUrl: String) {
         }.build()
 
         val response = client.newCall(request).execute()
+
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>

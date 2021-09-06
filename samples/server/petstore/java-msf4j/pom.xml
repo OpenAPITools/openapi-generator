@@ -3,7 +3,7 @@
     <groupId>org.wso2.msf4j</groupId>
     <artifactId>msf4j-service</artifactId>
     <version>2.6.4</version>
-  </parent> 
+  </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.openapitools</groupId>
   <artifactId>java-msf4j-server</artifactId>

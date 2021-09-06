@@ -19,4 +19,3 @@ case class ApiResponse (
   message: Option[String] = None
 ) extends ApiModel
 
-
