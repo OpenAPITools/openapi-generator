@@ -47,7 +47,10 @@ namespace Org.OpenAPITools.Model
         public ShapeInterface(string shapeType = default(string))
         {
             // to ensure "shapeType" is required (not null)
-            this._ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null");
+            if (shapeType == null) {
+                throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null");
+            }
+            this._ShapeType = shapeType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
