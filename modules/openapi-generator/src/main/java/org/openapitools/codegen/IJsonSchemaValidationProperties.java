@@ -200,7 +200,7 @@ public interface IJsonSchemaValidationProperties {
         } else if (ModelUtils.isNullType(p)) {
             setIsNull(true);
         } else if (ModelUtils.isAnyType(p)) {
-            // setIsAnyType(true);
+            setIsAnyType(true);
         }
     }
 }

@@ -1504,7 +1504,8 @@ public class ModelUtils {
 
     /**
      * For when a type is not defined on a schema
-     * Note: properties, additionalProperties, and enums can be defined or omitted on these schemas
+     * Note: properties, additionalProperties, enums, validations, items, and composed schemas (oneOf/anyOf/allOf)
+     * can be defined or omitted on these any type schemas
      * @param schema the schema that we are checking
      * @return boolean
      */

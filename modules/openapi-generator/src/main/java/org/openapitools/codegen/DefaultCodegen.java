@@ -3508,7 +3508,6 @@ public class DefaultCodegen implements CodegenConfig {
                 LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
             }
             property.isNullable = true;
-            property.isAnyType = true;
             property.baseType = getSchemaType(p);
             if (languageSpecificPrimitives.contains(property.dataType)) {
                 property.isPrimitiveType = true;
