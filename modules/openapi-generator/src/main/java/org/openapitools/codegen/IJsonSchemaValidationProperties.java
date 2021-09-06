@@ -136,4 +136,8 @@ public interface IJsonSchemaValidationProperties {
     boolean getIsNumber();
 
     void setIsNumber(boolean isNumber);
+
+    boolean getIsAnyType();
+
+    void setIsAnyType(boolean isAnyType);
 }

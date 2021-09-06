@@ -562,4 +562,12 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public void setIsNumber(boolean isNumber)  {
         this.isNumber = isString;
     }
+
+    @Override
+    public boolean getIsAnyType() { return isAnyType; }
+
+    @Override
+    public void setIsAnyType(boolean isAnyType)  {
+        this.isAnyType = isAnyType;
+    }
 }

@@ -3262,7 +3262,7 @@ public class DefaultCodegen implements CodegenConfig {
          * isNumber
          * isBoolean
          * isUnboundedInteger
-         * isAnyType (needs interface)
+         * isAnyType
          * isNull
          */
     }
