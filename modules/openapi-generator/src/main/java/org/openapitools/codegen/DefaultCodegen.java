@@ -3254,6 +3254,19 @@ public class DefaultCodegen implements CodegenConfig {
         return camelize(toVarName(name));
     }
 
+    protected void setTypeProperties(Schema s, IJsonSchemaValidationProperties item) {
+        /**
+         * isMap
+         * isArray
+         * isString
+         * isNumber (needs interface)
+         * isBoolean
+         * isUnboundedInteger
+         * isAnyType (needs interface)
+         * isNull
+         */
+    }
+
     /**
      * Convert OAS Property object to Codegen Property object.
      *

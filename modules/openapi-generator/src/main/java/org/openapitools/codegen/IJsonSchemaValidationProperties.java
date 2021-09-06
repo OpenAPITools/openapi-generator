@@ -128,4 +128,8 @@ public interface IJsonSchemaValidationProperties {
 
     // discriminators are only supported in request bodies and response payloads per OpenApi
     void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping);
+
+    boolean getIsString();
+
+    void setIsString(boolean isString);
 }
