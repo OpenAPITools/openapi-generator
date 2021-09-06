@@ -53,6 +53,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
     public static final String PROVIDED_IN = "providedIn";
     public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
+    public static final String HTTP_CONTEXT_IN_OPTIONS = "httpContextInOptions";
     public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String CONFIGURATION_PREFIX = "configurationPrefix";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
@@ -227,6 +228,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
         } else {
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, false);
+        }
+
+        if (ngVersion.atLeast("12.0.0")) {
+            additionalProperties.put(HTTP_CONTEXT_IN_OPTIONS, true);
+        } else {
+            additionalProperties.put(HTTP_CONTEXT_IN_OPTIONS, false);
         }
 
         additionalProperties.put(NG_VERSION, ngVersion);
