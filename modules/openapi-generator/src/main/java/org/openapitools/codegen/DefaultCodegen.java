@@ -3255,7 +3255,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setMapProperties(CodegenProperty property, Schema p) {
-        property.isMap = true;
         property.isContainer = true;
         property.containerType = "map";
         // TODO remove this hack in the future, code should use minProperties and maxProperties for object schemas
@@ -3621,7 +3620,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected CodegenProperty getMostInnerItems(CodegenProperty property) {
         CodegenProperty currentProperty = property;
         while (currentProperty != null && (Boolean.TRUE.equals(currentProperty.isMap)
-                || Boolean.TRUE.equals(currentProperty.isArray))) {
+                || Boolean.TRUE.equals(currentProperty.isArray)) && currentProperty.items != null) {
             currentProperty = currentProperty.items;
         }
         return currentProperty;

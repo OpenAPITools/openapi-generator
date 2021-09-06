@@ -153,7 +153,7 @@ public interface IJsonSchemaValidationProperties {
      */
     default void setTypeProperties(Schema p) {
         if (ModelUtils.isTypeObjectSchema(p)) {
-            // setIsMap(true);
+            setIsMap(true);
         } else if (ModelUtils.isArraySchema(p)) {
             setIsArray(true);
         } else if (ModelUtils.isStringSchema(p)) {
