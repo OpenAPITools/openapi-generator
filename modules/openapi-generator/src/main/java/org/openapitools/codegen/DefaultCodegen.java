@@ -3254,19 +3254,6 @@ public class DefaultCodegen implements CodegenConfig {
         return camelize(toVarName(name));
     }
 
-    protected void setTypeProperties(Schema s, IJsonSchemaValidationProperties item) {
-        /**
-         * isMap
-         * isArray
-         * isString
-         * isNumber
-         * isBoolean
-         * isUnboundedInteger
-         * isAnyType
-         * isNull
-         */
-    }
-
     /**
      * Convert OAS Property object to Codegen Property object.
      *
@@ -6838,6 +6825,7 @@ public class DefaultCodegen implements CodegenConfig {
             return false;
         }
 
+        // TODO update this to use ModelUtils.isAnyType
         if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
                 (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
                 schema.getAdditionalProperties() == null && schema.getNot() == null &&
@@ -6880,6 +6868,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return true if it's a free-form object
      */
     protected boolean isFreeFormObject(Schema schema) {
+        // TODO remove this method and replace all usages with ModelUtils.isFreeFormObject
         return ModelUtils.isFreeFormObject(this.openAPI, schema);
     }
 

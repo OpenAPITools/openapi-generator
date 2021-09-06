@@ -1487,16 +1487,24 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * For when a type is not defined on a schema
+     * Note: properties, additionalProperties, and enums can be defined or omitted on these schemas
+     * @param schema
+     * @return
+     */
+    public static boolean isAnyType(Schema schema) {
+        boolean isAnyType = (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null);
+        return isAnyType;
+    }
+
     public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target) {
+        // TODO move this method to IJsonSchemaValidationProperties
         if (schema != null && target != null) {
             if (isNullType(schema) || schema.get$ref() != null || isBooleanSchema(schema)) {
                 return;
             }
-            boolean isAnyType = (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
-                    (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
-                    schema.getAdditionalProperties() == null && schema.getNot() == null &&
-                    schema.getEnum() == null);
-            if (isAnyType) {
+            if (isAnyType(schema)) {
                 return;
             }
             Integer minItems = schema.getMinItems();
