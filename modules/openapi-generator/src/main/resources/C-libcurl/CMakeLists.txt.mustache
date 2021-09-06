@@ -92,8 +92,10 @@ target_link_libraries(${pkgName} ${CURL_LIBRARIES} )
 
 include(PostTarget.cmake OPTIONAL)
 
-if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in)
-    # installation of libraries, headers, and config files
+# installation of libraries, headers, and config files
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in)
+    install(TARGETS ${pkgName} DESTINATION ${CMAKE_INSTALL_PREFIX})
+else()
     include(GNUInstallDirs)
     install(TARGETS ${pkgName}
             EXPORT ${pkgName}Targets
