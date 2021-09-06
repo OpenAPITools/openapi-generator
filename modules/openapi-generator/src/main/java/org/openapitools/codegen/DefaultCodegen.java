@@ -6815,26 +6815,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @return true if the schema value can be an arbitrary type.
      */
     public boolean isAnyTypeSchema(Schema schema) {
-        if (schema == null) {
-            once(LOGGER).error("Schema cannot be null in isAnyTypeSchema check");
-            return false;
-        }
-
-        if (isFreeFormObject(schema)) {
-            // make sure it's not free form object
-            return false;
-        }
-
-        // TODO update this to use ModelUtils.isAnyType
-        if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
-                (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
-                schema.getAdditionalProperties() == null && schema.getNot() == null &&
-                schema.getEnum() == null) {
-            return true;
-            // If and when type arrays are supported in a future OAS specification,
-            // we could return true if the type array includes all possible JSON schema types.
-        }
-        return false;
+        // TODO remove this method and replace all usages with ModelUtils.isAnyType
+        return ModelUtils.isAnyType(schema);
     }
 
     /**
