@@ -9,14 +9,14 @@ import org.slf4j.Logger;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.*;
 
-public class LoggingRulesTest {
+public class ArchUnitRulesTest {
 
     @Test
     public void testLoggersAreNotPublicFinalAndNotStatic() {
         final JavaClasses importedClasses = new ClassFileImporter()
                 .importPackages("org.openapitools.codegen.languages");
 
-        LoggingRulesTest.LOGGERS_SHOULD_BE_NOT_PUBLIC_NOT_STATIC_AND_FINAL.check(importedClasses);
+        ArchUnitRulesTest.LOGGERS_SHOULD_BE_NOT_PUBLIC_NOT_STATIC_AND_FINAL.check(importedClasses);
     }
 
     @Test
@@ -24,7 +24,7 @@ public class LoggingRulesTest {
         final JavaClasses importedClasses = new ClassFileImporter()
                 .importPackages("org.openapitools.codegen.languages");
 
-        LoggingRulesTest.ABSTRACT_CLASS_MUST_BE_ABSTRACT.check(importedClasses);
+        ArchUnitRulesTest.ABSTRACT_CLASS_MUST_BE_ABSTRACT.check(importedClasses);
     }
 
     /**
