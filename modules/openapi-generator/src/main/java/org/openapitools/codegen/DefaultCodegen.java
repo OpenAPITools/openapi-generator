@@ -3254,6 +3254,26 @@ public class DefaultCodegen implements CodegenConfig {
         return camelize(toVarName(name));
     }
 
+    private void setMapProperties(CodegenProperty property, Schema p) {
+        property.isMap = true;
+        property.isContainer = true;
+        property.containerType = "map";
+        property.baseType = getSchemaType(p);
+        // TODO remove this hack in the future, code should use minProperties and maxProperties for object schemas
+        property.minItems = p.getMinProperties();
+        property.maxItems = p.getMaxProperties();
+
+        // handle inner property
+        Schema innerSchema = unaliasSchema(getAdditionalProperties(p), importMapping);
+        if (innerSchema == null) {
+            LOGGER.error("Undefined map inner type for `{}`. Default to String.", p.getName());
+            innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
+            p.setAdditionalProperties(innerSchema);
+        }
+        CodegenProperty cp = fromProperty("inner", innerSchema);
+        updatePropertyForMap(property, cp);
+    }
+
     /**
      * Convert OAS Property object to Codegen Property object.
      *
@@ -3456,22 +3476,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         } else if (isFreeFormObject(p)) {
             property.isFreeFormObject = true;
-            property.baseType = getSchemaType(p);
-            if (languageSpecificPrimitives.contains(property.dataType)) {
-                property.isPrimitiveType = true;
-            }
-        } else if (isAnyTypeSchema(p)) {
-            // The 'null' value is allowed when the OAS schema is 'any type'.
-            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
-            if (Boolean.FALSE.equals(p.getNullable())) {
-                LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
-            }
-            property.isNullable = true;
-            property.isAnyType = true;
-            property.baseType = getSchemaType(p);
-            if (languageSpecificPrimitives.contains(property.dataType)) {
-                property.isPrimitiveType = true;
-            }
+            setMapProperties(property, p);
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
             ArraySchema arraySchema = (ArraySchema) p;
@@ -3501,40 +3506,29 @@ public class DefaultCodegen implements CodegenConfig {
             }
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema innerSchema = unaliasSchema(getAdditionalProperties(p), importMapping);
-            if (innerSchema == null) {
-                LOGGER.error("Undefined map inner type for `{}`. Default to String.", p.getName());
-                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                p.setAdditionalProperties(innerSchema);
+        } else if (isAnyTypeSchema(p)) {
+            // The 'null' value is allowed when the OAS schema is 'any type'.
+            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+            if (Boolean.FALSE.equals(p.getNullable())) {
+                LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
             }
+            property.isNullable = true;
+            property.isAnyType = true;
+            property.baseType = getSchemaType(p);
+            if (languageSpecificPrimitives.contains(property.dataType)) {
+                property.isPrimitiveType = true;
+            }
+            if (ModelUtils.isMapSchema(p)) {
+                // some of our code assumes that any type schema with properties defined will be a map
+                setMapProperties(property, p);
+            }
+        } else if (ModelUtils.isMapSchema(p)) {
+            setMapProperties(property, p);
         } else if (ModelUtils.isNullType(p)) {
             property.isNull = true;
         }
 
-        if (ModelUtils.isArraySchema(p)) {
-            ;
-        } else if (ModelUtils.isMapSchema(p)) {
-            property.isContainer = true;
-            property.isMap = true;
-            property.containerType = "map";
-            property.baseType = getSchemaType(p);
-            // TODO remove this hack in the future, code should use minProperties and maxProperties for object schemas
-            property.minItems = p.getMinProperties();
-            property.maxItems = p.getMaxProperties();
-
-            // handle inner property
-            Schema innerSchema = unaliasSchema(getAdditionalProperties(p), importMapping);
-            if (innerSchema == null) {
-                LOGGER.error("Undefined map inner type for `{}`. Default to String.", p.getName());
-                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                p.setAdditionalProperties(innerSchema);
-            }
-            CodegenProperty cp = fromProperty("inner", innerSchema);
-            updatePropertyForMap(property, cp);
-        } else if (isFreeFormObject(p)) {
-            ;
-        } else if (isAnyTypeSchema(p)) {
+        if (isFreeFormObject(p) || isAnyTypeSchema(p) || ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p)) {
             ;
         } else { // model
             String type = getSchemaType(p);
@@ -3602,6 +3596,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             property.isPrimitiveType = true;
         }
+        // TODO fix this, map should not be assigning properties to items
         property.items = innerProperty;
         property.mostInnerItems = getMostInnerItems(innerProperty);
         property.dataFormat = innerProperty.dataFormat;

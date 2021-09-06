@@ -820,6 +820,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp3.isAnyType);
 
         // map
+        // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp4 = cm2.vars.get(3);
         Assert.assertEquals(cp4.baseName, "map_any_value");
         Assert.assertEquals(cp4.dataType, "Map<String, Object>");
@@ -830,6 +831,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp4.isFreeFormObject);
         Assert.assertFalse(cp4.isAnyType);
 
+        // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp5 = cm2.vars.get(4);
         Assert.assertEquals(cp5.baseName, "map_any_value_with_desc");
         Assert.assertEquals(cp5.dataType, "Map<String, Object>");
@@ -840,6 +842,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp5.isFreeFormObject);
         Assert.assertFalse(cp5.isAnyType);
 
+        // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp6 = cm2.vars.get(5);
         Assert.assertEquals(cp6.baseName, "map_any_value_nullable");
         Assert.assertEquals(cp6.dataType, "Map<String, Object>");
@@ -851,6 +854,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp6.isAnyType);
 
         // array
+        // Should allow in any type including array, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp7 = cm2.vars.get(6);
         Assert.assertEquals(cp7.baseName, "array_any_value");
         Assert.assertEquals(cp7.dataType, "List<Object>");
@@ -861,6 +865,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp7.isFreeFormObject);
         Assert.assertFalse(cp7.isAnyType);
 
+        // Should allow in any type including array, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp8 = cm2.vars.get(7);
         Assert.assertEquals(cp8.baseName, "array_any_value_with_desc");
         Assert.assertEquals(cp8.dataType, "List<Object>");
@@ -871,6 +876,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp8.isFreeFormObject);
         Assert.assertFalse(cp8.isAnyType);
 
+        // Should allow in any type including array, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp9 = cm2.vars.get(8);
         Assert.assertEquals(cp9.baseName, "array_any_value_nullable");
         Assert.assertEquals(cp9.dataType, "List<Object>");

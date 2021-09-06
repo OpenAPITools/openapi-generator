@@ -408,6 +408,21 @@ public class ModelUtils {
     }
 
     /**
+     * Return true if the specified schema is type object
+     * We can't use isObjectSchema because it requires properties to exist which is not required
+     * We can't use isMap because it is true for AnyType use cases
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is an Object schema.
+     */
+    public static boolean isTypeObjectSchema(Schema schema) {
+        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Return true if the specified schema is an object with a fixed number of properties.
      *
      * A ObjectSchema differs from an MapSchema in the following way:
