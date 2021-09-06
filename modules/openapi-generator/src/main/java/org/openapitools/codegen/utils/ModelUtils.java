@@ -1490,8 +1490,8 @@ public class ModelUtils {
     /**
      * For when a type is not defined on a schema
      * Note: properties, additionalProperties, and enums can be defined or omitted on these schemas
-     * @param schema
-     * @return
+     * @param schema the schema that we are checking
+     * @return boolean
      */
     public static boolean isAnyType(Schema schema) {
         boolean isAnyType = (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null);
