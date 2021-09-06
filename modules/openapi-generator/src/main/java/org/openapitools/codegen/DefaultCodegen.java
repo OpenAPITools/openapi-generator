@@ -3456,6 +3456,10 @@ public class DefaultCodegen implements CodegenConfig {
 
         } else if (isFreeFormObject(p)) {
             property.isFreeFormObject = true;
+            property.baseType = getSchemaType(p);
+            if (languageSpecificPrimitives.contains(property.dataType)) {
+                property.isPrimitiveType = true;
+            }
         } else if (isAnyTypeSchema(p)) {
             // The 'null' value is allowed when the OAS schema is 'any type'.
             // See https://github.com/OAI/OpenAPI-Specification/issues/1389
@@ -3529,11 +3533,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty cp = fromProperty("inner", innerSchema);
             updatePropertyForMap(property, cp);
         } else if (isFreeFormObject(p)) {
-            property.isFreeFormObject = true;
-            property.baseType = getSchemaType(p);
-            if (languageSpecificPrimitives.contains(property.dataType)) {
-                property.isPrimitiveType = true;
-            }
+            ;
         } else if (isAnyTypeSchema(p)) {
             ;
         } else { // model
