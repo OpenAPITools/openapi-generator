@@ -3352,7 +3352,51 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        String type = getSchemaType(p);
+        //Inline enum case:
+        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+            List<Object> _enum = p.getEnum();
+            property._enum = new ArrayList<String>();
+            for (Object i : _enum) {
+                property._enum.add(String.valueOf(i));
+            }
+            property.isEnum = true;
+
+            Map<String, Object> allowableValues = new HashMap<String, Object>();
+            allowableValues.put("values", _enum);
+            if (allowableValues.size() > 0) {
+                property.allowableValues = allowableValues;
+            }
+        }
+
+        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+
+        //Referenced enum case:
+        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+            List<Object> _enum = referencedSchema.getEnum();
+
+            Map<String, Object> allowableValues = new HashMap<String, Object>();
+            allowableValues.put("values", _enum);
+            if (allowableValues.size() > 0) {
+                property.allowableValues = allowableValues;
+            }
+        }
+
+        if (referencedSchema.getNullable() != null) {
+            property.isNullable = referencedSchema.getNullable();
+        }
+
+        property.dataType = getTypeDeclaration(p);
+        property.dataFormat = p.getFormat();
+        property.baseType = getSchemaType(p);
+
+        // this can cause issues for clients which don't support enums
+        if (property.isEnum) {
+            property.datatypeWithEnum = toEnumName(property);
+            property.enumName = toEnumName(property);
+        } else {
+            property.datatypeWithEnum = property.dataType;
+        }
+
         if (ModelUtils.isIntegerSchema(p)) { // integer type
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isLongSchema(p)) { // int64/long format
@@ -3424,63 +3468,6 @@ public class DefaultCodegen implements CodegenConfig {
             // default to string if inner item is undefined
             ArraySchema arraySchema = (ArraySchema) p;
             Schema innerSchema = unaliasSchema(getSchemaItems(arraySchema), importMapping);
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema innerSchema = unaliasSchema(getAdditionalProperties(p), importMapping);
-            if (innerSchema == null) {
-                LOGGER.error("Undefined map inner type for `{}`. Default to String.", p.getName());
-                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                p.setAdditionalProperties(innerSchema);
-            }
-        } else if (ModelUtils.isNullType(p)) {
-            property.isNull = true;
-        }
-
-        //Inline enum case:
-        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
-            List<Object> _enum = p.getEnum();
-            property._enum = new ArrayList<String>();
-            for (Object i : _enum) {
-                property._enum.add(String.valueOf(i));
-            }
-            property.isEnum = true;
-
-            Map<String, Object> allowableValues = new HashMap<String, Object>();
-            allowableValues.put("values", _enum);
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
-            }
-        }
-
-        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
-
-        //Referenced enum case:
-        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
-            List<Object> _enum = referencedSchema.getEnum();
-
-            Map<String, Object> allowableValues = new HashMap<String, Object>();
-            allowableValues.put("values", _enum);
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
-            }
-        }
-
-        if (referencedSchema.getNullable() != null) {
-            property.isNullable = referencedSchema.getNullable();
-        }
-
-        property.dataType = getTypeDeclaration(p);
-        property.dataFormat = p.getFormat();
-        property.baseType = getSchemaType(p);
-
-        // this can cause issues for clients which don't support enums
-        if (property.isEnum) {
-            property.datatypeWithEnum = toEnumName(property);
-            property.enumName = toEnumName(property);
-        } else {
-            property.datatypeWithEnum = property.dataType;
-        }
-
-        if (ModelUtils.isArraySchema(p)) {
             property.isContainer = true;
             property.isArray = true;
             if (ModelUtils.isSet(p)) {
@@ -3504,10 +3491,21 @@ public class DefaultCodegen implements CodegenConfig {
             if (itemName == null) {
                 itemName = property.name;
             }
-            ArraySchema arraySchema = (ArraySchema) p;
-            Schema innerSchema = unaliasSchema(getSchemaItems(arraySchema), importMapping);
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema innerSchema = unaliasSchema(getAdditionalProperties(p), importMapping);
+            if (innerSchema == null) {
+                LOGGER.error("Undefined map inner type for `{}`. Default to String.", p.getName());
+                innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
+                p.setAdditionalProperties(innerSchema);
+            }
+        } else if (ModelUtils.isNullType(p)) {
+            property.isNull = true;
+        }
+
+        if (ModelUtils.isArraySchema(p)) {
+            ;
         } else if (ModelUtils.isMapSchema(p)) {
             property.isContainer = true;
             property.isMap = true;
@@ -3539,6 +3537,7 @@ public class DefaultCodegen implements CodegenConfig {
                 property.isPrimitiveType = true;
             }
         } else { // model
+            String type = getSchemaType(p);
             setNonArrayMapProperty(property, type);
             Schema refOrCurrent = ModelUtils.getReferencedSchema(this.openAPI, p);
             property.isModel = (ModelUtils.isComposedSchema(refOrCurrent) || ModelUtils.isObjectSchema(refOrCurrent)) && ModelUtils.isModel(refOrCurrent);
