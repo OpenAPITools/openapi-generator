@@ -20,7 +20,7 @@ HEADERS += \
     $${PWD}/PFXHttpFileElement.h \
     $${PWD}/PFXServerConfiguration.h \
     $${PWD}/PFXServerVariable.h \
-    $${PWD}/oauth.h
+    $${PWD}/PFXOauth.h
 
 SOURCES += \
 # Models
@@ -38,4 +38,4 @@ SOURCES += \
     $${PWD}/PFXHelpers.cpp \
     $${PWD}/PFXHttpRequest.cpp \
     $${PWD}/PFXHttpFileElement.cpp \
-    $${PWD}/oauth.cpp
+    $${PWD}/PFXOauth.cpp

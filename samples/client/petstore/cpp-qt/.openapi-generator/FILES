@@ -11,6 +11,8 @@ client/PFXHttpFileElement.cpp
 client/PFXHttpFileElement.h
 client/PFXHttpRequest.cpp
 client/PFXHttpRequest.h
+client/PFXOauth.cpp
+client/PFXOauth.h
 client/PFXObject.h
 client/PFXOrder.cpp
 client/PFXOrder.h
@@ -29,5 +31,3 @@ client/PFXUser.h
 client/PFXUserApi.cpp
 client/PFXUserApi.h
 client/PFXclient.pri
-client/oauth.cpp
-client/oauth.h

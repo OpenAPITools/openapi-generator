@@ -15,7 +15,7 @@
 #include "PFXHelpers.h"
 #include "PFXHttpRequest.h"
 #include "PFXServerConfiguration.h"
-#include "oauth.h"
+#include "PFXOauth.h"
 
 #include "PFXOrder.h"
 #include <QMap>

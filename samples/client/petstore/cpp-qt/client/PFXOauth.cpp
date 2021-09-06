@@ -1,4 +1,4 @@
-#include "oauth.h"
+#include "PFXOauth.h"
 
 namespace OpenAPI {
 
