@@ -690,5 +690,13 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public void setIsString(boolean isString)  {
         this.isString = isString;
     }
+
+    @Override
+    public boolean getIsNumber() { return isNumber; }
+
+    @Override
+    public void setIsNumber(boolean isNumber)  {
+        this.isNumber = isString;
+    }
 }
 
