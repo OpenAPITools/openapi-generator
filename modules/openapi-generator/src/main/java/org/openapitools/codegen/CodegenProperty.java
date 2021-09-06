@@ -776,7 +776,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     @Override
     public void setIsNumber(boolean isNumber)  {
-        this.isNumber = isString;
+        this.isNumber = isNumber;
     }
 
     @Override

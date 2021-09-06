@@ -153,11 +153,11 @@ public interface IJsonSchemaValidationProperties {
      */
     default void setTypeProperties(Schema p) {
         if (ModelUtils.isTypeObjectSchema(p)) {
-            setIsMap(true);
+            // setIsMap(true);
         } else if (ModelUtils.isArraySchema(p)) {
             setIsArray(true);
         } else if (ModelUtils.isStringSchema(p)) {
-            setIsString(true);
+            // setIsString(true);
             if (ModelUtils.isByteArraySchema(p)) {
                 ;
             } else if (ModelUtils.isBinarySchema(p)) {
@@ -173,9 +173,11 @@ public interface IJsonSchemaValidationProperties {
             } else if (ModelUtils.isEmailSchema(p)) {
                 ;
             } else if (ModelUtils.isDateSchema(p)) {
-                ;
+                // for backward compatibility with 2.x
+                setIsString(false);
             } else if (ModelUtils.isDateTimeSchema(p)) {
-                ;
+                // for backward compatibility with 2.x
+                setIsString(false);
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (ModelUtils.isFloatSchema(p)) { // float
@@ -198,7 +200,7 @@ public interface IJsonSchemaValidationProperties {
         } else if (ModelUtils.isNullType(p)) {
             setIsNull(true);
         } else if (ModelUtils.isAnyType(p)) {
-            setIsAnyType(true);
+            // setIsAnyType(true);
         }
     }
 }

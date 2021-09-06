@@ -3416,6 +3416,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.datatypeWithEnum = property.dataType;
         }
 
+        property.setTypeProperties(p);
         if (ModelUtils.isIntegerSchema(p)) { // integer type
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isLongSchema(p)) { // int64/long format
@@ -3424,12 +3425,9 @@ public class DefaultCodegen implements CodegenConfig {
                 property.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
                 if (ModelUtils.isShortSchema(p)) { // int32
                     property.setIsShort(Boolean.TRUE);
-                } else { // unbounded integer
-                    property.setIsUnboundedInteger(Boolean.TRUE);
                 }
             }
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
-            property.isBoolean = true;
             property.getter = toBooleanGetter(name);
         } else if (ModelUtils.isDateSchema(p)) { // date format
             property.isString = false; // for backward compatibility with 2.x
@@ -3469,10 +3467,7 @@ public class DefaultCodegen implements CodegenConfig {
                 property.isFloat = Boolean.TRUE;
             } else if (ModelUtils.isDoubleSchema(p)) { // double
                 property.isDouble = Boolean.TRUE;
-            } else { // type is number and without format
-                property.isNumber = Boolean.TRUE;
             }
-
         } else if (isFreeFormObject(p)) {
             property.isFreeFormObject = true;
             if (ModelUtils.isMapSchema(p)) {
@@ -3480,10 +3475,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
-            ArraySchema arraySchema = (ArraySchema) p;
-            Schema innerSchema = unaliasSchema(getSchemaItems(arraySchema), importMapping);
             property.isContainer = true;
-            property.isArray = true;
             if (ModelUtils.isSet(p)) {
                 property.containerType = "set";
             } else {
@@ -3505,6 +3497,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (itemName == null) {
                 itemName = property.name;
             }
+            ArraySchema arraySchema = (ArraySchema) p;
+            Schema innerSchema = unaliasSchema(getSchemaItems(arraySchema), importMapping);
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
         } else if (isAnyTypeSchema(p)) {
@@ -3525,8 +3519,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isMapSchema(p)) {
             setMapProperties(property, p);
-        } else if (ModelUtils.isNullType(p)) {
-            property.isNull = true;
         }
 
         if (isFreeFormObject(p) || isAnyTypeSchema(p) || ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p)) {
