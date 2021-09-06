@@ -3464,6 +3464,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
             property.isNullable = true;
             property.isAnyType = true;
+            property.baseType = getSchemaType(p);
+            if (languageSpecificPrimitives.contains(property.dataType)) {
+                property.isPrimitiveType = true;
+            }
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
             ArraySchema arraySchema = (ArraySchema) p;
@@ -3531,11 +3535,7 @@ public class DefaultCodegen implements CodegenConfig {
                 property.isPrimitiveType = true;
             }
         } else if (isAnyTypeSchema(p)) {
-            property.isAnyType = true;
-            property.baseType = getSchemaType(p);
-            if (languageSpecificPrimitives.contains(property.dataType)) {
-                property.isPrimitiveType = true;
-            }
+            ;
         } else { // model
             String type = getSchemaType(p);
             setNonArrayMapProperty(property, type);
