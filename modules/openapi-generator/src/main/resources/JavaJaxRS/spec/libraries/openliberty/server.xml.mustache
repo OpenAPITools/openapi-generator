@@ -10,10 +10,10 @@
   <keyStore id="defaultKeyStore" password="mpKeystore"/>
 
   <logging traceSpecification="com.ibm.ws.microprofile.health.*=all"/>
-  
+
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
     <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
-           
+
    <webApplication id="{{artifactId}}" location="{{artifactId}}.war" name="{{artifactId}}" contextRoot="/"/>
 
 </server>

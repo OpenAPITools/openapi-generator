@@ -304,7 +304,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `ComplexQuadrilateral`. If the actual instanct is not `ComplexQuadrilateral`,
+     * Get the actual instance of `ComplexQuadrilateral`. If the actual instance is not `ComplexQuadrilateral`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `ComplexQuadrilateral`
@@ -315,7 +315,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `SimpleQuadrilateral`. If the actual instanct is not `SimpleQuadrilateral`,
+     * Get the actual instance of `SimpleQuadrilateral`. If the actual instance is not `SimpleQuadrilateral`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `SimpleQuadrilateral`

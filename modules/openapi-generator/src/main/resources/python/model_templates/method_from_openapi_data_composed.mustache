@@ -6,15 +6,15 @@
         Keyword Args:
 {{#requiredVars}}
 {{#defaultValue}}
-            {{name}} ({{{dataType}}}):{{#description}} {{{description}}}.{{/description}} defaults to {{{defaultValue}}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
+            {{name}} ({{{dataType}}}):{{#description}} {{{.}}}.{{/description}} defaults to {{{defaultValue}}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
 {{/defaultValue}}
 {{^defaultValue}}
-            {{name}} ({{{dataType}}}):{{#description}} {{{description}}}{{/description}}
+            {{name}} ({{{dataType}}}):{{#description}} {{{.}}}{{/description}}
 {{/defaultValue}}
 {{/requiredVars}}
 {{> model_templates/docstring_init_required_kwargs }}
 {{#optionalVars}}
-            {{name}} ({{{dataType}}}):{{#description}} {{{description}}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501
+            {{name}} ({{{dataType}}}):{{#description}} {{{.}}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{.}}}{{/defaultValue}}  # noqa: E501
 {{/optionalVars}}
         """
 

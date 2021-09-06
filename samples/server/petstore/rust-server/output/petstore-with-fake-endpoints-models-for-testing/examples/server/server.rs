@@ -51,7 +51,7 @@ pub async fn create(addr: &str, https: bool) {
 
             // Server authentication
             ssl.set_private_key_file("examples/server-key.pem", SslFiletype::PEM).expect("Failed to set private key");
-            ssl.set_certificate_chain_file("examples/server-chain.pem").expect("Failed to set cerificate chain");
+            ssl.set_certificate_chain_file("examples/server-chain.pem").expect("Failed to set certificate chain");
             ssl.check_private_key().expect("Failed to check private key");
 
             let tls_acceptor = Arc::new(ssl.build());
@@ -147,7 +147,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("test_special_tags({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn call123example(
@@ -156,7 +156,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("call123example() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn fake_outer_boolean_serialize(
@@ -166,7 +166,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("fake_outer_boolean_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn fake_outer_composite_serialize(
@@ -176,7 +176,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("fake_outer_composite_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn fake_outer_number_serialize(
@@ -186,7 +186,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("fake_outer_number_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn fake_outer_string_serialize(
@@ -196,7 +196,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("fake_outer_string_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn fake_response_with_numerical_description(
@@ -205,7 +205,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("fake_response_with_numerical_description() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn hyphen_param(
@@ -215,7 +215,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("hyphen_param(\"{}\") - X-Span-ID: {:?}", hyphen_param, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     async fn test_body_with_query_params(
@@ -226,7 +226,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("test_body_with_query_params(\"{}\", {:?}) - X-Span-ID: {:?}", query, body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// To test \"client\" model
@@ -237,7 +237,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("test_client_model({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -261,7 +261,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("test_endpoint_parameters({}, {}, \"{}\", {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// To test enum parameters
@@ -278,7 +278,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("test_enum_parameters({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, enum_form_string, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// test inline additionalProperties
@@ -289,7 +289,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("test_inline_additional_properties({:?}) - X-Span-ID: {:?}", param, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// test json serialization of form data
@@ -301,7 +301,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("test_json_form_data(\"{}\", \"{}\") - X-Span-ID: {:?}", param, param2, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// To test class name in snake case
@@ -312,7 +312,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("test_classname({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Add a new pet to the store
@@ -323,7 +323,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("add_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Deletes a pet
@@ -335,7 +335,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("delete_pet({}, {:?}) - X-Span-ID: {:?}", pet_id, api_key, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Finds Pets by status
@@ -346,7 +346,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("find_pets_by_status({:?}) - X-Span-ID: {:?}", status, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Finds Pets by tags
@@ -357,7 +357,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("find_pets_by_tags({:?}) - X-Span-ID: {:?}", tags, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Find pet by ID
@@ -368,7 +368,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("get_pet_by_id({}) - X-Span-ID: {:?}", pet_id, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Update an existing pet
@@ -379,7 +379,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("update_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Updates a pet in the store with form data
@@ -392,7 +392,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("update_pet_with_form({}, {:?}, {:?}) - X-Span-ID: {:?}", pet_id, name, status, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// uploads an image
@@ -405,7 +405,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("upload_file({}, {:?}, {:?}) - X-Span-ID: {:?}", pet_id, additional_metadata, file, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Delete purchase order by ID
@@ -416,7 +416,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("delete_order(\"{}\") - X-Span-ID: {:?}", order_id, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Returns pet inventories by status
@@ -426,7 +426,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("get_inventory() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Find purchase order by ID
@@ -437,7 +437,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("get_order_by_id({}) - X-Span-ID: {:?}", order_id, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Place an order for a pet
@@ -448,7 +448,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("place_order({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Create user
@@ -459,7 +459,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("create_user({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Creates list of users with given input array
@@ -470,7 +470,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("create_users_with_array_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Creates list of users with given input array
@@ -481,7 +481,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("create_users_with_list_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Delete user
@@ -492,7 +492,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("delete_user(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Get user by user name
@@ -503,7 +503,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("get_user_by_name(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Logs user into the system
@@ -515,7 +515,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("login_user(\"{}\", \"{}\") - X-Span-ID: {:?}", username, password, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Logs out current logged in user session
@@ -525,7 +525,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("logout_user() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
     /// Updated user
@@ -537,7 +537,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("update_user(\"{}\", {:?}) - X-Span-ID: {:?}", username, body, context.get().0.clone());
-        Err("Generic failuare".into())
+        Err("Generic failure".into())
     }
 
 }

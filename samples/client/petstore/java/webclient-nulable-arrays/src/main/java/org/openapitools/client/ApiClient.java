@@ -581,7 +581,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Include queryParams in uriParams taking into account the paramName
-     * @param queryParam The query parameters
+     * @param queryParams The query parameters
      * @param uriParams The path parameters
      * return templatized query string
      */
@@ -620,7 +620,7 @@ public class ApiClient extends JavaTimeFormatter {
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
 
         String finalUri = builder.build(false).toUriString();
-        Map<String, Object> uriParams = new HashMap();
+        Map<String, Object> uriParams = new HashMap<>();
         uriParams.putAll(pathParams);
 
         if (queryParams != null && !queryParams.isEmpty()) {

@@ -563,7 +563,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if ("abstract".equals(classModifier.getOptValue())) {
             operationModifier.setOptValue(classModifier.getOptValue());
             additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
-            LOGGER.warn("classModifier is {} so forcing operatonModifier to {}", classModifier.getOptValue(), operationModifier.getOptValue());
+            LOGGER.warn("classModifier is {} so forcing operationModifier to {}", classModifier.getOptValue(), operationModifier.getOptValue());
         }
     }
 

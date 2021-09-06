@@ -70,4 +70,3 @@ export function ModelApiResponseToJSON(value?: ModelApiResponse | null): any {
     };
 }
 
-

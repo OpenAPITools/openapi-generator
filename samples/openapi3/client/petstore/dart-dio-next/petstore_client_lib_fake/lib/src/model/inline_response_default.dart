@@ -57,10 +57,12 @@ class _$InlineResponseDefaultSerializer implements StructuredSerializer<InlineRe
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'string':
-                    result.string.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(Foo)) as Foo);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(Foo)) as Foo;
+                    result.string.replace(valueDes);
                     break;
             }
         }

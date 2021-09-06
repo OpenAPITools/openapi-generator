@@ -15,7 +15,7 @@ stack haddock
 ```
 which will generate docs for this lib in the `docs` folder.
 
-To generate the docs in the normal location (to enable hyperlinks to external libs), remove 
+To generate the docs in the normal location (to enable hyperlinks to external libs), remove
 ```
 build:
   haddock-arguments:
@@ -82,7 +82,7 @@ These options allow some customization of the code generation process.
 An example setting _dateTimeFormat_ and _strictFields_:
 
 ```
-java -jar openapi-generator-cli.jar generate -i petstore.yaml -g haskell-http-client -o output/haskell-http-client --additional-properties=dateTimeFormat="%Y-%m-%dT%H:%M:%S%Q%z" --additional-properties=strictFields=false 
+java -jar openapi-generator-cli.jar generate -i petstore.yaml -g haskell-http-client -o output/haskell-http-client --additional-properties=dateTimeFormat="%Y-%m-%dT%H:%M:%S%Q%z" --additional-properties=strictFields=false
 ```
 
 View the full list of Codegen "config option" parameters with the command:
@@ -112,7 +112,7 @@ This library is intended to be imported qualified.
 | MODULE              | NOTES                                               |
 | ------------------- | --------------------------------------------------- |
 | OpenAPIPetstore.Client    | use the "dispatch" functions to send requests       |
-| OpenAPIPetstore.Core      | core funcions, config and request types             |
+| OpenAPIPetstore.Core      | core functions, config and request types            |
 | OpenAPIPetstore.API       | construct api requests                              |
 | OpenAPIPetstore.Model     | describes api models                                |
 | OpenAPIPetstore.MimeTypes | encoding/decoding MIME types (content-types/accept) |
@@ -136,10 +136,10 @@ in GHCi or via the Haddocks.
 * optional non-body parameters are included by using  `applyOptionalParam`
 * optional body parameters are set by using  `setBodyParam`
 
-Example code generated for pretend _addFoo_ operation: 
+Example code generated for pretend _addFoo_ operation:
 
 ```haskell
-data AddFoo 	
+data AddFoo
 instance Consumes AddFoo MimeJSON
 instance Produces AddFoo MimeJSON
 instance Produces AddFoo MimeXML
@@ -182,14 +182,14 @@ the config, it will be applied to the request.
 
 ```haskell
 mgr <- newManager defaultManagerSettings
-config0 <- withStdoutLogging =<< newConfig 
+config0 <- withStdoutLogging =<< newConfig
 let config = config0
     `addAuthMethod` AuthOAuthFoo "secret-key"
 
-let addFooRequest = 
-  addFoo 
-    (ContentType MimeJSON) 
-    (Accept MimeXML) 
+let addFooRequest =
+  addFoo
+    (ContentType MimeJSON)
+    (Accept MimeXML)
     (ParamBar paramBar)
     (ParamQux paramQux)
     modelBaz

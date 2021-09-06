@@ -116,7 +116,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                     paramVendorExtensions.put("x-param-has-defaultvalue", true);
                 }
 
-                // check if param has a minimum or maximum number or lenght
+                // check if param has a minimum or maximum number or length
                 if (param.minimum != null
                         || param.maximum != null
                         || param.minLength != null
@@ -208,7 +208,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                     propertyVendorExtensions.put("x-prop-has-defaultvalue", true);
                 }
 
-                // check if model property has a minimum or maximum number or lenght
+                // check if model property has a minimum or maximum number or length
                 if (var.minimum != null
                         || var.maximum != null
                         || var.minLength != null

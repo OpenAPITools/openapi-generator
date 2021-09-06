@@ -108,12 +108,12 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     {{/isArray}}
     {{/bodyParam}}{{/bodyParams}}
 
-    emit {{nickname}}({{#allParams}}{{#isBodyParam}}{{/isBodyParam}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    emit {{nickname}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 }
 
 {{/operation}}{{/operations}}
 
-{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Response({{#returnType}}const {{{returnType}}}& res{{/returnType}}){
+{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Response({{#returnType}}const {{{.}}}& res{{/returnType}}){
     setSocketResponseHeaders();{{#returnType}}{{#isMap}}
     QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).toObject());
     socket->writeJson(resDoc);{{/isMap}}{{^isMap}}{{^returnTypeIsPrimitive}}{{^vendorExtensions.x-returns-enum}}
@@ -129,7 +129,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
 }
 
 {{/operation}}{{/operations}}
-{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Error({{#returnType}}const {{{returnType}}}& res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str){
+{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Error({{#returnType}}const {{{.}}}& res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     setSocketResponseHeaders();{{#returnType}}
     Q_UNUSED(error_str);  // response will be used instead of error string{{#isMap}}
@@ -152,7 +152,7 @@ void {{classname}}Request::sendCustomResponse(QByteArray & res, QNetworkReply::N
     socket->write(res);
     if(socket->isOpen()){
         socket->close();
-    }    
+    }
 }
 
 void {{classname}}Request::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){

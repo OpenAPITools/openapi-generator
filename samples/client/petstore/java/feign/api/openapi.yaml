@@ -1172,7 +1172,7 @@ paths:
       - fake
       x-contentType: image/png
       x-accepts: application/json
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat
@@ -1221,6 +1221,24 @@ paths:
           items:
             type: string
           type: array
+        style: form
+      - explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          additionalProperties:
+            format: string
+            type: string
+          type: object
+        style: form
+      - allowEmptyValue: true
+        explode: true
+        in: query
+        name: allowEmpty
+        required: true
+        schema:
+          type: string
         style: form
       responses:
         "200":

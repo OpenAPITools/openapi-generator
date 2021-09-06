@@ -54,4 +54,3 @@ export function CatAllOfToJSON(value?: CatAllOf | null): any {
     };
 }
 
-

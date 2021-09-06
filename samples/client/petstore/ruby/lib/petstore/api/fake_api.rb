@@ -1192,10 +1192,12 @@ module Petstore
     # @param http [Array<String>] 
     # @param url [Array<String>] 
     # @param context [Array<String>] 
+    # @param allow_empty [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [Hash<String, String>] :language 
     # @return [nil]
-    def test_query_parameter_collection_format(pipe, ioutil, http, url, context, opts = {})
-      test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, opts)
+    def test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, opts = {})
+      test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, opts)
       nil
     end
 
@@ -1205,9 +1207,11 @@ module Petstore
     # @param http [Array<String>] 
     # @param url [Array<String>] 
     # @param context [Array<String>] 
+    # @param allow_empty [String] 
     # @param [Hash] opts the optional parameters
+    # @option opts [Hash<String, String>] :language 
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, opts = {})
+    def test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_query_parameter_collection_format ...'
       end
@@ -1231,8 +1235,12 @@ module Petstore
       if @api_client.config.client_side_validation && context.nil?
         fail ArgumentError, "Missing the required parameter 'context' when calling FakeApi.test_query_parameter_collection_format"
       end
+      # verify the required parameter 'allow_empty' is set
+      if @api_client.config.client_side_validation && allow_empty.nil?
+        fail ArgumentError, "Missing the required parameter 'allow_empty' when calling FakeApi.test_query_parameter_collection_format"
+      end
       # resource path
-      local_var_path = '/fake/test-query-paramters'
+      local_var_path = '/fake/test-query-parameters'
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -1241,6 +1249,8 @@ module Petstore
       query_params[:'http'] = @api_client.build_collection_param(http, :ssv)
       query_params[:'url'] = @api_client.build_collection_param(url, :csv)
       query_params[:'context'] = @api_client.build_collection_param(context, :multi)
+      query_params[:'allowEmpty'] = allow_empty
+      query_params[:'language'] = opts[:'language'] if !opts[:'language'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

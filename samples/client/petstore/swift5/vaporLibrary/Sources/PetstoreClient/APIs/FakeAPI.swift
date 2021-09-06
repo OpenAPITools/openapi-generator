@@ -838,7 +838,7 @@ open class FakeAPI {
 
 
     /**
-     PUT /fake/test-query-paramters
+     PUT /fake/test-query-parameters
      To test the collection format in query parameters
      - parameter pipe: (query)  
      - parameter ioutil: (query)  
@@ -848,7 +848,7 @@ open class FakeAPI {
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
     open class func testQueryParameterCollectionFormatRaw(pipe: [String], ioutil: [String], http: [String], url: [String], context: [String], headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
-        let localVariablePath = "/fake/test-query-paramters"
+        let localVariablePath = "/fake/test-query-parameters"
         let localVariableURLString = PetstoreClient.basePath + localVariablePath
 
         guard let localVariableApiClient = Configuration.apiClient else {
@@ -885,7 +885,7 @@ open class FakeAPI {
     }
 
     /**
-     PUT /fake/test-query-paramters
+     PUT /fake/test-query-parameters
      To test the collection format in query parameters
      - parameter pipe: (query)  
      - parameter ioutil: (query)  

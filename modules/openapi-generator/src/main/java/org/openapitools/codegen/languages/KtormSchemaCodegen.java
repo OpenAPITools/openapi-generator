@@ -640,8 +640,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property type arguments definitions
      *
-     * @param dataType         the choosen sql type
-     * @param dataFormat       the choosen sql format
+     * @param dataType         the chosen sql type
+     * @param dataFormat       the chosen sql format
      * @param min              the minimum value, if specified, in the target type
      * @param max              the maximum value, if specified, in the target type
      * @param columnDefinition resulting column definition dictionary
@@ -1171,7 +1171,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Sets primary key naming convenion
+     * Sets primary key naming convention
      *
      * @param name name
      */
@@ -1180,7 +1180,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Returns primary key naming convenion
+     * Returns primary key naming convention
      *
      * @return name
      */
@@ -1189,7 +1189,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Sets primary key naming convenion
+     * Sets primary key naming convention
      *
      * @param enable enable this option
      */
@@ -1198,7 +1198,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Returns primary key naming convenion
+     * Returns primary key naming convention
      *
      * @return is enabled
      */
