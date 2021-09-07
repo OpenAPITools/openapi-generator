@@ -3272,6 +3272,45 @@ public class DefaultCodegen implements CodegenConfig {
         updatePropertyForMap(property, cp);
     }
 
+    protected void updatePropertyForObject(CodegenProperty property, Schema p) {
+        if (isFreeFormObject(p)) {
+            // non-composed object type with no properties + additionalProperties
+            // additionalProperties must be null, ObjectSchema, or empty Schema
+            property.isFreeFormObject = true;
+            if (languageSpecificPrimitives.contains(property.dataType)) {
+                property.isPrimitiveType = true;
+            }
+            if (ModelUtils.isMapSchema(p)) {
+                // an object or anyType composed schema that has additionalProperties set
+                updatePropertyForMap(property, p);
+            } else {
+                // ObjectSchema with additionalProperties = null, can be nullable
+                property.setIsMap(false);
+            }
+        } else if (ModelUtils.isMapSchema(p)) {
+            // an object or anyType composed schema that has additionalProperties set
+            updatePropertyForMap(property, p);
+        }
+    }
+
+    protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
+        // The 'null' value is allowed when the OAS schema is 'any type'.
+        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        if (Boolean.FALSE.equals(p.getNullable())) {
+            LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
+        }
+        property.isNullable = true;
+        if (languageSpecificPrimitives.contains(property.dataType)) {
+            property.isPrimitiveType = true;
+        }
+        if (ModelUtils.isMapSchema(p)) {
+            // an object or anyType composed schema that has additionalProperties set
+            // some of our code assumes that any type schema with properties defined will be a map
+            // even though it should allow in any type and have map constraints for properties
+            updatePropertyForMap(property, p);
+        }
+    }
+
     /**
      * Convert OAS Property object to Codegen Property object.
      *
@@ -3494,39 +3533,9 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
         } else if (ModelUtils.isTypeObjectSchema(p)) {
-            if (isFreeFormObject(p)) {
-                // non-composed object type with no properties + additionalProperties
-               property.isFreeFormObject = true;
-               if (languageSpecificPrimitives.contains(property.dataType)) {
-                   property.isPrimitiveType = true;
-               }
-               if (ModelUtils.isMapSchema(p)) {
-                   // an object or anyType composed schema that has additionalProperties set
-                   updatePropertyForMap(property, p);
-               } else {
-                   // ObjectSchema with additionalProperties = null, can be nullable
-                   property.setIsMap(false);
-               }
-            } else if (ModelUtils.isMapSchema(p)) {
-                // an object or anyType composed schema that has additionalProperties set
-                updatePropertyForMap(property, p);
-            }
+            updatePropertyForObject(property, p);
         } else if (isAnyTypeSchema(p)) {
-            // The 'null' value is allowed when the OAS schema is 'any type'.
-            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
-            if (Boolean.FALSE.equals(p.getNullable())) {
-                LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
-            }
-            property.isNullable = true;
-            if (languageSpecificPrimitives.contains(property.dataType)) {
-                property.isPrimitiveType = true;
-            }
-            if (ModelUtils.isMapSchema(p)) {
-                // an object or anyType composed schema that has additionalProperties set, can have >= 0 properties defined
-                // some of our code assumes that any type schema with properties defined will be a map
-                // even though it should allow in any type and have map constraints for properties
-                updatePropertyForMap(property, p);
-            }
+            updatePropertyForAnyType(property, p);
         }
 
         if (!(ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p) || isFreeFormObject(p) || isAnyTypeSchema(p))) {
