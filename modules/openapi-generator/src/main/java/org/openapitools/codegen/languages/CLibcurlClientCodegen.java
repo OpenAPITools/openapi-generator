@@ -246,6 +246,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         "override",
                         "transaction_safe",
                         "transaction_safe_dynamic",
+
+                        // VC++ reserved keywords
                         "stdin",
                         "stdout",
                         "stderr")
