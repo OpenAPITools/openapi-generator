@@ -3476,25 +3476,17 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isFileSchema(p)) {
                 property.isFile = true;
             } else if (ModelUtils.isUUIDSchema(p)) {
-                // keep isString to true to make it backward compatible
-                property.isString = true;
                 property.isUuid = true;
             } else if (ModelUtils.isURISchema(p)) {
-                property.isString = true; // for backward compatibility
                 property.isUri = true;
             } else if (ModelUtils.isEmailSchema(p)) {
-                property.isString = true;
                 property.isEmail = true;
             } else if (ModelUtils.isDateSchema(p)) { // date format
-                property.isString = false; // for backward compatibility with 2.x
                 property.isDate = true;
             } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
-                property.isString = false; // for backward compatibility with 2.x
                 property.isDateTime = true;
             } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
                 property.isDecimal = true;
-            } else {
-                property.isString = true;
             }
             property.pattern = toRegularExpression(p.getPattern());
         } else if (ModelUtils.isNumberSchema(p)) {

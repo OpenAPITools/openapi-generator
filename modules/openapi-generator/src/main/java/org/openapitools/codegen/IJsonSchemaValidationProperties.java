@@ -157,14 +157,14 @@ public interface IJsonSchemaValidationProperties {
         } else if (ModelUtils.isArraySchema(p)) {
             setIsArray(true);
         } else if (ModelUtils.isStringSchema(p)) {
-            // setIsString(true);
+            setIsString(true);
             if (ModelUtils.isByteArraySchema(p)) {
                 ;
             } else if (ModelUtils.isBinarySchema(p)) {
-                ;
-                ; // file = binary in OAS3
+                setIsString(false);
             } else if (ModelUtils.isFileSchema(p)) {
-                ;
+                // file = binary in OAS3
+                setIsString(false);
             } else if (ModelUtils.isUUIDSchema(p)) {
                 // keep isString to true to make it backward compatible
                 ;
@@ -178,6 +178,8 @@ public interface IJsonSchemaValidationProperties {
             } else if (ModelUtils.isDateTimeSchema(p)) {
                 // for backward compatibility with 2.x
                 setIsString(false);
+            } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
+                ;
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (ModelUtils.isFloatSchema(p)) { // float
