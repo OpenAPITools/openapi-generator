@@ -3254,7 +3254,7 @@ public class DefaultCodegen implements CodegenConfig {
         return camelize(toVarName(name));
     }
 
-    private void setMapProperties(CodegenProperty property, Schema p) {
+    private void updatePropertyForMap(CodegenProperty property, Schema p) {
         property.isContainer = true;
         property.containerType = "map";
         // TODO remove this hack in the future, code should use minProperties and maxProperties for object schemas
@@ -3428,15 +3428,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
             property.getter = toBooleanGetter(name);
-        } else if (ModelUtils.isDateSchema(p)) { // date format
-            property.isString = false; // for backward compatibility with 2.x
-            property.isDate = true;
-
-        } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
-            property.isString = false; // for backward compatibility with 2.x
-            property.isDateTime = true;
-        } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
-            property.isDecimal = true;
         } else if (ModelUtils.isStringSchema(p)) {
             if (ModelUtils.isByteArraySchema(p)) {
                 property.isByteArray = true;
@@ -3455,29 +3446,24 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isEmailSchema(p)) {
                 property.isString = true;
                 property.isEmail = true;
+            } else if (ModelUtils.isDateSchema(p)) { // date format
+                property.isString = false; // for backward compatibility with 2.x
+                property.isDate = true;
+            } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
+                property.isString = false; // for backward compatibility with 2.x
+                property.isDateTime = true;
+            } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
+                property.isDecimal = true;
             } else {
                 property.isString = true;
             }
             property.pattern = toRegularExpression(p.getPattern());
-
         } else if (ModelUtils.isNumberSchema(p)) {
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isFloatSchema(p)) { // float
                 property.isFloat = Boolean.TRUE;
             } else if (ModelUtils.isDoubleSchema(p)) { // double
                 property.isDouble = Boolean.TRUE;
-            }
-        } else if (isFreeFormObject(p)) {
-            property.isFreeFormObject = true;
-            if (languageSpecificPrimitives.contains(property.dataType)) {
-                property.isPrimitiveType = true;
-            }
-            if (ModelUtils.isMapSchema(p)) {
-                setMapProperties(property, p);
-            } else {
-                // TODO generalize setPropertyForFreeFormObject into a method that can be overriden
-                // ovveride it in JavaClientCodegen
-                property.setIsMap(false);
             }
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
@@ -3507,6 +3493,24 @@ public class DefaultCodegen implements CodegenConfig {
             Schema innerSchema = unaliasSchema(getSchemaItems(arraySchema), importMapping);
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
+        } else if (ModelUtils.isTypeObjectSchema(p)) {
+            if (isFreeFormObject(p)) {
+                // non-composed object type with no properties + additionalProperties
+               property.isFreeFormObject = true;
+               if (languageSpecificPrimitives.contains(property.dataType)) {
+                   property.isPrimitiveType = true;
+               }
+               if (ModelUtils.isMapSchema(p)) {
+                   // an object or anyType composed schema that has additionalProperties set
+                   updatePropertyForMap(property, p);
+               } else {
+                   // ObjectSchema with additionalProperties = null, can be nullable
+                   property.setIsMap(false);
+               }
+            } else if (ModelUtils.isMapSchema(p)) {
+                // an object or anyType composed schema that has additionalProperties set
+                updatePropertyForMap(property, p);
+            }
         } else if (isAnyTypeSchema(p)) {
             // The 'null' value is allowed when the OAS schema is 'any type'.
             // See https://github.com/OAI/OpenAPI-Specification/issues/1389
@@ -3518,16 +3522,15 @@ public class DefaultCodegen implements CodegenConfig {
                 property.isPrimitiveType = true;
             }
             if (ModelUtils.isMapSchema(p)) {
+                // an object or anyType composed schema that has additionalProperties set, can have >= 0 properties defined
                 // some of our code assumes that any type schema with properties defined will be a map
-                setMapProperties(property, p);
+                // even though it should allow in any type and have map constraints for properties
+                updatePropertyForMap(property, p);
             }
-        } else if (ModelUtils.isMapSchema(p)) {
-            setMapProperties(property, p);
         }
 
-        if (ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p) || isFreeFormObject(p) || isAnyTypeSchema(p)) {
-            ;
-        } else { // model
+        if (!(ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p) || isFreeFormObject(p) || isAnyTypeSchema(p))) {
+            // model
             String type = getSchemaType(p);
             setNonArrayMapProperty(property, type);
             Schema refOrCurrent = ModelUtils.getReferencedSchema(this.openAPI, p);
