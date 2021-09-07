@@ -7,8 +7,12 @@ import 'package:built_value/serializer.dart';
 
 part 'outer_composite.g.dart';
 
-
-
+/// OuterComposite
+///
+/// Properties:
+/// * [myNumber] 
+/// * [myString] 
+/// * [myBoolean] 
 abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBuilder> {
     @BuiltValueField(wireName: r'my_number')
     num? get myNumber;
@@ -21,7 +25,8 @@ abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBui
 
     OuterComposite._();
 
-    static void _initializeBuilder(OuterCompositeBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(OuterCompositeBuilder b) => b;
 
     factory OuterComposite([void updates(OuterCompositeBuilder b)]) = _$OuterComposite;
 
@@ -71,18 +76,22 @@ class _$OuterCompositeSerializer implements StructuredSerializer<OuterComposite>
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'my_number':
-                    result.myNumber = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(num)) as num;
+                    result.myNumber = valueDes;
                     break;
                 case r'my_string':
-                    result.myString = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.myString = valueDes;
                     break;
                 case r'my_boolean':
-                    result.myBoolean = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(bool)) as bool;
+                    result.myBoolean = valueDes;
                     break;
             }
         }

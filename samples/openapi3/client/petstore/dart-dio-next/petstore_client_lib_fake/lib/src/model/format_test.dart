@@ -9,8 +9,25 @@ import 'package:built_value/serializer.dart';
 
 part 'format_test.g.dart';
 
-
-
+/// FormatTest
+///
+/// Properties:
+/// * [integer] 
+/// * [int32] 
+/// * [int64] 
+/// * [number] 
+/// * [float] 
+/// * [double_] 
+/// * [decimal] 
+/// * [string] 
+/// * [byte] 
+/// * [binary] 
+/// * [date] 
+/// * [dateTime] 
+/// * [uuid] 
+/// * [password] 
+/// * [patternWithDigits] - A string that is a 10 digit number. Can have leading zeros.
+/// * [patternWithDigitsAndDelimiter] - A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
 abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
     @BuiltValueField(wireName: r'integer')
     int? get integer;
@@ -64,7 +81,8 @@ abstract class FormatTest implements Built<FormatTest, FormatTestBuilder> {
 
     FormatTest._();
 
-    static void _initializeBuilder(FormatTestBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(FormatTestBuilder b) => b;
 
     factory FormatTest([void updates(FormatTestBuilder b)]) = _$FormatTest;
 
@@ -184,70 +202,87 @@ class _$FormatTestSerializer implements StructuredSerializer<FormatTest> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'integer':
-                    result.integer = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.integer = valueDes;
                     break;
                 case r'int32':
-                    result.int32 = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.int32 = valueDes;
                     break;
                 case r'int64':
-                    result.int64 = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.int64 = valueDes;
                     break;
                 case r'number':
-                    result.number = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(num)) as num;
+                    result.number = valueDes;
                     break;
                 case r'float':
-                    result.float = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(double)) as double;
+                    result.float = valueDes;
                     break;
                 case r'double':
-                    result.double_ = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(double)) as double;
+                    result.double_ = valueDes;
                     break;
                 case r'decimal':
-                    result.decimal = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(double)) as double;
+                    result.decimal = valueDes;
                     break;
                 case r'string':
-                    result.string = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.string = valueDes;
                     break;
                 case r'byte':
-                    result.byte = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.byte = valueDes;
                     break;
                 case r'binary':
-                    result.binary = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(Uint8List)) as Uint8List;
+                    result.binary = valueDes;
                     break;
                 case r'date':
-                    result.date = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(Date)) as Date;
+                    result.date = valueDes;
                     break;
                 case r'dateTime':
-                    result.dateTime = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(DateTime)) as DateTime;
+                    result.dateTime = valueDes;
                     break;
                 case r'uuid':
-                    result.uuid = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.uuid = valueDes;
                     break;
                 case r'password':
-                    result.password = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.password = valueDes;
                     break;
                 case r'pattern_with_digits':
-                    result.patternWithDigits = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.patternWithDigits = valueDes;
                     break;
                 case r'pattern_with_digits_and_delimiter':
-                    result.patternWithDigitsAndDelimiter = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.patternWithDigitsAndDelimiter = valueDes;
                     break;
             }
         }

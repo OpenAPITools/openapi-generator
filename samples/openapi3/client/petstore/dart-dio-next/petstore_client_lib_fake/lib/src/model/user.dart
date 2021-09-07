@@ -7,8 +7,17 @@ import 'package:built_value/serializer.dart';
 
 part 'user.g.dart';
 
-
-
+/// User
+///
+/// Properties:
+/// * [id] 
+/// * [username] 
+/// * [firstName] 
+/// * [lastName] 
+/// * [email] 
+/// * [password] 
+/// * [phone] 
+/// * [userStatus] - User Status
 abstract class User implements Built<User, UserBuilder> {
     @BuiltValueField(wireName: r'id')
     int? get id;
@@ -37,7 +46,8 @@ abstract class User implements Built<User, UserBuilder> {
 
     User._();
 
-    static void _initializeBuilder(UserBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(UserBuilder b) => b;
 
     factory User([void updates(UserBuilder b)]) = _$User;
 
@@ -117,38 +127,47 @@ class _$UserSerializer implements StructuredSerializer<User> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'id':
-                    result.id = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.id = valueDes;
                     break;
                 case r'username':
-                    result.username = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.username = valueDes;
                     break;
                 case r'firstName':
-                    result.firstName = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.firstName = valueDes;
                     break;
                 case r'lastName':
-                    result.lastName = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.lastName = valueDes;
                     break;
                 case r'email':
-                    result.email = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.email = valueDes;
                     break;
                 case r'password':
-                    result.password = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.password = valueDes;
                     break;
                 case r'phone':
-                    result.phone = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.phone = valueDes;
                     break;
                 case r'userStatus':
-                    result.userStatus = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.userStatus = valueDes;
                     break;
             }
         }

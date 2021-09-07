@@ -14,4 +14,3 @@ export abstract class AbstractMiddleware implements PromiseMiddleware {
 export abstract class AbstractServerConfiguration implements BaseServerConfiguration {
     public abstract makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
 };
-

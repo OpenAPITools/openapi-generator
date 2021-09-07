@@ -18,7 +18,7 @@ import java.io.Serializable
  * @param id 
  * @param name 
  */
-data class Category (
+data class Category(
     val id: kotlin.Long? = null,
     val name: kotlin.String? = null
 ) : Serializable 

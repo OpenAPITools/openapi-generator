@@ -34,7 +34,10 @@ public class GlobalSettings {
     private static ThreadLocal<Properties> properties = new InheritableThreadLocal<Properties>() {
         @Override
         protected Properties initialValue() {
-            return (Properties) System.getProperties().clone();
+            // avoid using System.getProperties().clone() which is broken in Gradle - see https://github.com/gradle/gradle/issues/17344
+            Properties copy = new Properties();
+            copy.putAll(System.getProperties());
+            return copy;
         };
     };
 

@@ -55,7 +55,7 @@ public interface PetApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation"),
         @ApiResponse(code = 400, message = "Invalid pet value") })
-    public void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")   String apiKey);
+    public void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")  String apiKey);
 
     /**
      * Finds Pets by status
@@ -70,7 +70,7 @@ public interface PetApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value") })
-    public List<Pet> findPetsByStatus(@QueryParam("status") @NotNull  List<String> status);
+    public List<Pet> findPetsByStatus(@QueryParam("status") @NotNull List<String> status);
 
     /**
      * Finds Pets by tags
@@ -85,7 +85,7 @@ public interface PetApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @ApiResponse(code = 400, message = "Invalid tag value") })
-    public Set<Pet> findPetsByTags(@QueryParam("tags") @NotNull  Set<String> tags);
+    public Set<Pet> findPetsByTags(@QueryParam("tags") @NotNull Set<String> tags);
 
     /**
      * Find pet by ID
@@ -156,4 +156,3 @@ public interface PetApi  {
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @Multipart(value = "requiredFile" ) Attachment requiredFileDetail, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata);
 }
-

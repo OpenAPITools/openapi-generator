@@ -6,6 +6,7 @@
   <name>jaxrs-jersey-petstore-server</name>
   <version>1.0.0</version>
 
+
   <licenses>
     <license>
       <name>Unlicense</name>
@@ -13,7 +14,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
@@ -157,7 +158,7 @@
       <version>2.2</version>
     </dependency>
 
-  
+
     <!-- Bean Validation API support -->
     <dependency>
         <groupId>javax.validation</groupId>
@@ -186,7 +187,7 @@
     <jersey2-version>2.22.2</jersey2-version>
     <jackson-version>2.9.9</jackson-version>
     <junit-version>4.13.1</junit-version>
-    <logback-version>1.1.7</logback-version>
+    <logback-version>1.2.0</logback-version>
     <servlet-api-version>2.5</servlet-api-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

@@ -16,7 +16,7 @@ interface PetApi {
      * 
      * Responses:
      *  - 405: Invalid input
-     * 
+     *
      * @param body Pet object that needs to be added to the store 
      * @return [Call]<[Unit]>
      */
@@ -28,13 +28,13 @@ interface PetApi {
      * 
      * Responses:
      *  - 400: Invalid pet value
-     * 
+     *
      * @param petId Pet id to delete 
      * @param apiKey  (optional)
      * @return [Call]<[Unit]>
      */
     @DELETE("pet/{petId}")
-    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String): Call<Unit>
+    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String? = null): Call<Unit>
 
     /**
      * Finds Pets by status
@@ -42,7 +42,7 @@ interface PetApi {
      * Responses:
      *  - 200: successful operation
      *  - 400: Invalid status value
-     * 
+     *
      * @param status Status values that need to be considered for filter 
      * @return [Call]<[kotlin.collections.List<Pet>]>
      */
@@ -55,7 +55,7 @@ interface PetApi {
      * Responses:
      *  - 200: successful operation
      *  - 400: Invalid tag value
-     * 
+     *
      * @param tags Tags to filter by 
      * @return [Call]<[kotlin.collections.List<Pet>]>
      */
@@ -70,7 +70,7 @@ interface PetApi {
      *  - 200: successful operation
      *  - 400: Invalid ID supplied
      *  - 404: Pet not found
-     * 
+     *
      * @param petId ID of pet to return 
      * @return [Call]<[Pet]>
      */
@@ -84,7 +84,7 @@ interface PetApi {
      *  - 400: Invalid ID supplied
      *  - 404: Pet not found
      *  - 405: Validation exception
-     * 
+     *
      * @param body Pet object that needs to be added to the store 
      * @return [Call]<[Unit]>
      */
@@ -96,7 +96,7 @@ interface PetApi {
      * 
      * Responses:
      *  - 405: Invalid input
-     * 
+     *
      * @param petId ID of pet that needs to be updated 
      * @param name Updated name of the pet (optional)
      * @param status Updated status of the pet (optional)
@@ -104,14 +104,14 @@ interface PetApi {
      */
     @FormUrlEncoded
     @POST("pet/{petId}")
-    fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String, @Field("status") status: kotlin.String): Call<Unit>
+    fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String? = null, @Field("status") status: kotlin.String? = null): Call<Unit>
 
     /**
      * uploads an image
      * 
      * Responses:
      *  - 200: successful operation
-     * 
+     *
      * @param petId ID of pet to update 
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)
@@ -119,6 +119,6 @@ interface PetApi {
      */
     @Multipart
     @POST("pet/{petId}/uploadImage")
-    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part file: MultipartBody.Part): Call<ApiResponse>
+    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null, @Part file: MultipartBody.Part? = null): Call<ApiResponse>
 
 }

@@ -248,7 +248,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             }
 
             if (op.hasProduces) {
-                // need to escape */* values because they breakes current mustaches
+                // need to escape */* values because they breaks current mustaches
                 List<Map<String, String>> c = op.produces;
                 for (Map<String, String> mediaType : c) {
                     if ("*/*".equals(mediaType.get("mediaType"))) {
@@ -258,7 +258,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             }
         }
 
-        // sort the endpoints in ascending to avoid the route priority issure.
+        // sort the endpoints in ascending to avoid the route priority issue.
         // https://github.com/swagger-api/swagger-codegen/issues/2643
         Collections.sort(operations, new Comparator<CodegenOperation>() {
             @Override

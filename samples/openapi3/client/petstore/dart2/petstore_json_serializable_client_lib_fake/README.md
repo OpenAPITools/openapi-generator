@@ -67,6 +67,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](doc//FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](doc//FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](doc//FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**testBodyWithBinary**](doc//FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](doc//FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](doc//FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](doc//FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
@@ -75,7 +76,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testGroupParameters**](doc//FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](doc//FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](doc//FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**testQueryParameterCollectionFormat**](doc//FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**testQueryParameterCollectionFormat**](doc//FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](doc//FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](doc//PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](doc//PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -113,6 +114,7 @@ Class | Method | HTTP request | Description
  - [CatAllOf](doc//CatAllOf.md)
  - [Category](doc//Category.md)
  - [ClassModel](doc//ClassModel.md)
+ - [DeprecatedObject](doc//DeprecatedObject.md)
  - [Dog](doc//Dog.md)
  - [DogAllOf](doc//DogAllOf.md)
  - [EnumArrays](doc//EnumArrays.md)
@@ -134,6 +136,7 @@ Class | Method | HTTP request | Description
  - [Name](doc//Name.md)
  - [NullableClass](doc//NullableClass.md)
  - [NumberOnly](doc//NumberOnly.md)
+ - [ObjectWithDeprecatedFields](doc//ObjectWithDeprecatedFields.md)
  - [Order](doc//Order.md)
  - [OuterComposite](doc//OuterComposite.md)
  - [OuterEnum](doc//OuterEnum.md)
@@ -185,7 +188,6 @@ Class | Method | HTTP request | Description
 
 
 ## Author
-
 
 
 

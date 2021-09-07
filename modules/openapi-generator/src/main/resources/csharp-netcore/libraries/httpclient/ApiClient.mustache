@@ -80,9 +80,9 @@ namespace {{packageName}}.Client
             }
         }
 
-        public T Deserialize<T>(HttpResponseMessage response)
+        public async Task<T> Deserialize<T>(HttpResponseMessage response)
         {
-            var result = (T)Deserialize(response, typeof(T));
+            var result = (T) await Deserialize(response, typeof(T));
             return result;
         }
 
@@ -92,22 +92,22 @@ namespace {{packageName}}.Client
         /// <param name="response">The HTTP response.</param>
         /// <param name="type">Object type.</param>
         /// <returns>Object representation of the JSON string.</returns>
-        internal object Deserialize(HttpResponseMessage response, Type type)
+        internal async Task<object> Deserialize(HttpResponseMessage response, Type type)
         {
             IList<string> headers = response.Headers.Select(x => x.Key + "=" + x.Value).ToList();
 
             if (type == typeof(byte[])) // return byte array
             {
-                return response.Content.ReadAsByteArrayAsync().Result;
+                return await response.Content.ReadAsByteArrayAsync();
             }
 
             // TODO: ? if (type.IsAssignableFrom(typeof(Stream)))
             if (type == typeof(Stream))
             {
-                var bytes = response.Content.ReadAsByteArrayAsync().Result;
+                var bytes = await response.Content.ReadAsByteArrayAsync();
                 if (headers != null)
                 {
-                    var filePath = String.IsNullOrEmpty(_configuration.TempFolderPath)
+                    var filePath = string.IsNullOrEmpty(_configuration.TempFolderPath)
                         ? Path.GetTempPath()
                         : _configuration.TempFolderPath;
                     var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
@@ -128,18 +128,18 @@ namespace {{packageName}}.Client
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
             {
-                return DateTime.Parse(response.Content.ReadAsStringAsync().Result, null, System.Globalization.DateTimeStyles.RoundtripKind);
+                return DateTime.Parse(await response.Content.ReadAsStringAsync(), null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
-            if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
+            if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
-                return Convert.ChangeType(response.Content.ReadAsStringAsync().Result, type);
+                return Convert.ChangeType(await response.Content.ReadAsStringAsync(), type);
             }
 
             // at this point, it must be a model (json)
             try
             {
-                return JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result, type, _serializerSettings);
+                return JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync(), type, _serializerSettings);
             }
             catch (Exception e)
             {
@@ -158,7 +158,7 @@ namespace {{packageName}}.Client
         }
     }
     /// <summary>
-    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
+    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementations),
     /// encapsulating general REST accessor use cases.
     /// </summary>
     /// <remarks>
@@ -166,15 +166,15 @@ namespace {{packageName}}.Client
     /// </remarks>
     {{>visibility}} partial class ApiClient : IDisposable, ISynchronousClient{{#supportsAsync}}, IAsynchronousClient{{/supportsAsync}}
     {
-        private readonly String _baseUrl;
+        private readonly string _baseUrl;
 
-		private readonly HttpClientHandler _httpClientHandler;
-		private readonly HttpClient _httpClient;	
-		private readonly bool _disposeClient;
+        private readonly HttpClientHandler _httpClientHandler;
+        private readonly HttpClient _httpClient;
+        private readonly bool _disposeClient;
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
-        /// These settings can be adjusted to accomodate custom serialization rules.
+        /// These settings can be adjusted to accommodate custom serialization rules.
         /// </summary>
         public JsonSerializerSettings SerializerSettings { get; set; } = new JsonSerializerSettings
         {
@@ -191,89 +191,66 @@ namespace {{packageName}}.Client
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
+        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         public ApiClient() :
                  this({{packageName}}.Client.GlobalConfiguration.Instance.BasePath)
-        {	
+        {
         }
-		
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
+        /// **IMPORTANT** This will also create an instance of HttpClient, which is less than ideal.
+        /// It's better to reuse the <see href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests#issues-with-the-original-httpclient-class-available-in-net">HttpClient and HttpClientHandler</see>.
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
-        public ApiClient(String basePath)
-        {	
-		    if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
+        public ApiClient(string basePath)
+        {
+            if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
 
-			_httpClientHandler = new HttpClientHandler();
-			_httpClient = new HttpClient(_httpClientHandler, true);
+            _httpClientHandler = new HttpClientHandler();
+            _httpClient = new HttpClient(_httpClientHandler, true);
             _disposeClient = true;
-			_baseUrl = basePath;
+            _baseUrl = basePath;
         }
-		
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
-		/// <exception cref="ArgumentNullException"></exception>
-		/// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <remarks>
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
         /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-		/// </remarks>
-        public ApiClient(HttpClient client) :
-                 this(client, {{packageName}}.Client.GlobalConfiguration.Instance.BasePath)
-        {	
+        /// </remarks>
+        public ApiClient(HttpClient client, HttpClientHandler handler = null) :
+                 this(client, {{packageName}}.Client.GlobalConfiguration.Instance.BasePath, handler)
+        {
         }
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ApiClient" />
-        /// </summary>	
-        /// <param name="client">An instance of HttpClient.</param>
-		/// <param name="basePath">The target service's base path in URL format.</param>
-		/// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
-		/// <remarks>
-		/// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
-        /// </remarks>		
-        public ApiClient(HttpClient client, String basePath)
-        {	
-		    if (client == null) throw new ArgumentNullException("client cannot be null");
-			if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
-			
-			_httpClient = client;
-			_baseUrl = basePath;
-        }
-		
-		/// <summary>
-        /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
-        /// </summary>
-        /// <param name="client">An instance of HttpClient.</param>
-		/// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-		/// <exception cref="ArgumentNullException"></exception>
-        public ApiClient(HttpClient client, HttpClientHandler handler) :
-                 this(client, handler, {{packageName}}.Client.GlobalConfiguration.Instance.BasePath)
-        {	
-        }
-		
-		/// <summary>
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />.
         /// </summary>
         /// <param name="client">An instance of HttpClient.</param>
-		/// <param name="handler">An instance of HttpClientHandler that is used by HttpClient.</param>
-		/// <param name="basePath">The target service's base path in URL format.</param>
-		/// <exception cref="ArgumentNullException"></exception>
-		/// <exception cref="ArgumentException"></exception>
-        public ApiClient(HttpClient client, HttpClientHandler handler, String basePath)
-        {	
-			if (client == null) throw new ArgumentNullException("client cannot be null");
-			if (handler == null) throw new ArgumentNullException("handler cannot be null");
-			if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
-			
-			_httpClientHandler = handler;
-			_httpClient = client;
-			_baseUrl = basePath;
+        /// <param name="basePath">The target service's base path in URL format.</param>
+        /// <param name="handler">An optional instance of HttpClientHandler that is used by HttpClient.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <remarks>
+        /// Some configuration settings will not be applied without passing an HttpClientHandler.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// </remarks>
+        public ApiClient(HttpClient client, string basePath, HttpClientHandler handler = null)
+        {
+            if (client == null) throw new ArgumentNullException("client cannot be null");
+            if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("basePath cannot be empty");
+
+            _httpClientHandler = handler;
+            _httpClient = client;
+            _baseUrl = basePath;
         }
 
         /// <summary>
@@ -301,12 +278,10 @@ namespace {{packageName}}.Client
             {
                 foreach (var fileParam in options.FileParameters)
                 {
-                    var fileStream = fileParam.Value as FileStream;
-                    var fileStreamName = fileStream != null ? System.IO.Path.GetFileName(fileStream.Name) : null;
-                    var content = new StreamContent(fileParam.Value);
+                    var content = new StreamContent(fileParam.Value.Content);
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                     multipartContent.Add(content, fileParam.Key,
-                        fileStreamName ?? "no_file_name_provided");
+                        fileParam.Value.Name);
                 }
             }
             return multipartContent;
@@ -326,7 +301,7 @@ namespace {{packageName}}.Client
         /// <exception cref="ArgumentNullException"></exception>
         private HttpRequestMessage NewRequest(
             HttpMethod method,
-            String path,
+            string path,
             RequestOptions options,
             IReadableConfiguration configuration)
         {
@@ -338,11 +313,7 @@ namespace {{packageName}}.Client
 
             builder.AddPathParameters(options.PathParameters);
 
-            // In case of POST or PUT pass query parameters in request body
-            if (method != HttpMethod.Post && method != HttpMethod.Put)
-            {
-                builder.AddQueryParameters(options.QueryParameters);
-            }
+            builder.AddQueryParameters(options.QueryParameters);
 
             HttpRequestMessage request = new HttpRequestMessage(method, builder.GetFullUri());
 
@@ -393,11 +364,11 @@ namespace {{packageName}}.Client
             {
                 if (options.Data != null)
                 {
-                    if (options.Data is Stream s)
+                    if (options.Data is FileParameter fp)
                     {
                         contentType = contentType ?? "application/octet-stream";
 
-                        var streamContent = new StreamContent(s);
+                        var streamContent = new StreamContent(fp.Content);
                         streamContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
                         request.Content = streamContent;
                     }
@@ -424,10 +395,10 @@ namespace {{packageName}}.Client
         partial void InterceptRequest(HttpRequestMessage req);
         partial void InterceptResponse(HttpRequestMessage req, HttpResponseMessage response);
 
-        private ApiResponse<T> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
+        private async Task<ApiResponse<T>> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
         {
             T result = (T) responseData;
-            string rawContent = response.Content.ToString();
+            string rawContent = await response.Content.ReadAsStringAsync();
 
             var transformed = new ApiResponse<T>(response.StatusCode, new Multimap<string, string>({{#caseInsensitiveResponseHeaders}}StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}), result, rawContent)
             {
@@ -469,7 +440,7 @@ namespace {{packageName}}.Client
 
         private ApiResponse<T> Exec<T>(HttpRequestMessage req, IReadableConfiguration configuration)
         {
-            return ExecAsync<T>(req, configuration).Result;
+            return ExecAsync<T>(req, configuration).GetAwaiter().GetResult();
         }
 
         private async Task<ApiResponse<T>> ExecAsync<T>(HttpRequestMessage req,
@@ -534,7 +505,12 @@ namespace {{packageName}}.Client
             }
 {{/supportsRetry}}
 
-            object responseData = deserializer.Deserialize<T>(response);
+            if (!response.IsSuccessStatusCode)
+            {
+                return await ToApiResponse<T>(response, default(T), req.RequestUri);
+            }
+
+            object responseData = await deserializer.Deserialize<T>(response);
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
@@ -548,9 +524,7 @@ namespace {{packageName}}.Client
 
             InterceptResponse(req, response);
 
-            var result = ToApiResponse<T>(response, responseData, req.RequestUri);
-
-            return result;
+            return await ToApiResponse<T>(response, responseData, req.RequestUri);
         }
 
         {{#supportsAsync}}

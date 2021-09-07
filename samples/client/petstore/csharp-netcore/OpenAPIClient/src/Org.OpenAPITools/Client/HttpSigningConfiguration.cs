@@ -18,7 +18,7 @@ namespace Org.OpenAPITools.Client
     {
         #region
         /// <summary>
-        /// Initailize the HashAlgorithm and SigningAlgorithm to default value
+        /// Initialize the HashAlgorithm and SigningAlgorithm to default value
         /// </summary>
         public HttpSigningConfiguration()
         {
@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Client
         public string SigningAlgorithm { get; set; }
 
         /// <summary>
-        /// Gets the Signature validaty period in seconds
+        /// Gets the Signature validity period in seconds
         /// </summary>
         public int SignatureValidityPeriod { get; set; }
 
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Client
                 }
             }
 
-            var httpValues = HttpUtility.ParseQueryString(String.Empty);
+            var httpValues = HttpUtility.ParseQueryString(string.Empty);
             foreach (var parameter in requestOptions.QueryParameters)
             {
 #if (NETCOREAPP)
@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Client
             uriBuilder.Query = httpValues.ToString().Replace("+", "%20");
 
             var dateTime = DateTime.Now;
-            String Digest = String.Empty;
+            string Digest = string.Empty;
 
             //get the body
             string requestBody = string.Empty;
@@ -193,7 +193,7 @@ namespace Org.OpenAPITools.Client
                 }
                 else if (header.Equals(HEADER_DATE))
                 {
-                    var utcDateTime = dateTime.ToString("r").ToString();
+                    var utcDateTime = dateTime.ToUniversalTime().ToString("r");
                     HttpSignatureHeader.Add(header.ToLower(), utcDateTime);
                     HttpSignedRequestHeader.Add(HEADER_DATE, utcDateTime);
                 }
@@ -230,7 +230,7 @@ namespace Org.OpenAPITools.Client
                 }
 
             }
-            var headersKeysString = String.Join(" ", HttpSignatureHeader.Keys);
+            var headersKeysString = string.Join(" ", HttpSignatureHeader.Keys);
             var headerValuesList = new List<string>();
 
             foreach (var keyVal in HttpSignatureHeader)
@@ -238,7 +238,7 @@ namespace Org.OpenAPITools.Client
                 headerValuesList.Add(string.Format("{0}: {1}", keyVal.Key, keyVal.Value));
 
             }
-            //Concatinate headers value separated by new line
+            //Concatenate headers value separated by new line
             var headerValuesString = string.Join("\n", headerValuesList);
             var signatureStringHash = GetStringHash(HashAlgorithm.ToString(), headerValuesString);
             string headerSignatureStr = null;
@@ -361,7 +361,7 @@ namespace Org.OpenAPITools.Client
         private  byte[] ConvertToECDSAANS1Format(byte[] signedBytes)
         {
             var derBytes = new List<byte>();
-            byte derLength = 68; //default lenght for ECDSA code signinged bit 0x44
+            byte derLength = 68; //default length for ECDSA code signing bit 0x44
             byte rbytesLength = 32; //R length 0x20
             byte sbytesLength = 32; //S length 0x20
             var rBytes = new List<byte>();
@@ -399,7 +399,7 @@ namespace Org.OpenAPITools.Client
             }
 
             derBytes.Add(48);  //start of the sequence 0x30
-            derBytes.Add(derLength);  //total length r lenth, type and r bytes
+            derBytes.Add(derLength);  //total length r length, type and r bytes
 
             derBytes.Add(2); //tag for integer
             derBytes.Add(rbytesLength); //length of r
@@ -411,10 +411,10 @@ namespace Org.OpenAPITools.Client
             return derBytes.ToArray();
         }
 
-        private  RSACryptoServiceProvider GetRSAProviderFromPemFile(String pemfile, SecureString keyPassPharse = null)
+        private  RSACryptoServiceProvider GetRSAProviderFromPemFile(string pemfile, SecureString keyPassPhrase = null)
         {
-            const String pempubheader = "-----BEGIN PUBLIC KEY-----";
-            const String pempubfooter = "-----END PUBLIC KEY-----";
+            const string pempubheader = "-----BEGIN PUBLIC KEY-----";
+            const string pempubfooter = "-----END PUBLIC KEY-----";
             bool isPrivateKeyFile = true;
             byte[] pemkey = null;
 
@@ -431,7 +431,7 @@ namespace Org.OpenAPITools.Client
 
             if (isPrivateKeyFile)
             {
-                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPharse);
+                pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPhrase);
                 if (pemkey == null)
                 {
                     return null;
@@ -441,11 +441,11 @@ namespace Org.OpenAPITools.Client
             return null;
         }
 
-        private byte[] ConvertPrivateKeyToBytes(String instr, SecureString keyPassPharse = null)
+        private byte[] ConvertPrivateKeyToBytes(string instr, SecureString keyPassPhrase = null)
         {
-            const String pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
-            const String pemprivfooter = "-----END RSA PRIVATE KEY-----";
-            String pemstr = instr.Trim();
+            const string pemprivheader = "-----BEGIN RSA PRIVATE KEY-----";
+            const string pemprivfooter = "-----END RSA PRIVATE KEY-----";
+            string pemstr = instr.Trim();
             byte[] binkey;
 
             if (!pemstr.StartsWith(pemprivheader) || !pemstr.EndsWith(pemprivfooter))
@@ -456,7 +456,7 @@ namespace Org.OpenAPITools.Client
             StringBuilder sb = new StringBuilder(pemstr);
             sb.Replace(pemprivheader, "");
             sb.Replace(pemprivfooter, "");
-            String pvkstr = sb.ToString().Trim();
+            string pvkstr = sb.ToString().Trim();
 
             try
             {   // if there are no PEM encryption info lines, this is an UNencrypted PEM private key
@@ -472,12 +472,12 @@ namespace Org.OpenAPITools.Client
                 {
                     return null;
                 }
-                String saltline = str.ReadLine();
+                string saltline = str.ReadLine();
                 if (!saltline.StartsWith("DEK-Info: DES-EDE3-CBC,"))
                 {
                     return null;
                 }
-                String saltstr = saltline.Substring(saltline.IndexOf(",") + 1).Trim();
+                string saltstr = saltline.Substring(saltline.IndexOf(",") + 1).Trim();
                 byte[] salt = new byte[saltstr.Length / 2];
                 for (int i = 0; i < salt.Length; i++)
                     salt[i] = Convert.ToByte(saltstr.Substring(i * 2, 2), 16);
@@ -487,18 +487,18 @@ namespace Org.OpenAPITools.Client
                 }
 
                 //------ remaining b64 data is encrypted RSA key ----
-                String encryptedstr = str.ReadToEnd();
+                string encryptedstr = str.ReadToEnd();
 
                 try
                 {   //should have b64 encrypted RSA key now
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
                 catch (System.FormatException)
-                {   //data is not in base64 fromat
+                {   //data is not in base64 format
                     return null;
                 }
 
-                byte[] deskey = GetEncryptedKey(salt, keyPassPharse, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
+                byte[] deskey = GetEncryptedKey(salt, keyPassPhrase, 1, 2);    // count=1 (for OpenSSL implementation); 2 iterations to get at least 24 bytes
                 if (deskey == null)
                 {
                     return null;
@@ -638,19 +638,19 @@ namespace Org.OpenAPITools.Client
         {
             IntPtr unmanagedPswd = IntPtr.Zero;
             int HASHLENGTH = 16;    //MD5 bytes
-            byte[] keymaterial = new byte[HASHLENGTH * miter];     //to store contatenated Mi hashed results
+            byte[] keymaterial = new byte[HASHLENGTH * miter];     //to store concatenated Mi hashed results
 
             byte[] psbytes = new byte[secpswd.Length];
             unmanagedPswd = Marshal.SecureStringToGlobalAllocAnsi(secpswd);
             Marshal.Copy(unmanagedPswd, psbytes, 0, psbytes.Length);
             Marshal.ZeroFreeGlobalAllocAnsi(unmanagedPswd);
 
-            // --- contatenate salt and pswd bytes into fixed data array ---
+            // --- concatenate salt and pswd bytes into fixed data array ---
             byte[] data00 = new byte[psbytes.Length + salt.Length];
             Array.Copy(psbytes, data00, psbytes.Length);      //copy the pswd bytes
             Array.Copy(salt, 0, data00, psbytes.Length, salt.Length); //concatenate the salt bytes
 
-            // ---- do multi-hashing and contatenate results  D1, D2 ...  into keymaterial bytes ----
+            // ---- do multi-hashing and concatenate results  D1, D2 ...  into keymaterial bytes ----
             MD5 md5 = new MD5CryptoServiceProvider();
             byte[] result = null;
             byte[] hashtarget = new byte[HASHLENGTH + data00.Length];   //fixed length initial hashtarget
@@ -671,7 +671,7 @@ namespace Org.OpenAPITools.Client
 
                 for (int i = 0; i < count; i++)
                     result = md5.ComputeHash(result);
-                Array.Copy(result, 0, keymaterial, j * HASHLENGTH, result.Length);  //contatenate to keymaterial
+                Array.Copy(result, 0, keymaterial, j * HASHLENGTH, result.Length);  //concatenate to keymaterial
             }
             byte[] deskey = new byte[24];
             Array.Copy(keymaterial, deskey, deskey.Length);

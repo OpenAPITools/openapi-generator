@@ -3,7 +3,7 @@ project.version = '1.0.0'
 
 buildscript {
     repositories {
-        mavenCentral()
+        maven { url "https://repo1.maven.org/maven2" }
         jcenter()
     }
     dependencies {
@@ -51,7 +51,7 @@ android {
 ext {
     swagger_annotations_version = "1.5.0"
     gson_version = "2.3.1"
-    httpclient_version = "4.5.2"
+    httpclient_version = "4.5.13"
     httpcore_version = "4.4.4"
     junit_version = "4.13"
 }

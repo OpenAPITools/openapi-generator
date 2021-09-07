@@ -15,7 +15,7 @@
 #include "CoreMinimal.h"
 #include "OpenAPIBaseModel.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 class OPENAPI_API OpenAPIUserApi
@@ -24,9 +24,19 @@ public:
 	OpenAPIUserApi();
 	~OpenAPIUserApi();
 
+	/* Sets the URL Endpoint.
+	* Note: several fallback endpoints can be configured in request retry policies, see Request::SetShouldRetry */
 	void SetURL(const FString& Url);
+
+	/* Adds global header params to all requests */
 	void AddHeaderParam(const FString& Key, const FString& Value);
 	void ClearHeaderParams();
+
+	/* Sets the retry manager to the user-defined retry manager. User must manage the lifetime of the retry manager.
+	* If no retry manager is specified and a request needs retries, a default retry manager will be used.
+	* See also: Request::SetShouldRetry */
+	void SetHttpRetryManager(FHttpRetrySystem::FManager& RetryManager);
+	FHttpRetrySystem::FManager& GetHttpRetryManager();
 
 	class CreateUserRequest;
 	class CreateUserResponse;
@@ -54,31 +64,33 @@ public:
     DECLARE_DELEGATE_OneParam(FLogoutUserDelegate, const LogoutUserResponse&);
     DECLARE_DELEGATE_OneParam(FUpdateUserDelegate, const UpdateUserResponse&);
     
-    bool CreateUser(const CreateUserRequest& Request, const FCreateUserDelegate& Delegate = FCreateUserDelegate()) const;
-    bool CreateUsersWithArrayInput(const CreateUsersWithArrayInputRequest& Request, const FCreateUsersWithArrayInputDelegate& Delegate = FCreateUsersWithArrayInputDelegate()) const;
-    bool CreateUsersWithListInput(const CreateUsersWithListInputRequest& Request, const FCreateUsersWithListInputDelegate& Delegate = FCreateUsersWithListInputDelegate()) const;
-    bool DeleteUser(const DeleteUserRequest& Request, const FDeleteUserDelegate& Delegate = FDeleteUserDelegate()) const;
-    bool GetUserByName(const GetUserByNameRequest& Request, const FGetUserByNameDelegate& Delegate = FGetUserByNameDelegate()) const;
-    bool LoginUser(const LoginUserRequest& Request, const FLoginUserDelegate& Delegate = FLoginUserDelegate()) const;
-    bool LogoutUser(const LogoutUserRequest& Request, const FLogoutUserDelegate& Delegate = FLogoutUserDelegate()) const;
-    bool UpdateUser(const UpdateUserRequest& Request, const FUpdateUserDelegate& Delegate = FUpdateUserDelegate()) const;
+    FHttpRequestPtr CreateUser(const CreateUserRequest& Request, const FCreateUserDelegate& Delegate = FCreateUserDelegate()) const;
+    FHttpRequestPtr CreateUsersWithArrayInput(const CreateUsersWithArrayInputRequest& Request, const FCreateUsersWithArrayInputDelegate& Delegate = FCreateUsersWithArrayInputDelegate()) const;
+    FHttpRequestPtr CreateUsersWithListInput(const CreateUsersWithListInputRequest& Request, const FCreateUsersWithListInputDelegate& Delegate = FCreateUsersWithListInputDelegate()) const;
+    FHttpRequestPtr DeleteUser(const DeleteUserRequest& Request, const FDeleteUserDelegate& Delegate = FDeleteUserDelegate()) const;
+    FHttpRequestPtr GetUserByName(const GetUserByNameRequest& Request, const FGetUserByNameDelegate& Delegate = FGetUserByNameDelegate()) const;
+    FHttpRequestPtr LoginUser(const LoginUserRequest& Request, const FLoginUserDelegate& Delegate = FLoginUserDelegate()) const;
+    FHttpRequestPtr LogoutUser(const LogoutUserRequest& Request, const FLogoutUserDelegate& Delegate = FLogoutUserDelegate()) const;
+    FHttpRequestPtr UpdateUser(const UpdateUserRequest& Request, const FUpdateUserDelegate& Delegate = FUpdateUserDelegate()) const;
     
-
 private:
-    void OnCreateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUserDelegate Delegate, int AutoRetryCount) const;
-    void OnCreateUsersWithArrayInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithArrayInputDelegate Delegate, int AutoRetryCount) const;
-    void OnCreateUsersWithListInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithListInputDelegate Delegate, int AutoRetryCount) const;
-    void OnDeleteUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteUserDelegate Delegate, int AutoRetryCount) const;
-    void OnGetUserByNameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetUserByNameDelegate Delegate, int AutoRetryCount) const;
-    void OnLoginUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginUserDelegate Delegate, int AutoRetryCount) const;
-    void OnLogoutUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLogoutUserDelegate Delegate, int AutoRetryCount) const;
-    void OnUpdateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDelegate Delegate, int AutoRetryCount) const;
+    void OnCreateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUserDelegate Delegate) const;
+    void OnCreateUsersWithArrayInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithArrayInputDelegate Delegate) const;
+    void OnCreateUsersWithListInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithListInputDelegate Delegate) const;
+    void OnDeleteUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteUserDelegate Delegate) const;
+    void OnGetUserByNameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetUserByNameDelegate Delegate) const;
+    void OnLoginUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginUserDelegate Delegate) const;
+    void OnLogoutUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLogoutUserDelegate Delegate) const;
+    void OnUpdateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDelegate Delegate) const;
     
+	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
 	bool IsValid() const;
 	void HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const;
 
 	FString Url;
 	TMap<FString,FString> AdditionalHeaderParams;
+	mutable FHttpRetrySystem::FManager* RetryManager = nullptr;
+	mutable TUniquePtr<HttpRetryManager> DefaultRetryManager;
 };
-	
+
 }

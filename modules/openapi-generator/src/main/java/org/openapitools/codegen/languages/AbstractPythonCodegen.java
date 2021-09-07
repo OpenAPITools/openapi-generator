@@ -188,7 +188,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // remove dollar sign
         name = name.replaceAll("$", "");
 
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }
@@ -600,6 +600,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
     }
 
     public void setProjectName(String projectName) {

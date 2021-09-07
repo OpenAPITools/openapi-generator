@@ -215,7 +215,33 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
-  For this test, the body for this request much reference a schema named `File`.
+  For this test, the body has to be a binary file.
+
+  ## Parameters
+
+  - connection (OpenapiPetstore.Connection): Connection to server
+  - body (String.t): image to upload
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, nil} on success
+  {:error, Tesla.Env.t} on failure
+  """
+  @spec test_body_with_binary(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_body_with_binary(connection, body, _opts \\ []) do
+    %{}
+    |> method(:put)
+    |> url("/fake/body-with-binary")
+    |> add_param(:body, :body, body)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, false}
+    ])
+  end
+
+  @doc """
+  For this test, the body for this request must reference a schema named `File`.
 
   ## Parameters
 
@@ -501,22 +527,29 @@ defmodule OpenapiPetstore.Api.Fake do
   - http ([String.t]): 
   - url ([String.t]): 
   - context ([String.t]): 
+  - allow_empty (String.t): 
   - opts (KeywordList): [optional] Optional parameters
+    - :language (%{optional(String.t) => String.t}): 
   ## Returns
 
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec test_query_parameter_collection_format(Tesla.Env.client, list(String.t), list(String.t), list(String.t), list(String.t), list(String.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def test_query_parameter_collection_format(connection, pipe, ioutil, http, url, context, _opts \\ []) do
+  @spec test_query_parameter_collection_format(Tesla.Env.client, list(String.t), list(String.t), list(String.t), list(String.t), list(String.t), String.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_query_parameter_collection_format(connection, pipe, ioutil, http, url, context, allow_empty, opts \\ []) do
+    optional_params = %{
+      :"language" => :query
+    }
     %{}
     |> method(:put)
-    |> url("/fake/test-query-paramters")
+    |> url("/fake/test-query-parameters")
     |> add_param(:query, :"pipe", pipe)
     |> add_param(:query, :"ioutil", ioutil)
     |> add_param(:query, :"http", http)
     |> add_param(:query, :"url", url)
     |> add_param(:query, :"context", context)
+    |> add_param(:query, :"allowEmpty", allow_empty)
+    |> add_optional_params(optional_params, opts)
     |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()

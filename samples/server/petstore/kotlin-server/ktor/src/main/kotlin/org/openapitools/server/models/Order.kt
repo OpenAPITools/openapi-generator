@@ -22,7 +22,7 @@ import java.io.Serializable
  * @param status Order Status
  * @param complete 
  */
-data class Order (
+data class Order(
     val id: kotlin.Long? = null,
     val petId: kotlin.Long? = null,
     val quantity: kotlin.Int? = null,

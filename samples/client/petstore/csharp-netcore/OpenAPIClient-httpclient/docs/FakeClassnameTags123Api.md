@@ -19,6 +19,7 @@ To test class name in snake case
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -36,7 +37,10 @@ namespace Example
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
             // config.AddApiKeyPrefix("api_key_query", "Bearer");
 
-            var apiInstance = new FakeClassnameTags123Api(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new FakeClassnameTags123Api(httpClient, config, httpClientHandler);
             var modelClient = new ModelClient(); // ModelClient | client model
 
             try

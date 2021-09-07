@@ -9,10 +9,10 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**deleteOrder**](StoreApi.md#deleteorder) | **delete** /store/order/{orderId} | Delete purchase order by ID
-[**getInventory**](StoreApi.md#getinventory) | **get** /store/inventory | Returns pet inventories by status
-[**getOrderById**](StoreApi.md#getorderbyid) | **get** /store/order/{orderId} | Find purchase order by ID
-[**placeOrder**](StoreApi.md#placeorder) | **post** /store/order | Place an order for a pet
+[**deleteOrder**](StoreApi.md#deleteorder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+[**getInventory**](StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
+[**getOrderById**](StoreApi.md#getorderbyid) | **GET** /store/order/{orderId} | Find purchase order by ID
+[**placeOrder**](StoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
 
 
 # **deleteOrder**
@@ -22,14 +22,14 @@ Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new StoreApi();
 var orderId = orderId_example; // String | ID of the order that needs to be deleted
 
-try { 
+try {
     api_instance.deleteOrder(orderId);
 } catch (e) {
     print('Exception when calling StoreApi->deleteOrder: $e\n');
@@ -64,7 +64,7 @@ Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure API key authorization: api_key
@@ -74,7 +74,7 @@ import 'package:openapi/api.dart';
 
 var api_instance = new StoreApi();
 
-try { 
+try {
     var result = api_instance.getInventory();
     print(result);
 } catch (e) {
@@ -107,14 +107,14 @@ Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new StoreApi();
 var orderId = 789; // int | ID of pet that needs to be fetched
 
-try { 
+try {
     var result = api_instance.getOrderById(orderId);
     print(result);
 } catch (e) {
@@ -148,14 +148,14 @@ No authorization required
 
 Place an order for a pet
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 var api_instance = new StoreApi();
 var order = new Order(); // Order | order placed for purchasing the pet
 
-try { 
+try {
     var result = api_instance.placeOrder(order);
     print(result);
 } catch (e) {

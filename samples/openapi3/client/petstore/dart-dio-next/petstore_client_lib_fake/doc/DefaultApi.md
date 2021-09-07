@@ -9,7 +9,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**fooGet**](DefaultApi.md#fooget) | **get** /foo | 
+[**fooGet**](DefaultApi.md#fooget) | **GET** /foo | 
 
 
 # **fooGet**
@@ -17,16 +17,16 @@ Method | HTTP request | Description
 
 
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
-var api_instance = new DefaultApi();
+final api = Openapi().getDefaultApi();
 
-try { 
-    var result = api_instance.fooGet();
-    print(result);
-} catch (e) {
+try {
+    final response = api.fooGet();
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling DefaultApi->fooGet: $e\n');
 }
 ```

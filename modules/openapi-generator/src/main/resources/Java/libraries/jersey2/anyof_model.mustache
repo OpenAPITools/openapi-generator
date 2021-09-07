@@ -69,7 +69,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             }
             {{/discriminator}}
             {{#anyOf}}
-            // deserialzie {{{.}}}
+            // deserialize {{{.}}}
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
                 {{classname}} ret = new {{classname}}();
@@ -188,7 +188,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     {{#anyOf}}
     /**
-     * Get the actual instance of `{{{.}}}`. If the actual instanct is not `{{{.}}}`,
+     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `{{{.}}}`

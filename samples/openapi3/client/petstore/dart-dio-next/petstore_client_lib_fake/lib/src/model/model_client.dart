@@ -7,15 +7,18 @@ import 'package:built_value/serializer.dart';
 
 part 'model_client.g.dart';
 
-
-
+/// ModelClient
+///
+/// Properties:
+/// * [client] 
 abstract class ModelClient implements Built<ModelClient, ModelClientBuilder> {
     @BuiltValueField(wireName: r'client')
     String? get client;
 
     ModelClient._();
 
-    static void _initializeBuilder(ModelClientBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ModelClientBuilder b) => b;
 
     factory ModelClient([void updates(ModelClientBuilder b)]) = _$ModelClient;
 
@@ -53,10 +56,12 @@ class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'client':
-                    result.client = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.client = valueDes;
                     break;
             }
         }

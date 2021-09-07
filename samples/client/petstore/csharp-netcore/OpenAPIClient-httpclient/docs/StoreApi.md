@@ -22,6 +22,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -34,7 +35,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new StoreApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new StoreApi(httpClient, config, httpClientHandler);
             var orderId = orderId_example;  // string | ID of the order that needs to be deleted
 
             try
@@ -93,6 +97,7 @@ Returns a map of status codes to quantities
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -110,7 +115,10 @@ namespace Example
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
             // config.AddApiKeyPrefix("api_key", "Bearer");
 
-            var apiInstance = new StoreApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new StoreApi(httpClient, config, httpClientHandler);
 
             try
             {
@@ -165,6 +173,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -177,7 +186,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new StoreApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new StoreApi(httpClient, config, httpClientHandler);
             var orderId = 789;  // long | ID of pet that needs to be fetched
 
             try
@@ -236,6 +248,7 @@ Place an order for a pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -248,7 +261,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new StoreApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new StoreApi(httpClient, config, httpClientHandler);
             var order = new Order(); // Order | order placed for purchasing the pet
 
             try

@@ -56,11 +56,11 @@ import org.openapitools.codegen.validations.oas.RuleConfiguration
 open class ValidateTask : DefaultTask() {
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
-    var inputSpec = project.objects.property<String>()
+    val inputSpec = project.objects.property<String>()
 
     @Optional
     @Input
-    var recommend = project.objects.property<Boolean?>()
+    val recommend = project.objects.property<Boolean?>()
 
     @Suppress("unused")
     @get:Internal

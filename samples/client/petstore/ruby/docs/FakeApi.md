@@ -11,6 +11,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number |  |
 | [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string |  |
 | [**fake_property_enum_integer_serialize**](FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int |  |
+| [**test_body_with_binary**](FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary |  |
 | [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema |  |
 | [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params |  |
 | [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model |
@@ -19,7 +20,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
 | [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
 | [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data |
-| [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters |  |
+| [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters |  |
 
 
 ## fake_health_get
@@ -479,13 +480,76 @@ No authorization required
 - **Accept**: */*
 
 
+## test_body_with_binary
+
+> test_body_with_binary(body)
+
+
+
+For this test, the body has to be a binary file.
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+body = File.new('/path/to/some/file') # File | image to upload
+
+begin
+  
+  api_instance.test_body_with_binary(body)
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_body_with_binary: #{e}"
+end
+```
+
+#### Using the test_body_with_binary_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_body_with_binary_with_http_info(body)
+
+```ruby
+begin
+  
+  data, status_code, headers = api_instance.test_body_with_binary_with_http_info(body)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_body_with_binary_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **File** | image to upload |  |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: image/png
+- **Accept**: Not defined
+
+
 ## test_body_with_file_schema
 
 > test_body_with_file_schema(file_schema_test_class)
 
 
 
-For this test, the body for this request much reference a schema named `File`.
+For this test, the body for this request must reference a schema named `File`.
 
 ### Examples
 
@@ -1051,7 +1115,7 @@ No authorization required
 
 ## test_query_parameter_collection_format
 
-> test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+> test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, opts)
 
 
 
@@ -1069,10 +1133,14 @@ ioutil = ['inner_example'] # Array<String> |
 http = ['inner_example'] # Array<String> | 
 url = ['inner_example'] # Array<String> | 
 context = ['inner_example'] # Array<String> | 
+allow_empty = 'allow_empty_example' # String | 
+opts = {
+  language: { key: 'inner_example'} # Hash<String, String> | 
+}
 
 begin
   
-  api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)
+  api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, opts)
 rescue Petstore::ApiError => e
   puts "Error when calling FakeApi->test_query_parameter_collection_format: #{e}"
 end
@@ -1082,12 +1150,12 @@ end
 
 This returns an Array which contains the response data (`nil` in this case), status code and headers.
 
-> <Array(nil, Integer, Hash)> test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context)
+> <Array(nil, Integer, Hash)> test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, opts)
 
 ```ruby
 begin
   
-  data, status_code, headers = api_instance.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context)
+  data, status_code, headers = api_instance.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => nil
@@ -1105,6 +1173,8 @@ end
 | **http** | [**Array&lt;String&gt;**](String.md) |  |  |
 | **url** | [**Array&lt;String&gt;**](String.md) |  |  |
 | **context** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **allow_empty** | **String** |  |  |
+| **language** | [**Hash&lt;String, String&gt;**](String.md) |  | [optional] |
 
 ### Return type
 

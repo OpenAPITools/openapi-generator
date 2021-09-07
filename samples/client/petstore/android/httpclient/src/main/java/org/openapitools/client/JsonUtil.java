@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
+import org.openapitools.client.model.*;
 
 public class JsonUtil {
   public static GsonBuilder gsonBuilder;

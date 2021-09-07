@@ -7,8 +7,13 @@ import 'package:built_value/serializer.dart';
 
 part 'name.g.dart';
 
-
-
+/// Model for testing model name same as property name
+///
+/// Properties:
+/// * [name] 
+/// * [snakeCase] 
+/// * [property] 
+/// * [n123number] 
 abstract class Name implements Built<Name, NameBuilder> {
     @BuiltValueField(wireName: r'name')
     int get name;
@@ -24,7 +29,8 @@ abstract class Name implements Built<Name, NameBuilder> {
 
     Name._();
 
-    static void _initializeBuilder(NameBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(NameBuilder b) => b;
 
     factory Name([void updates(NameBuilder b)]) = _$Name;
 
@@ -78,22 +84,27 @@ class _$NameSerializer implements StructuredSerializer<Name> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'name':
-                    result.name = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.name = valueDes;
                     break;
                 case r'snake_case':
-                    result.snakeCase = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.snakeCase = valueDes;
                     break;
                 case r'property':
-                    result.property = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.property = valueDes;
                     break;
                 case r'123Number':
-                    result.n123number = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.n123number = valueDes;
                     break;
             }
         }

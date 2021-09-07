@@ -6,6 +6,7 @@
     <name>jaxrs-cxf-cdi-default-value</name>
     <version>1.0.0</version>
 
+
     <build>
         <!-- Main source directory -->
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -76,14 +77,14 @@
             <artifactId>swagger-annotations</artifactId>
             <version>[1.5.3,1.5.16]</version>
         </dependency>
-        
+
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
-        
+
        <!-- Bean Validation API support -->
        <dependency>
            <groupId>javax.validation</groupId>

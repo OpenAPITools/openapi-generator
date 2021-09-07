@@ -19,7 +19,7 @@ import static {{invokerPackage}}.{{#gson}}GsonObjectMapper.gson{{/gson}}{{#jacks
 
 public class ApiClient {
     {{#basePath}}
-    public static final String BASE_URI = "{{basePath}}";
+    public static final String BASE_URI = "{{.}}";
     {{/basePath}}
 
     private final Config config;

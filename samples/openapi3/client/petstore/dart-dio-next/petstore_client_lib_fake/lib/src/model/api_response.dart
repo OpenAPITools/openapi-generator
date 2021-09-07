@@ -7,8 +7,12 @@ import 'package:built_value/serializer.dart';
 
 part 'api_response.g.dart';
 
-
-
+/// ApiResponse
+///
+/// Properties:
+/// * [code] 
+/// * [type] 
+/// * [message] 
 abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
     @BuiltValueField(wireName: r'code')
     int? get code;
@@ -21,7 +25,8 @@ abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
 
     ApiResponse._();
 
-    static void _initializeBuilder(ApiResponseBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ApiResponseBuilder b) => b;
 
     factory ApiResponse([void updates(ApiResponseBuilder b)]) = _$ApiResponse;
 
@@ -71,18 +76,22 @@ class _$ApiResponseSerializer implements StructuredSerializer<ApiResponse> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'code':
-                    result.code = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.code = valueDes;
                     break;
                 case r'type':
-                    result.type = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.type = valueDes;
                     break;
                 case r'message':
-                    result.message = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.message = valueDes;
                     break;
             }
         }

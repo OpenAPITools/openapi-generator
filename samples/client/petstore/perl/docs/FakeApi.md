@@ -16,6 +16,7 @@ Method | HTTP request | Description
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 [**fake_property_enum_integer_serialize**](FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+[**test_body_with_binary**](FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -24,7 +25,7 @@ Method | HTTP request | Description
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 
 
 # **fake_health_get**
@@ -32,7 +33,7 @@ Method | HTTP request | Description
 
 Health check endpoint
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -40,7 +41,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 );
 
 
-eval { 
+eval {
     my $result = $api_instance->fake_health_get();
     print Dumper($result);
 };
@@ -72,7 +73,7 @@ No authorization required
 
 test http signature authentication
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -86,7 +87,7 @@ my $pet = WWW::OpenAPIClient::Object::Pet->new(); # Pet | Pet object that needs 
 my $query_1 = "query_1_example"; # string | query parameter
 my $header_1 = "header_1_example"; # string | header parameter
 
-eval { 
+eval {
     $api_instance->fake_http_signature_test(pet => $pet, query_1 => $query_1, header_1 => $header_1);
 };
 if ($@) {
@@ -124,7 +125,7 @@ void (empty response body)
 
 Test serialization of outer boolean types
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -133,7 +134,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 
 my $body = WWW::OpenAPIClient::Object::boolean->new(); # boolean | Input boolean as post body
 
-eval { 
+eval {
     my $result = $api_instance->fake_outer_boolean_serialize(body => $body);
     print Dumper($result);
 };
@@ -170,7 +171,7 @@ No authorization required
 
 Test serialization of object with outer number type
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -179,7 +180,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 
 my $outer_composite = WWW::OpenAPIClient::Object::OuterComposite->new(); # OuterComposite | Input composite as post body
 
-eval { 
+eval {
     my $result = $api_instance->fake_outer_composite_serialize(outer_composite => $outer_composite);
     print Dumper($result);
 };
@@ -216,7 +217,7 @@ No authorization required
 
 Test serialization of outer number types
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -225,7 +226,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 
 my $body = WWW::OpenAPIClient::Object::double->new(); # double | Input number as post body
 
-eval { 
+eval {
     my $result = $api_instance->fake_outer_number_serialize(body => $body);
     print Dumper($result);
 };
@@ -262,7 +263,7 @@ No authorization required
 
 Test serialization of outer string types
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -271,7 +272,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 
 my $body = WWW::OpenAPIClient::Object::string->new(); # string | Input string as post body
 
-eval { 
+eval {
     my $result = $api_instance->fake_outer_string_serialize(body => $body);
     print Dumper($result);
 };
@@ -308,7 +309,7 @@ No authorization required
 
 Test serialization of enum (int) properties with examples
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -317,7 +318,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 
 my $outer_object_with_enum_property = WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty->new(); # OuterObjectWithEnumProperty | Input enum (int) as post body
 
-eval { 
+eval {
     my $result = $api_instance->fake_property_enum_integer_serialize(outer_object_with_enum_property => $outer_object_with_enum_property);
     print Dumper($result);
 };
@@ -347,14 +348,59 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **test_body_with_binary**
+> test_body_with_binary(body => $body)
+
+
+
+For this test, the body has to be a binary file.
+
+### Example
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+);
+
+my $body = WWW::OpenAPIClient::Object::string->new(); # string | image to upload
+
+eval {
+    $api_instance->test_body_with_binary(body => $body);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_body_with_binary: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **string****string**| image to upload | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: image/png
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **test_body_with_file_schema**
 > test_body_with_file_schema(file_schema_test_class => $file_schema_test_class)
 
 
 
-For this test, the body for this request much reference a schema named `File`.
+For this test, the body for this request must reference a schema named `File`.
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -363,7 +409,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 
 my $file_schema_test_class = WWW::OpenAPIClient::Object::FileSchemaTestClass->new(); # FileSchemaTestClass | 
 
-eval { 
+eval {
     $api_instance->test_body_with_file_schema(file_schema_test_class => $file_schema_test_class);
 };
 if ($@) {
@@ -397,7 +443,7 @@ No authorization required
 
 
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -407,7 +453,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 my $query = "query_example"; # string | 
 my $user = WWW::OpenAPIClient::Object::User->new(); # User | 
 
-eval { 
+eval {
     $api_instance->test_body_with_query_params(query => $query, user => $user);
 };
 if ($@) {
@@ -444,7 +490,7 @@ To test \"client\" model
 
 To test \"client\" model
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -453,7 +499,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 
 my $client = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
 
-eval { 
+eval {
     my $result = $api_instance->test_client_model(client => $client);
     print Dumper($result);
 };
@@ -490,7 +536,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -517,7 +563,7 @@ my $date_time = DateTime->from_epoch(epoch => str2time('null')); # DateTime | No
 my $password = "password_example"; # string | None
 my $callback = "callback_example"; # string | None
 
-eval { 
+eval {
     $api_instance->test_endpoint_parameters(number => $number, double => $double, pattern_without_delimiter => $pattern_without_delimiter, byte => $byte, integer => $integer, int32 => $int32, int64 => $int64, float => $float, string => $string, binary => $binary, date => $date, date_time => $date_time, password => $password, callback => $callback);
 };
 if ($@) {
@@ -566,7 +612,7 @@ To test enum parameters
 
 To test enum parameters
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -582,7 +628,7 @@ my $enum_query_double = 3.4; # double | Query parameter enum test (double)
 my $enum_form_string_array = ['$']; # ARRAY[string] | Form parameter enum test (string array)
 my $enum_form_string = '-efg'; # string | Form parameter enum test (string)
 
-eval { 
+eval {
     $api_instance->test_enum_parameters(enum_header_string_array => $enum_header_string_array, enum_header_string => $enum_header_string, enum_query_string_array => $enum_query_string_array, enum_query_string => $enum_query_string, enum_query_integer => $enum_query_integer, enum_query_double => $enum_query_double, enum_form_string_array => $enum_form_string_array, enum_form_string => $enum_form_string);
 };
 if ($@) {
@@ -625,7 +671,7 @@ Fake endpoint to test group parameters (optional)
 
 Fake endpoint to test group parameters (optional)
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -644,7 +690,7 @@ my $string_group = 56; # int | String in group parameters
 my $boolean_group = null; # boolean | Boolean in group parameters
 my $int64_group = 789; # int | Integer in group parameters
 
-eval { 
+eval {
     $api_instance->test_group_parameters(required_string_group => $required_string_group, required_boolean_group => $required_boolean_group, required_int64_group => $required_int64_group, string_group => $string_group, boolean_group => $boolean_group, int64_group => $int64_group);
 };
 if ($@) {
@@ -683,7 +729,7 @@ void (empty response body)
 
 test inline additionalProperties
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -692,7 +738,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 
 my $request_body = WWW::OpenAPIClient::Object::HASH[string,string]->new(); # HASH[string,string] | request body
 
-eval { 
+eval {
     $api_instance->test_inline_additional_properties(request_body => $request_body);
 };
 if ($@) {
@@ -726,7 +772,7 @@ No authorization required
 
 test json serialization of form data
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -736,7 +782,7 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 my $param = "param_example"; # string | field1
 my $param2 = "param2_example"; # string | field2
 
-eval { 
+eval {
     $api_instance->test_json_form_data(param => $param, param2 => $param2);
 };
 if ($@) {
@@ -767,13 +813,13 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_query_parameter_collection_format**
-> test_query_parameter_collection_format(pipe => $pipe, ioutil => $ioutil, http => $http, url => $url, context => $context)
+> test_query_parameter_collection_format(pipe => $pipe, ioutil => $ioutil, http => $http, url => $url, context => $context, allow_empty => $allow_empty, language => $language)
 
 
 
 To test the collection format in query parameters
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
@@ -785,9 +831,11 @@ my $ioutil = [("null")]; # ARRAY[string] |
 my $http = [("null")]; # ARRAY[string] | 
 my $url = [("null")]; # ARRAY[string] | 
 my $context = [("null")]; # ARRAY[string] | 
+my $allow_empty = "allow_empty_example"; # string | 
+my $language = ('key' =>  "null"}; # HASH[string,string] | 
 
-eval { 
-    $api_instance->test_query_parameter_collection_format(pipe => $pipe, ioutil => $ioutil, http => $http, url => $url, context => $context);
+eval {
+    $api_instance->test_query_parameter_collection_format(pipe => $pipe, ioutil => $ioutil, http => $http, url => $url, context => $context, allow_empty => $allow_empty, language => $language);
 };
 if ($@) {
     warn "Exception when calling FakeApi->test_query_parameter_collection_format: $@\n";
@@ -803,6 +851,8 @@ Name | Type | Description  | Notes
  **http** | [**ARRAY[string]**](string.md)|  | 
  **url** | [**ARRAY[string]**](string.md)|  | 
  **context** | [**ARRAY[string]**](string.md)|  | 
+ **allow_empty** | **string**|  | 
+ **language** | [**HASH[string,string]**](string.md)|  | [optional] 
 
 ### Return type
 

@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.yaml;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
@@ -84,5 +85,37 @@ public class YamlGeneratorTest {
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
 
         output.deleteOnExit();
+    }
+
+    @Test
+    public void testIssue9086() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(OpenAPIYamlGenerator.OUTPUT_NAME, "issue_9086.yaml");
+
+        File output = Files.createTempDirectory("issue_9086").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("openapi-yaml")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/2_0/issue_9086.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+        Assert.assertEquals(files.size(), 5);
+        TestUtils.ensureContainsFile(files, output, "issue_9086.yaml");
+
+        TestUtils.ensureContainsFile(files, output, "README.md");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
+
+        OpenAPI generated = TestUtils.parseSpec(new File(output, "issue_9086.yaml").getPath());
+        OpenAPI expected = TestUtils.parseSpec("src/test/resources/2_0/issue_9086_expected.yaml");
+
+        // use #toString because the equals methods is a little stricter than necessary for this test
+        Assert.assertEquals(expected.toString(), generated.toString());
     }
 }

@@ -53,6 +53,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
     public static final String PROVIDED_IN = "providedIn";
     public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
+    public static final String HTTP_CONTEXT_IN_OPTIONS = "httpContextInOptions";
     public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String CONFIGURATION_PREFIX = "configurationPrefix";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
@@ -64,7 +65,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
 
-    protected String ngVersion = "11.0.0";
+    protected String ngVersion = "12.0.0";
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
@@ -143,7 +144,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (6.x - 11.x) client library.";
+        return "Generates a TypeScript Angular (6.x - 12.x) client library.";
     }
 
     @Override
@@ -229,6 +230,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, false);
         }
 
+        if (ngVersion.atLeast("12.0.0")) {
+            additionalProperties.put(HTTP_CONTEXT_IN_OPTIONS, true);
+        } else {
+            additionalProperties.put(HTTP_CONTEXT_IN_OPTIONS, false);
+        }
+
         additionalProperties.put(NG_VERSION, ngVersion);
 
         if (additionalProperties.containsKey(API_MODULE_PREFIX)) {
@@ -285,7 +292,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the typescript version compatible to the Angular version
-        if (ngVersion.atLeast("11.0.0")) {
+        if (ngVersion.atLeast("12.0.0")) {
+            additionalProperties.put("tsVersion", ">=4.2.3 <4.3.0");
+        } else if (ngVersion.atLeast("11.0.0")) {
             additionalProperties.put("tsVersion", ">=4.0.0 <4.1.0");
         } else if (ngVersion.atLeast("10.0.0")) {
             additionalProperties.put("tsVersion", ">=3.9.2 <4.0.0");
@@ -317,7 +326,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("ng-package.mustache", getIndexDirectory(), "ng-package.json"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("11.0.0")) {
+        if (ngVersion.atLeast("12.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "12.2.1");
+            additionalProperties.put("tsickleVersion", "0.43.0");
+        } else if (ngVersion.atLeast("11.0.0")) {
             additionalProperties.put("ngPackagrVersion", "11.0.2");
             additionalProperties.put("tsickleVersion", "0.39.1");
         } else if (ngVersion.atLeast("10.0.0")) {
@@ -341,7 +353,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // set zone.js version
-        if (ngVersion.atLeast("11.0.0")) {
+        if (ngVersion.atLeast("12.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.11.4");
+        } else if (ngVersion.atLeast("11.0.0")) {
             additionalProperties.put("zonejsVersion", "0.11.3");
         } else if (ngVersion.atLeast("9.0.0")) {
             additionalProperties.put("zonejsVersion", "0.10.2");
@@ -517,6 +531,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                     if (cm.discriminator != null && cm.children != null) {
                         for (CodegenModel child : cm.children) {
                             cm.imports.add(child.classname);
+                            setChildDiscriminatorValue(cm, child);
                         }
                     }
                     if (cm.parent != null) {
@@ -529,6 +544,25 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             }
         }
         return result;
+    }
+
+    private void setChildDiscriminatorValue(CodegenModel parent, CodegenModel child) {
+        if (
+            child.vendorExtensions.isEmpty() ||
+            !child.vendorExtensions.containsKey("x-discriminator-value")
+            ) {
+
+            for (CodegenProperty prop : child.allVars) {
+                if (prop.baseName.equals(parent.discriminator.getPropertyName())) {
+
+                    for (CodegenDiscriminator.MappedModel mappedModel : parent.discriminator.getMappedModels()) {
+                        if (mappedModel.getModelName().equals(child.classname)) {
+                            prop.discriminatorValue = mappedModel.getMappingName();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

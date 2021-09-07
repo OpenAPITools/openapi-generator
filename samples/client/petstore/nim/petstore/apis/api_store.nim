@@ -57,10 +57,10 @@ proc getOrderById*(httpClient: HttpClient, orderId: int64): (Option[Order], Resp
   constructResult[Order](response)
 
 
-proc placeOrder*(httpClient: HttpClient, body: Order): (Option[Order], Response) =
+proc placeOrder*(httpClient: HttpClient, order: Order): (Option[Order], Response) =
   ## Place an order for a pet
   httpClient.headers["Content-Type"] = "application/json"
 
-  let response = httpClient.post(basepath & "/store/order", $(%body))
+  let response = httpClient.post(basepath & "/store/order", $(%order))
   constructResult[Order](response)
 

@@ -1,5 +1,4 @@
-import 'dart:async';
-
+@Skip('Needs real petstore')
 import 'package:http/http.dart';
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
@@ -46,16 +45,14 @@ void main() {
     });
 
     test('doesn\'t get non-existing pet by id', () {
-      expect(petApi.getPetById(newId()),
-          throwsA(equals(TypeMatcher<ApiException>())));
+      expect(petApi.getPetById(newId()), throwsA(equals(TypeMatcher<ApiException>())));
     });
 
     test('deletes existing pet by id', () async {
       var id = newId();
       await petApi.addPet(makePet(id: id));
       await petApi.deletePet(id, apiKey: 'special-key');
-      expect(
-          petApi.getPetById(id), throwsA(equals(TypeMatcher<ApiException>())));
+      expect(petApi.getPetById(id), throwsA(equals(TypeMatcher<ApiException>())));
     });
 
     test('updates pet with form', () async {
@@ -100,5 +97,5 @@ void main() {
       var file = new MultipartFile.fromBytes('file', [104, 101, 108, 108, 111]);
       await petApi.uploadFile(id, additionalMetadata: '', file: file);
     });
-  }, skip: 'e2e tests for CI');
+  });
 }

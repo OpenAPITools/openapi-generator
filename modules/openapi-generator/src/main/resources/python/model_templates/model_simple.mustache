@@ -13,6 +13,10 @@ class {{classname}}(ModelSimple):
 
     attribute_map = {}
 
+    read_only_vars = set()
+
     _composed_schemas = None
 
 {{> model_templates/method_init_simple}}
+
+{{> model_templates/method_from_openapi_data_simple}}

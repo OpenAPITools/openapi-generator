@@ -31,17 +31,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -111,17 +100,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['http_signature_test'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -177,17 +155,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -245,17 +212,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -313,17 +269,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -381,17 +326,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -452,17 +386,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -497,7 +420,59 @@ class FakeApi {
     return Future<OuterObjectWithEnumProperty>.value(null);
   }
 
-  /// For this test, the body for this request much reference a schema named `File`.
+  /// For this test, the body has to be a binary file.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [MultipartFile] body (required):
+  ///   image to upload
+  Future<Response> testBodyWithBinaryWithHttpInfo(MultipartFile body) async {
+    // Verify required params are set.
+    if (body == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: body');
+    }
+
+    final path = r'/fake/body-with-binary';
+
+    Object postBody = body;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    final contentTypes = <String>['image/png'];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+
+    return await apiClient.invokeAPI(
+      path,
+      'PUT',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
+  }
+
+  /// For this test, the body has to be a binary file.
+  ///
+  /// Parameters:
+  ///
+  /// * [MultipartFile] body (required):
+  ///   image to upload
+  Future<void> testBodyWithBinary(MultipartFile body) async {
+    final response = await testBodyWithBinaryWithHttpInfo(body);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// For this test, the body for this request must reference a schema named `File`.
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -522,17 +497,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -546,7 +510,7 @@ class FakeApi {
     );
   }
 
-  /// For this test, the body for this request much reference a schema named `File`.
+  /// For this test, the body for this request must reference a schema named `File`.
   ///
   /// Parameters:
   ///
@@ -587,17 +551,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -651,17 +604,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -774,112 +716,44 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['http_basic_test'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (integer != null) {
-        hasFields = true;
-        mp.fields[r'integer'] = parameterToString(integer);
-      }
-      if (int32 != null) {
-        hasFields = true;
-        mp.fields[r'int32'] = parameterToString(int32);
-      }
-      if (int64 != null) {
-        hasFields = true;
-        mp.fields[r'int64'] = parameterToString(int64);
-      }
-      if (number != null) {
-        hasFields = true;
-        mp.fields[r'number'] = parameterToString(number);
-      }
-      if (float != null) {
-        hasFields = true;
-        mp.fields[r'float'] = parameterToString(float);
-      }
-      if (double_ != null) {
-        hasFields = true;
-        mp.fields[r'double'] = parameterToString(double_);
-      }
-      if (string != null) {
-        hasFields = true;
-        mp.fields[r'string'] = parameterToString(string);
-      }
-      if (patternWithoutDelimiter != null) {
-        hasFields = true;
-        mp.fields[r'pattern_without_delimiter'] = parameterToString(patternWithoutDelimiter);
-      }
-      if (byte != null) {
-        hasFields = true;
-        mp.fields[r'byte'] = parameterToString(byte);
-      }
-      if (binary != null) {
-        hasFields = true;
-        mp.fields[r'binary'] = binary.field;
-        mp.files.add(binary);
-      }
-      if (date != null) {
-        hasFields = true;
-        mp.fields[r'date'] = parameterToString(date);
-      }
-      if (dateTime != null) {
-        hasFields = true;
-        mp.fields[r'dateTime'] = parameterToString(dateTime);
-      }
-      if (password != null) {
-        hasFields = true;
-        mp.fields[r'password'] = parameterToString(password);
-      }
-      if (callback != null) {
-        hasFields = true;
-        mp.fields[r'callback'] = parameterToString(callback);
-      }
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      if (integer != null) {
-        formParams[r'integer'] = parameterToString(integer);
-      }
-      if (int32 != null) {
-        formParams[r'int32'] = parameterToString(int32);
-      }
-      if (int64 != null) {
-        formParams[r'int64'] = parameterToString(int64);
-      }
-      if (number != null) {
-        formParams[r'number'] = parameterToString(number);
-      }
-      if (float != null) {
-        formParams[r'float'] = parameterToString(float);
-      }
-      if (double_ != null) {
-        formParams[r'double'] = parameterToString(double_);
-      }
-      if (string != null) {
-        formParams[r'string'] = parameterToString(string);
-      }
-      if (patternWithoutDelimiter != null) {
-        formParams[r'pattern_without_delimiter'] = parameterToString(patternWithoutDelimiter);
-      }
-      if (byte != null) {
-        formParams[r'byte'] = parameterToString(byte);
-      }
-      if (date != null) {
-        formParams[r'date'] = parameterToString(date);
-      }
-      if (dateTime != null) {
-        formParams[r'dateTime'] = parameterToString(dateTime);
-      }
-      if (password != null) {
-        formParams[r'password'] = parameterToString(password);
-      }
-      if (callback != null) {
-        formParams[r'callback'] = parameterToString(callback);
-      }
+    if (integer != null) {
+      formParams[r'integer'] = parameterToString(integer);
+    }
+    if (int32 != null) {
+      formParams[r'int32'] = parameterToString(int32);
+    }
+    if (int64 != null) {
+      formParams[r'int64'] = parameterToString(int64);
+    }
+    if (number != null) {
+      formParams[r'number'] = parameterToString(number);
+    }
+    if (float != null) {
+      formParams[r'float'] = parameterToString(float);
+    }
+    if (double_ != null) {
+      formParams[r'double'] = parameterToString(double_);
+    }
+    if (string != null) {
+      formParams[r'string'] = parameterToString(string);
+    }
+    if (patternWithoutDelimiter != null) {
+      formParams[r'pattern_without_delimiter'] = parameterToString(patternWithoutDelimiter);
+    }
+    if (byte != null) {
+      formParams[r'byte'] = parameterToString(byte);
+    }
+    if (date != null) {
+      formParams[r'date'] = parameterToString(date);
+    }
+    if (dateTime != null) {
+      formParams[r'dateTime'] = parameterToString(dateTime);
+    }
+    if (password != null) {
+      formParams[r'password'] = parameterToString(password);
+    }
+    if (callback != null) {
+      formParams[r'callback'] = parameterToString(callback);
     }
 
     return await apiClient.invokeAPI(
@@ -1014,30 +888,11 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (enumFormStringArray != null) {
-        hasFields = true;
-        mp.fields[r'enum_form_string_array'] = parameterToString(enumFormStringArray);
-      }
-      if (enumFormString != null) {
-        hasFields = true;
-        mp.fields[r'enum_form_string'] = parameterToString(enumFormString);
-      }
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      if (enumFormStringArray != null) {
-        formParams[r'enum_form_string_array'] = parameterToString(enumFormStringArray);
-      }
-      if (enumFormString != null) {
-        formParams[r'enum_form_string'] = parameterToString(enumFormString);
-      }
+    if (enumFormStringArray != null) {
+      formParams[r'enum_form_string_array'] = parameterToString(enumFormStringArray);
+    }
+    if (enumFormString != null) {
+      formParams[r'enum_form_string'] = parameterToString(enumFormString);
     }
 
     return await apiClient.invokeAPI(
@@ -1151,17 +1006,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['bearer_test'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -1231,17 +1075,6 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -1300,30 +1133,11 @@ class FakeApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (param != null) {
-        hasFields = true;
-        mp.fields[r'param'] = parameterToString(param);
-      }
-      if (param2 != null) {
-        hasFields = true;
-        mp.fields[r'param2'] = parameterToString(param2);
-      }
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-      if (param != null) {
-        formParams[r'param'] = parameterToString(param);
-      }
-      if (param2 != null) {
-        formParams[r'param2'] = parameterToString(param2);
-      }
+    if (param != null) {
+      formParams[r'param'] = parameterToString(param);
+    }
+    if (param2 != null) {
+      formParams[r'param2'] = parameterToString(param2);
     }
 
     return await apiClient.invokeAPI(
@@ -1369,7 +1183,11 @@ class FakeApi {
   /// * [List<String>] url (required):
   ///
   /// * [List<String>] context (required):
-  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) async {
+  ///
+  /// * [String] allowEmpty (required):
+  ///
+  /// * [Map<String, String>] language:
+  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String> language }) async {
     // Verify required params are set.
     if (pipe == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pipe');
@@ -1386,8 +1204,11 @@ class FakeApi {
     if (context == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: context');
     }
+    if (allowEmpty == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: allowEmpty');
+    }
 
-    final path = r'/fake/test-query-paramters';
+    final path = r'/fake/test-query-parameters';
 
     Object postBody;
 
@@ -1395,27 +1216,20 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('multi', 'pipe', pipe));
+      queryParams.addAll(_convertParametersForCollectionFormat('pipes', 'pipe', pipe));
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'ioutil', ioutil));
       queryParams.addAll(_convertParametersForCollectionFormat('ssv', 'http', http));
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'url', url));
       queryParams.addAll(_convertParametersForCollectionFormat('multi', 'context', context));
+    if (language != null) {
+      queryParams.addAll(_convertParametersForCollectionFormat('', 'language', language));
+    }
+      queryParams.addAll(_convertParametersForCollectionFormat('', 'allowEmpty', allowEmpty));
 
     final contentTypes = <String>[];
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
     return await apiClient.invokeAPI(
       path,
@@ -1442,8 +1256,12 @@ class FakeApi {
   /// * [List<String>] url (required):
   ///
   /// * [List<String>] context (required):
-  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) async {
-    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
+  ///
+  /// * [String] allowEmpty (required):
+  ///
+  /// * [Map<String, String>] language:
+  Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String> language }) async {
+    final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty,  language: language );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

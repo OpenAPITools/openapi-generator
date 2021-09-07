@@ -65,12 +65,12 @@ class ApiResponse {
   static List<ApiResponse> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ApiResponse>[]
-      : json.map((v) => ApiResponse.fromJson(v)).toList(growable: true == growable);
+      : json.map((dynamic value) => ApiResponse.fromJson(value)).toList(growable: true == growable);
 
   static Map<String, ApiResponse> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ApiResponse>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = ApiResponse.fromJson(v));
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) => map[key] = ApiResponse.fromJson(value));
     }
     return map;
   }
@@ -78,9 +78,9 @@ class ApiResponse {
   // maps a json object with a list of ApiResponse-objects as value to a dart map
   static Map<String, List<ApiResponse>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ApiResponse>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = ApiResponse.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
+    if (json?.isNotEmpty == true) {
+      json.forEach((key, value) {
+        map[key] = ApiResponse.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
     }
     return map;

@@ -8,8 +8,11 @@ import 'package:built_value/serializer.dart';
 
 part 'enum_arrays.g.dart';
 
-
-
+/// EnumArrays
+///
+/// Properties:
+/// * [justSymbol] 
+/// * [arrayEnum] 
 abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
     @BuiltValueField(wireName: r'just_symbol')
     EnumArraysJustSymbolEnum? get justSymbol;
@@ -21,7 +24,8 @@ abstract class EnumArrays implements Built<EnumArrays, EnumArraysBuilder> {
 
     EnumArrays._();
 
-    static void _initializeBuilder(EnumArraysBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(EnumArraysBuilder b) => b;
 
     factory EnumArrays([void updates(EnumArraysBuilder b)]) = _$EnumArrays;
 
@@ -65,14 +69,17 @@ class _$EnumArraysSerializer implements StructuredSerializer<EnumArrays> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'just_symbol':
-                    result.justSymbol = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(EnumArraysJustSymbolEnum)) as EnumArraysJustSymbolEnum;
+                    result.justSymbol = valueDes;
                     break;
                 case r'array_enum':
-                    result.arrayEnum.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)])) as BuiltList<EnumArraysArrayEnumEnum>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(EnumArraysArrayEnumEnum)])) as BuiltList<EnumArraysArrayEnumEnum>;
+                    result.arrayEnum.replace(valueDes);
                     break;
             }
         }

@@ -54,4 +54,3 @@ export function ModelFileToJSON(value?: ModelFile | null): any {
     };
 }
 
-
