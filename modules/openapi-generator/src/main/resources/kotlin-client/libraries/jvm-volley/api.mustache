@@ -32,7 +32,7 @@ class {{classname}} (
     }),
     val requestFactory: IRequestFactory = RequestFactory(),
     val basePath: String = "{{{basePath}}}",
-    val retryPolicy: DefaultRetryPolicy? = null) {
+    private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     {{#operation}}
     /**
@@ -114,9 +114,7 @@ class {{classname}} (
                     responseListener,
                     errorListener)
 
-            if (retryPolicy != null) {
-                request.retryPolicy = retryPolicy
-            }
+            postProcessors.forEach{ it.invoke(request)}
 
             requestQueue.value.add(request)
         }
