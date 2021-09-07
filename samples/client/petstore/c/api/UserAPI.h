@@ -7,10 +7,6 @@
 #include "../include/binary.h"
 #include "../model/user.h"
 
-#undef stdin
-#undef stderr
-#undef stdout
-
 
 // Create user
 //
