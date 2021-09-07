@@ -3469,6 +3469,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
         } else if (isFreeFormObject(p)) {
             property.isFreeFormObject = true;
+            if (languageSpecificPrimitives.contains(property.dataType)) {
+                property.isPrimitiveType = true;
+            }
             if (ModelUtils.isMapSchema(p)) {
                 setMapProperties(property, p);
             }
@@ -3507,7 +3510,6 @@ public class DefaultCodegen implements CodegenConfig {
                 LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
             }
             property.isNullable = true;
-            property.baseType = getSchemaType(p);
             if (languageSpecificPrimitives.contains(property.dataType)) {
                 property.isPrimitiveType = true;
             }
@@ -3519,7 +3521,7 @@ public class DefaultCodegen implements CodegenConfig {
             setMapProperties(property, p);
         }
 
-        if (isFreeFormObject(p) || isAnyTypeSchema(p) || ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p)) {
+        if (ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p) || isFreeFormObject(p) || isAnyTypeSchema(p)) {
             ;
         } else { // model
             String type = getSchemaType(p);
