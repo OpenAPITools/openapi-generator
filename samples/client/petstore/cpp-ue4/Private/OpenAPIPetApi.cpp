@@ -56,7 +56,7 @@ bool OpenAPIPetApi::IsValid() const
 
 void OpenAPIPetApi::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManager)
 {
-	if(RetryManager != &GetHttpRetryManager())
+	if(&InRetryManager != RetryManager)
 	{
 		DefaultRetryManager.Reset();
 		RetryManager = &InRetryManager;
@@ -89,48 +89,59 @@ FHttpRequestRef OpenAPIPetApi::CreateHttpRequest(const Request& Request) const
 	}
 }
 
-void OpenAPIPetApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const
+void OpenAPIPetApi::TryBuildResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, Response& InOutResponse) const
 {
-	InOutResponse.SetHttpResponse(HttpResponse);
-	InOutResponse.SetSuccessful(bSucceeded);
+	InOutResponse.SetHttpRequest(HttpRequest); //publish the request
+	InOutResponse.SetHttpResponse(HttpResponse); //might be nullptr
+	InOutResponse.SetHttpRequestSuccessful(bHttpSucceeded); //false is going to be client Failed or Failed_ConnectionError
 
-	if (bSucceeded && HttpResponse.IsValid())
-	{
-		InOutResponse.SetHttpResponseCode((EHttpResponseCodes::Type)HttpResponse->GetResponseCode());
-		FString ContentType = HttpResponse->GetContentType();
-		FString Content;
+	//A ConnectionError is a failure where the client knows the server never received the request.  Often safe to retry but only the application knows for sure.
+	InOutResponse.SetHttpClientConnectionError((HttpRequest->GetStatus() == EHttpRequestStatus::Failed_ConnectionError)); //publish knowledge of initial connection error
 
-		if (ContentType.IsEmpty())
-		{
-			return; // Nothing to parse
-		}
-		else if (ContentType.StartsWith(TEXT("application/json")) || ContentType.StartsWith("text/json"))
-		{
-			Content = HttpResponse->GetContentAsString();
-
-			TSharedPtr<FJsonValue> JsonValue;
-			auto Reader = TJsonReaderFactory<>::Create(Content);
-
-			if (FJsonSerializer::Deserialize(Reader, JsonValue) && JsonValue.IsValid())
-			{
-				if (InOutResponse.FromJson(JsonValue))
-					return; // Successfully parsed
-			}
-		}
-		else if(ContentType.StartsWith(TEXT("text/plain")))
-		{
-			Content = HttpResponse->GetContentAsString();
-			InOutResponse.SetResponseString(Content);
-			return; // Successfully parsed
-		}
-
-		// Report the parse error but do not mark the request as unsuccessful. Data could be partial or malformed, but the request succeeded.
-		UE_LOG(LogOpenAPI, Error, TEXT("Failed to deserialize Http response content (type:%s):\n%s"), *ContentType , *Content);
-		return;
+	//handle the potentially null response.
+	if (!HttpResponse.IsValid()){
+		return; //nothing else can be gleaned.
 	}
 
-	// By default, assume we failed to establish connection
-	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
+	//the response code and raw content are retrieved.
+	InOutResponse.SetHttpResponseCode((EHttpResponseCodes::Type)HttpResponse->GetResponseCode()); //also sets RestResponseDescription based on Schema
+	FString ContentType = HttpResponse->GetContentType();
+	if (ContentType.IsEmpty())
+	{
+		return; // Nothing to parse.  Nothing else to glean.
+	}
+	FString Content;
+	Content = HttpResponse->GetContentAsString();
+	InOutResponse.SetRestResponseContent(Content);  //publish the raw string content, as we may not successfully parse it
+
+	//Strictly speaking, we should probably only try to parse the expected return based on the response code.
+	//And it should return different types based on the code's definition in the Schema.
+	//However we're doing a simpler thing here.  We try to parse an expected successful content type
+	//regardless of response code and provide it if we can.
+
+	if (ContentType.StartsWith(TEXT("application/json")) || ContentType.StartsWith("text/json"))
+	{
+		TSharedPtr<FJsonValue> JsonValue;
+		auto Reader = TJsonReaderFactory<>::Create(Content);
+
+		if (FJsonSerializer::Deserialize(Reader, JsonValue) && JsonValue.IsValid())
+		{
+			if (InOutResponse.FromJson(JsonValue)) //sets the parsed value as best it can
+			{
+				InOutResponse.SetRestContentFullyParsed(true); //informs if the parse was fully successful
+				return; // nothing more to glean.
+			}
+		}
+		// note: we could try parsing some conventional alternative returns here such as 3.3 in:
+		// https://www.baeldung.com/rest-api-error-handling-best-practices
+	}
+	else if(ContentType.StartsWith(TEXT("text/plain")))
+	{
+		return; // raw text was already published. nothing more to glean.
+	}
+	//note: we could parse other potential return types here.  Such as https://datatracker.ietf.org/doc/html/rfc7807 which
+	//would have content type: application/problem+json
+
 }
 
 FHttpRequestPtr OpenAPIPetApi::AddPet(const AddPetRequest& Request, const FAddPetDelegate& Delegate /*= FAddPetDelegate()*/) const
@@ -148,15 +159,15 @@ FHttpRequestPtr OpenAPIPetApi::AddPet(const AddPetRequest& Request, const FAddPe
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnAddPetResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnAddPetProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIPetApi::OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate) const
+void OpenAPIPetApi::OnAddPetProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FAddPetDelegate Delegate) const
 {
 	AddPetResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -175,15 +186,15 @@ FHttpRequestPtr OpenAPIPetApi::DeletePet(const DeletePetRequest& Request, const 
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnDeletePetResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnDeletePetProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIPetApi::OnDeletePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePetDelegate Delegate) const
+void OpenAPIPetApi::OnDeletePetProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FDeletePetDelegate Delegate) const
 {
 	DeletePetResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -202,15 +213,15 @@ FHttpRequestPtr OpenAPIPetApi::FindPetsByStatus(const FindPetsByStatusRequest& R
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnFindPetsByStatusResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnFindPetsByStatusProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIPetApi::OnFindPetsByStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByStatusDelegate Delegate) const
+void OpenAPIPetApi::OnFindPetsByStatusProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FFindPetsByStatusDelegate Delegate) const
 {
 	FindPetsByStatusResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -229,15 +240,15 @@ FHttpRequestPtr OpenAPIPetApi::FindPetsByTags(const FindPetsByTagsRequest& Reque
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnFindPetsByTagsResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnFindPetsByTagsProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIPetApi::OnFindPetsByTagsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByTagsDelegate Delegate) const
+void OpenAPIPetApi::OnFindPetsByTagsProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FFindPetsByTagsDelegate Delegate) const
 {
 	FindPetsByTagsResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -256,15 +267,15 @@ FHttpRequestPtr OpenAPIPetApi::GetPetById(const GetPetByIdRequest& Request, cons
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnGetPetByIdResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnGetPetByIdProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIPetApi::OnGetPetByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPetByIdDelegate Delegate) const
+void OpenAPIPetApi::OnGetPetByIdProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FGetPetByIdDelegate Delegate) const
 {
 	GetPetByIdResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -283,15 +294,15 @@ FHttpRequestPtr OpenAPIPetApi::UpdatePet(const UpdatePetRequest& Request, const 
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIPetApi::OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate) const
+void OpenAPIPetApi::OnUpdatePetProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FUpdatePetDelegate Delegate) const
 {
 	UpdatePetResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -310,15 +321,15 @@ FHttpRequestPtr OpenAPIPetApi::UpdatePetWithForm(const UpdatePetWithFormRequest&
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetWithFormResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUpdatePetWithFormProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIPetApi::OnUpdatePetWithFormResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetWithFormDelegate Delegate) const
+void OpenAPIPetApi::OnUpdatePetWithFormProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FUpdatePetWithFormDelegate Delegate) const
 {
 	UpdatePetWithFormResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -337,15 +348,15 @@ FHttpRequestPtr OpenAPIPetApi::UploadFile(const UploadFileRequest& Request, cons
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUploadFileResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIPetApi::OnUploadFileProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIPetApi::OnUploadFileResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadFileDelegate Delegate) const
+void OpenAPIPetApi::OnUploadFileProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FUploadFileDelegate Delegate) const
 {
 	UploadFileResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 

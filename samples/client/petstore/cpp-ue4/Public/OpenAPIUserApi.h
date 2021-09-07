@@ -55,37 +55,37 @@ public:
 	class UpdateUserRequest;
 	class UpdateUserResponse;
 	
-    DECLARE_DELEGATE_OneParam(FCreateUserDelegate, const CreateUserResponse&);
-    DECLARE_DELEGATE_OneParam(FCreateUsersWithArrayInputDelegate, const CreateUsersWithArrayInputResponse&);
-    DECLARE_DELEGATE_OneParam(FCreateUsersWithListInputDelegate, const CreateUsersWithListInputResponse&);
-    DECLARE_DELEGATE_OneParam(FDeleteUserDelegate, const DeleteUserResponse&);
-    DECLARE_DELEGATE_OneParam(FGetUserByNameDelegate, const GetUserByNameResponse&);
-    DECLARE_DELEGATE_OneParam(FLoginUserDelegate, const LoginUserResponse&);
-    DECLARE_DELEGATE_OneParam(FLogoutUserDelegate, const LogoutUserResponse&);
-    DECLARE_DELEGATE_OneParam(FUpdateUserDelegate, const UpdateUserResponse&);
-    
-    FHttpRequestPtr CreateUser(const CreateUserRequest& Request, const FCreateUserDelegate& Delegate = FCreateUserDelegate()) const;
-    FHttpRequestPtr CreateUsersWithArrayInput(const CreateUsersWithArrayInputRequest& Request, const FCreateUsersWithArrayInputDelegate& Delegate = FCreateUsersWithArrayInputDelegate()) const;
-    FHttpRequestPtr CreateUsersWithListInput(const CreateUsersWithListInputRequest& Request, const FCreateUsersWithListInputDelegate& Delegate = FCreateUsersWithListInputDelegate()) const;
-    FHttpRequestPtr DeleteUser(const DeleteUserRequest& Request, const FDeleteUserDelegate& Delegate = FDeleteUserDelegate()) const;
-    FHttpRequestPtr GetUserByName(const GetUserByNameRequest& Request, const FGetUserByNameDelegate& Delegate = FGetUserByNameDelegate()) const;
-    FHttpRequestPtr LoginUser(const LoginUserRequest& Request, const FLoginUserDelegate& Delegate = FLoginUserDelegate()) const;
-    FHttpRequestPtr LogoutUser(const LogoutUserRequest& Request, const FLogoutUserDelegate& Delegate = FLogoutUserDelegate()) const;
-    FHttpRequestPtr UpdateUser(const UpdateUserRequest& Request, const FUpdateUserDelegate& Delegate = FUpdateUserDelegate()) const;
-    
+	DECLARE_DELEGATE_OneParam(FCreateUserDelegate, const CreateUserResponse&);
+	DECLARE_DELEGATE_OneParam(FCreateUsersWithArrayInputDelegate, const CreateUsersWithArrayInputResponse&);
+	DECLARE_DELEGATE_OneParam(FCreateUsersWithListInputDelegate, const CreateUsersWithListInputResponse&);
+	DECLARE_DELEGATE_OneParam(FDeleteUserDelegate, const DeleteUserResponse&);
+	DECLARE_DELEGATE_OneParam(FGetUserByNameDelegate, const GetUserByNameResponse&);
+	DECLARE_DELEGATE_OneParam(FLoginUserDelegate, const LoginUserResponse&);
+	DECLARE_DELEGATE_OneParam(FLogoutUserDelegate, const LogoutUserResponse&);
+	DECLARE_DELEGATE_OneParam(FUpdateUserDelegate, const UpdateUserResponse&);
+	
+	FHttpRequestPtr CreateUser(const CreateUserRequest& Request, const FCreateUserDelegate& Delegate = FCreateUserDelegate()) const;
+	FHttpRequestPtr CreateUsersWithArrayInput(const CreateUsersWithArrayInputRequest& Request, const FCreateUsersWithArrayInputDelegate& Delegate = FCreateUsersWithArrayInputDelegate()) const;
+	FHttpRequestPtr CreateUsersWithListInput(const CreateUsersWithListInputRequest& Request, const FCreateUsersWithListInputDelegate& Delegate = FCreateUsersWithListInputDelegate()) const;
+	FHttpRequestPtr DeleteUser(const DeleteUserRequest& Request, const FDeleteUserDelegate& Delegate = FDeleteUserDelegate()) const;
+	FHttpRequestPtr GetUserByName(const GetUserByNameRequest& Request, const FGetUserByNameDelegate& Delegate = FGetUserByNameDelegate()) const;
+	FHttpRequestPtr LoginUser(const LoginUserRequest& Request, const FLoginUserDelegate& Delegate = FLoginUserDelegate()) const;
+	FHttpRequestPtr LogoutUser(const LogoutUserRequest& Request, const FLogoutUserDelegate& Delegate = FLogoutUserDelegate()) const;
+	FHttpRequestPtr UpdateUser(const UpdateUserRequest& Request, const FUpdateUserDelegate& Delegate = FUpdateUserDelegate()) const;
+	
 private:
-    void OnCreateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUserDelegate Delegate) const;
-    void OnCreateUsersWithArrayInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithArrayInputDelegate Delegate) const;
-    void OnCreateUsersWithListInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithListInputDelegate Delegate) const;
-    void OnDeleteUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteUserDelegate Delegate) const;
-    void OnGetUserByNameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetUserByNameDelegate Delegate) const;
-    void OnLoginUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginUserDelegate Delegate) const;
-    void OnLogoutUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLogoutUserDelegate Delegate) const;
-    void OnUpdateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDelegate Delegate) const;
-    
+	void OnCreateUserProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUserDelegate Delegate) const;
+	void OnCreateUsersWithArrayInputProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithArrayInputDelegate Delegate) const;
+	void OnCreateUsersWithListInputProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithListInputDelegate Delegate) const;
+	void OnDeleteUserProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteUserDelegate Delegate) const;
+	void OnGetUserByNameProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetUserByNameDelegate Delegate) const;
+	void OnLoginUserProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginUserDelegate Delegate) const;
+	void OnLogoutUserProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLogoutUserDelegate Delegate) const;
+	void OnUpdateUserProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDelegate Delegate) const;
+	
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
 	bool IsValid() const;
-	void HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const;
+	void TryBuildResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, Response& InOutResponse) const;
 
 	FString Url;
 	TMap<FString,FString> AdditionalHeaderParams;

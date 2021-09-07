@@ -22,26 +22,22 @@ bool HttpRetryManager::Tick(float DeltaTime)
 }
 
 HttpRetryParams::HttpRetryParams(const FRetryLimitCountSetting& InRetryLimitCountOverride /*= FRetryLimitCountSetting()*/,
-    const FRetryTimeoutRelativeSecondsSetting& InRetryTimeoutRelativeSecondsOverride /*= FRetryTimeoutRelativeSecondsSetting()*/,
-    const FRetryResponseCodes& InRetryResponseCodes /*= FRetryResponseCodes()*/,
-    const FRetryVerbs& InRetryVerbs /*= FRetryVerbs()*/,
-    const FRetryDomainsPtr& InRetryDomains /*= FRetryDomainsPtr() */)
-    : RetryLimitCountOverride(InRetryLimitCountOverride)
-    , RetryTimeoutRelativeSecondsOverride(InRetryTimeoutRelativeSecondsOverride)
-    , RetryResponseCodes(InRetryResponseCodes)
-    , RetryVerbs(InRetryVerbs)
-    , RetryDomains(InRetryDomains)
+	const FRetryTimeoutRelativeSecondsSetting& InRetryTimeoutRelativeSecondsOverride /*= FRetryTimeoutRelativeSecondsSetting()*/,
+	const FRetryResponseCodes& InRetryResponseCodes /*= FRetryResponseCodes()*/,
+	const FRetryVerbs& InRetryVerbs /*= FRetryVerbs()*/,
+	const FRetryDomainsPtr& InRetryDomains /*= FRetryDomainsPtr() */)
+	: RetryLimitCountOverride(InRetryLimitCountOverride)
+	, RetryTimeoutRelativeSecondsOverride(InRetryTimeoutRelativeSecondsOverride)
+	, RetryResponseCodes(InRetryResponseCodes)
+	, RetryVerbs(InRetryVerbs)
+	, RetryDomains(InRetryDomains)
 {
 }
 
 void Response::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
 {
-    ResponseCode = InHttpResponseCode;
-    SetSuccessful(EHttpResponseCodes::IsOk(InHttpResponseCode));
-    if(InHttpResponseCode == EHttpResponseCodes::RequestTimeout)
-    {
-        SetResponseString(TEXT("Request Timeout"));
-    }
+	HttpResponseCode = InHttpResponseCode;
+	SetRestRequestSuccessful(EHttpResponseCodes::IsOk(InHttpResponseCode));
 }
 
 }

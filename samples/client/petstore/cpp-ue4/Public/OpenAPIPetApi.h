@@ -55,37 +55,37 @@ public:
 	class UploadFileRequest;
 	class UploadFileResponse;
 	
-    DECLARE_DELEGATE_OneParam(FAddPetDelegate, const AddPetResponse&);
-    DECLARE_DELEGATE_OneParam(FDeletePetDelegate, const DeletePetResponse&);
-    DECLARE_DELEGATE_OneParam(FFindPetsByStatusDelegate, const FindPetsByStatusResponse&);
-    DECLARE_DELEGATE_OneParam(FFindPetsByTagsDelegate, const FindPetsByTagsResponse&);
-    DECLARE_DELEGATE_OneParam(FGetPetByIdDelegate, const GetPetByIdResponse&);
-    DECLARE_DELEGATE_OneParam(FUpdatePetDelegate, const UpdatePetResponse&);
-    DECLARE_DELEGATE_OneParam(FUpdatePetWithFormDelegate, const UpdatePetWithFormResponse&);
-    DECLARE_DELEGATE_OneParam(FUploadFileDelegate, const UploadFileResponse&);
-    
-    FHttpRequestPtr AddPet(const AddPetRequest& Request, const FAddPetDelegate& Delegate = FAddPetDelegate()) const;
-    FHttpRequestPtr DeletePet(const DeletePetRequest& Request, const FDeletePetDelegate& Delegate = FDeletePetDelegate()) const;
-    FHttpRequestPtr FindPetsByStatus(const FindPetsByStatusRequest& Request, const FFindPetsByStatusDelegate& Delegate = FFindPetsByStatusDelegate()) const;
-    FHttpRequestPtr FindPetsByTags(const FindPetsByTagsRequest& Request, const FFindPetsByTagsDelegate& Delegate = FFindPetsByTagsDelegate()) const;
-    FHttpRequestPtr GetPetById(const GetPetByIdRequest& Request, const FGetPetByIdDelegate& Delegate = FGetPetByIdDelegate()) const;
-    FHttpRequestPtr UpdatePet(const UpdatePetRequest& Request, const FUpdatePetDelegate& Delegate = FUpdatePetDelegate()) const;
-    FHttpRequestPtr UpdatePetWithForm(const UpdatePetWithFormRequest& Request, const FUpdatePetWithFormDelegate& Delegate = FUpdatePetWithFormDelegate()) const;
-    FHttpRequestPtr UploadFile(const UploadFileRequest& Request, const FUploadFileDelegate& Delegate = FUploadFileDelegate()) const;
-    
+	DECLARE_DELEGATE_OneParam(FAddPetDelegate, const AddPetResponse&);
+	DECLARE_DELEGATE_OneParam(FDeletePetDelegate, const DeletePetResponse&);
+	DECLARE_DELEGATE_OneParam(FFindPetsByStatusDelegate, const FindPetsByStatusResponse&);
+	DECLARE_DELEGATE_OneParam(FFindPetsByTagsDelegate, const FindPetsByTagsResponse&);
+	DECLARE_DELEGATE_OneParam(FGetPetByIdDelegate, const GetPetByIdResponse&);
+	DECLARE_DELEGATE_OneParam(FUpdatePetDelegate, const UpdatePetResponse&);
+	DECLARE_DELEGATE_OneParam(FUpdatePetWithFormDelegate, const UpdatePetWithFormResponse&);
+	DECLARE_DELEGATE_OneParam(FUploadFileDelegate, const UploadFileResponse&);
+	
+	FHttpRequestPtr AddPet(const AddPetRequest& Request, const FAddPetDelegate& Delegate = FAddPetDelegate()) const;
+	FHttpRequestPtr DeletePet(const DeletePetRequest& Request, const FDeletePetDelegate& Delegate = FDeletePetDelegate()) const;
+	FHttpRequestPtr FindPetsByStatus(const FindPetsByStatusRequest& Request, const FFindPetsByStatusDelegate& Delegate = FFindPetsByStatusDelegate()) const;
+	FHttpRequestPtr FindPetsByTags(const FindPetsByTagsRequest& Request, const FFindPetsByTagsDelegate& Delegate = FFindPetsByTagsDelegate()) const;
+	FHttpRequestPtr GetPetById(const GetPetByIdRequest& Request, const FGetPetByIdDelegate& Delegate = FGetPetByIdDelegate()) const;
+	FHttpRequestPtr UpdatePet(const UpdatePetRequest& Request, const FUpdatePetDelegate& Delegate = FUpdatePetDelegate()) const;
+	FHttpRequestPtr UpdatePetWithForm(const UpdatePetWithFormRequest& Request, const FUpdatePetWithFormDelegate& Delegate = FUpdatePetWithFormDelegate()) const;
+	FHttpRequestPtr UploadFile(const UploadFileRequest& Request, const FUploadFileDelegate& Delegate = FUploadFileDelegate()) const;
+	
 private:
-    void OnAddPetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate) const;
-    void OnDeletePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePetDelegate Delegate) const;
-    void OnFindPetsByStatusResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByStatusDelegate Delegate) const;
-    void OnFindPetsByTagsResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByTagsDelegate Delegate) const;
-    void OnGetPetByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPetByIdDelegate Delegate) const;
-    void OnUpdatePetResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate) const;
-    void OnUpdatePetWithFormResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetWithFormDelegate Delegate) const;
-    void OnUploadFileResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadFileDelegate Delegate) const;
-    
+	void OnAddPetProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FAddPetDelegate Delegate) const;
+	void OnDeletePetProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeletePetDelegate Delegate) const;
+	void OnFindPetsByStatusProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByStatusDelegate Delegate) const;
+	void OnFindPetsByTagsProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FFindPetsByTagsDelegate Delegate) const;
+	void OnGetPetByIdProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetPetByIdDelegate Delegate) const;
+	void OnUpdatePetProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetDelegate Delegate) const;
+	void OnUpdatePetWithFormProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdatePetWithFormDelegate Delegate) const;
+	void OnUploadFileProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUploadFileDelegate Delegate) const;
+	
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
 	bool IsValid() const;
-	void HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const;
+	void TryBuildResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, Response& InOutResponse) const;
 
 	FString Url;
 	TMap<FString,FString> AdditionalHeaderParams;

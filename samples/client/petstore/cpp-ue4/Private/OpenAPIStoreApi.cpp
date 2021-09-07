@@ -56,7 +56,7 @@ bool OpenAPIStoreApi::IsValid() const
 
 void OpenAPIStoreApi::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManager)
 {
-	if(RetryManager != &GetHttpRetryManager())
+	if(&InRetryManager != RetryManager)
 	{
 		DefaultRetryManager.Reset();
 		RetryManager = &InRetryManager;
@@ -89,48 +89,59 @@ FHttpRequestRef OpenAPIStoreApi::CreateHttpRequest(const Request& Request) const
 	}
 }
 
-void OpenAPIStoreApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const
+void OpenAPIStoreApi::TryBuildResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, Response& InOutResponse) const
 {
-	InOutResponse.SetHttpResponse(HttpResponse);
-	InOutResponse.SetSuccessful(bSucceeded);
+	InOutResponse.SetHttpRequest(HttpRequest); //publish the request
+	InOutResponse.SetHttpResponse(HttpResponse); //might be nullptr
+	InOutResponse.SetHttpRequestSuccessful(bHttpSucceeded); //false is going to be client Failed or Failed_ConnectionError
 
-	if (bSucceeded && HttpResponse.IsValid())
-	{
-		InOutResponse.SetHttpResponseCode((EHttpResponseCodes::Type)HttpResponse->GetResponseCode());
-		FString ContentType = HttpResponse->GetContentType();
-		FString Content;
+	//A ConnectionError is a failure where the client knows the server never received the request.  Often safe to retry but only the application knows for sure.
+	InOutResponse.SetHttpClientConnectionError((HttpRequest->GetStatus() == EHttpRequestStatus::Failed_ConnectionError)); //publish knowledge of initial connection error
 
-		if (ContentType.IsEmpty())
-		{
-			return; // Nothing to parse
-		}
-		else if (ContentType.StartsWith(TEXT("application/json")) || ContentType.StartsWith("text/json"))
-		{
-			Content = HttpResponse->GetContentAsString();
-
-			TSharedPtr<FJsonValue> JsonValue;
-			auto Reader = TJsonReaderFactory<>::Create(Content);
-
-			if (FJsonSerializer::Deserialize(Reader, JsonValue) && JsonValue.IsValid())
-			{
-				if (InOutResponse.FromJson(JsonValue))
-					return; // Successfully parsed
-			}
-		}
-		else if(ContentType.StartsWith(TEXT("text/plain")))
-		{
-			Content = HttpResponse->GetContentAsString();
-			InOutResponse.SetResponseString(Content);
-			return; // Successfully parsed
-		}
-
-		// Report the parse error but do not mark the request as unsuccessful. Data could be partial or malformed, but the request succeeded.
-		UE_LOG(LogOpenAPI, Error, TEXT("Failed to deserialize Http response content (type:%s):\n%s"), *ContentType , *Content);
-		return;
+	//handle the potentially null response.
+	if (!HttpResponse.IsValid()){
+		return; //nothing else can be gleaned.
 	}
 
-	// By default, assume we failed to establish connection
-	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
+	//the response code and raw content are retrieved.
+	InOutResponse.SetHttpResponseCode((EHttpResponseCodes::Type)HttpResponse->GetResponseCode()); //also sets RestResponseDescription based on Schema
+	FString ContentType = HttpResponse->GetContentType();
+	if (ContentType.IsEmpty())
+	{
+		return; // Nothing to parse.  Nothing else to glean.
+	}
+	FString Content;
+	Content = HttpResponse->GetContentAsString();
+	InOutResponse.SetRestResponseContent(Content);  //publish the raw string content, as we may not successfully parse it
+
+	//Strictly speaking, we should probably only try to parse the expected return based on the response code.
+	//And it should return different types based on the code's definition in the Schema.
+	//However we're doing a simpler thing here.  We try to parse an expected successful content type
+	//regardless of response code and provide it if we can.
+
+	if (ContentType.StartsWith(TEXT("application/json")) || ContentType.StartsWith("text/json"))
+	{
+		TSharedPtr<FJsonValue> JsonValue;
+		auto Reader = TJsonReaderFactory<>::Create(Content);
+
+		if (FJsonSerializer::Deserialize(Reader, JsonValue) && JsonValue.IsValid())
+		{
+			if (InOutResponse.FromJson(JsonValue)) //sets the parsed value as best it can
+			{
+				InOutResponse.SetRestContentFullyParsed(true); //informs if the parse was fully successful
+				return; // nothing more to glean.
+			}
+		}
+		// note: we could try parsing some conventional alternative returns here such as 3.3 in:
+		// https://www.baeldung.com/rest-api-error-handling-best-practices
+	}
+	else if(ContentType.StartsWith(TEXT("text/plain")))
+	{
+		return; // raw text was already published. nothing more to glean.
+	}
+	//note: we could parse other potential return types here.  Such as https://datatracker.ietf.org/doc/html/rfc7807 which
+	//would have content type: application/problem+json
+
 }
 
 FHttpRequestPtr OpenAPIStoreApi::DeleteOrder(const DeleteOrderRequest& Request, const FDeleteOrderDelegate& Delegate /*= FDeleteOrderDelegate()*/) const
@@ -148,15 +159,15 @@ FHttpRequestPtr OpenAPIStoreApi::DeleteOrder(const DeleteOrderRequest& Request, 
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnDeleteOrderResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnDeleteOrderProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIStoreApi::OnDeleteOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOrderDelegate Delegate) const
+void OpenAPIStoreApi::OnDeleteOrderProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FDeleteOrderDelegate Delegate) const
 {
 	DeleteOrderResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -175,15 +186,15 @@ FHttpRequestPtr OpenAPIStoreApi::GetInventory(const GetInventoryRequest& Request
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnGetInventoryResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnGetInventoryProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIStoreApi::OnGetInventoryResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetInventoryDelegate Delegate) const
+void OpenAPIStoreApi::OnGetInventoryProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FGetInventoryDelegate Delegate) const
 {
 	GetInventoryResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -202,15 +213,15 @@ FHttpRequestPtr OpenAPIStoreApi::GetOrderById(const GetOrderByIdRequest& Request
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnGetOrderByIdResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnGetOrderByIdProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIStoreApi::OnGetOrderByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetOrderByIdDelegate Delegate) const
+void OpenAPIStoreApi::OnGetOrderByIdProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FGetOrderByIdDelegate Delegate) const
 {
 	GetOrderByIdResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -229,15 +240,15 @@ FHttpRequestPtr OpenAPIStoreApi::PlaceOrder(const PlaceOrderRequest& Request, co
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnPlaceOrderResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIStoreApi::OnPlaceOrderProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIStoreApi::OnPlaceOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlaceOrderDelegate Delegate) const
+void OpenAPIStoreApi::OnPlaceOrderProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FPlaceOrderDelegate Delegate) const
 {
 	PlaceOrderResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 

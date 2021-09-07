@@ -69,7 +69,7 @@ void OpenAPIPetApi::AddPetResponse::SetHttpResponseCode(EHttpResponseCodes::Type
 	switch ((int)InHttpResponseCode)
 	{
 	case 405:
-		SetResponseString(TEXT("Invalid input"));
+		SetRestResponseDescription(TEXT("Invalid input"));
 		break;
 	}
 }
@@ -132,7 +132,7 @@ void OpenAPIPetApi::DeletePetResponse::SetHttpResponseCode(EHttpResponseCodes::T
 	switch ((int)InHttpResponseCode)
 	{
 	case 400:
-		SetResponseString(TEXT("Invalid pet value"));
+		SetRestResponseDescription(TEXT("Invalid pet value"));
 		break;
 	}
 }
@@ -251,10 +251,10 @@ void OpenAPIPetApi::FindPetsByStatusResponse::SetHttpResponseCode(EHttpResponseC
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	case 400:
-		SetResponseString(TEXT("Invalid status value"));
+		SetRestResponseDescription(TEXT("Invalid status value"));
 		break;
 	}
 }
@@ -312,10 +312,10 @@ void OpenAPIPetApi::FindPetsByTagsResponse::SetHttpResponseCode(EHttpResponseCod
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	case 400:
-		SetResponseString(TEXT("Invalid tag value"));
+		SetRestResponseDescription(TEXT("Invalid tag value"));
 		break;
 	}
 }
@@ -372,13 +372,13 @@ void OpenAPIPetApi::GetPetByIdResponse::SetHttpResponseCode(EHttpResponseCodes::
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	case 400:
-		SetResponseString(TEXT("Invalid ID supplied"));
+		SetRestResponseDescription(TEXT("Invalid ID supplied"));
 		break;
 	case 404:
-		SetResponseString(TEXT("Pet not found"));
+		SetRestResponseDescription(TEXT("Pet not found"));
 		break;
 	}
 }
@@ -434,13 +434,13 @@ void OpenAPIPetApi::UpdatePetResponse::SetHttpResponseCode(EHttpResponseCodes::T
 	switch ((int)InHttpResponseCode)
 	{
 	case 400:
-		SetResponseString(TEXT("Invalid ID supplied"));
+		SetRestResponseDescription(TEXT("Invalid ID supplied"));
 		break;
 	case 404:
-		SetResponseString(TEXT("Pet not found"));
+		SetRestResponseDescription(TEXT("Pet not found"));
 		break;
 	case 405:
-		SetResponseString(TEXT("Validation exception"));
+		SetRestResponseDescription(TEXT("Validation exception"));
 		break;
 	}
 }
@@ -528,7 +528,7 @@ void OpenAPIPetApi::UpdatePetWithFormResponse::SetHttpResponseCode(EHttpResponse
 	switch ((int)InHttpResponseCode)
 	{
 	case 405:
-		SetResponseString(TEXT("Invalid input"));
+		SetRestResponseDescription(TEXT("Invalid input"));
 		break;
 	}
 }
@@ -613,7 +613,7 @@ void OpenAPIPetApi::UploadFileResponse::SetHttpResponseCode(EHttpResponseCodes::
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	}
 }

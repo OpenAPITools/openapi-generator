@@ -70,7 +70,7 @@ void OpenAPIUserApi::CreateUserResponse::SetHttpResponseCode(EHttpResponseCodes:
 	{
 	case 0:
 	default:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	}
 }
@@ -127,7 +127,7 @@ void OpenAPIUserApi::CreateUsersWithArrayInputResponse::SetHttpResponseCode(EHtt
 	{
 	case 0:
 	default:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	}
 }
@@ -184,7 +184,7 @@ void OpenAPIUserApi::CreateUsersWithListInputResponse::SetHttpResponseCode(EHttp
 	{
 	case 0:
 	default:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	}
 }
@@ -241,10 +241,10 @@ void OpenAPIUserApi::DeleteUserResponse::SetHttpResponseCode(EHttpResponseCodes:
 	switch ((int)InHttpResponseCode)
 	{
 	case 400:
-		SetResponseString(TEXT("Invalid username supplied"));
+		SetRestResponseDescription(TEXT("Invalid username supplied"));
 		break;
 	case 404:
-		SetResponseString(TEXT("User not found"));
+		SetRestResponseDescription(TEXT("User not found"));
 		break;
 	}
 }
@@ -301,13 +301,13 @@ void OpenAPIUserApi::GetUserByNameResponse::SetHttpResponseCode(EHttpResponseCod
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	case 400:
-		SetResponseString(TEXT("Invalid username supplied"));
+		SetRestResponseDescription(TEXT("Invalid username supplied"));
 		break;
 	case 404:
-		SetResponseString(TEXT("User not found"));
+		SetRestResponseDescription(TEXT("User not found"));
 		break;
 	}
 }
@@ -366,10 +366,10 @@ void OpenAPIUserApi::LoginUserResponse::SetHttpResponseCode(EHttpResponseCodes::
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	case 400:
-		SetResponseString(TEXT("Invalid username/password supplied"));
+		SetRestResponseDescription(TEXT("Invalid username/password supplied"));
 		break;
 	}
 }
@@ -423,7 +423,7 @@ void OpenAPIUserApi::LogoutUserResponse::SetHttpResponseCode(EHttpResponseCodes:
 	{
 	case 0:
 	default:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	}
 }
@@ -483,10 +483,10 @@ void OpenAPIUserApi::UpdateUserResponse::SetHttpResponseCode(EHttpResponseCodes:
 	switch ((int)InHttpResponseCode)
 	{
 	case 400:
-		SetResponseString(TEXT("Invalid user supplied"));
+		SetRestResponseDescription(TEXT("Invalid user supplied"));
 		break;
 	case 404:
-		SetResponseString(TEXT("User not found"));
+		SetRestResponseDescription(TEXT("User not found"));
 		break;
 	}
 }

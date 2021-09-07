@@ -70,10 +70,10 @@ void OpenAPIStoreApi::DeleteOrderResponse::SetHttpResponseCode(EHttpResponseCode
 	switch ((int)InHttpResponseCode)
 	{
 	case 400:
-		SetResponseString(TEXT("Invalid ID supplied"));
+		SetRestResponseDescription(TEXT("Invalid ID supplied"));
 		break;
 	case 404:
-		SetResponseString(TEXT("Order not found"));
+		SetRestResponseDescription(TEXT("Order not found"));
 		break;
 	}
 }
@@ -126,7 +126,7 @@ void OpenAPIStoreApi::GetInventoryResponse::SetHttpResponseCode(EHttpResponseCod
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	}
 }
@@ -183,13 +183,13 @@ void OpenAPIStoreApi::GetOrderByIdResponse::SetHttpResponseCode(EHttpResponseCod
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	case 400:
-		SetResponseString(TEXT("Invalid ID supplied"));
+		SetRestResponseDescription(TEXT("Invalid ID supplied"));
 		break;
 	case 404:
-		SetResponseString(TEXT("Order not found"));
+		SetRestResponseDescription(TEXT("Order not found"));
 		break;
 	}
 }
@@ -245,10 +245,10 @@ void OpenAPIStoreApi::PlaceOrderResponse::SetHttpResponseCode(EHttpResponseCodes
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-		SetResponseString(TEXT("successful operation"));
+		SetRestResponseDescription(TEXT("successful operation"));
 		break;
 	case 400:
-		SetResponseString(TEXT("Invalid Order"));
+		SetRestResponseDescription(TEXT("Invalid Order"));
 		break;
 	}
 }

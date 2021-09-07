@@ -47,25 +47,25 @@ public:
 	class PlaceOrderRequest;
 	class PlaceOrderResponse;
 	
-    DECLARE_DELEGATE_OneParam(FDeleteOrderDelegate, const DeleteOrderResponse&);
-    DECLARE_DELEGATE_OneParam(FGetInventoryDelegate, const GetInventoryResponse&);
-    DECLARE_DELEGATE_OneParam(FGetOrderByIdDelegate, const GetOrderByIdResponse&);
-    DECLARE_DELEGATE_OneParam(FPlaceOrderDelegate, const PlaceOrderResponse&);
-    
-    FHttpRequestPtr DeleteOrder(const DeleteOrderRequest& Request, const FDeleteOrderDelegate& Delegate = FDeleteOrderDelegate()) const;
-    FHttpRequestPtr GetInventory(const GetInventoryRequest& Request, const FGetInventoryDelegate& Delegate = FGetInventoryDelegate()) const;
-    FHttpRequestPtr GetOrderById(const GetOrderByIdRequest& Request, const FGetOrderByIdDelegate& Delegate = FGetOrderByIdDelegate()) const;
-    FHttpRequestPtr PlaceOrder(const PlaceOrderRequest& Request, const FPlaceOrderDelegate& Delegate = FPlaceOrderDelegate()) const;
-    
+	DECLARE_DELEGATE_OneParam(FDeleteOrderDelegate, const DeleteOrderResponse&);
+	DECLARE_DELEGATE_OneParam(FGetInventoryDelegate, const GetInventoryResponse&);
+	DECLARE_DELEGATE_OneParam(FGetOrderByIdDelegate, const GetOrderByIdResponse&);
+	DECLARE_DELEGATE_OneParam(FPlaceOrderDelegate, const PlaceOrderResponse&);
+	
+	FHttpRequestPtr DeleteOrder(const DeleteOrderRequest& Request, const FDeleteOrderDelegate& Delegate = FDeleteOrderDelegate()) const;
+	FHttpRequestPtr GetInventory(const GetInventoryRequest& Request, const FGetInventoryDelegate& Delegate = FGetInventoryDelegate()) const;
+	FHttpRequestPtr GetOrderById(const GetOrderByIdRequest& Request, const FGetOrderByIdDelegate& Delegate = FGetOrderByIdDelegate()) const;
+	FHttpRequestPtr PlaceOrder(const PlaceOrderRequest& Request, const FPlaceOrderDelegate& Delegate = FPlaceOrderDelegate()) const;
+	
 private:
-    void OnDeleteOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOrderDelegate Delegate) const;
-    void OnGetInventoryResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetInventoryDelegate Delegate) const;
-    void OnGetOrderByIdResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetOrderByIdDelegate Delegate) const;
-    void OnPlaceOrderResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlaceOrderDelegate Delegate) const;
-    
+	void OnDeleteOrderProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteOrderDelegate Delegate) const;
+	void OnGetInventoryProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetInventoryDelegate Delegate) const;
+	void OnGetOrderByIdProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetOrderByIdDelegate Delegate) const;
+	void OnPlaceOrderProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FPlaceOrderDelegate Delegate) const;
+	
 	FHttpRequestRef CreateHttpRequest(const Request& Request) const;
 	bool IsValid() const;
-	void HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const;
+	void TryBuildResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, Response& InOutResponse) const;
 
 	FString Url;
 	TMap<FString,FString> AdditionalHeaderParams;

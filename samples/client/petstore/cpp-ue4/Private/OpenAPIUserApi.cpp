@@ -56,7 +56,7 @@ bool OpenAPIUserApi::IsValid() const
 
 void OpenAPIUserApi::SetHttpRetryManager(FHttpRetrySystem::FManager& InRetryManager)
 {
-	if(RetryManager != &GetHttpRetryManager())
+	if(&InRetryManager != RetryManager)
 	{
 		DefaultRetryManager.Reset();
 		RetryManager = &InRetryManager;
@@ -89,48 +89,59 @@ FHttpRequestRef OpenAPIUserApi::CreateHttpRequest(const Request& Request) const
 	}
 }
 
-void OpenAPIUserApi::HandleResponse(FHttpResponsePtr HttpResponse, bool bSucceeded, Response& InOutResponse) const
+void OpenAPIUserApi::TryBuildResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, Response& InOutResponse) const
 {
-	InOutResponse.SetHttpResponse(HttpResponse);
-	InOutResponse.SetSuccessful(bSucceeded);
+	InOutResponse.SetHttpRequest(HttpRequest); //publish the request
+	InOutResponse.SetHttpResponse(HttpResponse); //might be nullptr
+	InOutResponse.SetHttpRequestSuccessful(bHttpSucceeded); //false is going to be client Failed or Failed_ConnectionError
 
-	if (bSucceeded && HttpResponse.IsValid())
-	{
-		InOutResponse.SetHttpResponseCode((EHttpResponseCodes::Type)HttpResponse->GetResponseCode());
-		FString ContentType = HttpResponse->GetContentType();
-		FString Content;
+	//A ConnectionError is a failure where the client knows the server never received the request.  Often safe to retry but only the application knows for sure.
+	InOutResponse.SetHttpClientConnectionError((HttpRequest->GetStatus() == EHttpRequestStatus::Failed_ConnectionError)); //publish knowledge of initial connection error
 
-		if (ContentType.IsEmpty())
-		{
-			return; // Nothing to parse
-		}
-		else if (ContentType.StartsWith(TEXT("application/json")) || ContentType.StartsWith("text/json"))
-		{
-			Content = HttpResponse->GetContentAsString();
-
-			TSharedPtr<FJsonValue> JsonValue;
-			auto Reader = TJsonReaderFactory<>::Create(Content);
-
-			if (FJsonSerializer::Deserialize(Reader, JsonValue) && JsonValue.IsValid())
-			{
-				if (InOutResponse.FromJson(JsonValue))
-					return; // Successfully parsed
-			}
-		}
-		else if(ContentType.StartsWith(TEXT("text/plain")))
-		{
-			Content = HttpResponse->GetContentAsString();
-			InOutResponse.SetResponseString(Content);
-			return; // Successfully parsed
-		}
-
-		// Report the parse error but do not mark the request as unsuccessful. Data could be partial or malformed, but the request succeeded.
-		UE_LOG(LogOpenAPI, Error, TEXT("Failed to deserialize Http response content (type:%s):\n%s"), *ContentType , *Content);
-		return;
+	//handle the potentially null response.
+	if (!HttpResponse.IsValid()){
+		return; //nothing else can be gleaned.
 	}
 
-	// By default, assume we failed to establish connection
-	InOutResponse.SetHttpResponseCode(EHttpResponseCodes::RequestTimeout);
+	//the response code and raw content are retrieved.
+	InOutResponse.SetHttpResponseCode((EHttpResponseCodes::Type)HttpResponse->GetResponseCode()); //also sets RestResponseDescription based on Schema
+	FString ContentType = HttpResponse->GetContentType();
+	if (ContentType.IsEmpty())
+	{
+		return; // Nothing to parse.  Nothing else to glean.
+	}
+	FString Content;
+	Content = HttpResponse->GetContentAsString();
+	InOutResponse.SetRestResponseContent(Content);  //publish the raw string content, as we may not successfully parse it
+
+	//Strictly speaking, we should probably only try to parse the expected return based on the response code.
+	//And it should return different types based on the code's definition in the Schema.
+	//However we're doing a simpler thing here.  We try to parse an expected successful content type
+	//regardless of response code and provide it if we can.
+
+	if (ContentType.StartsWith(TEXT("application/json")) || ContentType.StartsWith("text/json"))
+	{
+		TSharedPtr<FJsonValue> JsonValue;
+		auto Reader = TJsonReaderFactory<>::Create(Content);
+
+		if (FJsonSerializer::Deserialize(Reader, JsonValue) && JsonValue.IsValid())
+		{
+			if (InOutResponse.FromJson(JsonValue)) //sets the parsed value as best it can
+			{
+				InOutResponse.SetRestContentFullyParsed(true); //informs if the parse was fully successful
+				return; // nothing more to glean.
+			}
+		}
+		// note: we could try parsing some conventional alternative returns here such as 3.3 in:
+		// https://www.baeldung.com/rest-api-error-handling-best-practices
+	}
+	else if(ContentType.StartsWith(TEXT("text/plain")))
+	{
+		return; // raw text was already published. nothing more to glean.
+	}
+	//note: we could parse other potential return types here.  Such as https://datatracker.ietf.org/doc/html/rfc7807 which
+	//would have content type: application/problem+json
+
 }
 
 FHttpRequestPtr OpenAPIUserApi::CreateUser(const CreateUserRequest& Request, const FCreateUserDelegate& Delegate /*= FCreateUserDelegate()*/) const
@@ -148,15 +159,15 @@ FHttpRequestPtr OpenAPIUserApi::CreateUser(const CreateUserRequest& Request, con
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUserResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUserProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIUserApi::OnCreateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUserDelegate Delegate) const
+void OpenAPIUserApi::OnCreateUserProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FCreateUserDelegate Delegate) const
 {
 	CreateUserResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -175,15 +186,15 @@ FHttpRequestPtr OpenAPIUserApi::CreateUsersWithArrayInput(const CreateUsersWithA
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUsersWithArrayInputResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUsersWithArrayInputProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIUserApi::OnCreateUsersWithArrayInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithArrayInputDelegate Delegate) const
+void OpenAPIUserApi::OnCreateUsersWithArrayInputProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FCreateUsersWithArrayInputDelegate Delegate) const
 {
 	CreateUsersWithArrayInputResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -202,15 +213,15 @@ FHttpRequestPtr OpenAPIUserApi::CreateUsersWithListInput(const CreateUsersWithLi
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUsersWithListInputResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnCreateUsersWithListInputProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIUserApi::OnCreateUsersWithListInputResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FCreateUsersWithListInputDelegate Delegate) const
+void OpenAPIUserApi::OnCreateUsersWithListInputProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FCreateUsersWithListInputDelegate Delegate) const
 {
 	CreateUsersWithListInputResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -229,15 +240,15 @@ FHttpRequestPtr OpenAPIUserApi::DeleteUser(const DeleteUserRequest& Request, con
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnDeleteUserResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnDeleteUserProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIUserApi::OnDeleteUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FDeleteUserDelegate Delegate) const
+void OpenAPIUserApi::OnDeleteUserProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FDeleteUserDelegate Delegate) const
 {
 	DeleteUserResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -256,15 +267,15 @@ FHttpRequestPtr OpenAPIUserApi::GetUserByName(const GetUserByNameRequest& Reques
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnGetUserByNameResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnGetUserByNameProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIUserApi::OnGetUserByNameResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FGetUserByNameDelegate Delegate) const
+void OpenAPIUserApi::OnGetUserByNameProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FGetUserByNameDelegate Delegate) const
 {
 	GetUserByNameResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -283,15 +294,15 @@ FHttpRequestPtr OpenAPIUserApi::LoginUser(const LoginUserRequest& Request, const
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnLoginUserResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnLoginUserProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIUserApi::OnLoginUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLoginUserDelegate Delegate) const
+void OpenAPIUserApi::OnLoginUserProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FLoginUserDelegate Delegate) const
 {
 	LoginUserResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -310,15 +321,15 @@ FHttpRequestPtr OpenAPIUserApi::LogoutUser(const LogoutUserRequest& Request, con
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnLogoutUserResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnLogoutUserProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIUserApi::OnLogoutUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FLogoutUserDelegate Delegate) const
+void OpenAPIUserApi::OnLogoutUserProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FLogoutUserDelegate Delegate) const
 {
 	LogoutUserResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
@@ -337,15 +348,15 @@ FHttpRequestPtr OpenAPIUserApi::UpdateUser(const UpdateUserRequest& Request, con
 
 	Request.SetupHttpRequest(HttpRequest);
 
-	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnUpdateUserResponse, Delegate);
+	HttpRequest->OnProcessRequestComplete().BindRaw(this, &OpenAPIUserApi::OnUpdateUserProcessRequestComplete, Delegate);
 	HttpRequest->ProcessRequest();
 	return HttpRequest;
 }
 
-void OpenAPIUserApi::OnUpdateUserResponse(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded, FUpdateUserDelegate Delegate) const
+void OpenAPIUserApi::OnUpdateUserProcessRequestComplete(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bHttpSucceeded, FUpdateUserDelegate Delegate) const
 {
 	UpdateUserResponse Response;
-	HandleResponse(HttpResponse, bSucceeded, Response);
+	TryBuildResponse(HttpRequest, HttpResponse, bHttpSucceeded, Response);
 	Delegate.ExecuteIfBound(Response);
 }
 
