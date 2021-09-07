@@ -3474,6 +3474,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (ModelUtils.isMapSchema(p)) {
                 setMapProperties(property, p);
+            } else {
+                // TODO generalize setPropertyForFreeFormObject into a method that can be overriden
+                // ovveride it in JavaClientCodegen
+                property.setIsMap(false);
             }
         } else if (ModelUtils.isArraySchema(p)) {
             // default to string if inner item is undefined
