@@ -28,7 +28,7 @@ else()
 endif()
 
 set(pkgName "{{projectName}}")
-set(VERSION 0.0.1)
+set(VERSION 0.0.1) # this default version can be overridden in PreTarget.cmake
 
 find_package(CURL 7.58.0 REQUIRED)
 if(CURL_FOUND)
