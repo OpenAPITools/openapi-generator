@@ -5,6 +5,7 @@ export * from './DogAllOf';
 export * from './InlineObject';
 export * from './PetByAge';
 export * from './PetByType';
+export * from './Sizes';
 
 import { Cat } from './Cat';
 import { CatAllOf } from './CatAllOf';
@@ -13,6 +14,7 @@ import { DogAllOf , DogAllOfBreedEnum   } from './DogAllOf';
 import { InlineObject } from './InlineObject';
 import { PetByAge } from './PetByAge';
 import { PetByType, PetByTypePetTypeEnum    } from './PetByType';
+import { Sizes } from './Sizes';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -47,6 +49,7 @@ let typeMap: {[index: string]: any} = {
     "InlineObject": InlineObject,
     "PetByAge": PetByAge,
     "PetByType": PetByType,
+    "Sizes": Sizes,
 }
 
 export class ObjectSerializer {

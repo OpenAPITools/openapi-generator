@@ -9,6 +9,7 @@ import { DogAllOf } from '../models/DogAllOf';
 import { InlineObject } from '../models/InlineObject';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
+import { Sizes } from '../models/Sizes';
 
 import { ObservableDefaultApi } from "./ObservableAPI";
 import { DefaultApiRequestFactory, DefaultApiResponseProcessor} from "../apis/DefaultApi";
@@ -40,6 +41,15 @@ export interface DefaultApiPetsPatchRequest {
     catDog?: Cat | Dog
 }
 
+export interface DefaultApiSizesPutRequest {
+    /**
+     * 
+     * @type Sizes
+     * @memberof DefaultApisizesPut
+     */
+    sizes?: Sizes
+}
+
 export class ObjectDefaultApi {
     private api: ObservableDefaultApi
 
@@ -66,6 +76,13 @@ export class ObjectDefaultApi {
      */
     public petsPatch(param: DefaultApiPetsPatchRequest, options?: Configuration): Promise<void> {
         return this.api.petsPatch(param.catDog,  options).toPromise();
+    }
+
+    /**
+     * @param param the request object
+     */
+    public sizesPut(param: DefaultApiSizesPutRequest, options?: Configuration): Promise<void> {
+        return this.api.sizesPut(param.sizes,  options).toPromise();
     }
 
 }

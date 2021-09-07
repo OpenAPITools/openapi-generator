@@ -9,6 +9,7 @@ import { DogAllOf } from '../models/DogAllOf';
 import { InlineObject } from '../models/InlineObject';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
+import { Sizes } from '../models/Sizes';
 import { ObservableDefaultApi } from './ObservableAPI';
 
 import { DefaultApiRequestFactory, DefaultApiResponseProcessor} from "../apis/DefaultApi";
@@ -44,6 +45,14 @@ export class PromiseDefaultApi {
      */
     public petsPatch(catDog?: Cat | Dog, _options?: Configuration): Promise<void> {
         const result = this.api.petsPatch(catDog, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * @param sizes 
+     */
+    public sizesPut(sizes?: Sizes, _options?: Configuration): Promise<void> {
+        const result = this.api.sizesPut(sizes, _options);
         return result.toPromise();
     }
 

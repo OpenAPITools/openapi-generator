@@ -19,6 +19,7 @@ models/InlineObject.ts
 models/ObjectSerializer.ts
 models/PetByAge.ts
 models/PetByType.ts
+models/Sizes.ts
 models/all.ts
 package.json
 rxjsStub.ts

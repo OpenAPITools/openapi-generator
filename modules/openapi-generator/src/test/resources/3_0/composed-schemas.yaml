@@ -26,6 +26,17 @@ paths:
         '200':
           description: Updated
 
+  /sizes:
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sizes'
+      responses:
+        '200':
+          description: Created
+
   /pets-filtered:
     patch:
       requestBody:
@@ -64,6 +75,38 @@ components:
       type: object
       required:
         - pet_type
+    Sizes:
+      type: object
+      required:
+        - data
+        - data_with_examples
+      properties:
+        data:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+              description: tuple with timestamp and value
+              format: double
+              nullable: true
+            minItems: 2
+            maxItems: 2
+            description: Array of pet sizes over time.
+            example: [1575317847.0, 12.3]
+        data_with_examples:
+          type: array
+          example: [[1575317847.0, 12.34], [1575317847.0, 12.34]]
+          items:
+            type: array
+            items:
+              type: number
+              description: tuple with timestamp and value
+              format: double
+              nullable: true
+            minItems: 2
+            maxItems: 2
+            description: Array of pet sizes over time.
     Dog:
       allOf:
         # This field will not match to any type.

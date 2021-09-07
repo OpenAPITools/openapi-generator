@@ -1,3 +1,6 @@
+// TODO: evaluate if we can easily get rid of this library
+import * as FormData from "form-data";
+import { URLSearchParams } from 'url';
 // typings of url-parse are incorrect...
 // @ts-ignore
 import * as URLParse from "url-parse";
@@ -23,7 +26,10 @@ export enum HttpMethod {
 /**
  * Represents an HTTP file which will be transferred from or to a server.
  */
-export type HttpFile = Blob & { readonly name: string };
+export type HttpFile = {
+    data: Buffer,
+    name: string
+};
 
 
 export class HttpException extends Error {
@@ -120,33 +126,22 @@ export class RequestContext {
 
 export interface ResponseBody {
     text(): Promise<string>;
-    binary(): Promise<Blob>;
+    binary(): Promise<Buffer>;
 }
 
 /**
  * Helper class to generate a `ResponseBody` from binary data
  */
 export class SelfDecodingBody implements ResponseBody {
-    constructor(private dataSource: Promise<Blob>) {}
+    constructor(private dataSource: Promise<Buffer>) {}
 
-    binary(): Promise<Blob> {
+    binary(): Promise<Buffer> {
         return this.dataSource;
     }
 
     async text(): Promise<string> {
-        const data: Blob = await this.dataSource;
-        // @ts-ignore
-        if (data.text) {
-            // @ts-ignore
-            return data.text();
-        }
-
-        return new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.addEventListener("load", () => resolve(reader.result as string));
-            reader.addEventListener("error", () => reject(reader.error));
-            reader.readAsText(data);
-        });
+        const data: Buffer = await this.dataSource;
+        return data.toString();
     }
 }
 
@@ -190,16 +185,7 @@ export class ResponseContext {
     public async getBodyAsFile(): Promise<HttpFile> {
         const data = await this.body.binary();
         const fileName = this.getParsedHeader("content-disposition")["filename"] || "";
-        const contentType = this.headers["content-type"] || "";
-        try {
-            return new File([data], fileName, { type: contentType });
-        } catch (error) {
-            /** Fallback for when the File constructor is not available */
-            return Object.assign(data, {
-                name: fileName,
-                type: contentType
-            });
-        }
+        return { data, name: fileName };
     }
 }
 
