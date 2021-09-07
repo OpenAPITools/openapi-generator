@@ -16,9 +16,6 @@
 typedef struct user_t user_t;
 
 
-#undef stdin
-#undef stderr
-#undef stdout
 
 
 

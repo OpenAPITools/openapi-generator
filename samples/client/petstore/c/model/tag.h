@@ -16,9 +16,6 @@
 typedef struct tag_t tag_t;
 
 
-#undef stdin
-#undef stderr
-#undef stdout
 
 
 

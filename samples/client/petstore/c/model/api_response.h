@@ -16,9 +16,6 @@
 typedef struct api_response_t api_response_t;
 
 
-#undef stdin
-#undef stderr
-#undef stdout
 
 
 

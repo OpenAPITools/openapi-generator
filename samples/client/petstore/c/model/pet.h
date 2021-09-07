@@ -18,9 +18,6 @@ typedef struct pet_t pet_t;
 #include "category.h"
 #include "tag.h"
 
-#undef stdin
-#undef stderr
-#undef stdout
 
 // Enum STATUS for pet
 
