@@ -3487,6 +3487,7 @@ public class DefaultCodegen implements CodegenConfig {
                 property.isDateTime = true;
             } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
                 property.isDecimal = true;
+                property.setIsString(false);
             }
             property.pattern = toRegularExpression(p.getPattern());
         } else if (ModelUtils.isNumberSchema(p)) {
