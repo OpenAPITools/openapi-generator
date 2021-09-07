@@ -18,7 +18,6 @@ typedef struct api_response_t api_response_t;
 
 
 
-
 typedef struct api_response_t {
     int code; //numeric
     char *type; // string

@@ -18,7 +18,6 @@ typedef struct user_t user_t;
 
 
 
-
 typedef struct user_t {
     long id; //numeric
     char *username; // string

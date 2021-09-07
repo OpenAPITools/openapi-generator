@@ -18,7 +18,6 @@ typedef struct category_t category_t;
 
 
 
-
 typedef struct category_t {
     long id; //numeric
     char *name; // string
