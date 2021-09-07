@@ -135,6 +135,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>static</li>
 <li>static_assert</li>
 <li>static_cast</li>
+<li>stdin</li>
+<li>stderr</li>
+<li>stdout</li>
 <li>struct</li>
 <li>switch</li>
 <li>synchronized</li>
