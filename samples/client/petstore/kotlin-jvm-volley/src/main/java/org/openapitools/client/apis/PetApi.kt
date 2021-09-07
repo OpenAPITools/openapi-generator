@@ -31,7 +31,7 @@ class PetApi (
     }),
     val requestFactory: IRequestFactory = RequestFactory(),
     val basePath: String = "http://petstore.swagger.io/v2",
-    val retryPolicy: DefaultRetryPolicy? = null) {
+    private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     /**
     * Add a new pet to the store
@@ -94,9 +94,7 @@ class PetApi (
                     responseListener,
                     errorListener)
 
-            if (retryPolicy != null) {
-                request.retryPolicy = retryPolicy
-            }
+            postProcessors.forEach{ it.invoke(request)}
 
             requestQueue.value.add(request)
         }
@@ -164,9 +162,7 @@ class PetApi (
                     responseListener,
                     errorListener)
 
-            if (retryPolicy != null) {
-                request.retryPolicy = retryPolicy
-            }
+            postProcessors.forEach{ it.invoke(request)}
 
             requestQueue.value.add(request)
         }
@@ -233,9 +229,7 @@ class PetApi (
                     responseListener,
                     errorListener)
 
-            if (retryPolicy != null) {
-                request.retryPolicy = retryPolicy
-            }
+            postProcessors.forEach{ it.invoke(request)}
 
             requestQueue.value.add(request)
         }
@@ -303,9 +297,7 @@ class PetApi (
                     responseListener,
                     errorListener)
 
-            if (retryPolicy != null) {
-                request.retryPolicy = retryPolicy
-            }
+            postProcessors.forEach{ it.invoke(request)}
 
             requestQueue.value.add(request)
         }
@@ -371,9 +363,7 @@ class PetApi (
                     responseListener,
                     errorListener)
 
-            if (retryPolicy != null) {
-                request.retryPolicy = retryPolicy
-            }
+            postProcessors.forEach{ it.invoke(request)}
 
             requestQueue.value.add(request)
         }
@@ -439,9 +429,7 @@ class PetApi (
                     responseListener,
                     errorListener)
 
-            if (retryPolicy != null) {
-                request.retryPolicy = retryPolicy
-            }
+            postProcessors.forEach{ it.invoke(request)}
 
             requestQueue.value.add(request)
         }
@@ -509,9 +497,7 @@ class PetApi (
                     responseListener,
                     errorListener)
 
-            if (retryPolicy != null) {
-                request.retryPolicy = retryPolicy
-            }
+            postProcessors.forEach{ it.invoke(request)}
 
             requestQueue.value.add(request)
         }
@@ -579,9 +565,7 @@ class PetApi (
                     responseListener,
                     errorListener)
 
-            if (retryPolicy != null) {
-                request.retryPolicy = retryPolicy
-            }
+            postProcessors.forEach{ it.invoke(request)}
 
             requestQueue.value.add(request)
         }

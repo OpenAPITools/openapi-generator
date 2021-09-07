@@ -11,8 +11,7 @@ import java.lang.reflect.Type
 import java.util.Locale
 import java.util.UUID
 
-
-class RequestFactory(vararg headerFactory : () -> Map<String, String>): IRequestFactory {
+class RequestFactory(private val headerFactories : List<() -> Map<String, String>> = listOf(), private val postProcessors :List <(Request<*>) -> Unit> = listOf()): IRequestFactory {
    companion object Authentication{
   // Where a header factory requires parameters a client will need to bind these
   // TODO Generate appropriate header factories based on settings
@@ -41,8 +40,6 @@ apiKey!!
 }
 
 
-private val headerFactories : List<() -> Map<String, String>> = listOf(*headerFactory)
-
     /**
     * {@inheritDoc}
     */
@@ -61,9 +58,9 @@ private val headerFactories : List<() -> Map<String, String>> = listOf(*headerFa
             val afterMarketHeaders = (headers?.toMutableMap() ?: mutableMapOf())
             // Factory built and aftermarket
             // Merge the after market headers on top of the base ones in case we are overriding per call auth
-            val allHeaders = headerFactories.fold(afterMarketHeaders, {acc, factory -> (acc + factory.invoke()).toMutableMap() }   )
+            val allHeaders = headerFactories.fold(afterMarketHeaders) { acc, factory -> (acc + factory.invoke()).toMutableMap() }
 
-                // If we decide to support auth parameters in the url, then you will reference them by supplying a url string
+            // If we decide to support auth parameters in the url, then you will reference them by supplying a url string
                 // with known variable name refernces in the string. We will then apply
                 val updatedUrl = if (!params.isNullOrEmpty()) {
               params.asSequence().fold("$url?") {acc, param ->
@@ -73,7 +70,7 @@ private val headerFactories : List<() -> Map<String, String>> = listOf(*headerFa
               url
             }
 
-            return GsonRequest(
+            val request = GsonRequest(
                 method,
                 updatedUrl,
                 body,
@@ -84,5 +81,9 @@ private val headerFactories : List<() -> Map<String, String>> = listOf(*headerFa
                 type,
                 responseListener,
                 errorListener)
+
+            postProcessors.forEach{ it.invoke(request)}
+
+        return request
     }
 }
