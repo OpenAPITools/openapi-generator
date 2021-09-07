@@ -6,6 +6,7 @@ cmake_policy(SET CMP0063 NEW)
 set(CMAKE_C_VISIBILITY_PRESET default)
 set(CMAKE_CXX_VISIBILITY_PRESET default)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN OFF)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
@@ -86,9 +87,13 @@ include(PreTarget.cmake OPTIONAL)
 add_library(${pkgName} ${SRCS} ${HDRS})
 # Link dependent libraries
 if(NOT CMAKE_VERSION VERSION_LESS 3.4)
-    target_link_libraries(${pkgName} OpenSSL::SSL OpenSSL::Crypto)
+    target_link_libraries(${pkgName} PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 endif()
-target_link_libraries(${pkgName} ${CURL_LIBRARIES} )
+target_link_libraries(${pkgName} PUBLIC ${CURL_LIBRARIES} )
+target_include_directories(
+    ${pkgName} PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:include>
+)
 
 include(PostTarget.cmake OPTIONAL)
 
