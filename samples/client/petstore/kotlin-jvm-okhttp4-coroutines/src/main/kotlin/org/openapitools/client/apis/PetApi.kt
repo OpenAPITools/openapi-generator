@@ -84,7 +84,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun addPetWithHttpInfo(body: Pet) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
+    suspend fun addPetWithHttpInfo(body: Pet) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = addPetRequestConfig(body = body)
 
         return request<Pet, Unit>(
@@ -152,7 +152,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String?) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
+    suspend fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String?) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = deletePetRequestConfig(petId = petId, apiKey = apiKey)
 
         return request<Unit, Unit>(
@@ -222,7 +222,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<kotlin.String>) : ApiInfrastructureResponse<kotlin.collections.List<Pet>?> = withContext(Dispatchers.IO) {
+    suspend fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<kotlin.String>) : ApiInfrastructureResponse<kotlin.collections.List<Pet>?> = withContext(Dispatchers.IO) {
         val localVariableConfig = findPetsByStatusRequestConfig(status = status)
 
         return request<Unit, kotlin.collections.List<Pet>>(
@@ -296,7 +296,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     @Deprecated(message = "This operation is deprecated.")
-    fun findPetsByTagsWithHttpInfo(tags: kotlin.collections.List<kotlin.String>) : ApiInfrastructureResponse<kotlin.collections.List<Pet>?> = withContext(Dispatchers.IO) {
+    suspend fun findPetsByTagsWithHttpInfo(tags: kotlin.collections.List<kotlin.String>) : ApiInfrastructureResponse<kotlin.collections.List<Pet>?> = withContext(Dispatchers.IO) {
         @Suppress("DEPRECATION")
         val localVariableConfig = findPetsByTagsRequestConfig(tags = tags)
 
@@ -369,7 +369,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getPetByIdWithHttpInfo(petId: kotlin.Long) : ApiInfrastructureResponse<Pet?> = withContext(Dispatchers.IO) {
+    suspend fun getPetByIdWithHttpInfo(petId: kotlin.Long) : ApiInfrastructureResponse<Pet?> = withContext(Dispatchers.IO) {
         val localVariableConfig = getPetByIdRequestConfig(petId = petId)
 
         return request<Unit, Pet>(
@@ -435,7 +435,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updatePetWithHttpInfo(body: Pet) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
+    suspend fun updatePetWithHttpInfo(body: Pet) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = updatePetRequestConfig(body = body)
 
         return request<Pet, Unit>(
@@ -505,7 +505,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
+    suspend fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = updatePetWithFormRequestConfig(petId = petId, name = name, status = status)
 
         return request<Map<String, Any?>, Unit>(
@@ -579,7 +579,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiInfrastructureResponse<ApiResponse?> = withContext(Dispatchers.IO) {
+    suspend fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiInfrastructureResponse<ApiResponse?> = withContext(Dispatchers.IO) {
         val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
 
         return request<Map<String, Any?>, ApiResponse>(

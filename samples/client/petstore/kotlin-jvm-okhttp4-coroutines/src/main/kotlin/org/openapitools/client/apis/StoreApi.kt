@@ -83,7 +83,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteOrderWithHttpInfo(orderId: kotlin.String) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
+    suspend fun deleteOrderWithHttpInfo(orderId: kotlin.String) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
 
         return request<Unit, Unit>(
@@ -149,7 +149,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getInventoryWithHttpInfo() : ApiInfrastructureResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> = withContext(Dispatchers.IO) {
+    suspend fun getInventoryWithHttpInfo() : ApiInfrastructureResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> = withContext(Dispatchers.IO) {
         val localVariableConfig = getInventoryRequestConfig()
 
         return request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
@@ -216,7 +216,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : ApiInfrastructureResponse<Order?> = withContext(Dispatchers.IO) {
+    suspend fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : ApiInfrastructureResponse<Order?> = withContext(Dispatchers.IO) {
         val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
 
         return request<Unit, Order>(
@@ -284,7 +284,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun placeOrderWithHttpInfo(body: Order) : ApiInfrastructureResponse<Order?> = withContext(Dispatchers.IO) {
+    suspend fun placeOrderWithHttpInfo(body: Order) : ApiInfrastructureResponse<Order?> = withContext(Dispatchers.IO) {
         val localVariableConfig = placeOrderRequestConfig(body = body)
 
         return request<Order, Order>(
