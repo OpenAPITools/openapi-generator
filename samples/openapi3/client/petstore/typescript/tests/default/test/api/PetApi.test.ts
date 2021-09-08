@@ -1,6 +1,6 @@
 import * as petstore from 'ts-petstore-client'
 
-import { expect, assert } from "chai";
+import { expect } from "chai";
 import * as fs from 'fs';
 
 const configuration = petstore.createConfiguration()
@@ -18,7 +18,9 @@ pet.status = 'available'
 pet.tags = [ tag ]
 pet.category = undefined
 
-describe("PetApi", () =>{ 
+// TODO: Make tests more relyable
+
+describe("PetApi", () => {
     it("addPet", (done) => {
         petApi.addPet(pet).then(() => {
             return petApi.getPetById(pet.id)
@@ -38,8 +40,8 @@ describe("PetApi", () =>{
         }).then((pet: petstore.Pet) => {
             done("Pet with id " + pet.id + " was not deleted!");
         }).catch((err: any) => {
-            if (err.code && err.code == 404) {
-                done();                
+            if (err.code === 404) {
+                done();
             } else {
                 done(err)
             }
@@ -57,17 +59,16 @@ describe("PetApi", () =>{
         })
     })
 
-    // bugged on server side! Code 500
-/*    it("findPetsByTag", (done) => {
+    it("findPetsByTag", (done) => {
         petApi.addPet(pet).then(() => {
             return petApi.findPetsByTags([tag.name])
-        }).then((pets: Pet[]) => {
+        }).then((pets: petstore.Pet[]) => {
             expect(pets.length).to.be.at.least(1);
             done();
         }).catch((err: any) => {
             done(err);
         })
-    })*/
+    })
 
     it("getPetById", (done) => {
         petApi.addPet(pet).then(() => {
@@ -92,6 +93,9 @@ describe("PetApi", () =>{
                 throw err;
             });
         }).then(() => {
+            // Somehow the updated name only appears ofter the second GET
+            return petApi.getPetById(pet.id)
+        }).then(() => {
             return petApi.getPetById(pet.id);
         }).then((returnedPet: petstore.Pet) => {
             expect(returnedPet.id).to.equal(pet.id)
@@ -102,21 +106,23 @@ describe("PetApi", () =>{
         })
     })
 
-// not supported by online swagger api?
-/*    it("updatePetWithForm", (done) => {
+    it("updatePetWithForm", (done) => {
         const updatedName = "updated name";
         petApi.addPet(pet).then(() => {
             return petApi.updatePetWithForm(pet.id, updatedName)
         }).then(() => {
+            // Somehow the updated name only appears ofter the second GET
             return petApi.getPetById(pet.id)
-        }).then((returnedPet: Pet) => {
+        }).then(() => {
+            return petApi.getPetById(pet.id)
+        }).then((returnedPet: petstore.Pet) => {
             expect(returnedPet.id).to.equal(pet.id)
             expect(returnedPet.name).to.equal(updatedName);
             done()
         }).catch((err: any) => {
             done(err)
         })
-    })*/
+    })
 
     it("uploadFile", (done) => {
         const image = fs.readFileSync(__dirname + "/pet.png")
