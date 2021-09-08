@@ -21,117 +21,79 @@ pet.category = undefined
 // TODO: Make tests more relyable
 
 describe("PetApi", () => {
-    it("addPet", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.getPetById(pet.id)
-        }).then((createdPet: petstore.Pet) => {
-            expect(createdPet).to.deep.equal(pet);
-            done()
-        }).catch((err: any) => {
-            done(err)
-        })
+    it("addPet", async () => {
+        await petApi.addPet(pet);
+        const createdPet = await petApi.getPetById(pet.id)
+        expect(createdPet).to.deep.equal(pet);
     })
 
-    it("deletePet", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.deletePet(pet.id)
-        }).then(() => {
-            return petApi.getPetById(pet.id)
-        }).then((pet: petstore.Pet) => {
-            done("Pet with id " + pet.id + " was not deleted!");
-        }).catch((err: any) => {
-            if (err.code === 404) {
-                done();
-            } else {
-                done(err)
-            }
-        })
+    it("deletePet", async () => {
+        await petApi.addPet(pet);
+        await petApi.deletePet(pet.id)
+        let deletedPet;
+        try {
+            deletedPet = await petApi.getPetById(pet.id)
+        } catch (err) {
+            expect(err.code).to.equal(404);
+            return;
+        }
+        throw new Error("Pet with id " + deletedPet.id + " was not deleted!");
     })
 
-    it("findPetsByStatus", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.findPetsByStatus(["available"])
-        }).then((pets: petstore.Pet[]) => {
-            expect(pets.length).to.be.at.least(1);
-            done();
-        }).catch((err: any) => {
-            done(err)
-        })
+    it("findPetsByStatus", async () => {
+        await petApi.addPet(pet);
+        const pets = await petApi.findPetsByStatus(["available"]);
+        expect(pets.length).to.be.at.least(1);
     })
 
-    it("findPetsByTag", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.findPetsByTags([tag.name])
-        }).then((pets: petstore.Pet[]) => {
-            expect(pets.length).to.be.at.least(1);
-            done();
-        }).catch((err: any) => {
-            done(err);
-        })
+    it("findPetsByTag", async () => {
+        await petApi.addPet(pet);
+        const pets = await petApi.findPetsByTags([tag.name])
+        expect(pets.length).to.be.at.least(1);
     })
 
-    it("getPetById", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.getPetById(pet.id)
-        }).then((returnedPet: petstore.Pet) => {
-            expect(returnedPet).to.deep.equal(pet);
-            done();
-        }).catch((err: any) => {
-            done(err);
-        })
+    it("getPetById", async () => {
+        await petApi.addPet(pet);
+        const returnedPet = await petApi.getPetById(pet.id);
+        expect(returnedPet).to.deep.equal(pet);
     })
 
-    it("updatePet", (done) => {
+    it("updatePet", async () => {
         const oldName = pet.name
         const updatedName = "updated name";
-        petApi.addPet(pet).then(() => {
-            pet.name = updatedName
-            return petApi.updatePet(pet).then(() => {
-                pet.name = oldName;
-            }).catch((err: any) => {
-                pet.name = oldName
-                throw err;
-            });
-        }).then(() => {
-            // Somehow the updated name only appears ofter the second GET
-            return petApi.getPetById(pet.id)
-        }).then(() => {
-            return petApi.getPetById(pet.id);
-        }).then((returnedPet: petstore.Pet) => {
-            expect(returnedPet.id).to.equal(pet.id)
-            expect(returnedPet.name).to.equal(updatedName);
-            done();
-        }).catch((err: any) => {
-            done(err)
-        })
+        await petApi.addPet(pet);
+
+        pet.name = updatedName;
+        try {
+            await petApi.updatePet(pet);
+        } finally {
+            pet.name = oldName;
+        }
+
+        // Somehow the updated name only appears ofter the second GET
+        await petApi.getPetById(pet.id);
+        const returnedPet = await petApi.getPetById(pet.id);
+        expect(returnedPet.id).to.equal(pet.id)
+        expect(returnedPet.name).to.equal(updatedName);
     })
 
-    it("updatePetWithForm", (done) => {
+    it("updatePetWithForm", async () => {
         const updatedName = "updated name";
-        petApi.addPet(pet).then(() => {
-            return petApi.updatePetWithForm(pet.id, updatedName)
-        }).then(() => {
-            // Somehow the updated name only appears ofter the second GET
-            return petApi.getPetById(pet.id)
-        }).then(() => {
-            return petApi.getPetById(pet.id)
-        }).then((returnedPet: petstore.Pet) => {
-            expect(returnedPet.id).to.equal(pet.id)
-            expect(returnedPet.name).to.equal(updatedName);
-            done()
-        }).catch((err: any) => {
-            done(err)
-        })
+        await petApi.addPet(pet);
+
+        await petApi.updatePetWithForm(pet.id, updatedName);
+
+        // Somehow the updated name only appears ofter the second GET
+        await petApi.getPetById(pet.id);
+        const returnedPet = await petApi.getPetById(pet.id)
+        expect(returnedPet.id).to.equal(pet.id)
+        expect(returnedPet.name).to.equal(updatedName);
     })
 
-    it("uploadFile", (done) => {
+    it("uploadFile", async () => {
         const image = fs.readFileSync(__dirname + "/pet.png")
-        petApi.uploadFile(pet.id, "Metadata", { name: "pet.png", data: image}).then((response: any) => {
-            expect(response.code).to.be.gte(200).and.lt(300);
-            expect(response.message).to.contain("pet.png");
-            done();
-        }).catch((err: any) => {
-            done(err);
-        })
+        const response = await petApi.uploadFile(pet.id, "Metadata", { name: "pet.png", data: image});
+        expect(response.code).to.be.gte(200).and.lt(300);
+        expect(response.message).to.contain("pet.png");
     })
 })
