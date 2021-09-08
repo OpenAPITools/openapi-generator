@@ -3636,4 +3636,23 @@ public class DefaultCodegenTest {
         co = codegen.fromOperation(path, "GET", operation, null);
         assertEquals(co.operationId, "getAll");
     }
+
+    @Test
+    public void testComposedPropertyTypes() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10330.yaml");
+        codegen.setOpenAPI(openAPI);
+        String modelName;
+
+        modelName = "ObjectWithComposedProperties";
+        CodegenModel m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.vars.get(0).getIsMap());
+        assertTrue(m.vars.get(1).getIsNumber());
+        assertTrue(m.vars.get(2).getIsUnboundedInteger());
+        assertTrue(m.vars.get(3).getIsString());
+        assertTrue(m.vars.get(4).getIsBoolean());
+        assertTrue(m.vars.get(5).getIsArray());
+        assertTrue(m.vars.get(6).getIsNull());
+        assertTrue(m.vars.get(7).getIsAnyType());
+    }
 }

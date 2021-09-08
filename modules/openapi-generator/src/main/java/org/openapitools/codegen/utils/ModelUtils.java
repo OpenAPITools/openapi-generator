@@ -1510,8 +1510,7 @@ public class ModelUtils {
      * @return boolean
      */
     public static boolean isAnyType(Schema schema) {
-        boolean isAnyType = (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null);
-        return isAnyType;
+        return (schema.get$ref() == null && schema.getType() == null);
     }
 
     public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target) {

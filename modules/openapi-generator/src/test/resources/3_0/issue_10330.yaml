@@ -1,0 +1,91 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "composed schema isX type checks"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags: []
+paths:
+  /ComposedObject:
+    get:
+      responses:
+        '200':
+          description: 'ObjectWithComposedProperties'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectWithComposedProperties'
+components:
+  schemas:
+    ObjectWithComposedProperties:
+      type: object
+      properties:
+        ComposedObject:
+          type: object
+          allOf:
+            - {}
+        ComposedNumber:
+          type: number
+          allOf:
+            - {}
+        ComposedInteger:
+          type: integer
+          allOf:
+            - {}
+        ComposedString:
+          type: string
+          allOf:
+            - {}
+        ComposedBool:
+          type: boolean
+          allOf:
+            - {}
+        ComposedArray:
+          type: array
+          items: {}
+          allOf:
+            - {}
+        ComposedNone:
+          type: 'null'
+          allOf:
+            - {}
+        ComposedAnyType:
+          allOf:
+            - {}
+#    ComposedObject:
+#      type: object
+#      allOf:
+#        - {}
+#    ComposedNumber:
+#      type: number
+#      allOf:
+#        - {}
+#    ComposedInteger:
+#      type: integer
+#      allOf:
+#        - {}
+#    ComposedString:
+#      type: string
+#      allOf:
+#        - {}
+#    ComposedBool:
+#      type: boolean
+#      allOf:
+#        - {}
+#    ComposedArray:
+#      type: array
+#      items: {}
+#      allOf:
+#        - {}
+#    ComposedNone:
+#      type: 'null'
+#      allOf:
+#        - {}
+#    ComposedAnyType:
+#      type: object
+#      allOf:
+#        - {}
