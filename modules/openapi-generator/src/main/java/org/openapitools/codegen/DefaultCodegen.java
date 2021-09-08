@@ -2381,6 +2381,208 @@ public class DefaultCodegen implements CodegenConfig {
 
     Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
 
+    private void updateModelForComposedSchema(CodegenModel m, Schema schema, Map<String, Schema> allDefinitions) {
+        final ComposedSchema composed = (ComposedSchema) schema;
+        Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
+        List<String> required = new ArrayList<String>();
+        Map<String, Schema> allProperties = new LinkedHashMap<String, Schema>();
+        List<String> allRequired = new ArrayList<String>();
+
+        // if schema has properties outside of allOf/oneOf/anyOf also add them to m
+        if (composed.getProperties() != null && !composed.getProperties().isEmpty()) {
+            if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
+                LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
+                        "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
+            }
+            addVars(m, unaliasPropertySchema(composed.getProperties()), composed.getRequired(), null, null);
+        }
+
+        // parent model
+        final String parentName = ModelUtils.getParentName(composed, allDefinitions);
+        final List<String> allParents = ModelUtils.getAllParentsName(composed, allDefinitions, false);
+        final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
+
+        // TODO revise the logic below to set discriminator, xml attributes
+        if (supportsInheritance || supportsMixins) {
+            m.allVars = new ArrayList<CodegenProperty>();
+            if (composed.getAllOf() != null) {
+                int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
+                int modelDiscriminators = 0; // only one discriminator allowed in a ComposedModel
+                for (Schema innerSchema : composed.getAllOf()) { // TODO need to work with anyOf, oneOf as well
+                    if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
+                        LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", m.name);
+                        m.setDiscriminator(createDiscriminator(m.name, innerSchema, this.openAPI));
+                        if (!this.getLegacyDiscriminatorBehavior()) {
+                            m.addDiscriminatorMappedModelsImports();
+                        }
+                        modelDiscriminators++;
+                    }
+
+                    if (innerSchema.getXml() != null) {
+                        m.xmlPrefix = innerSchema.getXml().getPrefix();
+                        m.xmlNamespace = innerSchema.getXml().getNamespace();
+                        m.xmlName = innerSchema.getXml().getName();
+                    }
+                    if (modelDiscriminators > 1) {
+                        LOGGER.error("Allof composed schema is inheriting >1 discriminator. Only use one discriminator: {}", composed);
+                    }
+
+                    if (modelImplCnt++ > 1) {
+                        LOGGER.warn("More than one inline schema specified in allOf:. Only the first one is recognized. All others are ignored.");
+                        break; // only one schema with discriminator allowed in allOf
+                    }
+                }
+            }
+        }
+
+        // interfaces (schemas defined in allOf, anyOf, oneOf)
+        List<Schema> interfaces = ModelUtils.getInterfaces(composed);
+        List<CodegenProperty> anyOfProps = new ArrayList<>();
+        List<CodegenProperty> allOfProps = new ArrayList<>();
+        List<CodegenProperty> oneOfProps = new ArrayList<>();
+        if (!interfaces.isEmpty()) {
+            // m.interfaces is for backward compatibility
+            if (m.interfaces == null)
+                m.interfaces = new ArrayList<String>();
+
+            for (Schema interfaceSchema : interfaces) {
+                interfaceSchema = unaliasSchema(interfaceSchema, importMapping);
+
+                if (StringUtils.isBlank(interfaceSchema.get$ref())) {
+                    // primitive type
+                    String languageType = getTypeDeclaration(interfaceSchema);
+                    CodegenProperty interfaceProperty = fromProperty(languageType, interfaceSchema);
+                    if (ModelUtils.isArraySchema(interfaceSchema) || ModelUtils.isMapSchema(interfaceSchema)) {
+                        while (interfaceProperty != null) {
+                            addImport(m, interfaceProperty.complexType);
+                            interfaceProperty = interfaceProperty.items;
+                        }
+                    }
+
+                    if (composed.getAnyOf() != null) {
+                        if (m.anyOf.contains(languageType)) {
+                            LOGGER.warn("{} (anyOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
+                        } else {
+                            m.anyOf.add(languageType);
+                            anyOfProps.add(interfaceProperty);
+
+                        }
+                    } else if (composed.getOneOf() != null) {
+                        if (m.oneOf.contains(languageType)) {
+                            LOGGER.warn("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
+                        } else {
+                            m.oneOf.add(languageType);
+                            oneOfProps.add(interfaceProperty);
+                        }
+                    } else if (composed.getAllOf() != null) {
+                        // no need to add primitive type to allOf, which should comprise of schemas (models) only
+                    } else {
+                        LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
+                    }
+                    continue;
+                }
+
+                // the rest of the section is for model
+                Schema refSchema = null;
+                String ref = ModelUtils.getSimpleRef(interfaceSchema.get$ref());
+                if (allDefinitions != null) {
+                    refSchema = allDefinitions.get(ref);
+                }
+                final String modelName = toModelName(ref);
+                CodegenProperty interfaceProperty = fromProperty(modelName, interfaceSchema);
+                m.interfaces.add(modelName);
+                addImport(m, modelName);
+                if (allDefinitions != null && refSchema != null) {
+                    if (allParents.contains(ref) && supportsMultipleInheritance) {
+                        // multiple inheritance
+                        addProperties(allProperties, allRequired, refSchema);
+                    } else if (parentName != null && parentName.equals(ref) && supportsInheritance) {
+                        // single inheritance
+                        addProperties(allProperties, allRequired, refSchema);
+                    } else {
+                        // composition
+                        addProperties(properties, required, refSchema);
+                        addProperties(allProperties, allRequired, refSchema);
+                    }
+                }
+
+                if (composed.getAnyOf() != null) {
+                    m.anyOf.add(modelName);
+                    anyOfProps.add(interfaceProperty);
+                } else if (composed.getOneOf() != null) {
+                    m.oneOf.add(modelName);
+                    oneOfProps.add(interfaceProperty);
+                } else if (composed.getAllOf() != null) {
+                    m.allOf.add(modelName);
+                    allOfProps.add(interfaceProperty);
+                } else {
+                    LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
+                }
+            }
+        }
+
+        m.oneOfProps = oneOfProps;
+        m.allOfProps = allOfProps;
+        m.anyOfProps = anyOfProps;
+
+        if (parent != null && composed.getAllOf() != null) { // set parent for allOf only
+            m.parentSchema = parentName;
+            m.parent = toModelName(parentName);
+
+            if (supportsMultipleInheritance) {
+                m.allParents = new ArrayList<String>();
+                for (String pname : allParents) {
+                    String pModelName = toModelName(pname);
+                    m.allParents.add(pModelName);
+                    addImport(m, pModelName);
+                }
+            } else { // single inheritance
+                addImport(m, m.parent);
+            }
+        }
+
+        // child schema (properties owned by the schema itself)
+        for (Schema component : interfaces) {
+            if (component.get$ref() == null) {
+                if (component != null) {
+                    // component is the child schema
+                    addProperties(properties, required, component);
+
+                    // includes child's properties (all, required) in allProperties, allRequired
+                    addProperties(allProperties, allRequired, component);
+                }
+                break; // at most one child only
+            }
+        }
+
+        if (composed.getRequired() != null) {
+            required.addAll(composed.getRequired());
+            allRequired.addAll(composed.getRequired());
+        }
+
+        addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
+
+        // Per OAS specification, composed schemas may use the 'additionalProperties' keyword.
+        if (supportsAdditionalPropertiesWithComposedSchema) {
+            // Process the schema specified with the 'additionalProperties' keyword.
+            // This will set the 'CodegenModel.additionalPropertiesType' field
+            // and potentially 'Codegen.parent'.
+            //
+            // Note: it's not a good idea to use single class inheritance to implement
+            // the 'additionalProperties' keyword. Code generators that use single class
+            // inheritance sometimes use the 'Codegen.parent' field to implement the
+            // 'additionalProperties' keyword. However, that would be in conflict with
+            // 'allOf' composed schemas, because these code generators also want to set
+            // 'Codegen.parent' to the first child schema of the 'allOf' schema.
+            addAdditionPropertiesToCodeGenModel(m, schema);
+        }
+
+        if (Boolean.TRUE.equals(schema.getNullable())) {
+            m.isNullable = Boolean.TRUE;
+        }
+        // end of code block for composed schema
+    }
+
     /**
      * Convert OAS Model object to Codegen Model object.
      *
@@ -2469,205 +2671,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isNullType(schema)) {
             m.isNull = true;
         } else if (schema instanceof ComposedSchema) {
-            final ComposedSchema composed = (ComposedSchema) schema;
-            Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
-            List<String> required = new ArrayList<String>();
-            Map<String, Schema> allProperties = new LinkedHashMap<String, Schema>();
-            List<String> allRequired = new ArrayList<String>();
-
-            // if schema has properties outside of allOf/oneOf/anyOf also add them to m
-            if (composed.getProperties() != null && !composed.getProperties().isEmpty()) {
-                if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
-                    LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
-                            "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
-                }
-                addVars(m, unaliasPropertySchema(composed.getProperties()), composed.getRequired(), null, null);
-            }
-
-            // parent model
-            final String parentName = ModelUtils.getParentName(composed, allDefinitions);
-            final List<String> allParents = ModelUtils.getAllParentsName(composed, allDefinitions, false);
-            final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
-
-            // TODO revise the logic below to set discriminator, xml attributes
-            if (supportsInheritance || supportsMixins) {
-                m.allVars = new ArrayList<CodegenProperty>();
-                if (composed.getAllOf() != null) {
-                    int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
-                    int modelDiscriminators = 0; // only one discriminator allowed in a ComposedModel
-                    for (Schema innerSchema : composed.getAllOf()) { // TODO need to work with anyOf, oneOf as well
-                        if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
-                            LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", name);
-                            m.setDiscriminator(createDiscriminator(name, innerSchema, this.openAPI));
-                            if (!this.getLegacyDiscriminatorBehavior()) {
-                                m.addDiscriminatorMappedModelsImports();
-                            }
-                            modelDiscriminators++;
-                        }
-
-                        if (innerSchema.getXml() != null) {
-                            m.xmlPrefix = innerSchema.getXml().getPrefix();
-                            m.xmlNamespace = innerSchema.getXml().getNamespace();
-                            m.xmlName = innerSchema.getXml().getName();
-                        }
-                        if (modelDiscriminators > 1) {
-                            LOGGER.error("Allof composed schema is inheriting >1 discriminator. Only use one discriminator: {}", composed);
-                        }
-
-                        if (modelImplCnt++ > 1) {
-                            LOGGER.warn("More than one inline schema specified in allOf:. Only the first one is recognized. All others are ignored.");
-                            break; // only one schema with discriminator allowed in allOf
-                        }
-                    }
-                }
-            }
-
-            // interfaces (schemas defined in allOf, anyOf, oneOf)
-            List<Schema> interfaces = ModelUtils.getInterfaces(composed);
-            List<CodegenProperty> anyOfProps = new ArrayList<>();
-            List<CodegenProperty> allOfProps = new ArrayList<>();
-            List<CodegenProperty> oneOfProps = new ArrayList<>();
-            if (!interfaces.isEmpty()) {
-                // m.interfaces is for backward compatibility
-                if (m.interfaces == null)
-                    m.interfaces = new ArrayList<String>();
-
-                for (Schema interfaceSchema : interfaces) {
-                    interfaceSchema = unaliasSchema(interfaceSchema, importMapping);
-
-                    if (StringUtils.isBlank(interfaceSchema.get$ref())) {
-                        // primitive type
-                        String languageType = getTypeDeclaration(interfaceSchema);
-                        CodegenProperty interfaceProperty = fromProperty(languageType, interfaceSchema);
-                        if (ModelUtils.isArraySchema(interfaceSchema) || ModelUtils.isMapSchema(interfaceSchema)) {
-                            while (interfaceProperty != null) {
-                                addImport(m, interfaceProperty.complexType);
-                                interfaceProperty = interfaceProperty.items;
-                            }
-                        }
-
-                        if (composed.getAnyOf() != null) {
-                            if (m.anyOf.contains(languageType)) {
-                                LOGGER.warn("{} (anyOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
-                            } else {
-                                m.anyOf.add(languageType);
-                                anyOfProps.add(interfaceProperty);
-
-                            }
-                        } else if (composed.getOneOf() != null) {
-                            if (m.oneOf.contains(languageType)) {
-                                LOGGER.warn("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
-                            } else {
-                                m.oneOf.add(languageType);
-                                oneOfProps.add(interfaceProperty);
-                            }
-                        } else if (composed.getAllOf() != null) {
-                            // no need to add primitive type to allOf, which should comprise of schemas (models) only
-                        } else {
-                            LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
-                        }
-                        continue;
-                    }
-
-                    // the rest of the section is for model
-                    Schema refSchema = null;
-                    String ref = ModelUtils.getSimpleRef(interfaceSchema.get$ref());
-                    if (allDefinitions != null) {
-                        refSchema = allDefinitions.get(ref);
-                    }
-                    final String modelName = toModelName(ref);
-                    CodegenProperty interfaceProperty = fromProperty(modelName, interfaceSchema);
-                    m.interfaces.add(modelName);
-                    addImport(m, modelName);
-                    if (allDefinitions != null && refSchema != null) {
-                        if (allParents.contains(ref) && supportsMultipleInheritance) {
-                            // multiple inheritance
-                            addProperties(allProperties, allRequired, refSchema);
-                        } else if (parentName != null && parentName.equals(ref) && supportsInheritance) {
-                            // single inheritance
-                            addProperties(allProperties, allRequired, refSchema);
-                        } else {
-                            // composition
-                            addProperties(properties, required, refSchema);
-                            addProperties(allProperties, allRequired, refSchema);
-                        }
-                    }
-
-                    if (composed.getAnyOf() != null) {
-                        m.anyOf.add(modelName);
-                        anyOfProps.add(interfaceProperty);
-                    } else if (composed.getOneOf() != null) {
-                        m.oneOf.add(modelName);
-                        oneOfProps.add(interfaceProperty);
-                    } else if (composed.getAllOf() != null) {
-                        m.allOf.add(modelName);
-                        allOfProps.add(interfaceProperty);
-                    } else {
-                        LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
-                    }
-                }
-            }
-
-            m.oneOfProps = oneOfProps;
-            m.allOfProps = allOfProps;
-            m.anyOfProps = anyOfProps;
-
-            if (parent != null && composed.getAllOf() != null) { // set parent for allOf only
-                m.parentSchema = parentName;
-                m.parent = toModelName(parentName);
-
-                if (supportsMultipleInheritance) {
-                    m.allParents = new ArrayList<String>();
-                    for (String pname : allParents) {
-                        String pModelName = toModelName(pname);
-                        m.allParents.add(pModelName);
-                        addImport(m, pModelName);
-                    }
-                } else { // single inheritance
-                    addImport(m, m.parent);
-                }
-            }
-
-            // child schema (properties owned by the schema itself)
-            for (Schema component : interfaces) {
-                if (component.get$ref() == null) {
-                    if (component != null) {
-                        // component is the child schema
-                        addProperties(properties, required, component);
-
-                        // includes child's properties (all, required) in allProperties, allRequired
-                        addProperties(allProperties, allRequired, component);
-                    }
-                    break; // at most one child only
-                }
-            }
-
-            if (composed.getRequired() != null) {
-                required.addAll(composed.getRequired());
-                allRequired.addAll(composed.getRequired());
-            }
-
-            addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
-
-            // Per OAS specification, composed schemas may use the 'additionalProperties' keyword.
-            if (supportsAdditionalPropertiesWithComposedSchema) {
-                // Process the schema specified with the 'additionalProperties' keyword.
-                // This will set the 'CodegenModel.additionalPropertiesType' field
-                // and potentially 'Codegen.parent'.
-                //
-                // Note: it's not a good idea to use single class inheritance to implement
-                // the 'additionalProperties' keyword. Code generators that use single class
-                // inheritance sometimes use the 'Codegen.parent' field to implement the
-                // 'additionalProperties' keyword. However, that would be in conflict with
-                // 'allOf' composed schemas, because these code generators also want to set
-                // 'Codegen.parent' to the first child schema of the 'allOf' schema.
-                addAdditionPropertiesToCodeGenModel(m, schema);
-            }
-
-            if (Boolean.TRUE.equals(schema.getNullable())) {
-                m.isNullable = Boolean.TRUE;
-            }
-            // end of code block for composed schema
+            updateModelForComposedSchema(m, schema, allDefinitions);
         } else {
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
