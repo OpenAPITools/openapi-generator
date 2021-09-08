@@ -2448,6 +2448,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (!ModelUtils.isArraySchema(schema)) {
             m.dataType = getSchemaType(schema);
         }
+        if (!ModelUtils.isAnyType(schema) && Boolean.TRUE.equals(schema.getNullable())) {
+            m.isNullable = Boolean.TRUE;
+        }
 
         if (ModelUtils.isAnyType(schema)) {
             // The 'null' value is allowed when the OAS schema is 'any type'.
@@ -2707,11 +2710,6 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
-
-            if (Boolean.TRUE.equals(schema.getNullable())) {
-                m.isNullable = Boolean.TRUE;
-            }
-
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }
