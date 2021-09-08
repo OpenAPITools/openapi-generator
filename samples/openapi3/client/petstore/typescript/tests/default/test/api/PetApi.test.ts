@@ -10,25 +10,29 @@ const tag = new petstore.Tag();
 tag.name = "tag1"
 tag.id = Math.floor(Math.random() * 100000)
 
-const pet = new petstore.Pet()
-pet.id = Math.floor(Math.random() * 100000)
-pet.name = "PetName"
-pet.photoUrls = []
-pet.status = 'available'
-pet.tags = [ tag ]
-pet.category = undefined
+let pet: petstore.Pet;
 
 // TODO: Make tests more relyable
 
 describe("PetApi", () => {
-    it("addPet", async () => {
+    beforeEach(async () => {
+        pet = new petstore.Pet()
+        pet.id = Math.floor(Math.random() * 100000)
+        pet.name = "PetName"
+        pet.photoUrls = []
+        pet.status = 'available'
+        pet.tags = [ tag ]
+        pet.category = undefined
+
         await petApi.addPet(pet);
+    });
+
+    it("addPet", async () => {
         const createdPet = await petApi.getPetById(pet.id)
         expect(createdPet).to.deep.equal(pet);
     })
 
     it("deletePet", async () => {
-        await petApi.addPet(pet);
         await petApi.deletePet(pet.id)
         let deletedPet;
         try {
@@ -41,46 +45,33 @@ describe("PetApi", () => {
     })
 
     it("findPetsByStatus", async () => {
-        await petApi.addPet(pet);
         const pets = await petApi.findPetsByStatus(["available"]);
         expect(pets.length).to.be.at.least(1);
     })
 
     it("findPetsByTag", async () => {
-        await petApi.addPet(pet);
         const pets = await petApi.findPetsByTags([tag.name])
         expect(pets.length).to.be.at.least(1);
     })
 
     it("getPetById", async () => {
-        await petApi.addPet(pet);
         const returnedPet = await petApi.getPetById(pet.id);
         expect(returnedPet).to.deep.equal(pet);
     })
 
     it("updatePet", async () => {
-        const oldName = pet.name
-        const updatedName = "updated name";
-        await petApi.addPet(pet);
-
-        pet.name = updatedName;
-        try {
-            await petApi.updatePet(pet);
-        } finally {
-            pet.name = oldName;
-        }
+        pet.name = "updated name";
+        await petApi.updatePet(pet);
 
         // Somehow the updated name only appears ofter the second GET
         await petApi.getPetById(pet.id);
         const returnedPet = await petApi.getPetById(pet.id);
         expect(returnedPet.id).to.equal(pet.id)
-        expect(returnedPet.name).to.equal(updatedName);
+        expect(returnedPet.name).to.equal(pet.name);
     })
 
     it("updatePetWithForm", async () => {
         const updatedName = "updated name";
-        await petApi.addPet(pet);
-
         await petApi.updatePetWithForm(pet.id, updatedName);
 
         // Somehow the updated name only appears ofter the second GET
