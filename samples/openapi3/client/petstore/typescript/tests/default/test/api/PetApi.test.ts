@@ -12,7 +12,8 @@ tag.id = Math.floor(Math.random() * 100000)
 
 let pet: petstore.Pet;
 
-// TODO: Make tests more relyable
+// NOTE: There seem to be two instances of the api server
+// As an ugly workaround we do all modifications two times
 
 describe("PetApi", () => {
     beforeEach(async () => {
@@ -25,6 +26,7 @@ describe("PetApi", () => {
         pet.category = undefined
 
         await petApi.addPet(pet);
+        await petApi.addPet(pet);
     });
 
     it("addPet", async () => {
@@ -33,6 +35,7 @@ describe("PetApi", () => {
     })
 
     it("deletePet", async () => {
+        await petApi.deletePet(pet.id)
         await petApi.deletePet(pet.id)
         let deletedPet;
         try {
@@ -62,9 +65,8 @@ describe("PetApi", () => {
     it("updatePet", async () => {
         pet.name = "updated name";
         await petApi.updatePet(pet);
+        await petApi.updatePet(pet);
 
-        // Somehow the updated name only appears ofter the second GET
-        await petApi.getPetById(pet.id);
         const returnedPet = await petApi.getPetById(pet.id);
         expect(returnedPet.id).to.equal(pet.id)
         expect(returnedPet.name).to.equal(pet.name);
@@ -73,9 +75,8 @@ describe("PetApi", () => {
     it("updatePetWithForm", async () => {
         const updatedName = "updated name";
         await petApi.updatePetWithForm(pet.id, updatedName);
+        await petApi.updatePetWithForm(pet.id, updatedName);
 
-        // Somehow the updated name only appears ofter the second GET
-        await petApi.getPetById(pet.id);
         const returnedPet = await petApi.getPetById(pet.id)
         expect(returnedPet.id).to.equal(pet.id)
         expect(returnedPet.name).to.equal(updatedName);
