@@ -46,8 +46,12 @@ elif [ "$NODE_INDEX" = "2" ]; then
 elif [ "$NODE_INDEX" = "3" ]; then
 
   echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
-  pyenv versions
-  pyenv global 3.5.2
+  wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
+  tar -xf Python-3.8.9.tgz
+  cd python-3.8.9
+  ./configure --enable-optimizations
+  sudo make altinstall
+  python3 --version
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
