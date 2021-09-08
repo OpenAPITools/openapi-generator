@@ -36,32 +36,32 @@ public final class GeneratorSettings implements Serializable {
     private static final String DEFAULT_RELEASE_NOTE = "Minor update";
 
     /**
-     * Gets the name of the generator to use.
+     * The name of the generator to use.
      */
     private String generatorName;
 
     /**
-     * Gets the api package name for generated sources.
+     * The api package name for generated sources.
      */
     private String apiPackage;
 
     /**
-     * Gets the model package name for generated sources
+     * The model package name for generated sources
      */
     private String modelPackage;
 
     /**
-     * Gets the invoker package name for generated sources.
+     * The invoker package name for generated sources.
      */
     private String invokerPackage;
 
     /**
-     * Gets the overall package name for generated sources.
+     * The overall package name for generated sources.
      */
     private String packageName;
 
     /**
-     * Gets an api name suffix for generated models. This name will be appended to a api name.
+     * An api name suffix for generated models. This name will be appended to an api name.
      * <p>
      * This option is often used to circumvent compilation issues where models match keywords.
      * <p>
@@ -72,7 +72,7 @@ public final class GeneratorSettings implements Serializable {
     private String apiNameSuffix;
 
     /**
-     * Gets a model name prefix for generated models. This name will be prefixed to a model name.
+     * A model name prefix for generated models. This name will be prefixed to a model name.
      * <p>
      * This option is often used to circumvent compilation issues where models match keywords.
      * <p>
@@ -83,7 +83,7 @@ public final class GeneratorSettings implements Serializable {
     private String modelNamePrefix;
 
     /**
-     * Gets a model name suffix for generated models. This name will be appended to a model name.
+     * A model name suffix for generated models. This name will be appended to a model name.
      * <p>
      * This option is often used to circumvent compilation issues where models match keywords.
      * <p>
@@ -94,27 +94,27 @@ public final class GeneratorSettings implements Serializable {
     private String modelNameSuffix;
 
     /**
-     * Gets the group id for generated sources which support this concept (e.g. Java and pom.xml, Scala and SBT/Gradle/pom).
+     * The group id for generated sources which support this concept (e.g. Java and pom.xml, Scala and SBT/Gradle/pom).
      */
     private String groupId;
 
     /**
-     * Gets artifact id for generated sources which support this concept (e.g. Java and pom.xml, Scala and SBT/Gradle/pom).
+     * Artifact id for generated sources which support this concept (e.g. Java and pom.xml, Scala and SBT/Gradle/pom).
      */
     private String artifactId;
 
     /**
-     * Gets artifact version for generated sources which support this concept (e.g. Java and pom.xml, Scala and SBT/Gradle/pom).
+     * Artifact version for generated sources which support this concept (e.g. Java and pom.xml, Scala and SBT/Gradle/pom).
      */
     private String artifactVersion;
 
     /**
-     * Gets library (sub-template) for the target generated.
+     * Library (sub-template) for the target generated.
      */
     private String library;
 
     /**
-     * Gets instantiation types mappings. These allow for customizing the defaults provided by a built-in generator.
+     * Instantiation types mappings allow for customizing the defaults provided by a built-in generator.
      * <p>
      * For example, "array" to "ArrayList" applied to the Java generator will cause all array properties to be instantiated as ArrayList.
      * <p>
@@ -123,7 +123,7 @@ public final class GeneratorSettings implements Serializable {
     private final ImmutableMap<String, String> instantiationTypes;
 
     /**
-     * Gets type mappings. These allow for customizing type definitions.
+     * Type mappings allow for customizing type definitions.
      * <p>
      * For example, "array" to "List" applied to the Java generator will cause all variable assignments for array properties to be of type <code>List</code>.
      * <p>
@@ -132,12 +132,12 @@ public final class GeneratorSettings implements Serializable {
     private final ImmutableMap<String, String> typeMappings;
 
     /**
-     * Gets additional properties which will be passed to template as dynamic properties.
+     * Additional properties which will be passed to template as dynamic properties.
      */
     private final ImmutableMap<String, Object> additionalProperties;
 
     /**
-     * Gets import mappings between a given class and the import that should be used for that class.
+     * Import mappings between a given class and the import that should be used for that class.
      * <p>
      * Use import mappings, for example, when you want to "bring your own models" from another location.
      *
@@ -146,7 +146,7 @@ public final class GeneratorSettings implements Serializable {
     private final ImmutableMap<String, String> importMappings;
 
     /**
-     * Gets language specific primitives. These are in addition to the "base" primitives defined in a generator.
+     * Language specific primitives are in addition to the "base" primitives defined in a generator.
      * <p>
      * In general, a primitive defined here will indicate to the generator:
      * <p>
@@ -158,7 +158,7 @@ public final class GeneratorSettings implements Serializable {
     private final ImmutableSet<String> languageSpecificPrimitives;
 
     /**
-     * Gets reserved word mappings. Values defined here define how a reserved word should be escaped.
+     * Reserved word mappings values defined here define how a reserved word should be escaped.
      * <p>
      * If no mapping is present, the mapping is generally automatically applied to a default with prefixed underscore (<code>_name</code>). Note that
      * some languages don't support identifiers beginning with a prefix, in which case the generator applies a more appropriate prefix.
@@ -166,12 +166,12 @@ public final class GeneratorSettings implements Serializable {
     private final ImmutableMap<String, String> reservedWordMappings;
 
     /**
-     * Gets server variable. Values defined here will be attempted to be replaced within a templated server object.
+     * Server variable, values defined here will be attempted to be replaced within a templated server object.
      */
     private final ImmutableMap<String, String> serverVariables;
 
     /**
-     * Gets git host. e.g. <strong>gitlab.com</strong>.
+     * git host. e.g. <strong>gitlab.com</strong>.
      * <p>
      * Generally used by git_push.sh in generated sources which support it.
      * This value may also be used by templates in maven style references, READMEs, or other documentation.
@@ -179,7 +179,7 @@ public final class GeneratorSettings implements Serializable {
     private String gitHost;
 
     /**
-     * Gets git user id. e.g. <strong>openapitools</strong>.
+     * git user id. e.g. <strong>openapitools</strong>.
      * <p>
      * Generally used by git_push.sh in generated sources which support it.
      * This value may also be used by templates in maven style references, READMEs, or other documentation.
@@ -187,7 +187,7 @@ public final class GeneratorSettings implements Serializable {
     private String gitUserId;
 
     /**
-     * Gets git repo id. e.g. <strong>openapi-generator</strong>.
+     * git repo id. e.g. <strong>openapi-generator</strong>.
      * <p>
      * Generally used by git_push.sh in generated sources which support it.
      * This value may also be used by templates in maven style references, READMEs, or other documentation.
@@ -195,7 +195,7 @@ public final class GeneratorSettings implements Serializable {
     private String gitRepoId;
 
     /**
-     * Gets release note for the generated instance.
+     * Release note for the generated instance.
      * <p>
      * Generally used by git_push.sh in generated sources which support it.
      * This value may also be used by templates in maven style references, READMEs, or other documentation.
@@ -203,7 +203,7 @@ public final class GeneratorSettings implements Serializable {
     private String releaseNote;
 
     /**
-     * Gets the http user agent to be used by client generators which support setting this value.
+     * The http user agent to be used by client generators which support setting this value.
      * <p>
      * e.g. codegen_csharp_api_client, defaults to 'OpenAPI-Generator/{packageVersion}/{language}'
      */

@@ -19,13 +19,28 @@ package org.openapitools.codegen.validation;
 import java.util.function.Function;
 
 /**
- * Defines a rule to be evaluated against some target object.
+ * Defines a rule to be evaluated against a target object.
  */
 @SuppressWarnings("WeakerAccess")
 public class ValidationRule {
+
+    /**
+     * Level of severity which this rule considers a failure in evaluation. For example, if this is {@link Severity#WARNING} and
+     * a call to {@link ValidationRule#evaluate(Object)} returns <code>false</code>, a user should not expect an error to be thrown under
+     * normal operation.
+     */
     private Severity severity;
+
+    /**
+     * Description to help differentiate this rule from others (not intended to be user-facing).
+     */
     private String description;
+
+    /**
+     * Gets the message to be displayed in the event of a test failure (intended to be user-facing).
+     */
     private String failureMessage;
+
     private Function<Object, Result> test;
 
     /**
@@ -44,11 +59,6 @@ public class ValidationRule {
         this.test = test;
     }
 
-    /**
-     * Gets the message to be displayed in the event of a test failure (intended to be user-facing).
-     *
-     * @return A string message
-     */
     public String getFailureMessage() {
         return failureMessage;
     }
@@ -65,21 +75,12 @@ public class ValidationRule {
     }
 
     /**
-     * Get the level of severity which this rule considers a failure in evaluation. For example, if this is {@link Severity#WARNING} and
-     * a call to {@link ValidationRule#evaluate(Object)} returns <code>false</code>, a user should not expect an error to be thrown under
-     * normal operation.
-     *
      * @return An enum defining how severe a failure to evaluate this rule should be considered by the caller.
      */
     public Severity getSeverity() {
         return severity;
     }
 
-    /**
-     * Gets a description to help differentiate this rule from others (not intended to be user-facing).
-     *
-     * @return A string description.
-     */
     public String getDescription() {
         return description;
     }
@@ -192,7 +193,9 @@ public class ValidationRule {
     }
 
     public static final class Fail extends Result {
-        public static Result empty() { return new Fail(); }
+        public static Result empty() {
+            return new Fail();
+        }
 
         public Fail() {
             super();
