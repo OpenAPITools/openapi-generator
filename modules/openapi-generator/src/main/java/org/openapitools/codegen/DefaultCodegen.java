@@ -2214,7 +2214,7 @@ public class DefaultCodegen implements CodegenConfig {
             return "object";
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // having property implies it's a model
             return "object";
-        } else if (isAnyTypeSchema(schema)) {
+        } else if (ModelUtils.isAnyType(schema)) {
             return "AnyType";
         } else if (StringUtils.isNotEmpty(schema.getType())) {
             if (!importMapping.containsKey(schema.getType())) {
@@ -2438,7 +2438,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlNamespace = schema.getXml().getNamespace();
             m.xmlName = schema.getXml().getName();
         }
-        if (isAnyTypeSchema(schema)) {
+        if (ModelUtils.isAnyType(schema)) {
             // The 'null' value is allowed when the OAS schema is 'any type'.
             // See https://github.com/OAI/OpenAPI-Specification/issues/1389
             if (Boolean.FALSE.equals(schema.getNullable())) {
@@ -2792,7 +2792,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         } else {
             addPropProp = fromProperty("", (Schema) schema.getAdditionalProperties());
-            if (isAnyTypeSchema((Schema) schema.getAdditionalProperties())) {
+            if (ModelUtils.isAnyType((Schema) schema.getAdditionalProperties())) {
                 additionalPropertiesIsAnyType = true;
             }
         }
@@ -3254,7 +3254,7 @@ public class DefaultCodegen implements CodegenConfig {
         return camelize(toVarName(name));
     }
 
-    private void updatePropertyForMap(CodegenProperty property, Schema p) {
+    protected void updatePropertyForMap(CodegenProperty property, Schema p) {
         property.isContainer = true;
         property.containerType = "map";
         // TODO remove this hack in the future, code should use minProperties and maxProperties for object schemas
@@ -3531,11 +3531,11 @@ public class DefaultCodegen implements CodegenConfig {
             updatePropertyForArray(property, cp);
         } else if (ModelUtils.isTypeObjectSchema(p)) {
             updatePropertyForObject(property, p);
-        } else if (isAnyTypeSchema(p)) {
+        } else if (ModelUtils.isAnyType(p)) {
             updatePropertyForAnyType(property, p);
         }
 
-        if (!(ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p) || isFreeFormObject(p) || isAnyTypeSchema(p))) {
+        if (!(ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p) || isFreeFormObject(p) || ModelUtils.isAnyType(p))) {
             // model
             String type = getSchemaType(p);
             setNonArrayMapProperty(property, type);
@@ -6795,6 +6795,9 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * This method has been kept to keep the introduction of ModelUtils.isAnyType as a non-breaking change
+     * this way, existing forks of our generator can continue to use this method
+     * TODO in 6.0.0 replace this method with ModelUtils.isAnyType
      * Return true if the schema value can be any type, i.e. it can be
      * the null value, integer, number, string, object or array.
      * One use case is when the "type" attribute in the OAS schema is unspecified.
@@ -6815,8 +6818,25 @@ public class DefaultCodegen implements CodegenConfig {
      * @return true if the schema value can be an arbitrary type.
      */
     public boolean isAnyTypeSchema(Schema schema) {
-        // TODO remove this method and replace all usages with ModelUtils.isAnyType
-        return ModelUtils.isAnyType(schema);
+        if (schema == null) {
+            once(LOGGER).error("Schema cannot be null in isAnyTypeSchema check");
+            return false;
+        }
+
+        if (isFreeFormObject(schema)) {
+            // make sure it's not free form object
+            return false;
+        }
+
+        if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
+                (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
+                schema.getAdditionalProperties() == null && schema.getNot() == null &&
+                schema.getEnum() == null) {
+            return true;
+            // If and when type arrays are supported in a future OAS specification,
+            // we could return true if the type array includes all possible JSON schema types.
+        }
+        return false;
     }
 
     /**
