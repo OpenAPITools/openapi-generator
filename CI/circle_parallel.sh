@@ -48,7 +48,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
   wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
   tar -xf Python-3.8.9.tgz
-  cd python-3.8.9
+  cd Python-3.8.9
   ./configure --enable-optimizations
   sudo make altinstall
   python3 --version
