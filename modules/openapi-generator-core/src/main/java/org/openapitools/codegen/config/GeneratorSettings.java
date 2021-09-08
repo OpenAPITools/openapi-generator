@@ -35,92 +35,41 @@ public final class GeneratorSettings implements Serializable {
     private static final String DEFAULT_GIT_REPO_ID = "GIT_REPO_ID";
     private static final String DEFAULT_RELEASE_NOTE = "Minor update";
 
-    private String generatorName;
-    private String apiPackage;
-    private String modelPackage;
-    private String invokerPackage;
-    private String packageName;
-    private String apiNameSuffix;
-    private String modelNamePrefix;
-    private String modelNameSuffix;
-    private String groupId;
-    private String artifactId;
-    private String artifactVersion;
-    private String library;
-
-    private final ImmutableMap<String, String> instantiationTypes;
-    private final ImmutableMap<String, String> typeMappings;
-    private final ImmutableMap<String, Object> additionalProperties;
-    private final ImmutableMap<String, String> importMappings;
-    private final ImmutableSet<String> languageSpecificPrimitives;
-    private final ImmutableMap<String, String> reservedWordMappings;
-    private final ImmutableMap<String, String> serverVariables;
-
-    private String gitHost;
-    private String gitUserId;
-    private String gitRepoId;
-    private String releaseNote;
-    private String httpUserAgent;
-
     /**
      * Gets the name of the generator to use.
-     *
-     * @return the generator name
      */
-    public String getGeneratorName() {
-        return generatorName;
-    }
+    private String generatorName;
 
     /**
      * Gets the api package name for generated sources.
-     *
-     * @return the api package
      */
-    public String getApiPackage() {
-        return apiPackage;
-    }
+    private String apiPackage;
 
     /**
      * Gets the model package name for generated sources
-     *
-     * @return the model package
      */
-    public String getModelPackage() {
-        return modelPackage;
-    }
+    private String modelPackage;
 
     /**
      * Gets the invoker package name for generated sources.
-     *
-     * @return the invoker package
      */
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
+    private String invokerPackage;
 
     /**
      * Gets the overall package name for generated sources.
-     *
-     * @return the package name
      */
-    public String getPackageName() {
-        return packageName;
-    }
+    private String packageName;
 
     /**
-     * Gets a api name suffix for generated models. This name will be appended to a api name.
+     * Gets an api name suffix for generated models. This name will be appended to a api name.
      * <p>
      * This option is often used to circumvent compilation issues where models match keywords.
      * <p>
      * Example:
      * <p>
      * Suffix <code>Gen</code> applied to <code>Object</code> results in a generated class named <code>ObjectGen</code>.
-     *
-     * @return the model name suffix
      */
-    public String getApiNameSuffix() {
-        return apiNameSuffix;
-    }
+    private String apiNameSuffix;
 
     /**
      * Gets a model name prefix for generated models. This name will be prefixed to a model name.
@@ -130,12 +79,8 @@ public final class GeneratorSettings implements Serializable {
      * Example:
      * <p>
      * Prefix <code>My</code> applied to <code>Object</code> results in a generated class named <code>MyObject</code>.
-     *
-     * @return the model name prefix
      */
-    public String getModelNamePrefix() {
-        return modelNamePrefix;
-    }
+    private String modelNamePrefix;
 
     /**
      * Gets a model name suffix for generated models. This name will be appended to a model name.
@@ -145,49 +90,28 @@ public final class GeneratorSettings implements Serializable {
      * Example:
      * <p>
      * Suffix <code>Gen</code> applied to <code>Object</code> results in a generated class named <code>ObjectGen</code>.
-     *
-     * @return the model name suffix
      */
-    public String getModelNameSuffix() {
-        return modelNameSuffix;
-    }
+    private String modelNameSuffix;
 
     /**
      * Gets the group id for generated sources which support this concept (e.g. Java and pom.xml, Scala and SBT/Gradle/pom).
-     *
-     * @return the group id
      */
-    public String getGroupId() {
-        return groupId;
-    }
+    private String groupId;
 
     /**
      * Gets artifact id for generated sources which support this concept (e.g. Java and pom.xml, Scala and SBT/Gradle/pom).
-     *
-     * @return the artifact id
      */
-    public String getArtifactId() {
-        return artifactId;
-    }
+    private String artifactId;
 
     /**
      * Gets artifact version for generated sources which support this concept (e.g. Java and pom.xml, Scala and SBT/Gradle/pom).
-     *
-     * @return the artifact version
      */
-    public String getArtifactVersion() {
-        return artifactVersion;
-    }
+    private String artifactVersion;
 
     /**
      * Gets library (sub-template) for the target generated.
-     *
-     * @return the library
      */
-    public String getLibrary() {
-        return library;
-    }
-
+    private String library;
 
     /**
      * Gets instantiation types mappings. These allow for customizing the defaults provided by a built-in generator.
@@ -195,12 +119,8 @@ public final class GeneratorSettings implements Serializable {
      * For example, "array" to "ArrayList" applied to the Java generator will cause all array properties to be instantiated as ArrayList.
      * <p>
      * This option differs from {@link GeneratorSettings#getTypeMappings()} in that values provided here are generally used for type construction (what is applied to "new").
-     *
-     * @return the instantiation types
      */
-    public Map<String, String> getInstantiationTypes() {
-        return instantiationTypes;
-    }
+    private final ImmutableMap<String, String> instantiationTypes;
 
     /**
      * Gets type mappings. These allow for customizing type definitions.
@@ -208,33 +128,22 @@ public final class GeneratorSettings implements Serializable {
      * For example, "array" to "List" applied to the Java generator will cause all variable assignments for array properties to be of type <code>List</code>.
      * <p>
      * This option differs from {@link GeneratorSettings#getInstantiationTypes()} in that values provided here are variable reference types rather than concrete instantiation types.
-     *
-     * @return the type mappings
      */
-    public Map<String, String> getTypeMappings() {
-        return typeMappings;
-    }
+    private final ImmutableMap<String, String> typeMappings;
 
     /**
      * Gets additional properties which will be passed to template as dynamic properties.
-     *
-     * @return the additional properties
      */
-    public Map<String, Object> getAdditionalProperties() {
-        return additionalProperties;
-    }
+    private final ImmutableMap<String, Object> additionalProperties;
 
     /**
      * Gets import mappings between a given class and the import that should be used for that class.
      * <p>
      * Use import mappings, for example, when you want to "bring your own models" from another location.
      *
-     * @return the import mappings
      * @see <a href="https://openapi-generator.tech/docs/customization#bringing-your-own-models">Bringing your own models</a>
      */
-    public Map<String, String> getImportMappings() {
-        return importMappings;
-    }
+    private final ImmutableMap<String, String> importMappings;
 
     /**
      * Gets language specific primitives. These are in addition to the "base" primitives defined in a generator.
@@ -245,90 +154,153 @@ public final class GeneratorSettings implements Serializable {
      * - model names not included here require imports and likely indicate a model reference
      * <p>
      * There may be generator-specific implementation details which differ slightly.
-     *
-     * @return the language specific primitives
      */
-    public Set<String> getLanguageSpecificPrimitives() {
-        return languageSpecificPrimitives;
-    }
+    private final ImmutableSet<String> languageSpecificPrimitives;
 
     /**
      * Gets reserved word mappings. Values defined here define how a reserved word should be escaped.
      * <p>
      * If no mapping is present, the mapping is generally automatically applied to a default with prefixed underscore (<code>_name</code>). Note that
      * some languages don't support identifiers beginning with a prefix, in which case the generator applies a more appropriate prefix.
-     *
-     * @return the reserved word mappings
      */
-    public Map<String, String> getReservedWordMappings() {
-        return reservedWordMappings;
-    }
-
+    private final ImmutableMap<String, String> reservedWordMappings;
 
     /**
      * Gets server variable. Values defined here will be attempted to be replaced within a templated server object.
-     *
-     * @return the server variables
      */
-    public Map<String, String> getServerVariables() {
-        return serverVariables;
-    }
+    private final ImmutableMap<String, String> serverVariables;
 
     /**
      * Gets git host. e.g. <strong>gitlab.com</strong>.
      * <p>
      * Generally used by git_push.sh in generated sources which support it.
      * This value may also be used by templates in maven style references, READMEs, or other documentation.
-     *
-     * @return the git host
      */
-    public String getGitHost() {
-        return gitHost;
-    }
+    private String gitHost;
 
     /**
      * Gets git user id. e.g. <strong>openapitools</strong>.
      * <p>
      * Generally used by git_push.sh in generated sources which support it.
      * This value may also be used by templates in maven style references, READMEs, or other documentation.
-     *
-     * @return the git user id
      */
-    public String getGitUserId() {
-        return gitUserId;
-    }
+    private String gitUserId;
 
     /**
      * Gets git repo id. e.g. <strong>openapi-generator</strong>.
      * <p>
      * Generally used by git_push.sh in generated sources which support it.
      * This value may also be used by templates in maven style references, READMEs, or other documentation.
-     *
-     * @return the git repo id
      */
-    public String getGitRepoId() {
-        return gitRepoId;
-    }
+    private String gitRepoId;
 
     /**
      * Gets release note for the generated instance.
      * <p>
      * Generally used by git_push.sh in generated sources which support it.
      * This value may also be used by templates in maven style references, READMEs, or other documentation.
-     *
-     * @return the release note
      */
-    public String getReleaseNote() {
-        return releaseNote;
-    }
+    private String releaseNote;
 
     /**
      * Gets the http user agent to be used by client generators which support setting this value.
      * <p>
      * e.g. codegen_csharp_api_client, defaults to 'OpenAPI-Generator/{packageVersion}/{language}'
-     *
-     * @return the http user agent
      */
+    private String httpUserAgent;
+
+    public String getGeneratorName() {
+        return generatorName;
+    }
+
+    public String getApiPackage() {
+        return apiPackage;
+    }
+
+    public String getModelPackage() {
+        return modelPackage;
+    }
+
+    public String getInvokerPackage() {
+        return invokerPackage;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public String getApiNameSuffix() {
+        return apiNameSuffix;
+    }
+
+    public String getModelNamePrefix() {
+        return modelNamePrefix;
+    }
+
+    public String getModelNameSuffix() {
+        return modelNameSuffix;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public String getArtifactId() {
+        return artifactId;
+    }
+
+    public String getArtifactVersion() {
+        return artifactVersion;
+    }
+
+    public String getLibrary() {
+        return library;
+    }
+
+    public Map<String, String> getInstantiationTypes() {
+        return instantiationTypes;
+    }
+
+    public Map<String, String> getTypeMappings() {
+        return typeMappings;
+    }
+
+    public Map<String, Object> getAdditionalProperties() {
+        return additionalProperties;
+    }
+
+    public Map<String, String> getImportMappings() {
+        return importMappings;
+    }
+
+    public Set<String> getLanguageSpecificPrimitives() {
+        return languageSpecificPrimitives;
+    }
+
+    public Map<String, String> getReservedWordMappings() {
+        return reservedWordMappings;
+    }
+
+    public Map<String, String> getServerVariables() {
+        return serverVariables;
+    }
+
+    public String getGitHost() {
+        return gitHost;
+    }
+
+    public String getGitUserId() {
+        return gitUserId;
+    }
+
+    public String getGitRepoId() {
+        return gitRepoId;
+    }
+
+    public String getReleaseNote() {
+        return releaseNote;
+    }
+
     public String getHttpUserAgent() {
         return httpUserAgent;
     }
@@ -899,8 +871,7 @@ public final class GeneratorSettings implements Serializable {
          */
         public GeneratorSettings build() {
             GeneratorSettings instance = new GeneratorSettings(this);
-            //noinspection PlaceholderCountMatchesArgumentCount
-            LOGGER.debug("GeneratorSettings#build: %s", instance.toString());
+            LOGGER.debug("GeneratorSettings#build: {}", instance);
             return instance;
         }
     }
