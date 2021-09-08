@@ -16,9 +16,9 @@ class EnumArrays {
     this.arrayEnum = const [],
   });
 
-  EnumArraysJustSymbolEnum? justSymbol;
+  EnumArraysJustSymbolEnum justSymbol;
 
-  List<EnumArraysArrayEnumEnum>? arrayEnum;
+  List<EnumArraysArrayEnumEnum> arrayEnum;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
@@ -35,32 +35,28 @@ class EnumArrays {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (justSymbol != null) {
       json[r'just_symbol'] = justSymbol;
-    }
-    if (arrayEnum != null) {
       json[r'array_enum'] = arrayEnum;
-    }
     return json;
   }
 
   /// Returns a new [EnumArrays] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static EnumArrays fromJson(Map<String, dynamic> json) => json == null
+  static EnumArrays? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : EnumArrays(
         justSymbol: EnumArraysJustSymbolEnum.fromJson(json[r'just_symbol']),
         arrayEnum: EnumArraysArrayEnumEnum.listFromJson(json[r'array_enum']),
     );
 
-  static List<EnumArrays> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<EnumArrays> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <EnumArrays>[]
-      : json.map((dynamic value) => EnumArrays.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => EnumArrays.fromJson(value)).toList(growable: growable);
 
   static Map<String, EnumArrays> mapFromJson(Map<String, dynamic> json) {
     final map = <String, EnumArrays>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = EnumArrays.fromJson(value));
     }
     return map;
@@ -69,7 +65,7 @@ class EnumArrays {
   // maps a json object with a list of EnumArrays-objects as value to a dart map
   static Map<String, List<EnumArrays>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<EnumArrays>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = EnumArrays.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

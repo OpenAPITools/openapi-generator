@@ -18,13 +18,13 @@ class Name {
     this.n123number,
   });
 
-  int? name;
+  int name;
 
-  int? snakeCase;
+  int snakeCase;
 
-  String? property;
+  String property;
 
-  int? n123number;
+  int n123number;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Name &&
@@ -46,21 +46,15 @@ class Name {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'name'] = name;
-    if (snakeCase != null) {
       json[r'snake_case'] = snakeCase;
-    }
-    if (property != null) {
       json[r'property'] = property;
-    }
-    if (n123number != null) {
       json[r'123Number'] = n123number;
-    }
     return json;
   }
 
   /// Returns a new [Name] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static Name fromJson(Map<String, dynamic> json) => json == null
+  static Name? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : Name(
         name: json[r'name'],
@@ -69,14 +63,14 @@ class Name {
         n123number: json[r'123Number'],
     );
 
-  static List<Name> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<Name> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Name>[]
-      : json.map((dynamic value) => Name.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => Name.fromJson(value)).toList(growable: growable);
 
   static Map<String, Name> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Name>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = Name.fromJson(value));
     }
     return map;
@@ -85,7 +79,7 @@ class Name {
   // maps a json object with a list of Name-objects as value to a dart map
   static Map<String, List<Name>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Name>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = Name.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

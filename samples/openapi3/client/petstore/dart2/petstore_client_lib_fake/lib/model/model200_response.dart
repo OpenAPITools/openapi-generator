@@ -16,9 +16,9 @@ class Model200Response {
     this.class_,
   });
 
-  int? name;
+  int name;
 
-  String? class_;
+  String class_;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Model200Response &&
@@ -35,32 +35,28 @@ class Model200Response {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (name != null) {
       json[r'name'] = name;
-    }
-    if (class_ != null) {
       json[r'class'] = class_;
-    }
     return json;
   }
 
   /// Returns a new [Model200Response] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static Model200Response fromJson(Map<String, dynamic> json) => json == null
+  static Model200Response? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : Model200Response(
         name: json[r'name'],
         class_: json[r'class'],
     );
 
-  static List<Model200Response> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<Model200Response> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Model200Response>[]
-      : json.map((dynamic value) => Model200Response.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => Model200Response.fromJson(value)).toList(growable: growable);
 
   static Map<String, Model200Response> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Model200Response>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = Model200Response.fromJson(value));
     }
     return map;
@@ -69,7 +65,7 @@ class Model200Response {
   // maps a json object with a list of Model200Response-objects as value to a dart map
   static Map<String, List<Model200Response>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Model200Response>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = Model200Response.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

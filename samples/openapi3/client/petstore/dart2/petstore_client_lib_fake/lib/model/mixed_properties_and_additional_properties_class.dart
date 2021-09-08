@@ -17,11 +17,11 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = const {},
   });
 
-  String? uuid;
+  String uuid;
 
-  DateTime? dateTime;
+  DateTime dateTime;
 
-  Map<String, Animal>? map;
+  Map<String, Animal> map;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
@@ -40,21 +40,15 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (uuid != null) {
       json[r'uuid'] = uuid;
-    }
-    if (dateTime != null) {
       json[r'dateTime'] = dateTime.toUtc().toIso8601String();
-    }
-    if (map != null) {
       json[r'map'] = map;
-    }
     return json;
   }
 
   /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static MixedPropertiesAndAdditionalPropertiesClass fromJson(Map<String, dynamic> json) => json == null
+  static MixedPropertiesAndAdditionalPropertiesClass? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : MixedPropertiesAndAdditionalPropertiesClass(
         uuid: json[r'uuid'],
@@ -64,14 +58,14 @@ class MixedPropertiesAndAdditionalPropertiesClass {
             map: json[r'map']
     );
 
-  static List<MixedPropertiesAndAdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<MixedPropertiesAndAdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <MixedPropertiesAndAdditionalPropertiesClass>[]
-      : json.map((dynamic value) => MixedPropertiesAndAdditionalPropertiesClass.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => MixedPropertiesAndAdditionalPropertiesClass.fromJson(value)).toList(growable: growable);
 
   static Map<String, MixedPropertiesAndAdditionalPropertiesClass> mapFromJson(Map<String, dynamic> json) {
     final map = <String, MixedPropertiesAndAdditionalPropertiesClass>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = MixedPropertiesAndAdditionalPropertiesClass.fromJson(value));
     }
     return map;
@@ -80,7 +74,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   // maps a json object with a list of MixedPropertiesAndAdditionalPropertiesClass-objects as value to a dart map
   static Map<String, List<MixedPropertiesAndAdditionalPropertiesClass>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<MixedPropertiesAndAdditionalPropertiesClass>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = MixedPropertiesAndAdditionalPropertiesClass.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

@@ -32,47 +32,47 @@ class FormatTest {
 
   // minimum: 10
   // maximum: 100
-  int? integer;
+  int integer;
 
   // minimum: 20
   // maximum: 200
-  int? int32;
+  int int32;
 
-  int? int64;
+  int int64;
 
   // minimum: 32.1
   // maximum: 543.2
-  num? number;
+  num number;
 
   // minimum: 54.3
   // maximum: 987.6
-  double? float;
+  double float;
 
   // minimum: 67.8
   // maximum: 123.4
-  double? double_;
+  double double_;
 
-  double? decimal;
+  double decimal;
 
-  String? string;
+  String string;
 
-  String? byte;
+  String byte;
 
-  MultipartFile? binary;
+  MultipartFile binary;
 
-  DateTime? date;
+  DateTime date;
 
-  DateTime? dateTime;
+  DateTime dateTime;
 
-  String? uuid;
+  String uuid;
 
-  String? password;
+  String password;
 
   /// A string that is a 10 digit number. Can have leading zeros.
-  String? patternWithDigits;
+  String patternWithDigits;
 
   /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
-  String? patternWithDigitsAndDelimiter;
+  String patternWithDigitsAndDelimiter;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
@@ -117,52 +117,28 @@ class FormatTest {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (integer != null) {
       json[r'integer'] = integer;
-    }
-    if (int32 != null) {
       json[r'int32'] = int32;
-    }
-    if (int64 != null) {
       json[r'int64'] = int64;
-    }
       json[r'number'] = number;
-    if (float != null) {
       json[r'float'] = float;
-    }
-    if (double_ != null) {
       json[r'double'] = double_;
-    }
-    if (decimal != null) {
       json[r'decimal'] = decimal;
-    }
-    if (string != null) {
       json[r'string'] = string;
-    }
       json[r'byte'] = byte;
-    if (binary != null) {
       json[r'binary'] = binary;
-    }
       json[r'date'] = _dateFormatter.format(date.toUtc());
-    if (dateTime != null) {
       json[r'dateTime'] = dateTime.toUtc().toIso8601String();
-    }
-    if (uuid != null) {
       json[r'uuid'] = uuid;
-    }
       json[r'password'] = password;
-    if (patternWithDigits != null) {
       json[r'pattern_with_digits'] = patternWithDigits;
-    }
-    if (patternWithDigitsAndDelimiter != null) {
       json[r'pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
-    }
     return json;
   }
 
   /// Returns a new [FormatTest] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static FormatTest fromJson(Map<String, dynamic> json) => json == null
+  static FormatTest? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : FormatTest(
         integer: json[r'integer'],
@@ -189,14 +165,14 @@ class FormatTest {
         patternWithDigitsAndDelimiter: json[r'pattern_with_digits_and_delimiter'],
     );
 
-  static List<FormatTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<FormatTest> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <FormatTest>[]
-      : json.map((dynamic value) => FormatTest.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => FormatTest.fromJson(value)).toList(growable: growable);
 
   static Map<String, FormatTest> mapFromJson(Map<String, dynamic> json) {
     final map = <String, FormatTest>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = FormatTest.fromJson(value));
     }
     return map;
@@ -205,7 +181,7 @@ class FormatTest {
   // maps a json object with a list of FormatTest-objects as value to a dart map
   static Map<String, List<FormatTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<FormatTest>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = FormatTest.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

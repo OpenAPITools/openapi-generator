@@ -15,7 +15,7 @@ class ModelList {
     this.n123list,
   });
 
-  String? n123list;
+  String n123list;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelList &&
@@ -30,28 +30,26 @@ class ModelList {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (n123list != null) {
       json[r'123-list'] = n123list;
-    }
     return json;
   }
 
   /// Returns a new [ModelList] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static ModelList fromJson(Map<String, dynamic> json) => json == null
+  static ModelList? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : ModelList(
         n123list: json[r'123-list'],
     );
 
-  static List<ModelList> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<ModelList> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ModelList>[]
-      : json.map((dynamic value) => ModelList.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => ModelList.fromJson(value)).toList(growable: growable);
 
   static Map<String, ModelList> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ModelList>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = ModelList.fromJson(value));
     }
     return map;
@@ -60,7 +58,7 @@ class ModelList {
   // maps a json object with a list of ModelList-objects as value to a dart map
   static Map<String, List<ModelList>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ModelList>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = ModelList.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

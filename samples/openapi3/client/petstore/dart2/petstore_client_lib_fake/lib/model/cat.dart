@@ -17,11 +17,11 @@ class Cat {
     this.declawed,
   });
 
-  String? className;
+  String className;
 
-  String? color;
+  String color;
 
-  bool? declawed;
+  bool declawed;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Cat &&
@@ -41,18 +41,14 @@ class Cat {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'className'] = className;
-    if (color != null) {
       json[r'color'] = color;
-    }
-    if (declawed != null) {
       json[r'declawed'] = declawed;
-    }
     return json;
   }
 
   /// Returns a new [Cat] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static Cat fromJson(Map<String, dynamic> json) => json == null
+  static Cat? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : Cat(
         className: json[r'className'],
@@ -60,14 +56,14 @@ class Cat {
         declawed: json[r'declawed'],
     );
 
-  static List<Cat> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<Cat> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Cat>[]
-      : json.map((dynamic value) => Cat.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => Cat.fromJson(value)).toList(growable: growable);
 
   static Map<String, Cat> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Cat>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = Cat.fromJson(value));
     }
     return map;
@@ -76,7 +72,7 @@ class Cat {
   // maps a json object with a list of Cat-objects as value to a dart map
   static Map<String, List<Cat>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Cat>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = Cat.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

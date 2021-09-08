@@ -20,18 +20,18 @@ class Order {
     this.complete = false,
   });
 
-  int? id;
+  int id;
 
-  int? petId;
+  int petId;
 
-  int? quantity;
+  int quantity;
 
-  DateTime? shipDate;
+  DateTime shipDate;
 
   /// Order Status
-  OrderStatusEnum? status;
+  OrderStatusEnum status;
 
-  bool? complete;
+  bool complete;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&
@@ -56,30 +56,18 @@ class Order {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) {
       json[r'id'] = id;
-    }
-    if (petId != null) {
       json[r'petId'] = petId;
-    }
-    if (quantity != null) {
       json[r'quantity'] = quantity;
-    }
-    if (shipDate != null) {
       json[r'shipDate'] = shipDate.toUtc().toIso8601String();
-    }
-    if (status != null) {
       json[r'status'] = status;
-    }
-    if (complete != null) {
       json[r'complete'] = complete;
-    }
     return json;
   }
 
   /// Returns a new [Order] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static Order fromJson(Map<String, dynamic> json) => json == null
+  static Order? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : Order(
         id: json[r'id'],
@@ -92,14 +80,14 @@ class Order {
         complete: json[r'complete'],
     );
 
-  static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Order>[]
-      : json.map((dynamic value) => Order.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => Order.fromJson(value)).toList(growable: growable);
 
   static Map<String, Order> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Order>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = Order.fromJson(value));
     }
     return map;
@@ -108,7 +96,7 @@ class Order {
   // maps a json object with a list of Order-objects as value to a dart map
   static Map<String, List<Order>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Order>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = Order.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

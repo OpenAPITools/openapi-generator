@@ -20,18 +20,18 @@ class Pet {
     this.status,
   });
 
-  int? id;
+  int id;
 
-  Category? category;
+  Category category;
 
-  String? name;
+  String name;
 
-  Set<String>? photoUrls;
+  Set<String> photoUrls;
 
-  List<Tag>? tags;
+  List<Tag> tags;
 
   /// pet status in the store
-  PetStatusEnum? status;
+  PetStatusEnum status;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Pet &&
@@ -56,26 +56,18 @@ class Pet {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) {
       json[r'id'] = id;
-    }
-    if (category != null) {
       json[r'category'] = category;
-    }
       json[r'name'] = name;
       json[r'photoUrls'] = photoUrls;
-    if (tags != null) {
       json[r'tags'] = tags;
-    }
-    if (status != null) {
       json[r'status'] = status;
-    }
     return json;
   }
 
   /// Returns a new [Pet] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static Pet fromJson(Map<String, dynamic> json) => json == null
+  static Pet? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : Pet(
         id: json[r'id'],
@@ -88,14 +80,14 @@ class Pet {
         status: PetStatusEnum.fromJson(json[r'status']),
     );
 
-  static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Pet>[]
-      : json.map((dynamic value) => Pet.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => Pet.fromJson(value)).toList(growable: growable);
 
   static Map<String, Pet> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Pet>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = Pet.fromJson(value));
     }
     return map;
@@ -104,7 +96,7 @@ class Pet {
   // maps a json object with a list of Pet-objects as value to a dart map
   static Map<String, List<Pet>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Pet>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = Pet.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

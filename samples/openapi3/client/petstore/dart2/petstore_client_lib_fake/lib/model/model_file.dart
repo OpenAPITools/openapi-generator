@@ -16,7 +16,7 @@ class ModelFile {
   });
 
   /// Test capitalization
-  String? sourceURI;
+  String sourceURI;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
@@ -31,28 +31,26 @@ class ModelFile {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (sourceURI != null) {
       json[r'sourceURI'] = sourceURI;
-    }
     return json;
   }
 
   /// Returns a new [ModelFile] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static ModelFile fromJson(Map<String, dynamic> json) => json == null
+  static ModelFile? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : ModelFile(
         sourceURI: json[r'sourceURI'],
     );
 
-  static List<ModelFile> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<ModelFile> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ModelFile>[]
-      : json.map((dynamic value) => ModelFile.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => ModelFile.fromJson(value)).toList(growable: growable);
 
   static Map<String, ModelFile> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ModelFile>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = ModelFile.fromJson(value));
     }
     return map;
@@ -61,7 +59,7 @@ class ModelFile {
   // maps a json object with a list of ModelFile-objects as value to a dart map
   static Map<String, List<ModelFile>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ModelFile>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = ModelFile.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

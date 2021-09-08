@@ -15,7 +15,7 @@ class ArrayOfArrayOfNumberOnly {
     this.arrayArrayNumber = const [],
   });
 
-  List<List<num>>? arrayArrayNumber;
+  List<List<num>> arrayArrayNumber;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayOfArrayOfNumberOnly &&
@@ -30,15 +30,13 @@ class ArrayOfArrayOfNumberOnly {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (arrayArrayNumber != null) {
       json[r'ArrayArrayNumber'] = arrayArrayNumber;
-    }
     return json;
   }
 
   /// Returns a new [ArrayOfArrayOfNumberOnly] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static ArrayOfArrayOfNumberOnly fromJson(Map<String, dynamic> json) => json == null
+  static ArrayOfArrayOfNumberOnly? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : ArrayOfArrayOfNumberOnly(
         arrayArrayNumber: json[r'ArrayArrayNumber'] == null
@@ -48,14 +46,14 @@ class ArrayOfArrayOfNumberOnly {
             ).toList(growable: false),
     );
 
-  static List<ArrayOfArrayOfNumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<ArrayOfArrayOfNumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ArrayOfArrayOfNumberOnly>[]
-      : json.map((dynamic value) => ArrayOfArrayOfNumberOnly.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => ArrayOfArrayOfNumberOnly.fromJson(value)).toList(growable: growable);
 
   static Map<String, ArrayOfArrayOfNumberOnly> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ArrayOfArrayOfNumberOnly>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = ArrayOfArrayOfNumberOnly.fromJson(value));
     }
     return map;
@@ -64,7 +62,7 @@ class ArrayOfArrayOfNumberOnly {
   // maps a json object with a list of ArrayOfArrayOfNumberOnly-objects as value to a dart map
   static Map<String, List<ArrayOfArrayOfNumberOnly>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ArrayOfArrayOfNumberOnly>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = ArrayOfArrayOfNumberOnly.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

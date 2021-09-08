@@ -16,9 +16,9 @@ class ReadOnlyFirst {
     this.baz,
   });
 
-  String? bar;
+  String bar;
 
-  String? baz;
+  String baz;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ReadOnlyFirst &&
@@ -35,32 +35,28 @@ class ReadOnlyFirst {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (bar != null) {
       json[r'bar'] = bar;
-    }
-    if (baz != null) {
       json[r'baz'] = baz;
-    }
     return json;
   }
 
   /// Returns a new [ReadOnlyFirst] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static ReadOnlyFirst fromJson(Map<String, dynamic> json) => json == null
+  static ReadOnlyFirst? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : ReadOnlyFirst(
         bar: json[r'bar'],
         baz: json[r'baz'],
     );
 
-  static List<ReadOnlyFirst> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<ReadOnlyFirst> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ReadOnlyFirst>[]
-      : json.map((dynamic value) => ReadOnlyFirst.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => ReadOnlyFirst.fromJson(value)).toList(growable: growable);
 
   static Map<String, ReadOnlyFirst> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ReadOnlyFirst>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = ReadOnlyFirst.fromJson(value));
     }
     return map;
@@ -69,7 +65,7 @@ class ReadOnlyFirst {
   // maps a json object with a list of ReadOnlyFirst-objects as value to a dart map
   static Map<String, List<ReadOnlyFirst>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ReadOnlyFirst>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = ReadOnlyFirst.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

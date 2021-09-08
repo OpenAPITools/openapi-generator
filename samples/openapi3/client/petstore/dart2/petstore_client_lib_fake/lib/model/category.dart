@@ -16,9 +16,9 @@ class Category {
     this.name = 'default-name',
   });
 
-  int? id;
+  int id;
 
-  String? name;
+  String name;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Category &&
@@ -35,30 +35,28 @@ class Category {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) {
       json[r'id'] = id;
-    }
       json[r'name'] = name;
     return json;
   }
 
   /// Returns a new [Category] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static Category fromJson(Map<String, dynamic> json) => json == null
+  static Category? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : Category(
         id: json[r'id'],
         name: json[r'name'],
     );
 
-  static List<Category> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<Category> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Category>[]
-      : json.map((dynamic value) => Category.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => Category.fromJson(value)).toList(growable: growable);
 
   static Map<String, Category> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Category>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = Category.fromJson(value));
     }
     return map;
@@ -67,7 +65,7 @@ class Category {
   // maps a json object with a list of Category-objects as value to a dart map
   static Map<String, List<Category>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Category>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = Category.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

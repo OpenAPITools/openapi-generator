@@ -15,7 +15,7 @@ class ModelClient {
     this.client,
   });
 
-  String? client;
+  String client;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelClient &&
@@ -30,28 +30,26 @@ class ModelClient {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (client != null) {
       json[r'client'] = client;
-    }
     return json;
   }
 
   /// Returns a new [ModelClient] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static ModelClient fromJson(Map<String, dynamic> json) => json == null
+  static ModelClient? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : ModelClient(
         client: json[r'client'],
     );
 
-  static List<ModelClient> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<ModelClient> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ModelClient>[]
-      : json.map((dynamic value) => ModelClient.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => ModelClient.fromJson(value)).toList(growable: growable);
 
   static Map<String, ModelClient> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ModelClient>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = ModelClient.fromJson(value));
     }
     return map;
@@ -60,7 +58,7 @@ class ModelClient {
   // maps a json object with a list of ModelClient-objects as value to a dart map
   static Map<String, List<ModelClient>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ModelClient>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = ModelClient.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

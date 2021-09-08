@@ -16,9 +16,9 @@ class AdditionalPropertiesClass {
     this.mapOfMapProperty = const {},
   });
 
-  Map<String, String>? mapProperty;
+  Map<String, String> mapProperty;
 
-  Map<String, Map<String, String>>? mapOfMapProperty;
+  Map<String, Map<String, String>> mapOfMapProperty;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
@@ -35,18 +35,14 @@ class AdditionalPropertiesClass {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (mapProperty != null) {
       json[r'map_property'] = mapProperty;
-    }
-    if (mapOfMapProperty != null) {
       json[r'map_of_map_property'] = mapOfMapProperty;
-    }
     return json;
   }
 
   /// Returns a new [AdditionalPropertiesClass] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static AdditionalPropertiesClass fromJson(Map<String, dynamic> json) => json == null
+  static AdditionalPropertiesClass? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : AdditionalPropertiesClass(
         mapProperty: json[r'map_property'] == null ?
@@ -57,14 +53,14 @@ class AdditionalPropertiesClass {
           : (json[r'map_of_map_property'] as Map).cast<String, Map>(),
     );
 
-  static List<AdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<AdditionalPropertiesClass> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <AdditionalPropertiesClass>[]
-      : json.map((dynamic value) => AdditionalPropertiesClass.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => AdditionalPropertiesClass.fromJson(value)).toList(growable: growable);
 
   static Map<String, AdditionalPropertiesClass> mapFromJson(Map<String, dynamic> json) {
     final map = <String, AdditionalPropertiesClass>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = AdditionalPropertiesClass.fromJson(value));
     }
     return map;
@@ -73,7 +69,7 @@ class AdditionalPropertiesClass {
   // maps a json object with a list of AdditionalPropertiesClass-objects as value to a dart map
   static Map<String, List<AdditionalPropertiesClass>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<AdditionalPropertiesClass>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = AdditionalPropertiesClass.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

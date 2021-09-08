@@ -16,9 +16,9 @@ class HasOnlyReadOnly {
     this.foo,
   });
 
-  String? bar;
+  String bar;
 
-  String? foo;
+  String foo;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is HasOnlyReadOnly &&
@@ -35,32 +35,28 @@ class HasOnlyReadOnly {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (bar != null) {
       json[r'bar'] = bar;
-    }
-    if (foo != null) {
       json[r'foo'] = foo;
-    }
     return json;
   }
 
   /// Returns a new [HasOnlyReadOnly] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static HasOnlyReadOnly fromJson(Map<String, dynamic> json) => json == null
+  static HasOnlyReadOnly? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : HasOnlyReadOnly(
         bar: json[r'bar'],
         foo: json[r'foo'],
     );
 
-  static List<HasOnlyReadOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<HasOnlyReadOnly> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <HasOnlyReadOnly>[]
-      : json.map((dynamic value) => HasOnlyReadOnly.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => HasOnlyReadOnly.fromJson(value)).toList(growable: growable);
 
   static Map<String, HasOnlyReadOnly> mapFromJson(Map<String, dynamic> json) {
     final map = <String, HasOnlyReadOnly>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = HasOnlyReadOnly.fromJson(value));
     }
     return map;
@@ -69,7 +65,7 @@ class HasOnlyReadOnly {
   // maps a json object with a list of HasOnlyReadOnly-objects as value to a dart map
   static Map<String, List<HasOnlyReadOnly>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<HasOnlyReadOnly>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = HasOnlyReadOnly.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

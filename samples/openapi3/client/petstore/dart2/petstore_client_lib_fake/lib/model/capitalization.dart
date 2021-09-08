@@ -20,18 +20,18 @@ class Capitalization {
     this.ATT_NAME,
   });
 
-  String? smallCamel;
+  String smallCamel;
 
-  String? capitalCamel;
+  String capitalCamel;
 
-  String? smallSnake;
+  String smallSnake;
 
-  String? capitalSnake;
+  String capitalSnake;
 
-  String? sCAETHFlowPoints;
+  String sCAETHFlowPoints;
 
   /// Name of the pet 
-  String? ATT_NAME;
+  String ATT_NAME;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
@@ -56,30 +56,18 @@ class Capitalization {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (smallCamel != null) {
       json[r'smallCamel'] = smallCamel;
-    }
-    if (capitalCamel != null) {
       json[r'CapitalCamel'] = capitalCamel;
-    }
-    if (smallSnake != null) {
       json[r'small_Snake'] = smallSnake;
-    }
-    if (capitalSnake != null) {
       json[r'Capital_Snake'] = capitalSnake;
-    }
-    if (sCAETHFlowPoints != null) {
       json[r'SCA_ETH_Flow_Points'] = sCAETHFlowPoints;
-    }
-    if (ATT_NAME != null) {
       json[r'ATT_NAME'] = ATT_NAME;
-    }
     return json;
   }
 
   /// Returns a new [Capitalization] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static Capitalization fromJson(Map<String, dynamic> json) => json == null
+  static Capitalization? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : Capitalization(
         smallCamel: json[r'smallCamel'],
@@ -90,14 +78,14 @@ class Capitalization {
         ATT_NAME: json[r'ATT_NAME'],
     );
 
-  static List<Capitalization> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<Capitalization> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Capitalization>[]
-      : json.map((dynamic value) => Capitalization.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => Capitalization.fromJson(value)).toList(growable: growable);
 
   static Map<String, Capitalization> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Capitalization>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = Capitalization.fromJson(value));
     }
     return map;
@@ -106,7 +94,7 @@ class Capitalization {
   // maps a json object with a list of Capitalization-objects as value to a dart map
   static Map<String, List<Capitalization>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Capitalization>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = Capitalization.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

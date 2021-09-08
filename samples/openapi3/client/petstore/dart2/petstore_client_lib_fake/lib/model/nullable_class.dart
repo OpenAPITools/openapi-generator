@@ -42,13 +42,13 @@ class NullableClass {
 
       List<Object>? arrayAndItemsNullableProp;
 
-  List<Object>? arrayItemsNullable;
+  List<Object> arrayItemsNullable;
 
       Map<String, Object>? objectNullableProp;
 
       Map<String, Object>? objectAndItemsNullableProp;
 
-  Map<String, Object>? objectItemsNullable;
+  Map<String, Object> objectItemsNullable;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
@@ -67,17 +67,17 @@ class NullableClass {
 
   @override
   int get hashCode =>
-    (integerProp == null ? 0 : integerProp.hashCode) +
-    (numberProp == null ? 0 : numberProp.hashCode) +
-    (booleanProp == null ? 0 : booleanProp.hashCode) +
-    (stringProp == null ? 0 : stringProp.hashCode) +
-    (dateProp == null ? 0 : dateProp.hashCode) +
-    (datetimeProp == null ? 0 : datetimeProp.hashCode) +
-    (arrayNullableProp == null ? 0 : arrayNullableProp.hashCode) +
-    (arrayAndItemsNullableProp == null ? 0 : arrayAndItemsNullableProp.hashCode) +
+    (integerProp.hashCode) +
+    (numberProp.hashCode) +
+    (booleanProp.hashCode) +
+    (stringProp.hashCode) +
+    (dateProp.hashCode) +
+    (datetimeProp.hashCode) +
+    (arrayNullableProp.hashCode) +
+    (arrayAndItemsNullableProp.hashCode) +
     (arrayItemsNullable == null ? 0 : arrayItemsNullable.hashCode) +
-    (objectNullableProp == null ? 0 : objectNullableProp.hashCode) +
-    (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp.hashCode) +
+    (objectNullableProp.hashCode) +
+    (objectAndItemsNullableProp.hashCode) +
     (objectItemsNullable == null ? 0 : objectItemsNullable.hashCode);
 
   @override
@@ -109,24 +109,20 @@ class NullableClass {
     if (arrayAndItemsNullableProp != null) {
       json[r'array_and_items_nullable_prop'] = arrayAndItemsNullableProp;
     }
-    if (arrayItemsNullable != null) {
       json[r'array_items_nullable'] = arrayItemsNullable;
-    }
     if (objectNullableProp != null) {
       json[r'object_nullable_prop'] = objectNullableProp;
     }
     if (objectAndItemsNullableProp != null) {
       json[r'object_and_items_nullable_prop'] = objectAndItemsNullableProp;
     }
-    if (objectItemsNullable != null) {
       json[r'object_items_nullable'] = objectItemsNullable;
-    }
     return json;
   }
 
   /// Returns a new [NullableClass] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static NullableClass fromJson(Map<String, dynamic> json) => json == null
+  static NullableClass? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : NullableClass(
         integerProp: json[r'integer_prop'],
@@ -149,14 +145,14 @@ class NullableClass {
             objectItemsNullable: json[r'object_items_nullable']
     );
 
-  static List<NullableClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<NullableClass> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <NullableClass>[]
-      : json.map((dynamic value) => NullableClass.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => NullableClass.fromJson(value)).toList(growable: growable);
 
   static Map<String, NullableClass> mapFromJson(Map<String, dynamic> json) {
     final map = <String, NullableClass>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = NullableClass.fromJson(value));
     }
     return map;
@@ -165,7 +161,7 @@ class NullableClass {
   // maps a json object with a list of NullableClass-objects as value to a dart map
   static Map<String, List<NullableClass>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<NullableClass>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = NullableClass.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

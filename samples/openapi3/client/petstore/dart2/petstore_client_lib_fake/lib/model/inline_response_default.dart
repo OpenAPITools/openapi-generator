@@ -15,7 +15,7 @@ class InlineResponseDefault {
     this.string,
   });
 
-  Foo? string;
+  Foo string;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is InlineResponseDefault &&
@@ -30,28 +30,26 @@ class InlineResponseDefault {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (string != null) {
       json[r'string'] = string;
-    }
     return json;
   }
 
   /// Returns a new [InlineResponseDefault] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static InlineResponseDefault fromJson(Map<String, dynamic> json) => json == null
+  static InlineResponseDefault? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : InlineResponseDefault(
         string: Foo.fromJson(json[r'string']),
     );
 
-  static List<InlineResponseDefault> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<InlineResponseDefault> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <InlineResponseDefault>[]
-      : json.map((dynamic value) => InlineResponseDefault.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => InlineResponseDefault.fromJson(value)).toList(growable: growable);
 
   static Map<String, InlineResponseDefault> mapFromJson(Map<String, dynamic> json) {
     final map = <String, InlineResponseDefault>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = InlineResponseDefault.fromJson(value));
     }
     return map;
@@ -60,7 +58,7 @@ class InlineResponseDefault {
   // maps a json object with a list of InlineResponseDefault-objects as value to a dart map
   static Map<String, List<InlineResponseDefault>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<InlineResponseDefault>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = InlineResponseDefault.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

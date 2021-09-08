@@ -15,7 +15,7 @@ class DogAllOf {
     this.breed,
   });
 
-  String? breed;
+  String breed;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is DogAllOf &&
@@ -30,28 +30,26 @@ class DogAllOf {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (breed != null) {
       json[r'breed'] = breed;
-    }
     return json;
   }
 
   /// Returns a new [DogAllOf] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static DogAllOf fromJson(Map<String, dynamic> json) => json == null
+  static DogAllOf? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : DogAllOf(
         breed: json[r'breed'],
     );
 
-  static List<DogAllOf> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<DogAllOf> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <DogAllOf>[]
-      : json.map((dynamic value) => DogAllOf.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => DogAllOf.fromJson(value)).toList(growable: growable);
 
   static Map<String, DogAllOf> mapFromJson(Map<String, dynamic> json) {
     final map = <String, DogAllOf>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = DogAllOf.fromJson(value));
     }
     return map;
@@ -60,7 +58,7 @@ class DogAllOf {
   // maps a json object with a list of DogAllOf-objects as value to a dart map
   static Map<String, List<DogAllOf>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<DogAllOf>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = DogAllOf.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

@@ -22,21 +22,21 @@ class EnumTest {
     this.outerEnumIntegerDefaultValue,
   });
 
-  EnumTestEnumStringEnum? enumString;
+  EnumTestEnumStringEnum enumString;
 
-  EnumTestEnumStringRequiredEnum? enumStringRequired;
+  EnumTestEnumStringRequiredEnum enumStringRequired;
 
-  EnumTestEnumIntegerEnum? enumInteger;
+  EnumTestEnumIntegerEnum enumInteger;
 
-  EnumTestEnumNumberEnum? enumNumber;
+  EnumTestEnumNumberEnum enumNumber;
 
       OuterEnum? outerEnum;
 
-  OuterEnumInteger? outerEnumInteger;
+  OuterEnumInteger outerEnumInteger;
 
-  OuterEnumDefaultValue? outerEnumDefaultValue;
+  OuterEnumDefaultValue outerEnumDefaultValue;
 
-  OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue;
+  OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
@@ -55,7 +55,7 @@ class EnumTest {
     (enumStringRequired == null ? 0 : enumStringRequired.hashCode) +
     (enumInteger == null ? 0 : enumInteger.hashCode) +
     (enumNumber == null ? 0 : enumNumber.hashCode) +
-    (outerEnum == null ? 0 : outerEnum.hashCode) +
+    (outerEnum.hashCode) +
     (outerEnumInteger == null ? 0 : outerEnumInteger.hashCode) +
     (outerEnumDefaultValue == null ? 0 : outerEnumDefaultValue.hashCode) +
     (outerEnumIntegerDefaultValue == null ? 0 : outerEnumIntegerDefaultValue.hashCode);
@@ -65,34 +65,22 @@ class EnumTest {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (enumString != null) {
       json[r'enum_string'] = enumString;
-    }
       json[r'enum_string_required'] = enumStringRequired;
-    if (enumInteger != null) {
       json[r'enum_integer'] = enumInteger;
-    }
-    if (enumNumber != null) {
       json[r'enum_number'] = enumNumber;
-    }
     if (outerEnum != null) {
       json[r'outerEnum'] = outerEnum;
     }
-    if (outerEnumInteger != null) {
       json[r'outerEnumInteger'] = outerEnumInteger;
-    }
-    if (outerEnumDefaultValue != null) {
       json[r'outerEnumDefaultValue'] = outerEnumDefaultValue;
-    }
-    if (outerEnumIntegerDefaultValue != null) {
       json[r'outerEnumIntegerDefaultValue'] = outerEnumIntegerDefaultValue;
-    }
     return json;
   }
 
   /// Returns a new [EnumTest] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static EnumTest fromJson(Map<String, dynamic> json) => json == null
+  static EnumTest? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : EnumTest(
         enumString: EnumTestEnumStringEnum.fromJson(json[r'enum_string']),
@@ -105,14 +93,14 @@ class EnumTest {
         outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue.fromJson(json[r'outerEnumIntegerDefaultValue']),
     );
 
-  static List<EnumTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<EnumTest> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <EnumTest>[]
-      : json.map((dynamic value) => EnumTest.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => EnumTest.fromJson(value)).toList(growable: growable);
 
   static Map<String, EnumTest> mapFromJson(Map<String, dynamic> json) {
     final map = <String, EnumTest>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = EnumTest.fromJson(value));
     }
     return map;
@@ -121,7 +109,7 @@ class EnumTest {
   // maps a json object with a list of EnumTest-objects as value to a dart map
   static Map<String, List<EnumTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<EnumTest>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = EnumTest.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

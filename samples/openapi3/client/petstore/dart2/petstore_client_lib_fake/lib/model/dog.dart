@@ -17,11 +17,11 @@ class Dog {
     this.breed,
   });
 
-  String? className;
+  String className;
 
-  String? color;
+  String color;
 
-  String? breed;
+  String breed;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Dog &&
@@ -41,18 +41,14 @@ class Dog {
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'className'] = className;
-    if (color != null) {
       json[r'color'] = color;
-    }
-    if (breed != null) {
       json[r'breed'] = breed;
-    }
     return json;
   }
 
   /// Returns a new [Dog] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static Dog fromJson(Map<String, dynamic> json) => json == null
+  static Dog? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : Dog(
         className: json[r'className'],
@@ -60,14 +56,14 @@ class Dog {
         breed: json[r'breed'],
     );
 
-  static List<Dog> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<Dog> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Dog>[]
-      : json.map((dynamic value) => Dog.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => Dog.fromJson(value)).toList(growable: growable);
 
   static Map<String, Dog> mapFromJson(Map<String, dynamic> json) {
     final map = <String, Dog>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = Dog.fromJson(value));
     }
     return map;
@@ -76,7 +72,7 @@ class Dog {
   // maps a json object with a list of Dog-objects as value to a dart map
   static Map<String, List<Dog>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Dog>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = Dog.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

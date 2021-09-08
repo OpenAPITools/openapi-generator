@@ -15,7 +15,7 @@ class ArrayOfNumberOnly {
     this.arrayNumber = const [],
   });
 
-  List<num>? arrayNumber;
+  List<num> arrayNumber;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayOfNumberOnly &&
@@ -30,15 +30,13 @@ class ArrayOfNumberOnly {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (arrayNumber != null) {
       json[r'ArrayNumber'] = arrayNumber;
-    }
     return json;
   }
 
   /// Returns a new [ArrayOfNumberOnly] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static ArrayOfNumberOnly fromJson(Map<String, dynamic> json) => json == null
+  static ArrayOfNumberOnly? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : ArrayOfNumberOnly(
         arrayNumber: json[r'ArrayNumber'] == null
@@ -46,14 +44,14 @@ class ArrayOfNumberOnly {
           : (json[r'ArrayNumber'] as List).cast<num>(),
     );
 
-  static List<ArrayOfNumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<ArrayOfNumberOnly> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ArrayOfNumberOnly>[]
-      : json.map((dynamic value) => ArrayOfNumberOnly.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => ArrayOfNumberOnly.fromJson(value)).toList(growable: growable);
 
   static Map<String, ArrayOfNumberOnly> mapFromJson(Map<String, dynamic> json) {
     final map = <String, ArrayOfNumberOnly>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = ArrayOfNumberOnly.fromJson(value));
     }
     return map;
@@ -62,7 +60,7 @@ class ArrayOfNumberOnly {
   // maps a json object with a list of ArrayOfNumberOnly-objects as value to a dart map
   static Map<String, List<ArrayOfNumberOnly>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ArrayOfNumberOnly>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = ArrayOfNumberOnly.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });

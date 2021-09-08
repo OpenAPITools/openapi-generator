@@ -18,13 +18,13 @@ class MapTest {
     this.indirectMap = const {},
   });
 
-  Map<String, Map<String, String>>? mapMapOfString;
+  Map<String, Map<String, String>> mapMapOfString;
 
-  Map<String, MapTestMapOfEnumStringEnum>? mapOfEnumString;
+  Map<String, MapTestMapOfEnumStringEnum> mapOfEnumString;
 
-  Map<String, bool>? directMap;
+  Map<String, bool> directMap;
 
-  Map<String, bool>? indirectMap;
+  Map<String, bool> indirectMap;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MapTest &&
@@ -45,24 +45,16 @@ class MapTest {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (mapMapOfString != null) {
       json[r'map_map_of_string'] = mapMapOfString;
-    }
-    if (mapOfEnumString != null) {
       json[r'map_of_enum_string'] = mapOfEnumString;
-    }
-    if (directMap != null) {
       json[r'direct_map'] = directMap;
-    }
-    if (indirectMap != null) {
       json[r'indirect_map'] = indirectMap;
-    }
     return json;
   }
 
   /// Returns a new [MapTest] instance and imports its values from
   /// [json] if it's non-null, null if [json] is null.
-  static MapTest fromJson(Map<String, dynamic> json) => json == null
+  static MapTest? fromJson(Map<String, dynamic>? json) => json == null
     ? null
     : MapTest(
         mapMapOfString: json[r'map_map_of_string'] == null
@@ -79,14 +71,14 @@ class MapTest {
           (json[r'indirect_map'] as Map).cast<String, bool>(),
     );
 
-  static List<MapTest> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
+  static List<MapTest> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <MapTest>[]
-      : json.map((dynamic value) => MapTest.fromJson(value)).toList(growable: true == growable);
+      : json.map((dynamic value) => MapTest.fromJson(value)).toList(growable: growable);
 
   static Map<String, MapTest> mapFromJson(Map<String, dynamic> json) {
     final map = <String, MapTest>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) => map[key] = MapTest.fromJson(value));
     }
     return map;
@@ -95,7 +87,7 @@ class MapTest {
   // maps a json object with a list of MapTest-objects as value to a dart map
   static Map<String, List<MapTest>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<MapTest>>{};
-    if (json?.isNotEmpty == true) {
+    if (json.isNotEmpty) {
       json.forEach((key, value) {
         map[key] = MapTest.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
       });
