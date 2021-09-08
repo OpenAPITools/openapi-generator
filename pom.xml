@@ -1227,8 +1227,6 @@
                 <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
-                <module>samples/openapi3/client/petstore/python</module>
-                <module>samples/openapi3/client/petstore/python-legacy</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1300,6 +1298,21 @@
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/scala-finch</module>
                 <!--<module>samples/server/petstore/kotlin/vertx</module>-->
+            </modules>
+        </profile>
+        <!-- node 3 tests in CircleCI -->
+        <profile>
+            <id>samples.circleci.node3</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.circleci.node3</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <module>samples/openapi3/client/petstore/python</module>
+                <module>samples/openapi3/client/petstore/python-legacy</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->

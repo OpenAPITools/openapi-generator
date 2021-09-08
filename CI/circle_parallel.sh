@@ -43,6 +43,11 @@ elif [ "$NODE_INDEX" = "2" ]; then
 
   # run integration tests
   mvn --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+elif [ "$NODE_INDEX" = "3" ]; then
+
+  echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
   #sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
