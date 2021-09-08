@@ -7,6 +7,8 @@
 * [Whale](Whale.md)
 * [Zebra](Zebra.md)
 
+NOTE: this class is nullable.
+
 ## Example
 ```java
 // Import classes:

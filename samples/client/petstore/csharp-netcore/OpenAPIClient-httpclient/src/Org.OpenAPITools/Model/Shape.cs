@@ -37,15 +37,24 @@ namespace Org.OpenAPITools.Model
     public partial class Shape : AbstractOpenAPISchema, IEquatable<Shape>, IValidatableObject
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Shape" /> class.
+        /// </summary>
+        public Shape()
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Shape" /> class
         /// with the <see cref="Quadrilateral" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Quadrilateral.</param>
         public Shape(Quadrilateral actualInstance)
         {
-            this.IsNullable = false;
+            this.IsNullable = true;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -55,9 +64,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of Triangle.</param>
         public Shape(Triangle actualInstance)
         {
-            this.IsNullable = false;
+            this.IsNullable = true;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.ActualInstance = actualInstance;
         }
 
 

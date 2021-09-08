@@ -119,7 +119,7 @@ public class GmFruit extends AbstractOpenApiSchema {
          */
         @Override
         public GmFruit getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "GmFruit cannot be null");
+            return null;
         }
     }
 
@@ -127,16 +127,16 @@ public class GmFruit extends AbstractOpenApiSchema {
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public GmFruit() {
-        super("anyOf", Boolean.FALSE);
+        super("anyOf", Boolean.TRUE);
     }
 
     public GmFruit(Apple o) {
-        super("anyOf", Boolean.FALSE);
+        super("anyOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
     public GmFruit(Banana o) {
-        super("anyOf", Boolean.FALSE);
+        super("anyOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
@@ -163,6 +163,11 @@ public class GmFruit extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
         if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;

@@ -126,6 +126,7 @@ public class Pig extends AbstractOpenApiSchema {
                         attemptParsing |= ((BasquePig.class.equals(Float.class) || BasquePig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (BasquePig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (BasquePig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -152,6 +153,7 @@ public class Pig extends AbstractOpenApiSchema {
                         attemptParsing |= ((DanishPig.class.equals(Float.class) || DanishPig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (DanishPig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (DanishPig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -180,7 +182,7 @@ public class Pig extends AbstractOpenApiSchema {
          */
         @Override
         public Pig getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "Pig cannot be null");
+            return null;
         }
     }
 
@@ -188,7 +190,7 @@ public class Pig extends AbstractOpenApiSchema {
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public Pig() {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
     }
   /**
    * A container for additional, undeclared properties.
@@ -241,12 +243,12 @@ public class Pig extends AbstractOpenApiSchema {
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
     public Pig(BasquePig o) {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
     public Pig(DanishPig o) {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
@@ -279,6 +281,11 @@ public class Pig extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
         if (JSON.isInstanceOf(BasquePig.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;

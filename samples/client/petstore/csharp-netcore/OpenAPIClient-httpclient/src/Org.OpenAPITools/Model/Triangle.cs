@@ -37,15 +37,24 @@ namespace Org.OpenAPITools.Model
     public partial class Triangle : AbstractOpenAPISchema, IEquatable<Triangle>, IValidatableObject
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Triangle" /> class.
+        /// </summary>
+        public Triangle()
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class
         /// with the <see cref="EquilateralTriangle" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of EquilateralTriangle.</param>
         public Triangle(EquilateralTriangle actualInstance)
         {
-            this.IsNullable = false;
+            this.IsNullable = true;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -55,9 +64,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of IsoscelesTriangle.</param>
         public Triangle(IsoscelesTriangle actualInstance)
         {
-            this.IsNullable = false;
+            this.IsNullable = true;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -67,9 +76,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of ScaleneTriangle.</param>
         public Triangle(ScaleneTriangle actualInstance)
         {
-            this.IsNullable = false;
+            this.IsNullable = true;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.ActualInstance = actualInstance;
         }
 
 

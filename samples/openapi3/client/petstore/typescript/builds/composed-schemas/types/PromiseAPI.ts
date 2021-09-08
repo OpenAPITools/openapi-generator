@@ -32,18 +32,18 @@ export class PromiseDefaultApi {
     }
 
     /**
-     * @param petByAgePetByType 
+     * @param UNKNOWN_BASE_TYPE 
      */
-    public petsFilteredPatch(petByAgePetByType?: PetByAge | PetByType, _options?: Configuration): Promise<void> {
-        const result = this.api.petsFilteredPatch(petByAgePetByType, _options);
+    public petsFilteredPatch(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, _options?: Configuration): Promise<void> {
+        const result = this.api.petsFilteredPatch(UNKNOWN_BASE_TYPE, _options);
         return result.toPromise();
     }
 
     /**
-     * @param catDog 
+     * @param UNKNOWN_BASE_TYPE 
      */
-    public petsPatch(catDog?: Cat | Dog, _options?: Configuration): Promise<void> {
-        const result = this.api.petsPatch(catDog, _options);
+    public petsPatch(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, _options?: Configuration): Promise<void> {
+        const result = this.api.petsPatch(UNKNOWN_BASE_TYPE, _options);
         return result.toPromise();
     }
 

@@ -37,15 +37,24 @@ namespace Org.OpenAPITools.Model
     public partial class Mammal : AbstractOpenAPISchema, IEquatable<Mammal>, IValidatableObject
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Mammal" /> class.
+        /// </summary>
+        public Mammal()
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class
         /// with the <see cref="Pig" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Pig.</param>
         public Mammal(Pig actualInstance)
         {
-            this.IsNullable = false;
+            this.IsNullable = true;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -55,9 +64,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of Whale.</param>
         public Mammal(Whale actualInstance)
         {
-            this.IsNullable = false;
+            this.IsNullable = true;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -67,9 +76,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of Zebra.</param>
         public Mammal(Zebra actualInstance)
         {
-            this.IsNullable = false;
+            this.IsNullable = true;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.ActualInstance = actualInstance;
         }
 
 

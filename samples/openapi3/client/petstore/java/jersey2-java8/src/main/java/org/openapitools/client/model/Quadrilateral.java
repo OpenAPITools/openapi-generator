@@ -126,6 +126,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                         attemptParsing |= ((ComplexQuadrilateral.class.equals(Float.class) || ComplexQuadrilateral.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (ComplexQuadrilateral.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (ComplexQuadrilateral.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -152,6 +153,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                         attemptParsing |= ((SimpleQuadrilateral.class.equals(Float.class) || SimpleQuadrilateral.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (SimpleQuadrilateral.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (SimpleQuadrilateral.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -180,7 +182,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
          */
         @Override
         public Quadrilateral getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "Quadrilateral cannot be null");
+            return null;
         }
     }
 
@@ -188,7 +190,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public Quadrilateral() {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
     }
   /**
    * A container for additional, undeclared properties.
@@ -241,12 +243,12 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
     public Quadrilateral(ComplexQuadrilateral o) {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
     public Quadrilateral(SimpleQuadrilateral o) {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
@@ -279,6 +281,11 @@ public class Quadrilateral extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
         if (JSON.isInstanceOf(ComplexQuadrilateral.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;

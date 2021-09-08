@@ -126,6 +126,7 @@ public class Shape extends AbstractOpenApiSchema {
                         attemptParsing |= ((Quadrilateral.class.equals(Float.class) || Quadrilateral.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (Quadrilateral.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (Quadrilateral.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -152,6 +153,7 @@ public class Shape extends AbstractOpenApiSchema {
                         attemptParsing |= ((Triangle.class.equals(Float.class) || Triangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (Triangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (Triangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -180,7 +182,7 @@ public class Shape extends AbstractOpenApiSchema {
          */
         @Override
         public Shape getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "Shape cannot be null");
+            return null;
         }
     }
 
@@ -188,7 +190,7 @@ public class Shape extends AbstractOpenApiSchema {
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public Shape() {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
     }
   /**
    * A container for additional, undeclared properties.
@@ -241,12 +243,12 @@ public class Shape extends AbstractOpenApiSchema {
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
     public Shape(Quadrilateral o) {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
     public Shape(Triangle o) {
-        super("oneOf", Boolean.FALSE);
+        super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }
 
@@ -279,6 +281,11 @@ public class Shape extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
         if (JSON.isInstanceOf(Quadrilateral.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;

@@ -333,7 +333,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    composed_one_of_number_with_validations = ComposedOneOfNumberWithValidations() # ComposedOneOfNumberWithValidations | Input model (optional)
+    composed_one_of_number_with_validations = ComposedOneOfNumberWithValidations(None) # ComposedOneOfNumberWithValidations | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -609,11 +609,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    mammal = Mammal(
-        has_baleen=True,
-        has_teeth=True,
-        class_name="whale",
-    ) # Mammal | Input mammal
+    mammal = Mammal(None) # Mammal | Input mammal
 
     # example passing only required values which don't have defaults set
     try:

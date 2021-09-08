@@ -6,6 +6,8 @@
 * [ComplexQuadrilateral](ComplexQuadrilateral.md)
 * [SimpleQuadrilateral](SimpleQuadrilateral.md)
 
+NOTE: this class is nullable.
+
 ## Example
 ```java
 // Import classes:
