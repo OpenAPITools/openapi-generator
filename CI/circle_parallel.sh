@@ -46,6 +46,10 @@ elif [ "$NODE_INDEX" = "2" ]; then
 elif [ "$NODE_INDEX" = "3" ]; then
 
   echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
+  sudo apt install software-properties-common
+  sudo apt-get update
+  sudo apt install python3.8
+
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 else
