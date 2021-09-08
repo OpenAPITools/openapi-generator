@@ -2439,11 +2439,16 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlName = schema.getXml().getName();
         }
         if (!ModelUtils.isAnyType(schema) && !ModelUtils.isTypeObjectSchema(schema) && !ModelUtils.isArraySchema(schema) &&  schema.get$ref() == null && schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+            // TODO remove the anyType check here in the future ANyType models can have enums defined
             m.isEnum = true;
             // comment out below as allowableValues is not set in post processing model enum
             m.allowableValues = new HashMap<String, Object>();
             m.allowableValues.put("values", schema.getEnum());
         }
+        if (!ModelUtils.isArraySchema(schema)) {
+            m.dataType = getSchemaType(schema);
+        }
+
         if (ModelUtils.isAnyType(schema)) {
             // The 'null' value is allowed when the OAS schema is 'any type'.
             // See https://github.com/OAI/OpenAPI-Specification/issues/1389
@@ -2661,7 +2666,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
             // end of code block for composed schema
         } else {
-            m.dataType = getSchemaType(schema);
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
                 m.isMap = true;
