@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -20,18 +20,18 @@ class Capitalization {
     this.ATT_NAME,
   });
 
-  String smallCamel;
+  String? smallCamel;
 
-  String capitalCamel;
+  String? capitalCamel;
 
-  String smallSnake;
+  String? smallSnake;
 
-  String capitalSnake;
+  String? capitalSnake;
 
-  String sCAETHFlowPoints;
+  String? sCAETHFlowPoints;
 
   /// Name of the pet 
-  String ATT_NAME;
+  String? ATT_NAME;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -11,7 +11,7 @@ part of openapi.api;
 
 
 class AnotherFakeApi {
-  AnotherFakeApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+  AnotherFakeApi(ApiClient apiClient) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
@@ -26,14 +26,10 @@ class AnotherFakeApi {
   /// * [ModelClient] modelClient (required):
   ///   client model
   Future<Response> call123testSpecialTagsWithHttpInfo(ModelClient modelClient) async {
-    // Verify required params are set.
-    if (modelClient == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: modelClient');
-    }
 
     final path = r'/another-fake/dummy';
 
-    Object postBody = modelClient;
+    Object? postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};

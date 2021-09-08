@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -16,9 +16,9 @@ class AdditionalPropertiesClass {
     this.mapOfMapProperty = const {},
   });
 
-  Map<String, String> mapProperty;
+  Map<String, String>? mapProperty;
 
-  Map<String, Map<String, String>> mapOfMapProperty;
+  Map<String, Map<String, String>>? mapOfMapProperty;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&

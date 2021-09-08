@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -20,18 +20,18 @@ class Pet {
     this.status,
   });
 
-  int id;
+  int? id;
 
-  Category category;
+  Category? category;
 
-  String name;
+  String? name;
 
-  Set<String> photoUrls;
+  Set<String>? photoUrls;
 
-  List<Tag> tags;
+  List<Tag>? tags;
 
   /// pet status in the store
-  PetStatusEnum status;
+  PetStatusEnum? status;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Pet &&

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -26,29 +26,29 @@ class NullableClass {
     this.objectItemsNullable = const {},
   });
 
-  int integerProp;
+      int? integerProp;
 
-  num numberProp;
+      num? numberProp;
 
-  bool booleanProp;
+      bool? booleanProp;
 
-  String stringProp;
+      String? stringProp;
 
-  DateTime dateProp;
+      DateTime? dateProp;
 
-  DateTime datetimeProp;
+      DateTime? datetimeProp;
 
-  List<Object> arrayNullableProp;
+      List<Object>? arrayNullableProp;
 
-  List<Object> arrayAndItemsNullableProp;
+      List<Object>? arrayAndItemsNullableProp;
 
-  List<Object> arrayItemsNullable;
+  List<Object>? arrayItemsNullable;
 
-  Map<String, Object> objectNullableProp;
+      Map<String, Object>? objectNullableProp;
 
-  Map<String, Object> objectAndItemsNullableProp;
+      Map<String, Object>? objectAndItemsNullableProp;
 
-  Map<String, Object> objectItemsNullable;
+  Map<String, Object>? objectItemsNullable;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is NullableClass &&

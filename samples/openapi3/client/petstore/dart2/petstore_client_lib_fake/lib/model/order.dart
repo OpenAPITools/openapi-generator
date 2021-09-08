@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -20,18 +20,18 @@ class Order {
     this.complete = false,
   });
 
-  int id;
+  int? id;
 
-  int petId;
+  int? petId;
 
-  int quantity;
+  int? quantity;
 
-  DateTime shipDate;
+  DateTime? shipDate;
 
   /// Order Status
-  OrderStatusEnum status;
+  OrderStatusEnum? status;
 
-  bool complete;
+  bool? complete;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&

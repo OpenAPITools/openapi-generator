@@ -13,7 +13,12 @@ class {{{classname}}} {
   // maximum: {{{.}}}
     {{/maximum}}
   {{/isEnum}}
-  {{{datatypeWithEnum}}} {{{name}}};
+  {{^isNullable}}
+  {{{datatypeWithEnum}}}? {{{name}}};
+  {{/isNullable}}
+  {{#isNullable}}
+      {{{datatypeWithEnum}}}? {{{name}}};
+  {{/isNullable}}
 
   {{/vars}}
   @override

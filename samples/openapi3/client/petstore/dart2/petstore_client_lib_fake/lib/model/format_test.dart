@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -32,47 +32,47 @@ class FormatTest {
 
   // minimum: 10
   // maximum: 100
-  int integer;
+  int? integer;
 
   // minimum: 20
   // maximum: 200
-  int int32;
+  int? int32;
 
-  int int64;
+  int? int64;
 
   // minimum: 32.1
   // maximum: 543.2
-  num number;
+  num? number;
 
   // minimum: 54.3
   // maximum: 987.6
-  double float;
+  double? float;
 
   // minimum: 67.8
   // maximum: 123.4
-  double double_;
+  double? double_;
 
-  double decimal;
+  double? decimal;
 
-  String string;
+  String? string;
 
-  String byte;
+  String? byte;
 
-  MultipartFile binary;
+  MultipartFile? binary;
 
-  DateTime date;
+  DateTime? date;
 
-  DateTime dateTime;
+  DateTime? dateTime;
 
-  String uuid;
+  String? uuid;
 
-  String password;
+  String? password;
 
   /// A string that is a 10 digit number. Can have leading zeros.
-  String patternWithDigits;
+  String? patternWithDigits;
 
   /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
-  String patternWithDigitsAndDelimiter;
+  String? patternWithDigitsAndDelimiter;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FormatTest &&

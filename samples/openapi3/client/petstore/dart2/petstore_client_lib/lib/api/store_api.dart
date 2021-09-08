@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -11,7 +11,7 @@ part of openapi.api;
 
 
 class StoreApi {
-  StoreApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+  StoreApi(ApiClient apiClient) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
@@ -26,15 +26,11 @@ class StoreApi {
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
   Future<Response> deleteOrderWithHttpInfo(String orderId) async {
-    // Verify required params are set.
-    if (orderId == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
-    }
 
     final path = r'/store/order/{orderId}'
       .replaceAll('{' + 'orderId' + '}', orderId.toString());
 
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -80,7 +76,7 @@ class StoreApi {
   Future<Response> getInventoryWithHttpInfo() async {
     final path = r'/store/inventory';
 
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -131,15 +127,11 @@ class StoreApi {
   /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
   Future<Response> getOrderByIdWithHttpInfo(int orderId) async {
-    // Verify required params are set.
-    if (orderId == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
-    }
 
     final path = r'/store/order/{orderId}'
       .replaceAll('{' + 'orderId' + '}', orderId.toString());
 
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -193,14 +185,10 @@ class StoreApi {
   /// * [Order] order (required):
   ///   order placed for purchasing the pet
   Future<Response> placeOrderWithHttpInfo(Order order) async {
-    // Verify required params are set.
-    if (order == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: order');
-    }
 
     final path = r'/store/order';
 
-    Object postBody = order;
+    Object? postBody = order;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};

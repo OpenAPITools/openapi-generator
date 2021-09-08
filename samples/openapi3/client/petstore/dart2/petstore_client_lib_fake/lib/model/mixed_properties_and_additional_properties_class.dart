@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -17,11 +17,11 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = const {},
   });
 
-  String uuid;
+  String? uuid;
 
-  DateTime dateTime;
+  DateTime? dateTime;
 
-  Map<String, Animal> map;
+  Map<String, Animal>? map;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&

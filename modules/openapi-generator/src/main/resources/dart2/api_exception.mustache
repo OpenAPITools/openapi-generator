@@ -7,14 +7,11 @@ class ApiException implements Exception {
 
   int code = 0;
   String message;
-  Exception innerException;
-  StackTrace stackTrace;
+  Exception? innerException;
+  StackTrace? stackTrace;
 
   @override
   String toString() {
-    if (message == null) {
-      return 'ApiException';
-    }
     if (innerException == null) {
       return 'ApiException $code: $message';
     }

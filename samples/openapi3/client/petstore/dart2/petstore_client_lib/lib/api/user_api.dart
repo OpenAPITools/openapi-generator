@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -11,7 +11,7 @@ part of openapi.api;
 
 
 class UserApi {
-  UserApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+  UserApi(ApiClient apiClient) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
@@ -26,14 +26,10 @@ class UserApi {
   /// * [User] user (required):
   ///   Created user object
   Future<Response> createUserWithHttpInfo(User user) async {
-    // Verify required params are set.
-    if (user == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
-    }
 
     final path = r'/user';
 
-    Object postBody = user;
+    Object? postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -80,14 +76,10 @@ class UserApi {
   /// * [List<User>] user (required):
   ///   List of user object
   Future<Response> createUsersWithArrayInputWithHttpInfo(List<User> user) async {
-    // Verify required params are set.
-    if (user == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
-    }
 
     final path = r'/user/createWithArray';
 
-    Object postBody = user;
+    Object? postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -132,14 +124,10 @@ class UserApi {
   /// * [List<User>] user (required):
   ///   List of user object
   Future<Response> createUsersWithListInputWithHttpInfo(List<User> user) async {
-    // Verify required params are set.
-    if (user == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
-    }
 
     final path = r'/user/createWithList';
 
-    Object postBody = user;
+    Object? postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -186,15 +174,11 @@ class UserApi {
   /// * [String] username (required):
   ///   The name that needs to be deleted
   Future<Response> deleteUserWithHttpInfo(String username) async {
-    // Verify required params are set.
-    if (username == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
-    }
 
     final path = r'/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -241,15 +225,11 @@ class UserApi {
   /// * [String] username (required):
   ///   The name that needs to be fetched. Use user1 for testing.
   Future<Response> getUserByNameWithHttpInfo(String username) async {
-    // Verify required params are set.
-    if (username == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
-    }
 
     final path = r'/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -304,17 +284,10 @@ class UserApi {
   /// * [String] password (required):
   ///   The password for login in clear text
   Future<Response> loginUserWithHttpInfo(String username, String password) async {
-    // Verify required params are set.
-    if (username == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
-    }
-    if (password == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: password');
-    }
 
     final path = r'/user/login';
 
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -369,7 +342,7 @@ class UserApi {
   Future<Response> logoutUserWithHttpInfo() async {
     final path = r'/user/logout';
 
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -414,18 +387,11 @@ class UserApi {
   /// * [User] user (required):
   ///   Updated user object
   Future<Response> updateUserWithHttpInfo(String username, User user) async {
-    // Verify required params are set.
-    if (username == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
-    }
-    if (user == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
-    }
 
     final path = r'/user/{username}'
       .replaceAll('{' + 'username' + '}', username.toString());
 
-    Object postBody = user;
+    Object? postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};

@@ -3,7 +3,7 @@
 {{#operations}}
 
 class {{{classname}}} {
-  {{{classname}}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+  {{{classname}}}(ApiClient apiClient) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
   {{#operation}}
@@ -49,22 +49,14 @@ class {{{classname}}} {
   ///
     {{/-last}}
   {{/allParams}}
-  Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}}? {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
   {{#hasParams}}
-    // Verify required params are set.
-    {{#allParams}}
-      {{#required}}
-    if ({{{paramName}}} == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: {{{paramName}}}');
-    }
-      {{/required}}
-    {{/allParams}}
 
   {{/hasParams}}
     final path = r'{{{path}}}'{{#pathParams}}
       .replaceAll('{' + '{{{baseName}}}' + '}', {{{paramName}}}.toString()){{/pathParams}};
 
-    Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
+    Object? postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -173,7 +165,7 @@ class {{{classname}}} {
   ///
     {{/-last}}
   {{/allParams}}
-  Future<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  Future<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}}? {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));

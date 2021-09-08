@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -11,7 +11,7 @@ part of openapi.api;
 
 
 class DefaultApi {
-  DefaultApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+  DefaultApi(ApiClient apiClient) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
@@ -19,7 +19,7 @@ class DefaultApi {
   Future<Response> fooGetWithHttpInfo() async {
     final path = r'/foo';
 
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
