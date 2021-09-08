@@ -24,9 +24,10 @@ export class {{classname}}Resource {
     /**
      * {{summary}}
      * {{notes}}
-     {{#allParams}}* @param {{paramName}} {{description}}
-     {{/allParams}}*/
-    public {{nickname}}({{#allParams}}{{^isQueryParam}}{{^isCookieParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isCookieParam}}{{/isQueryParam}}{{/allParams}}{{#hasQueryParams}}query?: { {{#queryParams}}{{#lambda.snakecase_param}}{{paramName}}{{/lambda.snakecase_param}}{{^required}}?{{/required}}: {{{dataType}}}{{^-last}},{{/-last}} {{/queryParams}}}, {{/hasQueryParams}}axiosConfig?: AxiosRequestConfig): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
+     {{#allParams}}{{^isCookieParam}}{{^isHeaderParam}}* @param {{paramName}} {{description}}
+     {{/isHeaderParam}}{{/isCookieParam}}{{/allParams}}
+     */
+    public {{nickname}}({{#allParams}}{{^isQueryParam}}{{^isCookieParam}}{{^isHeaderParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isHeaderParam}}{{/isCookieParam}}{{/isQueryParam}}{{/allParams}}{{#hasQueryParams}}query?: { {{#queryParams}}{{#lambda.snakecase_param}}{{paramName}}{{/lambda.snakecase_param}}{{^required}}?{{/required}}: {{{dataType}}}{{^-last}},{{/-last}} {{/queryParams}}}, {{/hasQueryParams}}axiosConfig?: AxiosRequestConfig): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}> {
         const reqPath = '{{path}}'{{#pathParams}}
                     .replace('{' + '{{baseName}}}', String({{paramName}}{{#isDateTime}}.toISOString(){{/isDateTime}})){{/pathParams}};
 {{#hasFormParams}}
