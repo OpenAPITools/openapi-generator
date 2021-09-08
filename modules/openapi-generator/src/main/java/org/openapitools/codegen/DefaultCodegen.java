@@ -3311,6 +3311,31 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void updatePropertyForString(CodegenProperty property, Schema p) {
+        if (ModelUtils.isByteArraySchema(p)) {
+            property.isByteArray = true;
+        } else if (ModelUtils.isBinarySchema(p)) {
+            property.isBinary = true;
+            property.isFile = true; // file = binary in OAS3
+        } else if (ModelUtils.isFileSchema(p)) {
+            property.isFile = true;
+        } else if (ModelUtils.isUUIDSchema(p)) {
+            property.isUuid = true;
+        } else if (ModelUtils.isURISchema(p)) {
+            property.isUri = true;
+        } else if (ModelUtils.isEmailSchema(p)) {
+            property.isEmail = true;
+        } else if (ModelUtils.isDateSchema(p)) { // date format
+            property.isDate = true;
+        } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
+            property.isDateTime = true;
+        } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
+            property.isDecimal = true;
+            property.setIsString(false);
+        }
+        property.pattern = toRegularExpression(p.getPattern());
+    }
+
     /**
      * Convert OAS Property object to Codegen Property object.
      *
@@ -3468,28 +3493,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
             property.getter = toBooleanGetter(name);
         } else if (ModelUtils.isStringSchema(p)) {
-            if (ModelUtils.isByteArraySchema(p)) {
-                property.isByteArray = true;
-            } else if (ModelUtils.isBinarySchema(p)) {
-                property.isBinary = true;
-                property.isFile = true; // file = binary in OAS3
-            } else if (ModelUtils.isFileSchema(p)) {
-                property.isFile = true;
-            } else if (ModelUtils.isUUIDSchema(p)) {
-                property.isUuid = true;
-            } else if (ModelUtils.isURISchema(p)) {
-                property.isUri = true;
-            } else if (ModelUtils.isEmailSchema(p)) {
-                property.isEmail = true;
-            } else if (ModelUtils.isDateSchema(p)) { // date format
-                property.isDate = true;
-            } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
-                property.isDateTime = true;
-            } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
-                property.isDecimal = true;
-                property.setIsString(false);
-            }
-            property.pattern = toRegularExpression(p.getPattern());
+            updatePropertyForString(property, p);
         } else if (ModelUtils.isNumberSchema(p)) {
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isFloatSchema(p)) { // float
