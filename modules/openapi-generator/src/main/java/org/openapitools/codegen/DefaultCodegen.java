@@ -2654,12 +2654,6 @@ public class DefaultCodegen implements CodegenConfig {
             m.isNullable = Boolean.TRUE;
         }
 
-        if (!ModelUtils.isArraySchema(schema) && !ModelUtils.isNullType(schema) && !(schema instanceof ComposedSchema)){
-            // passing null to allProperties and allRequired as there's no parent
-            // TODO move this below
-            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
-        }
-
         if (ModelUtils.isArraySchema(schema)) {
             m.isArray = true;
             CodegenProperty arrayProperty = fromProperty(name, schema);
@@ -2718,7 +2712,15 @@ public class DefaultCodegen implements CodegenConfig {
                 addAdditionPropertiesToCodeGenModel(m, schema);
                 m.isMap = true;
             }
+            if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+                // passing null to allProperties and allRequired as there's no parent
+                addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+            }
         } else if (ModelUtils.isTypeObjectSchema(schema)) {
+            if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+                // passing null to allProperties and allRequired as there's no parent
+                addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+            }
             if (ModelUtils.isMapSchema(schema)) {
                 // an object or anyType composed schema that has additionalProperties set
                 addAdditionPropertiesToCodeGenModel(m, schema);
