@@ -2,14 +2,32 @@
 
 import sys
 import unittest
-
+import importlib
 import {{packageName}}
 {{#models}}
 {{#model}}
-{{#imports}}
-{{{.}}}
-{{/imports}}
 from {{modelPackage}}.{{classFilename}} import {{classname}}
+from {{packageName}}.model_utils import parse as dateutil_parser
+
+# Recursive lazy imports
+def recursive_import(classObject, imports=dict(), recursedList=list()):
+    if classObject.__name__ in recursedList:
+        return
+    recursedList.append(classObject.__name__)
+    class_mod = importlib.import_module(classObject.__module__)
+    if hasattr(class_mod, 'lazy_import'):
+        imports.update(class_mod.lazy_import())
+        old_imports = dict(imports)
+        for import_class_name, import_class_object in old_imports.items():
+            recursive_import(import_class_object, imports=imports, recursedList=recursedList)
+    return imports
+
+
+imports = recursive_import({{classname}})
+print(imports)
+globals().update(imports)
+
+
 
 
 class Test{{classname}}(unittest.TestCase):
@@ -20,12 +38,46 @@ class Test{{classname}}(unittest.TestCase):
 
     def tearDown(self):
         pass
+{{^interfaces}}
+
+    def make_instance(self, include_optional):
+        """Test {{classname}}
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # model = {{packageName}}.models.{{classFilename}}.{{classname}}()  # noqa: E501
+        if include_optional :
+            return {{classname}}(
+{{#vars}}
+                {{^isReadOnly}}
+                {{name}} = {{#example}}{{{.}}}{{/example}}{{^example}}None{{/example}}{{^-last}}, {{/-last}}
+                {{/isReadOnly}}
+{{/vars}}
+            )
+        else :
+            return {{classname}}(
+{{#vars}}
+{{#required}}
+                {{^isReadOnly}}
+                {{name}} = {{#example}}{{{.}}}{{/example}}{{^example}}None{{/example}},
+                {{/isReadOnly}}
+{{/required}}
+{{/vars}}
+        )
+{{/interfaces}}
 
     def test{{classname}}(self):
         """Test {{classname}}"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = {{classname}}()  # noqa: E501
-        pass
+{{^interfaces}}
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
+{{/interfaces}}
+{{#interfaces}}
+{{#-last}}
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
+{{/-last}}
+{{/interfaces}}
 
 {{/model}}
 {{/models}}

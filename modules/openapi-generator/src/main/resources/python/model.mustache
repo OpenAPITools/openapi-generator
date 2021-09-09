@@ -25,9 +25,17 @@ from {{packageName}}.exceptions import ApiAttributeError
 {{#imports}}
 {{#-first}}
 
-def lazy_import():
-{{/-first}}
+def lazy_import(zzz_class_name_to_class=dict()):
     {{{.}}}
+{{/-first}}
+{{^-first}}
+{{^-last}}
+    {{{.}}}
+{{/-last}}
+{{/-first}}
+{{#-last}}
+    {{{.}}}
+return zzz_class_name_to_class{{/-last}}
 {{/imports}}
 
 

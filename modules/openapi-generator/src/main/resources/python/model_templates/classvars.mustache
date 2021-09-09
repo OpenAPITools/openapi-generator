@@ -69,10 +69,10 @@
         """
 {{#imports}}
 {{#-first}}
-        lazy_import()
+        class_name_to_class = lazy_import()
 {{/-first}}
 {{/imports}}
-        return ({{{dataType}}},)  # noqa: E501
+        return (class_name_to_class['{{{classname}}}'],)  # noqa: E501
 {{/additionalProperties}}
 {{^additionalProperties}}
     additional_properties_type = None
@@ -92,24 +92,24 @@
         """
 {{#imports}}
 {{#-first}}
-        lazy_import()
+        class_name_to_class = lazy_import()
 {{/-first}}
 {{/imports}}
         return {
 {{#isAlias}}
-            'value': ({{{dataType}}},),
+            'value': (class_name_to_class['{{{classname}}}'],),
 {{/isAlias}}
 {{#isEnum}}
-            'value': ({{{dataType}}},),
+            'value': (class_name_to_class['{{{classname}}}'],),
 {{/isEnum}}
 {{#isArray}}
-            'value': ({{{dataType}}},),
+            'value': (class_name_to_class['{{{classname}}}'],),
 {{/isArray}}
 {{#requiredVars}}
-            '{{name}}': ({{{dataType}}},),  # noqa: E501
+            '{{name}}': (class_name_to_class['{{{classname}}}'],),  # noqa: E501
 {{/requiredVars}}
 {{#optionalVars}}
-            '{{name}}': ({{{dataType}}},),  # noqa: E501
+            '{{name}}': (class_name_to_class['{{{classname}}}'],),  # noqa: E501
 {{/optionalVars}}
         }
 
@@ -123,14 +123,14 @@
 {{#-first}}
 {{#imports}}
 {{#-first}}
-        lazy_import()
+        class_name_to_class = lazy_import()
 {{/-first}}
 {{/imports}}
 {{/-first}}
 {{/mappedModels}}
         val = {
 {{#mappedModels}}
-            '{{mappingName}}': {{{modelName}}},
+            '{{mappingName}}': class_name_to_class['{{{classname}}}'],
 {{/mappedModels}}
         }
         if not val:

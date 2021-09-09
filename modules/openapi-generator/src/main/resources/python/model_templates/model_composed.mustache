@@ -52,7 +52,7 @@ class {{classname}}(ModelComposed):
         # loading
 {{#imports}}
 {{#-first}}
-        lazy_import()
+        class_name_to_class = lazy_import()
 {{/-first}}
 {{/imports}}
         return {

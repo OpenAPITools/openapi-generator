@@ -48,6 +48,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonClientCodegen extends PythonLegacyClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
@@ -409,7 +410,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                         cm.imports.clear();
                         for (String importModelName : importModelNames) {
                             cm.imports.add(toModelImport(importModelName));
-                            String globalImportFixer = "globals()['" + importModelName + "'] = " + importModelName;
+                            String globalImportFixer = "zzz_class_name_to_class['" + importModelName + "'] = " + importModelName;
                             cm.imports.add(globalImportFixer);
                         }
                     }
@@ -1104,8 +1105,23 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 }
             }
         }
+        // place enum code here - AC 20210822
 
-        if (null != schema.get$ref()) {
+        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+            // Enum case:
+            example = schema.getEnum().get(0).toString();
+            if (ModelUtils.isStringSchema(schema)) {
+                // Wrapping the example a double quote here to address the MapSchema Enum case
+                example = "\"" + escapeText(example) + "\"";
+            }
+            if (null == example)
+                LOGGER.warn("Empty enum. Cannot built an example!");
+
+            // Now we add the prefix
+            example = fullPrefix + example;
+
+            return example;
+        } else if (null != schema.get$ref()) {
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
             String ref = ModelUtils.getSimpleRef(schema.get$ref());
             Schema refSchema = allDefinitions.get(ref);
