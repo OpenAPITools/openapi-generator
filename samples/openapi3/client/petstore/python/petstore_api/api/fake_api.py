@@ -451,7 +451,6 @@ class FakeApi(object):
                     'mammal',
                 ],
                 'nullable': [
-                    'mammal',
                 ],
                 'enum': [
                 ],
@@ -596,7 +595,6 @@ class FakeApi(object):
                 ],
                 'required': [],
                 'nullable': [
-                    'composed_one_of_number_with_validations',
                 ],
                 'enum': [
                 ],

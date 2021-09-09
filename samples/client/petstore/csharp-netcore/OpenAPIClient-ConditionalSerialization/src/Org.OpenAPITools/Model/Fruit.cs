@@ -35,24 +35,15 @@ namespace Org.OpenAPITools.Model
     public partial class Fruit : AbstractOpenAPISchema, IEquatable<Fruit>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fruit" /> class.
-        /// </summary>
-        public Fruit()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class
         /// with the <see cref="Apple" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Apple.</param>
         public Fruit(Apple actualInstance)
         {
-            this.IsNullable = true;
+            this.IsNullable = false;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance;
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
@@ -62,9 +53,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of Banana.</param>
         public Fruit(Banana actualInstance)
         {
-            this.IsNullable = true;
+            this.IsNullable = false;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance;
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
 

@@ -7,8 +7,6 @@
 * [IsoscelesTriangle](IsoscelesTriangle.md)
 * [ScaleneTriangle](ScaleneTriangle.md)
 
-NOTE: this class is nullable.
-
 ## Example
 ```java
 // Import classes:

@@ -6,8 +6,6 @@
 * [Apple](Apple.md)
 * [Banana](Banana.md)
 
-NOTE: this class is nullable.
-
 ## Example
 ```java
 // Import classes:

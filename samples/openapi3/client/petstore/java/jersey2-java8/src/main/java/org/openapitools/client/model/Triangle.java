@@ -131,7 +131,6 @@ public class Triangle extends AbstractOpenApiSchema {
                         attemptParsing |= ((EquilateralTriangle.class.equals(Float.class) || EquilateralTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (EquilateralTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (EquilateralTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -158,7 +157,6 @@ public class Triangle extends AbstractOpenApiSchema {
                         attemptParsing |= ((IsoscelesTriangle.class.equals(Float.class) || IsoscelesTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (IsoscelesTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (IsoscelesTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -185,7 +183,6 @@ public class Triangle extends AbstractOpenApiSchema {
                         attemptParsing |= ((ScaleneTriangle.class.equals(Float.class) || ScaleneTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (ScaleneTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (ScaleneTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -214,7 +211,7 @@ public class Triangle extends AbstractOpenApiSchema {
          */
         @Override
         public Triangle getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            return null;
+            throw new JsonMappingException(ctxt.getParser(), "Triangle cannot be null");
         }
     }
 
@@ -222,7 +219,7 @@ public class Triangle extends AbstractOpenApiSchema {
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public Triangle() {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
     }
   /**
    * A container for additional, undeclared properties.
@@ -275,17 +272,17 @@ public class Triangle extends AbstractOpenApiSchema {
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
     public Triangle(EquilateralTriangle o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     public Triangle(IsoscelesTriangle o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     public Triangle(ScaleneTriangle o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
@@ -321,11 +318,6 @@ public class Triangle extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance == null) {
-           super.setActualInstance(instance);
-           return;
-        }
-
         if (JSON.isInstanceOf(EquilateralTriangle.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;

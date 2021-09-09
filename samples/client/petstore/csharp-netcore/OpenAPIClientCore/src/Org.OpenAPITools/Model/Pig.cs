@@ -36,24 +36,15 @@ namespace Org.OpenAPITools.Model
     public partial class Pig : AbstractOpenAPISchema, IEquatable<Pig>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Pig" /> class.
-        /// </summary>
-        public Pig()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class
         /// with the <see cref="BasquePig" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of BasquePig.</param>
         public Pig(BasquePig actualInstance)
         {
-            this.IsNullable = true;
+            this.IsNullable = false;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance;
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
@@ -63,9 +54,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of DanishPig.</param>
         public Pig(DanishPig actualInstance)
         {
-            this.IsNullable = true;
+            this.IsNullable = false;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance;
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
 

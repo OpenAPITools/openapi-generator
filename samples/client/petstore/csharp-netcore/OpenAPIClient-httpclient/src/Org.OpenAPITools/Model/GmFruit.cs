@@ -35,24 +35,15 @@ namespace Org.OpenAPITools.Model
     public partial class GmFruit : AbstractOpenAPISchema, IEquatable<GmFruit>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GmFruit" /> class.
-        /// </summary>
-        public GmFruit()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "anyOf";
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GmFruit" /> class
         /// with the <see cref="Apple" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of Apple.</param>
         public GmFruit(Apple actualInstance)
         {
-            this.IsNullable = true;
+            this.IsNullable = false;
             this.SchemaType= "anyOf";
-            this.ActualInstance = actualInstance;
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
@@ -62,9 +53,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of Banana.</param>
         public GmFruit(Banana actualInstance)
         {
-            this.IsNullable = true;
+            this.IsNullable = false;
             this.SchemaType= "anyOf";
-            this.ActualInstance = actualInstance;
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
 

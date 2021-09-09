@@ -36,24 +36,15 @@ namespace Org.OpenAPITools.Model
     public partial class Quadrilateral : AbstractOpenAPISchema, IEquatable<Quadrilateral>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
-        /// </summary>
-        public Quadrilateral()
-        {
-            this.IsNullable = true;
-            this.SchemaType= "oneOf";
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class
         /// with the <see cref="ComplexQuadrilateral" /> class
         /// </summary>
         /// <param name="actualInstance">An instance of ComplexQuadrilateral.</param>
         public Quadrilateral(ComplexQuadrilateral actualInstance)
         {
-            this.IsNullable = true;
+            this.IsNullable = false;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance;
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
@@ -63,9 +54,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of SimpleQuadrilateral.</param>
         public Quadrilateral(SimpleQuadrilateral actualInstance)
         {
-            this.IsNullable = true;
+            this.IsNullable = false;
             this.SchemaType= "oneOf";
-            this.ActualInstance = actualInstance;
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
 

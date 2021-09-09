@@ -105,6 +105,6 @@ public class DefaultApi {
 
     return apiClient.invokeAPI("DefaultApi.testPost", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, true);
+                               localVarAuthNames, localVarReturnType, false);
   }
 }

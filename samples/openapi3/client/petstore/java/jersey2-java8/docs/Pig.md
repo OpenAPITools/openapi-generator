@@ -6,8 +6,6 @@
 * [BasquePig](BasquePig.md)
 * [DanishPig](DanishPig.md)
 
-NOTE: this class is nullable.
-
 ## Example
 ```java
 // Import classes:

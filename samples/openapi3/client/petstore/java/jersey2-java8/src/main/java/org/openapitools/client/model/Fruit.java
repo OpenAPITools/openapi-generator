@@ -105,7 +105,6 @@ public class Fruit extends AbstractOpenApiSchema {
                         attemptParsing |= ((Apple.class.equals(Float.class) || Apple.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (Apple.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (Apple.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -132,7 +131,6 @@ public class Fruit extends AbstractOpenApiSchema {
                         attemptParsing |= ((Banana.class.equals(Float.class) || Banana.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (Banana.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (Banana.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -161,7 +159,7 @@ public class Fruit extends AbstractOpenApiSchema {
          */
         @Override
         public Fruit getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            return null;
+            throw new JsonMappingException(ctxt.getParser(), "Fruit cannot be null");
         }
     }
 
@@ -169,16 +167,16 @@ public class Fruit extends AbstractOpenApiSchema {
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public Fruit() {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
     }
 
     public Fruit(Apple o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     public Fruit(Banana o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
@@ -205,11 +203,6 @@ public class Fruit extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance == null) {
-           super.setActualInstance(instance);
-           return;
-        }
-
         if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;

@@ -6,8 +6,6 @@
 * [Quadrilateral](Quadrilateral.md)
 * [Triangle](Triangle.md)
 
-NOTE: this class is nullable.
-
 ## Example
 ```java
 // Import classes:

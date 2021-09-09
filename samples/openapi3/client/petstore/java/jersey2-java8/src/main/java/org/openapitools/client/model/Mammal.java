@@ -131,7 +131,6 @@ public class Mammal extends AbstractOpenApiSchema {
                         attemptParsing |= ((Pig.class.equals(Float.class) || Pig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (Pig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (Pig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -158,7 +157,6 @@ public class Mammal extends AbstractOpenApiSchema {
                         attemptParsing |= ((Whale.class.equals(Float.class) || Whale.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (Whale.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (Whale.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -185,7 +183,6 @@ public class Mammal extends AbstractOpenApiSchema {
                         attemptParsing |= ((Zebra.class.equals(Float.class) || Zebra.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (Zebra.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (Zebra.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -214,7 +211,7 @@ public class Mammal extends AbstractOpenApiSchema {
          */
         @Override
         public Mammal getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            return null;
+            throw new JsonMappingException(ctxt.getParser(), "Mammal cannot be null");
         }
     }
 
@@ -222,7 +219,7 @@ public class Mammal extends AbstractOpenApiSchema {
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public Mammal() {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
     }
   /**
    * A container for additional, undeclared properties.
@@ -275,17 +272,17 @@ public class Mammal extends AbstractOpenApiSchema {
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
     public Mammal(Pig o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     public Mammal(Whale o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     public Mammal(Zebra o) {
-        super("oneOf", Boolean.TRUE);
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
@@ -321,11 +318,6 @@ public class Mammal extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance == null) {
-           super.setActualInstance(instance);
-           return;
-        }
-
         if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;

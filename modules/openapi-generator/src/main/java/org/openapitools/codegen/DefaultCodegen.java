@@ -2706,7 +2706,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (Boolean.FALSE.equals(schema.getNullable())) {
                 LOGGER.error("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", name);
             }
-            m.isNullable = true;
+            // m.isNullable = true;
             if (ModelUtils.isMapSchema(schema)) {
                 // an object or anyType composed schema that has additionalProperties set
                 addAdditionPropertiesToCodeGenModel(m, schema);
