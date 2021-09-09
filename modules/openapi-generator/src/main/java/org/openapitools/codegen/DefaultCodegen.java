@@ -3030,13 +3030,16 @@ public class DefaultCodegen implements CodegenConfig {
                 MappedModel mm = new MappedModel(modelName, toModelName(modelName));
                 descendentSchemas.add(mm);
                 Schema cs = ModelUtils.getSchema(openAPI, modelName);
-                Map<String, Object> vendorExtensions = cs.getExtensions();
-                if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
-                    String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                    mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
-                    descendentSchemas.add(mm);
+                if (cs == null) { // cannot lookup the model based on the name
+                    LOGGER.error("Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.", modelName);
+                } else {
+                    Map<String, Object> vendorExtensions = cs.getExtensions();
+                    if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
+                        String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
+                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
+                        descendentSchemas.add(mm);
+                    }
                 }
-
             }
         }
         return descendentSchemas;

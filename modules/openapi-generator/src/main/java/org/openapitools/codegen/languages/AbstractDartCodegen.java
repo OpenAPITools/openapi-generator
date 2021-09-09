@@ -26,7 +26,7 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDartCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractDartCodegen.class);
 
     protected static final List<String> DEFAULT_SUPPORTED_CONTENT_TYPES = Arrays.asList(
             "application/json", "application/x-www-form-urlencoded", "multipart/form-data");

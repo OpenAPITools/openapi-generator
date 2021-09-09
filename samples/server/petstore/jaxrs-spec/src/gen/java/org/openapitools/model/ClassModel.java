@@ -36,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return propertyClass;
   }
 
+  @JsonProperty("_class")
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }

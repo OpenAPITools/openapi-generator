@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "TinyClient";
 
-    static final Logger LOGGER = LoggerFactory.getLogger(CppTinyClientCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(CppTinyClientCodegen.class);
 
     public static final String MICROCONTROLLER = "controller";
     public static final String rootFolder = "";

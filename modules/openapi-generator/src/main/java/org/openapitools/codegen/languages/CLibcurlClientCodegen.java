@@ -245,7 +245,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         "final",
                         "override",
                         "transaction_safe",
-                        "transaction_safe_dynamic")
+                        "transaction_safe_dynamic",
+
+                        // VC++ reserved keywords
+                        "stdin",
+                        "stdout",
+                        "stderr")
         );
 
         instantiationTypes.clear();

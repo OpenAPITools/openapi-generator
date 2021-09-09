@@ -46,7 +46,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
     private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
 
-    static final Logger LOGGER = LoggerFactory.getLogger(HaskellYesodServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(HaskellYesodServerCodegen.class);
 
     protected String projectName;
     protected String apiModuleName;
