@@ -188,8 +188,22 @@ const apiInstance = new petstore.DefaultApi(configuration);
 let body:petstore.DefaultApiSizesPutRequest = {
   // Sizes (optional)
   sizes: {
-    data: [[1.575317847E9,12.3]],
-    dataWithExamples: [[1.575317847E9,12.34],[1.575317847E9,12.34]],
+    data: [
+      [
+        1.575317847E9,
+        12.3,
+      ],
+    ],
+    dataWithExamples: [
+      [
+        "a",
+        "b",
+      ],
+      [
+        "c",
+        "d",
+      ],
+    ],
   },
 };
 

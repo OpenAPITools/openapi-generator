@@ -1214,14 +1214,18 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             ArraySchema arrayschema = (ArraySchema) schema;
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
-            if (objExample instanceof Iterable && itemModelName == null) {
-                // If the example is already a list, return it directly instead of wrongly wrap it in another list
-                return fullPrefix + objExample.toString() + closeChars;
-            }
             Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
             newSeenSchemas.add(schema);
-            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
-            return example;
+
+            if (objExample instanceof Iterable && itemModelName == null) {
+                String result = fullPrefix + "[" + "\n";
+                for (Object item : (Iterable) objExample) {
+                    result += toExampleValueRecursive(itemModelName, itemSchema, item, indentationLevel + 1, "", exampleLine + 1, newSeenSchemas) + ",\n";
+                }
+                result += closingIndentation + "]" + closeChars;
+                return result;
+            }
+            return fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
         } else if (ModelUtils.isMapSchema(schema)) {
             if (modelName == null) {
                 fullPrefix += "{";

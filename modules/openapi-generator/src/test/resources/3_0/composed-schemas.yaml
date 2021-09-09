@@ -96,17 +96,17 @@ components:
             example: [1575317847.0, 12.3]
         data_with_examples:
           type: array
-          example: [[1575317847.0, 12.34], [1575317847.0, 12.34]]
+          example: [["a", "b"], ["c", "d"]]
           items:
             type: array
             items:
-              type: number
-              description: tuple with timestamp and value
+              type: string
+              description: tuple with two strings
               format: double
               nullable: true
             minItems: 2
             maxItems: 2
-            description: Array of pet sizes over time.
+            description: Example with array of strings.
     Dog:
       allOf:
         # This field will not match to any type.

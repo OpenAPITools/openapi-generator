@@ -37,7 +37,9 @@ let body:petstore.PetApiAddPetRequest = {
       name: "CbUUGjjNSwg0_bs9ZayIMrKdgNvb6gvxmPb9GcsM61ate1RA89q3w1l4eH4XxEz.5awLMdeXylwK0lMGUSM4jsrh4dstlnQUN5vVdMLPA",
     },
     name: "doggie",
-    photoUrls: [photoUrls_example],
+    photoUrls: [
+      "photoUrls_example",
+    ],
     tags: [
       {
         id: 1,
@@ -156,7 +158,9 @@ const apiInstance = new petstore.PetApi(configuration);
 
 let body:petstore.PetApiFindPetsByStatusRequest = {
   // Array<'available' | 'pending' | 'sold'> | Status values that need to be considered for filter
-  status: [available],
+  status: [
+    "available",
+  ],
 };
 
 apiInstance.findPetsByStatus(body).then((data:any) => {
@@ -211,7 +215,9 @@ const apiInstance = new petstore.PetApi(configuration);
 
 let body:petstore.PetApiFindPetsByTagsRequest = {
   // Array<string> | Tags to filter by
-  tags: [tags_example],
+  tags: [
+    "tags_example",
+  ],
 };
 
 apiInstance.findPetsByTags(body).then((data:any) => {
@@ -328,7 +334,9 @@ let body:petstore.PetApiUpdatePetRequest = {
       name: "CbUUGjjNSwg0_bs9ZayIMrKdgNvb6gvxmPb9GcsM61ate1RA89q3w1l4eH4XxEz.5awLMdeXylwK0lMGUSM4jsrh4dstlnQUN5vVdMLPA",
     },
     name: "doggie",
-    photoUrls: [photoUrls_example],
+    photoUrls: [
+      "photoUrls_example",
+    ],
     tags: [
       {
         id: 1,
