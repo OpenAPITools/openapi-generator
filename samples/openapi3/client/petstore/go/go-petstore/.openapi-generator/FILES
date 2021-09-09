@@ -65,6 +65,7 @@ docs/PetApi.md
 docs/ReadOnlyFirst.md
 docs/ReadOnlyWithDefault.md
 docs/Return.md
+docs/Sizes.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
@@ -125,6 +126,7 @@ model_pet.go
 model_read_only_first.go
 model_read_only_with_default.go
 model_return.go
+model_sizes.go
 model_tag.go
 model_user.go
 model_whale.go

@@ -36,6 +36,17 @@ type DefaultApi interface {
 	// FooGetExecute executes the request
 	//  @return InlineResponseDefault
 	FooGetExecute(r ApiFooGetRequest) (InlineResponseDefault, *_nethttp.Response, error)
+
+	/*
+	SizesPut Method for SizesPut
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiSizesPutRequest
+	*/
+	SizesPut(ctx _context.Context) ApiSizesPutRequest
+
+	// SizesPutExecute executes the request
+	SizesPutExecute(r ApiSizesPutRequest) (*_nethttp.Response, error)
 }
 
 // DefaultApiService DefaultApi service
@@ -166,4 +177,100 @@ func (a *DefaultApiService) FooGetExecute(r ApiFooGetRequest) (InlineResponseDef
 	}
 
 	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiSizesPutRequest struct {
+	ctx _context.Context
+	ApiService DefaultApi
+	sizes *Sizes
+}
+
+func (r ApiSizesPutRequest) Sizes(sizes Sizes) ApiSizesPutRequest {
+	r.sizes = &sizes
+	return r
+}
+
+func (r ApiSizesPutRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.SizesPutExecute(r)
+}
+
+/*
+SizesPut Method for SizesPut
+
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiSizesPutRequest
+*/
+func (a *DefaultApiService) SizesPut(ctx _context.Context) ApiSizesPutRequest {
+	return ApiSizesPutRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+func (a *DefaultApiService) SizesPutExecute(r ApiSizesPutRequest) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodPut
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.SizesPut")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/sizes"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.sizes
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
 }

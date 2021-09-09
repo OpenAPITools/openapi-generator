@@ -1225,6 +1225,16 @@ paths:
       summary: Health check endpoint
       tags:
       - fake
+  /sizes:
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sizes'
+      responses:
+        "200":
+          description: Created
 components:
   requestBodies:
     UserArray:
@@ -2075,6 +2085,55 @@ components:
         intProp2:
           default: 120
           type: number
+      type: object
+    Sizes:
+      example:
+        data:
+        - - 1.575317847E9
+          - 12.3
+        - - 1.575317847E9
+          - 12.3
+        data_with_examples:
+        - - a
+          - b
+        - - c
+          - d
+      properties:
+        data:
+          items:
+            description: Array of pet sizes over time.
+            example:
+            - 1.575317847E9
+            - 12.3
+            items:
+              description: tuple with timestamp and value
+              format: double
+              nullable: true
+              type: number
+            maxItems: 2
+            minItems: 2
+            type: array
+          type: array
+        data_with_examples:
+          example:
+          - - a
+            - b
+          - - c
+            - d
+          items:
+            description: Example with array of strings.
+            items:
+              description: tuple with two strings
+              format: double
+              nullable: true
+              type: string
+            maxItems: 2
+            minItems: 2
+            type: array
+          type: array
+      required:
+      - data
+      - data_with_examples
       type: object
     inline_response_default:
       example:
