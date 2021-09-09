@@ -12,8 +12,15 @@ tag.id = Math.floor(Math.random() * 100000)
 
 let pet: petstore.Pet;
 
-// NOTE: There seem to be two instances of the api server
-// As an ugly workaround we do all modifications two times
+// NOTE: There seem to be two instances of the api server under the same URL.
+// As an ugly workaround we do all modifications multiple times.
+
+const REPETITIONS = 2;
+async function repeat(func: () => any) {
+    for (let idx = 0; idx < REPETITIONS; idx++) {
+        await func();
+    }
+}
 
 describe("PetApi", () => {
     beforeEach(async () => {
@@ -25,8 +32,7 @@ describe("PetApi", () => {
         pet.tags = [ tag ]
         pet.category = undefined
 
-        await petApi.addPet(pet);
-        await petApi.addPet(pet);
+        await repeat(() => petApi.addPet(pet));
     });
 
     it("addPet", async () => {
@@ -35,16 +41,32 @@ describe("PetApi", () => {
     })
 
     it("deletePet", async () => {
-        await petApi.deletePet(pet.id)
-        await petApi.deletePet(pet.id)
+        await repeat(() => petApi.deletePet(pet.id))
         let deletedPet;
         try {
             deletedPet = await petApi.getPetById(pet.id)
         } catch (err) {
             expect(err.code).to.equal(404);
+            expect(err.message).to.include("Pet not found");
             return;
         }
         throw new Error("Pet with id " + deletedPet.id + " was not deleted!");
+    })
+
+    it("deleteNonExistantPet", async () => {
+        const nonExistantId = Math.floor(Math.random() * 100000);
+        try {
+            await petApi.deletePet(nonExistantId)
+        } catch (err) {
+            // The 404 response for this endpoint is officially documented, but
+            // that documentation is not used for generating the client code.
+            // That means we get an error about the response being undefined
+            // here.
+            expect(err.code).to.equal(404);
+            expect(err.message).to.include("Unknown API Status Code");
+            return;
+        }
+        throw new Error("Deleted non-existant pet with id " + nonExistantId + "!");
     })
 
     it("findPetsByStatus", async () => {
@@ -64,7 +86,7 @@ describe("PetApi", () => {
 
     it("updatePet", async () => {
         pet.name = "updated name";
-        await petApi.updatePet(pet);
+        await repeat(() => petApi.updatePet(pet));
         await petApi.updatePet(pet);
 
         const returnedPet = await petApi.getPetById(pet.id);
@@ -74,8 +96,7 @@ describe("PetApi", () => {
 
     it("updatePetWithForm", async () => {
         const updatedName = "updated name";
-        await petApi.updatePetWithForm(pet.id, updatedName);
-        await petApi.updatePetWithForm(pet.id, updatedName);
+        await repeat(() => petApi.updatePetWithForm(pet.id, updatedName));
 
         const returnedPet = await petApi.getPetById(pet.id)
         expect(returnedPet.id).to.equal(pet.id)
