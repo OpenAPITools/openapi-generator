@@ -46,12 +46,14 @@ elif [ "$NODE_INDEX" = "2" ]; then
 elif [ "$NODE_INDEX" = "3" ]; then
 
   echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
-  wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
-  tar -xf Python-3.8.9.tgz
-  cd Python-3.8.9
-  ./configure --enable-optimizations
-  sudo make altinstall
-  python3 --version
+  #wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
+  #tar -xf Python-3.8.9.tgz
+  #cd Python-3.8.9
+  #./configure --enable-optimizations
+  #sudo make altinstall
+  #python3 --version
+  pyenv install 3.8.9
+  pyenv global 3.8.9
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
