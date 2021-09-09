@@ -30,6 +30,9 @@ import {
     Pet,
     PetFromJSON,
     PetToJSON,
+    PetRegionsResponse,
+    PetRegionsResponseFromJSON,
+    PetRegionsResponseToJSON,
 } from '../models';
 
 export interface AddPetRequest {
@@ -61,8 +64,17 @@ export interface GetPetByIdRequest {
     petId: number;
 }
 
+export interface GetPetRegionsRequest {
+    petId: number;
+}
+
 export interface UpdatePetRequest {
     body: Pet;
+}
+
+export interface UpdatePetRegionsRequest {
+    petId: number;
+    newRegions: Array<Array<number>>;
 }
 
 export interface UpdatePetWithFormRequest {
@@ -382,6 +394,36 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
+     * Gets regions for a single pet.
+     */
+    async getPetRegionsRaw(requestParameters: GetPetRegionsRequest): Promise<runtime.ApiResponse<PetRegionsResponse>> {
+        if (requestParameters.petId === null || requestParameters.petId === undefined) {
+            throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetRegions.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/pet/{petId}/regions`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PetRegionsResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Gets regions for a single pet.
+     */
+    async getPetRegions(petId: number): Promise<PetRegionsResponse> {
+        const response = await this.getPetRegionsRaw({ petId: petId });
+        return await response.value();
+    }
+
+    /**
      * Update an existing pet
      */
     async updatePetRaw(requestParameters: UpdatePetRequest): Promise<runtime.ApiResponse<void>> {
@@ -420,6 +462,43 @@ export class PetApi extends runtime.BaseAPI {
      */
     async updatePet(body: Pet): Promise<void> {
         await this.updatePetRaw({ body: body });
+    }
+
+    /**
+     * Updates the pet regions.
+     */
+    async updatePetRegionsRaw(requestParameters: UpdatePetRegionsRequest): Promise<runtime.ApiResponse<PetRegionsResponse>> {
+        if (requestParameters.petId === null || requestParameters.petId === undefined) {
+            throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetRegions.');
+        }
+
+        if (requestParameters.newRegions === null || requestParameters.newRegions === undefined) {
+            throw new runtime.RequiredError('newRegions','Required parameter requestParameters.newRegions was null or undefined when calling updatePetRegions.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/pet/{petId}/regions`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: requestParameters.newRegions,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PetRegionsResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Updates the pet regions.
+     */
+    async updatePetRegions(petId: number, newRegions: Array<Array<number>>): Promise<PetRegionsResponse> {
+        const response = await this.updatePetRegionsRaw({ petId: petId, newRegions: newRegions });
+        return await response.value();
     }
 
     /**
