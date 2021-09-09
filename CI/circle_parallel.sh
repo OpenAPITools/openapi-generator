@@ -51,9 +51,10 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #cd Python-3.8.9
   #./configure --enable-optimizations
   #sudo make altinstall
-  #python3 --version
+  pyenv install --list 
   pyenv install 3.8.9
   pyenv global 3.8.9
+  python3 --version
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
