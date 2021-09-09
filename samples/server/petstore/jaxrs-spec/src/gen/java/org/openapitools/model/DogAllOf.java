@@ -34,6 +34,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return breed;
   }
 
+  @JsonProperty("breed")
   public void setBreed(String breed) {
     this.breed = breed;
   }

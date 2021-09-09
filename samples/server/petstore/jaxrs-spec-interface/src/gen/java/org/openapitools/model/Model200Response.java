@@ -37,6 +37,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
@@ -57,6 +58,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return propertyClass;
   }
 
+  @JsonProperty("class")
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }

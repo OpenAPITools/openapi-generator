@@ -54,6 +54,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return integer;
   }
 
+  @JsonProperty("integer")
   public void setInteger(Integer integer) {
     this.integer = integer;
   }
@@ -76,6 +77,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return int32;
   }
 
+  @JsonProperty("int32")
   public void setInt32(Integer int32) {
     this.int32 = int32;
   }
@@ -96,6 +98,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return int64;
   }
 
+  @JsonProperty("int64")
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
@@ -119,6 +122,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return number;
   }
 
+  @JsonProperty("number")
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
@@ -141,6 +145,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return _float;
   }
 
+  @JsonProperty("float")
   public void setFloat(Float _float) {
     this._float = _float;
   }
@@ -163,6 +168,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return _double;
   }
 
+  @JsonProperty("double")
   public void setDouble(Double _double) {
     this._double = _double;
   }
@@ -183,6 +189,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return string;
   }
 
+  @JsonProperty("string")
   public void setString(String string) {
     this.string = string;
   }
@@ -204,6 +211,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return _byte;
   }
 
+  @JsonProperty("byte")
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
@@ -224,6 +232,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return binary;
   }
 
+  @JsonProperty("binary")
   public void setBinary(File binary) {
     this.binary = binary;
   }
@@ -245,6 +254,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return date;
   }
 
+  @JsonProperty("date")
   public void setDate(LocalDate date) {
     this.date = date;
   }
@@ -265,6 +275,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return dateTime;
   }
 
+  @JsonProperty("dateTime")
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
   }
@@ -285,6 +296,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return uuid;
   }
 
+  @JsonProperty("uuid")
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
@@ -306,6 +318,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return password;
   }
 
+  @JsonProperty("password")
   public void setPassword(String password) {
     this.password = password;
   }
@@ -326,6 +339,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return bigDecimal;
   }
 
+  @JsonProperty("BigDecimal")
   public void setBigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
