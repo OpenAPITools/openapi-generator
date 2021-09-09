@@ -2662,6 +2662,13 @@ public class DefaultCodegen implements CodegenConfig {
             }
             m.isNullable = true;
         }
+
+        if (!ModelUtils.isArraySchema(schema) && !ModelUtils.isNullType(schema) && !(schema instanceof ComposedSchema)){
+            // passing null to allProperties and allRequired as there's no parent
+            // TODO move this below
+            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+        }
+
         if (ModelUtils.isArraySchema(schema)) {
             m.isArray = true;
             CodegenProperty arrayProperty = fromProperty(name, schema);
@@ -2672,50 +2679,49 @@ public class DefaultCodegen implements CodegenConfig {
             m.isNull = true;
         } else if (schema instanceof ComposedSchema) {
             updateModelForComposedSchema(m, schema, allDefinitions);
-        } else {
-            if (ModelUtils.isMapSchema(schema)) {
-                addAdditionPropertiesToCodeGenModel(m, schema);
-                m.isMap = true;
-            } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
-                // NOTE: Integral schemas as CodegenModel is a rare use case and may be removed at a later date.
+        } else if (ModelUtils.isMapSchema(schema)) {
+            addAdditionPropertiesToCodeGenModel(m, schema);
+            m.isMap = true;
+        } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
+            // NOTE: Integral schemas as CodegenModel is a rare use case and may be removed at a later date.
 
-                m.isNumeric = Boolean.TRUE;
-                if (ModelUtils.isLongSchema(schema)) { // int64/long format
-                    m.isLong = Boolean.TRUE;
-                } else {
-                    m.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
-                    if (ModelUtils.isShortSchema(schema)) { // int32
-                        m.setIsShort(Boolean.TRUE);
-                    } else { // unbounded integer
-                        m.setIsUnboundedInteger(Boolean.TRUE);
-                    }
+            m.isNumeric = Boolean.TRUE;
+            if (ModelUtils.isLongSchema(schema)) { // int64/long format
+                m.isLong = Boolean.TRUE;
+            } else {
+                m.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+                if (ModelUtils.isShortSchema(schema)) { // int32
+                    m.setIsShort(Boolean.TRUE);
+                } else { // unbounded integer
+                    m.setIsUnboundedInteger(Boolean.TRUE);
                 }
-            } else if (ModelUtils.isDateTimeSchema(schema)) {
+            }
+        } else if (ModelUtils.isStringSchema(schema)) {
+            // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
+            m.isString = Boolean.TRUE;
+            if (ModelUtils.isDateTimeSchema(schema)) {
                 // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
                 m.isDateTime = Boolean.TRUE;
+                m.isString = Boolean.FALSE;
             } else if (ModelUtils.isDateSchema(schema)) {
                 // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
                 m.isDate = Boolean.TRUE;
-            } else if (ModelUtils.isStringSchema(schema)) {
-                // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
-                m.isString = Boolean.TRUE;
-            } else if (ModelUtils.isNumberSchema(schema)) {
-                // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
-                m.isNumeric = Boolean.TRUE;
-                if (ModelUtils.isFloatSchema(schema)) { // float
-                    m.isFloat = Boolean.TRUE;
-                } else if (ModelUtils.isDoubleSchema(schema)) { // double
-                    m.isDouble = Boolean.TRUE;
-                } else { // type is number and without format
-                    m.isNumber = Boolean.TRUE;
-                }
-            } else if (ModelUtils.isBooleanSchema(schema)) {
-                m.isBoolean = Boolean.TRUE;
-            } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
-                addAdditionPropertiesToCodeGenModel(m, schema);
+                m.isString = Boolean.FALSE;
             }
-            // passing null to allProperties and allRequired as there's no parent
-            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
+            m.isNumeric = Boolean.TRUE;
+            if (ModelUtils.isFloatSchema(schema)) { // float
+                m.isFloat = Boolean.TRUE;
+            } else if (ModelUtils.isDoubleSchema(schema)) { // double
+                m.isDouble = Boolean.TRUE;
+            } else { // type is number and without format
+                m.isNumber = Boolean.TRUE;
+            }
+        } else if (ModelUtils.isBooleanSchema(schema)) {
+            m.isBoolean = Boolean.TRUE;
+        } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+            addAdditionPropertiesToCodeGenModel(m, schema);
         }
 
         // remove duplicated properties
