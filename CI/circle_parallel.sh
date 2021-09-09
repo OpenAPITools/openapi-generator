@@ -52,8 +52,8 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #./configure --enable-optimizations
   #sudo make altinstall
   pyenv install --list 
-  pyenv install 3.8.9
-  pyenv global 3.8.9
+  pyenv install 3.6.3
+  pyenv global 3.6.3
   python3 --version
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
