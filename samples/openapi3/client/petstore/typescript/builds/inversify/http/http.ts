@@ -187,6 +187,26 @@ export class ResponseContext {
         const fileName = this.getParsedHeader("content-disposition")["filename"] || "";
         return { data, name: fileName };
     }
+
+    /**
+     * Use a heuristic to get a body of unknown data structure.
+     * Try JSON with fall back to plain text and binary.
+     */
+    public async getBodyAsAny(): Promise<any> {
+        try {
+            const body = await this.body.text();
+            try {
+                return JSON.parse(body);
+            } catch {}
+            return body;
+        } catch {}
+
+        try {
+            return this.body.binary();
+        } catch {}
+
+        return undefined;
+    }
 }
 
 export interface HttpLibrary {
