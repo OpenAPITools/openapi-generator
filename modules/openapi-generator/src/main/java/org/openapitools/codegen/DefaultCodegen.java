@@ -2654,15 +2654,6 @@ public class DefaultCodegen implements CodegenConfig {
             m.isNullable = Boolean.TRUE;
         }
 
-        if (ModelUtils.isAnyType(schema)) {
-            // The 'null' value is allowed when the OAS schema is 'any type'.
-            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
-            if (Boolean.FALSE.equals(schema.getNullable())) {
-                LOGGER.error("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", name);
-            }
-            m.isNullable = true;
-        }
-
         if (!ModelUtils.isArraySchema(schema) && !ModelUtils.isNullType(schema) && !(schema instanceof ComposedSchema)){
             // passing null to allProperties and allRequired as there's no parent
             // TODO move this below
@@ -2675,13 +2666,6 @@ public class DefaultCodegen implements CodegenConfig {
             m.setItems(arrayProperty.items);
             m.arrayModelType = arrayProperty.complexType;
             addParentContainer(m, name, schema);
-        } else if (ModelUtils.isNullType(schema)) {
-            m.isNull = true;
-        } else if (schema instanceof ComposedSchema) {
-            updateModelForComposedSchema(m, schema, allDefinitions);
-        } else if (ModelUtils.isMapSchema(schema)) {
-            addAdditionPropertiesToCodeGenModel(m, schema);
-            m.isMap = true;
         } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
             // NOTE: Integral schemas as CodegenModel is a rare use case and may be removed at a later date.
 
@@ -2720,8 +2704,34 @@ public class DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isBooleanSchema(schema)) {
             m.isBoolean = Boolean.TRUE;
-        } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
-            addAdditionPropertiesToCodeGenModel(m, schema);
+        } else if (ModelUtils.isNullType(schema)) {
+            m.isNull = true;
+        } else if (ModelUtils.isAnyType(schema)) {
+            // The 'null' value is allowed when the OAS schema is 'any type'.
+            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+            if (Boolean.FALSE.equals(schema.getNullable())) {
+                LOGGER.error("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", name);
+            }
+            m.isNullable = true;
+            if (ModelUtils.isMapSchema(schema)) {
+                // an object or anyType composed schema that has additionalProperties set
+                addAdditionPropertiesToCodeGenModel(m, schema);
+                m.isMap = true;
+            }
+        } else if (ModelUtils.isTypeObjectSchema(schema)) {
+            if (ModelUtils.isMapSchema(schema)) {
+                // an object or anyType composed schema that has additionalProperties set
+                addAdditionPropertiesToCodeGenModel(m, schema);
+                m.isMap = true;
+            } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+                // non-composed object type with no properties + additionalProperties
+                // additionalProperties must be null, ObjectSchema, or empty Schema
+                addAdditionPropertiesToCodeGenModel(m, schema);
+            }
+        }
+
+        if (schema instanceof ComposedSchema) {
+            updateModelForComposedSchema(m, schema, allDefinitions);
         }
 
         // remove duplicated properties
