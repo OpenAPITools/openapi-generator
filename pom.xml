@@ -1222,9 +1222,6 @@
                 <module>samples/client/petstore/php/OpenAPIClient-php</module> -->
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-flowtyped</module>
-                <module>samples/client/petstore/python</module>
-                <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
-                <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
             </modules>
@@ -1311,8 +1308,9 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
                 <module>samples/openapi3/client/petstore/python</module>
-                <module>samples/openapi3/client/petstore/python-legacy</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
@@ -1435,7 +1433,7 @@
                 <module>samples/client/petstore/java/native</module>
             </modules>
         </profile>
-        <!-- test with Haskell -->
+        <!-- test with R, python -->
         <profile>
             <id>samples.misc</id>
             <activation>
@@ -1446,6 +1444,8 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/python-legacy</module>
+                <module>samples/openapi3/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/R</module>
                 <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->
