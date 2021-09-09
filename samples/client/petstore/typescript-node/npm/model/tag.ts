@@ -16,8 +16,8 @@ import { RequestFile } from './models';
 * A tag for a pet
 */
 export class Tag {
-    'id'?: number;
-    'name'?: string;
+    'id'?: number = undefined;
+    'name'?: string = undefined;
 
     static discriminator: string | undefined = undefined;
 

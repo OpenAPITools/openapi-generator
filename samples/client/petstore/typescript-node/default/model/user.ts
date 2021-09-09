@@ -16,17 +16,17 @@ import { RequestFile } from './models';
 * A User who is purchasing from the pet store
 */
 export class User {
-    'id'?: number;
-    'username'?: string;
-    'firstName'?: string;
-    'lastName'?: string;
-    'email'?: string;
-    'password'?: string;
-    'phone'?: string;
+    'id'?: number = undefined;
+    'username'?: string = undefined;
+    'firstName'?: string = undefined;
+    'lastName'?: string = undefined;
+    'email'?: string = undefined;
+    'password'?: string = undefined;
+    'phone'?: string = undefined;
     /**
     * User Status
     */
-    'userStatus'?: number;
+    'userStatus'?: number = undefined;
 
     static discriminator: string | undefined = undefined;
 

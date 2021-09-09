@@ -16,9 +16,9 @@ import { RequestFile } from './models';
 * Describes the result of uploading an image resource
 */
 export class ApiResponse {
-    'code'?: number;
-    'type'?: string;
-    'message'?: string;
+    'code'?: number = undefined;
+    'type'?: string = undefined;
+    'message'?: string = undefined;
 
     static discriminator: string | undefined = undefined;
 

@@ -18,15 +18,15 @@ import { Tag } from './tag';
 * A pet for sale in the pet store
 */
 export class Pet {
-    'id'?: number;
-    'category'?: Category;
-    'name': string;
-    'photoUrls': Array<string>;
-    'tags'?: Array<Tag>;
+    'id'?: number = undefined;
+    'category'?: Category = undefined;
+    'name': string = undefined;
+    'photoUrls': Array<string> = undefined;
+    'tags'?: Array<Tag> = undefined;
     /**
     * pet status in the store
     */
-    'status'?: Pet.StatusEnum;
+    'status'?: Pet.StatusEnum = undefined;
 
     static discriminator: string | undefined = undefined;
 

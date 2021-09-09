@@ -16,15 +16,15 @@ import { RequestFile } from './models';
 * An order for a pets from the pet store
 */
 export class Order {
-    'id'?: number;
-    'petId'?: number;
-    'quantity'?: number;
-    'shipDate'?: Date;
+    'id'?: number = undefined;
+    'petId'?: number = undefined;
+    'quantity'?: number = undefined;
+    'shipDate'?: Date = undefined;
     /**
     * Order Status
     */
-    'status'?: Order.StatusEnum;
-    'complete'?: boolean;
+    'status'?: Order.StatusEnum = undefined;
+    'complete'?: boolean = false;
 
     static discriminator: string | undefined = undefined;
 
