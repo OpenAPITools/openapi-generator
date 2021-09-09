@@ -12,16 +12,6 @@ tag.id = Math.floor(Math.random() * 100000)
 
 let pet: petstore.Pet;
 
-// NOTE: There seem to be two instances of the api server under the same URL.
-// As an ugly workaround we do all modifications multiple times.
-
-const REPETITIONS = 2;
-async function repeat(func: () => any) {
-    for (let idx = 0; idx < REPETITIONS; idx++) {
-        await func();
-    }
-}
-
 describe("PetApi", () => {
     beforeEach(async () => {
         pet = new petstore.Pet()
@@ -32,7 +22,7 @@ describe("PetApi", () => {
         pet.tags = [ tag ]
         pet.category = undefined
 
-        await repeat(() => petApi.addPet(pet));
+        await petApi.addPet(pet);
     });
 
     it("addPet", async () => {
@@ -41,7 +31,7 @@ describe("PetApi", () => {
     })
 
     it("deletePet", async () => {
-        await repeat(() => petApi.deletePet(pet.id))
+        await petApi.deletePet(pet.id);
         let deletedPet;
         try {
             deletedPet = await petApi.getPetById(pet.id)
@@ -86,7 +76,7 @@ describe("PetApi", () => {
 
     it("updatePet", async () => {
         pet.name = "updated name";
-        await repeat(() => petApi.updatePet(pet));
+        await petApi.updatePet(pet);
         await petApi.updatePet(pet);
 
         const returnedPet = await petApi.getPetById(pet.id);
@@ -96,7 +86,7 @@ describe("PetApi", () => {
 
     it("updatePetWithForm", async () => {
         const updatedName = "updated name";
-        await repeat(() => petApi.updatePetWithForm(pet.id, updatedName));
+        await petApi.updatePetWithForm(pet.id, updatedName);
 
         const returnedPet = await petApi.getPetById(pet.id)
         expect(returnedPet.id).to.equal(pet.id)
