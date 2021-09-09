@@ -44,7 +44,8 @@ describe("PetApi", () => {
     })
 
     it("deleteNonExistantPet", async () => {
-        const nonExistantId = Math.floor(Math.random() * 100000);
+        // Use an id that is too big for the server to handle.
+        const nonExistantId = 100000000000000000000000000;
         try {
             await petApi.deletePet(nonExistantId)
         } catch (err) {
@@ -54,6 +55,8 @@ describe("PetApi", () => {
             // here.
             expect(err.code).to.equal(404);
             expect(err.message).to.include("Unknown API Status Code");
+            expect(err.body).to.have.property("code").equal(404);
+            expect(err.body).to.have.property("message");
             return;
         }
         throw new Error("Deleted non-existant pet with id " + nonExistantId + "!");

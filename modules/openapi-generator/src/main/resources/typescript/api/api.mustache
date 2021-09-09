@@ -200,7 +200,7 @@ export class {{classname}}ResponseProcessor {
             return body;
             {{/is2xx}}
             {{^is2xx}}
-            throw new ApiException<{{{dataType}}}>({{code}}, body);
+            throw new ApiException<{{{dataType}}}>({{code}}, "{{message}}", body);
             {{/is2xx}}
             {{/dataType}}
             {{^dataType}}
@@ -208,7 +208,7 @@ export class {{classname}}ResponseProcessor {
             return;
             {{/is2xx}}
             {{^is2xx}}
-            throw new ApiException<string>(response.httpStatusCode, "{{message}}");
+            throw new ApiException<undefined>(response.httpStatusCode, "{{message}}", undefined);
             {{/is2xx}}
             {{/dataType}}
         }
@@ -233,8 +233,7 @@ export class {{classname}}ResponseProcessor {
             {{/returnType}}
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     {{/operation}}
