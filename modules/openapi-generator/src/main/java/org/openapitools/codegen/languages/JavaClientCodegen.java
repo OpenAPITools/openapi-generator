@@ -129,6 +129,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         artifactId = "openapi-java-client";
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
+        useOneOfInterfaces = true;
+        addOneOfInterfaceImports = true;
 
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());

@@ -1,0 +1,105 @@
+openapi: 3.0.0
+servers:
+- description: Controller URL
+  url: https://localhost:8080/testApiDesign/
+info:
+  description: Apis
+  version: "1.0.0"
+  title: "Enum and Discriminator testing"
+  termsOfService: 'https://www.appdynamics.com/terms/'
+  contact:
+    email: demo@demo.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+- name: home
+  description: Manage your home
+  externalDocs:
+    description: Find out more
+    url: 'https://www.home.com'
+paths:
+  /home :
+    post:
+      tags:
+      - home
+      summary: Create a new home
+      description: Creates a new home for given payload and returns the ID
+      operationId: createHome
+      responses:
+        '201':
+          description: Home created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Home'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      requestBody:
+        $ref: '#/components/requestBodies/Home'
+externalDocs:
+  description: Find out more about Swagger
+  url: 'https://swagger.io'
+components:
+  schemas:
+    Home:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/Names'
+        sofaStyle:
+          oneOf:
+          - $ref: '#/components/schemas/Sofa1'
+          - $ref: '#/components/schemas/Sofa2'
+          discriminator:
+            propertyName: styleType
+      required:
+      - name
+      - sofaStyle
+    Names:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+          - "home1"
+          - "home2"
+      required:
+      - name
+    SofaStyleType:
+      type: object
+      properties:
+        styleType:
+          type: string
+      required:
+      - styleType
+      discriminator:
+        propertyName: styleType
+    Sofa1:
+      allOf:
+      - $ref: '#/components/schemas/SofaStyleType'
+      - type: object
+        properties:
+          identifier:
+            type: string
+            enum:
+            - "big"
+    Sofa2:
+      allOf:
+      - $ref: '#/components/schemas/SofaStyleType'
+      - type: object
+        properties:
+          identifier:
+            type: string
+            enum:
+            - "small"
+  requestBodies:
+    Home:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Home'
