@@ -194,15 +194,18 @@ let body:petstore.DefaultApiSizesPutRequest = {
         12.3,
       ],
     ],
-    dataWithExamples: [
+    parentBreeds: [
       [
-        "a",
-        "b",
+        "Dingo",
+        "Dingo",
       ],
       [
-        "c",
-        "d",
+        "Husky",
+        "Shepherd",
       ],
+    ],
+    possibleBreeds: [
+      "Retriever",
     ],
   },
 };

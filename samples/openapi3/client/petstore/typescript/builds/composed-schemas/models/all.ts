@@ -1,3 +1,4 @@
+export * from './Breed'
 export * from './Cat'
 export * from './CatAllOf'
 export * from './Dog'

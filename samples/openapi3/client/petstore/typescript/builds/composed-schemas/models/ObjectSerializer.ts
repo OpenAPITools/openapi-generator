@@ -1,3 +1,4 @@
+export * from './Breed';
 export * from './Cat';
 export * from './CatAllOf';
 export * from './Dog';
@@ -7,6 +8,7 @@ export * from './PetByAge';
 export * from './PetByType';
 export * from './Sizes';
 
+import { Breed } from './Breed';
 import { Cat } from './Cat';
 import { CatAllOf } from './CatAllOf';
 import { Dog , DogBreedEnum   } from './Dog';
@@ -36,6 +38,7 @@ const supportedMediaTypes: { [mediaType: string]: number } = {
 
 
 let enumsMap: Set<string> = new Set<string>([
+    "Breed",
     "DogBreedEnum",
     "DogAllOfBreedEnum",
     "PetByTypePetTypeEnum",

@@ -24,6 +24,19 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 /**
  * 
  * @export
+ * @enum {string}
+ */
+
+export enum Breed {
+    Dingo = 'Dingo',
+    Husky = 'Husky',
+    Retriever = 'Retriever',
+    Shepherd = 'Shepherd'
+}
+
+/**
+ * 
+ * @export
  * @interface Cat
  */
 export interface Cat {
@@ -196,10 +209,16 @@ export interface Sizes {
     data: Array<Array<number>>;
     /**
      * 
-     * @type {Array<Array<number>>}
+     * @type {Array<Array<Breed>>}
      * @memberof Sizes
      */
-    data_with_examples: Array<Array<number>>;
+    parent_breeds: Array<Array<Breed>>;
+    /**
+     * 
+     * @type {Array<Breed>}
+     * @memberof Sizes
+     */
+    possible_breeds: Array<Breed>;
 }
 
 /**

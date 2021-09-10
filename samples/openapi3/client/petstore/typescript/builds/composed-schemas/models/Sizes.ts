@@ -10,11 +10,13 @@
  * Do not edit the class manually.
  */
 
+import { Breed } from './Breed';
 import { HttpFile } from '../http/http';
 
 export class Sizes {
     'data': Array<Array<number>>;
-    'dataWithExamples': Array<Array<number>>;
+    'parentBreeds': Array<Array<Breed>>;
+    'possibleBreeds': Array<Breed>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -26,10 +28,16 @@ export class Sizes {
             "format": "double"
         },
         {
-            "name": "dataWithExamples",
-            "baseName": "data_with_examples",
-            "type": "Array<Array<number>>",
-            "format": "double"
+            "name": "parentBreeds",
+            "baseName": "parent_breeds",
+            "type": "Array<Array<Breed>>",
+            "format": ""
+        },
+        {
+            "name": "possibleBreeds",
+            "baseName": "possible_breeds",
+            "type": "Array<Breed>",
+            "format": ""
         }    ];
 
     static getAttributeTypeMap() {

@@ -75,11 +75,16 @@ components:
       type: object
       required:
         - pet_type
+    Breed:
+      type: string
+      example: Retriever
+      enum: [Dingo, Husky, Retriever, Shepherd]
     Sizes:
       type: object
       required:
         - data
-        - data_with_examples
+        - parent_breeds
+        - possible_breeds
       properties:
         data:
           type: array
@@ -94,19 +99,20 @@ components:
             maxItems: 2
             description: Array of pet sizes over time.
             example: [1575317847.0, 12.3]
-        data_with_examples:
+        parent_breeds:
           type: array
-          example: [["a", "b"], ["c", "d"]]
+          example: [["Dingo", "Dingo"], ["Husky", "Shepherd"]]
           items:
             type: array
             items:
-              type: string
-              description: tuple with two strings
-              format: double
-              nullable: true
+              $ref: '#/components/schemas/Breed'
             minItems: 2
             maxItems: 2
-            description: Example with array of strings.
+            description: Parent breeds.
+        possible_breeds:
+          type: array
+          items:
+            $ref: '#/components/schemas/Breed'
     Dog:
       allOf:
         # This field will not match to any type.

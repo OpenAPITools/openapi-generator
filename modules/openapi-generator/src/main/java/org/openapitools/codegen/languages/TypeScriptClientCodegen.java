@@ -1217,7 +1217,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
             newSeenSchemas.add(schema);
 
-            if (objExample instanceof Iterable && itemModelName == null) {
+            if (objExample instanceof Iterable) {
                 String result = fullPrefix + "[" + "\n";
                 for (Object item : (Iterable) objExample) {
                     result += toExampleValueRecursive(itemModelName, itemSchema, item, indentationLevel + 1, "", exampleLine + 1, newSeenSchemas) + ",\n";
