@@ -2834,7 +2834,7 @@ public class DefaultCodegen implements CodegenConfig {
                                 "'{}' defines discriminator '{}', but the referenced OneOf schema '{}' is missing {}",
                                 composedSchemaName, discPropName, modelName, discPropName);
                     }
-                    if (cp.dataType == null) {
+                    if (cp != null && cp.dataType == null) {
                         cp = thisCp;
                         continue;
                     }

@@ -71,10 +71,9 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
     }
 
     public void addControllerToAdditionalProperties() {
-        Map<String, String> supportedControllers = new HashMap<String, String>() {{
-            put("esp32", "isESP32");
-            put("esp8266", "isESP8266");
-        }};
+        Map<String, String> supportedControllers = new HashMap<String, String>();
+        supportedControllers.put("esp32", "isESP32");
+        supportedControllers.put("esp8266", "isESP8266");
         if (supportedControllers.containsKey(controller)) {
             additionalProperties.put(supportedControllers.get(controller), true);
         } else {
