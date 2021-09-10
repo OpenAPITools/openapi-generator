@@ -573,6 +573,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         type.add("m " + returnType);
 
         op.vendorExtensions.put("x-route-type", joinStrings(" :> ", path));
+        op.vendorExtensions.put("x-client-return-type", returnType);
         op.vendorExtensions.put("x-client-type", joinStrings(" -> ", type));
         op.vendorExtensions.put("x-form-name", "Form" + camelize(op.operationId));
         for (CodegenParameter param : op.formParams) {
