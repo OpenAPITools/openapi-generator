@@ -269,9 +269,9 @@ public class DefaultGenerator implements Generator {
         contextPath = removeTrailingSlash(config.escapeText(url.getPath())); // for backward compatibility
         basePathWithoutHost = contextPath;
         if (URLPathUtils.isRelativeUrl(openAPI.getServers())) {
-        	basePath = removeTrailingSlash(basePathWithoutHost);
+            basePath = removeTrailingSlash(basePathWithoutHost);
         } else {        	
-        	basePath = removeTrailingSlash(config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides())));
+            basePath = removeTrailingSlash(config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides())));
         }
     }
 
