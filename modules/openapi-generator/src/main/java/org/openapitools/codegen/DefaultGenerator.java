@@ -270,7 +270,7 @@ public class DefaultGenerator implements Generator {
         basePathWithoutHost = contextPath;
         if (URLPathUtils.isRelativeUrl(openAPI.getServers())) {
             basePath = removeTrailingSlash(basePathWithoutHost);
-        } else {        	
+        } else {
             basePath = removeTrailingSlash(config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides())));
         }
     }
