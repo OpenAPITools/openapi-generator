@@ -1125,7 +1125,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             codegenParameter.dataType = getTypeDeclaration(original_schema);
             codegenParameter.isPrimitiveType = false;
             codegenParameter.isArray = false;
-            codegenParameter.isString = false;
+            codegenParameter.isString = ModelUtils.isStringSchema(original_schema);
             codegenParameter.isByteArray = ModelUtils.isByteArraySchema(original_schema);
             codegenParameter.isBinary = ModelUtils.isBinarySchema(original_schema);
 

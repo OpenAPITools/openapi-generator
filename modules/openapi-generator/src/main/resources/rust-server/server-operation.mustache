@@ -326,6 +326,11 @@
                                         {{{paramName}}}_model
                                   {{/jsonSchema}}
                                 {{/isByteArray}}
+                                {{#isString}}
+                                        let mut data = String::new();
+                                        reader.read_to_string(&mut data).expect("Reading saved String should never fail");
+                                        data
+                                {{/isString}}
                 {{^required}}
                                     })
                 {{/required}}
