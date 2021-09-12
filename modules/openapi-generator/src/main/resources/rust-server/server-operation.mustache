@@ -297,10 +297,10 @@
                                     },
                                 };
                 {{#formParams}}
-                                let field_{{{paramName}}} = entries.fields.remove("{{{paramName}}}");
+                                let field_{{{paramName}}} = entries.fields.remove("{{{baseName}}}");
                                 let param_{{{paramName}}} = match field_{{{paramName}}} {
                                     Some(field) => {
-                                        let mut reader = field[0].data.readable().expect("Unable to read field for {{{paramName}}}");
+                                        let mut reader = field[0].data.readable().expect("Unable to read field for {{{baseName}}}");
                 {{^required}}
                                     Some({
                 {{/required}}
@@ -319,8 +319,8 @@
                                                 return Ok(
                                                     Response::builder()
                                                     .status(StatusCode::BAD_REQUEST)
-                                                    .body(Body::from(format!("{{{paramName}}} data does not match API definition : {}", e)))
-                                                    .expect("Unable to create Bad Request due to missing required form parameter {{{paramName}}}"))
+                                                    .body(Body::from(format!("{{{baseName}}} data does not match API definition : {}", e)))
+                                                    .expect("Unable to create Bad Request due to missing required form parameter {{{baseName}}}"))
                                             }
                                         };
                                         {{{paramName}}}_model
