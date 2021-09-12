@@ -304,12 +304,12 @@
                 {{^required}}
                                     Some({
                 {{/required}}
-                                {{#isByteArray}}
+                                {{#isBinary}}
                                         let mut data = vec![];
                                         reader.read_to_end(&mut data).expect("Reading saved binary data should never fail");
                                         swagger::ByteArray(data)
-                                {{/isByteArray}}
-                                {{^isByteArray}}
+                                {{/isBinary}}
+                                {{#isByteArray}}
                                   {{#jsonSchema}}
                                         let mut data = String::new();
                                         reader.read_to_string(&mut data).expect("Reading saved String should never fail");
