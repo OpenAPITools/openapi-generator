@@ -126,9 +126,15 @@ int PFXPetApi::addServerConfiguration(const QString &operation, const QUrl &url,
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
 void PFXPetApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
         setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
+#else
+    for (auto &e : _serverIndices.keys()) {
+        setServerIndex(e, addServerConfiguration(e, url, description, variables));
+    }
+#endif
 }
 
 /**
@@ -238,7 +244,7 @@ void PFXPetApi::addPet(const PFXPet &body) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -306,7 +312,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -440,7 +446,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -584,7 +590,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -660,7 +666,7 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -713,7 +719,7 @@ void PFXPetApi::updatePet(const PFXPet &body) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -783,7 +789,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -853,7 +859,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
