@@ -150,7 +150,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         useJackson = convertPropertyToBoolean(JACKSON);
 
         if (interfaceOnly) {
-            // Change default artifactId if genereating interfaces only, before command line options are applied in base class.
+            // Change default artifactId if generating interfaces only, before command line options are applied in base class.
             artifactId = "openapi-jaxrs-client";
         }
 

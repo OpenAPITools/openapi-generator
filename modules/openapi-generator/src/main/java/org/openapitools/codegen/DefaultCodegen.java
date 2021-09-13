@@ -928,7 +928,7 @@ public class DefaultCodegen implements CodegenConfig {
         // remove \t, \n, \r
         // replace \ with \\
         // replace " with \"
-        // outter unescape to retain the original multi-byte characters
+        // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(
@@ -954,7 +954,7 @@ public class DefaultCodegen implements CodegenConfig {
         // remove \t
         // replace \ with \\
         // replace " with \"
-        // outter unescape to retain the original multi-byte characters
+        // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(
@@ -1331,7 +1331,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return the variable name in the Api
      *
-     * @param name the varible name of the Api
+     * @param name the variable name of the Api
      * @return the snake-cased variable name
      */
     @Override
@@ -2317,7 +2317,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Converts the OpenAPI schema name to a model name suitable for the current code generator.
-     * May be overriden for each programming language.
+     * May be overridden for each programming language.
      * In case the name belongs to the TypeSystem it won't be renamed.
      *
      * @param name the name of the model
@@ -2453,7 +2453,7 @@ public class DefaultCodegen implements CodegenConfig {
             final List<String> allParents = ModelUtils.getAllParentsName(composed, allDefinitions, false);
             final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
 
-            // TODO revise the logic below to set dicriminator, xml attributes
+            // TODO revise the logic below to set discriminator, xml attributes
             if (supportsInheritance || supportsMixins) {
                 m.allVars = new ArrayList<CodegenProperty>();
                 if (composed.getAllOf() != null) {
@@ -2834,7 +2834,7 @@ public class DefaultCodegen implements CodegenConfig {
                                 "'{}' defines discriminator '{}', but the referenced OneOf schema '{}' is missing {}",
                                 composedSchemaName, discPropName, modelName, discPropName);
                     }
-                    if (cp.dataType == null) {
+                    if (cp != null && cp.dataType == null) {
                         cp = thisCp;
                         continue;
                     }
@@ -3030,13 +3030,16 @@ public class DefaultCodegen implements CodegenConfig {
                 MappedModel mm = new MappedModel(modelName, toModelName(modelName));
                 descendentSchemas.add(mm);
                 Schema cs = ModelUtils.getSchema(openAPI, modelName);
-                Map<String, Object> vendorExtensions = cs.getExtensions();
-                if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
-                    String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                    mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
-                    descendentSchemas.add(mm);
+                if (cs == null) { // cannot lookup the model based on the name
+                    LOGGER.error("Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.", modelName);
+                } else {
+                    Map<String, Object> vendorExtensions = cs.getExtensions();
+                    if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
+                        String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
+                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
+                        descendentSchemas.add(mm);
+                    }
                 }
-
             }
         }
         return descendentSchemas;
@@ -3851,13 +3854,13 @@ public class DefaultCodegen implements CodegenConfig {
         // remove prefix in operationId
         if (removeOperationIdPrefix) {
             // The prefix is everything before the removeOperationIdPrefixCount occurrence of removeOperationIdPrefixDelimiter
-            String[] componenets = operationId.split("[" + removeOperationIdPrefixDelimiter + "]");
-            if (componenets.length > 1) {
+            String[] components = operationId.split("[" + removeOperationIdPrefixDelimiter + "]");
+            if (components.length > 1) {
                 // If removeOperationIdPrefixCount is -1 or bigger that the number of occurrences, uses the last one
-                int componenet_number = removeOperationIdPrefixCount == -1 ? componenets.length - 1 : removeOperationIdPrefixCount;
-                componenet_number = Math.min(componenet_number, componenets.length - 1);
+                int component_number = removeOperationIdPrefixCount == -1 ? components.length - 1 : removeOperationIdPrefixCount;
+                component_number = Math.min(component_number, components.length - 1);
                 // Reconstruct the operationId from its split elements and the delimiter
-                operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(componenets, componenet_number, componenets.length));
+                operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(components, component_number, components.length));
             }
         }
         operationId = removeNonNameElementToCamelCase(operationId);
@@ -4547,6 +4550,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isQueryParam = true;
+            codegenParameter.isAllowEmptyValue = parameter.getAllowEmptyValue() != null && parameter.getAllowEmptyValue();
         } else if (parameter instanceof PathParameter || "path".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.required = true;
             codegenParameter.isPathParam = true;
@@ -4947,7 +4951,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Loop through propertiies and unalias the reference if $ref (reference) is defined
+     * Loop through properties and unalias the reference if $ref (reference) is defined
      *
      * @param properties model properties (schemas)
      * @return model properties with direct reference to schemas
@@ -6022,7 +6026,7 @@ public class DefaultCodegen implements CodegenConfig {
                     } else {
                         LOGGER.warn("Could not compute datatypeWithEnum from {}, {}", codegenParameter.baseType, codegenParameter.enumName);
                     }
-                    //TODO fix collectformat for form parameters
+                    //TODO fix collectionFormat for form parameters
                     //collectionFormat = getCollectionFormat(s);
                     String collectionFormat = getCollectionFormat(codegenParameter);
                     // default to csv:
@@ -6577,7 +6581,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Boolean value indicating the state of the option for post-processing file using envirionment variables.
+     * Boolean value indicating the state of the option for post-processing file using environment variables.
      *
      * @return true if the option is enabled
      */
@@ -6587,7 +6591,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Set the boolean value indicating the state of the option for post-processing file using envirionment variables.
+     * Set the boolean value indicating the state of the option for post-processing file using environment variables.
      *
      * @param enablePostProcessFile true to enable post-processing file
      */

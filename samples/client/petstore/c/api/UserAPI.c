@@ -459,7 +459,7 @@ UserAPI_loginUser(apiClient_t *apiClient, char * username , char * password )
     if (apiClient->response_code == 400) {
         printf("%s\n","Invalid username/password supplied");
     }
-    //primitive reutrn type simple
+    //primitive return type simple
     char* elementToReturn =  strdup((char*)apiClient->dataReceived);
 
     if (apiClient->dataReceived) {

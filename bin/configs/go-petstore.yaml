@@ -7,4 +7,3 @@ additionalProperties:
   packageName: petstore
   disallowAdditionalPropertiesIfNotPresent: false
   generateInterfaces: true
-  skipReadonlyPropertiesInInt: false

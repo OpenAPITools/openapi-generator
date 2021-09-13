@@ -357,7 +357,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         }
         if (file !== undefined) {
              // TODO: replace .append with .set
-             localVarFormParams.append('file', file.data, file.name);
+             if (localVarFormParams instanceof FormData) {
+                 localVarFormParams.append('file', file.data, file.name);
+             }
         }
 
         requestContext.setBody(localVarFormParams);

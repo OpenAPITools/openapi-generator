@@ -11,9 +11,13 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.io.IOException
 import java.net.URLConnection
 import java.util.Date
 import java.util.Locale
@@ -197,6 +201,7 @@ open class ApiClient(val baseUrl: String) {
         }.build()
 
         val response = client.newCall(request).execute()
+
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>

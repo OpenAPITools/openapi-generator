@@ -37,6 +37,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return arrayArrayNumber;
   }
 
+  @JsonProperty("ArrayArrayNumber")
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }

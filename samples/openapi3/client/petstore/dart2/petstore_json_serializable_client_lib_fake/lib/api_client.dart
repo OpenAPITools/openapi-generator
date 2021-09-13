@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -80,7 +81,7 @@ class ApiClient {
       ? '?${urlEncodedQueryParams.join('&')}'
       : '';
 
-    final Uri uri = Uri.parse('$basePath$path$queryString');
+    final uri = Uri.parse('$basePath$path$queryString');
 
     if (nullableContentType != null) {
       headerParams['Content-Type'] = nullableContentType;
@@ -98,7 +99,8 @@ class ApiClient {
         body.finalize().listen(
           request.sink.add,
           onDone: request.sink.close,
-          onError: (error, trace) => request.sink.close(),
+          // ignore: avoid_types_on_closure_parameters
+          onError: (Object error, StackTrace trace) => request.sink.close(),
           cancelOnError: true,
         );
         final response = await _client.send(request);

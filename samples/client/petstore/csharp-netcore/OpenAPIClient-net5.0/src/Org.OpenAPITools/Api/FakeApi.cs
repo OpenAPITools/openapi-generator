@@ -2850,7 +2850,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<Object>("/fake/test-query-paramters", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<Object>("/fake/test-query-parameters", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2936,7 +2936,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/test-query-paramters", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/test-query-parameters", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

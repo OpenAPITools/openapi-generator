@@ -49,7 +49,10 @@ namespace Org.OpenAPITools.Model
         public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
         {
             // to ensure "className" is required (not null)
-            this._ClassName = className ?? throw new ArgumentNullException("className is a required property for Whale and cannot be null");
+            if (className == null) {
+                throw new ArgumentNullException("className is a required property for Whale and cannot be null");
+            }
+            this._ClassName = className;
             this._HasBaleen = hasBaleen;
             this._HasTeeth = hasTeeth;
             this.AdditionalProperties = new Dictionary<string, object>();

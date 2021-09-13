@@ -307,7 +307,7 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/isBasicBasic}}
             {{#isBasicBearer}}
-            // http beerer authentication required
+            // http bearer authentication required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;

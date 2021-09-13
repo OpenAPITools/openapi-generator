@@ -166,7 +166,7 @@ You don't need to rename the file manually, OpenAPI Generator will do it when yo
 
 ## Metadata folder
 
-The metatata folder (to store the `VERSION` file for example) is now called `.openapi-generator/` instead of `.swagger-codegen/`.
+The metadata folder (to store the `VERSION` file for example) is now called `.openapi-generator/` instead of `.swagger-codegen/`.
 
 
 

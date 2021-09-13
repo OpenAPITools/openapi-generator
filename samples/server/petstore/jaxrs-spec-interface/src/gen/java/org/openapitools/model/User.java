@@ -41,6 +41,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
   }
@@ -61,6 +62,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return username;
   }
 
+  @JsonProperty("username")
   public void setUsername(String username) {
     this.username = username;
   }
@@ -81,6 +83,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return firstName;
   }
 
+  @JsonProperty("firstName")
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
@@ -101,6 +104,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return lastName;
   }
 
+  @JsonProperty("lastName")
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
@@ -121,6 +125,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return email;
   }
 
+  @JsonProperty("email")
   public void setEmail(String email) {
     this.email = email;
   }
@@ -141,6 +146,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return password;
   }
 
+  @JsonProperty("password")
   public void setPassword(String password) {
     this.password = password;
   }
@@ -161,6 +167,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return phone;
   }
 
+  @JsonProperty("phone")
   public void setPhone(String phone) {
     this.phone = phone;
   }
@@ -182,6 +189,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return userStatus;
   }
 
+  @JsonProperty("userStatus")
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }

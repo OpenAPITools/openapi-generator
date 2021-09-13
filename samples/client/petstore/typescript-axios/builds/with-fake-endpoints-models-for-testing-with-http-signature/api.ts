@@ -2212,7 +2212,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             assertParamExists('testQueryParameterCollectionFormat', 'url', url)
             // verify required parameter 'context' is not null or undefined
             assertParamExists('testQueryParameterCollectionFormat', 'context', context)
-            const localVarPath = `/fake/test-query-paramters`;
+            const localVarPath = `/fake/test-query-parameters`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2267,7 +2267,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             assertParamExists('testUniqueItemsHeaderAndQueryParameterCollectionFormat', 'queryUnique', queryUnique)
             // verify required parameter 'headerUnique' is not null or undefined
             assertParamExists('testUniqueItemsHeaderAndQueryParameterCollectionFormat', 'headerUnique', headerUnique)
-            const localVarPath = `/fake/test-unique-paramters`;
+            const localVarPath = `/fake/test-unique-parameters`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

@@ -44,7 +44,10 @@ namespace Org.OpenAPITools.Model
         public DanishPig(string className = default(string))
         {
             // to ensure "className" is required (not null)
-            this.ClassName = className ?? throw new ArgumentNullException("className is a required property for DanishPig and cannot be null");
+            if (className == null) {
+                throw new ArgumentNullException("className is a required property for DanishPig and cannot be null");
+            }
+            this.ClassName = className;
         }
 
         /// <summary>

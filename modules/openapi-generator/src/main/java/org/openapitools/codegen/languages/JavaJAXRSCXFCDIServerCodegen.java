@@ -40,7 +40,7 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         sourceFolder = "src/gen/java";
         useBeanValidation = true;
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
 

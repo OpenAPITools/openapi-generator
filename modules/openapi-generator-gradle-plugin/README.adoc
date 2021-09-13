@@ -677,7 +677,7 @@ You can run `gradle tasks --debug` to see this registration.
 
 === Android Studio
 
-Android Studio may experience a Windows-specific Guava dependency conflict with openapig-enerator-gradle-plugin versions greater than 3.0.0.
+Android Studio may experience a Windows-specific Guava dependency conflict with openapi-generator-gradle-plugin versions greater than 3.0.0.
 
 As a workaround, you may force exclude conflicting Guava dependencies.
 
