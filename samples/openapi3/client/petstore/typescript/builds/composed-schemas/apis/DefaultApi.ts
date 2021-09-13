@@ -7,8 +7,11 @@ import {ApiException} from './exception';
 import {canConsumeForm, isCodeInRange} from '../util';
 
 
+import { Cat } from '../models/Cat';
+import { Dog } from '../models/Dog';
 import { InlineObject } from '../models/InlineObject';
-import { UNKNOWNBASETYPE } from '../models/UNKNOWN_BASE_TYPE';
+import { PetByAge } from '../models/PetByAge';
+import { PetByType } from '../models/PetByType';
 
 /**
  * no description
@@ -46,9 +49,9 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * @param UNKNOWN_BASE_TYPE 
+     * @param petByAgePetByType 
      */
-    public async petsFilteredPatch(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, _options?: Configuration): Promise<RequestContext> {
+    public async petsFilteredPatch(petByAgePetByType?: PetByAge | PetByType, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -66,7 +69,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(UNKNOWN_BASE_TYPE, "UNKNOWN_BASE_TYPE", ""),
+            ObjectSerializer.serialize(petByAgePetByType, "PetByAge | PetByType", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -76,9 +79,9 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * @param UNKNOWN_BASE_TYPE 
+     * @param catDog 
      */
-    public async petsPatch(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, _options?: Configuration): Promise<RequestContext> {
+    public async petsPatch(catDog?: Cat | Dog, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -96,7 +99,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(UNKNOWN_BASE_TYPE, "UNKNOWN_BASE_TYPE", ""),
+            ObjectSerializer.serialize(catDog, "Cat | Dog", ""),
             contentType
         );
         requestContext.setBody(serializedBody);

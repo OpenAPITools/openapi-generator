@@ -3559,7 +3559,7 @@ public class DefaultCodegen implements CodegenConfig {
             updatePropertyForAnyType(property, p);
         }
 
-        if (!(ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p) || isFreeFormObject(p) || ModelUtils.isAnyType(p))) {
+        if (!(ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p) || isFreeFormObject(p) || ModelUtils.isAnyType(p)) || ModelUtils.isComposedSchema(p)) {
             // model
             String type = getSchemaType(p);
             setNonArrayMapProperty(property, type);

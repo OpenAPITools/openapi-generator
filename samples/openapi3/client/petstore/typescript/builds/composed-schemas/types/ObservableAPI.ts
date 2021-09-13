@@ -50,10 +50,10 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param UNKNOWN_BASE_TYPE 
+     * @param petByAgePetByType 
      */
-    public petsFilteredPatch(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.petsFilteredPatch(UNKNOWN_BASE_TYPE, _options);
+    public petsFilteredPatch(petByAgePetByType?: PetByAge | PetByType, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.petsFilteredPatch(petByAgePetByType, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -72,10 +72,10 @@ export class ObservableDefaultApi {
     }
 
     /**
-     * @param UNKNOWN_BASE_TYPE 
+     * @param catDog 
      */
-    public petsPatch(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, _options?: Configuration): Observable<void> {
-        const requestContextPromise = this.requestFactory.petsPatch(UNKNOWN_BASE_TYPE, _options);
+    public petsPatch(catDog?: Cat | Dog, _options?: Configuration): Observable<void> {
+        const requestContextPromise = this.requestFactory.petsPatch(catDog, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);

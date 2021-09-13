@@ -79,8 +79,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .DefaultApi(configuration);
 
 let body:.DefaultApiPetsFilteredPatchRequest = {
-  // UNKNOWN_BASE_TYPE (optional)
-  UNKNOWN_BASE_TYPE: null,
+  // PetByAge | PetByType (optional)
+  petByAgePetByType: null,
 };
 
 apiInstance.petsFilteredPatch(body).then((data:any) => {
@@ -93,7 +93,7 @@ apiInstance.petsFilteredPatch(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_BASE_TYPE** | **UNKNOWN_BASE_TYPE**|  |
+ **petByAgePetByType** | **PetByAge | PetByType**|  |
 
 
 ### Return type
@@ -132,8 +132,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .DefaultApi(configuration);
 
 let body:.DefaultApiPetsPatchRequest = {
-  // UNKNOWN_BASE_TYPE (optional)
-  UNKNOWN_BASE_TYPE: null,
+  // Cat | Dog (optional)
+  catDog: null,
 };
 
 apiInstance.petsPatch(body).then((data:any) => {
@@ -146,7 +146,7 @@ apiInstance.petsPatch(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_BASE_TYPE** | **UNKNOWN_BASE_TYPE**|  |
+ **catDog** | **Cat | Dog**|  |
 
 
 ### Return type

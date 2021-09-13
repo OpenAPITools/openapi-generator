@@ -25,19 +25,19 @@ export interface DefaultApiFilePostRequest {
 export interface DefaultApiPetsFilteredPatchRequest {
     /**
      * 
-     * @type UNKNOWN_BASE_TYPE
+     * @type PetByAge | PetByType
      * @memberof DefaultApipetsFilteredPatch
      */
-    UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE
+    petByAgePetByType?: PetByAge | PetByType
 }
 
 export interface DefaultApiPetsPatchRequest {
     /**
      * 
-     * @type UNKNOWN_BASE_TYPE
+     * @type Cat | Dog
      * @memberof DefaultApipetsPatch
      */
-    UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE
+    catDog?: Cat | Dog
 }
 
 export class ObjectDefaultApi {
@@ -58,14 +58,14 @@ export class ObjectDefaultApi {
      * @param param the request object
      */
     public petsFilteredPatch(param: DefaultApiPetsFilteredPatchRequest, options?: Configuration): Promise<void> {
-        return this.api.petsFilteredPatch(param.UNKNOWN_BASE_TYPE,  options).toPromise();
+        return this.api.petsFilteredPatch(param.petByAgePetByType,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
     public petsPatch(param: DefaultApiPetsPatchRequest, options?: Configuration): Promise<void> {
-        return this.api.petsPatch(param.UNKNOWN_BASE_TYPE,  options).toPromise();
+        return this.api.petsPatch(param.catDog,  options).toPromise();
     }
 
 }
