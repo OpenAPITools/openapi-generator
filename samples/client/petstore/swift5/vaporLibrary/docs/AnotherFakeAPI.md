@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **call123testSpecialTags**
 ```swift
-    open class func call123testSpecialTags(body: Client, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags>
+    open class func call123testSpecialTags(body: Client, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags>
 ```
 
 To test special tags
