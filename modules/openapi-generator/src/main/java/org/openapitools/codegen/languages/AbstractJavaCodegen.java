@@ -1319,6 +1319,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        // add implements for serializable/parcelable to all models
+        List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
+        for (Map<String, Object> mo : models) {
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            if (this.serializableModel) {
+                cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
+            }
+        }
+
         return postProcessModelsEnum(objs);
     }
 
