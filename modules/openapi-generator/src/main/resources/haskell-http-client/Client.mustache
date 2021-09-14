@@ -69,7 +69,7 @@ data MimeError =
   MimeError {
     mimeError :: String -- ^ unrender/parser error
   , mimeErrorResponse :: NH.Response BCL.ByteString -- ^ http response
-  } deriving (Eq, Show)
+  } deriving (Show)
 
 -- | send a request returning the 'MimeResult'
 dispatchMime
@@ -198,11 +198,11 @@ modifyInitRequestM (InitRequest req) f = fmap InitRequest (f req)
 -- | Run a block using the configured logger instance
 runConfigLog
   :: P.MonadIO m
-  => {{configType}} -> LogExec m
+  => {{configType}} -> LogExec m a
 runConfigLog config = configLogExecWithContext config (configLogContext config)
 
 -- | Run a block using the configured logger instance (logs exceptions)
 runConfigLogWithExceptions
   :: (E.MonadCatch m, P.MonadIO m)
-  => T.Text -> {{configType}} -> LogExec m
+  => T.Text -> {{configType}} -> LogExec m a
 runConfigLogWithExceptions src config = runConfigLog config . logExceptions src

@@ -1,4 +1,4 @@
-resolver: lts-14.27
+resolver: lts-18.10
 build:
   haddock-arguments:
     haddock-args:
