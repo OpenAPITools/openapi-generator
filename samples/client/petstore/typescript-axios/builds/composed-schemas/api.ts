@@ -132,7 +132,7 @@ export interface InlineObject {
      * @type {any}
      * @memberof InlineObject
      */
-    file?: any | null;
+    file?: any;
 }
 /**
  * 
