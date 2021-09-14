@@ -56,36 +56,36 @@ components:
         ComposedAnyType:
           allOf:
             - {}
-#    ComposedObject:
-#      type: object
-#      allOf:
-#        - {}
-#    ComposedNumber:
-#      type: number
-#      allOf:
-#        - {}
-#    ComposedInteger:
-#      type: integer
-#      allOf:
-#        - {}
-#    ComposedString:
-#      type: string
-#      allOf:
-#        - {}
-#    ComposedBool:
-#      type: boolean
-#      allOf:
-#        - {}
-#    ComposedArray:
-#      type: array
-#      items: {}
-#      allOf:
-#        - {}
-#    ComposedNone:
-#      type: 'null'
-#      allOf:
-#        - {}
-#    ComposedAnyType:
-#      type: object
-#      allOf:
-#        - {}
+    ComposedObject:
+      type: object
+      allOf:
+        - {}
+    ComposedNumber:
+      type: number
+      allOf:
+        - {}
+    ComposedInteger:
+      type: integer
+      allOf:
+        - {}
+    ComposedString:
+      type: string
+      allOf:
+        - {}
+    ComposedBool:
+      type: boolean
+      allOf:
+        - {}
+    ComposedArray:
+      type: array
+      items: {}
+      allOf:
+        - {}
+    ComposedNone:
+      type: 'null'
+      allOf:
+        - {}
+    ComposedAnyType:
+      type: object
+      allOf:
+        - {}

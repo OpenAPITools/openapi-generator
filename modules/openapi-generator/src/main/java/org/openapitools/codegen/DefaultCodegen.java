@@ -2654,8 +2654,8 @@ public class DefaultCodegen implements CodegenConfig {
             m.isNullable = Boolean.TRUE;
         }
 
+        m.setTypeProperties(schema);
         if (ModelUtils.isArraySchema(schema)) {
-            m.isArray = true;
             CodegenProperty arrayProperty = fromProperty(name, schema);
             m.setItems(arrayProperty.items);
             m.arrayModelType = arrayProperty.complexType;
@@ -2670,21 +2670,16 @@ public class DefaultCodegen implements CodegenConfig {
                 m.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
                 if (ModelUtils.isShortSchema(schema)) { // int32
                     m.setIsShort(Boolean.TRUE);
-                } else { // unbounded integer
-                    m.setIsUnboundedInteger(Boolean.TRUE);
                 }
             }
         } else if (ModelUtils.isStringSchema(schema)) {
             // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
-            m.isString = Boolean.TRUE;
             if (ModelUtils.isDateTimeSchema(schema)) {
                 // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
                 m.isDateTime = Boolean.TRUE;
-                m.isString = Boolean.FALSE;
             } else if (ModelUtils.isDateSchema(schema)) {
                 // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
                 m.isDate = Boolean.TRUE;
-                m.isString = Boolean.FALSE;
             }
         } else if (ModelUtils.isNumberSchema(schema)) {
             // NOTE: Number schemas as CodegenModel is a rare use case and may be removed at a later date.
@@ -2693,13 +2688,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.isFloat = Boolean.TRUE;
             } else if (ModelUtils.isDoubleSchema(schema)) { // double
                 m.isDouble = Boolean.TRUE;
-            } else { // type is number and without format
-                m.isNumber = Boolean.TRUE;
             }
-        } else if (ModelUtils.isBooleanSchema(schema)) {
-            m.isBoolean = Boolean.TRUE;
-        } else if (ModelUtils.isNullType(schema)) {
-            m.isNull = true;
         } else if (ModelUtils.isAnyType(schema)) {
             // The 'null' value is allowed when the OAS schema is 'any type'.
             // See https://github.com/OAI/OpenAPI-Specification/issues/1389
@@ -2724,7 +2713,6 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isMapSchema(schema)) {
                 // an object or anyType composed schema that has additionalProperties set
                 addAdditionPropertiesToCodeGenModel(m, schema);
-                m.isMap = true;
             } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
                 // non-composed object type with no properties + additionalProperties
                 // additionalProperties must be null, ObjectSchema, or empty Schema

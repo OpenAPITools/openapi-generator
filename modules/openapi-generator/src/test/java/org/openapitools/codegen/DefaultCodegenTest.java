@@ -3655,4 +3655,45 @@ public class DefaultCodegenTest {
         assertTrue(m.vars.get(6).getIsNull());
         assertTrue(m.vars.get(7).getIsAnyType());
     }
+
+    @Test
+    public void testComposedModelTypes() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10330.yaml");
+        codegen.setOpenAPI(openAPI);
+        String modelName;
+        CodegenModel m;
+
+        modelName = "ComposedObject";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsMap());
+
+        modelName = "ComposedNumber";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsNumber());
+
+        modelName = "ComposedInteger";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsUnboundedInteger());
+
+        modelName = "ComposedString";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsString());
+
+        modelName = "ComposedBool";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsBoolean());
+
+        modelName = "ComposedArray";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsArray());
+
+        modelName = "ComposedNone";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsNull());
+
+        modelName = "ComposedAnyType";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsAnyType());
+    }
 }
