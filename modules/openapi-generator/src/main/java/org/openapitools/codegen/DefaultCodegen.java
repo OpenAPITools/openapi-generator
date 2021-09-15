@@ -4200,12 +4200,6 @@ public class DefaultCodegen implements CodegenConfig {
             responseSchema = ModelUtils.getSchemaFromResponse(response);
         }
         r.schema = responseSchema;
-        if (responseSchema != null) {
-            ModelUtils.syncValidationProperties(responseSchema, r);
-            if (responseSchema.getPattern() != null) {
-                r.setPattern(toRegularExpression(responseSchema.getPattern()));
-            }
-        }
 
         r.message = escapeText(response.getDescription());
         // TODO need to revise and test examples in responses
@@ -4224,8 +4218,13 @@ public class DefaultCodegen implements CodegenConfig {
             return r;
         }
 
-        Map<String, Schema> allSchemas = null;
+        ModelUtils.syncValidationProperties(responseSchema, r);
+        if (responseSchema.getPattern() != null) {
+            r.setPattern(toRegularExpression(responseSchema.getPattern()));
+        }
+
         CodegenProperty cp = fromProperty("response", responseSchema);
+        r.dataType = cp.dataType;
         r.isNull = cp.isNull;
 
         if (!ModelUtils.isArraySchema(responseSchema)) {
@@ -4241,7 +4240,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        r.dataType = cp.dataType;
         if (ModelUtils.isArraySchema(responseSchema)) {
             ArraySchema as = (ArraySchema) responseSchema;
             CodegenProperty items = fromProperty("response", getSchemaItems(as));
@@ -4252,51 +4250,56 @@ public class DefaultCodegen implements CodegenConfig {
                 r.baseType = innerCp.baseType;
                 innerCp = innerCp.items;
             }
-        } else if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isEmail)) {
-            r.isEmail = true;
-        } else if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isUuid)) {
-            r.isUuid = true;
-        } else if (Boolean.TRUE.equals(cp.isByteArray)) {
-            r.isByteArray = true;
-        } else if (Boolean.TRUE.equals(cp.isString)) {
-            r.isString = true;
-        } else if (Boolean.TRUE.equals(cp.isBoolean)) {
-            r.isBoolean = true;
-        } else if (Boolean.TRUE.equals(cp.isLong)) {
-            r.isLong = true;
-            r.isNumeric = true;
-        } else if (Boolean.TRUE.equals(cp.isInteger)) {
-            r.isInteger = true;
-            r.isNumeric = true;
-            if (Boolean.TRUE.equals(cp.isShort)) {
-                r.isShort = true;
-            } else if (Boolean.TRUE.equals(cp.isUnboundedInteger)) {
-                r.isUnboundedInteger = true;
+        } else if (ModelUtils.isStringSchema(responseSchema)) {
+            r.isString = cp.isString;
+            if (ModelUtils.isEmailSchema(responseSchema)) {
+                r.isEmail = true;
+            } else if (ModelUtils.isUUIDSchema(responseSchema)) {
+                r.isUuid = true;
+            } else if (ModelUtils.isByteArraySchema(responseSchema)) {
+                r.isByteArray = true;
+            } else if (ModelUtils.isBinarySchema(responseSchema)) {
+                r.isFile = true; // file = binary in OAS3
+                r.isBinary = true;
+            } else if (ModelUtils.isFileSchema(responseSchema)) {
+                r.isFile = true;
+            } else if (ModelUtils.isDateSchema(responseSchema)) {
+                r.isDate = true;
+            } else if (ModelUtils.isDateTimeSchema(responseSchema)) {
+                r.isDateTime = true;
+            } else if (ModelUtils.isDecimalSchema(responseSchema)) { // type: string, format: number
+                r.isDecimal = true;
+                r.setIsString(false);
+                r.isNumeric = true;
             }
-        } else if (Boolean.TRUE.equals(cp.isNumber)) {
-            r.isNumber = true;
-            r.isNumeric = true;
-        } else if (Boolean.TRUE.equals(cp.isDouble)) {
-            r.isDouble = true;
-            r.isNumeric = true;
-        } else if (Boolean.TRUE.equals(cp.isFloat)) {
-            r.isFloat = true;
-            r.isNumeric = true;
-        } else if (Boolean.TRUE.equals(cp.isDecimal)) {
-            r.isDecimal = true;
-            r.isNumeric = true;
-        } else if (Boolean.TRUE.equals(cp.isBinary)) {
-            r.isFile = true; // file = binary in OAS3
-            r.isBinary = true;
-        } else if (Boolean.TRUE.equals(cp.isFile)) {
-            r.isFile = true;
-        } else if (Boolean.TRUE.equals(cp.isDate)) {
-            r.isDate = true;
-        } else if (Boolean.TRUE.equals(cp.isDateTime)) {
-            r.isDateTime = true;
-        } else if (Boolean.TRUE.equals(cp.isFreeFormObject)) {
-            r.isFreeFormObject = true;
-        } else if (Boolean.TRUE.equals(cp.isAnyType)) {
+        } else if (ModelUtils.isBooleanSchema(responseSchema)) {
+            r.isBoolean = true;
+        } else if (ModelUtils.isIntegerSchema(responseSchema)) { // integer type
+            r.isNumeric = Boolean.TRUE;
+            if (ModelUtils.isLongSchema(responseSchema)) { // int64/long format
+                r.isLong = Boolean.TRUE;
+            } else {
+                r.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+                if (ModelUtils.isShortSchema(responseSchema)) { // int32
+                    r.setIsShort(Boolean.TRUE);
+                } else {
+                    r.isUnboundedInteger = true;
+                }
+            }
+        } else if (ModelUtils.isNumberSchema(responseSchema)) {
+            r.isNumeric = Boolean.TRUE;
+            if (ModelUtils.isFloatSchema(responseSchema)) { // float
+                r.isFloat = Boolean.TRUE;
+            } else if (ModelUtils.isDoubleSchema(responseSchema)) { // double
+                r.isDouble = Boolean.TRUE;
+            } else {
+                r.isNumber = Boolean.TRUE;
+            }
+        } else if (ModelUtils.isTypeObjectSchema(responseSchema)) {
+            if (Boolean.TRUE.equals(cp.isFreeFormObject)) {
+                r.isFreeFormObject = true;
+            }
+        } else if (ModelUtils.isAnyType(responseSchema)) {
             r.isAnyType = true;
         } else {
             LOGGER.debug("Property type is not primitive: {}", cp.dataType);
