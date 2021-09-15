@@ -4225,7 +4225,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenProperty cp = fromProperty("response", responseSchema);
         r.dataType = cp.dataType;
-        r.isNull = cp.isNull;
 
         if (!ModelUtils.isArraySchema(responseSchema)) {
             if (cp.complexType != null) {
@@ -4240,7 +4239,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        r.setTypeProperties(responseSchema);
         if (ModelUtils.isArraySchema(responseSchema)) {
+            r.simpleType = false;
+            r.containerType = cp.containerType;
             ArraySchema as = (ArraySchema) responseSchema;
             CodegenProperty items = fromProperty("response", getSchemaItems(as));
             r.setItems(items);
@@ -4251,7 +4253,6 @@ public class DefaultCodegen implements CodegenConfig {
                 innerCp = innerCp.items;
             }
         } else if (ModelUtils.isStringSchema(responseSchema)) {
-            r.isString = cp.isString;
             if (ModelUtils.isEmailSchema(responseSchema)) {
                 r.isEmail = true;
             } else if (ModelUtils.isUUIDSchema(responseSchema)) {
@@ -4272,8 +4273,6 @@ public class DefaultCodegen implements CodegenConfig {
                 r.setIsString(false);
                 r.isNumeric = true;
             }
-        } else if (ModelUtils.isBooleanSchema(responseSchema)) {
-            r.isBoolean = true;
         } else if (ModelUtils.isIntegerSchema(responseSchema)) { // integer type
             r.isNumeric = Boolean.TRUE;
             if (ModelUtils.isLongSchema(responseSchema)) { // int64/long format
@@ -4282,8 +4281,6 @@ public class DefaultCodegen implements CodegenConfig {
                 r.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
                 if (ModelUtils.isShortSchema(responseSchema)) { // int32
                     r.setIsShort(Boolean.TRUE);
-                } else {
-                    r.isUnboundedInteger = true;
                 }
             }
         } else if (ModelUtils.isNumberSchema(responseSchema)) {
@@ -4292,30 +4289,21 @@ public class DefaultCodegen implements CodegenConfig {
                 r.isFloat = Boolean.TRUE;
             } else if (ModelUtils.isDoubleSchema(responseSchema)) { // double
                 r.isDouble = Boolean.TRUE;
-            } else {
-                r.isNumber = Boolean.TRUE;
             }
         } else if (ModelUtils.isTypeObjectSchema(responseSchema)) {
-            if (Boolean.TRUE.equals(cp.isFreeFormObject)) {
+            if (ModelUtils.isFreeFormObject(openAPI, responseSchema)) {
                 r.isFreeFormObject = true;
             }
-        } else if (ModelUtils.isAnyType(responseSchema)) {
-            r.isAnyType = true;
-        } else {
+            r.containerType = cp.containerType;
+            r.isMap = "map".equals(cp.containerType);
+        } else if (!ModelUtils.isAnyType(responseSchema) && !ModelUtils.isBooleanSchema(responseSchema)){
+            // referenced schemas
             LOGGER.debug("Property type is not primitive: {}", cp.dataType);
         }
 
-        if (cp.isContainer) {
-            r.simpleType = false;
-            r.containerType = cp.containerType;
-            r.isMap = "map".equals(cp.containerType);
-            r.isArray = "list".equalsIgnoreCase(cp.containerType) ||
-                    "array".equalsIgnoreCase(cp.containerType) ||
-                    "set".equalsIgnoreCase(cp.containerType);
-        } else {
+        if (!r.isMap && !r.isArray) {
             r.simpleType = true;
         }
-
         r.primitiveType = (r.baseType == null || languageSpecificPrimitives().contains(r.baseType));
 
         addVarsRequiredVarsAdditionalProps(responseSchema, r);
