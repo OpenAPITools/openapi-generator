@@ -33,6 +33,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -144,9 +145,14 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
                 // if param is enum, uppercase 'baseName' to have a reference to wsdl simpletype
                 if (param.isEnum) {
-                    char[] c = param.baseName.toCharArray();
-                    c[0] = Character.toUpperCase(c[0]);
-                    param.baseName = new String(c);
+                    param.baseName = param.baseName.substring(0, 1).toUpperCase() + param.baseName.substring(1);
+                }
+            }
+
+            // if res type is model uppercase datatype just in case, to have a correct reference to wsdl complextype
+            for (CodegenResponse response: op.responses) {
+                if (response.isModel) {
+                    response.dataType = response.dataType.substring(0, 1).toUpperCase() + response.dataType.substring(1);
                 }
             }
 
@@ -206,17 +212,12 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
                 // lowercase basetypes if openapitype is string
                 if ("string".equals(var.openApiType)) {
-                    char[] c = var.baseType.toCharArray();
-                    c[0] = Character.toLowerCase(c[0]);
-                    var.baseType = new String(c);
+                    var.baseType = var.baseType.substring(0, 1).toLowerCase() + var.baseType.substring(1);
                 }
                 // if string enum, uppercase 'name' to have a reference to wsdl simpletype
                 if (var.isEnum) {
-                    char[] c = var.name.toCharArray();
-                    c[0] = Character.toUpperCase(c[0]);
-                    var.name = new String(c);
+                    var.name = var.name.substring(0, 1).toUpperCase() +var.name.substring(1);
                 }
-
                 // prevent default="null" in wsdl-tag if no default was specified for a property
                 if ("null".equals(var.defaultValue) || var.defaultValue == null) {
                     propertyVendorExtensions.put("x-prop-has-defaultvalue", false);
@@ -239,7 +240,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                     // get only comma separated names of schemas from oneOf<name1,name2...>
                     String schemaNamesString = var.items.dataType.substring(6, var.items.dataType.length() - 1);
                     List<String> oneofSchemas = new ArrayList<String>(Arrays.asList(schemaNamesString.split("\\s*,\\s*")));
-
+                    
                     for (int i = 0; i < oneofSchemas.size(); i++) {
                         oneofSchemas.set(i, lowerCaseStringExceptFirstLetter(oneofSchemas.get(i)));
                     }
