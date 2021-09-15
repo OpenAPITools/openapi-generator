@@ -4218,100 +4218,104 @@ public class DefaultCodegen implements CodegenConfig {
         addHeaders(response, r.headers);
         r.hasHeaders = !r.headers.isEmpty();
 
-        if (r.schema != null) {
-            Map<String, Schema> allSchemas = null;
-            CodegenProperty cp = fromProperty("response", responseSchema);
-            r.isNull = cp.isNull;
-
-            if (ModelUtils.isArraySchema(responseSchema)) {
-                ArraySchema as = (ArraySchema) responseSchema;
-                CodegenProperty items = fromProperty("response", getSchemaItems(as));
-                r.setItems(items);
-                CodegenProperty innerCp = items;
-
-                while (innerCp != null) {
-                    r.baseType = innerCp.baseType;
-                    innerCp = innerCp.items;
-                }
-            } else {
-                if (cp.complexType != null) {
-                    if (cp.items != null) {
-                        r.baseType = cp.items.complexType;
-                    } else {
-                        r.baseType = cp.complexType;
-                    }
-                    r.isModel = true;
-                } else {
-                    r.baseType = cp.baseType;
-                }
-            }
-
-            r.dataType = cp.dataType;
-            if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isEmail)) {
-                r.isEmail = true;
-            } else if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isUuid)) {
-                r.isUuid = true;
-            } else if (Boolean.TRUE.equals(cp.isByteArray)) {
-                r.isByteArray = true;
-            } else if (Boolean.TRUE.equals(cp.isString)) {
-                r.isString = true;
-            } else if (Boolean.TRUE.equals(cp.isBoolean)) {
-                r.isBoolean = true;
-            } else if (Boolean.TRUE.equals(cp.isLong)) {
-                r.isLong = true;
-                r.isNumeric = true;
-            } else if (Boolean.TRUE.equals(cp.isInteger)) {
-                r.isInteger = true;
-                r.isNumeric = true;
-                if (Boolean.TRUE.equals(cp.isShort)) {
-                    r.isShort = true;
-                } else if (Boolean.TRUE.equals(cp.isUnboundedInteger)) {
-                    r.isUnboundedInteger = true;
-                }
-            } else if (Boolean.TRUE.equals(cp.isNumber)) {
-                r.isNumber = true;
-                r.isNumeric = true;
-            } else if (Boolean.TRUE.equals(cp.isDouble)) {
-                r.isDouble = true;
-                r.isNumeric = true;
-            } else if (Boolean.TRUE.equals(cp.isFloat)) {
-                r.isFloat = true;
-                r.isNumeric = true;
-            } else if (Boolean.TRUE.equals(cp.isDecimal)) {
-                r.isDecimal = true;
-                r.isNumeric = true;
-            } else if (Boolean.TRUE.equals(cp.isBinary)) {
-                r.isFile = true; // file = binary in OAS3
-                r.isBinary = true;
-            } else if (Boolean.TRUE.equals(cp.isFile)) {
-                r.isFile = true;
-            } else if (Boolean.TRUE.equals(cp.isDate)) {
-                r.isDate = true;
-            } else if (Boolean.TRUE.equals(cp.isDateTime)) {
-                r.isDateTime = true;
-            } else if (Boolean.TRUE.equals(cp.isFreeFormObject)) {
-                r.isFreeFormObject = true;
-            } else if (Boolean.TRUE.equals(cp.isAnyType)) {
-                r.isAnyType = true;
-            } else {
-                LOGGER.debug("Property type is not primitive: {}", cp.dataType);
-            }
-
-            if (cp.isContainer) {
-                r.simpleType = false;
-                r.containerType = cp.containerType;
-                r.isMap = "map".equals(cp.containerType);
-                r.isArray = "list".equalsIgnoreCase(cp.containerType) ||
-                        "array".equalsIgnoreCase(cp.containerType) ||
-                        "set".equalsIgnoreCase(cp.containerType);
-            } else {
-                r.simpleType = true;
-            }
-
-            r.primitiveType = (r.baseType == null || languageSpecificPrimitives().contains(r.baseType));
-
-            addVarsRequiredVarsAdditionalProps(responseSchema, r);
+        if (r.schema == null) {
+            r.primitiveType = true;
+            r.simpleType = true;
+            return r;
         }
+
+        Map<String, Schema> allSchemas = null;
+        CodegenProperty cp = fromProperty("response", responseSchema);
+        r.isNull = cp.isNull;
+
+        if (!ModelUtils.isArraySchema(responseSchema)) {
+            if (cp.complexType != null) {
+                if (cp.items != null) {
+                    r.baseType = cp.items.complexType;
+                } else {
+                    r.baseType = cp.complexType;
+                }
+                r.isModel = true;
+            } else {
+                r.baseType = cp.baseType;
+            }
+        }
+
+        r.dataType = cp.dataType;
+        if (ModelUtils.isArraySchema(responseSchema)) {
+            ArraySchema as = (ArraySchema) responseSchema;
+            CodegenProperty items = fromProperty("response", getSchemaItems(as));
+            r.setItems(items);
+            CodegenProperty innerCp = items;
+
+            while (innerCp != null) {
+                r.baseType = innerCp.baseType;
+                innerCp = innerCp.items;
+            }
+        } else if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isEmail)) {
+            r.isEmail = true;
+        } else if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isUuid)) {
+            r.isUuid = true;
+        } else if (Boolean.TRUE.equals(cp.isByteArray)) {
+            r.isByteArray = true;
+        } else if (Boolean.TRUE.equals(cp.isString)) {
+            r.isString = true;
+        } else if (Boolean.TRUE.equals(cp.isBoolean)) {
+            r.isBoolean = true;
+        } else if (Boolean.TRUE.equals(cp.isLong)) {
+            r.isLong = true;
+            r.isNumeric = true;
+        } else if (Boolean.TRUE.equals(cp.isInteger)) {
+            r.isInteger = true;
+            r.isNumeric = true;
+            if (Boolean.TRUE.equals(cp.isShort)) {
+                r.isShort = true;
+            } else if (Boolean.TRUE.equals(cp.isUnboundedInteger)) {
+                r.isUnboundedInteger = true;
+            }
+        } else if (Boolean.TRUE.equals(cp.isNumber)) {
+            r.isNumber = true;
+            r.isNumeric = true;
+        } else if (Boolean.TRUE.equals(cp.isDouble)) {
+            r.isDouble = true;
+            r.isNumeric = true;
+        } else if (Boolean.TRUE.equals(cp.isFloat)) {
+            r.isFloat = true;
+            r.isNumeric = true;
+        } else if (Boolean.TRUE.equals(cp.isDecimal)) {
+            r.isDecimal = true;
+            r.isNumeric = true;
+        } else if (Boolean.TRUE.equals(cp.isBinary)) {
+            r.isFile = true; // file = binary in OAS3
+            r.isBinary = true;
+        } else if (Boolean.TRUE.equals(cp.isFile)) {
+            r.isFile = true;
+        } else if (Boolean.TRUE.equals(cp.isDate)) {
+            r.isDate = true;
+        } else if (Boolean.TRUE.equals(cp.isDateTime)) {
+            r.isDateTime = true;
+        } else if (Boolean.TRUE.equals(cp.isFreeFormObject)) {
+            r.isFreeFormObject = true;
+        } else if (Boolean.TRUE.equals(cp.isAnyType)) {
+            r.isAnyType = true;
+        } else {
+            LOGGER.debug("Property type is not primitive: {}", cp.dataType);
+        }
+
+        if (cp.isContainer) {
+            r.simpleType = false;
+            r.containerType = cp.containerType;
+            r.isMap = "map".equals(cp.containerType);
+            r.isArray = "list".equalsIgnoreCase(cp.containerType) ||
+                    "array".equalsIgnoreCase(cp.containerType) ||
+                    "set".equalsIgnoreCase(cp.containerType);
+        } else {
+            r.simpleType = true;
+        }
+
+        r.primitiveType = (r.baseType == null || languageSpecificPrimitives().contains(r.baseType));
+
+        addVarsRequiredVarsAdditionalProps(responseSchema, r);
 
         if (r.baseType == null) {
             r.isMap = false;
