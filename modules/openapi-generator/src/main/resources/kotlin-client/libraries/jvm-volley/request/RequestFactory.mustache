@@ -4,18 +4,19 @@ package {{packageName}}.request
 
 import com.android.volley.Request
 import com.android.volley.Response
-{{#authMethods}}
+{{#hasAuthMethods}}
 import android.util.Base64
-{{/authMethods}}
+{{/hasAuthMethods}}
 import {{packageName}}.request.IRequestFactory.Companion.escapeString
 import java.lang.reflect.Type
 import java.util.Locale
 import java.util.UUID
 
 class RequestFactory(private val headerFactories : List<() -> Map<String, String>> = listOf(), private val postProcessors :List <(Request<*>) -> Unit> = listOf()): IRequestFactory {
-{{#authMethods}}
+{{#hasAuthMethods}}
+
    {{>auth/authentication}}
-{{/authMethods}}
+{{/hasAuthMethods}}
 
     /**
     * {@inheritDoc}
