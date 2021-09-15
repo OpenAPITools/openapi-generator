@@ -4294,8 +4294,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isFreeFormObject(openAPI, responseSchema)) {
                 r.isFreeFormObject = true;
             }
+            r.simpleType = false;
             r.containerType = cp.containerType;
-            r.isMap = "map".equals(cp.containerType);
         } else if (!ModelUtils.isAnyType(responseSchema) && !ModelUtils.isBooleanSchema(responseSchema)){
             // referenced schemas
             LOGGER.debug("Property type is not primitive: {}", cp.dataType);
