@@ -2583,6 +2583,21 @@ public class DefaultCodegen implements CodegenConfig {
         // end of code block for composed schema
     }
 
+    protected void updateModelForObject(CodegenModel m, Schema schema) {
+        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+            // passing null to allProperties and allRequired as there's no parent
+            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+        }
+        if (ModelUtils.isMapSchema(schema)) {
+            // an object or anyType composed schema that has additionalProperties set
+            addAdditionPropertiesToCodeGenModel(m, schema);
+        } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+            // non-composed object type with no properties + additionalProperties
+            // additionalProperties must be null, ObjectSchema, or empty Schema
+            addAdditionPropertiesToCodeGenModel(m, schema);
+        }
+    }
+
     /**
      * Convert OAS Model object to Codegen Model object.
      *
@@ -2706,18 +2721,7 @@ public class DefaultCodegen implements CodegenConfig {
                 addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
             }
         } else if (ModelUtils.isTypeObjectSchema(schema)) {
-            if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
-                // passing null to allProperties and allRequired as there's no parent
-                addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
-            }
-            if (ModelUtils.isMapSchema(schema)) {
-                // an object or anyType composed schema that has additionalProperties set
-                addAdditionPropertiesToCodeGenModel(m, schema);
-            } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
-                // non-composed object type with no properties + additionalProperties
-                // additionalProperties must be null, ObjectSchema, or empty Schema
-                addAdditionPropertiesToCodeGenModel(m, schema);
-            }
+            updateModelForObject(m, schema);
         }
 
         if (schema instanceof ComposedSchema) {
@@ -4990,7 +4994,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param properties model properties (schemas)
      * @return model properties with direct reference to schemas
      */
-    private Map<String, Schema> unaliasPropertySchema(Map<String, Schema> properties) {
+    protected Map<String, Schema> unaliasPropertySchema(Map<String, Schema> properties) {
         if (properties != null) {
             for (String key : properties.keySet()) {
                 properties.put(key, unaliasSchema(properties.get(key), importMapping()));
@@ -5001,7 +5005,7 @@ public class DefaultCodegen implements CodegenConfig {
         return properties;
     }
 
-    private void addVars(CodegenModel m, Map<String, Schema> properties, List<String> required,
+    protected void addVars(CodegenModel m, Map<String, Schema> properties, List<String> required,
                          Map<String, Schema> allProperties, List<String> allRequired) {
 
         m.hasRequired = false;
