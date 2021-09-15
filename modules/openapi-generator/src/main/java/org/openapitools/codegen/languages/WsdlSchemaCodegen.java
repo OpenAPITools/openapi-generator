@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Arrays;
 
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -231,6 +232,19 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                     propertyVendorExtensions.put("x-prop-has-minormax", true);
                 } else {
                     propertyVendorExtensions.put("x-prop-has-minormax", false);
+                }
+
+                // specify appearing schema names in case of openapi array with oneOf elements
+                if (var.openApiType == "array" && var.items.dataType.startsWith("oneOf<")) {
+                    // get only comma separated names of schemas from oneOf<name1,name2...>
+                    String schemaNamesString = var.items.dataType.substring(6, var.items.dataType.length() - 1);
+                    List<String> oneofSchemas = new ArrayList<String>(Arrays.asList(schemaNamesString.split("\\s*,\\s*")));
+
+                    for (int i = 0; i < oneofSchemas.size(); i++) {
+                        oneofSchemas.set(i, lowerCaseStringExceptFirstLetter(oneofSchemas.get(i)));
+                    }
+
+                    propertyVendorExtensions.put("x-oneof-schemas", oneofSchemas);
                 }
             }
         }

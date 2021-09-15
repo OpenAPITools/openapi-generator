@@ -65,6 +65,10 @@
           </xs:element>
           {{/vendorExtensions.x-prop-has-minormax}}
           {{^vendorExtensions.x-prop-has-minormax}}
+          {{#vendorExtensions.x-oneof-schemas}}
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="{{#lambda.lowercase}}{{.}}{{/lambda.lowercase}}" type="schemas:{{.}}" />
+          {{/vendorExtensions.x-oneof-schemas}}
+          {{^vendorExtensions.x-oneof-schemas}}
           {{#isContainer}}
           <xs:element minOccurs="{{minItems}}{{^minItems}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/minItems}}" maxOccurs="{{maxItems}}{{^maxItems}}unbounded{{/maxItems}}" name="{{baseName}}" type="{{#items}}{{#isModel}}schemas:{{complexType}}{{/isModel}}{{^isModel}}{{#isFreeFormObject}}xs:string{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isString}}xs:{{complexType}}{{/isString}}{{^isString}}{{#isNumeric}}xs:{{complexType}}{{/isNumeric}}{{^isNumeric}}schemas:{{complexType}}{{/isNumeric}}{{/isString}}{{/isFreeFormObject}}{{/isModel}}{{/items}}"{{^description}} /{{/description}}>
           {{/isContainer}}
@@ -77,6 +81,7 @@
             </xs:annotation>
           </xs:element>
           {{/description}}
+          {{/vendorExtensions.x-oneof-schemas}}
           {{/vendorExtensions.x-prop-has-minormax}}
           {{/vars}}
         </xs:sequence>
