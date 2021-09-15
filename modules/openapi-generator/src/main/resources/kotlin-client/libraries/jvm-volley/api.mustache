@@ -15,6 +15,8 @@ import com.google.gson.reflect.TypeToken
 
 import {{packageName}}.request.IRequestFactory
 import {{packageName}}.request.RequestFactory
+import {{packageName}}.infrastructure.CollectionFormats.*
+
 
 {{#imports}}import {{import}}
 {{/imports}}
@@ -71,9 +73,12 @@ class {{classname}} (
         val path = "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", IRequestFactory.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+            {{#formParams}}
+                    "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}),
+            {{/formParams}}
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -109,6 +114,7 @@ class {{classname}} (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
