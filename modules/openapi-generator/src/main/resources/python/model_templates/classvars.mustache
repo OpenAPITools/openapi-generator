@@ -71,8 +71,14 @@
 {{#-first}}
         class_name_to_class = lazy_import()
 {{/-first}}
-{{/imports}}
+{{#-last}}
         return (class_name_to_class['{{{classname}}}'],)  # noqa: E501
+{{/-last}}
+{{/imports}}
+{{^imports}}
+        return ({{{dataType}}},)  # noqa: E501
+{{/imports}}
+
 {{/additionalProperties}}
 {{^additionalProperties}}
     additional_properties_type = None
@@ -97,19 +103,44 @@
 {{/imports}}
         return {
 {{#isAlias}}
-            'value': (class_name_to_class['{{{classname}}}'],),
+{{#complexType}}
+            'value': (class_name_to_class['{{{dataType}}}'],),
+{{/complexType}}
+{{^complexType}}
+            'value': ({{{dataType}}},),
+{{/complexType}}
 {{/isAlias}}
 {{#isEnum}}
-            'value': (class_name_to_class['{{{classname}}}'],),
+{{#complexType}}
+            'value': (class_name_to_class['{{{dataType}}}'],),
+{{/complexType}}
+{{^complexType}}
+            'value': ({{{dataType}}},),
+{{/complexType}}
 {{/isEnum}}
 {{#isArray}}
-            'value': (class_name_to_class['{{{classname}}}'],),
+{{#complexType}}
+    'value': (class_name_to_class['{{#dataType}}{{{.}}}{{/dataType}}'],),
+{{/complexType}}
+{{^complexType}}
+            'value': ({{{dataType}}},),
+{{/complexType}}
 {{/isArray}}
 {{#requiredVars}}
-            '{{name}}': (class_name_to_class['{{{classname}}}'],),  # noqa: E501
+{{#complexType}}
+            '{{name}}': (class_name_to_class['{{{dataType}}}'],),
+{{/complexType}}
+{{^complexType}}
+            '{{name}}': ({{{dataType}}},),
+{{/complexType}}
 {{/requiredVars}}
 {{#optionalVars}}
-            '{{name}}': (class_name_to_class['{{{classname}}}'],),  # noqa: E501
+{{#complexType}}
+            '{{name}}': (class_name_to_class['{{{dataType}}}'],),
+{{/complexType}}
+{{^complexType}}
+            '{{name}}': ({{{dataType}}},),
+{{/complexType}}
 {{/optionalVars}}
         }
 
@@ -130,7 +161,12 @@
 {{/mappedModels}}
         val = {
 {{#mappedModels}}
+{{#imports}}
             '{{mappingName}}': class_name_to_class['{{{classname}}}'],
+{{/imports}}
+{{^imports}}
+            '{{mappingName}}': {{{modelName}}},
+{{/imports}}
 {{/mappedModels}}
         }
         if not val:

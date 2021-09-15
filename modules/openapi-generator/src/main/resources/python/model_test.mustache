@@ -10,7 +10,11 @@ from {{modelPackage}}.{{classFilename}} import {{classname}}
 from {{packageName}}.model_utils import parse as dateutil_parser
 
 # Recursive lazy imports
-def recursive_import(classObject, imports=dict(), recursedList=list()):
+def recursive_import(classObject, imports=None, recursedList=None):
+    if not imports:
+        imports = dict()
+    if not recursedList:
+        recursedList = list()
     if classObject.__name__ in recursedList:
         return
     recursedList.append(classObject.__name__)

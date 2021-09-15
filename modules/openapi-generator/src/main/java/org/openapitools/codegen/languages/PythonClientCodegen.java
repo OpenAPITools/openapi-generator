@@ -444,9 +444,10 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (cp.isPrimitiveType && p.get$ref() != null) {
             cp.complexType = cp.dataType;
         }
-        if (cp.isArray && cp.complexType == null && cp.mostInnerItems.complexType != null) {
-            cp.complexType = cp.mostInnerItems.complexType;
-        }
+        // Below lines commented as per comment from Justin on Sep 14 2021
+//        if (cp.isArray && cp.complexType == null && cp.mostInnerItems.complexType != null) {
+//            cp.complexType = cp.mostInnerItems.complexType;
+//        }
         return cp;
     }
 
