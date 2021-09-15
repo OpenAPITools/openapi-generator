@@ -14,11 +14,90 @@ paths:
     get:
       responses:
         '200':
-          description: 'ObjectWithComposedProperties'
+          description: 'ComposedObject'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ObjectWithComposedProperties'
+                type: object
+                allOf:
+                  - {}
+  /ComposedNumber:
+    get:
+      responses:
+        '200':
+          description: 'ComposedNumber'
+          content:
+            application/json:
+              schema:
+                type: number
+                allOf:
+                  - {}
+  /ComposedInteger:
+    get:
+      responses:
+        '200':
+          description: 'ComposedInteger'
+          content:
+            application/json:
+              schema:
+                type: integer
+                allOf:
+                  - {}
+  /ComposedString:
+    get:
+      responses:
+        '200':
+          description: 'ComposedString'
+          content:
+            application/json:
+              schema:
+                type: string
+                allOf:
+                  - {}
+  /ComposedBool:
+    get:
+      responses:
+        '200':
+          description: 'ComposedBool'
+          content:
+            application/json:
+              schema:
+                type: boolean
+                allOf:
+                  - {}
+  /ComposedArray:
+    get:
+      responses:
+        '200':
+          description: 'ComposedArray'
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+                allOf:
+                  - {}
+  /ComposedNone:
+    get:
+      responses:
+        '200':
+          description: 'ComposedNone'
+          content:
+            application/json:
+              schema:
+                type: 'null'
+                allOf:
+                  - {}
+  /ComposedAnyType:
+    get:
+      responses:
+        '200':
+          description: 'ComposedAnyType'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - {}
 components:
   schemas:
     ObjectWithComposedProperties:
