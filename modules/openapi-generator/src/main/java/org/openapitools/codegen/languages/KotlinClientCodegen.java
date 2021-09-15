@@ -540,6 +540,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
         additionalProperties.put(ROOM_MODEL_PACKAGE, roomModelPackage);
 
+        supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
+
         // We have auth related partial files, so they can be overridden, but don't generate them explicitly
         supportingFiles.add(new SupportingFile("request/GsonRequest.mustache", requestFolder, "GsonRequest.kt"));
         supportingFiles.add(new SupportingFile("request/IRequestFactory.mustache", requestFolder, "IRequestFactory.kt"));

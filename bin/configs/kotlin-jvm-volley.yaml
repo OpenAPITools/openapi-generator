@@ -6,3 +6,4 @@ templateDir: modules/openapi-generator/src/main/resources/kotlin-client
 additionalProperties:
   artifactId: kotlin-petstore-jvm-volley
   generateRoomModels: "true"
+  serializationLibrary: "gson"
