@@ -2598,6 +2598,25 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void updateModelForAnyType(CodegenModel m, Schema schema) {
+        // The 'null' value is allowed when the OAS schema is 'any type'.
+        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        if (Boolean.FALSE.equals(schema.getNullable())) {
+            LOGGER.error("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", name);
+        }
+        // m.isNullable = true;
+        if (ModelUtils.isMapSchema(schema)) {
+            // an object or anyType composed schema that has additionalProperties set
+            addAdditionPropertiesToCodeGenModel(m, schema);
+            m.isMap = true;
+        }
+        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+            // passing null to allProperties and allRequired as there's no parent
+            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+        }
+    }
+
+
     /**
      * Convert OAS Model object to Codegen Model object.
      *
@@ -2705,21 +2724,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.isDouble = Boolean.TRUE;
             }
         } else if (ModelUtils.isAnyType(schema)) {
-            // The 'null' value is allowed when the OAS schema is 'any type'.
-            // See https://github.com/OAI/OpenAPI-Specification/issues/1389
-            if (Boolean.FALSE.equals(schema.getNullable())) {
-                LOGGER.error("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", name);
-            }
-            // m.isNullable = true;
-            if (ModelUtils.isMapSchema(schema)) {
-                // an object or anyType composed schema that has additionalProperties set
-                addAdditionPropertiesToCodeGenModel(m, schema);
-                m.isMap = true;
-            }
-            if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
-                // passing null to allProperties and allRequired as there's no parent
-                addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
-            }
+            updateModelForAnyType(m, schema);
         } else if (ModelUtils.isTypeObjectSchema(schema)) {
             updateModelForObject(m, schema);
         }
