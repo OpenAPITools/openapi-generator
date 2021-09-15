@@ -196,17 +196,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
             Map<String, Object> mod = (Map<String, Object>) mo;
             CodegenModel model = (CodegenModel) mod.get("model");
             Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
-
-            /* check if model is a model with no properties
-             * Used in the mustache template to ensure that no complextype is created
-             * if model is just a schema with an enum defined in the openapi specification
-             */
-            if (model.allowableValues != null) {
-                modelVendorExtensions.put("x-is-openapimodel-enum", true);
-            } else {
-                modelVendorExtensions.put("x-is-openapimodel-enum", false);
-            }
-
+            
             for (CodegenProperty var : model.vars) {
                 Map<String, Object> propertyVendorExtensions = var.getVendorExtensions();
 
@@ -240,7 +230,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                     // get only comma separated names of schemas from oneOf<name1,name2...>
                     String schemaNamesString = var.items.dataType.substring(6, var.items.dataType.length() - 1);
                     List<String> oneofSchemas = new ArrayList<String>(Arrays.asList(schemaNamesString.split("\\s*,\\s*")));
-                    
+
                     for (int i = 0; i < oneofSchemas.size(); i++) {
                         oneofSchemas.set(i, lowerCaseStringExceptFirstLetter(oneofSchemas.get(i)));
                     }

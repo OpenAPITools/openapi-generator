@@ -30,7 +30,7 @@
       {{/apiInfo}}
       {{#models}}
       {{#model}}
-      {{^vendorExtensions.x-is-openapimodel-enum}}
+      {{^isEnum}}
       <xs:complexType name="{{classname}}">
         {{#description}}
         <xs:annotation>
@@ -86,7 +86,7 @@
           {{/vars}}
         </xs:sequence>
       </xs:complexType>
-      {{/vendorExtensions.x-is-openapimodel-enum}}
+      {{/isEnum}}
       {{/model}}
       {{/models}}
       {{#models}}
