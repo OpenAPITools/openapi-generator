@@ -6498,7 +6498,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         } else {
             // referenced schemas
-            ;
+            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
         }
 
         addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
