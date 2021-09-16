@@ -548,6 +548,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("request/RequestFactory.mustache", requestFolder, "RequestFactory.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
 
+        if (getSerializationLibrary() != SERIALIZATION_LIBRARY_TYPE.gson) {
+            throw new RuntimeException("This library currently only supports gson serialization. Try adding '--additional-properties serializationLibrary=gson' to your command.");
+        }
         addSupportingSerializerAdapters(infrastructureFolder);
     }
 
