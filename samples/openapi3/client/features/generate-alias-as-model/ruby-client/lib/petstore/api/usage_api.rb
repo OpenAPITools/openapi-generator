@@ -22,7 +22,7 @@ module Petstore
     # Use alias to array
     # Use alias to array
     # @param [Hash] opts the optional parameters
-    # @option opts [Array<Integer>] :request_body 
+    # @option opts [ArrayAlias] :body 
     # @return [Object]
     def array(opts = {})
       data, _status_code, _headers = array_with_http_info(opts)
@@ -32,7 +32,7 @@ module Petstore
     # Use alias to array
     # Use alias to array
     # @param [Hash] opts the optional parameters
-    # @option opts [Array<Integer>] :request_body 
+    # @option opts [ArrayAlias] :body 
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def array_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -58,7 +58,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'request_body'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'body'])
 
       # return_type
       return_type = opts[:debug_return_type] || 'Object'
@@ -86,7 +86,7 @@ module Petstore
     # Use alias to map
     # Use alias to map
     # @param [Hash] opts the optional parameters
-    # @option opts [Hash<String, String>] :request_body 
+    # @option opts [MapAlias] :body 
     # @return [Object]
     def map(opts = {})
       data, _status_code, _headers = map_with_http_info(opts)
@@ -96,7 +96,7 @@ module Petstore
     # Use alias to map
     # Use alias to map
     # @param [Hash] opts the optional parameters
-    # @option opts [Hash<String, String>] :request_body 
+    # @option opts [MapAlias] :body 
     # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
     def map_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -122,7 +122,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'request_body'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'body'])
 
       # return_type
       return_type = opts[:debug_return_type] || 'Object'

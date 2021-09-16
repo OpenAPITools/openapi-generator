@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -782,7 +783,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
          */
         if (ModelUtils.isMapSchema(schema)) {
             // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-            updateResponseBodyForModelUtilsMapSchema(codegenParameter, schema, name, imports, bodyParameterName);
+            updateRequestBodyForMap(codegenParameter, schema, name, imports, bodyParameterName);
         } else if (isFreeFormObject(schema)) {
             // non-composed object type with no properties + additionalProperties
             // additionalProperties must be null, ObjectSchema, or empty Schema

@@ -902,7 +902,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
          */
         if (ModelUtils.isMapSchema(schema)) {
             // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-            updateResponseBodyForModelUtilsMapSchema(codegenParameter, schema, name, imports, bodyParameterName);
+            updateRequestBodyForMap(codegenParameter, schema, name, imports, bodyParameterName);
         } else if (isFreeFormObject(schema)) {
             // non-composed object type with no properties + additionalProperties
             // additionalProperties must be null, ObjectSchema, or empty Schema

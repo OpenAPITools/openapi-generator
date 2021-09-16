@@ -17,6 +17,8 @@ require 'petstore/version'
 require 'petstore/configuration'
 
 # Models
+require 'petstore/models/map_alias'
+require 'petstore/models/array_alias'
 
 # APIs
 require 'petstore/api/usage_api'

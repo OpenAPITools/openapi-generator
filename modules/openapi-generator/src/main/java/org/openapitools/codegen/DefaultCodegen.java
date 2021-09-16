@@ -6262,7 +6262,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    protected void updateResponseBodyForModelUtilsMapSchema(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
+    protected void updateRequestBodyForMap(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
         if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
         } else {
@@ -6305,7 +6305,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    protected void updateResponseBodyForPrimitiveType(CodegenParameter codegenParameter, Schema schema, String bodyParameterName, Set<String> imports) {
+    protected void updateRequestBodyForPrimitiveType(CodegenParameter codegenParameter, Schema schema, String bodyParameterName, Set<String> imports) {
         CodegenProperty codegenProperty = fromProperty("PRIMITIVE_REQUEST_BODY", schema);
         if (codegenProperty != null) {
             if (StringUtils.isEmpty(bodyParameterName)) {
@@ -6335,7 +6335,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected void updateRequestBodyForObject(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
         if (ModelUtils.isMapSchema(schema)) {
             // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-            updateResponseBodyForModelUtilsMapSchema(codegenParameter, schema, name, imports, bodyParameterName);
+            updateRequestBodyForMap(codegenParameter, schema, name, imports, bodyParameterName);
         } else if (isFreeFormObject(schema)) {
             // non-composed object type with no properties + additionalProperties
             // additionalProperties must be null, ObjectSchema, or empty Schema
@@ -6364,6 +6364,55 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void updateRequestBodyForArray(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
+        if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
+            this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
+        } else {
+            final ArraySchema arraySchema = (ArraySchema) schema;
+            Schema inner = getSchemaItems(arraySchema);
+            CodegenProperty codegenProperty = fromProperty("property", arraySchema);
+            imports.add(codegenProperty.baseType);
+            CodegenProperty innerCp = codegenProperty;
+            CodegenProperty mostInnerItem = innerCp;
+            // loop through multidimensional array to add proper import
+            // also find the most inner item
+            while (innerCp != null) {
+                if (innerCp.complexType != null) {
+                    imports.add(innerCp.complexType);
+                }
+                mostInnerItem = innerCp;
+                innerCp = innerCp.items;
+            }
+
+            if (StringUtils.isEmpty(bodyParameterName)) {
+                if (StringUtils.isEmpty(mostInnerItem.complexType)) {
+                    codegenParameter.baseName = "request_body";
+                } else {
+                    codegenParameter.baseName = mostInnerItem.complexType;
+                }
+            } else {
+                codegenParameter.baseName = bodyParameterName;
+            }
+            codegenParameter.paramName = toArrayModelParamName(codegenParameter.baseName);
+            codegenParameter.items = codegenProperty.items;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
+            codegenParameter.dataType = getTypeDeclaration(arraySchema);
+            codegenParameter.baseType = getSchemaType(inner);
+            codegenParameter.isContainer = Boolean.TRUE;
+            codegenParameter.isArray = Boolean.TRUE;
+            codegenParameter.isNullable = codegenProperty.isNullable;
+
+            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
+
+            while (codegenProperty != null) {
+                imports.add(codegenProperty.baseType);
+                codegenProperty = codegenProperty.items;
+            }
+        }
+    }
+
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
@@ -6389,120 +6438,76 @@ public class DefaultCodegen implements CodegenConfig {
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
         }
-        Schema validationSchema = unaliasSchema(schema, importMapping);
-        schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
-        ModelUtils.syncValidationProperties(validationSchema, codegenParameter);
-        codegenParameter.setTypeProperties(schema);
-        if (ModelUtils.isArraySchema(schema)) {
-            if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
-                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
-            } else {
-                final ArraySchema arraySchema = (ArraySchema) schema;
-                Schema inner = getSchemaItems(arraySchema);
-                CodegenProperty codegenProperty = fromProperty("property", arraySchema);
-                imports.add(codegenProperty.baseType);
-                CodegenProperty innerCp = codegenProperty;
-                CodegenProperty mostInnerItem = innerCp;
-                // loop through multidimensional array to add proper import
-                // also find the most inner item
-                while (innerCp != null) {
-                    if (innerCp.complexType != null) {
-                        imports.add(innerCp.complexType);
-                    }
-                    mostInnerItem = innerCp;
-                    innerCp = innerCp.items;
-                }
+        Schema unaliasSchema = unaliasSchema(schema, importMapping);
+        // schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        ModelUtils.syncValidationProperties(unaliasSchema, codegenParameter);
+        codegenParameter.setTypeProperties(unaliasSchema);
 
-                if (StringUtils.isEmpty(bodyParameterName)) {
-                    if (StringUtils.isEmpty(mostInnerItem.complexType)) {
-                        codegenParameter.baseName = "request_body";
-                    } else {
-                        codegenParameter.baseName = mostInnerItem.complexType;
-                    }
-                } else {
-                    codegenParameter.baseName = bodyParameterName;
-                }
-                codegenParameter.paramName = toArrayModelParamName(codegenParameter.baseName);
-                codegenParameter.items = codegenProperty.items;
-                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-                codegenParameter.dataType = getTypeDeclaration(arraySchema);
-                codegenParameter.baseType = getSchemaType(inner);
-                codegenParameter.isContainer = Boolean.TRUE;
-                codegenParameter.isArray = Boolean.TRUE;
-                codegenParameter.isNullable = codegenProperty.isNullable;
-
-                setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-                // set nullable
-                setParameterNullable(codegenParameter, codegenProperty);
-
-                while (codegenProperty != null) {
-                    imports.add(codegenProperty.baseType);
-                    codegenProperty = codegenProperty.items;
-                }
-            }
-        } else if (ModelUtils.isTypeObjectSchema(schema)) {
-            updateRequestBodyForObject(codegenParameter, schema, name, imports, bodyParameterName);
-        } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
-            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+        if (ModelUtils.isArraySchema(unaliasSchema)) {
+            updateRequestBodyForArray(codegenParameter, unaliasSchema, name, imports, bodyParameterName);
+        } else if (ModelUtils.isTypeObjectSchema(unaliasSchema)) {
+            updateRequestBodyForObject(codegenParameter, unaliasSchema, name, imports, bodyParameterName);
+        } else if (ModelUtils.isIntegerSchema(unaliasSchema)) { // integer type
+            updateRequestBodyForPrimitiveType(codegenParameter, unaliasSchema, bodyParameterName, imports);
             codegenParameter.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isLongSchema(schema)) { // int64/long format
+            if (ModelUtils.isLongSchema(unaliasSchema)) { // int64/long format
                 codegenParameter.isLong = Boolean.TRUE;
             } else {
                 codegenParameter.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
-                if (ModelUtils.isShortSchema(schema)) { // int32
+                if (ModelUtils.isShortSchema(unaliasSchema)) { // int32
                     codegenParameter.setIsShort(Boolean.TRUE);
                 }
             }
-        } else if (ModelUtils.isBooleanSchema(schema)) { // boolean type
-            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-        } else if (ModelUtils.isStringSchema(schema)) {
-            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-            if (ModelUtils.isByteArraySchema(schema)) {
+        } else if (ModelUtils.isBooleanSchema(unaliasSchema)) { // boolean type
+            updateRequestBodyForPrimitiveType(codegenParameter, unaliasSchema, bodyParameterName, imports);
+        } else if (ModelUtils.isStringSchema(unaliasSchema)) {
+            updateRequestBodyForPrimitiveType(codegenParameter, unaliasSchema, bodyParameterName, imports);
+            if (ModelUtils.isByteArraySchema(unaliasSchema)) {
                 codegenParameter.isByteArray = true;
-            } else if (ModelUtils.isBinarySchema(schema)) {
+            } else if (ModelUtils.isBinarySchema(unaliasSchema)) {
                 codegenParameter.isBinary = true;
                 codegenParameter.isFile = true; // file = binary in OAS3
-            } else if (ModelUtils.isFileSchema(schema)) {
+            } else if (ModelUtils.isFileSchema(unaliasSchema)) {
                 codegenParameter.isFile = true;
-            } else if (ModelUtils.isUUIDSchema(schema)) {
+            } else if (ModelUtils.isUUIDSchema(unaliasSchema)) {
                 codegenParameter.isUuid = true;
-            } else if (ModelUtils.isURISchema(schema)) {
+            } else if (ModelUtils.isURISchema(unaliasSchema)) {
                 codegenParameter.isUri = true;
-            } else if (ModelUtils.isEmailSchema(schema)) {
+            } else if (ModelUtils.isEmailSchema(unaliasSchema)) {
                 codegenParameter.isEmail = true;
-            } else if (ModelUtils.isDateSchema(schema)) { // date format
+            } else if (ModelUtils.isDateSchema(unaliasSchema)) { // date format
                 codegenParameter.isDate = true;
-            } else if (ModelUtils.isDateTimeSchema(schema)) { // date-time format
+            } else if (ModelUtils.isDateTimeSchema(unaliasSchema)) { // date-time format
                 codegenParameter.isDateTime = true;
-            } else if (ModelUtils.isDecimalSchema(schema)) { // type: string, format: number
+            } else if (ModelUtils.isDecimalSchema(unaliasSchema)) { // type: string, format: number
                 codegenParameter.isDecimal = true;
                 codegenParameter.setIsString(false);
             }
-            codegenParameter.pattern = toRegularExpression(schema.getPattern());
-        } else if (ModelUtils.isNumberSchema(schema)) {
-            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+            codegenParameter.pattern = toRegularExpression(unaliasSchema.getPattern());
+        } else if (ModelUtils.isNumberSchema(unaliasSchema)) {
+            updateRequestBodyForPrimitiveType(codegenParameter, unaliasSchema, bodyParameterName, imports);
             codegenParameter.isNumeric = Boolean.TRUE;
-            if (ModelUtils.isFloatSchema(schema)) { // float
+            if (ModelUtils.isFloatSchema(unaliasSchema)) { // float
                 codegenParameter.isFloat = Boolean.TRUE;
-            } else if (ModelUtils.isDoubleSchema(schema)) { // double
+            } else if (ModelUtils.isDoubleSchema(unaliasSchema)) { // double
                 codegenParameter.isDouble = Boolean.TRUE;
             }
-        } else if (ModelUtils.isNullType(schema)) {
-            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-        } else if (ModelUtils.isAnyType(schema)) {
-            if (ModelUtils.isMapSchema(schema)) {
+        } else if (ModelUtils.isNullType(unaliasSchema)) {
+            updateRequestBodyForPrimitiveType(codegenParameter, unaliasSchema, bodyParameterName, imports);
+        } else if (ModelUtils.isAnyType(unaliasSchema)) {
+            if (ModelUtils.isMapSchema(unaliasSchema)) {
                 // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-                updateResponseBodyForModelUtilsMapSchema(codegenParameter, schema, name, imports, bodyParameterName);
-            } else if (ModelUtils.isComposedSchema(schema)) {
-                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
-            } else if (ModelUtils.isObjectSchema(schema)) {
+                updateRequestBodyForMap(codegenParameter, unaliasSchema, name, imports, bodyParameterName);
+            } else if (ModelUtils.isComposedSchema(unaliasSchema)) {
+                this.addBodyModelSchema(codegenParameter, name, unaliasSchema, imports, bodyParameterName, false);
+            } else if (ModelUtils.isObjectSchema(unaliasSchema)) {
                 // object type schema OR (AnyType schema with properties defined)
-                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+                this.addBodyModelSchema(codegenParameter, name, unaliasSchema, imports, bodyParameterName, false);
             }
         } else {
             // referenced schemas
-            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+            updateRequestBodyForPrimitiveType(codegenParameter, unaliasSchema, bodyParameterName, imports);
         }
 
         addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
