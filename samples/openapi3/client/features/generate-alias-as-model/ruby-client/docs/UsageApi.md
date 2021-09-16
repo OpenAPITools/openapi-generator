@@ -24,7 +24,7 @@ require 'petstore'
 
 api_instance = Petstore::UsageApi.new
 opts = {
-  array_alias: Petstore::ArrayAlias.new # ArrayAlias | 
+  request_body: [37] # Array<Integer> | 
 }
 
 begin
@@ -58,7 +58,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **array_alias** | [**ArrayAlias**](ArrayAlias.md) |  | [optional] |
+| **request_body** | [**Array&lt;Integer&gt;**](Integer.md) |  | [optional] |
 
 ### Return type
 
@@ -90,7 +90,7 @@ require 'petstore'
 
 api_instance = Petstore::UsageApi.new
 opts = {
-  map_alias: Petstore::MapAlias.new # MapAlias | 
+  request_body: { key: 'inner_example'} # Hash<String, String> | 
 }
 
 begin
@@ -124,7 +124,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **map_alias** | [**MapAlias**](MapAlias.md) |  | [optional] |
+| **request_body** | [**Hash&lt;String, String&gt;**](String.md) |  | [optional] |
 
 ### Return type
 

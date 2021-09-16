@@ -58,7 +58,7 @@ require 'petstore'
 
 api_instance = Petstore::UsageApi.new
 opts = {
-  array_alias: Petstore::ArrayAlias.new # ArrayAlias | 
+  request_body: [37] # Array<Integer> | 
 }
 
 begin
@@ -83,8 +83,6 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [Petstore::ArrayAlias](docs/ArrayAlias.md)
- - [Petstore::MapAlias](docs/MapAlias.md)
 
 
 ## Documentation for Authorization
