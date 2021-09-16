@@ -211,7 +211,7 @@
       <xs:complexType name="{{operationId}}_ResponseMessage">
         <xs:sequence>
           {{#message}}
-          <xs:element minOccurs="1"{{#isArray}} maxOccurs="unbounded"{{/isArray}} name="{{#isModel}}{{#isMap}}response{{/isMap}}{{^isMap}}{{#isFile}}response{{/isFile}}{{^isFile}}{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}{{baseType}}{{/isArray}}{{^isArray}}response{{/isArray}}{{/isModel}}"{{#dataType}} type="{{#isModel}}{{#isMap}}xs:{{baseType}}{{/isMap}}{{^isMap}}{{#isFile}}xs:anyType{{/isFile}}{{^isFile}}schemas:{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}schemas:{{baseType}}{{/isArray}}{{^isArray}}xs:{{dataType}}{{/isArray}}{{/isModel}}"{{/dataType}}>
+          <xs:element minOccurs="1"{{#isArray}} maxOccurs="unbounded"{{/isArray}} name="{{#isModel}}{{#isMap}}response{{/isMap}}{{^isMap}}{{#isFile}}response{{/isFile}}{{^isFile}}{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}{{baseType}}{{/isArray}}{{^isArray}}response{{/isArray}}{{/isModel}}"{{#dataType}} type="{{#isModel}}{{#isMap}}xs:{{baseType}}{{/isMap}}{{^isMap}}{{#isFile}}xs:string{{/isFile}}{{^isFile}}schemas:{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}schemas:{{baseType}}{{/isArray}}{{^isArray}}xs:{{dataType}}{{/isArray}}{{/isModel}}"{{/dataType}}>
             <xs:annotation>
               <xs:documentation>{{message}}</xs:documentation>
             </xs:annotation>
