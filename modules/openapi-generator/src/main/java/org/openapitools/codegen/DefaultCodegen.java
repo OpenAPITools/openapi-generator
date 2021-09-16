@@ -6332,6 +6332,38 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterNullable(codegenParameter, codegenProperty);
     }
 
+    protected void updateRequestBodyForObject(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
+        if (ModelUtils.isMapSchema(schema)) {
+            // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
+            updateResponseBodyForModelUtilsMapSchema(codegenParameter, schema, name, imports, bodyParameterName);
+        } else if (isFreeFormObject(schema)) {
+            // non-composed object type with no properties + additionalProperties
+            // additionalProperties must be null, ObjectSchema, or empty Schema
+
+            // HTTP request body is free form object
+            CodegenProperty codegenProperty = fromProperty("FREE_FORM_REQUEST_BODY", schema);
+            if (codegenProperty != null) {
+                if (StringUtils.isEmpty(bodyParameterName)) {
+                    codegenParameter.baseName = "body";  // default to body
+                } else {
+                    codegenParameter.baseName = bodyParameterName;
+                }
+                codegenParameter.isPrimitiveType = true;
+                codegenParameter.baseType = codegenProperty.baseType;
+                codegenParameter.dataType = codegenProperty.dataType;
+                codegenParameter.description = codegenProperty.description;
+                codegenParameter.isNullable = codegenProperty.isNullable;
+                codegenParameter.paramName = toParamName(codegenParameter.baseName);
+            }
+            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            // object type schema or composed schema with properties defined
+            this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+        }
+    }
+
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
@@ -6361,7 +6393,7 @@ public class DefaultCodegen implements CodegenConfig {
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
         ModelUtils.syncValidationProperties(validationSchema, codegenParameter);
-
+        codegenParameter.setTypeProperties(schema);
         if (ModelUtils.isArraySchema(schema)) {
             if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
@@ -6410,35 +6442,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         } else if (ModelUtils.isTypeObjectSchema(schema)) {
-            if (ModelUtils.isMapSchema(schema)) {
-                // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-                updateResponseBodyForModelUtilsMapSchema(codegenParameter, schema, name, imports, bodyParameterName);
-            } else if (isFreeFormObject(schema)) {
-                // non-composed object type with no properties + additionalProperties
-                // additionalProperties must be null, ObjectSchema, or empty Schema
-
-                // HTTP request body is free form object
-                CodegenProperty codegenProperty = fromProperty("FREE_FORM_REQUEST_BODY", schema);
-                if (codegenProperty != null) {
-                    if (StringUtils.isEmpty(bodyParameterName)) {
-                        codegenParameter.baseName = "body";  // default to body
-                    } else {
-                        codegenParameter.baseName = bodyParameterName;
-                    }
-                    codegenParameter.isPrimitiveType = true;
-                    codegenParameter.baseType = codegenProperty.baseType;
-                    codegenParameter.dataType = codegenProperty.dataType;
-                    codegenParameter.description = codegenProperty.description;
-                    codegenParameter.isNullable = codegenProperty.isNullable;
-                    codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                }
-                setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-                // set nullable
-                setParameterNullable(codegenParameter, codegenProperty);
-            } else if (ModelUtils.isObjectSchema(schema)) {
-                // object type schema or composed schema with properties defined
-                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
-            }
+            updateRequestBodyForObject(codegenParameter, schema, name, imports, bodyParameterName);
         } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
             updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
             codegenParameter.isNumeric = Boolean.TRUE;
