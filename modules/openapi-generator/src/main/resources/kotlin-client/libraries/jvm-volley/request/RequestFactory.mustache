@@ -4,18 +4,19 @@ package {{packageName}}.request
 
 import com.android.volley.Request
 import com.android.volley.Response
-{{#authMethods}}
+{{#hasAuthMethods}}
 import android.util.Base64
-{{/authMethods}}
+{{/hasAuthMethods}}
 import {{packageName}}.request.IRequestFactory.Companion.escapeString
 import java.lang.reflect.Type
 import java.util.Locale
 import java.util.UUID
 
 class RequestFactory(private val headerFactories : List<() -> Map<String, String>> = listOf(), private val postProcessors :List <(Request<*>) -> Unit> = listOf()): IRequestFactory {
-{{#authMethods}}
+{{#hasAuthMethods}}
+
    {{>auth/authentication}}
-{{/authMethods}}
+{{/hasAuthMethods}}
 
     /**
     * {@inheritDoc}
@@ -26,7 +27,8 @@ class RequestFactory(private val headerFactories : List<() -> Map<String, String
         url: String,
         body: Any?,
         headers: Map<String, String>?,
-        params: Map<String, String>?,
+        queryParams: Map<String, String>?,
+        formParams: Map<String, String>?,
         contentTypeForBody: String?,
         type: Type,
         responseListener: Response.Listener<T>,
@@ -38,9 +40,9 @@ class RequestFactory(private val headerFactories : List<() -> Map<String, String
             val allHeaders = headerFactories.fold(afterMarketHeaders) { acc, factory -> (acc + factory.invoke()).toMutableMap() }
 
             // If we decide to support auth parameters in the url, then you will reference them by supplying a url string
-                // with known variable name refernces in the string. We will then apply
-                val updatedUrl = if (!params.isNullOrEmpty()) {
-              params.asSequence().fold("$url?") {acc, param ->
+            // with known variable name refernces in the string. We will then apply
+            val updatedUrl = if (!queryParams.isNullOrEmpty()) {
+                queryParams.asSequence().fold("$url?") {acc, param ->
                 "$acc${escapeString(param.key)}=${escapeString(param.value)}&"
               }.trimEnd('&')
             } else {
@@ -52,7 +54,7 @@ class RequestFactory(private val headerFactories : List<() -> Map<String, String
                 updatedUrl,
                 body,
                 allHeaders,
-                params?.toMutableMap(),
+                formParams?.toMutableMap(),
                 contentTypeForBody,
                 null,
                 type,
