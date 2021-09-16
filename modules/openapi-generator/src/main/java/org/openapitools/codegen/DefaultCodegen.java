@@ -6192,7 +6192,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenModel != null) {
             codegenParameter.isModel = true;
         }
-
+        fromRequestBody
         if (codegenModel != null && (codegenModel.hasVars || forceSimpleRef)) {
             if (StringUtils.isEmpty(bodyParameterName)) {
                 codegenParameter.baseName = codegenModel.classname;
@@ -6262,6 +6262,49 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void updateResponseBodyForModelUtilsMapSchema(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
+        if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
+            this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
+        } else {
+            Schema inner = getAdditionalProperties(schema);
+            if (inner == null) {
+                LOGGER.error("No inner type supplied for map parameter `{}`. Default to type:string", schema.getName());
+                inner = new StringSchema().description("//TODO automatically added by openapi-generator");
+                schema.setAdditionalProperties(inner);
+            }
+            CodegenProperty codegenProperty = fromProperty("property", schema);
+
+            imports.add(codegenProperty.baseType);
+
+            CodegenProperty innerCp = codegenProperty;
+            while (innerCp != null) {
+                if (innerCp.complexType != null) {
+                    imports.add(innerCp.complexType);
+                }
+                innerCp = innerCp.items;
+            }
+
+            if (StringUtils.isEmpty(bodyParameterName)) {
+                codegenParameter.baseName = "request_body";
+            } else {
+                codegenParameter.baseName = bodyParameterName;
+            }
+            codegenParameter.paramName = toParamName(codegenParameter.baseName);
+            codegenParameter.items = codegenProperty.items;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
+            codegenParameter.dataType = getTypeDeclaration(schema);
+            codegenParameter.baseType = getSchemaType(inner);
+            codegenParameter.isContainer = Boolean.TRUE;
+            codegenParameter.isMap = Boolean.TRUE;
+            codegenParameter.isNullable = codegenProperty.isNullable;
+
+            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
+        }
+    }
+
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
@@ -6292,49 +6335,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         ModelUtils.syncValidationProperties(validationSchema, codegenParameter);
 
-        if (ModelUtils.isMapSchema(schema)) {
-            // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-            if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
-                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
-            } else {
-                Schema inner = getAdditionalProperties(schema);
-                if (inner == null) {
-                    LOGGER.error("No inner type supplied for map parameter `{}`. Default to type:string", schema.getName());
-                    inner = new StringSchema().description("//TODO automatically added by openapi-generator");
-                    schema.setAdditionalProperties(inner);
-                }
-                CodegenProperty codegenProperty = fromProperty("property", schema);
-
-                imports.add(codegenProperty.baseType);
-
-                CodegenProperty innerCp = codegenProperty;
-                while (innerCp != null) {
-                    if (innerCp.complexType != null) {
-                        imports.add(innerCp.complexType);
-                    }
-                    innerCp = innerCp.items;
-                }
-
-                if (StringUtils.isEmpty(bodyParameterName)) {
-                    codegenParameter.baseName = "request_body";
-                } else {
-                    codegenParameter.baseName = bodyParameterName;
-                }
-                codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                codegenParameter.items = codegenProperty.items;
-                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-                codegenParameter.dataType = getTypeDeclaration(schema);
-                codegenParameter.baseType = getSchemaType(inner);
-                codegenParameter.isContainer = Boolean.TRUE;
-                codegenParameter.isMap = Boolean.TRUE;
-                codegenParameter.isNullable = codegenProperty.isNullable;
-
-                setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-
-                // set nullable
-                setParameterNullable(codegenParameter, codegenProperty);
-            }
-        } else if (ModelUtils.isArraySchema(schema)) {
+        if (ModelUtils.isArraySchema(schema)) {
             if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
             } else {
@@ -6381,28 +6382,46 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenProperty = codegenProperty.items;
                 }
             }
-        } else if (isFreeFormObject(schema)) {
-            // HTTP request body is free form object
-            CodegenProperty codegenProperty = fromProperty("FREE_FORM_REQUEST_BODY", schema);
-            if (codegenProperty != null) {
-                if (StringUtils.isEmpty(bodyParameterName)) {
-                    codegenParameter.baseName = "body";  // default to body
-                } else {
-                    codegenParameter.baseName = bodyParameterName;
-                }
-                codegenParameter.isPrimitiveType = true;
-                codegenParameter.baseType = codegenProperty.baseType;
-                codegenParameter.dataType = codegenProperty.dataType;
-                codegenParameter.description = codegenProperty.description;
-                codegenParameter.isNullable = codegenProperty.isNullable;
-                codegenParameter.paramName = toParamName(codegenParameter.baseName);
-            }
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-            // set nullable
-            setParameterNullable(codegenParameter, codegenProperty);
+        } else if (ModelUtils.isTypeObjectSchema(schema)) {
+            if (ModelUtils.isMapSchema(schema)) {
+                // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
+                updateResponseBodyForModelUtilsMapSchema(codegenParameter, schema, name, imports, bodyParameterName);
+            } else if (isFreeFormObject(schema)) {
+                // non-composed object type with no properties + additionalProperties
+                // additionalProperties must be null, ObjectSchema, or empty Schema
 
-        } else if (ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema)) {
-            this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+                // HTTP request body is free form object
+                CodegenProperty codegenProperty = fromProperty("FREE_FORM_REQUEST_BODY", schema);
+                if (codegenProperty != null) {
+                    if (StringUtils.isEmpty(bodyParameterName)) {
+                        codegenParameter.baseName = "body";  // default to body
+                    } else {
+                        codegenParameter.baseName = bodyParameterName;
+                    }
+                    codegenParameter.isPrimitiveType = true;
+                    codegenParameter.baseType = codegenProperty.baseType;
+                    codegenParameter.dataType = codegenProperty.dataType;
+                    codegenParameter.description = codegenProperty.description;
+                    codegenParameter.isNullable = codegenProperty.isNullable;
+                    codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                }
+                setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+                // set nullable
+                setParameterNullable(codegenParameter, codegenProperty);
+            } else if (ModelUtils.isObjectSchema(schema)) {
+                // object type schema or composed schema with properties defined
+                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+            }
+        } else if (ModelUtils.isAnyType(schema)) {
+            if (ModelUtils.isMapSchema(schema)) {
+                // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
+                updateResponseBodyForModelUtilsMapSchema(codegenParameter, schema, name, imports, bodyParameterName);
+            } else if (ModelUtils.isComposedSchema(schema)) {
+                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+            } else if (ModelUtils.isObjectSchema(schema)) {
+                // object type schema OR (AnyType schema with properties defined)
+                this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+            }
         } else {
             // HTTP request body is primitive type (e.g. integer, string, etc)
             CodegenProperty codegenProperty = fromProperty("PRIMITIVE_REQUEST_BODY", schema);
