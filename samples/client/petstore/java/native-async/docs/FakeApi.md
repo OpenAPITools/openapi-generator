@@ -60,7 +60,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        XmlItem xmlItem = new XmlItem(); // XmlItem | XmlItem Body
+        XmlItem xmlItem = new HashMap(); // XmlItem | XmlItem Body
         try {
             CompletableFuture<Void> result = apiInstance.createXmlItem(xmlItem);
         } catch (ApiException e) {
@@ -126,7 +126,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        XmlItem xmlItem = new XmlItem(); // XmlItem | XmlItem Body
+        XmlItem xmlItem = new HashMap(); // XmlItem | XmlItem Body
         try {
             CompletableFuture<ApiResponse<Void>> response = apiInstance.createXmlItemWithHttpInfo(xmlItem);
             System.out.println("Status code: " + response.get().getStatusCode());
@@ -344,7 +344,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        OuterComposite body = new OuterComposite(); // OuterComposite | Input composite as post body
+        OuterComposite body = new HashMap(); // OuterComposite | Input composite as post body
         try {
             CompletableFuture<OuterComposite> result = apiInstance.fakeOuterCompositeSerialize(body);
             System.out.println(result.get());
@@ -411,7 +411,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        OuterComposite body = new OuterComposite(); // OuterComposite | Input composite as post body
+        OuterComposite body = new HashMap(); // OuterComposite | Input composite as post body
         try {
             CompletableFuture<ApiResponse<OuterComposite>> response = apiInstance.fakeOuterCompositeSerializeWithHttpInfo(body);
             System.out.println("Status code: " + response.get().getStatusCode());
@@ -773,7 +773,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        FileSchemaTestClass body = new FileSchemaTestClass(); // FileSchemaTestClass | 
+        FileSchemaTestClass body = new HashMap(); // FileSchemaTestClass | 
         try {
             CompletableFuture<Void> result = apiInstance.testBodyWithFileSchema(body);
         } catch (ApiException e) {
@@ -839,7 +839,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        FileSchemaTestClass body = new FileSchemaTestClass(); // FileSchemaTestClass | 
+        FileSchemaTestClass body = new HashMap(); // FileSchemaTestClass | 
         try {
             CompletableFuture<ApiResponse<Void>> response = apiInstance.testBodyWithFileSchemaWithHttpInfo(body);
             System.out.println("Status code: " + response.get().getStatusCode());
@@ -913,7 +913,7 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String query = "query_example"; // String | 
-        User body = new User(); // User | 
+        User body = new HashMap(); // User | 
         try {
             CompletableFuture<Void> result = apiInstance.testBodyWithQueryParams(query, body);
         } catch (ApiException e) {
@@ -979,7 +979,7 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String query = "query_example"; // String | 
-        User body = new User(); // User | 
+        User body = new HashMap(); // User | 
         try {
             CompletableFuture<ApiResponse<Void>> response = apiInstance.testBodyWithQueryParamsWithHttpInfo(query, body);
             System.out.println("Status code: " + response.get().getStatusCode());
@@ -1055,7 +1055,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Client body = new Client(); // Client | client model
+        Client body = new HashMap(); // Client | client model
         try {
             CompletableFuture<Client> result = apiInstance.testClientModel(body);
             System.out.println(result.get());
@@ -1122,7 +1122,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Client body = new Client(); // Client | client model
+        Client body = new HashMap(); // Client | client model
         try {
             CompletableFuture<ApiResponse<Client>> response = apiInstance.testClientModelWithHttpInfo(body);
             System.out.println("Status code: " + response.get().getStatusCode());

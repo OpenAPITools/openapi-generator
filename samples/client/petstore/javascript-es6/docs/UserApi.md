@@ -29,7 +29,7 @@ This can only be done by the logged in user.
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.UserApi();
-let user = new OpenApiPetstore.User(); // User | Created user object
+let user = {key: null}; // User | Created user object
 apiInstance.createUser(user, (error, data, response) => {
   if (error) {
     console.error(error);
@@ -333,7 +333,7 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.UserApi();
 let username = "username_example"; // String | name that need to be deleted
-let user = new OpenApiPetstore.User(); // User | Updated user object
+let user = {key: null}; // User | Updated user object
 apiInstance.updateUser(username, user, (error, data, response) => {
   if (error) {
     console.error(error);

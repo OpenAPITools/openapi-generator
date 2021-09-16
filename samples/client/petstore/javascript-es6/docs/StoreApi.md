@@ -160,7 +160,7 @@ Place an order for a pet
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.StoreApi();
-let order = new OpenApiPetstore.Order(); // Order | order placed for purchasing the pet
+let order = {key: null}; // Order | order placed for purchasing the pet
 apiInstance.placeOrder(order, (error, data, response) => {
   if (error) {
     console.error(error);

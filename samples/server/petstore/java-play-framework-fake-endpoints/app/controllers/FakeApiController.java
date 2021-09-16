@@ -52,6 +52,9 @@ public class FakeApiController extends Controller {
         if (nodexmlItem != null) {
             xmlItem = mapper.readValue(nodexmlItem.toString(), XmlItem.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
+                for (Map.Entry<String, > entry : xmlItem.entrySet()) {
+                    OpenAPIUtils.validate(entry.getValue());
+                }
                 OpenAPIUtils.validate(xmlItem);
             }
         } else {
@@ -82,6 +85,9 @@ public class FakeApiController extends Controller {
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), OuterComposite.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
+                for (Map.Entry<String, > entry : body.entrySet()) {
+                    OpenAPIUtils.validate(entry.getValue());
+                }
                 OpenAPIUtils.validate(body);
             }
         } else {
@@ -127,6 +133,9 @@ public class FakeApiController extends Controller {
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), FileSchemaTestClass.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
+                for (Map.Entry<String, > entry : body.entrySet()) {
+                    OpenAPIUtils.validate(entry.getValue());
+                }
                 OpenAPIUtils.validate(body);
             }
         } else {
@@ -142,6 +151,9 @@ public class FakeApiController extends Controller {
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
+                for (Map.Entry<String, > entry : body.entrySet()) {
+                    OpenAPIUtils.validate(entry.getValue());
+                }
                 OpenAPIUtils.validate(body);
             }
         } else {
@@ -164,6 +176,9 @@ public class FakeApiController extends Controller {
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Client.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
+                for (Map.Entry<String, > entry : body.entrySet()) {
+                    OpenAPIUtils.validate(entry.getValue());
+                }
                 OpenAPIUtils.validate(body);
             }
         } else {

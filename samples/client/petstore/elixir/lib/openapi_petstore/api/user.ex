@@ -25,7 +25,7 @@ defmodule OpenapiPetstore.Api.User do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec create_user(Tesla.Env.client, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec create_user(Tesla.Env.client, %{optional(String.t) => }, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def create_user(connection, user, _opts \\ []) do
     %{}
     |> method(:post)
@@ -212,7 +212,7 @@ defmodule OpenapiPetstore.Api.User do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec update_user(Tesla.Env.client, String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec update_user(Tesla.Env.client, String.t, %{optional(String.t) => }, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def update_user(connection, username, user, _opts \\ []) do
     %{}
     |> method(:put)

@@ -102,9 +102,14 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> body) const
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
-        if(body.get())
         {
-            body->toMultipart(localVarMultipart, utility::conversions::to_string_t("body"));
+            std::map<utility::string_t, web::json::value> localVarJsonMap;
+            for( auto& localVarItem : body )
+            {
+                web::json::value jval;
+                localVarJsonMap.insert( std::pair<utility::string_t, web::json::value>(localVarItem.first, ModelBase::toJson(localVarItem.second) ));
+            }
+            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("body"), localVarJsonMap, utility::conversions::to_string_t("application/json")));
         }
         
 
@@ -957,9 +962,14 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
-        if(body.get())
         {
-            body->toMultipart(localVarMultipart, utility::conversions::to_string_t("body"));
+            std::map<utility::string_t, web::json::value> localVarJsonMap;
+            for( auto& localVarItem : body )
+            {
+                web::json::value jval;
+                localVarJsonMap.insert( std::pair<utility::string_t, web::json::value>(localVarItem.first, ModelBase::toJson(localVarItem.second) ));
+            }
+            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("body"), localVarJsonMap, utility::conversions::to_string_t("application/json")));
         }
         
 

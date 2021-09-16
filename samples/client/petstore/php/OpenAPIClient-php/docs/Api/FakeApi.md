@@ -97,7 +97,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+$pet = array('key' => new \OpenAPI\Client\Model\Pet()); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
 $query_1 = 'query_1_example'; // string | query parameter
 $header_1 = 'header_1_example'; // string | header parameter
 
@@ -212,7 +212,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$outer_composite = new \OpenAPI\Client\Model\OuterComposite(); // \OpenAPI\Client\Model\OuterComposite | Input composite as post body
+$outer_composite = array('key' => new \OpenAPI\Client\Model\OuterComposite()); // \OpenAPI\Client\Model\OuterComposite | Input composite as post body
 
 try {
     $result = $apiInstance->fakeOuterCompositeSerialize($outer_composite);
@@ -380,7 +380,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$outer_object_with_enum_property = new \OpenAPI\Client\Model\OuterObjectWithEnumProperty(); // \OpenAPI\Client\Model\OuterObjectWithEnumProperty | Input enum (int) as post body
+$outer_object_with_enum_property = array('key' => new \OpenAPI\Client\Model\OuterObjectWithEnumProperty()); // \OpenAPI\Client\Model\OuterObjectWithEnumProperty | Input enum (int) as post body
 
 try {
     $result = $apiInstance->fakePropertyEnumIntegerSerialize($outer_object_with_enum_property);
@@ -491,7 +491,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$file_schema_test_class = new \OpenAPI\Client\Model\FileSchemaTestClass(); // \OpenAPI\Client\Model\FileSchemaTestClass
+$file_schema_test_class = array('key' => new \OpenAPI\Client\Model\FileSchemaTestClass()); // \OpenAPI\Client\Model\FileSchemaTestClass
 
 try {
     $apiInstance->testBodyWithFileSchema($file_schema_test_class);
@@ -545,7 +545,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     new GuzzleHttp\Client()
 );
 $query = 'query_example'; // string
-$user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User
+$user = array('key' => new \OpenAPI\Client\Model\User()); // \OpenAPI\Client\Model\User
 
 try {
     $apiInstance->testBodyWithQueryParams($query, $user);
@@ -601,7 +601,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
+$client = array('key' => new \OpenAPI\Client\Model\Client()); // \OpenAPI\Client\Model\Client | client model
 
 try {
     $result = $apiInstance->testClientModel($client);

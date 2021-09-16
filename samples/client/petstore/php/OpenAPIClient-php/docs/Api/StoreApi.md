@@ -201,7 +201,7 @@ $apiInstance = new OpenAPI\Client\Api\StoreApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$order = new \OpenAPI\Client\Model\Order(); // \OpenAPI\Client\Model\Order | order placed for purchasing the pet
+$order = array('key' => new \OpenAPI\Client\Model\Order()); // \OpenAPI\Client\Model\Order | order placed for purchasing the pet
 
 try {
     $result = $apiInstance->placeOrder($order);

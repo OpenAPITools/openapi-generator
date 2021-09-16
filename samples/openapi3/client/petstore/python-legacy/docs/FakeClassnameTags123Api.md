@@ -44,7 +44,7 @@ configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeClassnameTags123Api(api_client)
-    client = petstore_api.Client() # Client | client model
+    client = {'key': petstore_api.Client()} # Client | client model
 
     try:
         # To test class name in snake case

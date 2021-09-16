@@ -45,7 +45,7 @@ export default class PetApi {
 
     /**
      * Add a new pet to the store
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {Object.<String, module:model/Pet>} pet Pet object that needs to be added to the store
      * @param {module:api/PetApi~addPetCallback} callback The callback function, accepting three arguments: error, data, response
      */
     addPet(pet, opts, callback) {
@@ -269,7 +269,7 @@ export default class PetApi {
 
     /**
      * Update an existing pet
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {Object.<String, module:model/Pet>} pet Pet object that needs to be added to the store
      * @param {module:api/PetApi~updatePetCallback} callback The callback function, accepting three arguments: error, data, response
      */
     updatePet(pet, opts, callback) {

@@ -66,9 +66,9 @@ import qualified Prelude as P
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
 addPet
-  :: (Consumes AddPet contentType, MimeRender contentType Pet)
+  :: (Consumes AddPet contentType, MimeRender contentType Body)
   => ContentType contentType -- ^ request content-type ('MimeType')
-  -> Pet -- ^ "body" -  Pet object that needs to be added to the store
+  -> Body -- ^ "body" -  Pet object that needs to be added to the store
   -> OpenAPIPetstoreRequest AddPet contentType NoContent MimeNoContent
 addPet _ body =
   _mkRequest "POST" ["/pet"]
@@ -78,7 +78,7 @@ addPet _ body =
 data AddPet 
 
 -- | /Body Param/ "body" - Pet object that needs to be added to the store
-instance HasBodyParam AddPet Pet 
+instance HasBodyParam AddPet Body 
 
 -- | @application/xml@
 instance Consumes AddPet MimeXML
@@ -198,9 +198,9 @@ instance Produces GetPetById MimeJSON
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
 updatePet
-  :: (Consumes UpdatePet contentType, MimeRender contentType Pet)
+  :: (Consumes UpdatePet contentType, MimeRender contentType Body)
   => ContentType contentType -- ^ request content-type ('MimeType')
-  -> Pet -- ^ "body" -  Pet object that needs to be added to the store
+  -> Body -- ^ "body" -  Pet object that needs to be added to the store
   -> OpenAPIPetstoreRequest UpdatePet contentType NoContent MimeNoContent
 updatePet _ body =
   _mkRequest "PUT" ["/pet"]
@@ -210,7 +210,7 @@ updatePet _ body =
 data UpdatePet 
 
 -- | /Body Param/ "body" - Pet object that needs to be added to the store
-instance HasBodyParam UpdatePet Pet 
+instance HasBodyParam UpdatePet Body 
 
 -- | @application/xml@
 instance Consumes UpdatePet MimeXML

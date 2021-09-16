@@ -108,7 +108,7 @@ public class Example {
         
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet pet = new HashMap(); // Pet | Pet object that needs to be added to the store
         String query1 = "query1_example"; // String | query parameter
         String header1 = "header1_example"; // String | header parameter
         try {
@@ -243,7 +243,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        OuterComposite outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body
+        OuterComposite outerComposite = new HashMap(); // OuterComposite | Input composite as post body
         try {
             OuterComposite result = apiInstance.fakeOuterCompositeSerialize(outerComposite);
             System.out.println(result);
@@ -441,7 +441,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        OuterObjectWithEnumProperty outerObjectWithEnumProperty = new OuterObjectWithEnumProperty(); // OuterObjectWithEnumProperty | Input enum (int) as post body
+        OuterObjectWithEnumProperty outerObjectWithEnumProperty = new HashMap(); // OuterObjectWithEnumProperty | Input enum (int) as post body
         try {
             OuterObjectWithEnumProperty result = apiInstance.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
             System.out.println(result);
@@ -572,7 +572,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        FileSchemaTestClass fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
+        FileSchemaTestClass fileSchemaTestClass = new HashMap(); // FileSchemaTestClass | 
         try {
             apiInstance.testBodyWithFileSchema(fileSchemaTestClass);
         } catch (ApiException e) {
@@ -636,7 +636,7 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String query = "query_example"; // String | 
-        User user = new User(); // User | 
+        User user = new HashMap(); // User | 
         try {
             apiInstance.testBodyWithQueryParams(query, user);
         } catch (ApiException e) {
@@ -702,7 +702,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        Client client = new Client(); // Client | client model
+        Client client = new HashMap(); // Client | client model
         try {
             Client result = apiInstance.testClientModel(client);
             System.out.println(result);

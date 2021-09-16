@@ -24,7 +24,7 @@ defmodule OpenapiPetstore.Api.Pet do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec add_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec add_pet(Tesla.Env.client, %{optional(String.t) => }, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def add_pet(connection, pet, _opts \\ []) do
     %{}
     |> method(:post)
@@ -166,7 +166,7 @@ defmodule OpenapiPetstore.Api.Pet do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec update_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec update_pet(Tesla.Env.client, %{optional(String.t) => }, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def update_pet(connection, pet, _opts \\ []) do
     %{}
     |> method(:put)

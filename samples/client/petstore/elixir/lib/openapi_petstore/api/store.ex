@@ -104,7 +104,7 @@ defmodule OpenapiPetstore.Api.Store do
   {:ok, OpenapiPetstore.Model.Order.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec place_order(Tesla.Env.client, OpenapiPetstore.Model.Order.t, keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
+  @spec place_order(Tesla.Env.client, %{optional(String.t) => }, keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
   def place_order(connection, order, _opts \\ []) do
     %{}
     |> method(:post)

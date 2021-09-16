@@ -55,12 +55,15 @@ void OAIUserApiRequest::createUserRequest(){
 
     
  
-    
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
     OAIUser body;
-    ::OpenAPI::fromJsonValue(body, obj);
+    foreach(QString key, obj.keys()) {
+        OAIUser val;
+        ::OpenAPI::fromJsonValue(val, obj[key]);
+        body.insert(key, val);
+    }
     
 
     emit createUser(body);
@@ -177,12 +180,15 @@ void OAIUserApiRequest::updateUserRequest(const QString& usernamestr){
     QString username;
     fromStringValue(usernamestr, username);
      
-    
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
     OAIUser body;
-    ::OpenAPI::fromJsonValue(body, obj);
+    foreach(QString key, obj.keys()) {
+        OAIUser val;
+        ::OpenAPI::fromJsonValue(val, obj[key]);
+        body.insert(key, val);
+    }
     
 
     emit updateUser(username, body);

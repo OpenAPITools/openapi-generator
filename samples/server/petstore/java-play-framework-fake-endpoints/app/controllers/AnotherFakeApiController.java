@@ -43,6 +43,9 @@ public class AnotherFakeApiController extends Controller {
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Client.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
+                for (Map.Entry<String, > entry : body.entrySet()) {
+                    OpenAPIUtils.validate(entry.getValue());
+                }
                 OpenAPIUtils.validate(body);
             }
         } else {

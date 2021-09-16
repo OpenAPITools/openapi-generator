@@ -49,7 +49,7 @@ class PetApi(
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
-        val localVariableBody = body
+        val localVariableBody = AddPetRequest(body)
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -69,7 +69,16 @@ class PetApi(
         ).wrap()
     }
 
-
+    @Serializable
+    private class AddPetRequest(val value: Map<kotlin.String, Pet>) {
+        @Serializer(AddPetRequest::class)
+        companion object : KSerializer<AddPetRequest> {
+            private val serializer: KSerializer<Map<kotlin.String, Pet>> = serializer<Map<String, Pet>>()
+            override val descriptor = serializer.descriptor
+            override fun serialize(encoder: Encoder, obj: AddPetRequest) = serializer.serialize(encoder, obj.value)
+            override fun deserialize(decoder: Decoder) = AddPetRequest(serializer.deserialize(decoder))
+        }
+    }
 
     /**
      * Deletes a pet
@@ -236,7 +245,7 @@ class PetApi(
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 
-        val localVariableBody = body
+        val localVariableBody = UpdatePetRequest(body)
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -256,7 +265,16 @@ class PetApi(
         ).wrap()
     }
 
-
+    @Serializable
+    private class UpdatePetRequest(val value: Map<kotlin.String, Pet>) {
+        @Serializer(UpdatePetRequest::class)
+        companion object : KSerializer<UpdatePetRequest> {
+            private val serializer: KSerializer<Map<kotlin.String, Pet>> = serializer<Map<String, Pet>>()
+            override val descriptor = serializer.descriptor
+            override fun serialize(encoder: Encoder, obj: UpdatePetRequest) = serializer.serialize(encoder, obj.value)
+            override fun deserialize(decoder: Decoder) = UpdatePetRequest(serializer.deserialize(decoder))
+        }
+    }
 
     /**
      * Updates a pet in the store with form data

@@ -52,7 +52,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet body = new HashMap(); // Pet | Pet object that needs to be added to the store
         try {
             apiInstance.addPet(body);
         } catch (ApiException e) {
@@ -121,7 +121,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet body = new HashMap(); // Pet | Pet object that needs to be added to the store
         try {
             ApiResponse<Void> response = apiInstance.addPetWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
@@ -780,7 +780,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet body = new HashMap(); // Pet | Pet object that needs to be added to the store
         try {
             apiInstance.updatePet(body);
         } catch (ApiException e) {
@@ -851,7 +851,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
+        Pet body = new HashMap(); // Pet | Pet object that needs to be added to the store
         try {
             ApiResponse<Void> response = apiInstance.updatePetWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());

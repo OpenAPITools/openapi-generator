@@ -36,7 +36,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeClassnameTags123Api(
     new GuzzleHttp\Client(),
     $config
 );
-$client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
+$client = array('key' => new \OpenAPI\Client\Model\Client()); // \OpenAPI\Client\Model\Client | client model
 
 try {
     $result = $apiInstance->testClassname($client);

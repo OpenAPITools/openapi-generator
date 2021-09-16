@@ -50,7 +50,7 @@ defmodule OpenapiPetstore.Api.Fake do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec fake_http_signature_test(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec fake_http_signature_test(Tesla.Env.client, %{optional(String.t) => }, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def fake_http_signature_test(connection, pet, opts \\ []) do
     optional_params = %{
       :"query_1" => :query,
@@ -201,7 +201,7 @@ defmodule OpenapiPetstore.Api.Fake do
   {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec fake_property_enum_integer_serialize(Tesla.Env.client, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t, keyword()) :: {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} | {:error, Tesla.Env.t}
+  @spec fake_property_enum_integer_serialize(Tesla.Env.client, %{optional(String.t) => }, keyword()) :: {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} | {:error, Tesla.Env.t}
   def fake_property_enum_integer_serialize(connection, outer_object_with_enum_property, _opts \\ []) do
     %{}
     |> method(:post)
@@ -253,7 +253,7 @@ defmodule OpenapiPetstore.Api.Fake do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec test_body_with_file_schema(Tesla.Env.client, OpenapiPetstore.Model.FileSchemaTestClass.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_body_with_file_schema(Tesla.Env.client, %{optional(String.t) => }, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_body_with_file_schema(connection, file_schema_test_class, _opts \\ []) do
     %{}
     |> method(:put)
@@ -279,7 +279,7 @@ defmodule OpenapiPetstore.Api.Fake do
   {:ok, nil} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec test_body_with_query_params(Tesla.Env.client, String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_body_with_query_params(Tesla.Env.client, String.t, %{optional(String.t) => }, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_body_with_query_params(connection, query, user, _opts \\ []) do
     %{}
     |> method(:put)
@@ -307,7 +307,7 @@ defmodule OpenapiPetstore.Api.Fake do
   {:ok, OpenapiPetstore.Model.Client.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec test_client_model(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
+  @spec test_client_model(Tesla.Env.client, %{optional(String.t) => }, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
   def test_client_model(connection, client, _opts \\ []) do
     %{}
     |> method(:patch)

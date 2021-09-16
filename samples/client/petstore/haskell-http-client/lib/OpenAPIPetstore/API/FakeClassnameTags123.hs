@@ -68,8 +68,8 @@ import qualified Prelude as P
 -- AuthMethod: 'AuthApiKeyApiKeyQuery'
 -- 
 testClassname
-  :: (Consumes TestClassname MimeJSON, MimeRender MimeJSON Client)
-  => Client -- ^ "body" -  client model
+  :: (Consumes TestClassname MimeJSON, MimeRender MimeJSON BodyClient)
+  => BodyClient -- ^ "body" -  client model
   -> OpenAPIPetstoreRequest TestClassname MimeJSON Client MimeJSON
 testClassname body =
   _mkRequest "PATCH" ["/fake_classname_test"]
@@ -79,7 +79,7 @@ testClassname body =
 data TestClassname 
 
 -- | /Body Param/ "body" - client model
-instance HasBodyParam TestClassname Client 
+instance HasBodyParam TestClassname BodyClient 
 
 -- | @application/json@
 instance Consumes TestClassname MimeJSON

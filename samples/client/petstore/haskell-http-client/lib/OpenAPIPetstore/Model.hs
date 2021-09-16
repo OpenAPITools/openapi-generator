@@ -73,16 +73,34 @@ newtype AdditionalMetadata = AdditionalMetadata { unAdditionalMetadata :: Text }
 newtype ApiKey = ApiKey { unApiKey :: Text } deriving (P.Eq, P.Show)
 
 -- ** Body
-newtype Body = Body { unBody :: [User] } deriving (P.Eq, P.Show, A.ToJSON)
+newtype Body = Body { unBody :: Pet } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- ** BodyBool
 newtype BodyBool = BodyBool { unBodyBool :: Bool } deriving (P.Eq, P.Show, A.ToJSON)
 
+-- ** BodyClient
+newtype BodyClient = BodyClient { unBodyClient :: Client } deriving (P.Eq, P.Show, A.ToJSON)
+
 -- ** BodyDouble
 newtype BodyDouble = BodyDouble { unBodyDouble :: Double } deriving (P.Eq, P.Show, A.ToJSON)
 
+-- ** BodyFileSchemaTestClass
+newtype BodyFileSchemaTestClass = BodyFileSchemaTestClass { unBodyFileSchemaTestClass :: FileSchemaTestClass } deriving (P.Eq, P.Show, A.ToJSON)
+
+-- ** BodyOrder
+newtype BodyOrder = BodyOrder { unBodyOrder :: Order } deriving (P.Eq, P.Show, A.ToJSON)
+
+-- ** BodyOuterComposite
+newtype BodyOuterComposite = BodyOuterComposite { unBodyOuterComposite :: OuterComposite } deriving (P.Eq, P.Show, A.ToJSON)
+
 -- ** BodyText
 newtype BodyText = BodyText { unBodyText :: Text } deriving (P.Eq, P.Show, A.ToJSON)
+
+-- ** BodyUser
+newtype BodyUser = BodyUser { unBodyUser :: User } deriving (P.Eq, P.Show, A.ToJSON)
+
+-- ** BodyUser2
+newtype BodyUser2 = BodyUser2 { unBodyUser2 :: [User] } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- ** BooleanGroup
 newtype BooleanGroup = BooleanGroup { unBooleanGroup :: Bool } deriving (P.Eq, P.Show)
@@ -224,6 +242,9 @@ newtype Url = Url { unUrl :: [Text] } deriving (P.Eq, P.Show)
 
 -- ** Username
 newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)
+
+-- ** XmlItem2
+newtype XmlItem2 = XmlItem2 { unXmlItem2 :: XmlItem } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- * Models
 

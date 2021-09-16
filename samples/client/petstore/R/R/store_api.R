@@ -150,7 +150,7 @@
 #' ####################  PlaceOrder  ####################
 #'
 #' library(petstore)
-#' var.body <- Order$new() # Order | order placed for purchasing the pet
+#' var.body <- {'key' => Order$new()} # Order | order placed for purchasing the pet
 #'
 #' #Place an order for a pet
 #' api.instance <- StoreApi$new()

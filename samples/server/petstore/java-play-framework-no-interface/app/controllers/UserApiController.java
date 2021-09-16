@@ -44,6 +44,9 @@ public class UserApiController extends Controller {
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
+                for (Map.Entry<String, > entry : body.entrySet()) {
+                    OpenAPIUtils.validate(entry.getValue());
+                }
                 OpenAPIUtils.validate(body);
             }
         } else {
@@ -146,6 +149,9 @@ return ok();
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
+                for (Map.Entry<String, > entry : body.entrySet()) {
+                    OpenAPIUtils.validate(entry.getValue());
+                }
                 OpenAPIUtils.validate(body);
             }
         } else {

@@ -32,7 +32,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-        Client body = new Client(); // Client | client model
+        Client body = new HashMap(); // Client | client model
         try {
             Client result = apiInstance.call123testSpecialTags(body);
             System.out.println(result);

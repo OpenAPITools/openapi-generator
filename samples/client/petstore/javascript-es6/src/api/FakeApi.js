@@ -86,7 +86,7 @@ export default class FakeApi {
 
     /**
      * test http signature authentication
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {Object.<String, module:model/Pet>} pet Pet object that needs to be added to the store
      * @param {Object} opts Optional parameters
      * @param {String} opts.query1 query parameter
      * @param {String} opts.header1 header parameter
@@ -172,7 +172,7 @@ export default class FakeApi {
     /**
      * Test serialization of object with outer number type
      * @param {Object} opts Optional parameters
-     * @param {module:model/OuterComposite} opts.outerComposite Input composite as post body
+     * @param {Object.<String, module:model/OuterComposite>} opts.outerComposite Input composite as post body
      * @param {module:api/FakeApi~fakeOuterCompositeSerializeCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/OuterComposite}
      */
@@ -288,7 +288,7 @@ export default class FakeApi {
 
     /**
      * Test serialization of enum (int) properties with examples
-     * @param {module:model/OuterObjectWithEnumProperty} outerObjectWithEnumProperty Input enum (int) as post body
+     * @param {Object.<String, module:model/OuterObjectWithEnumProperty>} outerObjectWithEnumProperty Input enum (int) as post body
      * @param {module:api/FakeApi~fakePropertyEnumIntegerSerializeCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/OuterObjectWithEnumProperty}
      */
@@ -369,7 +369,7 @@ export default class FakeApi {
 
     /**
      * For this test, the body for this request must reference a schema named `File`.
-     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
+     * @param {Object.<String, module:model/FileSchemaTestClass>} fileSchemaTestClass 
      * @param {module:api/FakeApi~testBodyWithFileSchemaCallback} callback The callback function, accepting three arguments: error, data, response
      */
     testBodyWithFileSchema(fileSchemaTestClass, callback) {
@@ -409,7 +409,7 @@ export default class FakeApi {
 
     /**
      * @param {String} query 
-     * @param {module:model/User} user 
+     * @param {Object.<String, module:model/User>} user 
      * @param {module:api/FakeApi~testBodyWithQueryParamsCallback} callback The callback function, accepting three arguments: error, data, response
      */
     testBodyWithQueryParams(query, user, callback) {
@@ -455,7 +455,7 @@ export default class FakeApi {
     /**
      * To test \"client\" model
      * To test \"client\" model
-     * @param {module:model/Client} client client model
+     * @param {Object.<String, module:model/Client>} client client model
      * @param {module:api/FakeApi~testClientModelCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Client}
      */
