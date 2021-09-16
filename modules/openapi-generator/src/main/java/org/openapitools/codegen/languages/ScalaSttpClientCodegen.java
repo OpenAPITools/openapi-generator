@@ -220,6 +220,103 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return objs;
+    }
+
+    /**
+     * Invoked by {@link DefaultGenerator} after all models have been post-processed,
+     * allowing for a last pass of codegen-specific model cleanup.
+     *
+     * @param objs Current state of codegen object model.
+     * @return An in-place modified state of the codegen object model.
+     */
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        final Map<String, Object> processed = super.postProcessAllModels(objs);
+        postProcessUpdateImports(processed);
+        return processed;
+    }
+
+    /**
+     * Update/clean up model imports
+     *
+     * append '._" if the import is a Enum class, otherwise
+     * remove model imports to avoid warnings for importing class in the same package in Scala
+     *
+     * @param models processed models to be further processed
+     */
+    @SuppressWarnings({"unchecked"})
+    private void postProcessUpdateImports(final Map<String, Object> models) {
+        final String prefix = modelPackage() + ".";
+        Map<String, Object> enumRefs = new HashMap<String, Object>();
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
+            if (model.isEnum) {
+                Map<String, Object> objs = (Map<String, Object>)models.get(entry.getKey());
+                enumRefs.put(entry.getKey(), objs);
+            }
+        }
+
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            String openAPIName = entry.getKey();
+            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
+            if (model == null) {
+                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
+                continue;
+            }
+            Map<String, Object> objs = (Map<String, Object>)models.get(openAPIName);
+            List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+            if (imports == null || imports.isEmpty()) {
+                continue;
+            }
+            List<Map<String, String>> newImports = new ArrayList<>();
+            Iterator<Map<String, String>> iterator = imports.iterator();
+            while (iterator.hasNext()) {
+                String importPath = iterator.next().get("import");
+                if (importPath.startsWith(prefix)) {
+                     if (isEnumClass(importPath, (Map<String, Object>)enumRefs)) {
+                         Map<String, String> item = new HashMap<>();
+                         item.put("import", importPath.concat("._"));
+                         newImports.add(item);
+                     }
+                 }
+                 else {
+                      Map<String, String> item = new HashMap<>();
+                      item.put("import", importPath);
+                      newImports.add(item);
+                 }
+
+            }
+            // reset imports
+            objs.put("imports", newImports);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean isEnumClass(final String importPath, final Map<String, Object> enumModels) {
+        if (enumModels == null || enumModels.isEmpty()) {
+            return false;
+        }
+        for (Map.Entry<String, Object> entry : enumModels.entrySet()) {
+            String name = entry.getKey();
+            Map<String, Object> objs = (Map<String, Object>)enumModels.get(name);
+            List<Map<String, Object>> modles = (List<Map<String, Object>>) objs.get("models");
+            if (modles == null || modles.isEmpty()) {
+                continue;
+            }
+            Iterator<Map<String, Object>> iterator = modles.iterator();
+            while (iterator.hasNext()) {
+                String enumImportPath = (String)iterator.next().get("importPath");
+                if (enumImportPath != null && enumImportPath.equals(importPath)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         if (registerNonStandardStatusCodes) {
             try {
