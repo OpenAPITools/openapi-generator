@@ -21,6 +21,8 @@ export enum HttpMethod {
  */
 export type HttpFile = Blob & { readonly name: string };
 
+export type Headers = { [key: string]: string }
+
 /**
  * URLParse Wrapper for Deno
  */
@@ -70,7 +72,7 @@ export type RequestBody = undefined | string | FormData | URLSearchParams;
  * Represents an HTTP request context
  */
 export class RequestContext {
-    private headers: { [key: string]: string } = {};
+    private headers: Headers = {};
     private body: RequestBody = undefined;
     private url: URLParse;
 
@@ -80,8 +82,9 @@ export class RequestContext {
      * @param url url of the requested resource
      * @param httpMethod http method
      */
-    public constructor(url: string, private httpMethod: HttpMethod) {
+    public constructor(url: string, private httpMethod: HttpMethod, headers: Headers = {}) {
         this.url = new URLParse(url, true);
+        this.headers = headers;
     }
 
     /*
@@ -117,7 +120,7 @@ export class RequestContext {
         return this.httpMethod;
     }
 
-    public getHeaders(): { [key: string]: string } {
+    public getHeaders(): Headers {
         return this.headers;
     }
 
