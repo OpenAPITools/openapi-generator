@@ -149,10 +149,14 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            // if res type is model uppercase datatype just in case, to have a correct reference to wsdl complextype
+            // uppercase data-/basetype just in case when schema-name is lowercase in openapi to have a correct reference to wsdl complextype
             for (CodegenResponse response: op.responses) {
                 if (response.isModel) {
-                    response.dataType = response.dataType.substring(0, 1).toUpperCase() + response.dataType.substring(1);
+                    response.dataType = response.dataType.substring(0, 1).toUpperCase() + response.dataType.substring(1); 
+                }
+
+                if (response.isArray) {
+                    response.baseType = response.baseType.substring(0, 1).toUpperCase() + response.baseType.substring(1);
                 }
             }
 
