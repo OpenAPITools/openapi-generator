@@ -6192,7 +6192,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (codegenModel != null) {
             codegenParameter.isModel = true;
         }
-        fromRequestBody
+
         if (codegenModel != null && (codegenModel.hasVars || forceSimpleRef)) {
             if (StringUtils.isEmpty(bodyParameterName)) {
                 codegenParameter.baseName = codegenModel.classname;
@@ -6305,6 +6305,33 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void updateResponseBodyForPrimitiveType(CodegenParameter codegenParameter, Schema schema, String bodyParameterName, Set<String> imports) {
+        CodegenProperty codegenProperty = fromProperty("PRIMITIVE_REQUEST_BODY", schema);
+        if (codegenProperty != null) {
+            if (StringUtils.isEmpty(bodyParameterName)) {
+                codegenParameter.baseName = "body";  // default to body
+            } else {
+                codegenParameter.baseName = bodyParameterName;
+            }
+            codegenParameter.isNull = codegenProperty.isNull;
+            codegenParameter.isPrimitiveType = true;
+            codegenParameter.baseType = codegenProperty.baseType;
+            codegenParameter.dataType = codegenProperty.dataType;
+            codegenParameter.description = codegenProperty.description;
+            codegenParameter.paramName = toParamName(codegenParameter.baseName);
+            codegenParameter.pattern = codegenProperty.pattern;
+            codegenParameter.isNullable = codegenProperty.isNullable;
+
+            if (codegenProperty.complexType != null) {
+                imports.add(codegenProperty.complexType);
+            }
+
+        }
+        setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+        // set nullable
+        setParameterNullable(codegenParameter, codegenProperty);
+    }
+
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
@@ -6412,6 +6439,53 @@ public class DefaultCodegen implements CodegenConfig {
                 // object type schema or composed schema with properties defined
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
             }
+        } else if (ModelUtils.isIntegerSchema(schema)) { // integer type
+            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+            codegenParameter.isNumeric = Boolean.TRUE;
+            if (ModelUtils.isLongSchema(schema)) { // int64/long format
+                codegenParameter.isLong = Boolean.TRUE;
+            } else {
+                codegenParameter.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
+                if (ModelUtils.isShortSchema(schema)) { // int32
+                    codegenParameter.setIsShort(Boolean.TRUE);
+                }
+            }
+        } else if (ModelUtils.isBooleanSchema(schema)) { // boolean type
+            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+        } else if (ModelUtils.isStringSchema(schema)) {
+            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+            if (ModelUtils.isByteArraySchema(schema)) {
+                codegenParameter.isByteArray = true;
+            } else if (ModelUtils.isBinarySchema(schema)) {
+                codegenParameter.isBinary = true;
+                codegenParameter.isFile = true; // file = binary in OAS3
+            } else if (ModelUtils.isFileSchema(schema)) {
+                codegenParameter.isFile = true;
+            } else if (ModelUtils.isUUIDSchema(schema)) {
+                codegenParameter.isUuid = true;
+            } else if (ModelUtils.isURISchema(schema)) {
+                codegenParameter.isUri = true;
+            } else if (ModelUtils.isEmailSchema(schema)) {
+                codegenParameter.isEmail = true;
+            } else if (ModelUtils.isDateSchema(schema)) { // date format
+                codegenParameter.isDate = true;
+            } else if (ModelUtils.isDateTimeSchema(schema)) { // date-time format
+                codegenParameter.isDateTime = true;
+            } else if (ModelUtils.isDecimalSchema(schema)) { // type: string, format: number
+                codegenParameter.isDecimal = true;
+                codegenParameter.setIsString(false);
+            }
+            codegenParameter.pattern = toRegularExpression(schema.getPattern());
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+            codegenParameter.isNumeric = Boolean.TRUE;
+            if (ModelUtils.isFloatSchema(schema)) { // float
+                codegenParameter.isFloat = Boolean.TRUE;
+            } else if (ModelUtils.isDoubleSchema(schema)) { // double
+                codegenParameter.isDouble = Boolean.TRUE;
+            }
+        } else if (ModelUtils.isNullType(schema)) {
+            updateResponseBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
         } else if (ModelUtils.isAnyType(schema)) {
             if (ModelUtils.isMapSchema(schema)) {
                 // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
@@ -6423,31 +6497,8 @@ public class DefaultCodegen implements CodegenConfig {
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
             }
         } else {
-            // HTTP request body is primitive type (e.g. integer, string, etc)
-            CodegenProperty codegenProperty = fromProperty("PRIMITIVE_REQUEST_BODY", schema);
-            if (codegenProperty != null) {
-                if (StringUtils.isEmpty(bodyParameterName)) {
-                    codegenParameter.baseName = "body";  // default to body
-                } else {
-                    codegenParameter.baseName = bodyParameterName;
-                }
-                codegenParameter.isNull = codegenProperty.isNull;
-                codegenParameter.isPrimitiveType = true;
-                codegenParameter.baseType = codegenProperty.baseType;
-                codegenParameter.dataType = codegenProperty.dataType;
-                codegenParameter.description = codegenProperty.description;
-                codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                codegenParameter.pattern = codegenProperty.pattern;
-                codegenParameter.isNullable = codegenProperty.isNullable;
-
-                if (codegenProperty.complexType != null) {
-                    imports.add(codegenProperty.complexType);
-                }
-
-            }
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-            // set nullable
-            setParameterNullable(codegenParameter, codegenProperty);
+            // referenced schemas
+            ;
         }
 
         addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
