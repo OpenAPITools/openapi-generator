@@ -130,7 +130,7 @@ void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pista
 
     // Getting the body param
     
-    Order body;
+    Order body;std::map<std::string, > body;
     
     try {
         nlohmann::json::parse(request.body()).get_to(body);

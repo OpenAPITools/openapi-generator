@@ -47,7 +47,7 @@ OASClient client = api.getClient();
 
 
 Map<String, Object> params = new Map<String, Object>{
-    'oaSPet' => ''
+    'oaSPet' => 
 };
 
 try {

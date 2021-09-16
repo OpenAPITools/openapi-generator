@@ -70,7 +70,7 @@ void PetApi::add_pet_handler(const Pistache::Rest::Request &request, Pistache::H
 
     // Getting the body param
     
-    Pet body;
+    Pet body;std::map<std::string, > body;
     
     try {
         nlohmann::json::parse(request.body()).get_to(body);
@@ -210,7 +210,7 @@ void PetApi::update_pet_handler(const Pistache::Rest::Request &request, Pistache
 
     // Getting the body param
     
-    Pet body;
+    Pet body;std::map<std::string, > body;
     
     try {
         nlohmann::json::parse(request.body()).get_to(body);
