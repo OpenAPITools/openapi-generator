@@ -21,7 +21,7 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.OrderRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
 
@@ -38,23 +38,23 @@ import org.openapitools.client.infrastructure.ITransformForStorage
 
 data class Order (
 
-    @Json(name = "id")
+    @SerializedName("id")
     val id: kotlin.Long? = null,
 
-    @Json(name = "petId")
+    @SerializedName("petId")
     val petId: kotlin.Long? = null,
 
-    @Json(name = "quantity")
+    @SerializedName("quantity")
     val quantity: kotlin.Int? = null,
 
-    @Json(name = "shipDate")
+    @SerializedName("shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
 
     /* Order Status */
-    @Json(name = "status")
+    @SerializedName("status")
     val status: Order.Status? = null,
 
-    @Json(name = "complete")
+    @SerializedName("complete")
     val complete: kotlin.Boolean? = null
 
 ): ITransformForStorage<OrderRoomModel> {
@@ -75,9 +75,9 @@ complete = this.complete,
      * Values: placed,approved,delivered
      */
     enum class Status(val value: kotlin.String) {
-        @Json(name = "placed") placed("placed"),
-        @Json(name = "approved") approved("approved"),
-        @Json(name = "delivered") delivered("delivered");
+        @SerializedName(value = "placed") placed("placed"),
+        @SerializedName(value = "approved") approved("approved"),
+        @SerializedName(value = "delivered") delivered("delivered");
     }
 }
 

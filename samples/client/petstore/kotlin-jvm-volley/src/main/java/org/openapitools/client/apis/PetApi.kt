@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken
 
 import org.openapitools.client.request.IRequestFactory
 import org.openapitools.client.request.RequestFactory
+import org.openapitools.client.infrastructure.CollectionFormats.*
 
 import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
@@ -57,9 +58,9 @@ class PetApi (
         val path = "/pet";
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -89,6 +90,7 @@ class PetApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -124,9 +126,9 @@ class PetApi (
         val path = "/pet/{petId}".replace("{" + "petId" + "}", IRequestFactory.escapeString(petId.toString()));
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -157,6 +159,7 @@ class PetApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -191,9 +194,9 @@ class PetApi (
         val path = "/pet/findByStatus";
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -224,6 +227,7 @@ class PetApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -259,9 +263,9 @@ class PetApi (
         val path = "/pet/findByTags";
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -292,6 +296,7 @@ class PetApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -326,9 +331,9 @@ class PetApi (
         val path = "/pet/{petId}".replace("{" + "petId" + "}", IRequestFactory.escapeString(petId.toString()));
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -358,6 +363,7 @@ class PetApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -392,9 +398,9 @@ class PetApi (
         val path = "/pet";
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -424,6 +430,7 @@ class PetApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -442,7 +449,7 @@ class PetApi (
        * @param status Updated status of the pet
        * @return void
     */
-    suspend fun updatePetWithForm(petId: kotlin.Long, @Field("name") name: kotlin.String? = null, @Field("status") status: kotlin.String? = null): Unit {
+    suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Unit {
         var body: Any? = null
         // verify the required parameter 'petId' is set
         // This is probably taken care of by non-null types anyway
@@ -460,9 +467,11 @@ class PetApi (
         val path = "/pet/{petId}".replace("{" + "petId" + "}", IRequestFactory.escapeString(petId.toString()));
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+                    "name" to IRequestFactory.parameterToString(name),
+                    "status" to IRequestFactory.parameterToString(status),
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -492,6 +501,7 @@ class PetApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -510,7 +520,7 @@ class PetApi (
        * @param file file to upload
        * @return ApiResponse
     */
-    suspend fun uploadFile(petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null, @Part file: MultipartBody.Part? = null): ApiResponse? {
+    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ApiResponse? {
         var body: Any? = null
         // verify the required parameter 'petId' is set
         // This is probably taken care of by non-null types anyway
@@ -528,9 +538,11 @@ class PetApi (
         val path = "/pet/{petId}/uploadImage".replace("{" + "petId" + "}", IRequestFactory.escapeString(petId.toString()));
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+                    "additionalMetadata" to IRequestFactory.parameterToString(additionalMetadata),
+                    "file" to IRequestFactory.parameterToString(file),
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -560,6 +572,7 @@ class PetApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,

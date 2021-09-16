@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken
 
 import org.openapitools.client.request.IRequestFactory
 import org.openapitools.client.request.RequestFactory
+import org.openapitools.client.infrastructure.CollectionFormats.*
 
 import org.openapitools.client.models.Order
 
@@ -56,9 +57,9 @@ class StoreApi (
         val path = "/store/order/{orderId}".replace("{" + "orderId" + "}", IRequestFactory.escapeString(orderId.toString()));
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -88,6 +89,7 @@ class StoreApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -118,9 +120,9 @@ class StoreApi (
         val path = "/store/inventory";
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -150,6 +152,7 @@ class StoreApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -184,9 +187,9 @@ class StoreApi (
         val path = "/store/order/{orderId}".replace("{" + "orderId" + "}", IRequestFactory.escapeString(orderId.toString()));
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -216,6 +219,7 @@ class StoreApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -250,9 +254,9 @@ class StoreApi (
         val path = "/store/order";
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -282,6 +286,7 @@ class StoreApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,

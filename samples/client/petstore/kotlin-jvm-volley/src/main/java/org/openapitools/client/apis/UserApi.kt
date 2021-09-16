@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken
 
 import org.openapitools.client.request.IRequestFactory
 import org.openapitools.client.request.RequestFactory
+import org.openapitools.client.infrastructure.CollectionFormats.*
 
 import org.openapitools.client.models.User
 
@@ -56,9 +57,9 @@ class UserApi (
         val path = "/user";
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -88,6 +89,7 @@ class UserApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -122,9 +124,9 @@ class UserApi (
         val path = "/user/createWithArray";
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -154,6 +156,7 @@ class UserApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -188,9 +191,9 @@ class UserApi (
         val path = "/user/createWithList";
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -220,6 +223,7 @@ class UserApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -254,9 +258,9 @@ class UserApi (
         val path = "/user/{username}".replace("{" + "username" + "}", IRequestFactory.escapeString(username.toString()));
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -286,6 +290,7 @@ class UserApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -320,9 +325,9 @@ class UserApi (
         val path = "/user/{username}".replace("{" + "username" + "}", IRequestFactory.escapeString(username.toString()));
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -352,6 +357,7 @@ class UserApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -390,9 +396,9 @@ class UserApi (
         val path = "/user/login";
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -424,6 +430,7 @@ class UserApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -454,9 +461,9 @@ class UserApi (
         val path = "/user/logout";
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -486,6 +493,7 @@ class UserApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,
@@ -524,9 +532,9 @@ class UserApi (
         val path = "/user/{username}".replace("{" + "username" + "}", IRequestFactory.escapeString(username.toString()));
 
         // form params
-        // TODO: Comment this back in and use them when using form parameters
-        // TODO: Investigate how form parameters are used in volley
-        // val formParams: Map<String, String> = HashMap()
+        val formParams = mapOf<String, String>(
+        )
+
 
         // TODO: Cater for allowing empty values
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
@@ -556,6 +564,7 @@ class UserApi (
                     body,
                     headerParams,
                     queryParams,
+                    formParams,
                     contentType,
                     responseType,
                     responseListener,

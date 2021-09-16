@@ -21,7 +21,7 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.UserRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
 
@@ -40,29 +40,29 @@ import org.openapitools.client.infrastructure.ITransformForStorage
 
 data class User (
 
-    @Json(name = "id")
+    @SerializedName("id")
     val id: kotlin.Long? = null,
 
-    @Json(name = "username")
+    @SerializedName("username")
     val username: kotlin.String? = null,
 
-    @Json(name = "firstName")
+    @SerializedName("firstName")
     val firstName: kotlin.String? = null,
 
-    @Json(name = "lastName")
+    @SerializedName("lastName")
     val lastName: kotlin.String? = null,
 
-    @Json(name = "email")
+    @SerializedName("email")
     val email: kotlin.String? = null,
 
-    @Json(name = "password")
+    @SerializedName("password")
     val password: kotlin.String? = null,
 
-    @Json(name = "phone")
+    @SerializedName("phone")
     val phone: kotlin.String? = null,
 
     /* User Status */
-    @Json(name = "userStatus")
+    @SerializedName("userStatus")
     val userStatus: kotlin.Int? = null
 
 ): ITransformForStorage<UserRoomModel> {

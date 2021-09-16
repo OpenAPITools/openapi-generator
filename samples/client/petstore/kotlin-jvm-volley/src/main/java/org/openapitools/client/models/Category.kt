@@ -21,7 +21,7 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.CategoryRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
 
@@ -34,10 +34,10 @@ import org.openapitools.client.infrastructure.ITransformForStorage
 
 data class Category (
 
-    @Json(name = "id")
+    @SerializedName("id")
     val id: kotlin.Long? = null,
 
-    @Json(name = "name")
+    @SerializedName("name")
     val name: kotlin.String? = null
 
 ): ITransformForStorage<CategoryRoomModel> {

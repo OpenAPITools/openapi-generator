@@ -23,7 +23,7 @@ package org.openapitools.client.models
 import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.PetRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
 
@@ -40,23 +40,23 @@ import org.openapitools.client.infrastructure.ITransformForStorage
 
 data class Pet (
 
-    @Json(name = "name")
+    @SerializedName("name")
     val name: kotlin.String,
 
-    @Json(name = "photoUrls")
+    @SerializedName("photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @Json(name = "id")
+    @SerializedName("id")
     val id: kotlin.Long? = null,
 
-    @Json(name = "category")
+    @SerializedName("category")
     val category: Category? = null,
 
-    @Json(name = "tags")
+    @SerializedName("tags")
     val tags: kotlin.collections.List<Tag>? = null,
 
     /* pet status in the store */
-    @Json(name = "status")
+    @SerializedName("status")
     val status: Pet.Status? = null
 
 ): ITransformForStorage<PetRoomModel> {
@@ -77,9 +77,9 @@ status = this.status,
      * Values: available,pending,sold
      */
     enum class Status(val value: kotlin.String) {
-        @Json(name = "available") available("available"),
-        @Json(name = "pending") pending("pending"),
-        @Json(name = "sold") sold("sold");
+        @SerializedName(value = "available") available("available"),
+        @SerializedName(value = "pending") pending("pending"),
+        @SerializedName(value = "sold") sold("sold");
     }
 }
 
