@@ -4566,34 +4566,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (codegenProperty.complexType != null) {
                 imports.add(codegenProperty.complexType);
             }
-
-            // validation
-            // handle maximum, minimum properly for int/long by removing the trailing ".0"
-            if (ModelUtils.isIntegerSchema(parameterSchema)) {
-                codegenParameter.maximum = parameterSchema.getMaximum() == null ? null : String.valueOf(parameterSchema.getMaximum().longValue());
-                codegenParameter.minimum = parameterSchema.getMinimum() == null ? null : String.valueOf(parameterSchema.getMinimum().longValue());
-            } else {
-                codegenParameter.maximum = parameterSchema.getMaximum() == null ? null : String.valueOf(parameterSchema.getMaximum());
-                codegenParameter.minimum = parameterSchema.getMinimum() == null ? null : String.valueOf(parameterSchema.getMinimum());
-            }
-
-            codegenParameter.exclusiveMaximum = parameterSchema.getExclusiveMaximum() == null ? false : parameterSchema.getExclusiveMaximum();
-            codegenParameter.exclusiveMinimum = parameterSchema.getExclusiveMinimum() == null ? false : parameterSchema.getExclusiveMinimum();
-            codegenParameter.maxLength = parameterSchema.getMaxLength();
-            codegenParameter.minLength = parameterSchema.getMinLength();
             codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
-            codegenParameter.maxItems = parameterSchema.getMaxItems();
-            codegenParameter.minItems = parameterSchema.getMinItems();
-            codegenParameter.uniqueItems = parameterSchema.getUniqueItems() == null ? false : parameterSchema.getUniqueItems();
-            codegenParameter.multipleOf = parameterSchema.getMultipleOf();
 
-            // exclusive* are noop without corresponding min/max
-            if (codegenParameter.maximum != null || codegenParameter.minimum != null ||
-                    codegenParameter.maxLength != null || codegenParameter.minLength != null ||
-                    codegenParameter.maxItems != null || codegenParameter.minItems != null ||
-                    codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
-                codegenParameter.hasValidation = true;
-            }
             addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
 
         } else {
