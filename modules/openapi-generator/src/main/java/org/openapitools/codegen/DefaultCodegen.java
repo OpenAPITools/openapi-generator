@@ -6427,6 +6427,32 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void updateRequestBodyForString(CodegenParameter codegenParameter, Schema schema, Set<String> imports, String bodyParameterName) {
+        updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+        if (ModelUtils.isByteArraySchema(schema)) {
+            codegenParameter.isByteArray = true;
+        } else if (ModelUtils.isBinarySchema(schema)) {
+            codegenParameter.isBinary = true;
+            codegenParameter.isFile = true; // file = binary in OAS3
+        } else if (ModelUtils.isFileSchema(schema)) {
+            codegenParameter.isFile = true;
+        } else if (ModelUtils.isUUIDSchema(schema)) {
+            codegenParameter.isUuid = true;
+        } else if (ModelUtils.isURISchema(schema)) {
+            codegenParameter.isUri = true;
+        } else if (ModelUtils.isEmailSchema(schema)) {
+            codegenParameter.isEmail = true;
+        } else if (ModelUtils.isDateSchema(schema)) { // date format
+            codegenParameter.isDate = true;
+        } else if (ModelUtils.isDateTimeSchema(schema)) { // date-time format
+            codegenParameter.isDateTime = true;
+        } else if (ModelUtils.isDecimalSchema(schema)) { // type: string, format: number
+            codegenParameter.isDecimal = true;
+            codegenParameter.setIsString(false);
+        }
+        codegenParameter.pattern = toRegularExpression(schema.getPattern());
+    }
+
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
@@ -6478,29 +6504,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isBooleanSchema(schema)) { // boolean type
             updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
         } else if (ModelUtils.isStringSchema(schema)) {
-            updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-            if (ModelUtils.isByteArraySchema(schema)) {
-                codegenParameter.isByteArray = true;
-            } else if (ModelUtils.isBinarySchema(schema)) {
-                codegenParameter.isBinary = true;
-                codegenParameter.isFile = true; // file = binary in OAS3
-            } else if (ModelUtils.isFileSchema(schema)) {
-                codegenParameter.isFile = true;
-            } else if (ModelUtils.isUUIDSchema(schema)) {
-                codegenParameter.isUuid = true;
-            } else if (ModelUtils.isURISchema(schema)) {
-                codegenParameter.isUri = true;
-            } else if (ModelUtils.isEmailSchema(schema)) {
-                codegenParameter.isEmail = true;
-            } else if (ModelUtils.isDateSchema(schema)) { // date format
-                codegenParameter.isDate = true;
-            } else if (ModelUtils.isDateTimeSchema(schema)) { // date-time format
-                codegenParameter.isDateTime = true;
-            } else if (ModelUtils.isDecimalSchema(schema)) { // type: string, format: number
-                codegenParameter.isDecimal = true;
-                codegenParameter.setIsString(false);
-            }
-            codegenParameter.pattern = toRegularExpression(schema.getPattern());
+            updateRequestBodyForString(codegenParameter, schema, imports, bodyParameterName);
         } else if (ModelUtils.isNumberSchema(schema)) {
             updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
             codegenParameter.isNumeric = Boolean.TRUE;
