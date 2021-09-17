@@ -3559,14 +3559,23 @@ public class DefaultCodegen implements CodegenConfig {
             updatePropertyForObject(property, p);
         } else if (ModelUtils.isAnyType(p)) {
             updatePropertyForAnyType(property, p);
+        } else if (!ModelUtils.isNullType(p)) {
+            // referenced model
+            ;
         }
 
-        if (!(ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p) || isFreeFormObject(p) || ModelUtils.isAnyType(p)) || ModelUtils.isComposedSchema(p)) {
-            // model
+        Boolean isAnyTypeWithNothingElseSet = (ModelUtils.isAnyType(p) &&
+                (p.getProperties() == null || p.getProperties().isEmpty()) &&
+                !ModelUtils.isComposedSchema(p) &&
+                p.getAdditionalProperties() == null && p.getNot() == null && p.getEnum() == null);
+
+        if (!ModelUtils.isArraySchema(p) && !ModelUtils.isMapSchema(p) && !isFreeFormObject(p) && !isAnyTypeWithNothingElseSet) {
+            /** schemas that are not Array, not ModelUtils.isMapSchema, not isFreeFormObject, not AnyType with nothing else set
+             *  so primitve schemas int, str, number, referenced schemas, AnyType schemas with properties, enums, or composition
+             */
             String type = getSchemaType(p);
             setNonArrayMapProperty(property, type);
-            Schema refOrCurrent = ModelUtils.getReferencedSchema(this.openAPI, p);
-            property.isModel = (ModelUtils.isComposedSchema(refOrCurrent) || ModelUtils.isObjectSchema(refOrCurrent)) && ModelUtils.isModel(refOrCurrent);
+            property.isModel = (ModelUtils.isComposedSchema(referencedSchema) || ModelUtils.isObjectSchema(referencedSchema)) && ModelUtils.isModel(referencedSchema);
         }
 
         addVarsRequiredVarsAdditionalProps(p, property);
