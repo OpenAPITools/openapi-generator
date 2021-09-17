@@ -355,46 +355,4 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
             }
         }
     }
-
-    @Override
-    protected void updateRequestBodyForObject(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
-        /**
-         * we have a custom version of this function so we only set isMap to true if
-         * ModelUtils.isMapSchema
-         * In other generators, isMap is true for all type object schemas
-         */
-        if (ModelUtils.isMapSchema(schema)) {
-            // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-            updateRequestBodyForMap(codegenParameter, schema, name, imports, bodyParameterName);
-        } else if (isFreeFormObject(schema)) {
-            // non-composed object type with no properties + additionalProperties
-            // additionalProperties must be null, ObjectSchema, or empty Schema
-            codegenParameter.setIsMap(false);
-
-            // HTTP request body is free form object
-            CodegenProperty codegenProperty = fromProperty("FREE_FORM_REQUEST_BODY", schema);
-            if (codegenProperty != null) {
-                if (StringUtils.isEmpty(bodyParameterName)) {
-                    codegenParameter.baseName = "body";  // default to body
-                } else {
-                    codegenParameter.baseName = bodyParameterName;
-                }
-                codegenParameter.isPrimitiveType = true;
-                codegenParameter.baseType = codegenProperty.baseType;
-                codegenParameter.dataType = codegenProperty.dataType;
-                codegenParameter.description = codegenProperty.description;
-                codegenParameter.isNullable = codegenProperty.isNullable;
-                codegenParameter.paramName = toParamName(codegenParameter.baseName);
-            }
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-            // set nullable
-            setParameterNullable(codegenParameter, codegenProperty);
-        } else if (ModelUtils.isObjectSchema(schema)) {
-            // object type schema or composed schema with properties defined
-            codegenParameter.setIsMap(false);
-            this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
-        } else {
-            codegenParameter.setIsMap(false);
-        }
-    }
 }
