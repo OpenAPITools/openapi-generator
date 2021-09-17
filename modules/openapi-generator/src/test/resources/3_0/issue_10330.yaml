@@ -12,6 +12,14 @@ tags: []
 paths:
   /ComposedObject:
     get:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              allOf:
+                - {}
       responses:
         '200':
           description: 'ComposedObject'
@@ -23,6 +31,14 @@ paths:
                   - {}
   /ComposedNumber:
     get:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: number
+              allOf:
+                - {}
       responses:
         '200':
           description: 'ComposedNumber'
@@ -34,6 +50,14 @@ paths:
                   - {}
   /ComposedInteger:
     get:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: integer
+              allOf:
+                - {}
       responses:
         '200':
           description: 'ComposedInteger'
@@ -45,6 +69,14 @@ paths:
                   - {}
   /ComposedString:
     get:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              allOf:
+                - {}
       responses:
         '200':
           description: 'ComposedString'
@@ -56,6 +88,14 @@ paths:
                   - {}
   /ComposedBool:
     get:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: boolean
+              allOf:
+                - {}
       responses:
         '200':
           description: 'ComposedBool'
@@ -67,6 +107,15 @@ paths:
                   - {}
   /ComposedArray:
     get:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: {}
+              allOf:
+                - {}
       responses:
         '200':
           description: 'ComposedArray'
@@ -79,6 +128,14 @@ paths:
                   - {}
   /ComposedNone:
     get:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: 'null'
+              allOf:
+                - {}
       responses:
         '200':
           description: 'ComposedNone'
@@ -90,6 +147,13 @@ paths:
                   - {}
   /ComposedAnyType:
     get:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - {}
       responses:
         '200':
           description: 'ComposedAnyType'

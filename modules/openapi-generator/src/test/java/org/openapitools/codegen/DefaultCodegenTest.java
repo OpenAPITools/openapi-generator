@@ -3746,4 +3746,54 @@ public class DefaultCodegenTest {
         cr = co.responses.get(0);
         assertTrue(cr.getIsAnyType());
     }
+
+    @Test
+    public void testComposedRequestBodyTypes() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10330.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+        CodegenParameter cp;
+
+        path = "/ComposedObject";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsMap());
+
+        path = "/ComposedNumber";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsNumber());
+
+        path = "/ComposedInteger";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsUnboundedInteger());
+
+        path = "/ComposedString";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsString());
+
+        path = "/ComposedBool";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsBoolean());
+
+        path = "/ComposedArray";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsArray());
+
+        path = "/ComposedNone";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsNull());
+
+        path = "/ComposedAnyType";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsAnyType());
+    }
 }
