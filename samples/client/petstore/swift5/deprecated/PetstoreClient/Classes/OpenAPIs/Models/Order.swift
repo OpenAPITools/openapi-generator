@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 /** An order for a pets from the pet store */
 @available(*, deprecated, message: "This schema is deprecated.")
@@ -33,4 +36,25 @@ public struct Order: Codable, Hashable {
         self.complete = complete
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case id
+        case petId
+        case quantity
+        case shipDate
+        case status
+        case complete
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(petId, forKey: .petId)
+        try container.encodeIfPresent(quantity, forKey: .quantity)
+        try container.encodeIfPresent(shipDate, forKey: .shipDate)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(complete, forKey: .complete)
+    }
 }
+

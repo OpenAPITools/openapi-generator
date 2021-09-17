@@ -52,6 +52,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     // nose is a python testing framework, we use pytest if USE_NOSE is unset
     public static final String USE_NOSE = "useNose";
     public static final String PYTHON_SRC_ROOT = "pythonSrcRoot";
+    public static final String USE_PYTHON_SRC_ROOT_IN_IMPORTS = "usePythonSrcRootInImports";
     static final String MEDIA_TYPE = "mediaType";
 
     protected int serverPort = 8080;
@@ -62,6 +63,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     protected boolean featureCORS = Boolean.FALSE;
     protected boolean useNose = Boolean.FALSE;
     protected String pythonSrcRoot;
+    protected boolean usePythonSrcRootInImports = Boolean.FALSE;
 
     public AbstractPythonConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
         super();
@@ -79,7 +81,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         typeMapping.put("map", "Dict");
 
         // set the output folder here
-        outputFolder = "generated-code/connexion";
+        outputFolder = "generated-code" + File.separatorChar + "connexion";
 
         apiTemplateFiles.put("controller.mustache", ".py");
         modelTemplateFiles.put("model.mustache", ".py");
@@ -132,6 +134,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(PYTHON_SRC_ROOT, "put python sources in this subdirectory of output folder (defaults to \"\" for). Use this for src/ layout.").
                 defaultValue(""));
+        cliOptions.add(new CliOption(USE_PYTHON_SRC_ROOT_IN_IMPORTS, "include pythonSrcRoot in import namespaces.").
+                defaultValue("false"));
     }
 
     protected void addSupportingFiles() {
@@ -147,7 +151,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
             setPackageName("openapi_server");
-            additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
         }
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
@@ -177,9 +180,19 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (additionalProperties.containsKey(USE_NOSE)) {
             setUseNose((String) additionalProperties.get(USE_NOSE));
         }
+        if (additionalProperties.containsKey(USE_PYTHON_SRC_ROOT_IN_IMPORTS)) {
+            setUsePythonSrcRootInImports((String) additionalProperties.get(USE_PYTHON_SRC_ROOT_IN_IMPORTS));
+        }
         if (additionalProperties.containsKey(PYTHON_SRC_ROOT)) {
-            setPythonSrcRoot((String) additionalProperties.get(PYTHON_SRC_ROOT));
-            additionalProperties.put(PYTHON_SRC_ROOT, pythonSrcRoot);
+            String pythonSrcRoot = (String) additionalProperties.get(PYTHON_SRC_ROOT);
+            if (usePythonSrcRootInImports) {
+                // if we prepend the package name if the pythonSrcRoot we get the desired effect.
+                // but we also need to set pythonSrcRoot itself to "" to ensure all the paths are
+                // what we expect.
+                setPackageName(pythonSrcRoot + "." + packageName);
+                pythonSrcRoot = "";
+            }
+            setPythonSrcRoot(pythonSrcRoot);
         } else {
             setPythonSrcRoot("");
         }
@@ -218,6 +231,11 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         } else {
             this.pythonSrcRoot = pySrcRoot + File.separator;
         }
+        additionalProperties.put(PYTHON_SRC_ROOT, StringUtils.defaultIfBlank(this.pythonSrcRoot, null));
+    }
+
+    public void setUsePythonSrcRootInImports(String val) {
+        this.usePythonSrcRootInImports = Boolean.parseBoolean(val);
     }
 
 
@@ -325,7 +343,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         fixedPath += "/" + token;
                     }
                     if (!fixedPath.equals(pathname)) {
-                        LOGGER.warn("Path '" + pathname + "' is not consistant with Python variable names. It will be replaced by '" + fixedPath + "'");
+                        LOGGER.warn(
+                                "Path '{}' is not consistent with Python variable names. It will be replaced by '{}'",
+                                pathname, fixedPath);
                         paths.remove(pathname);
                         path.addExtension("x-python-connexion-openapi-name", pathname);
                         paths.put(fixedPath, path);
@@ -355,12 +375,14 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                                 String swaggerParameterName = parameter.getName();
                                 String pythonParameterName = this.toParamName(swaggerParameterName);
                                 if (!swaggerParameterName.equals(pythonParameterName)) {
-                                    LOGGER.warn("Parameter name '" + swaggerParameterName + "' is not consistant with Python variable names. It will be replaced by '" + pythonParameterName + "'");
+                                    LOGGER.warn(
+                                            "Parameter name '{}' is not consistent with Python variable names. It will be replaced by '{}'",
+                                            swaggerParameterName, pythonParameterName);
                                     parameter.addExtension("x-python-connexion-openapi-name", swaggerParameterName);
                                     parameter.setName(pythonParameterName);
                                 }
                                 if (swaggerParameterName.isEmpty()) {
-                                    LOGGER.error("Missing parameter name in " + pathname + "." + parameter.getIn());
+                                    LOGGER.error("Missing parameter name in {}.{}", pathname, parameter.getIn());
                                 }
                             }
                         }
@@ -417,13 +439,13 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         }
                         break;
                     case OPENIDCONNECT:
-                        LOGGER.warn("Security type " + securityScheme.getType().toString() + " is not supported by connextion yet");
+                        LOGGER.warn("Security type {} is not supported by connexion yet", securityScheme.getType().toString());
                     case OAUTH2:
                         addSecurityExtension(securityScheme, "x-tokenInfoFunc", baseFunctionName + "info_from_" + securityName);
                         addSecurityExtension(securityScheme, "x-scopeValidateFunc", baseFunctionName + "validate_scope_" + securityName);
                         break;
                     default:
-                        LOGGER.warn("Unknown security type " + securityScheme.getType().toString());
+                        LOGGER.warn("Unknown security type {}", securityScheme.getType().toString());
                 }
             }
         }
@@ -480,7 +502,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     // Get and remove the (temporary) vendor extension
                     String openapiPathname = (String) pathExtensions.remove("x-python-connexion-openapi-name");
                     if (openapiPathname != null && !openapiPathname.equals(pythonPathname)) {
-                        LOGGER.info("Path '" + pythonPathname + "' is not consistant with the original OpenAPI definition. It will be replaced back by '" + openapiPathname + "'");
+                        LOGGER.info(
+                                "Path '{}' is not consistent with the original OpenAPI definition. It will be replaced back by '{}'",
+                                pythonPathname, openapiPathname);
                         paths.remove(pythonPathname);
                         paths.put(openapiPathname, path);
                     }
@@ -499,13 +523,18 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                                     if (swaggerParameterName != null) {
                                         String pythonParameterName = parameter.getName();
                                         if (!swaggerParameterName.equals(pythonParameterName)) {
-                                            LOGGER.info("Reverting name of parameter '" + pythonParameterName + "' of operation '" + operation.getOperationId() + "' back to '" + swaggerParameterName + "'");
+                                            LOGGER.info(
+                                                    "Reverting name of parameter '{}' of operation '{}' back to '{}'",
+                                                    pythonParameterName, operation.getOperationId(), swaggerParameterName);
                                             parameter.setName(swaggerParameterName);
                                         } else {
-                                            LOGGER.debug("Name of parameter '" + pythonParameterName + "' of operation '" + operation.getOperationId() + "' was unchanged.");
+                                            LOGGER.debug("Name of parameter '{}' of operation '{}' was unchanged.",
+                                                    pythonParameterName, operation.getOperationId());
                                         }
                                     } else {
-                                        LOGGER.debug("x-python-connexion-openapi-name was not set on parameter '" + parameter.getName() + "' of operation '" + operation.getOperationId() + "'");
+                                        LOGGER.debug(
+                                                "x-python-connexion-openapi-name was not set on parameter '{}' of operation '{}'",
+                                                parameter.getName(), operation.getOperationId());
                                     }
                                 }
                             }
@@ -623,7 +652,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     operation.vendorExtensions.put("x-prefered-consume", consume);
                 } else if (operation.consumes.size() > 1) {
                     Map<String, String> consume = operation.consumes.get(0);
-                    skipTests.put("reason", "Connexion does not support multiple consummes. See https://github.com/zalando/connexion/pull/760");
+                    skipTests.put("reason", "Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760");
                     operation.vendorExtensions.put("x-prefered-consume", consume);
                     if ("multipart/form-data".equals(consume.get(MEDIA_TYPE))) {
                         operation.isMultipart = Boolean.TRUE;

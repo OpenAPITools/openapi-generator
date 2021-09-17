@@ -7,7 +7,7 @@
 #include "Templates/SharedPointer.h"
 
 {{#cppNamespaceDeclarations}}
-namespace {{this}} 
+namespace {{this}}
 {
 {{/cppNamespaceDeclarations}}
 {{#models}}{{#model}}
@@ -24,8 +24,30 @@ inline FString ToString(const {{classname}}::Values& Value)
 	}
 	{{/allowableValues}}
 
-	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::Values Value (%d)"), (int)Value);	
+	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::Values Value (%d)"), (int)Value);
 	return TEXT("");
+}
+
+FString {{classname}}::EnumToString(const {{classname}}::Values& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, {{classname}}::Values& Value)
+{
+	static TMap<FString, {{classname}}::Values> StringToEnum = { {{#allowableValues}}{{#enumVars}}
+		{ TEXT("{{{value}}}"), {{classname}}::Values::{{name}} },{{/enumVars}}{{/allowableValues}} };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+bool {{classname}}::EnumFromString(const FString& EnumAsString, {{classname}}::Values& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
 }
 
 inline FStringFormatArg ToStringFormatArg(const {{classname}}::Values& Value)
@@ -44,15 +66,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, {{classname
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, {{classname}}::Values> StringToEnum = { {{#enumVars}}
-			{ TEXT("{{{value}}}"), {{classname}}::Values::{{name}} },{{/enumVars}} };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	{{/allowableValues}}
 	return false;
@@ -74,8 +89,30 @@ inline FString ToString(const {{classname}}::{{{enumName}}}& Value)
 	}
 	{{/allowableValues}}
 
-	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::{{{enumName}}} Value (%d)"), (int)Value);	
+	UE_LOG(Log{{unrealModuleName}}, Error, TEXT("Invalid {{classname}}::{{{enumName}}} Value (%d)"), (int)Value);
 	return TEXT("");
+}
+
+FString {{classname}}::EnumToString(const {{classname}}::{{{enumName}}}& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, {{classname}}::{{{enumName}}}& Value)
+{
+	static TMap<FString, {{classname}}::{{{enumName}}}> StringToEnum = { {{#allowableValues}}{{#enumVars}}
+		{ TEXT("{{{value}}}"), {{classname}}::{{{enumName}}}::{{name}} },{{/enumVars}}{{/allowableValues}} };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+bool {{classname}}::EnumFromString(const FString& EnumAsString, {{classname}}::{{{enumName}}}& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
 }
 
 inline FStringFormatArg ToStringFormatArg(const {{classname}}::{{{enumName}}}& Value)
@@ -94,15 +131,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, {{classname
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, {{classname}}::{{{enumName}}}> StringToEnum = { {{#enumVars}}
-			{ TEXT("{{{value}}}"), {{classname}}::{{{enumName}}}::{{name}} },{{/enumVars}} };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	{{/allowableValues}}
 	return false;
@@ -125,7 +155,7 @@ void {{classname}}::WriteJson(JsonWriter& Writer) const
 	{{^required}}
 	if ({{name}}.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("{{baseName}}")); WriteJsonValue(Writer, {{name}}.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("{{baseName}}")); WriteJsonValue(Writer, {{name}}.GetValue());
 	}
 	{{/required}}
     {{/vars}}
@@ -145,9 +175,14 @@ bool {{classname}}::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 
 	bool ParseSuccess = true;
 
-    {{#vars}}
+	{{#vars}}
+	{{#required}}
+	{{^isWriteOnly}}ParseSuccess &= {{/isWriteOnly}}TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});
+	{{/required}}
+	{{^required}}
 	ParseSuccess &= TryGetJsonValue(*Object, TEXT("{{baseName}}"), {{name}});
-    {{/vars}}
+	{{/required}}
+	{{/vars}}
 
 	return ParseSuccess;
 	{{/isString}}

@@ -24,6 +24,7 @@ from petstore_api.model.array_test import ArrayTest
 from petstore_api.model.banana import Banana
 from petstore_api.model.banana_req import BananaReq
 from petstore_api.model.basque_pig import BasquePig
+from petstore_api.model.boolean_enum import BooleanEnum
 from petstore_api.model.capitalization import Capitalization
 from petstore_api.model.cat import Cat
 from petstore_api.model.cat_all_of import CatAllOf
@@ -34,6 +35,7 @@ from petstore_api.model.class_model import ClassModel
 from petstore_api.model.client import Client
 from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
 from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
+from petstore_api.model.composed_schema_with_props_and_no_add_props import ComposedSchemaWithPropsAndNoAddProps
 from petstore_api.model.danish_pig import DanishPig
 from petstore_api.model.dog import Dog
 from petstore_api.model.dog_all_of import DogAllOf
@@ -42,7 +44,7 @@ from petstore_api.model.enum_arrays import EnumArrays
 from petstore_api.model.enum_class import EnumClass
 from petstore_api.model.enum_test import EnumTest
 from petstore_api.model.equilateral_triangle import EquilateralTriangle
-from petstore_api.model.fake_get_inline_additional_properties_payload_array_data import FakeGetInlineAdditionalPropertiesPayloadArrayData
+from petstore_api.model.fake_post_inline_additional_properties_payload_array_data import FakePostInlineAdditionalPropertiesPayloadArrayData
 from petstore_api.model.file import File
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.foo import Foo
@@ -60,12 +62,14 @@ from petstore_api.model.integer_enum import IntegerEnum
 from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
 from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
 from petstore_api.model.isosceles_triangle import IsoscelesTriangle
+from petstore_api.model.legs import Legs
 from petstore_api.model.list import List
 from petstore_api.model.mammal import Mammal
 from petstore_api.model.map_test import MapTest
 from petstore_api.model.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.model.model200_response import Model200Response
 from petstore_api.model.model_return import ModelReturn
+from petstore_api.model.mole import Mole
 from petstore_api.model.name import Name
 from petstore_api.model.nullable_class import NullableClass
 from petstore_api.model.nullable_shape import NullableShape

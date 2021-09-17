@@ -21,14 +21,14 @@ public interface PetApi extends ApiClient.Api {
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    */
   @RequestLine("POST /pet")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void addPet(Pet body);
+  void addPet(Pet pet);
 
   /**
    * Deletes a pet
@@ -92,7 +92,9 @@ public interface PetApi extends ApiClient.Api {
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
    * @return Set&lt;Pet&gt;
+   * @deprecated
    */
+  @Deprecated
   @RequestLine("GET /pet/findByTags?tags={tags}")
   @Headers({
     "Accept: application/json",
@@ -113,7 +115,9 @@ public interface PetApi extends ApiClient.Api {
    *   <li>tags - Tags to filter by (required)</li>
    *   </ul>
    * @return Set&lt;Pet&gt;
+   * @deprecated
    */
+  @Deprecated
   @RequestLine("GET /pet/findByTags?tags={tags}")
   @Headers({
   "Accept: application/json",
@@ -146,14 +150,14 @@ public interface PetApi extends ApiClient.Api {
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    */
   @RequestLine("PUT /pet")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void updatePet(Pet body);
+  void updatePet(Pet pet);
 
   /**
    * Updates a pet in the store with form data

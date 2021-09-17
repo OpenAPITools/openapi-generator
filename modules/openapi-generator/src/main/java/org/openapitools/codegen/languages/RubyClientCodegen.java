@@ -291,7 +291,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      *
      * @param gemName Ruby gem name
      *
-     * @return Ruby module naame
+     * @return Ruby module name
      */
     @SuppressWarnings("static-method")
     public String generateModuleName(String gemName) {
@@ -301,7 +301,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     /**
      * Generate Ruby gem name from the module name, e.g. use "openapi_client" for "OpenAPIClient".
      *
-     * @param moduleName Ruby module naame
+     * @param moduleName Ruby module name
      *
      * @return Ruby gem name
      */
@@ -376,13 +376,14 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(modelName)) {
             modelName = camelize("Model" + modelName);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (modelName.matches("^\\d.*")) {
-            LOGGER.warn(modelName + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + modelName));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", modelName,
+                    camelize("model_" + modelName));
             modelName = "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -495,20 +496,20 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
             operationId = underscore("empty_method_name_" + emptyMethodNameCounter++);
-            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to {}", operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = underscore("call_" + operationId);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 

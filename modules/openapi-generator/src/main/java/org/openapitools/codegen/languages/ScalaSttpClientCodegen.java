@@ -37,20 +37,22 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
-            "sttp client", "2.2.0");
+            "sttp client", "2.2.9");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
                     "response's error raising them through enclosing monad (F[ReturnType]).", true);
     private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion", "The version of " +
-            "joda-time library", "2.10.6");
+            "joda-time library", "2.10.10");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
-            "library", "3.6.8");
+            "library", "3.6.11");
     private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
             "library", "0.13.0");
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
@@ -141,6 +143,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
         typeMapping.put("decimal", "BigDecimal");
+        typeMapping.put("ByteArray", "Array[Byte]");
+        typeMapping.put("ArrayByte", "Array[Byte]");
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
@@ -179,8 +183,17 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String encodePath(String input) {
-        String result = super.encodePath(input);
-        return result.replace("{", "${");
+        String path = super.encodePath(input);
+
+        // The parameter names in the URI must be converted to the same case as
+        // the method parameter.
+        StringBuffer buf = new StringBuffer(path.length());
+        Matcher matcher = Pattern.compile("[{](.*?)[}]").matcher(path);
+        while (matcher.find()) {
+            matcher.appendReplacement(buf, "\\${" + toParamName(matcher.group(0)) + "}");
+        }
+        matcher.appendTail(buf);
+        return buf.toString();
     }
 
     @Override
@@ -204,6 +217,103 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             return this.reservedWordsMappings().get(name);
         }
         return "`" + name + "`";
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return objs;
+    }
+
+    /**
+     * Invoked by {@link DefaultGenerator} after all models have been post-processed,
+     * allowing for a last pass of codegen-specific model cleanup.
+     *
+     * @param objs Current state of codegen object model.
+     * @return An in-place modified state of the codegen object model.
+     */
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        final Map<String, Object> processed = super.postProcessAllModels(objs);
+        postProcessUpdateImports(processed);
+        return processed;
+    }
+
+    /**
+     * Update/clean up model imports
+     *
+     * append '._" if the import is a Enum class, otherwise
+     * remove model imports to avoid warnings for importing class in the same package in Scala
+     *
+     * @param models processed models to be further processed
+     */
+    @SuppressWarnings({"unchecked"})
+    private void postProcessUpdateImports(final Map<String, Object> models) {
+        final String prefix = modelPackage() + ".";
+        Map<String, Object> enumRefs = new HashMap<String, Object>();
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
+            if (model.isEnum) {
+                Map<String, Object> objs = (Map<String, Object>)models.get(entry.getKey());
+                enumRefs.put(entry.getKey(), objs);
+            }
+        }
+
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            String openAPIName = entry.getKey();
+            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
+            if (model == null) {
+                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
+                continue;
+            }
+            Map<String, Object> objs = (Map<String, Object>)models.get(openAPIName);
+            List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+            if (imports == null || imports.isEmpty()) {
+                continue;
+            }
+            List<Map<String, String>> newImports = new ArrayList<>();
+            Iterator<Map<String, String>> iterator = imports.iterator();
+            while (iterator.hasNext()) {
+                String importPath = iterator.next().get("import");
+                if (importPath.startsWith(prefix)) {
+                     if (isEnumClass(importPath, (Map<String, Object>)enumRefs)) {
+                         Map<String, String> item = new HashMap<>();
+                         item.put("import", importPath.concat("._"));
+                         newImports.add(item);
+                     }
+                 }
+                 else {
+                      Map<String, String> item = new HashMap<>();
+                      item.put("import", importPath);
+                      newImports.add(item);
+                 }
+
+            }
+            // reset imports
+            objs.put("imports", newImports);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean isEnumClass(final String importPath, final Map<String, Object> enumModels) {
+        if (enumModels == null || enumModels.isEmpty()) {
+            return false;
+        }
+        for (Map.Entry<String, Object> entry : enumModels.entrySet()) {
+            String name = entry.getKey();
+            Map<String, Object> objs = (Map<String, Object>)enumModels.get(name);
+            List<Map<String, Object>> modles = (List<Map<String, Object>>) objs.get("models");
+            if (modles == null || modles.isEmpty()) {
+                continue;
+            }
+            Iterator<Map<String, Object>> iterator = modles.iterator();
+            while (iterator.hasNext()) {
+                String enumImportPath = (String)iterator.next().get("importPath");
+                if (enumImportPath != null && enumImportPath.equals(importPath)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override

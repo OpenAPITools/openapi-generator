@@ -85,6 +85,7 @@ paths:
           required: true
           style: form
           explode: false
+          deprecated: true
           schema:
             type: array
             items:
@@ -1008,7 +1009,7 @@ paths:
       tags:
         - fake
       description: >-
-        For this test, the body for this request much reference a schema named
+        For this test, the body for this request must reference a schema named
         `File`.
       operationId: testBodyWithFileSchema
       responses:
@@ -1020,7 +1021,26 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
-  /fake/test-query-paramters:
+  /fake/body-with-binary:
+    put:
+      tags:
+        - fake
+      description: >-
+        For this test, the body has to be a binary file.
+      operationId: testBodyWithBinary
+      responses:
+        '200':
+          description: Success
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+              nullable: true
+              format: binary
+        description: image to upload
+        required: true
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -1030,6 +1050,7 @@ paths:
         - name: pipe
           in: query
           required: true
+          style: pipeDelimited
           schema:
             type: array
             items:
@@ -1068,6 +1089,20 @@ paths:
             type: array
             items:
               type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+              format: string
+        - name: allowEmpty
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
       responses:
         "200":
           description: Success
@@ -1842,3 +1877,24 @@ components:
       properties:
         value:
           $ref: '#/components/schemas/OuterEnumInteger'
+    DeprecatedObject:
+      type: object
+      deprecated: true
+      properties:
+        name:
+          type: string
+    ObjectWithDeprecatedFields:
+      type: object
+      properties:
+        uuid:
+          type: string
+        id:
+          type: number
+          deprecated: true
+        deprecatedRef:
+          $ref: '#/components/schemas/DeprecatedObject'
+        bars:
+          type: array
+          deprecated: true
+          items:
+            $ref: '#/components/schemas/Bar'

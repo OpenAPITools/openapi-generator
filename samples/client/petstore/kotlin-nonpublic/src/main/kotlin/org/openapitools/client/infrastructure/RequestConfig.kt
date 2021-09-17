@@ -8,10 +8,10 @@ package org.openapitools.client.infrastructure
  * NOTE: Headers is a Map<String,String> because rfc2616 defines
  *       multi-valued headers as csv-only.
  */
-internal data class RequestConfig(
+internal data class RequestConfig<T>(
     val method: RequestMethod,
     val path: String,
     val headers: MutableMap<String, String> = mutableMapOf(),
     val query: MutableMap<String, List<String>> = mutableMapOf(),
-    val body: kotlin.Any? = null
+    val body: T? = null
 )

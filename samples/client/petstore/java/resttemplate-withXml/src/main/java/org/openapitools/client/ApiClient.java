@@ -23,6 +23,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -35,6 +36,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openapitools.jackson.nullable.JsonNullableModule;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -72,6 +74,7 @@ public class ApiClient extends JavaTimeFormatter {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 
         private final String separator;
+
         private CollectionFormat(String separator) {
             this.separator = separator;
         }
@@ -128,6 +131,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Get the current base path
+     *
      * @return String the base path
      */
     public String getBasePath() {
@@ -136,6 +140,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Set the base path, which should include the host
+     *
      * @param basePath the base path
      * @return ApiClient this client
      */
@@ -146,6 +151,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Get authentications (key: authentication name, value: authentication).
+     *
      * @return Map the currently configured authentication types
      */
     public Map<String, Authentication> getAuthentications() {
@@ -163,81 +169,86 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
 
-  /**
-   * Helper method to set username for the first HTTP basic authentication.
-   * @param username Username
-   */
-  public void setUsername(String username) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof HttpBasicAuth) {
-        ((HttpBasicAuth) auth).setUsername(username);
-        return;
-      }
+    /**
+     * Helper method to set username for the first HTTP basic authentication.
+     *
+     * @param username Username
+     */
+    public void setUsername(String username) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof HttpBasicAuth) {
+                ((HttpBasicAuth) auth).setUsername(username);
+                return;
+            }
+        }
+        throw new RuntimeException("No HTTP basic authentication configured!");
     }
-    throw new RuntimeException("No HTTP basic authentication configured!");
-  }
 
-  /**
-   * Helper method to set password for the first HTTP basic authentication.
-   * @param password Password
-   */
-  public void setPassword(String password) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof HttpBasicAuth) {
-        ((HttpBasicAuth) auth).setPassword(password);
-        return;
-      }
+    /**
+     * Helper method to set password for the first HTTP basic authentication.
+     * @param password Password
+     */
+    public void setPassword(String password) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof HttpBasicAuth) {
+                ((HttpBasicAuth) auth).setPassword(password);
+                return;
+            }
+        }
+        throw new RuntimeException("No HTTP basic authentication configured!");
     }
-    throw new RuntimeException("No HTTP basic authentication configured!");
-  }
 
 
-  /**
-   * Helper method to set API key value for the first API key authentication.
-   * @param apiKey the API key
-   */
-  public void setApiKey(String apiKey) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof ApiKeyAuth) {
-        ((ApiKeyAuth) auth).setApiKey(apiKey);
-        return;
-      }
+    /**
+     * Helper method to set API key value for the first API key authentication.
+     *
+     * @param apiKey the API key
+     */
+    public void setApiKey(String apiKey) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof ApiKeyAuth) {
+                ((ApiKeyAuth) auth).setApiKey(apiKey);
+                return;
+            }
+        }
+        throw new RuntimeException("No API key authentication configured!");
     }
-    throw new RuntimeException("No API key authentication configured!");
-  }
 
-  /**
-   * Helper method to set API key prefix for the first API key authentication.
-   * @param apiKeyPrefix API key prefix
-   */
-  public void setApiKeyPrefix(String apiKeyPrefix) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof ApiKeyAuth) {
-        ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
-        return;
-      }
+    /**
+     * Helper method to set API key prefix for the first API key authentication.
+     *
+     * @param apiKeyPrefix API key prefix
+     */
+    public void setApiKeyPrefix(String apiKeyPrefix) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof ApiKeyAuth) {
+                ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
+                return;
+            }
+        }
+        throw new RuntimeException("No API key authentication configured!");
     }
-    throw new RuntimeException("No API key authentication configured!");
-  }
 
 
-  /**
-   * Helper method to set access token for the first OAuth2 authentication.
-   * @param accessToken Access token
-   */
-  public void setAccessToken(String accessToken) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof OAuth) {
-        ((OAuth) auth).setAccessToken(accessToken);
-        return;
-      }
+    /**
+     * Helper method to set access token for the first OAuth2 authentication.
+     *
+     * @param accessToken Access token
+     */
+    public void setAccessToken(String accessToken) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof OAuth) {
+                ((OAuth) auth).setAccessToken(accessToken);
+                return;
+            }
+        }
+        throw new RuntimeException("No OAuth2 authentication configured!");
     }
-    throw new RuntimeException("No OAuth2 authentication configured!");
-  }
 
 
-     /**
+    /**
      * Set the User-Agent header's value (by adding to the default header map).
+     *
      * @param userAgent the user agent string
      * @return ApiClient this client
      */
@@ -249,7 +260,7 @@ public class ApiClient extends JavaTimeFormatter {
     /**
      * Add a default header.
      *
-     * @param name The header's name
+     * @param name  The header's name
      * @param value The header's value
      * @return ApiClient this client
      */
@@ -264,7 +275,7 @@ public class ApiClient extends JavaTimeFormatter {
     /**
      * Add a default cookie.
      *
-     * @param name The cookie's name
+     * @param name  The cookie's name
      * @param value The cookie's value
      * @return ApiClient this client
      */
@@ -278,7 +289,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     public void setDebugging(boolean debugging) {
         List<ClientHttpRequestInterceptor> currentInterceptors = this.restTemplate.getInterceptors();
-        if(debugging) {
+        if (debugging) {
             if (currentInterceptors == null) {
                 currentInterceptors = new ArrayList<ClientHttpRequestInterceptor>();
             }
@@ -323,9 +334,9 @@ public class ApiClient extends JavaTimeFormatter {
      */
     public ApiClient setDateFormat(DateFormat dateFormat) {
         this.dateFormat = dateFormat;
-        for(HttpMessageConverter converter:restTemplate.getMessageConverters()){
-            if(converter instanceof AbstractJackson2HttpMessageConverter){
-                ObjectMapper mapper = ((AbstractJackson2HttpMessageConverter)converter).getObjectMapper();
+        for (HttpMessageConverter converter : restTemplate.getMessageConverters()) {
+            if (converter instanceof AbstractJackson2HttpMessageConverter) {
+                ObjectMapper mapper = ((AbstractJackson2HttpMessageConverter) converter).getObjectMapper();
                 mapper.setDateFormat(dateFormat);
             }
         }
@@ -334,6 +345,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Parse the given string into Date object.
+     *
      * @param str the string to parse
      * @return the Date parsed from the string
      */
@@ -347,6 +359,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Format the given Date object into string.
+     *
      * @param date the date to format
      * @return the formatted date as string
      */
@@ -356,6 +369,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Format the given parameter object into string.
+     *
      * @param param the object to convert
      * @return String the parameter represented as a String
      */
@@ -368,8 +382,8 @@ public class ApiClient extends JavaTimeFormatter {
             return formatOffsetDateTime((OffsetDateTime) param);
         } else if (param instanceof Collection) {
             StringBuilder b = new StringBuilder();
-            for(Object o : (Collection<?>) param) {
-                if(b.length() > 0) {
+            for (Object o : (Collection<?>) param) {
+                if (b.length() > 0) {
                     b.append(",");
                 }
                 b.append(String.valueOf(o));
@@ -395,7 +409,7 @@ public class ApiClient extends JavaTimeFormatter {
         }
 
         // collectionFormat is assumed to be "csv" by default
-        if(collectionFormat == null) {
+        if (collectionFormat == null) {
             collectionFormat = CollectionFormat.CSV;
         }
 
@@ -404,6 +418,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Converts a parameter to a {@link MultiValueMap} for use in REST requests
+     *
      * @param collectionFormat The format to convert to
      * @param name The name of the parameter
      * @param value The parameter's value
@@ -416,7 +431,7 @@ public class ApiClient extends JavaTimeFormatter {
             return params;
         }
 
-        if(collectionFormat == null) {
+        if (collectionFormat == null) {
             collectionFormat = CollectionFormat.CSV;
         }
 
@@ -428,7 +443,7 @@ public class ApiClient extends JavaTimeFormatter {
             return params;
         }
 
-        if (valueCollection.isEmpty()){
+        if (valueCollection.isEmpty()) {
             return params;
         }
 
@@ -440,7 +455,7 @@ public class ApiClient extends JavaTimeFormatter {
         }
 
         List<String> values = new ArrayList<String>();
-        for(Object o : valueCollection) {
+        for (Object o : valueCollection) {
             values.add(parameterToString(o));
         }
         params.add(name, collectionFormat.collectionToString(values));
@@ -448,8 +463,9 @@ public class ApiClient extends JavaTimeFormatter {
         return params;
     }
 
-    /**
+   /**
     * Check if the given {@code String} is a JSON MIME.
+    *
     * @param mediaType the input MediaType
     * @return boolean true if the MediaType represents JSON, false otherwise
     */
@@ -472,6 +488,7 @@ public class ApiClient extends JavaTimeFormatter {
      *     application/json
      *     application/json; charset=UTF8
      *     APPLICATION/JSON
+     *
      * @param mediaType the input MediaType
      * @return boolean true if the MediaType represents JSON, false otherwise
      */
@@ -479,8 +496,9 @@ public class ApiClient extends JavaTimeFormatter {
         return mediaType != null && (MediaType.APPLICATION_JSON.isCompatibleWith(mediaType) || mediaType.getSubtype().matches("^.*\\+json[;]?\\s*$"));
     }
 
-    /**
+   /**
     * Check if the given {@code String} is a Problem JSON MIME (RFC-7807).
+    *
     * @param mediaType the input MediaType
     * @return boolean true if the MediaType represents Problem JSON, false otherwise
     */
@@ -532,6 +550,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Select the body to use for the request
+     *
      * @param obj the body object
      * @param formParams the form parameters
      * @param contentType the content type of the request
@@ -544,6 +563,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Expand path template with variables
+     *
      * @param pathTemplate path template with placeholders
      * @param variables variables to replace
      * @return path with placeholders replaced by variables
@@ -553,11 +573,46 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     /**
+     * Include queryParams in uriParams taking into account the paramName
+     *
+     * @param queryParams The query parameters
+     * @param uriParams The path parameters
+     * return templatized query string
+     */
+    private String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
+        StringBuilder queryBuilder = new StringBuilder();
+        queryParams.forEach((name, values) -> {
+            if (CollectionUtils.isEmpty(values)) {
+                if (queryBuilder.length() != 0) {
+                    queryBuilder.append('&');
+                }
+                queryBuilder.append(name);
+            } else {
+                int valueItemCounter = 0;
+                for (Object value : values) {
+                    if (queryBuilder.length() != 0) {
+                        queryBuilder.append('&');
+                    }
+                    queryBuilder.append(name);
+                    if (value != null) {
+                        String templatizedKey = name + valueItemCounter++;
+                        uriParams.put(templatizedKey, value.toString());
+                        queryBuilder.append('=').append("{").append(templatizedKey).append("}");
+                    }
+                }
+            }
+        });
+        return queryBuilder.toString();
+
+    }
+
+    /**
      * Invoke API by sending HTTP request with the given options.
      *
      * @param <T> the return type to use
      * @param path The sub-path of the HTTP URL
      * @param method The request method
+     * @param pathParams The path parameters
      * @param queryParams The query parameters
      * @param body The request body object
      * @param headerParams The header parameters
@@ -569,38 +624,35 @@ public class ApiClient extends JavaTimeFormatter {
      * @param returnType The return type into which to deserialize the response
      * @return ResponseEntity&lt;T&gt; The response of the chosen type
      */
-    public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
+    public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
-        if (queryParams != null) {
-            //encode the query parameters in case they contain unsafe characters
-            for (List<String> values : queryParams.values()) {
-                if (values != null) {
-                    for (int i = 0; i < values.size(); i++) {
-                        try {
-                            values.set(i, URLEncoder.encode(values.get(i), "utf8"));
-                        } catch (UnsupportedEncodingException e) {
+   	    Map<String,Object> uriParams = new HashMap<>();
+        uriParams.putAll(pathParams);
 
-                        }
-                    }
-                }
-            }
-            builder.queryParams(queryParams);
+        String finalUri = path;
+
+        if (queryParams != null && !queryParams.isEmpty()) {
+            //Include queryParams in uriParams taking into account the paramName
+            String queryUri = generateQueryUri(queryParams, uriParams);
+            //Append to finalUri the templatized query string like "?param1={param1Value}&.......
+            finalUri += "?" + queryUri;
         }
+        String expandedPath = this.expandPath(finalUri, uriParams);
+        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(expandedPath);
 
         URI uri;
         try {
             uri = new URI(builder.build().toUriString());
-        } catch(URISyntaxException ex)  {
+        } catch (URISyntaxException ex)  {
             throw new RestClientException("Could not build URL: " + builder.toUriString(), ex);
         }
 
         final BodyBuilder requestBuilder = RequestEntity.method(method, uri);
-        if(accept != null) {
+        if (accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }
-        if(contentType != null) {
+        if (contentType != null) {
             requestBuilder.contentType(contentType);
         }
 
@@ -629,7 +681,7 @@ public class ApiClient extends JavaTimeFormatter {
     protected void addHeadersToRequest(HttpHeaders headers, BodyBuilder requestBuilder) {
         for (Entry<String, List<String>> entry : headers.entrySet()) {
             List<String> values = entry.getValue();
-            for(String value : values) {
+            for (String value : values) {
                 if (value != null) {
                     requestBuilder.header(entry.getKey(), value);
                 }
@@ -639,7 +691,8 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Add cookies to the request that is being built
-     * @param cookies The cookies to add
+     *
+     * @param cookies        The cookies to add
      * @param requestBuilder The current request
      */
     protected void addCookiesToRequest(MultiValueMap<String, String> cookies, BodyBuilder requestBuilder) {
@@ -680,9 +733,9 @@ public class ApiClient extends JavaTimeFormatter {
 
         RestTemplate restTemplate = new RestTemplate(messageConverters);
         
-        for(HttpMessageConverter converter:restTemplate.getMessageConverters()){
-            if(converter instanceof AbstractJackson2HttpMessageConverter){
-                ObjectMapper mapper = ((AbstractJackson2HttpMessageConverter)converter).getObjectMapper();
+        for (HttpMessageConverter converter : restTemplate.getMessageConverters()) {
+            if (converter instanceof AbstractJackson2HttpMessageConverter){
+                ObjectMapper mapper = ((AbstractJackson2HttpMessageConverter) converter).getObjectMapper();
                 ThreeTenModule module = new ThreeTenModule();
                 module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
                 module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
@@ -740,9 +793,9 @@ public class ApiClient extends JavaTimeFormatter {
 
         private String headersToString(HttpHeaders headers) {
             StringBuilder builder = new StringBuilder();
-            for(Entry<String, List<String>> entry : headers.entrySet()) {
+            for (Entry<String, List<String>> entry : headers.entrySet()) {
                 builder.append(entry.getKey()).append("=[");
-                for(String value : entry.getValue()) {
+                for (String value : entry.getValue()) {
                     builder.append(value).append(",");
                 }
                 builder.setLength(builder.length() - 1); // Get rid of trailing comma

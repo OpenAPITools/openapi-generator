@@ -300,7 +300,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. if
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
             operationId = "call_" + operationId;
         }
 
@@ -356,7 +356,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
      * Returns the number of required parameters plus 1.
      *
      * @param os List of Codegen Parameters
-     * @return the string representation of the number of required paramters plus 1
+     * @return the string representation of the number of required parameters plus 1
      */
     String length(Object os) {
         int l = 1;
@@ -371,7 +371,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
      * Returns the number of required parameters or body parameters.
      *
      * @param os List of Codegen Parameters
-     * @return the number of required paramters or body parameters
+     * @return the number of required parameters or body parameters
      */
     int lengthRequired(List<CodegenParameter> allParams) {
         int l = 0;
@@ -473,5 +473,10 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         public void setReplacedPathName(String replacedPathName) {
             this.replacedPathName = replacedPathName;
         }
+    }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
     }
 }

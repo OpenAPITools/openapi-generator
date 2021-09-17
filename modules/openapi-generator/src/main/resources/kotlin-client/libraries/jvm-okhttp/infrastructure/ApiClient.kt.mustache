@@ -1,6 +1,8 @@
 package {{packageName}}.infrastructure
 
-import okhttp3.Credentials
+{{#supportAndroidApiLevel25AndBelow}}
+import android.os.Build
+{{/supportAndroidApiLevel25AndBelow}}
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 {{#jvm-okhttp3}}
@@ -24,12 +26,20 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
-import java.io.File
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+{{#jvm-okhttp3}}
+import okhttp3.internal.Util.EMPTY_REQUEST
+{{/jvm-okhttp3}}
+{{#jvm-okhttp4}}
+import okhttp3.internal.EMPTY_REQUEST
+{{/jvm-okhttp4}}
 import java.io.BufferedWriter
+import java.io.File
 import java.io.FileWriter
+import java.io.IOException
 import java.net.URLConnection
-import java.nio.file.Files
-import java.util.Date
 {{^threetenbp}}
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -37,6 +47,17 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
 {{/threetenbp}}
+import java.util.Date
+import java.util.Locale
+{{#useCoroutines}}
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlinx.coroutines.suspendCancellableCoroutine
+{{/useCoroutines}}
+{{#kotlinx_serialization}}
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+{{/kotlinx_serialization}}
 {{#threetenbp}}
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
@@ -44,6 +65,15 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.OffsetTime
 {{/threetenbp}}
+{{#gson}}
+import com.google.gson.reflect.TypeToken
+{{/gson}}
+{{#jackson}}
+import com.fasterxml.jackson.core.type.TypeReference
+{{/jackson}}
+{{#moshi}}
+import com.squareup.moshi.adapter
+{{/moshi}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String) {
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
@@ -84,14 +114,10 @@ import org.threeten.bp.OffsetTime
     protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
         when {
             {{#jvm-okhttp3}}
-            content is File -> RequestBody.create(
-                MediaType.parse(mediaType), content
-            )
+            content is File -> RequestBody.create(MediaType.parse(mediaType), content)
             {{/jvm-okhttp3}}
             {{#jvm-okhttp4}}
-            content is File -> content.asRequestBody(
-                mediaType.toMediaTypeOrNull()
-            )
+            content is File -> content.asRequestBody(mediaType.toMediaTypeOrNull())
             {{/jvm-okhttp4}}
             mediaType == FormDataMediaType -> {
                 MultipartBody.Builder()
@@ -141,31 +167,58 @@ import org.threeten.bp.OffsetTime
                 }.build()
             }
             {{#jvm-okhttp3}}
-            mediaType == JsonMediaType -> RequestBody.create(
-                {{#moshi}}
-                MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
-                {{/moshi}}
-                {{#gson}}
-                MediaType.parse(mediaType), Serializer.gson.toJson(content, T::class.java)
-                {{/gson}}
-                {{#jackson}}
-                MediaType.parse(mediaType), Serializer.jacksonObjectMapper.writeValueAsString(content)
-                {{/jackson}}
-                {{#kotlinx_serialization}}
-                MediaType.parse(mediaType), Serializer.jvmJson.decodeFromString<T>(content)
-                {{/kotlinx_serialization}}
-            )
+            mediaType == JsonMediaType -> {
+                if (content == null) {
+                    EMPTY_REQUEST
+                } else {
+                    RequestBody.create(
+                        {{#moshi}}
+                        MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+                        {{/moshi}}
+                        {{#gson}}
+                        MediaType.parse(mediaType), Serializer.gson.toJson(content, T::class.java)
+                        {{/gson}}
+                        {{#jackson}}
+                        MediaType.parse(mediaType), Serializer.jacksonObjectMapper.writeValueAsString(content)
+                        {{/jackson}}
+                        {{#kotlinx_serialization}}
+                        MediaType.parse(mediaType), Serializer.jvmJson.encodeToString(content)
+                        {{/kotlinx_serialization}}
+                    )
+                }
+            }
             {{/jvm-okhttp3}}
             {{#jvm-okhttp4}}
-            mediaType == JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).toJson(content){{/moshi}}{{#gson}}Serializer.gson.toJson(content, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.writeValueAsString(content){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(content){{/kotlinx_serialization}}.toRequestBody(
-                mediaType.toMediaTypeOrNull()
-            )
+            mediaType == JsonMediaType -> {
+                if (content == null) {
+                    EMPTY_REQUEST
+                } else {
+                    {{#moshi}}
+                    Serializer.moshi.adapter(T::class.java).toJson(content)
+                    {{/moshi}}
+                    {{#gson}}
+                    Serializer.gson.toJson(content, T::class.java)
+                    {{/gson}}
+                    {{#jackson}}
+                    Serializer.jacksonObjectMapper.writeValueAsString(content)
+                    {{/jackson}}
+                    {{#kotlinx_serialization}}
+                    Serializer.jvmJson.encodeToString(content)
+                    {{/kotlinx_serialization}}
+                        .toRequestBody(
+                            mediaType.toMediaTypeOrNull()
+                        )
+                }
+            }
             {{/jvm-okhttp4}}
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
         }
 
+    {{#moshi}}
+    @OptIn(ExperimentalStdlibApi::class)
+    {{/moshi}}
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
         if(body == null) {
             return null
@@ -176,7 +229,17 @@ import org.threeten.bp.OffsetTime
         }
         if (T::class.java == File::class.java) {
             // return tempfile
-            val f = Files.createTempFile("tmp.{{packageName}}", null).toFile()
+            {{^supportAndroidApiLevel25AndBelow}}
+            val f = java.nio.file.Files.createTempFile("tmp.{{packageName}}", null).toFile()
+            {{/supportAndroidApiLevel25AndBelow}}
+            {{#supportAndroidApiLevel25AndBelow}}
+            val f = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                java.nio.file.Files.createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null).toFile()
+            } else {
+                @Suppress("DEPRECATION")
+                createTempFile("tmp.net.medicineone.teleconsultationandroid.openapi.openapicommon", null)
+            }
+            {{/supportAndroidApiLevel25AndBelow}}
             f.deleteOnExit()
             val out = BufferedWriter(FileWriter(f))
             out.write(bodyContent)
@@ -184,13 +247,13 @@ import org.threeten.bp.OffsetTime
             return f as T
         }
         return when(mediaType) {
-            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, T::class.java){{/jackson}}
+            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
 
     {{#hasAuthMethods}}
-    protected fun updateAuthParams(requestConfig: RequestConfig) {
+    protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
         {{#authMethods}}
         {{#isApiKey}}
         {{#isKeyInHeader}}
@@ -223,7 +286,7 @@ import org.threeten.bp.OffsetTime
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             username?.let { username ->
                 password?.let { password ->
-                    requestConfig.headers[Authorization] = Credentials.basic(username, password)
+                    requestConfig.headers[Authorization] = okhttp3.Credentials.basic(username, password)
                 }
             }
         }
@@ -247,7 +310,7 @@ import org.threeten.bp.OffsetTime
     }
     {{/hasAuthMethods}}
 
-    protected inline fun <reified T: Any?> request(requestConfig: RequestConfig): ApiInfrastructureResponse<T?> {
+    protected {{#useCoroutines}}suspend {{/useCoroutines}}inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
         {{#jvm-okhttp3}}
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
         {{/jvm-okhttp3}}
@@ -288,7 +351,7 @@ import org.threeten.bp.OffsetTime
         }
 
         // TODO: support multiple contentType options here.
-        val contentType = (headers[ContentType] as String).substringBefore(";").toLowerCase()
+        val contentType = (headers[ContentType] as String).substringBefore(";").lowercase(Locale.getDefault())
 
         val request = when (requestConfig.method) {
             RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(requestConfig.body, contentType))
@@ -302,58 +365,64 @@ import org.threeten.bp.OffsetTime
             headers.forEach { header -> addHeader(header.key, header.value) }
         }.build()
 
+        {{#useCoroutines}}
+        val response: Response = suspendCancellableCoroutine { continuation ->
+            val call = client.newCall(request)
+            continuation.invokeOnCancellation { call.cancel() }
+            call.enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    continuation.resumeWithException(e)
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    continuation.resume(response)
+                }
+            })
+        }
+        {{/useCoroutines}}
+        {{^useCoroutines}}
         val response = client.newCall(request).execute()
-        val accept = response.header(ContentType)?.substringBefore(";")?.toLowerCase()
+        {{/useCoroutines}}
+
+        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
-        when {
-            response.isRedirect -> return Redirection(
-                    response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+        return when {
+            response.isRedirect -> Redirection(
+                response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
             )
-            response.isInformational -> return Informational(
-                    response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+            response.isInformational -> Informational(
+                response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
             )
-            response.isSuccessful -> return Success(
-                    responseBody(response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}, accept),
-                    response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+            response.isSuccessful -> Success(
+                responseBody(response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}, accept),
+                response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
             )
-            response.isClientError -> return ClientError(
-                    response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
-                    response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+            response.isClientError -> ClientError(
+                response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
+                response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
             )
-            else -> return ServerError(
-                    response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
-                    response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
-                    response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
+            else -> ServerError(
+                response.message{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                response.body{{#jvm-okhttp3}}(){{/jvm-okhttp3}}?.string(),
+                response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},
+                response.headers{{#jvm-okhttp3}}(){{/jvm-okhttp3}}.toMultimap()
             )
         }
     }
 
-    protected fun parameterToString(value: Any?): String {
-        when (value) {
-            null -> {
-                return ""
-            }
-            is Array<*> -> {
-                return toMultiValue(value, "csv").toString()
-            }
-            is Iterable<*> -> {
-                return toMultiValue(value, "csv").toString()
-            }
-            is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date -> {
-                return parseDateToQueryString<Any>(value)
-            }
-            else -> {
-                return value.toString()
-            }
-        }
+    protected fun parameterToString(value: Any?): String = when (value) {
+        null -> ""
+        is Array<*> -> toMultiValue(value, "csv").toString()
+        is Iterable<*> -> toMultiValue(value, "csv").toString()
+        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date ->
+            parseDateToQueryString(value)
+        else -> value.toString()
     }
 
     protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {

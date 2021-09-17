@@ -229,6 +229,30 @@ class FakeController extends Controller
         return response('How about implementing testGroupParameters as a delete method ?');
     }
     /**
+     * Operation testBodyWithBinary
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function testBodyWithBinary()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling testBodyWithBinary');
+        }
+        $body = $input['body'];
+
+
+        return response('How about implementing testBodyWithBinary as a put method ?');
+    }
+    /**
      * Operation testBodyWithFileSchema
      *
      * .
@@ -529,6 +553,13 @@ class FakeController extends Controller
             throw new \InvalidArgumentException('Missing the required parameter $context when calling testQueryParameterCollectionFormat');
         }
         $context = $input['context'];
+
+        if (!isset($input['allowEmpty'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $allowEmpty when calling testQueryParameterCollectionFormat');
+        }
+        $allowEmpty = $input['allowEmpty'];
+
+        $language = $input['language'];
 
 
         return response('How about implementing testQueryParameterCollectionFormat as a put method ?');

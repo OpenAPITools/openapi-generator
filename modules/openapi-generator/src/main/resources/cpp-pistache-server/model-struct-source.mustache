@@ -3,9 +3,8 @@
 
 #include "{{classname}}.h"
 
-{{#modelNamespaceDeclarations}}
-namespace {{this}} {
-{{/modelNamespaceDeclarations}}
+namespace {{modelNamespace}}
+{
 
 nlohmann::json {{classname}}::to_json() const
 {
@@ -51,9 +50,7 @@ void from_json(const nlohmann::json& j, {{classname}}& o)
     {{/vars}}
 }
 
-{{#modelNamespaceDeclarations}}
-} // {{this}}
-{{/modelNamespaceDeclarations}}
+} // namespace {{modelNamespace}}
 
 {{/model}}
 {{/models}}

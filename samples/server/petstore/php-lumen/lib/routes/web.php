@@ -80,9 +80,16 @@ $router->get('/v2/fake', 'FakeApi@testEnumParameters');
 $router->delete('/v2/fake', 'FakeApi@testGroupParameters');
 
 /**
+ * put testBodyWithBinary
+ * Summary: 
+ * Notes: For this test, the body has to be a binary file.
+ */
+$router->put('/v2/fake/body-with-binary', 'FakeApi@testBodyWithBinary');
+
+/**
  * put testBodyWithFileSchema
  * Summary: 
- * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+ * Notes: For this test, the body for this request must reference a schema named &#x60;File&#x60;.
  */
 $router->put('/v2/fake/body-with-file-schema', 'FakeApi@testBodyWithFileSchema');
 
@@ -161,7 +168,7 @@ $router->post('/v2/fake/property/enum-int', 'FakeApi@fakePropertyEnumIntegerSeri
  * Summary: 
  * Notes: To test the collection format in query parameters
  */
-$router->put('/v2/fake/test-query-paramters', 'FakeApi@testQueryParameterCollectionFormat');
+$router->put('/v2/fake/test-query-parameters', 'FakeApi@testQueryParameterCollectionFormat');
 
 /**
  * patch testClassname

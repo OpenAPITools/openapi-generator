@@ -9,19 +9,19 @@ class {{{classname}}} {
 
 {{#vars}}
   {{#description}}
-      /// {{{description}}}
+      /// {{{.}}}
   {{/description}}
   {{^isEnum}}
       {{#minimum}}
-          // minimum: {{{minimum}}}
+          // minimum: {{{.}}}
       {{/minimum}}
       {{#maximum}}
-          // maximum: {{{maximum}}}
+          // maximum: {{{.}}}
       {{/maximum}}
   {{/isEnum}}
   {{^isBinary}}
   @JsonKey(
-    {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}{{^defaultValue}}nullable: {{isNullable}},{{/defaultValue}}
+    {{#defaultValue}}defaultValue: {{{.}}},{{/defaultValue}}{{^defaultValue}}nullable: {{isNullable}},{{/defaultValue}}
     name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
   )
@@ -49,10 +49,7 @@ class {{{classname}}} {
   Map<String, dynamic> toJson() => _${{{classname}}}ToJson(this);
 
   @override
-  String toString() {
-    return toJson().toString();
-  }
-
+  String toString() => toJson().toString();
 }
 {{#vars}}
     {{#isEnum}}

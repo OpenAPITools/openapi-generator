@@ -64,9 +64,16 @@ Route::get('/v2/fake', 'FakeController@testEnumParameters');
  */
 Route::delete('/v2/fake', 'FakeController@testGroupParameters');
 /**
+ * put testBodyWithBinary
+ * Summary: 
+ * Notes: For this test, the body has to be a binary file.
+
+ */
+Route::put('/v2/fake/body-with-binary', 'FakeController@testBodyWithBinary');
+/**
  * put testBodyWithFileSchema
  * Summary: 
- * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+ * Notes: For this test, the body for this request must reference a schema named &#x60;File&#x60;.
 
  */
 Route::put('/v2/fake/body-with-file-schema', 'FakeController@testBodyWithFileSchema');
@@ -146,7 +153,7 @@ Route::post('/v2/fake/property/enum-int', 'FakeController@fakePropertyEnumIntege
  * Notes: To test the collection format in query parameters
 
  */
-Route::put('/v2/fake/test-query-paramters', 'FakeController@testQueryParameterCollectionFormat');
+Route::put('/v2/fake/test-query-parameters', 'FakeController@testQueryParameterCollectionFormat');
 /**
  * patch testClassname
  * Summary: To test class name in snake case

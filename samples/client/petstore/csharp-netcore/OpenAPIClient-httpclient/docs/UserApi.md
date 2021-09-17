@@ -26,6 +26,7 @@ This can only be done by the logged in user.
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -38,7 +39,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UserApi(httpClient, config, httpClientHandler);
             var user = new User(); // User | Created user object
 
             try
@@ -94,6 +98,7 @@ Creates list of users with given input array
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -106,7 +111,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UserApi(httpClient, config, httpClientHandler);
             var user = new List<User>(); // List<User> | List of user object
 
             try
@@ -162,6 +170,7 @@ Creates list of users with given input array
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -174,7 +183,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UserApi(httpClient, config, httpClientHandler);
             var user = new List<User>(); // List<User> | List of user object
 
             try
@@ -232,6 +244,7 @@ This can only be done by the logged in user.
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -244,7 +257,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UserApi(httpClient, config, httpClientHandler);
             var username = username_example;  // string | The name that needs to be deleted
 
             try
@@ -301,6 +317,7 @@ Get user by user name
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -313,7 +330,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UserApi(httpClient, config, httpClientHandler);
             var username = username_example;  // string | The name that needs to be fetched. Use user1 for testing.
 
             try
@@ -372,6 +392,7 @@ Logs user into the system
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -384,7 +405,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UserApi(httpClient, config, httpClientHandler);
             var username = username_example;  // string | The user name for login
             var password = password_example;  // string | The password for login in clear text
 
@@ -444,6 +468,7 @@ Logs out current logged in user session
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -456,7 +481,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UserApi(httpClient, config, httpClientHandler);
 
             try
             {
@@ -510,6 +538,7 @@ This can only be done by the logged in user.
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Http;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
@@ -522,7 +551,10 @@ namespace Example
         {
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
-            var apiInstance = new UserApi(config);
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new UserApi(httpClient, config, httpClientHandler);
             var username = username_example;  // string | name that need to be deleted
             var user = new User(); // User | Updated user object
 

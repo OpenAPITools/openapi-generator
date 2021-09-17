@@ -9,8 +9,11 @@ import 'package:built_value/serializer.dart';
 
 part 'file_schema_test_class.g.dart';
 
-
-
+/// FileSchemaTestClass
+///
+/// Properties:
+/// * [file] 
+/// * [files] 
 abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSchemaTestClassBuilder> {
     @BuiltValueField(wireName: r'file')
     ModelFile? get file;
@@ -20,7 +23,8 @@ abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSch
 
     FileSchemaTestClass._();
 
-    static void _initializeBuilder(FileSchemaTestClassBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(FileSchemaTestClassBuilder b) => b;
 
     factory FileSchemaTestClass([void updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
 
@@ -64,14 +68,17 @@ class _$FileSchemaTestClassSerializer implements StructuredSerializer<FileSchema
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'file':
-                    result.file.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(ModelFile)) as ModelFile);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(ModelFile)) as ModelFile;
+                    result.file.replace(valueDes);
                     break;
                 case r'files':
-                    result.files.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(ModelFile)])) as BuiltList<ModelFile>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(ModelFile)])) as BuiltList<ModelFile>;
+                    result.files.replace(valueDes);
                     break;
             }
         }

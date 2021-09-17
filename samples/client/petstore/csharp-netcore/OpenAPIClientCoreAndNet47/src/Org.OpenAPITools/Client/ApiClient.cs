@@ -106,7 +106,7 @@ namespace Org.OpenAPITools.Client
                 var bytes = response.RawBytes;
                 if (response.Headers != null)
                 {
-                    var filePath = String.IsNullOrEmpty(_configuration.TempFolderPath)
+                    var filePath = string.IsNullOrEmpty(_configuration.TempFolderPath)
                         ? Path.GetTempPath()
                         : _configuration.TempFolderPath;
                     var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Client
                 return DateTime.Parse(response.Content, null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
-            if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
+            if (type == typeof(string) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
                 return Convert.ChangeType(response.Content, type);
             }
@@ -157,16 +157,16 @@ namespace Org.OpenAPITools.Client
         }
     }
     /// <summary>
-    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
+    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementations),
     /// encapsulating general REST accessor use cases.
     /// </summary>
     public partial class ApiClient : ISynchronousClient, IAsynchronousClient
     {
-        private readonly String _baseUrl;
+        private readonly string _baseUrl;
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
-        /// These settings can be adjusted to accomodate custom serialization rules.
+        /// These settings can be adjusted to accommodate custom serialization rules.
         /// </summary>
         public JsonSerializerSettings SerializerSettings { get; set; } = new JsonSerializerSettings
         {
@@ -207,7 +207,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
-        public ApiClient(String basePath)
+        public ApiClient(string basePath)
         {
             if (string.IsNullOrEmpty(basePath))
                 throw new ArgumentException("basePath cannot be empty");
@@ -268,7 +268,7 @@ namespace Org.OpenAPITools.Client
         /// <exception cref="ArgumentNullException"></exception>
         private RestRequest NewRequest(
             HttpMethod method,
-            String path,
+            string path,
             RequestOptions options,
             IReadableConfiguration configuration)
         {
@@ -494,7 +494,14 @@ namespace Org.OpenAPITools.Client
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
             {
-                response.Data = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                try
+                {
+                    response.Data = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException != null ? ex.InnerException : ex;
+                }
             }
             else if (typeof(T).Name == "Stream") // for binary response
             {
@@ -591,7 +598,7 @@ namespace Org.OpenAPITools.Client
             if (RetryConfiguration.AsyncRetryPolicy != null)
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
-                var policyResult = await policy.ExecuteAndCaptureAsync(() => client.ExecuteAsync(req, cancellationToken)).ConfigureAwait(false);
+                var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(req, ct), cancellationToken).ConfigureAwait(false);
                 response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
                 {
                     Request = req,

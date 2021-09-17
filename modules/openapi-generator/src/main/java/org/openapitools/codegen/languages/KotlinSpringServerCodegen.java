@@ -43,7 +43,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         implements BeanValidationFeatures {
 
-    private static Logger LOGGER =
+    private final Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
 
     private static final HashSet<String> VARIABLE_RESERVED_WORDS =
@@ -303,7 +303,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setBasePackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
             additionalProperties.put(BASE_PACKAGE, basePackage);
-            LOGGER.info("Set base package to invoker package (" + basePackage + ")");
+            LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
         if (additionalProperties.containsKey(BASE_PACKAGE)) {

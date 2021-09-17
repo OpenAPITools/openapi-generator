@@ -26,11 +26,10 @@ void main() {
         ..id = 124321
         ..name = 'Jose'
     ];
-    return Pet()
+    return Pet(name: name)
       ..id = id
       ..category = category
       ..tags = tags
-      ..name = name
       ..status = PetStatusEnum.fromJson(status)
       ..photoUrls = ['https://petstore.com/sample/photo1.jpg'];
   }
@@ -53,8 +52,7 @@ void main() {
       // use the pet api to add a pet
       petApi.apiClient.client = FakeClient(
           expectedUrl: 'http://petstore.swagger.io/v2/pet',
-          expectedPostRequestBody:
-              await petApi.apiClient.serializeAsync(newPet),
+          expectedPostRequestBody: await petApi.apiClient.serializeAsync(newPet),
           postResponseBody: await petApi.apiClient.serializeAsync(newPet),
           expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.addPet(newPet);
@@ -76,8 +74,7 @@ void main() {
         expectedUrl: 'http://petstore.swagger.io/v2/pet/$id',
         throwException: ApiException(400, 'not found'),
       );
-      expect(
-          petApi.getPetById(id), throwsA(equals(TypeMatcher<ApiException>())));
+      expect(petApi.getPetById(id), throwsA(equals(TypeMatcher<ApiException>())));
     });
 
     test('deletes existing pet by id', () async {
@@ -87,8 +84,7 @@ void main() {
       // add a new pet
       petApi.apiClient.client = FakeClient(
           expectedUrl: 'http://petstore.swagger.io/v2/pet',
-          expectedPostRequestBody:
-              await petApi.apiClient.serializeAsync(newPet),
+          expectedPostRequestBody: await petApi.apiClient.serializeAsync(newPet),
           postResponseBody: await petApi.apiClient.serializeAsync(newPet),
           expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.addPet(newPet);
@@ -106,8 +102,7 @@ void main() {
         expectedUrl: 'http://petstore.swagger.io/v2/pet/$id',
         throwException: ApiException(400, 'Not found'),
       );
-      expect(
-          petApi.getPetById(id), throwsA(equals(TypeMatcher<ApiException>())));
+      expect(petApi.getPetById(id), throwsA(equals(TypeMatcher<ApiException>())));
     });
 
     test('updates pet with form', () async {
@@ -117,15 +112,10 @@ void main() {
       // add a new pet
       petApi.apiClient.client = FakeClient(
           expectedUrl: 'http://petstore.swagger.io/v2/pet',
-          expectedPostRequestBody:
-              await petApi.apiClient.serializeAsync(newPet),
+          expectedPostRequestBody: await petApi.apiClient.serializeAsync(newPet),
           postResponseBody: await petApi.apiClient.serializeAsync(newPet),
           expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.addPet(newPet);
-
-      final multipartRequest = MultipartRequest(null, null);
-      multipartRequest.fields['name'] = 'Doge';
-      multipartRequest.fields['status'] = '';
 
       // update with form
       petApi.apiClient.client = FakeClient(
@@ -157,8 +147,7 @@ void main() {
       // add a new pet
       petApi.apiClient.client = FakeClient(
           expectedUrl: 'http://petstore.swagger.io/v2/pet',
-          expectedPostRequestBody:
-              await petApi.apiClient.serializeAsync(newPet),
+          expectedPostRequestBody: await petApi.apiClient.serializeAsync(newPet),
           postResponseBody: await petApi.apiClient.serializeAsync(newPet),
           expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.addPet(newPet);
@@ -166,8 +155,7 @@ void main() {
       // update the same pet
       petApi.apiClient.client = FakeClient(
           expectedUrl: 'http://petstore.swagger.io/v2/pet',
-          expectedPutRequestBody:
-              await petApi.apiClient.serializeAsync(updatePet),
+          expectedPutRequestBody: await petApi.apiClient.serializeAsync(updatePet),
           putResponseBody: await petApi.apiClient.serializeAsync(updatePet),
           expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.updatePet(updatePet);
@@ -196,15 +184,13 @@ void main() {
 
       // retrieve pets by status
       petApi.apiClient.client = FakeClient(
-        expectedUrl:
-            'http://petstore.swagger.io/v2/pet/findByStatus?status=$status',
+        expectedUrl: 'http://petstore.swagger.io/v2/pet/findByStatus?status=$status',
         getResponseBody: await petApi.apiClient.serializeAsync([pet1, pet2]),
       );
       final pets = await petApi.findPetsByStatus([status]);
 
       // tests serialisation and deserialisation of enum
-      final petsByStatus =
-          pets.where((p) => p.status == PetStatusEnum.available);
+      final petsByStatus = pets.where((p) => p.status == PetStatusEnum.available);
       expect(petsByStatus.length, equals(2));
       final petIds = pets.map((pet) => pet.id).toList();
       expect(petIds, contains(id1));
@@ -216,14 +202,12 @@ void main() {
       final id = newId();
       final newPet = makePet(id: id);
       // get some test data (recorded from live response)
-      final uploadResponse =
-          await File('test/file_upload_response.json').readAsString();
+      final uploadResponse = await File('test/file_upload_response.json').readAsString();
 
       // add a new pet
       petApi.apiClient.client = FakeClient(
           expectedUrl: 'http://petstore.swagger.io/v2/pet',
-          expectedPostRequestBody:
-              await petApi.apiClient.serializeAsync(newPet),
+          expectedPostRequestBody: await petApi.apiClient.serializeAsync(newPet),
           postResponseBody: await petApi.apiClient.serializeAsync(newPet),
           expectedHeaders: {'Content-Type': 'application/json'});
       await petApi.addPet(newPet);
@@ -232,9 +216,8 @@ void main() {
         expectedUrl: 'http://petstore.swagger.io/v2/pet',
         sendResponseBody: uploadResponse,
       );
-      final file =
-          new MultipartFile.fromBytes('file', [104, 101, 108, 108, 111]);
-      await petApi.uploadFile(id, additionalMetadata: '', file: file);
+      final file = new MultipartFile.fromBytes('file', [104, 101, 108, 108, 111]);
+      await petApi.uploadFile(id, file: file);
     });
   });
 }

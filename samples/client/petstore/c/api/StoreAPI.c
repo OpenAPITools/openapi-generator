@@ -111,7 +111,7 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     if (apiClient->response_code == 200) {
         printf("%s\n","successful operation");
     }
-    //primitive reutrn type not simple
+    //primitive return type not simple
     cJSON *localVarJSON = cJSON_Parse(apiClient->dataReceived);
     cJSON *VarJSON;
     list_t *elementToReturn = list_create();

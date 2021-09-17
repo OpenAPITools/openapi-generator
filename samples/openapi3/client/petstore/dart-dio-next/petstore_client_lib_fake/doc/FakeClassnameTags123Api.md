@@ -9,7 +9,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testClassname**](FakeClassnameTags123Api.md#testclassname) | **patch** /fake_classname_test | To test class name in snake case
+[**testClassname**](FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 
 
 # **testClassname**
@@ -19,7 +19,7 @@ To test class name in snake case
 
 To test class name in snake case
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure API key authorization: api_key_query
@@ -27,13 +27,13 @@ import 'package:openapi/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //defaultApiClient.getAuthentication<ApiKeyAuth>('api_key_query').apiKeyPrefix = 'Bearer';
 
-var api_instance = new FakeClassnameTags123Api();
-var modelClient = new ModelClient(); // ModelClient | client model
+final api = Openapi().getFakeClassnameTags123Api();
+final ModelClient modelClient = ; // ModelClient | client model
 
-try { 
-    var result = api_instance.testClassname(modelClient);
-    print(result);
-} catch (e) {
+try {
+    final response = api.testClassname(modelClient);
+    print(response);
+} catch on DioError (e) {
     print('Exception when calling FakeClassnameTags123Api->testClassname: $e\n');
 }
 ```

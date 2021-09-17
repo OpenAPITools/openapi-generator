@@ -21,4 +21,3 @@ case class Category(
   name: Option[String] = None
 )
 
-

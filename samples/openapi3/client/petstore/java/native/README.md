@@ -137,8 +137,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testInlineAdditionalPropertiesWithHttpInfo**](docs/FakeApi.md#testInlineAdditionalPropertiesWithHttpInfo) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testJsonFormDataWithHttpInfo**](docs/FakeApi.md#testJsonFormDataWithHttpInfo) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
-*FakeApi* | [**testQueryParameterCollectionFormatWithHttpInfo**](docs/FakeApi.md#testQueryParameterCollectionFormatWithHttpInfo) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+*FakeApi* | [**testQueryParameterCollectionFormatWithHttpInfo**](docs/FakeApi.md#testQueryParameterCollectionFormatWithHttpInfo) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *FakeClassnameTags123Api* | [**testClassnameWithHttpInfo**](docs/FakeClassnameTags123Api.md#testClassnameWithHttpInfo) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
@@ -207,6 +207,7 @@ Class | Method | HTTP request | Description
  - [Client](docs/Client.md)
  - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [DanishPig](docs/DanishPig.md)
+ - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
  - [Drawing](docs/Drawing.md)
@@ -235,6 +236,7 @@ Class | Method | HTTP request | Description
  - [NullableClass](docs/NullableClass.md)
  - [NullableShape](docs/NullableShape.md)
  - [NumberOnly](docs/NumberOnly.md)
+ - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)

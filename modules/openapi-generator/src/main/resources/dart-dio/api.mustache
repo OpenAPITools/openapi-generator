@@ -19,7 +19,7 @@ class {{classname}} {
   /// {{{summary}}}
   ///
   /// {{{notes}}}
-  Future<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {{nickname}}({{^hasRequiredParams}}{ {{/hasRequiredParams}}{{#requiredParams}}
+  Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({{^hasRequiredParams}}{ {{/hasRequiredParams}}{{#requiredParams}}
     {{{dataType}}} {{paramName}},{{#-last}} { {{/-last}}{{/requiredParams}}{{#optionalParams}}
     {{{dataType}}} {{paramName}},{{/optionalParams}}
     CancelToken cancelToken,
@@ -63,10 +63,7 @@ class {{classname}} {
         ...?extra,
       },
       validateStatus: validateStatus,
-      contentType: [{{^hasConsumes}}
-        'application/json',{{/hasConsumes}}{{#hasConsumes}}{{#consumes}}
-        '{{{mediaType}}}',{{/consumes}}{{/hasConsumes}}
-      ].first,
+      contentType: '{{^hasConsumes}}application/json{{/hasConsumes}}{{#hasConsumes}}{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}{{/hasConsumes}}',
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,

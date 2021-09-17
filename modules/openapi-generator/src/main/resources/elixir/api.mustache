@@ -35,7 +35,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
 {{/optionalParams}}
   ## Returns
 
-  {:ok, {{#isArray}}[%{{&returnBaseType}}{}, ...]{{/isArray}}{{#isMap}}%{}{{/isMap}}{{^returnType}}nil{{/returnType}}{{#returnSimpleType}}{{#returnType}}{{#isMap}}{{/isMap}}{{{returnType}}}{{/returnType}}{{/returnSimpleType}}} on success
+  {:ok, {{#isArray}}[%{{&returnBaseType}}{}, ...]{{/isArray}}{{#isMap}}%{}{{/isMap}}{{^returnType}}nil{{/returnType}}{{#returnSimpleType}}{{#returnType}}{{{.}}}{{/returnType}}{{/returnSimpleType}}} on success
   {:error, Tesla.Env.t} on failure
   """
   {{{typespec}}}

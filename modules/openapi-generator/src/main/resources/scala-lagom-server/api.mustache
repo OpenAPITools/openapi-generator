@@ -33,15 +33,15 @@ trait {{classname}} extends Service {
       {{#isFormParam}}
   // {{{paramName}}}:{{dataType}}  -- not yet supported x-www-form-urlencoded{{/isFormParam}}{{/allParams}}{{/hasFormParams}}{{#hasHeaderParams}}{{#allParams}}
       {{#isHeaderParam}}
-  // {{{paramName}}}:{{dataType}}  -- not yet supported heder params{{/isHeaderParam}}{{/allParams}}{{/hasHeaderParams}}
+  // {{{paramName}}}:{{dataType}}  -- not yet supported header params{{/isHeaderParam}}{{/allParams}}{{/hasHeaderParams}}
   /**
     * {{summary}}
     * {{notes}}
     * {{#allParams}} {{^isBodyParam}}
     * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/isBodyParam}}{{/allParams}}
-    * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}{{#bodyParams}} Body Parameter  {{description}} {{/bodyParams}}
+    * @return {{{returnType}}}{{^returnType}}void{{/returnType}}{{#bodyParams}} Body Parameter  {{description}} {{/bodyParams}}
     */
-  def {{operationId}}({{#queryParams}}{{^isContainer}}{{^isEnum}}{{paramName}}:{{#required}}{{dataType}}{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{/required}}          {{^required}} Option[{{dataType}}]{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/isEnum}}{{/isContainer}}{{#isEnum}}{{{paramName}}}: Option[{{classname}}{{enumName}}.{{classname}}{{enumName}}]{{/isEnum}}{{/queryParams}}{{#pathParams}}{{^isEnum}}{{paramName}}: {{#required}}{{dataType}}{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{/required}}{{^required}}Option[{{dataType}}]{{#defaultValue}} /* = {{{defaultValue}}}*/{{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/isEnum}}{{#isEnum}}{{{paramName}}}:  Option[{{classname}}{{enumName}}.{{classname}}{{enumName}}]{{/isEnum}}{{/pathParams}}): ServiceCall[{{#bodyParams}}{{dataType}}{{/bodyParams}}{{^hasBodyParam}}NotUsed{{/hasBodyParam}} ,{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Done{{/returnType}}]
+  def {{operationId}}({{#queryParams}}{{^isContainer}}{{^isEnum}}{{paramName}}:{{#required}}{{dataType}}{{#defaultValue}} /* = {{{.}}}*/{{/defaultValue}}{{/required}}          {{^required}} Option[{{dataType}}]{{#defaultValue}} /* = {{{.}}}*/{{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{^-last}},{{/-last}}{{/isEnum}}{{/isContainer}}{{#isEnum}}{{{paramName}}}: Option[{{classname}}{{enumName}}.{{classname}}{{enumName}}]{{/isEnum}}{{/queryParams}}{{#pathParams}}{{^isEnum}}{{paramName}}: {{#required}}{{dataType}}{{#defaultValue}} /* = {{{.}}}*/{{/defaultValue}}{{/required}}{{^required}}Option[{{dataType}}]{{#defaultValue}} /* = {{{.}}}*/{{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/isEnum}}{{#isEnum}}{{{paramName}}}:  Option[{{classname}}{{enumName}}.{{classname}}{{enumName}}]{{/isEnum}}{{/pathParams}}): ServiceCall[{{#bodyParams}}{{dataType}}{{/bodyParams}}{{^hasBodyParam}}NotUsed{{/hasBodyParam}} ,{{returnType}}{{^returnType}}Done{{/returnType}}]
   {{/operation}}{{/operations}}
 
 {{#operations}}
@@ -59,4 +59,3 @@ trait {{classname}} extends Service {
   {{/operation}}
   }
 {{/operations}}
-

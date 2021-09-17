@@ -40,6 +40,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
@@ -60,6 +61,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return snakeCase;
   }
 
+  @JsonProperty("snake_case")
   public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
@@ -80,6 +82,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return property;
   }
 
+  @JsonProperty("property")
   public void setProperty(String property) {
     this.property = property;
   }
@@ -100,6 +103,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return _123number;
   }
 
+  @JsonProperty("123Number")
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }

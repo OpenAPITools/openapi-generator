@@ -39,7 +39,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setName(Integer name) {
     this.name = name;
-  }/**
+  }
+
+/**
    **/
   public Model200Response propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
@@ -58,6 +60,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
+
 
   @Override
   public boolean equals(Object o) {

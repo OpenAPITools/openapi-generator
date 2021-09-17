@@ -14,17 +14,6 @@ function cleanup {
 
 trap cleanup EXIT
 
-function installDart {
-  # install dart2
-  sudo apt-get update
-  sudo apt-get install apt-transport-https
-  sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
-  sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
-  sudo apt-get update
-  sudo apt-get install dart
-  export PATH="$PATH:/usr/lib/dart/bin"
-}
-
 if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
   java -version
@@ -35,20 +24,6 @@ if [ "$NODE_INDEX" = "1" ]; then
   ls -l /home/circleci/.ivy2/cache
 
 elif [ "$NODE_INDEX" = "2" ]; then
-  installDart
-
-  # run ensure-up-to-date sample script on SNAPSHOT version only
-  project_version=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
-  if [[ $project_version == *"-SNAPSHOT" ]]; then
-    echo "Running node $NODE_INDEX to test ensure-up-to-date"
-    java -version
-
-    # clear any changes to the samples
-    git checkout -- .
-
-    # look for outdated samples
-    ./bin/utils/ensure-up-to-date
-  fi
   echo "Running node $NODE_INDEX to test haskell"
   # install haskell
   curl -sSL https://get.haskellstack.org/ | sh
@@ -68,6 +43,21 @@ elif [ "$NODE_INDEX" = "2" ]; then
 
   # run integration tests
   mvn --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+elif [ "$NODE_INDEX" = "3" ]; then
+
+  echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
+  #wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
+  #tar -xf Python-3.8.9.tgz
+  #cd Python-3.8.9
+  #./configure --enable-optimizations
+  #sudo make altinstall
+  pyenv install --list 
+  pyenv install 3.6.3
+  pyenv global 3.6.3
+  python3 --version
+
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
   #sudo update-java-alternatives -s java-1.7.0-openjdk-amd64

@@ -28,8 +28,8 @@ object Serializer {
         contextual(AtomicInteger::class, AtomicIntegerAdapter)
         contextual(AtomicLong::class, AtomicLongAdapter)
         contextual(AtomicBoolean::class, AtomicBooleanAdapter)
-        contextual(URI::class, UriAdapter)
-        contextual(URL::class, UrlAdapter)
+        contextual(URI::class, URIAdapter)
+        contextual(URL::class, URLAdapter)
         contextual(StringBuilder::class, StringBuilderAdapter)
     }
 

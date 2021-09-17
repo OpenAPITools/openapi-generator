@@ -15,6 +15,9 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <RootNamespace>{{packageName}}</RootNamespace>
     <Version>{{packageVersion}}</Version>
+    {{#nullableReferenceTypes}}
+    <Nullable>annotations</Nullable>
+    {{/nullableReferenceTypes}}
   </PropertyGroup>
 
   <ItemGroup>

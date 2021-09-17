@@ -35,6 +35,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return justNumber;
   }
 
+  @JsonProperty("JustNumber")
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
   }

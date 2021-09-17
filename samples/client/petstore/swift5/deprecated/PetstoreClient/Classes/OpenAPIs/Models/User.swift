@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 /** A User who is purchasing from the pet store */
 public struct User: Codable, Hashable {
@@ -31,4 +34,29 @@ public struct User: Codable, Hashable {
         self.userStatus = userStatus
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case id
+        case username
+        case firstName
+        case lastName
+        case email
+        case password
+        case phone
+        case userStatus
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(username, forKey: .username)
+        try container.encodeIfPresent(firstName, forKey: .firstName)
+        try container.encodeIfPresent(lastName, forKey: .lastName)
+        try container.encodeIfPresent(email, forKey: .email)
+        try container.encodeIfPresent(password, forKey: .password)
+        try container.encodeIfPresent(phone, forKey: .phone)
+        try container.encodeIfPresent(userStatus, forKey: .userStatus)
+    }
 }
+

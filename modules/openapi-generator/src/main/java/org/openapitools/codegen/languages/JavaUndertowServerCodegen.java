@@ -49,7 +49,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         artifactId = "openapi-undertow-server";
         dateLibrary = "legacy"; //TODO: add joda support
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(this.DATE_LIBRARY, this.getDateLibrary());

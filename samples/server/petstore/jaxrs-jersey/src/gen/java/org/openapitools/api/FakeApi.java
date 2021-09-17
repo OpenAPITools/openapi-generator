@@ -56,7 +56,7 @@ public class FakeApi  {
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {
@@ -153,10 +153,22 @@ public class FakeApi  {
         return delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, securityContext);
     }
     @PUT
+    @Path("/body-with-binary")
+    @Consumes({ "image/png" })
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body has to be a binary file.", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
+    })
+    public Response testBodyWithBinary(@ApiParam(value = "image to upload", required = true) @NotNull  File body,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testBodyWithBinary(body, securityContext);
+    }
+    @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
     
-    @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request must reference a schema named `File`.", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })
@@ -256,16 +268,16 @@ public class FakeApi  {
         return delegate.testJsonFormData(param, param2, securityContext);
     }
     @PUT
-    @Path("/test-query-paramters")
+    @Path("/test-query-parameters")
     
     
     @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testQueryParameterCollectionFormat(@ApiParam(value = "", required = true) @QueryParam("pipe") @NotNull @Valid  List<String> pipe,@ApiParam(value = "", required = true) @QueryParam("ioutil") @NotNull @Valid  List<String> ioutil,@ApiParam(value = "", required = true) @QueryParam("http") @NotNull @Valid  List<String> http,@ApiParam(value = "", required = true) @QueryParam("url") @NotNull @Valid  List<String> url,@ApiParam(value = "", required = true) @QueryParam("context") @NotNull @Valid  List<String> context,@Context SecurityContext securityContext)
+    public Response testQueryParameterCollectionFormat(@ApiParam(value = "", required = true) @QueryParam("pipe") @NotNull @Valid  List<String> pipe,@ApiParam(value = "", required = true) @QueryParam("ioutil") @NotNull @Valid  List<String> ioutil,@ApiParam(value = "", required = true) @QueryParam("http") @NotNull @Valid  List<String> http,@ApiParam(value = "", required = true) @QueryParam("url") @NotNull @Valid  List<String> url,@ApiParam(value = "", required = true) @QueryParam("context") @NotNull @Valid  List<String> context,@ApiParam(value = "", required = true) @QueryParam("allowEmpty") @NotNull  String allowEmpty,@ApiParam(value = "") @QueryParam("language") @Valid  Map<String, String> language,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, securityContext);
+        return delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, securityContext);
     }
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")

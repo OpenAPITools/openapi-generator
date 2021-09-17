@@ -1,12 +1,14 @@
   {{#description}}
-  # {{{description}}}
+  # {{{.}}}
   {{/description}}
-  class {{classname}}{{#parent}} < {{{.}}}{{/parent}} include JSON::Serializable
-   include JSON::Serializable {{#vars}}
+  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
+    include JSON::Serializable
+
+    {{#vars}}
     {{#description}}
-    # {{{description}}}
+    # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: {{{baseName}}}, type: {{{dataType}}}{{#default}}, default: {{{.}}}{{/default}}{{#isNullable}}, nilable: true, emit_null: true{{/isNullable}})]
+    @[JSON::Field(key: {{{baseName}}}, type: {{{dataType}}}{{#default}}, default: {{{.}}}{{/default}}{{#isNullable}}, nillable: true, emit_null: true{{/isNullable}})]
     property {{{name}}} : {{{dataType}}}
 
   {{/vars}}

@@ -17,7 +17,7 @@
 
 #include "Templates/SharedPointer.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 void OpenAPIUser::WriteJson(JsonWriter& Writer) const
@@ -25,35 +25,35 @@ void OpenAPIUser::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectStart();
 	if (Id.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());
 	}
 	if (Username.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("username")); WriteJsonValue(Writer, Username.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("username")); WriteJsonValue(Writer, Username.GetValue());
 	}
 	if (FirstName.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("firstName")); WriteJsonValue(Writer, FirstName.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("firstName")); WriteJsonValue(Writer, FirstName.GetValue());
 	}
 	if (LastName.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("lastName")); WriteJsonValue(Writer, LastName.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("lastName")); WriteJsonValue(Writer, LastName.GetValue());
 	}
 	if (Email.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("email")); WriteJsonValue(Writer, Email.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("email")); WriteJsonValue(Writer, Email.GetValue());
 	}
 	if (Password.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("password")); WriteJsonValue(Writer, Password.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("password")); WriteJsonValue(Writer, Password.GetValue());
 	}
 	if (Phone.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("phone")); WriteJsonValue(Writer, Phone.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("phone")); WriteJsonValue(Writer, Phone.GetValue());
 	}
 	if (UserStatus.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("userStatus")); WriteJsonValue(Writer, UserStatus.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("userStatus")); WriteJsonValue(Writer, UserStatus.GetValue());
 	}
 	Writer->WriteObjectEnd();
 }

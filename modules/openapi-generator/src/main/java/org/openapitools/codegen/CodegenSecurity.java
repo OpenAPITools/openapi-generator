@@ -39,7 +39,7 @@ public class CodegenSecurity {
     public String keyParamName;
     public Boolean isKeyInQuery, isKeyInHeader, isKeyInCookie;
     // Oauth specific
-    public String flow, authorizationUrl, tokenUrl;
+    public String flow, authorizationUrl, tokenUrl, refreshUrl;
     public List<Map<String, Object>> scopes;
     public Boolean isCode, isPassword, isApplication, isImplicit;
 
@@ -66,6 +66,7 @@ public class CodegenSecurity {
         filteredSecurity.flow = flow;
         filteredSecurity.tokenUrl = tokenUrl;
         filteredSecurity.authorizationUrl = authorizationUrl;
+        filteredSecurity.refreshUrl = refreshUrl;
         // It is not possible to deep copy the extensions, as we have no idea what types they are.
         // So the filtered method *will* refer to the original extensions, if any.
         filteredSecurity.vendorExtensions = new HashMap<String, Object>(vendorExtensions);
@@ -109,6 +110,7 @@ public class CodegenSecurity {
                 Objects.equals(flow, that.flow) &&
                 Objects.equals(authorizationUrl, that.authorizationUrl) &&
                 Objects.equals(tokenUrl, that.tokenUrl) &&
+                Objects.equals(refreshUrl, that.refreshUrl) &&
                 Objects.equals(scopes, that.scopes) &&
                 Objects.equals(isCode, that.isCode) &&
                 Objects.equals(isPassword, that.isPassword) &&
@@ -122,7 +124,7 @@ public class CodegenSecurity {
         return Objects.hash(name, type, scheme, isBasic, isOAuth, isApiKey,
                 isBasicBasic, isHttpSignature, isBasicBearer, bearerFormat, vendorExtensions,
                 keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
-                authorizationUrl, tokenUrl, scopes, isCode, isPassword, isApplication, isImplicit);
+                authorizationUrl, tokenUrl, refreshUrl, scopes, isCode, isPassword, isApplication, isImplicit);
     }
 
     @Override
@@ -146,6 +148,7 @@ public class CodegenSecurity {
         sb.append(", flow='").append(flow).append('\'');
         sb.append(", authorizationUrl='").append(authorizationUrl).append('\'');
         sb.append(", tokenUrl='").append(tokenUrl).append('\'');
+        sb.append(", refreshUrl='").append(refreshUrl).append('\'');
         sb.append(", scopes=").append(scopes);
         sb.append(", isCode=").append(isCode);
         sb.append(", isPassword=").append(isPassword);

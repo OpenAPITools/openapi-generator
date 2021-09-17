@@ -7,11 +7,13 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import org.openapitools.client.model.HealthCheckResult;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
-import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,16 +26,65 @@ public interface FakeApi extends ApiClient.Api {
 
 
   /**
-   * creates an XmlItem
-   * this route creates an XmlItem
-   * @param xmlItem XmlItem Body (required)
+   * Health check endpoint
+   * 
+   * @return HealthCheckResult
    */
-  @RequestLine("POST /fake/create_xml_item")
+  @RequestLine("GET /fake/health")
   @Headers({
-    "Content-Type: application/xml",
     "Accept: application/json",
   })
-  void createXmlItem(XmlItem xmlItem);
+  HealthCheckResult fakeHealthGet();
+
+  /**
+   * test http signature authentication
+   * 
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param query1 query parameter (optional)
+   * @param header1 header parameter (optional)
+   */
+  @RequestLine("GET /fake/http-signature-test?query_1={query1}")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+    "header_1: {header1}"
+  })
+  void fakeHttpSignatureTest(Pet pet, @Param("query1") String query1, @Param("header1") String header1);
+
+  /**
+   * test http signature authentication
+   * 
+   * Note, this is equivalent to the other <code>fakeHttpSignatureTest</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link FakeHttpSignatureTestQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param header1 header parameter (optional)
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>query1 - query parameter (optional)</li>
+   *   </ul>
+   */
+  @RequestLine("GET /fake/http-signature-test?query_1={query1}")
+  @Headers({
+  "Content-Type: application/json",
+  "Accept: application/json",
+      "header_1: {header1}"
+  })
+  void fakeHttpSignatureTest(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) Map<String, Object> queryParams);
+
+  /**
+   * A convenience class for generating query parameters for the
+   * <code>fakeHttpSignatureTest</code> method in a fluent style.
+   */
+  public static class FakeHttpSignatureTestQueryParams extends HashMap<String, Object> {
+    public FakeHttpSignatureTestQueryParams query1(final String value) {
+      put("query_1", EncodingUtils.encode(value));
+      return this;
+    }
+  }
 
   /**
    * 
@@ -43,7 +94,7 @@ public interface FakeApi extends ApiClient.Api {
    */
   @RequestLine("POST /fake/outer/boolean")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: */*",
   })
   Boolean fakeOuterBooleanSerialize(Boolean body);
@@ -51,15 +102,15 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * 
    * Test serialization of object with outer number type
-   * @param body Input composite as post body (optional)
+   * @param outerComposite Input composite as post body (optional)
    * @return OuterComposite
    */
   @RequestLine("POST /fake/outer/composite")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: */*",
   })
-  OuterComposite fakeOuterCompositeSerialize(OuterComposite body);
+  OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite);
 
   /**
    * 
@@ -69,7 +120,7 @@ public interface FakeApi extends ApiClient.Api {
    */
   @RequestLine("POST /fake/outer/number")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: */*",
   })
   BigDecimal fakeOuterNumberSerialize(BigDecimal body);
@@ -82,35 +133,60 @@ public interface FakeApi extends ApiClient.Api {
    */
   @RequestLine("POST /fake/outer/string")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: */*",
   })
   String fakeOuterStringSerialize(String body);
 
   /**
    * 
-   * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-   * @param body  (required)
+   * Test serialization of enum (int) properties with examples
+   * @param outerObjectWithEnumProperty Input enum (int) as post body (required)
+   * @return OuterObjectWithEnumProperty
+   */
+  @RequestLine("POST /fake/property/enum-int")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: */*",
+  })
+  OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+
+  /**
+   * 
+   * For this test, the body has to be a binary file.
+   * @param body image to upload (required)
+   */
+  @RequestLine("PUT /fake/body-with-binary")
+  @Headers({
+    "Content-Type: image/png",
+    "Accept: application/json",
+  })
+  void testBodyWithBinary(File body);
+
+  /**
+   * 
+   * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+   * @param fileSchemaTestClass  (required)
    */
   @RequestLine("PUT /fake/body-with-file-schema")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void testBodyWithFileSchema(FileSchemaTestClass body);
+  void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
 
   /**
    * 
    * 
    * @param query  (required)
-   * @param body  (required)
+   * @param user  (required)
    */
   @RequestLine("PUT /fake/body-with-query-params?query={query}")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void testBodyWithQueryParams(@Param("query") String query, User body);
+  void testBodyWithQueryParams(@Param("query") String query, User user);
 
   /**
    * 
@@ -120,7 +196,7 @@ public interface FakeApi extends ApiClient.Api {
    * is convenient for services with optional query parameters, especially when
    * used with the {@link TestBodyWithQueryParamsQueryParams} class that allows for
    * building up this map in a fluent style.
-   * @param body  (required)
+   * @param user  (required)
    * @param queryParams Map of query parameters as name-value pairs
    *   <p>The following elements may be specified in the query map:</p>
    *   <ul>
@@ -132,7 +208,7 @@ public interface FakeApi extends ApiClient.Api {
   "Content-Type: application/json",
   "Accept: application/json",
   })
-  void testBodyWithQueryParams(User body, @QueryMap(encoded=true) Map<String, Object> queryParams);
+  void testBodyWithQueryParams(User user, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the
@@ -148,7 +224,7 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-   * @param body client model (required)
+   * @param client client model (required)
    * @return Client
    */
   @RequestLine("PATCH /fake")
@@ -156,11 +232,11 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  Client testClientModel(Client body);
+  Client testClientModel(Client client);
 
   /**
-   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -242,7 +318,7 @@ public interface FakeApi extends ApiClient.Api {
    */
   public static class TestEnumParametersQueryParams extends HashMap<String, Object> {
     public TestEnumParametersQueryParams enumQueryStringArray(final List<String> value) {
-      put("enum_query_string_array", EncodingUtils.encodeCollection(value, "csv"));
+      put("enum_query_string_array", EncodingUtils.encodeCollection(value, "multi"));
       return this;
     }
     public TestEnumParametersQueryParams enumQueryString(final String value) {
@@ -332,14 +408,14 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * test inline additionalProperties
    * 
-   * @param param request body (required)
+   * @param requestBody request body (required)
    */
   @RequestLine("POST /fake/inline-additionalProperties")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void testInlineAdditionalProperties(Map<String, String> param);
+  void testInlineAdditionalProperties(Map<String, String> requestBody);
 
   /**
    * test json serialization of form data
@@ -362,12 +438,14 @@ public interface FakeApi extends ApiClient.Api {
    * @param http  (required)
    * @param url  (required)
    * @param context  (required)
+   * @param allowEmpty  (required)
+   * @param language  (optional)
    */
-  @RequestLine("PUT /fake/test-query-paramters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}")
+  @RequestLine("PUT /fake/test-query-parameters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}&language={language}&allowEmpty={allowEmpty}")
   @Headers({
     "Accept: application/json",
   })
-  void testQueryParameterCollectionFormat(@Param("pipe") List<String> pipe, @Param("ioutil") List<String> ioutil, @Param("http") List<String> http, @Param("url") List<String> url, @Param("context") List<String> context);
+  void testQueryParameterCollectionFormat(@Param("pipe") List<String> pipe, @Param("ioutil") List<String> ioutil, @Param("http") List<String> http, @Param("url") List<String> url, @Param("context") List<String> context, @Param("allowEmpty") String allowEmpty, @Param("language") Map<String, String> language);
 
   /**
    * 
@@ -385,9 +463,11 @@ public interface FakeApi extends ApiClient.Api {
    *   <li>http -  (required)</li>
    *   <li>url -  (required)</li>
    *   <li>context -  (required)</li>
+   *   <li>language -  (optional)</li>
+   *   <li>allowEmpty -  (required)</li>
    *   </ul>
    */
-  @RequestLine("PUT /fake/test-query-paramters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}")
+  @RequestLine("PUT /fake/test-query-parameters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}&language={language}&allowEmpty={allowEmpty}")
   @Headers({
   "Accept: application/json",
   })
@@ -399,7 +479,7 @@ public interface FakeApi extends ApiClient.Api {
    */
   public static class TestQueryParameterCollectionFormatQueryParams extends HashMap<String, Object> {
     public TestQueryParameterCollectionFormatQueryParams pipe(final List<String> value) {
-      put("pipe", EncodingUtils.encodeCollection(value, "csv"));
+      put("pipe", EncodingUtils.encodeCollection(value, "pipes"));
       return this;
     }
     public TestQueryParameterCollectionFormatQueryParams ioutil(final List<String> value) {
@@ -416,6 +496,14 @@ public interface FakeApi extends ApiClient.Api {
     }
     public TestQueryParameterCollectionFormatQueryParams context(final List<String> value) {
       put("context", EncodingUtils.encodeCollection(value, "multi"));
+      return this;
+    }
+    public TestQueryParameterCollectionFormatQueryParams language(final Map<String, String> value) {
+      put("language", EncodingUtils.encode(value));
+      return this;
+    }
+    public TestQueryParameterCollectionFormatQueryParams allowEmpty(final String value) {
+      put("allowEmpty", EncodingUtils.encode(value));
       return this;
     }
   }

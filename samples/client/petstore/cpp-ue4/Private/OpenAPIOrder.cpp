@@ -17,7 +17,7 @@
 
 #include "Templates/SharedPointer.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 inline FString ToString(const OpenAPIOrder::StatusEnum& Value)
@@ -32,8 +32,32 @@ inline FString ToString(const OpenAPIOrder::StatusEnum& Value)
 		return TEXT("delivered");
 	}
 
-	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIOrder::StatusEnum Value (%d)"), (int)Value);	
+	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIOrder::StatusEnum Value (%d)"), (int)Value);
 	return TEXT("");
+}
+
+FString OpenAPIOrder::EnumToString(const OpenAPIOrder::StatusEnum& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, OpenAPIOrder::StatusEnum& Value)
+{
+	static TMap<FString, OpenAPIOrder::StatusEnum> StringToEnum = { 
+		{ TEXT("placed"), OpenAPIOrder::StatusEnum::Placed },
+		{ TEXT("approved"), OpenAPIOrder::StatusEnum::Approved },
+		{ TEXT("delivered"), OpenAPIOrder::StatusEnum::Delivered }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+bool OpenAPIOrder::EnumFromString(const FString& EnumAsString, OpenAPIOrder::StatusEnum& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
 }
 
 inline FStringFormatArg ToStringFormatArg(const OpenAPIOrder::StatusEnum& Value)
@@ -51,17 +75,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIOrde
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, OpenAPIOrder::StatusEnum> StringToEnum = { 
-			{ TEXT("placed"), OpenAPIOrder::StatusEnum::Placed },
-			{ TEXT("approved"), OpenAPIOrder::StatusEnum::Approved },
-			{ TEXT("delivered"), OpenAPIOrder::StatusEnum::Delivered }, };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	return false;
 }
@@ -71,27 +86,27 @@ void OpenAPIOrder::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectStart();
 	if (Id.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());
 	}
 	if (PetId.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("petId")); WriteJsonValue(Writer, PetId.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("petId")); WriteJsonValue(Writer, PetId.GetValue());
 	}
 	if (Quantity.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("quantity")); WriteJsonValue(Writer, Quantity.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("quantity")); WriteJsonValue(Writer, Quantity.GetValue());
 	}
 	if (ShipDate.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("shipDate")); WriteJsonValue(Writer, ShipDate.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("shipDate")); WriteJsonValue(Writer, ShipDate.GetValue());
 	}
 	if (Status.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("status")); WriteJsonValue(Writer, Status.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("status")); WriteJsonValue(Writer, Status.GetValue());
 	}
 	if (Complete.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("complete")); WriteJsonValue(Writer, Complete.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("complete")); WriteJsonValue(Writer, Complete.GetValue());
 	}
 	Writer->WriteObjectEnd();
 }

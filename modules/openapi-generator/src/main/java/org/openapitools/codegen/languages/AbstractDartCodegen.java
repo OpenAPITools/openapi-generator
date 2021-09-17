@@ -1,7 +1,6 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -27,7 +26,10 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractDartCodegen extends DefaultCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractDartCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractDartCodegen.class);
+
+    protected static final List<String> DEFAULT_SUPPORTED_CONTENT_TYPES = Arrays.asList(
+            "application/json", "application/x-www-form-urlencoded", "multipart/form-data");
 
     public static final String PUB_LIBRARY = "pubLibrary";
     public static final String PUB_NAME = "pubName";
@@ -554,6 +556,68 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
         }
         return op;
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation op : ops) {
+                if (op.hasConsumes) {
+                    if (!op.formParams.isEmpty() || op.isMultipart) {
+                        // DefaultCodegen only sets this if the first consumes mediaType
+                        // is application/x-www-form-urlencoded or multipart.
+                        // Can just use the original
+                        op.prioritizedContentTypes = op.consumes;
+                    } else {
+                        // Prioritize content types by moving application/json to the front
+                        // similar to JavaCodegen
+                        op.prioritizedContentTypes = prioritizeContentTypes(op.consumes);
+                        String mediaType = op.prioritizedContentTypes.get(0).get("mediaType");
+                        if (!DEFAULT_SUPPORTED_CONTENT_TYPES.contains(mediaType)) {
+                            LOGGER.warn("The media-type '{}' for operation '{}' is not support in the Dart generators by default.", mediaType, op.path);
+                        }
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
+    private List<Map<String, String>> prioritizeContentTypes(List<Map<String, String>> consumes) {
+        if (consumes.size() <= 1) {
+            // no need to change any order
+            return consumes;
+        }
+
+        List<Map<String, String>> prioritizedContentTypes = new ArrayList<>(consumes.size());
+
+        List<Map<String, String>> jsonVendorMimeTypes = new ArrayList<>(consumes.size());
+        List<Map<String, String>> jsonMimeTypes = new ArrayList<>(consumes.size());
+
+        for (Map<String, String> consume : consumes) {
+            String mediaType = consume.get("mediaType");
+            if (isJsonVendorMimeType(mediaType)) {
+                jsonVendorMimeTypes.add(consume);
+            } else if (isJsonMimeType(mediaType)) {
+                jsonMimeTypes.add(consume);
+            } else {
+                prioritizedContentTypes.add(consume);
+            }
+        }
+
+        prioritizedContentTypes.addAll(0, jsonMimeTypes);
+        prioritizedContentTypes.addAll(0, jsonVendorMimeTypes);
+        return prioritizedContentTypes;
+    }
+
+    private static boolean isMultipartType(String mediaType) {
+        if (mediaType != null) {
+            return "multipart/form-data".equals(mediaType);
+        }
+        return false;
     }
 
     @Override

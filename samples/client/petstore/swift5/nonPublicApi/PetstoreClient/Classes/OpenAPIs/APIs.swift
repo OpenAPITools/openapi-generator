@@ -6,10 +6,17 @@
 
 import Foundation
 
+// We reverted the change of PetstoreClientAPI to PetstoreClient introduced in https://github.com/OpenAPITools/openapi-generator/pull/9624
+// Because it was causing the following issue https://github.com/OpenAPITools/openapi-generator/issues/9953
+// If you are affected by this issue, please consider removing the following two lines,
+// By setting the option removeMigrationProjectNameClass to true in the generator
+@available(*, deprecated, renamed: "PetstoreClientAPI")
+internal typealias PetstoreClient = PetstoreClientAPI
+
 internal class PetstoreClientAPI {
     internal static var basePath = "http://petstore.swagger.io:80/v2"
-    internal static var credential: URLCredential?
     internal static var customHeaders: [String: String] = [:]
+    internal static var credential: URLCredential?
     internal static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
     internal static var apiResponseQueue: DispatchQueue = .main
 }

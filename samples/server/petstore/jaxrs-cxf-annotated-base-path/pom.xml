@@ -6,6 +6,8 @@
   <name>cxf-annotated-basepath</name>
   <description>This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.</description>
   <version>1.0.0</version>
+
+
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
@@ -84,7 +86,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <!-- build WAR file -->
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
@@ -134,7 +136,7 @@
         <version>${cxf-version}</version>
         <scope>test</scope>
     </dependency>
-    
+
      <!-- CXF server -->
     <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -200,7 +202,7 @@
     <swagger-core-version>1.5.22</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <junit-version>4.13</junit-version>
-    <logback-version>1.1.7</logback-version>
+    <logback-version>1.2.0</logback-version>
     <servlet-api-version>2.5</servlet-api-version>
     <beanvalidation-version>1.1.0.Final</beanvalidation-version>
     <cxf-version>3.3.0</cxf-version>
