@@ -1,6 +1,6 @@
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>typeInfoAnnotation}}{{>xmlAnnotation}}
 public interface {{classname}} {{#vendorExtensions.x-implements}}{{#-first}}extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
-    {{#discriminator}}
+    {{^vendorExtensions.x-deduction}}{{#discriminator}}
     public {{propertyType}} {{propertyGetter}}();
-    {{/discriminator}}
+    {{/discriminator}}{{/vendorExtensions.x-deduction}}
 }

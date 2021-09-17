@@ -2403,6 +2403,18 @@ public class DefaultCodegen implements CodegenConfig {
         m.isAlias = (typeAliases.containsKey(name)
                 || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
         m.setDiscriminator(createDiscriminator(name, schema, this.openAPI));
+        if (ModelUtils.isComposedSchema(schema)
+                && m.discriminator == null
+                && schema.getExtensions() != null
+                && schema.getExtensions().containsKey("x-one-of-name")) {
+            m.vendorExtensions.put("x-deduction", true);
+            List<String> deductionModelNames = new ArrayList<>();
+            ((ComposedSchema) schema).getOneOf().forEach(model -> {
+                String modelName = ModelUtils.getSimpleRef(model.get$ref());
+                deductionModelNames.add(toModelName(modelName));
+            });
+            m.vendorExtensions.put("x-deduction-model-names", deductionModelNames);
+        }
         if (!this.getLegacyDiscriminatorBehavior()) {
             m.addDiscriminatorMappedModelsImports();
         }
@@ -3144,7 +3156,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
-        if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
+        if (ModelUtils.isComposedSchema(schema)) {
             List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discPropName, (ComposedSchema) schema, openAPI);
             for (MappedModel otherDescendant : otherDescendants) {
                 if (!uniqueDescendants.contains(otherDescendant)) {

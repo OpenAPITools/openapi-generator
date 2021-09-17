@@ -1363,8 +1363,30 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 for (Operation operation : path.readOperations()) {
                     LOGGER.info("Processing operation {}", operation.getOperationId());
-                    if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
-                        String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
+                    boolean hasBodyParameter = hasBodyParameter(openAPI, operation);
+                    boolean hasFormParameter = hasFormParameter(openAPI, operation);
+                    // OpenAPI parser do not add Inline One Of models in Operations to Components/Schemas
+                    if (hasBodyParameter) {
+                        RequestBody requestBody = operation.getRequestBody();
+                        Optional.ofNullable(requestBody)
+                                .map(ModelUtils::getSchemaFromRequestBody)
+                                .ifPresent(schema -> {
+                                    if (schema instanceof ComposedSchema
+                                            && ((ComposedSchema) schema).getProperties() == null
+                                            && Optional.ofNullable(schema.getExtensions()).map(m -> m.containsKey("x-one-of-name")).orElse(false)
+                                    ) {
+                                        String oneOfModelName = (String) schema.getExtensions().get("x-one-of-name");
+                                        Schema originalSchema = ModelUtils.getSchemaFromRequestBody(requestBody);
+                                        Schema replacedSchema = new Schema<>().$ref("#/components/schemas/" + oneOfModelName);
+                                        requestBody.getContent().values().forEach(mediaType -> {
+                                            mediaType.setSchema(replacedSchema);
+                                            ModelUtils.getSchemas(openAPI).put(oneOfModelName, originalSchema);
+                                        });
+                                    }
+                                });
+                    }
+                    if (hasBodyParameter || hasFormParameter) {
+                        String defaultContentType = hasFormParameter ? "application/x-www-form-urlencoded" : "application/json";
                         List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
                         String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
                         operation.addExtension("x-contentType", contentType);
