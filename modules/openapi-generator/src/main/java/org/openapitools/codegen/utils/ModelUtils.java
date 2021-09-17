@@ -1519,9 +1519,6 @@ public class ModelUtils {
             if (isNullType(schema) || schema.get$ref() != null || isBooleanSchema(schema)) {
                 return;
             }
-            if (isAnyType(schema)) {
-                return;
-            }
             Integer minItems = schema.getMinItems();
             Integer maxItems = schema.getMaxItems();
             Boolean uniqueItems = schema.getUniqueItems();
@@ -1538,7 +1535,7 @@ public class ModelUtils {
 
             if (isArraySchema(schema)) {
                 setArrayValidations(minItems, maxItems, uniqueItems, target);
-            } else if (isMapSchema(schema) || isObjectSchema(schema)) {
+            } else if (isTypeObjectSchema(schema)) {
                 setObjectValidations(minProperties, maxProperties, target);
             } else if (isStringSchema(schema)) {
                 setStringValidations(minLength, maxLength, pattern, target);
@@ -1547,8 +1544,8 @@ public class ModelUtils {
                 }
             } else if (isNumberSchema(schema) || isIntegerSchema(schema)) {
                 setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
-            } else if (isComposedSchema(schema)) {
-                // this could be composed out of anything so set all validations here
+            } else if (isAnyType(schema)) {
+                // anyType can have any validations set on it
                 setArrayValidations(minItems, maxItems, uniqueItems, target);
                 setObjectValidations(minProperties, maxProperties, target);
                 setStringValidations(minLength, maxLength, pattern, target);
