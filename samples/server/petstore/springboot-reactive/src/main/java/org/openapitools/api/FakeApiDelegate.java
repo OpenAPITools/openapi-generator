@@ -83,7 +83,7 @@ public interface FakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
                 String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
         }
@@ -171,7 +171,7 @@ public interface FakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"client\" : \"client\" }";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
         }
@@ -312,7 +312,7 @@ public interface FakeApiDelegate {
     }
 
     /**
-     * PUT /fake/test-query-paramters
+     * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
      *
      * @param pipe  (required)
@@ -353,7 +353,7 @@ public interface FakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
         }

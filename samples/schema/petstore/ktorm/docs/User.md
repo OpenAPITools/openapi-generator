@@ -1,5 +1,5 @@
 
-# Table `User` 
+# Table `User`
 (mapped from: User)
 
 ## Properties

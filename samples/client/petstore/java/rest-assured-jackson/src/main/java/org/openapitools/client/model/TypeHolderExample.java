@@ -73,6 +73,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(example = "what", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
@@ -100,6 +101,7 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @Valid
   @ApiModelProperty(example = "1.234", required = true, value = "")
@@ -128,6 +130,7 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_FLOAT_ITEM)
@@ -155,6 +158,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(example = "-2", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
@@ -182,6 +186,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(example = "true", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
@@ -214,6 +219,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)

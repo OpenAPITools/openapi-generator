@@ -56,7 +56,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
 
     @SuppressWarnings({"hiding"})
-    private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
             FrameworkStrategy.NETSTANDARD_1_3,
             FrameworkStrategy.NETSTANDARD_1_4,
@@ -466,33 +466,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         postProcessEmitDefaultValue(property.vendorExtensions);
 
         super.postProcessModelProperty(model, property);
-    }
-
-    @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        super.postProcessOperationsWithModels(objs, allModels);
-        if (objs != null) {
-            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-            if (operations != null) {
-                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
-                for (CodegenOperation operation : ops) {
-                    if (operation.returnType != null) {
-                        operation.returnContainer = operation.returnType;
-                        if (this.returnICollection && (
-                                operation.returnType.startsWith("List") ||
-                                        operation.returnType.startsWith("Collection"))) {
-                            // NOTE: ICollection works for both List<T> and Collection<T>
-                            int genericStart = operation.returnType.indexOf("<");
-                            if (genericStart > 0) {
-                                operation.returnType = "ICollection" + operation.returnType.substring(genericStart);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return objs;
     }
 
     @Override
@@ -917,7 +890,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         // sanitize name
         name = sanitizeName(name);
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -927,6 +900,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
+        }
+
+        // for function names in the model, escape with the "Property" prefix
+        if (propertySpecialKeywords.contains(name)) {
+            return camelize("property_" + name);
         }
 
         return name;
@@ -948,15 +926,15 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
             // Iterate over all of the parent model properties
             boolean removedChildEnum = false;
-            for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
+            for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
                 // Look for enums
-                if (parentModelCodegenPropery.isEnum) {
+                if (parentModelCodegenProperty.isEnum) {
                     // Now that we have found an enum in the parent class,
                     // and search the child class for the same enum.
                     Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                     while (iterator.hasNext()) {
                         CodegenProperty codegenProperty = iterator.next();
-                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
                             // We found an enum in the child class that is
                             // a duplicate of the one in the parent, so remove it.
                             iterator.remove();
@@ -995,6 +973,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // https://docs.microsoft.com/en-us/dotnet/standard/net-standard
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
+
+        private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+
         static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp2.0") {
         };
         static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "netcoreapp2.0") {

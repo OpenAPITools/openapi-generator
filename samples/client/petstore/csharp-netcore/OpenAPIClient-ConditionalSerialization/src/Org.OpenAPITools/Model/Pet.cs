@@ -64,10 +64,10 @@ namespace Org.OpenAPITools.Model
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
-        
+
         [DataMember(Name = "status", EmitDefaultValue = false)]
-        public StatusEnum? Status 
-        { 
+        public StatusEnum? Status
+        {
             get{ return _Status;}
             set
             {
@@ -106,9 +106,15 @@ namespace Org.OpenAPITools.Model
         public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
         {
             // to ensure "name" is required (not null)
-            this._Name = name ?? throw new ArgumentNullException("name is a required property for Pet and cannot be null");
+            if (name == null) {
+                throw new ArgumentNullException("name is a required property for Pet and cannot be null");
+            }
+            this._Name = name;
             // to ensure "photoUrls" is required (not null)
-            this._PhotoUrls = photoUrls ?? throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
+            if (photoUrls == null) {
+                throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
+            }
+            this._PhotoUrls = photoUrls;
             this._Id = id;
             this._Category = category;
             this._Tags = tags;
@@ -121,13 +127,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public long Id
-        { 
+        {
             get{ return _Id;}
             set
             {
                 _Id = value;
                 _flagId = true;
-            } 
+            }
         }
         private long _Id;
         private bool _flagId;
@@ -145,13 +151,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "category", EmitDefaultValue = false)]
         public Category Category
-        { 
+        {
             get{ return _Category;}
             set
             {
                 _Category = value;
                 _flagCategory = true;
-            } 
+            }
         }
         private Category _Category;
         private bool _flagCategory;
@@ -169,13 +175,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
         public string Name
-        { 
+        {
             get{ return _Name;}
             set
             {
                 _Name = value;
                 _flagName = true;
-            } 
+            }
         }
         private string _Name;
         private bool _flagName;
@@ -193,13 +199,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "photoUrls", IsRequired = true, EmitDefaultValue = false)]
         public List<string> PhotoUrls
-        { 
+        {
             get{ return _PhotoUrls;}
             set
             {
                 _PhotoUrls = value;
                 _flagPhotoUrls = true;
-            } 
+            }
         }
         private List<string> _PhotoUrls;
         private bool _flagPhotoUrls;
@@ -217,13 +223,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "tags", EmitDefaultValue = false)]
         public List<Tag> Tags
-        { 
+        {
             get{ return _Tags;}
             set
             {
                 _Tags = value;
                 _flagTags = true;
-            } 
+            }
         }
         private List<Tag> _Tags;
         private bool _flagTags;

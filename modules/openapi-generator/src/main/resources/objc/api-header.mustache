@@ -16,13 +16,13 @@ extern NSInteger k{{classname}}MissingParamErrorCode;
 {{#operations}}
 {{#operation}}
 /// {{{summary}}}
-/// {{#notes}}{{{notes}}}{{/notes}}
+/// {{{notes}}}
 ///
 /// {{#allParams}}@param {{paramName}} {{description}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 /// {{/allParams}}{{#responses}}
 ///  code:{{{code}}} message:"{{{message}}}"{{^-last}},{{/-last}}{{/responses}}
 ///
-/// @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+/// @return {{{returnType}}}{{^returnType}}void{{/returnType}}
 -(NSURLSessionTask*) {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.x-first-param-alt-name}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{^-first}}
     {{paramName}}{{/-first}}: ({{{dataType}}}) {{paramName}}{{/allParams}}
     {{#hasParams}}completionHandler: {{/hasParams}}(void (^)({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error)) handler;

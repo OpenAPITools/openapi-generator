@@ -198,7 +198,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testArraySchemaIsNotIncluedInAliases() throws Exception {
+    public void testArraySchemaIsNotIncludedInAliases() throws Exception {
         final DefaultCodegen codegen = new DefaultCodegen();
         Map<String, Schema> schemas = new HashMap<String, Schema>() {
             {
@@ -261,12 +261,12 @@ public class DefaultCodegenTest {
         // https://github.com/swagger-api/swagger-parser/issues/1369, the swagger
         // converter does not retain the value of the additionalProperties.
 
-        Map<String, Schema> modelPropSchems = schema.getProperties();
-        Schema map_string_sc = modelPropSchems.get("map_string");
+        Map<String, Schema> modelPropSchemas = schema.getProperties();
+        Schema map_string_sc = modelPropSchemas.get("map_string");
         CodegenProperty map_string_cp = null;
-        Schema map_with_additional_properties_sc = modelPropSchems.get("map_with_additional_properties");
+        Schema map_with_additional_properties_sc = modelPropSchemas.get("map_with_additional_properties");
         CodegenProperty map_with_additional_properties_cp = null;
-        Schema map_without_additional_properties_sc = modelPropSchems.get("map_without_additional_properties");
+        Schema map_without_additional_properties_sc = modelPropSchemas.get("map_without_additional_properties");
         CodegenProperty map_without_additional_properties_cp = null;
 
         for(CodegenProperty cp: cm.vars) {
@@ -350,12 +350,12 @@ public class DefaultCodegenTest {
         // https://github.com/swagger-api/swagger-parser/issues/1369, the swagger
         // converter does not retain the value of the additionalProperties.
 
-        Map<String, Schema> modelPropSchems = schema.getProperties();
-        Schema map_string_sc = modelPropSchems.get("map_string");
+        Map<String, Schema> modelPropSchemas = schema.getProperties();
+        Schema map_string_sc = modelPropSchemas.get("map_string");
         CodegenProperty map_string_cp = null;
-        Schema map_with_additional_properties_sc = modelPropSchems.get("map_with_additional_properties");
+        Schema map_with_additional_properties_sc = modelPropSchemas.get("map_with_additional_properties");
         CodegenProperty map_with_additional_properties_cp = null;
-        Schema map_without_additional_properties_sc = modelPropSchems.get("map_without_additional_properties");
+        Schema map_without_additional_properties_sc = modelPropSchemas.get("map_without_additional_properties");
         CodegenProperty map_without_additional_properties_cp = null;
 
         for(CodegenProperty cp: cm.vars) {
@@ -426,16 +426,16 @@ public class DefaultCodegenTest {
         CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", componentSchema);
         Assert.assertNotNull(cm.getAdditionalProperties());
 
-        Map<String, Schema> modelPropSchems = componentSchema.getProperties();
-        Schema map_with_undeclared_properties_string_sc = modelPropSchems.get("map_with_undeclared_properties_string");
+        Map<String, Schema> modelPropSchemas = componentSchema.getProperties();
+        Schema map_with_undeclared_properties_string_sc = modelPropSchemas.get("map_with_undeclared_properties_string");
         CodegenProperty map_with_undeclared_properties_string_cp = null;
-        Schema map_with_undeclared_properties_anytype_1_sc = modelPropSchems.get("map_with_undeclared_properties_anytype_1");
+        Schema map_with_undeclared_properties_anytype_1_sc = modelPropSchemas.get("map_with_undeclared_properties_anytype_1");
         CodegenProperty map_with_undeclared_properties_anytype_1_cp = null;
-        Schema map_with_undeclared_properties_anytype_2_sc = modelPropSchems.get("map_with_undeclared_properties_anytype_2");
+        Schema map_with_undeclared_properties_anytype_2_sc = modelPropSchemas.get("map_with_undeclared_properties_anytype_2");
         CodegenProperty map_with_undeclared_properties_anytype_2_cp = null;
-        Schema map_with_undeclared_properties_anytype_3_sc = modelPropSchems.get("map_with_undeclared_properties_anytype_3");
+        Schema map_with_undeclared_properties_anytype_3_sc = modelPropSchemas.get("map_with_undeclared_properties_anytype_3");
         CodegenProperty map_with_undeclared_properties_anytype_3_cp = null;
-        Schema empty_map_sc = modelPropSchems.get("empty_map");
+        Schema empty_map_sc = modelPropSchemas.get("empty_map");
         CodegenProperty empty_map_cp = null;
 
         for(CodegenProperty cp: cm.vars) {
@@ -786,7 +786,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void postProcessModelsEnumWithExtention() {
+    public void postProcessModelsEnumWithExtension() {
         final DefaultCodegen codegen = new DefaultCodegen();
         Map<String, Object> objs = codegenModelWithXEnumVarName();
         CodegenModel cm = (CodegenModel) ((Map<String, Object>) ((List<Object>) objs.get("models")).get(0)).get("model");
@@ -887,6 +887,7 @@ public class DefaultCodegenTest {
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("BigCat", "BigCat"));
         Assert.assertEquals(discriminator, test);
+        Assert.assertEquals(animalModel.getHasDiscriminatorWithNonEmptyMapping(), true);
     }
 
     @Test
@@ -905,6 +906,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel personModel = codegen.fromModel("Person", person);
         verifyPersonDiscriminator(personModel.discriminator);
+        Assert.assertEquals(personModel.getHasDiscriminatorWithNonEmptyMapping(), true);
     }
 
     @Test
@@ -916,6 +918,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel childModel = codegen.fromModel("Child", child);
         Assert.assertEquals(childModel.parentSchema, "Person");
+        Assert.assertEquals(childModel.getHasDiscriminatorWithNonEmptyMapping(), false);
     }
 
     @Test
@@ -989,6 +992,7 @@ public class DefaultCodegenTest {
             Schema leafSc = openAPI.getComponents().getSchemas().get(leafModelName);
             CodegenModel leafCm = codegen.fromModel(leafModelName, leafSc);
             Assert.assertEquals(leafCm.discriminator, emptyMapDisc);
+            Assert.assertEquals(leafCm.getHasDiscriminatorWithNonEmptyMapping(), false);
         }
 
         // the Pet discriminator map contains all animals + Reptile (children + grandchildren)
@@ -1004,6 +1008,7 @@ public class DefaultCodegenTest {
         modelName = "Pet";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel pet = codegen.fromModel(modelName, sc);
+        Assert.assertEquals(pet.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(pet.discriminator, petDisc);
 
         // the Reptile discriminator contains both reptiles
@@ -1019,6 +1024,7 @@ public class DefaultCodegenTest {
         modelName = "Reptile";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel reptile = codegen.fromModel(modelName, sc);
+        Assert.assertEquals(reptile.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(reptile.discriminator, reptileDisc);
 
         // the MyPets discriminator contains Cat and Lizard
@@ -1034,12 +1040,14 @@ public class DefaultCodegenTest {
         modelName = "MyPets";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel myPets = codegen.fromModel(modelName, sc);
+        Assert.assertEquals(myPets.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(myPets.discriminator, myPetDisc);
 
         // the MyPetsNoDisc discriminator is created because all oneOf classes have the same discriminator
         modelName = "MyPetsNoDisc";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel myPetsNoDisc = codegen.fromModel(modelName, sc);
+        Assert.assertEquals(myPetsNoDisc.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(myPetsNoDisc.discriminator, myPetDisc);
 
         CodegenModel cm;
@@ -1052,6 +1060,7 @@ public class DefaultCodegenTest {
         hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
         hs.add(new CodegenDiscriminator.MappedModel("B", codegen.toModelName("B")));
         hs.add(new CodegenDiscriminator.MappedModel("C", codegen.toModelName("C")));
+        Assert.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
 
         // the mapping in b is in B
@@ -1061,7 +1070,7 @@ public class DefaultCodegenTest {
         hs.clear();
         hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
         hs.add(new CodegenDiscriminator.MappedModel("C", codegen.toModelName("C")));
-
+        Assert.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
 
         // the mapping in b is in C
@@ -1070,6 +1079,7 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         hs.clear();
         hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
+        Assert.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
     }
 
@@ -1519,12 +1529,12 @@ public class DefaultCodegenTest {
         cm = getModel(allModels, modelName);
         Assert.assertNotNull(cm);
         Assert.assertNotNull(cm.children);
-        List<String> excpectedDiscriminatorValues = new ArrayList<>(Arrays.asList("daily", "sub-obj"));
+        List<String> expectedDiscriminatorValues = new ArrayList<>(Arrays.asList("daily", "sub-obj"));
         ArrayList<String> xDiscriminatorValues = new ArrayList<>();
         for (CodegenModel child: cm.children) {
             xDiscriminatorValues.add((String) child.vendorExtensions.get("x-discriminator-value"));
         }
-        assertEquals(xDiscriminatorValues, excpectedDiscriminatorValues);
+        assertEquals(xDiscriminatorValues, expectedDiscriminatorValues);
 
         // check that the discriminator's MappedModels also contains the x-discriminator-values
         discriminator = new CodegenDiscriminator();
@@ -1713,8 +1723,8 @@ public class DefaultCodegenTest {
         new InlineModelResolver().flatten(openAPI);
         final DefaultCodegen codegen = new DefaultCodegen();
 
-        CodegenModel codedenPetModel = codegen.fromModel("Pet", openAPI.getComponents().getSchemas().get("Pet"));
-        Assert.assertTrue(codedenPetModel.isDeprecated);
+        CodegenModel codegenPetModel = codegen.fromModel("Pet", openAPI.getComponents().getSchemas().get("Pet"));
+        Assert.assertTrue(codegenPetModel.isDeprecated);
 
         CodegenModel codegenFoodModel = codegen.fromModel("Food", openAPI.getComponents().getSchemas().get("Food"));
         Assert.assertTrue(codegenFoodModel.isDeprecated);
@@ -1722,7 +1732,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testDeprecatedProperty() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/property-deplicated.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/property-deprecated.yaml");
         new InlineModelResolver().flatten(openAPI);
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
@@ -1977,8 +1987,8 @@ public class DefaultCodegenTest {
         allowableValues.put("values", values);
         var.setAllowableValues(allowableValues);
         var.dataType = "String";
-        Map<String, Object> extentions = Collections.singletonMap("x-enum-varnames", aliases);
-        var.setVendorExtensions(extentions);
+        Map<String, Object> extensions = Collections.singletonMap("x-enum-varnames", aliases);
+        var.setVendorExtensions(extensions);
         return var;
     }
 
@@ -2002,10 +2012,10 @@ public class DefaultCodegenTest {
         cm.dataType = "String";
         final List<String> aliases = Arrays.asList("DOGVAR", "CATVAR");
         final List<String> descriptions = Arrays.asList("This is a dog", "This is a cat");
-        Map<String, Object> extentions = new HashMap<>();
-        extentions.put("x-enum-varnames", aliases);
-        extentions.put("x-enum-descriptions", descriptions);
-        cm.setVendorExtensions(extentions);
+        Map<String, Object> extensions = new HashMap<>();
+        extensions.put("x-enum-varnames", aliases);
+        extensions.put("x-enum-descriptions", descriptions);
+        cm.setVendorExtensions(extensions);
         cm.setVars(Collections.emptyList());
         Map<String, Object> objs = Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm)));
         return objs;

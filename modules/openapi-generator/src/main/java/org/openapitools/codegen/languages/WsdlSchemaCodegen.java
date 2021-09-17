@@ -18,34 +18,19 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
 import java.text.Normalizer;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.SupportingFile;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
-
-    static final Logger LOGGER = LoggerFactory.getLogger(WsdlSchemaCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SCHEMA;
@@ -131,7 +116,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                     paramVendorExtensions.put("x-param-has-defaultvalue", true);
                 }
 
-                // check if param has a minimum or maximum number or lenght
+                // check if param has a minimum or maximum number or length
                 if (param.minimum != null
                         || param.maximum != null
                         || param.minLength != null
@@ -223,7 +208,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                     propertyVendorExtensions.put("x-prop-has-defaultvalue", true);
                 }
 
-                // check if model property has a minimum or maximum number or lenght
+                // check if model property has a minimum or maximum number or length
                 if (var.minimum != null
                         || var.maximum != null
                         || var.minLength != null

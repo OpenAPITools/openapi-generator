@@ -820,7 +820,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         String varName;
         // sanitize name
         varName = sanitizeName(name);
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             varName = varName.toLowerCase(Locale.ROOT);
         }

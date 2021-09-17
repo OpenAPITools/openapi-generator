@@ -80,7 +80,7 @@ public class ExampleGenerator {
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
             ArraySchema as = (ArraySchema) responseSchema;
-            if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
+            if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // array of primitive types
                 return generate((Map<String, Object>) responseSchema.getExample(),
                         new ArrayList<String>(producesInfo), as.getItems());
             } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
@@ -90,7 +90,7 @@ public class ExampleGenerator {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
             }
-        } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primtiive type (e.g. integer, string)
+        } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primitive type (e.g. integer, string)
             return generate((Map<String, Object>) responseSchema.getExample(),
                     new ArrayList<String>(producesInfo), responseSchema);
         } else { // model

@@ -44,6 +44,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return className;
   }
 
+  @JsonProperty("className")
   public void setClassName(String className) {
     this.className = className;
   }
@@ -64,6 +65,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return color;
   }
 
+  @JsonProperty("color")
   public void setColor(String color) {
     this.color = color;
   }

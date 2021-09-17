@@ -51,7 +51,10 @@ namespace Org.OpenAPITools.Model
         public GrandparentAnimal(string petType = default(string))
         {
             // to ensure "petType" is required (not null)
-            this._PetType = petType ?? throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
+            if (petType == null) {
+                throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
+            }
+            this._PetType = petType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -60,13 +63,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "pet_type", IsRequired = true, EmitDefaultValue = false)]
         public string PetType
-        { 
+        {
             get{ return _PetType;}
             set
             {
                 _PetType = value;
                 _flagPetType = true;
-            } 
+            }
         }
         private string _PetType;
         private bool _flagPetType;

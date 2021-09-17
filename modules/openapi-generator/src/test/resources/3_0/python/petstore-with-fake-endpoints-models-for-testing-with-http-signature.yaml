@@ -1119,7 +1119,7 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -1643,6 +1643,8 @@ components:
           properties:
             breed:
               type: string
+            legs:
+              $ref: '#/components/schemas/Legs'
     Cat:
       allOf:
         - $ref: '#/components/schemas/Animal'
@@ -1650,6 +1652,19 @@ components:
           properties:
             declawed:
               type: boolean
+    Legs:
+      type: object
+      required:
+        - legs
+      properties:
+        legs:
+          enum:
+            - '2'
+            - '4'
+          default: '4'
+          x-enum-as-string: true
+        name:
+          type: string
     Address:
       type: object
       additionalProperties:
@@ -1666,6 +1681,10 @@ components:
         color:
           type: string
           default: red
+        tail:
+          type: boolean
+          default: true
+          readOnly: true
     AnimalFarm:
       type: array
       items:

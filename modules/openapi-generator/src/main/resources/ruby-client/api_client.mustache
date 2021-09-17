@@ -28,7 +28,7 @@ module {{moduleName}}
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(config = Configuration.default)
       @config = config
-      @user_agent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/ruby{{/httpUserAgent}}"
+      @user_agent = "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/ruby{{/httpUserAgent}}"
       @default_headers = {
         'Content-Type' => 'application/json',
         'User-Agent' => @user_agent
@@ -170,7 +170,7 @@ module {{moduleName}}
       @config.base_url(opts[:operation]) + path
     end
 
-    # Update hearder and query params based on authentication settings.
+    # Update header and query params based on authentication settings.
     #
     # @param [Hash] header_params Header parameters
     # @param [Hash] query_params Query parameters

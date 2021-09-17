@@ -14,7 +14,7 @@ using namespace Tiny;
 void test_{{classname}}_{{name}}_is_assigned_from_json()
 {
     {{#isInteger}}
-    bourne::json input = 
+    bourne::json input =
     {
         "{{name}}", 1
     };
@@ -26,7 +26,7 @@ void test_{{classname}}_{{name}}_is_assigned_from_json()
 
 
     {{#isString}}
-    bourne::json input = 
+    bourne::json input =
     {
         "{{name}}", "hello"
     };
@@ -38,7 +38,7 @@ void test_{{classname}}_{{name}}_is_assigned_from_json()
 
 
     {{#isBoolean}}
-    bourne::json input = 
+    bourne::json input =
     {
         "{{name}}", true
     };
@@ -50,7 +50,7 @@ void test_{{classname}}_{{name}}_is_assigned_from_json()
 
 
     {{#isLong}}
-    bourne::json input = 
+    bourne::json input =
     {
         "{{name}}", 1
     };
@@ -62,7 +62,7 @@ void test_{{classname}}_{{name}}_is_assigned_from_json()
 
 
     {{#isFloat}}
-    bourne::json input = 
+    bourne::json input =
     {
         "{{name}}", 1.0
     };
@@ -80,7 +80,7 @@ void test_{{classname}}_{{name}}_is_assigned_from_json()
 void test_{{classname}}_{{name}}_is_converted_to_json()
 {
     {{#isInteger}}
-    bourne::json input = 
+    bourne::json input =
     {
         "{{name}}", 1
     };
@@ -95,7 +95,7 @@ void test_{{classname}}_{{name}}_is_converted_to_json()
     {{/isInteger}}
 
     {{#isString}}
-    bourne::json input = 
+    bourne::json input =
     {
         "{{name}}", "hello"
     };
@@ -110,7 +110,7 @@ void test_{{classname}}_{{name}}_is_converted_to_json()
     {{/isString}}
 
     {{#isBoolean}}
-    bourne::json input = 
+    bourne::json input =
     {
         "{{name}}", true
     };
@@ -125,7 +125,7 @@ void test_{{classname}}_{{name}}_is_converted_to_json()
     {{/isBoolean}}
 
     {{#isLong}}
-    bourne::json input = 
+    bourne::json input =
     {
         "{{name}}", 1
     };
@@ -140,7 +140,7 @@ void test_{{classname}}_{{name}}_is_converted_to_json()
     {{/isLong}}
 
     {{#isFloat}}
-    bourne::json input = 
+    bourne::json input =
     {
         "{{name}}", 1.0
     };

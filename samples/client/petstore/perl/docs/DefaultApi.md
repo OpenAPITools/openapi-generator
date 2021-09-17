@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 
-### Example 
+### Example
 ```perl
 use Data::Dumper;
 use WWW::OpenAPIClient::DefaultApi;
@@ -25,7 +25,7 @@ my $api_instance = WWW::OpenAPIClient::DefaultApi->new(
 );
 
 
-eval { 
+eval {
     my $result = $api_instance->foo_get();
     print Dumper($result);
 };

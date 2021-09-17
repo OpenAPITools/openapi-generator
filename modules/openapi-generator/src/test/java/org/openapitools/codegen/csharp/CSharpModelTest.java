@@ -26,13 +26,41 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.AbstractCSharpCodegen;
 import org.openapitools.codegen.languages.AspNetCoreServerCodegen;
+import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")
 public class CSharpModelTest {
+
+    @Test
+    public void assertOuterEnumIsString() {
+        // this issue has not been found yet in version 2
+        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 2, false), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 2, true), true);
+        Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 3, false), true);
+        Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 3, true), true);
+
+        // this issue has not been found yet in version 2
+        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 2, false), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 2, true), true);
+        Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 3, false), true);
+        Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 3, true), true);
+    }
+
+    public boolean outerEnumVarsIsString(final AbstractCSharpCodegen codegen, final int openApiVersion, final Boolean nullableReferenceTypes){
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/" + Integer.toString(openApiVersion) + "_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        codegen.setNullableReferenceTypes(nullableReferenceTypes);
+        codegen.setOpenAPI(openAPI);
+        Schema schema = openAPI.getComponents().getSchemas().get("Enum_Test");
+        final CodegenModel generated = codegen.fromModel("OuterEnum", schema);
+
+        CodegenProperty cp0 = generated.getVars().get(0);
+        return cp0.isString;
+    }
 
     @Test(description = "convert a model with array property to default List<T>")
     public void arrayPropertyTest() {

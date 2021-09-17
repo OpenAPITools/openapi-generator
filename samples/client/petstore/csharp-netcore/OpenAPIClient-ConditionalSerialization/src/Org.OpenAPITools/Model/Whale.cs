@@ -49,7 +49,10 @@ namespace Org.OpenAPITools.Model
         public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
         {
             // to ensure "className" is required (not null)
-            this._ClassName = className ?? throw new ArgumentNullException("className is a required property for Whale and cannot be null");
+            if (className == null) {
+                throw new ArgumentNullException("className is a required property for Whale and cannot be null");
+            }
+            this._ClassName = className;
             this._HasBaleen = hasBaleen;
             this._HasTeeth = hasTeeth;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -60,13 +63,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "hasBaleen", EmitDefaultValue = true)]
         public bool HasBaleen
-        { 
+        {
             get{ return _HasBaleen;}
             set
             {
                 _HasBaleen = value;
                 _flagHasBaleen = true;
-            } 
+            }
         }
         private bool _HasBaleen;
         private bool _flagHasBaleen;
@@ -84,13 +87,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "hasTeeth", EmitDefaultValue = true)]
         public bool HasTeeth
-        { 
+        {
             get{ return _HasTeeth;}
             set
             {
                 _HasTeeth = value;
                 _flagHasTeeth = true;
-            } 
+            }
         }
         private bool _HasTeeth;
         private bool _flagHasTeeth;
@@ -108,13 +111,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
         public string ClassName
-        { 
+        {
             get{ return _ClassName;}
             set
             {
                 _ClassName = value;
                 _flagClassName = true;
-            } 
+            }
         }
         private string _ClassName;
         private bool _flagClassName;

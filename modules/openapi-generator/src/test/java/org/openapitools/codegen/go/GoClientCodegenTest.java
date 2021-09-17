@@ -72,7 +72,7 @@ public class GoClientCodegenTest {
         Assert.assertFalse(bp.isPrimitiveType);
     }
 
-    @Test(description = "test to ensrue the paramter names are unique")
+    @Test(description = "test to ensure the parameter names are unique")
     public void ensureParameterNameUniqueTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/conflictingParameter.yaml");
         final GoClientCodegen codegen = new GoClientCodegen();

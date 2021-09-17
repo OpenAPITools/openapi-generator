@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -80,7 +81,7 @@ class ApiClient {
       ? '?${urlEncodedQueryParams.join('&')}'
       : '';
 
-    final Uri uri = Uri.parse('$basePath$path$queryString');
+    final uri = Uri.parse('$basePath$path$queryString');
 
     if (nullableContentType != null) {
       headerParams['Content-Type'] = nullableContentType;
@@ -98,7 +99,8 @@ class ApiClient {
         body.finalize().listen(
           request.sink.add,
           onDone: request.sink.close,
-          onError: (error, trace) => request.sink.close(),
+          // ignore: avoid_types_on_closure_parameters
+          onError: (Object error, StackTrace trace) => request.sink.close(),
           cancelOnError: true,
         );
         final response = await _client.send(request);
@@ -123,7 +125,7 @@ class ApiClient {
       switch(method) {
         case 'POST': return await _client.post(uri, headers: nullableHeaderParams, body: msgBody,);
         case 'PUT': return await _client.put(uri, headers: nullableHeaderParams, body: msgBody,);
-        case 'DELETE': return await _client.delete(uri, headers: nullableHeaderParams,);
+        case 'DELETE': return await _client.delete(uri, headers: nullableHeaderParams, body: msgBody,);
         case 'PATCH': return await _client.patch(uri, headers: nullableHeaderParams, body: msgBody,);
         case 'HEAD': return await _client.head(uri, headers: nullableHeaderParams,);
         case 'GET': return await _client.get(uri, headers: nullableHeaderParams,);

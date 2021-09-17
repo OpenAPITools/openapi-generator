@@ -24,7 +24,7 @@ object PetApi {
 }
 
 class PetApi(baseUrl: String) {
-  
+
   /**
    * Expected answers:
    *   code 200 : Pet (successful operation)

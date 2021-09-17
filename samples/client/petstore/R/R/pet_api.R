@@ -51,7 +51,7 @@
 #' Multiple status values can be provided with comma separated strings
 #'
 #' \itemize{
-#' \item \emph{ @param } status Enum < [available, pending, sold] > 
+#' \item \emph{ @param } status Enum < [available, pending, sold] >
 #' \item \emph{ @returnType } list( \link{Pet} ) \cr
 #'
 #'

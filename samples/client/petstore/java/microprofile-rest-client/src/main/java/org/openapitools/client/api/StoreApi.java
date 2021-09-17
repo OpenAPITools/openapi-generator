@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
@@ -79,4 +80,3 @@ public interface StoreApi  {
     @Produces({ "application/xml", "application/json" })
     public Order placeOrder(Order body) throws ApiException, ProcessingException;
 }
-

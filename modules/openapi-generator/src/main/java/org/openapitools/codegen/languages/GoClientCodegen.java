@@ -49,6 +49,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected boolean isGoSubmodule = false;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
+    // A cache to efficiently lookup schema `toModelName()` based on the schema Key
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public GoClientCodegen() {
         super();
 
@@ -312,8 +315,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     @Override
     public String toModelName(String name) {
+        if (schemaKeyToModelNameCache.containsKey(name)) {
+            return schemaKeyToModelNameCache.get(name);
+        }
+
         // underscoring would also lowercase the whole name, thus losing acronyms which are in capitals
-        return camelize(toModel(name, false));
+        String camelizedName = camelize(toModel(name, false));
+        schemaKeyToModelNameCache.put(name, camelizedName);
+        return camelizedName;
     }
 
     public String escapeReservedWord(String name) {
@@ -534,6 +543,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
             String dataType = StringUtils.removeStart(codegenProperty.dataType, "[]");
             if (modelMaps.containsKey(dataType)) {
                 prefix = "[]" + goImportAlias + "." + dataType;
+            }
+            if (codegenProperty.items.isNullable) {
+                // We can't easily generate a pointer inline, so just use nil in that case
+                return prefix + "{nil}";
             }
             return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isMap) { // map

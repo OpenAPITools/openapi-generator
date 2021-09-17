@@ -61,4 +61,3 @@ export function ReadOnlyFirstToJSON(value?: ReadOnlyFirst | null): any {
     };
 }
 
-

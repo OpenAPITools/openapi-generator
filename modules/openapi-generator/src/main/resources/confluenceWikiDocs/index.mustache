@@ -2,7 +2,7 @@ h1. {{{appName}}}
 
 {{{appDescription}}}
 
-{{#version}}*Version:* {{{version}}}{{/version}}
+{{#version}}*Version:* {{{.}}}{{/version}}
 
 ----
 
@@ -15,7 +15,7 @@ h2. Endpoints
 
 h3. {{nickname}}
 {panel:title={{nickname}}|borderStyle=solid|borderColor=#003b6f|titleBGColor=#003b6f|titleColor=#a6b8c7|bgColor=#ffffff}
-    {{#summary}}*Summary:* {{summary}}{{/summary}}
+    {{#summary}}*Summary:* {{.}}{{/summary}}
     *Description:* {{notes}}{{^notes}}*No Description*{{/notes}}
 
 	|| HttpMethod | {status:colour=Yellow|title={{httpMethod}}|subtle=false} |
@@ -76,10 +76,10 @@ h2. Models
         h3. {{classname}}
 
         {{{description}}}
-        
+
         {{#isEnum}} ||Name||Value||Description||
         {{#allowableValues}} {{#enumVars}} |{{{name}}} |{{{value}}} |{{{enumDescription}}} |
-        {{/enumVars}} 
+        {{/enumVars}}
         {{/allowableValues}} {{/isEnum}}
         {{^isEnum}}||Field Name||Required||Type||Description||Enum||
         {{#vars}} |{{baseName}} |{{#required}}(/){{/required}}{{^required}}(x){{/required}} |{noformat:nopanel=true}{{{dataType}}}{noformat} |{{description}} | {{#isEnum}} {{_enum}} {{/isEnum}} |
