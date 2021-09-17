@@ -6050,6 +6050,10 @@ public class DefaultCodegen implements CodegenConfig {
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         List<String> allRequired = new ArrayList<String>();
         Map<String, Schema> properties = new LinkedHashMap<>();
+        // this traverses a composed schema and extracts all properties in each schema into properties
+        // TODO in the future have this return one codegenParameter of type object or composed which includes all definition
+        // that will be needed for complex composition use cases
+        // https://github.com/OpenAPITools/openapi-generator/issues/10415
         addProperties(properties, allRequired, schema);
 
         if (!properties.isEmpty()) {
@@ -6119,6 +6123,10 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenProperty codegenProperty = fromProperty(name, propertySchema);
 
         ModelUtils.syncValidationProperties(propertySchema, codegenProperty);
+        codegenParameter.setTypeProperties(propertySchema);
+        if (ModelUtils.isByteArraySchema(propertySchema)) {
+            codegenParameter.setIsString(false);
+        }
 
         codegenParameter.isFormParam = Boolean.TRUE;
         codegenParameter.baseName = codegenProperty.baseName;
