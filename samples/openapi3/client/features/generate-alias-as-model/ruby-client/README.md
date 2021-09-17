@@ -58,7 +58,7 @@ require 'petstore'
 
 api_instance = Petstore::UsageApi.new
 opts = {
-  body: 3.56 # ArrayAlias | 
+  array_alias: Petstore::ArrayAlias.new # ArrayAlias | 
 }
 
 begin

@@ -32,7 +32,7 @@ let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
 let apiInstance = new OpenApiPetstore.PetApi();
-let pet = {key: null}; // Pet | Pet object that needs to be added to the store
+let pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
 apiInstance.addPet(pet).then(() => {
   console.log('API called successfully.');
 }, (error) => {
@@ -274,7 +274,7 @@ let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
 let apiInstance = new OpenApiPetstore.PetApi();
-let pet = {key: null}; // Pet | Pet object that needs to be added to the store
+let pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
 apiInstance.updatePet(pet).then(() => {
   console.log('API called successfully.');
 }, (error) => {

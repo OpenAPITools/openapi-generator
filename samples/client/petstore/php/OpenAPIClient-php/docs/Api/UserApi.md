@@ -37,7 +37,7 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$user = array('key' => new \OpenAPI\Client\Model\User()); // \OpenAPI\Client\Model\User | Created user object
+$user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | Created user object
 
 try {
     $apiInstance->createUser($user);
@@ -414,7 +414,7 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     new GuzzleHttp\Client()
 );
 $username = 'username_example'; // string | name that need to be deleted
-$user = array('key' => new \OpenAPI\Client\Model\User()); // \OpenAPI\Client\Model\User | Updated user object
+$user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | Updated user object
 
 try {
     $apiInstance->updateUser($username, $user);

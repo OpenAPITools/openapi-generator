@@ -46,7 +46,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    xml_item = {'key': petstore_api.XmlItem()} # XmlItem | XmlItem Body
+    xml_item = petstore_api.XmlItem() # XmlItem | XmlItem Body
 
     try:
         # creates an XmlItem
@@ -168,7 +168,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    body = {'key': petstore_api.OuterComposite()} # OuterComposite | Input composite as post body (optional)
+    body = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
 
     try:
         api_response = api_instance.fake_outer_composite_serialize(body=body)
@@ -351,7 +351,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    body = {'key': petstore_api.FileSchemaTestClass()} # FileSchemaTestClass | 
+    body = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
 
     try:
         api_instance.test_body_with_file_schema(body)
@@ -410,7 +410,7 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     query = 'query_example' # str | 
-body = {'key': petstore_api.User()} # User | 
+body = petstore_api.User() # User | 
 
     try:
         api_instance.test_body_with_query_params(query, body)
@@ -471,7 +471,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    body = {'key': petstore_api.Client()} # Client | client model
+    body = petstore_api.Client() # Client | client model
 
     try:
         # To test \"client\" model

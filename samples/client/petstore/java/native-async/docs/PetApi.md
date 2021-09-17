@@ -53,7 +53,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new HashMap(); // Pet | Pet object that needs to be added to the store
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
             CompletableFuture<Void> result = apiInstance.addPet(body);
         } catch (ApiException e) {
@@ -123,7 +123,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new HashMap(); // Pet | Pet object that needs to be added to the store
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
             CompletableFuture<ApiResponse<Void>> response = apiInstance.addPetWithHttpInfo(body);
             System.out.println("Status code: " + response.get().getStatusCode());
@@ -826,7 +826,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new HashMap(); // Pet | Pet object that needs to be added to the store
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
             CompletableFuture<Void> result = apiInstance.updatePet(body);
         } catch (ApiException e) {
@@ -898,7 +898,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet body = new HashMap(); // Pet | Pet object that needs to be added to the store
+        Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
             CompletableFuture<ApiResponse<Void>> response = apiInstance.updatePetWithHttpInfo(body);
             System.out.println("Status code: " + response.get().getStatusCode());

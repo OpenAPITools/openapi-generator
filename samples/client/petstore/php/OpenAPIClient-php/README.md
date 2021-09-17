@@ -55,7 +55,7 @@ $apiInstance = new OpenAPI\Client\Api\AnotherFakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$client = array('key' => new \OpenAPI\Client\Model\Client()); // \OpenAPI\Client\Model\Client | client model
+$client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
 
 try {
     $result = $apiInstance->call123TestSpecialTags($client);

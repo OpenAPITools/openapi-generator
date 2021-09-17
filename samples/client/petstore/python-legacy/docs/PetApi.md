@@ -50,7 +50,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
-    body = {'key': petstore_api.Pet()} # Pet | Pet object that needs to be added to the store
+    body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
     try:
         # Add a new pet to the store
@@ -417,7 +417,7 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.PetApi(api_client)
-    body = {'key': petstore_api.Pet()} # Pet | Pet object that needs to be added to the store
+    body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
     try:
         # Update an existing pet

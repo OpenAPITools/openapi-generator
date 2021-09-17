@@ -201,7 +201,7 @@
 #' ####################  AddPet  ####################
 #'
 #' library(petstore)
-#' var.body <- {'key' => Pet$new()} # Pet | Pet object that needs to be added to the store
+#' var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
 #'
 #' #Add a new pet to the store
 #' api.instance <- PetApi$new()
@@ -272,7 +272,7 @@
 #' ####################  UpdatePet  ####################
 #'
 #' library(petstore)
-#' var.body <- {'key' => Pet$new()} # Pet | Pet object that needs to be added to the store
+#' var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
 #'
 #' #Update an existing pet
 #' api.instance <- PetApi$new()

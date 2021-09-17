@@ -55,15 +55,12 @@ void OAIPetApiRequest::addPetRequest(){
 
     
  
+    
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
     OAIPet body;
-    foreach(QString key, obj.keys()) {
-        OAIPet val;
-        ::OpenAPI::fromJsonValue(val, obj[key]);
-        body.insert(key, val);
-    }
+    ::OpenAPI::fromJsonValue(body, obj);
     
 
     emit addPet(body);
@@ -139,15 +136,12 @@ void OAIPetApiRequest::updatePetRequest(){
 
     
  
+    
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
     OAIPet body;
-    foreach(QString key, obj.keys()) {
-        OAIPet val;
-        ::OpenAPI::fromJsonValue(val, obj[key]);
-        body.insert(key, val);
-    }
+    ::OpenAPI::fromJsonValue(body, obj);
     
 
     emit updatePet(body);

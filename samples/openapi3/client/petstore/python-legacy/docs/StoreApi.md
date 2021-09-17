@@ -229,7 +229,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.StoreApi(api_client)
-    order = {'key': petstore_api.Order()} # Order | order placed for purchasing the pet
+    order = petstore_api.Order() # Order | order placed for purchasing the pet
 
     try:
         # Place an order for a pet

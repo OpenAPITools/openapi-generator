@@ -24,7 +24,7 @@ require 'petstore'
 
 api_instance = Petstore::UsageApi.new
 opts = {
-  body: 3.56 # ArrayAlias | 
+  array_alias: Petstore::ArrayAlias.new # ArrayAlias | 
 }
 
 begin
@@ -58,7 +58,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **body** | **ArrayAlias** |  | [optional] |
+| **array_alias** | [**ArrayAlias**](ArrayAlias.md) |  | [optional] |
 
 ### Return type
 
@@ -90,7 +90,7 @@ require 'petstore'
 
 api_instance = Petstore::UsageApi.new
 opts = {
-  body: 3.56 # MapAlias | 
+  map_alias: Petstore::MapAlias.new # MapAlias | 
 }
 
 begin
@@ -124,7 +124,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **body** | **MapAlias** |  | [optional] |
+| **map_alias** | [**MapAlias**](MapAlias.md) |  | [optional] |
 
 ### Return type
 

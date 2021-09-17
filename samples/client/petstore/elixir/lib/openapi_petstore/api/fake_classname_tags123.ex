@@ -25,7 +25,7 @@ defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
   {:ok, OpenapiPetstore.Model.Client.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec test_classname(Tesla.Env.client, %{optional(String.t) => }, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
+  @spec test_classname(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
   def test_classname(connection, client, _opts \\ []) do
     %{}
     |> method(:patch)

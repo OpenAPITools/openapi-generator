@@ -39,7 +39,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        User user = new HashMap(); // User | Created user object
+        User user = new User(); // User | Created user object
         try {
             apiInstance.createUser(user);
         } catch (ApiException e) {
@@ -489,7 +489,7 @@ public class Example {
 
         UserApi apiInstance = new UserApi(defaultClient);
         String username = "username_example"; // String | name that need to be deleted
-        User user = new HashMap(); // User | Updated user object
+        User user = new User(); // User | Updated user object
         try {
             apiInstance.updateUser(username, user);
         } catch (ApiException e) {

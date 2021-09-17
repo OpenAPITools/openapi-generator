@@ -70,7 +70,7 @@ void UserApi::create_user_handler(const Pistache::Rest::Request &request, Pistac
 
     // Getting the body param
     
-    User body;std::map<std::string, > body;
+    User body;
     
     try {
         nlohmann::json::parse(request.body()).get_to(body);
@@ -271,7 +271,7 @@ void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistac
     
     // Getting the body param
     
-    User body;std::map<std::string, > body;
+    User body;
     
     try {
         nlohmann::json::parse(request.body()).get_to(body);

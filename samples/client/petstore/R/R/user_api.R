@@ -189,7 +189,7 @@
 #' ####################  CreateUser  ####################
 #'
 #' library(petstore)
-#' var.body <- {'key' => User$new()} # User | Created user object
+#' var.body <- User$new() # User | Created user object
 #'
 #' #Create user
 #' api.instance <- UserApi$new()
@@ -267,7 +267,7 @@
 #'
 #' library(petstore)
 #' var.username <- 'username_example' # character | name that need to be deleted
-#' var.body <- {'key' => User$new()} # User | Updated user object
+#' var.body <- User$new() # User | Updated user object
 #'
 #' #Updated user
 #' api.instance <- UserApi$new()

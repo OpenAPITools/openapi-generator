@@ -84,7 +84,7 @@ public class AnotherFakeApiExample {
         // Configure clients using the `defaultClient` object, such as
         // overriding the host and port, timeout, etc.
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-        Client body = new HashMap(); // Client | client model
+        Client body = new Client(); // Client | client model
         try {
             CompletableFuture<Client> result = apiInstance.call123testSpecialTags(body);
             System.out.println(result.get());

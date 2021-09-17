@@ -48,7 +48,7 @@ class UserApi(
 
         val localVariableAuthNames = listOf<String>()
 
-        val localVariableBody = CreateUserRequest(body)
+        val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -68,16 +68,7 @@ class UserApi(
         ).wrap()
     }
 
-    @Serializable
-    private class CreateUserRequest(val value: Map<kotlin.String, User>) {
-        @Serializer(CreateUserRequest::class)
-        companion object : KSerializer<CreateUserRequest> {
-            private val serializer: KSerializer<Map<kotlin.String, User>> = serializer<Map<String, User>>()
-            override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: CreateUserRequest) = serializer.serialize(encoder, obj.value)
-            override fun deserialize(decoder: Decoder) = CreateUserRequest(serializer.deserialize(decoder))
-        }
-    }
+
 
     /**
      * Creates list of users with given input array
@@ -304,7 +295,7 @@ class UserApi(
 
         val localVariableAuthNames = listOf<String>()
 
-        val localVariableBody = UpdateUserRequest(body)
+        val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -324,15 +315,6 @@ class UserApi(
         ).wrap()
     }
 
-    @Serializable
-    private class UpdateUserRequest(val value: Map<kotlin.String, User>) {
-        @Serializer(UpdateUserRequest::class)
-        companion object : KSerializer<UpdateUserRequest> {
-            private val serializer: KSerializer<Map<kotlin.String, User>> = serializer<Map<String, User>>()
-            override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: UpdateUserRequest) = serializer.serialize(encoder, obj.value)
-            override fun deserialize(decoder: Decoder) = UpdateUserRequest(serializer.deserialize(decoder))
-        }
-    }
+
 
 }

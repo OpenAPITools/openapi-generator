@@ -467,14 +467,9 @@ pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> b
         localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
 
+        if(body.get())
         {
-            std::map<utility::string_t, web::json::value> localVarJsonMap;
-            for( auto& localVarItem : body )
-            {
-                web::json::value jval;
-                localVarJsonMap.insert( std::pair<utility::string_t, web::json::value>(localVarItem.first, ModelBase::toJson(localVarItem.second) ));
-            }
-            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("body"), localVarJsonMap, utility::conversions::to_string_t("application/json")));
+            body->toMultipart(localVarMultipart, utility::conversions::to_string_t("body"));
         }
         
 

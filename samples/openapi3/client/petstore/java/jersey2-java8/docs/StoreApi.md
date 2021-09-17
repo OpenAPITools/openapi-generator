@@ -233,7 +233,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
-        Order order = new HashMap(); // Order | order placed for purchasing the pet
+        Order order = new Order(); // Order | order placed for purchasing the pet
         try {
             Order result = apiInstance.placeOrder(order);
             System.out.println(result);

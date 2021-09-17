@@ -38,7 +38,7 @@ export default class PetApi {
 
     /**
      * Add a new pet to the store
-     * @param {Object.<String, module:model/Pet>} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     addPetWithHttpInfo(pet, opts) {
@@ -80,7 +80,7 @@ export default class PetApi {
 
     /**
      * Add a new pet to the store
-     * @param {Object.<String, module:model/Pet>} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     addPet(pet, opts) {
@@ -289,7 +289,7 @@ export default class PetApi {
 
     /**
      * Update an existing pet
-     * @param {Object.<String, module:model/Pet>} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     updatePetWithHttpInfo(pet, opts) {
@@ -331,7 +331,7 @@ export default class PetApi {
 
     /**
      * Update an existing pet
-     * @param {Object.<String, module:model/Pet>} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     updatePet(pet, opts) {

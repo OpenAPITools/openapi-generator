@@ -40,7 +40,7 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet = array('key' => new \OpenAPI\Client\Model\Pet()); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
     $apiInstance->addPet($pet);
@@ -338,7 +338,7 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet = array('key' => new \OpenAPI\Client\Model\Pet()); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
     $apiInstance->updatePet($pet);

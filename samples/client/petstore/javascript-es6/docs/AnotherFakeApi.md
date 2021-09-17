@@ -22,7 +22,7 @@ To test special tags and operation ID starting with number
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.AnotherFakeApi();
-let client = {key: null}; // Client | client model
+let client = new OpenApiPetstore.Client(); // Client | client model
 apiInstance.call123testSpecialTags(client, (error, data, response) => {
   if (error) {
     console.error(error);

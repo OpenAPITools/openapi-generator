@@ -28,7 +28,7 @@ public interface PathHandlerInterface {
      * </ul>
      *
      * <p><b>Consumes</b>: [{mediaType=application/json}, {mediaType=application/xml}]</p>
-     * <p><b>Payload</b>: {@link java.util.Map Map} of {@link Pet} (<i>required: true</i>)</p>
+     * <p><b>Payload</b>: {@link Pet} (<i>required: true</i>)</p>
      *
      *
      * <p><b>Responses</b>:</p>
@@ -182,7 +182,7 @@ public interface PathHandlerInterface {
      * </ul>
      *
      * <p><b>Consumes</b>: [{mediaType=application/json}, {mediaType=application/xml}]</p>
-     * <p><b>Payload</b>: {@link java.util.Map Map} of {@link Pet} (<i>required: true</i>)</p>
+     * <p><b>Payload</b>: {@link Pet} (<i>required: true</i>)</p>
      *
      *
      * <p><b>Responses</b>:</p>

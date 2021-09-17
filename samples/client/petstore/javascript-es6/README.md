@@ -102,7 +102,7 @@ var OpenApiPetstore = require('open_api_petstore');
 
 
 var api = new OpenApiPetstore.AnotherFakeApi()
-var client = {key: null}; // {Client} client model
+var client = new OpenApiPetstore.Client(); // {Client} client model
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);

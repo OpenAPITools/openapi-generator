@@ -167,7 +167,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    pet = {'key': petstore_api.Pet()} # Pet | Pet object that needs to be added to the store
+    pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 query_1 = 'query_1_example' # str | query parameter (optional)
 header_1 = 'header_1_example' # str | header parameter (optional)
 
@@ -293,7 +293,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    outer_composite = {'key': petstore_api.OuterComposite()} # OuterComposite | Input composite as post body (optional)
+    outer_composite = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
 
     try:
         api_response = api_instance.fake_outer_composite_serialize(outer_composite=outer_composite)
@@ -476,7 +476,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    outer_object_with_enum_property = {'key': petstore_api.OuterObjectWithEnumProperty()} # OuterObjectWithEnumProperty | Input enum (int) as post body
+    outer_object_with_enum_property = petstore_api.OuterObjectWithEnumProperty() # OuterObjectWithEnumProperty | Input enum (int) as post body
 
     try:
         api_response = api_instance.fake_property_enum_integer_serialize(outer_object_with_enum_property)
@@ -597,7 +597,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    file_schema_test_class = {'key': petstore_api.FileSchemaTestClass()} # FileSchemaTestClass | 
+    file_schema_test_class = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
 
     try:
         api_instance.test_body_with_file_schema(file_schema_test_class)
@@ -656,7 +656,7 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     query = 'query_example' # str | 
-user = {'key': petstore_api.User()} # User | 
+user = petstore_api.User() # User | 
 
     try:
         api_instance.test_body_with_query_params(query, user)
@@ -717,7 +717,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    client = {'key': petstore_api.Client()} # Client | client model
+    client = petstore_api.Client() # Client | client model
 
     try:
         # To test \"client\" model

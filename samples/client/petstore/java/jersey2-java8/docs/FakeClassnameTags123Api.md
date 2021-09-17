@@ -39,7 +39,7 @@ public class Example {
         //api_key_query.setApiKeyPrefix("Token");
 
         FakeClassnameTags123Api apiInstance = new FakeClassnameTags123Api(defaultClient);
-        Client body = new HashMap(); // Client | client model
+        Client body = new Client(); // Client | client model
         try {
             Client result = apiInstance.testClassname(body);
             System.out.println(result);

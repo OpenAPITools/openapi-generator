@@ -1026,6 +1026,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             Ok(body) => {
                                 let param_body: Option<swagger::ByteArray> = if !body.is_empty() {
                                     Some(swagger::ByteArray(body.to_vec()))
+                                    match String::from_utf8(body.to_vec()) {
+                                        Ok(param_body) => Some(param_body),
+                                        Err(e) => return Ok(Response::builder()
+                                                        .status(StatusCode::BAD_REQUEST)
+                                                        .body(Body::from(format!("Couldn't parse body parameter body - not valid UTF-8: {}", e)))
+                                                        .expect("Unable to create Bad Request response for invalid body parameter body due to UTF-8")),
+                                    }
                                 } else {
                                     None
                                 };

@@ -47,7 +47,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        User body = new HashMap(); // User | Created user object
+        User body = new User(); // User | Created user object
         try {
             apiInstance.createUser(body);
         } catch (ApiException e) {
@@ -112,7 +112,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        User body = new HashMap(); // User | Created user object
+        User body = new User(); // User | Created user object
         try {
             ApiResponse<Void> response = apiInstance.createUserWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
@@ -960,7 +960,7 @@ public class Example {
 
         UserApi apiInstance = new UserApi(defaultClient);
         String username = "username_example"; // String | name that need to be deleted
-        User body = new HashMap(); // User | Updated user object
+        User body = new User(); // User | Updated user object
         try {
             apiInstance.updateUser(username, body);
         } catch (ApiException e) {
@@ -1028,7 +1028,7 @@ public class Example {
 
         UserApi apiInstance = new UserApi(defaultClient);
         String username = "username_example"; // String | name that need to be deleted
-        User body = new HashMap(); // User | Updated user object
+        User body = new User(); // User | Updated user object
         try {
             ApiResponse<Void> response = apiInstance.updateUserWithHttpInfo(username, body);
             System.out.println("Status code: " + response.getStatusCode());

@@ -9,7 +9,7 @@ using namespace Tiny;
         >
         PetApi::
         addPet(
-            // TODO: Implement Maps
+            
             Pet pet
             
         )
@@ -269,7 +269,7 @@ using namespace Tiny;
         >
         PetApi::
         updatePet(
-            // TODO: Implement Maps
+            
             Pet pet
             
         )

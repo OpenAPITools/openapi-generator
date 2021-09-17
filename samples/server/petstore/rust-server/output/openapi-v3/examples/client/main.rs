@@ -208,7 +208,7 @@ fn main() {
         },
         Some("RequiredOctetStreamPut") => {
             let result = rt.block_on(client.required_octet_stream_put(
-                  swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"))
+                  "BYTE_ARRAY_DATA_HERE".to_string()
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

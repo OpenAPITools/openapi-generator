@@ -38,7 +38,7 @@ export default class UserApi {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {Object.<String, module:model/User>} user Created user object
+     * @param {module:model/User} user Created user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     createUserWithHttpInfo(user) {
@@ -71,7 +71,7 @@ export default class UserApi {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {Object.<String, module:model/User>} user Created user object
+     * @param {module:model/User} user Created user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     createUser(user) {
@@ -362,7 +362,7 @@ export default class UserApi {
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {Object.<String, module:model/User>} user Updated user object
+     * @param {module:model/User} user Updated user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     updateUserWithHttpInfo(username, user) {
@@ -401,7 +401,7 @@ export default class UserApi {
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {Object.<String, module:model/User>} user Updated user object
+     * @param {module:model/User} user Updated user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     updateUser(username, user) {

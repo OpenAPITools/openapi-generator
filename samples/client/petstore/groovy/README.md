@@ -32,7 +32,7 @@ Then, run:
 
 ```groovy
 def apiInstance = new PetApi()
-def pet = new HashMap() // Pet | Pet object that needs to be added to the store
+def pet = new Pet() // Pet | Pet object that needs to be added to the store
 
 apiInstance.addPet(pet)
     {

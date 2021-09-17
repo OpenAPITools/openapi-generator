@@ -156,7 +156,7 @@ class StoreApi(
 
         val localVariableAuthNames = listOf<String>()
 
-        val localVariableBody = PlaceOrderRequest(body)
+        val localVariableBody = body
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -176,15 +176,6 @@ class StoreApi(
         ).wrap()
     }
 
-    @Serializable
-    private class PlaceOrderRequest(val value: Map<kotlin.String, Order>) {
-        @Serializer(PlaceOrderRequest::class)
-        companion object : KSerializer<PlaceOrderRequest> {
-            private val serializer: KSerializer<Map<kotlin.String, Order>> = serializer<Map<String, Order>>()
-            override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: PlaceOrderRequest) = serializer.serialize(encoder, obj.value)
-            override fun deserialize(decoder: Decoder) = PlaceOrderRequest(serializer.deserialize(decoder))
-        }
-    }
+
 
 }

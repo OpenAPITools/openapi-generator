@@ -274,7 +274,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<RequiredOctetStreamPutResponse, ApiError>
     {
         let context = context.clone();
-        info!("required_octet_stream_put({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
+        info!("required_octet_stream_put(\"{}\") - X-Span-ID: {:?}", body, context.get().0.clone());
         Err("Generic failure".into())
     }
 

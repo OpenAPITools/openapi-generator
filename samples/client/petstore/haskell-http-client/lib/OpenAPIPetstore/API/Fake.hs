@@ -66,9 +66,9 @@ import qualified Prelude as P
 -- this route creates an XmlItem
 -- 
 createXmlItem
-  :: (Consumes CreateXmlItem contentType, MimeRender contentType XmlItem2)
+  :: (Consumes CreateXmlItem contentType, MimeRender contentType XmlItem)
   => ContentType contentType -- ^ request content-type ('MimeType')
-  -> XmlItem2 -- ^ "xmlItem" -  XmlItem Body
+  -> XmlItem -- ^ "xmlItem" -  XmlItem Body
   -> OpenAPIPetstoreRequest CreateXmlItem contentType NoContent MimeNoContent
 createXmlItem _ xmlItem =
   _mkRequest "POST" ["/fake/create_xml_item"]
@@ -77,7 +77,7 @@ createXmlItem _ xmlItem =
 data CreateXmlItem 
 
 -- | /Body Param/ "XmlItem" - XmlItem Body
-instance HasBodyParam CreateXmlItem XmlItem2 
+instance HasBodyParam CreateXmlItem XmlItem 
 
 -- | @application/xml@
 instance Consumes CreateXmlItem MimeXML
@@ -138,7 +138,7 @@ fakeOuterCompositeSerialize _  _ =
 data FakeOuterCompositeSerialize 
 
 -- | /Body Param/ "body" - Input composite as post body
-instance HasBodyParam FakeOuterCompositeSerialize BodyOuterComposite 
+instance HasBodyParam FakeOuterCompositeSerialize OuterComposite 
 
 -- | @*/*@
 instance MimeType mtype => Consumes FakeOuterCompositeSerialize mtype
@@ -206,15 +206,15 @@ instance MimeType mtype => Produces FakeOuterStringSerialize mtype
 -- For this test, the body for this request much reference a schema named `File`.
 -- 
 testBodyWithFileSchema
-  :: (Consumes TestBodyWithFileSchema MimeJSON, MimeRender MimeJSON BodyFileSchemaTestClass)
-  => BodyFileSchemaTestClass -- ^ "body"
+  :: (Consumes TestBodyWithFileSchema MimeJSON, MimeRender MimeJSON FileSchemaTestClass)
+  => FileSchemaTestClass -- ^ "body"
   -> OpenAPIPetstoreRequest TestBodyWithFileSchema MimeJSON NoContent MimeNoContent
 testBodyWithFileSchema body =
   _mkRequest "PUT" ["/fake/body-with-file-schema"]
     `setBodyParam` body
 
 data TestBodyWithFileSchema 
-instance HasBodyParam TestBodyWithFileSchema BodyFileSchemaTestClass 
+instance HasBodyParam TestBodyWithFileSchema FileSchemaTestClass 
 
 -- | @application/json@
 instance Consumes TestBodyWithFileSchema MimeJSON
@@ -227,8 +227,8 @@ instance Produces TestBodyWithFileSchema MimeNoContent
 -- | @PUT \/fake\/body-with-query-params@
 -- 
 testBodyWithQueryParams
-  :: (Consumes TestBodyWithQueryParams MimeJSON, MimeRender MimeJSON BodyUser)
-  => BodyUser -- ^ "body"
+  :: (Consumes TestBodyWithQueryParams MimeJSON, MimeRender MimeJSON User)
+  => User -- ^ "body"
   -> Query -- ^ "query"
   -> OpenAPIPetstoreRequest TestBodyWithQueryParams MimeJSON NoContent MimeNoContent
 testBodyWithQueryParams body (Query query) =
@@ -237,7 +237,7 @@ testBodyWithQueryParams body (Query query) =
     `addQuery` toQuery ("query", Just query)
 
 data TestBodyWithQueryParams 
-instance HasBodyParam TestBodyWithQueryParams BodyUser 
+instance HasBodyParam TestBodyWithQueryParams User 
 
 -- | @application/json@
 instance Consumes TestBodyWithQueryParams MimeJSON
@@ -254,8 +254,8 @@ instance Produces TestBodyWithQueryParams MimeNoContent
 -- To test \"client\" model
 -- 
 testClientModel
-  :: (Consumes TestClientModel MimeJSON, MimeRender MimeJSON BodyClient)
-  => BodyClient -- ^ "body" -  client model
+  :: (Consumes TestClientModel MimeJSON, MimeRender MimeJSON Client)
+  => Client -- ^ "body" -  client model
   -> OpenAPIPetstoreRequest TestClientModel MimeJSON Client MimeJSON
 testClientModel body =
   _mkRequest "PATCH" ["/fake"]
@@ -264,7 +264,7 @@ testClientModel body =
 data TestClientModel 
 
 -- | /Body Param/ "body" - client model
-instance HasBodyParam TestClientModel BodyClient 
+instance HasBodyParam TestClientModel Client 
 
 -- | @application/json@
 instance Consumes TestClientModel MimeJSON

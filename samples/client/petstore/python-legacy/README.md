@@ -64,7 +64,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.AnotherFakeApi(api_client)
-    body = {'key': petstore_api.Client()} # Client | client model
+    body = petstore_api.Client() # Client | client model
 
     try:
         # To test special tags

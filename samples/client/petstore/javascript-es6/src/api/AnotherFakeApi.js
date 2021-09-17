@@ -45,7 +45,7 @@ export default class AnotherFakeApi {
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
-     * @param {Object.<String, module:model/Client>} client client model
+     * @param {module:model/Client} client client model
      * @param {module:api/AnotherFakeApi~call123testSpecialTagsCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Client}
      */

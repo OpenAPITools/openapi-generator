@@ -82,7 +82,7 @@ export default class FakeApi {
 
     /**
      * test http signature authentication
-     * @param {Object.<String, module:model/Pet>} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {Object} opts Optional parameters
      * @param {String} opts.query1 query parameter
      * @param {String} opts.header1 header parameter
@@ -120,7 +120,7 @@ export default class FakeApi {
 
     /**
      * test http signature authentication
-     * @param {Object.<String, module:model/Pet>} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {Object} opts Optional parameters
      * @param {String} opts.query1 query parameter
      * @param {String} opts.header1 header parameter
@@ -181,7 +181,7 @@ export default class FakeApi {
     /**
      * Test serialization of object with outer number type
      * @param {Object} opts Optional parameters
-     * @param {Object.<String, module:model/OuterComposite>} opts.outerComposite Input composite as post body
+     * @param {module:model/OuterComposite} opts.outerComposite Input composite as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/OuterComposite} and HTTP response
      */
     fakeOuterCompositeSerializeWithHttpInfo(opts) {
@@ -211,7 +211,7 @@ export default class FakeApi {
     /**
      * Test serialization of object with outer number type
      * @param {Object} opts Optional parameters
-     * @param {Object.<String, module:model/OuterComposite>} opts.outerComposite Input composite as post body
+     * @param {module:model/OuterComposite} opts.outerComposite Input composite as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/OuterComposite}
      */
     fakeOuterCompositeSerialize(opts) {
@@ -312,7 +312,7 @@ export default class FakeApi {
 
     /**
      * Test serialization of enum (int) properties with examples
-     * @param {Object.<String, module:model/OuterObjectWithEnumProperty>} outerObjectWithEnumProperty Input enum (int) as post body
+     * @param {module:model/OuterObjectWithEnumProperty} outerObjectWithEnumProperty Input enum (int) as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/OuterObjectWithEnumProperty} and HTTP response
      */
     fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty) {
@@ -344,7 +344,7 @@ export default class FakeApi {
 
     /**
      * Test serialization of enum (int) properties with examples
-     * @param {Object.<String, module:model/OuterObjectWithEnumProperty>} outerObjectWithEnumProperty Input enum (int) as post body
+     * @param {module:model/OuterObjectWithEnumProperty} outerObjectWithEnumProperty Input enum (int) as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/OuterObjectWithEnumProperty}
      */
     fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty) {
@@ -402,7 +402,7 @@ export default class FakeApi {
 
     /**
      * For this test, the body for this request must reference a schema named `File`.
-     * @param {Object.<String, module:model/FileSchemaTestClass>} fileSchemaTestClass 
+     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass) {
@@ -434,7 +434,7 @@ export default class FakeApi {
 
     /**
      * For this test, the body for this request must reference a schema named `File`.
-     * @param {Object.<String, module:model/FileSchemaTestClass>} fileSchemaTestClass 
+     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     testBodyWithFileSchema(fileSchemaTestClass) {
@@ -447,7 +447,7 @@ export default class FakeApi {
 
     /**
      * @param {String} query 
-     * @param {Object.<String, module:model/User>} user 
+     * @param {module:model/User} user 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
     testBodyWithQueryParamsWithHttpInfo(query, user) {
@@ -484,7 +484,7 @@ export default class FakeApi {
 
     /**
      * @param {String} query 
-     * @param {Object.<String, module:model/User>} user 
+     * @param {module:model/User} user 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
     testBodyWithQueryParams(query, user) {
@@ -498,7 +498,7 @@ export default class FakeApi {
     /**
      * To test \"client\" model
      * To test \"client\" model
-     * @param {Object.<String, module:model/Client>} client client model
+     * @param {module:model/Client} client client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Client} and HTTP response
      */
     testClientModelWithHttpInfo(client) {
@@ -531,7 +531,7 @@ export default class FakeApi {
     /**
      * To test \"client\" model
      * To test \"client\" model
-     * @param {Object.<String, module:model/Client>} client client model
+     * @param {module:model/Client} client client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Client}
      */
     testClientModel(client) {

@@ -75,7 +75,7 @@ import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
 
 let apiInstance = new OpenApiPetstore.FakeApi();
-let pet = {key: null}; // Pet | Pet object that needs to be added to the store
+let pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
 let opts = {
   'query1': "query1_example", // String | query parameter
   'header1': "header1_example" // String | header parameter
@@ -172,7 +172,7 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
 let opts = {
-  'outerComposite': {key: null} // OuterComposite | Input composite as post body
+  'outerComposite': new OpenApiPetstore.OuterComposite() // OuterComposite | Input composite as post body
 };
 apiInstance.fakeOuterCompositeSerialize(opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -309,7 +309,7 @@ Test serialization of enum (int) properties with examples
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
-let outerObjectWithEnumProperty = {key: null}; // OuterObjectWithEnumProperty | Input enum (int) as post body
+let outerObjectWithEnumProperty = new OpenApiPetstore.OuterObjectWithEnumProperty(); // OuterObjectWithEnumProperty | Input enum (int) as post body
 apiInstance.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
 }, (error) => {
@@ -397,7 +397,7 @@ For this test, the body for this request must reference a schema named &#x60;Fil
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
-let fileSchemaTestClass = {key: null}; // FileSchemaTestClass | 
+let fileSchemaTestClass = new OpenApiPetstore.FileSchemaTestClass(); // FileSchemaTestClass | 
 apiInstance.testBodyWithFileSchema(fileSchemaTestClass).then(() => {
   console.log('API called successfully.');
 }, (error) => {
@@ -440,7 +440,7 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
 let query = "query_example"; // String | 
-let user = {key: null}; // User | 
+let user = new OpenApiPetstore.User(); // User | 
 apiInstance.testBodyWithQueryParams(query, user).then(() => {
   console.log('API called successfully.');
 }, (error) => {
@@ -485,7 +485,7 @@ To test \&quot;client\&quot; model
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
-let client = {key: null}; // Client | client model
+let client = new OpenApiPetstore.Client(); // Client | client model
 apiInstance.testClientModel(client).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
 }, (error) => {

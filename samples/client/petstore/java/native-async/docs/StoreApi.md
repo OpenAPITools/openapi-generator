@@ -477,7 +477,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
-        Order body = new HashMap(); // Order | order placed for purchasing the pet
+        Order body = new Order(); // Order | order placed for purchasing the pet
         try {
             CompletableFuture<Order> result = apiInstance.placeOrder(body);
             System.out.println(result.get());
@@ -543,7 +543,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
-        Order body = new HashMap(); // Order | order placed for purchasing the pet
+        Order body = new Order(); // Order | order placed for purchasing the pet
         try {
             CompletableFuture<ApiResponse<Order>> response = apiInstance.placeOrderWithHttpInfo(body);
             System.out.println("Status code: " + response.get().getStatusCode());

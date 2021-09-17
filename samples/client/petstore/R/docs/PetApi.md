@@ -23,7 +23,7 @@ Add a new pet to the store
 ```R
 library(petstore)
 
-var.body <- TODO # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
 #Add a new pet to the store
 api.instance <- PetApi$new()
@@ -248,7 +248,7 @@ Update an existing pet
 ```R
 library(petstore)
 
-var.body <- TODO # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store
 
 #Update an existing pet
 api.instance <- PetApi$new()

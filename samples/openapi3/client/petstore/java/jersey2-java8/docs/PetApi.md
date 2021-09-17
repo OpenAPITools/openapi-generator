@@ -44,7 +44,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet pet = new HashMap(); // Pet | Pet object that needs to be added to the store
+        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
             apiInstance.addPet(pet);
         } catch (ApiException e) {
@@ -399,7 +399,7 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        Pet pet = new HashMap(); // Pet | Pet object that needs to be added to the store
+        Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
             apiInstance.updatePet(pet);
         } catch (ApiException e) {

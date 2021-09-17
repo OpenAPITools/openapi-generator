@@ -45,7 +45,7 @@ export default class UserApi {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {Object.<String, module:model/User>} user Created user object
+     * @param {module:model/User} user Created user object
      * @param {module:api/UserApi~createUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
     createUser(user, callback) {
@@ -334,7 +334,7 @@ export default class UserApi {
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {Object.<String, module:model/User>} user Updated user object
+     * @param {module:model/User} user Updated user object
      * @param {module:api/UserApi~updateUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
     updateUser(username, user, callback) {

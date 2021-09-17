@@ -125,10 +125,10 @@ instance Produces GetOrderById MimeJSON
 -- Place an order for a pet
 -- 
 placeOrder
-  :: (Consumes PlaceOrder contentType, MimeRender contentType BodyOrder)
+  :: (Consumes PlaceOrder contentType, MimeRender contentType Order)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Accept accept -- ^ request accept ('MimeType')
-  -> BodyOrder -- ^ "body" -  order placed for purchasing the pet
+  -> Order -- ^ "body" -  order placed for purchasing the pet
   -> OpenAPIPetstoreRequest PlaceOrder contentType Order accept
 placeOrder _  _ body =
   _mkRequest "POST" ["/store/order"]
@@ -137,7 +137,7 @@ placeOrder _  _ body =
 data PlaceOrder 
 
 -- | /Body Param/ "body" - order placed for purchasing the pet
-instance HasBodyParam PlaceOrder BodyOrder 
+instance HasBodyParam PlaceOrder Order 
 
 -- | @*/*@
 instance MimeType mtype => Consumes PlaceOrder mtype

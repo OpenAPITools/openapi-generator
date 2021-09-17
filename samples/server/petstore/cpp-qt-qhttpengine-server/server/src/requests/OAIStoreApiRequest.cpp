@@ -92,15 +92,12 @@ void OAIStoreApiRequest::placeOrderRequest(){
 
     
  
+    
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
     OAIOrder body;
-    foreach(QString key, obj.keys()) {
-        OAIOrder val;
-        ::OpenAPI::fromJsonValue(val, obj[key]);
-        body.insert(key, val);
-    }
+    ::OpenAPI::fromJsonValue(body, obj);
     
 
     emit placeOrder(body);
