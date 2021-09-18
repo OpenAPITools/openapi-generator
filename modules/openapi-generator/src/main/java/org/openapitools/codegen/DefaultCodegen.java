@@ -4396,6 +4396,21 @@ public class DefaultCodegen implements CodegenConfig {
         return c;
     }
 
+    private void finishUpdatingParameter(CodegenParameter codegenParameter, Parameter parameter) {
+        // default to UNKNOWN_PARAMETER_NAME if paramName is null
+        if (codegenParameter.paramName == null) {
+            LOGGER.warn("Parameter name not defined properly. Default to UNKNOWN_PARAMETER_NAME");
+            codegenParameter.paramName = "UNKNOWN_PARAMETER_NAME";
+        }
+
+        // set the parameter example value
+        // should be overridden by lang codegen
+        setParameterExampleValue(codegenParameter, parameter);
+
+        postProcessParameter(codegenParameter);
+        LOGGER.debug("debugging codegenParameter return: {}", codegenParameter);
+    }
+
     /**
      * Convert OAS Parameter object to Codegen Parameter object
      *
@@ -4455,144 +4470,141 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.warn("Unknown parameter type: {}", parameter.getName());
         }
 
-        if (parameterSchema != null) {
-            parameterSchema = unaliasSchema(parameterSchema, Collections.<String, String>emptyMap());
-            if (parameterSchema == null) {
-                LOGGER.warn("warning!  Schema not found for parameter \" {} \", using String", parameter.getName());
-                parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
+        if (parameterSchema == null) {
+            LOGGER.error("Not handling {} as Body Parameter at the moment", parameter);
+            finishUpdatingParameter(codegenParameter, parameter);
+            return codegenParameter;
+        }
+
+        parameterSchema = unaliasSchema(parameterSchema, Collections.<String, String>emptyMap());
+        if (parameterSchema == null) {
+            LOGGER.warn("warning!  Schema not found for parameter \" {} \", using String", parameter.getName());
+            parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
+            finishUpdatingParameter(codegenParameter, parameter);
+            return codegenParameter;
+        }
+        ModelUtils.syncValidationProperties(parameterSchema, codegenParameter);
+
+        if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
+            codegenParameter.isNullable = true;
+        }
+
+        // set default value
+        codegenParameter.defaultValue = toDefaultParameterValue(parameterSchema);
+
+        if (parameter.getStyle() != null) {
+            codegenParameter.style = parameter.getStyle().toString();
+            codegenParameter.isDeepObject = Parameter.StyleEnum.DEEPOBJECT == parameter.getStyle();
+        }
+
+        // the default value is false
+        // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#user-content-parameterexplode
+        codegenParameter.isExplode = parameter.getExplode() == null ? false : parameter.getExplode();
+
+        // TODO revise collectionFormat, default collection format in OAS 3 appears to multi at least for query parameters
+        // https://swagger.io/docs/specification/serialization/
+        String collectionFormat = null;
+        if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
+            final ArraySchema arraySchema = (ArraySchema) parameterSchema;
+            Schema inner = getSchemaItems(arraySchema);
+
+            collectionFormat = getCollectionFormat(parameter);
+            // default to csv:
+            collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
+            CodegenProperty codegenProperty = fromProperty("inner", inner);
+            codegenParameter.items = codegenProperty;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
+            codegenParameter.baseType = codegenProperty.dataType;
+            codegenParameter.isContainer = true;
+            codegenParameter.isArray = true;
+
+            // recursively add import
+            while (codegenProperty != null) {
+                imports.add(codegenProperty.baseType);
+                codegenProperty = codegenProperty.items;
             }
-            ModelUtils.syncValidationProperties(parameterSchema, codegenParameter);
 
-            if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
-                codegenParameter.isNullable = true;
+        } else if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
+            CodegenProperty codegenProperty = fromProperty("inner", getAdditionalProperties(parameterSchema));
+            codegenParameter.items = codegenProperty;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
+            codegenParameter.baseType = codegenProperty.dataType;
+            codegenParameter.isContainer = true;
+            codegenParameter.isMap = true;
+
+            // recursively add import
+            while (codegenProperty != null) {
+                imports.add(codegenProperty.baseType);
+                codegenProperty = codegenProperty.items;
             }
-
-            // set default value
-            codegenParameter.defaultValue = toDefaultParameterValue(parameterSchema);
-
-            if (parameter.getStyle() != null) {
-                codegenParameter.style = parameter.getStyle().toString();
-                codegenParameter.isDeepObject = Parameter.StyleEnum.DEEPOBJECT == parameter.getStyle();
-            }
-
-            // the default value is false
-            // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#user-content-parameterexplode
-            codegenParameter.isExplode = parameter.getExplode() == null ? false : parameter.getExplode();
-
-            // TODO revise collectionFormat, default collection format in OAS 3 appears to multi at least for query parameters
-            // https://swagger.io/docs/specification/serialization/
-            String collectionFormat = null;
-            if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
-                final ArraySchema arraySchema = (ArraySchema) parameterSchema;
-                Schema inner = getSchemaItems(arraySchema);
-
-                collectionFormat = getCollectionFormat(parameter);
-                // default to csv:
-                collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
-                CodegenProperty codegenProperty = fromProperty("inner", inner);
-                codegenParameter.items = codegenProperty;
-                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-                codegenParameter.baseType = codegenProperty.dataType;
-                codegenParameter.isContainer = true;
-                codegenParameter.isArray = true;
-
-                // recursively add import
-                while (codegenProperty != null) {
-                    imports.add(codegenProperty.baseType);
-                    codegenProperty = codegenProperty.items;
-                }
-
-            } else if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
-                CodegenProperty codegenProperty = fromProperty("inner", getAdditionalProperties(parameterSchema));
-                codegenParameter.items = codegenProperty;
-                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-                codegenParameter.baseType = codegenProperty.dataType;
-                codegenParameter.isContainer = true;
-                codegenParameter.isMap = true;
-
-                // recursively add import
-                while (codegenProperty != null) {
-                    imports.add(codegenProperty.baseType);
-                    codegenProperty = codegenProperty.items;
-                }
-            } else if (ModelUtils.isNullType(parameterSchema)) {
-                codegenParameter.isNull = true;
-            }
+        } else if (ModelUtils.isNullType(parameterSchema)) {
+            codegenParameter.isNull = true;
+        }
 /* TODO revise the logic below
-            } else {
-                Map<PropertyId, Object> args = new HashMap<PropertyId, Object>();
-                String format = qp.getFormat();
-                args.put(PropertyId.ENUM, qp.getEnum());
-                property = PropertyBuilder.build(type, format, args);
-            }
+        } else {
+            Map<PropertyId, Object> args = new HashMap<PropertyId, Object>();
+            String format = qp.getFormat();
+            args.put(PropertyId.ENUM, qp.getEnum());
+            property = PropertyBuilder.build(type, format, args);
+        }
 */
 
-            CodegenProperty codegenProperty = fromProperty(parameter.getName(), parameterSchema);
-            // TODO revise below which seems not working
-            //if (parameterSchema.getRequired() != null && !parameterSchema.getRequired().isEmpty() && parameterSchema.getRequired().contains(codegenProperty.baseName)) {
-            codegenProperty.required = Boolean.TRUE.equals(parameter.getRequired()) ? true : false;
-            //}
-            //codegenProperty.required = true;
+        CodegenProperty codegenProperty = fromProperty(parameter.getName(), parameterSchema);
+        // TODO revise below which seems not working
+        //if (parameterSchema.getRequired() != null && !parameterSchema.getRequired().isEmpty() && parameterSchema.getRequired().contains(codegenProperty.baseName)) {
+        codegenProperty.required = Boolean.TRUE.equals(parameter.getRequired()) ? true : false;
+        //}
+        //codegenProperty.required = true;
 
-            // set boolean flag (e.g. isString)
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+        // set boolean flag (e.g. isString)
+        setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
 
-            String parameterDataType = this.getParameterDataType(parameter, parameterSchema);
-            if (parameterDataType != null) {
-                codegenParameter.dataType = parameterDataType;
-            } else {
-                codegenParameter.dataType = codegenProperty.dataType;
-            }
-            if (ModelUtils.isObjectSchema(parameterSchema)) {
-                codegenProperty.complexType = codegenParameter.dataType;
-            }
-            if (ModelUtils.isSet(parameterSchema)) {
-                imports.add(codegenProperty.baseType);
-            }
-            codegenParameter.dataFormat = codegenProperty.dataFormat;
-            codegenParameter.required = codegenProperty.required;
-
-            if (codegenProperty.isEnum) {
-                codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
-                codegenParameter.enumName = codegenProperty.enumName;
-            }
-
-            // enum
-            updateCodegenPropertyEnum(codegenProperty);
-            codegenParameter.isEnum = codegenProperty.isEnum;
-            codegenParameter._enum = codegenProperty._enum;
-            codegenParameter.allowableValues = codegenProperty.allowableValues;
-
-            if (codegenProperty.items != null && codegenProperty.items.isEnum) {
-                codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
-                codegenParameter.enumName = codegenProperty.enumName;
-                codegenParameter.items = codegenProperty.items;
-                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-            }
-
-            codegenParameter.collectionFormat = collectionFormat;
-            if ("multi".equals(collectionFormat)) {
-                codegenParameter.isCollectionFormatMulti = true;
-            }
-            codegenParameter.paramName = toParamName(parameter.getName());
-
-            // import
-            if (codegenProperty.complexType != null) {
-                imports.add(codegenProperty.complexType);
-            }
-            codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
-
-            addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
-
+        String parameterDataType = this.getParameterDataType(parameter, parameterSchema);
+        if (parameterDataType != null) {
+            codegenParameter.dataType = parameterDataType;
         } else {
-            LOGGER.error("Not handling {} as Body Parameter at the moment", parameter);
+            codegenParameter.dataType = codegenProperty.dataType;
+        }
+        if (ModelUtils.isObjectSchema(parameterSchema)) {
+            codegenProperty.complexType = codegenParameter.dataType;
+        }
+        if (ModelUtils.isSet(parameterSchema)) {
+            imports.add(codegenProperty.baseType);
+        }
+        codegenParameter.dataFormat = codegenProperty.dataFormat;
+        codegenParameter.required = codegenProperty.required;
+
+        if (codegenProperty.isEnum) {
+            codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
+            codegenParameter.enumName = codegenProperty.enumName;
         }
 
-        // default to UNKNOWN_PARAMETER_NAME if paramName is null
-        if (codegenParameter.paramName == null) {
-            LOGGER.warn("Parameter name not defined properly. Default to UNKNOWN_PARAMETER_NAME");
-            codegenParameter.paramName = "UNKNOWN_PARAMETER_NAME";
+        // enum
+        updateCodegenPropertyEnum(codegenProperty);
+        codegenParameter.isEnum = codegenProperty.isEnum;
+        codegenParameter._enum = codegenProperty._enum;
+        codegenParameter.allowableValues = codegenProperty.allowableValues;
+
+        if (codegenProperty.items != null && codegenProperty.items.isEnum) {
+            codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
+            codegenParameter.enumName = codegenProperty.enumName;
+            codegenParameter.items = codegenProperty.items;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
         }
+
+        codegenParameter.collectionFormat = collectionFormat;
+        if ("multi".equals(collectionFormat)) {
+            codegenParameter.isCollectionFormatMulti = true;
+        }
+        codegenParameter.paramName = toParamName(parameter.getName());
+
+        // import
+        if (codegenProperty.complexType != null) {
+            imports.add(codegenProperty.complexType);
+        }
+        codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
+
+        addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
 
         if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
             Schema schema = ModelUtils.getSchema(openAPI, codegenParameter.dataType);
@@ -4616,12 +4628,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        // set the parameter example value
-        // should be overridden by lang codegen
-        setParameterExampleValue(codegenParameter, parameter);
-
-        postProcessParameter(codegenParameter);
-        LOGGER.debug("debugging codegenParameter return: {}", codegenParameter);
+        finishUpdatingParameter(codegenParameter, parameter);
         return codegenParameter;
     }
 
