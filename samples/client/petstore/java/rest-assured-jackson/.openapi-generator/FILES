@@ -68,6 +68,7 @@ src/main/AndroidManifest.xml
 src/main/java/org/openapitools/client/ApiClient.java
 src/main/java/org/openapitools/client/BeanValidationException.java
 src/main/java/org/openapitools/client/JacksonObjectMapper.java
+src/main/java/org/openapitools/client/Oper.java
 src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/ResponseSpecBuilders.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
@@ -75,7 +76,6 @@ src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/api/AnotherFakeApi.java
 src/main/java/org/openapitools/client/api/FakeApi.java
 src/main/java/org/openapitools/client/api/FakeClassnameTags123Api.java
-src/main/java/org/openapitools/client/api/Oper.java
 src/main/java/org/openapitools/client/api/PetApi.java
 src/main/java/org/openapitools/client/api/StoreApi.java
 src/main/java/org/openapitools/client/api/UserApi.java

@@ -13,6 +13,7 @@
 
 package org.openapitools.client.api;
 
+import org.openapitools.client.Oper;
 import com.google.gson.reflect.TypeToken;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;

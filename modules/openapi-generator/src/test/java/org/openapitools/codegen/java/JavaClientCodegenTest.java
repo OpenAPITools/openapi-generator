@@ -131,7 +131,7 @@ public class JavaClientCodegenTest {
         CodegenParameter pathParam2 = createPathParam("pathParam2");
 
         codegenOperation.allParams = Arrays.asList(queryParamRequired, pathParam1, pathParam2, queryParamOptional);
-        Map<String, Object> operations = ImmutableMap.<String, Object>of("operation", Arrays.asList(codegenOperation));
+        Map<String, Object> operations = ImmutableMap.of("operation", Arrays.asList(codegenOperation));
 
         Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
 
@@ -1164,4 +1164,44 @@ public class JavaClientCodegenTest {
                 "formParams.add(\"file\", file);"
         );
     }
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/6872
+     */
+    @Test
+    public void operAsSupportingFile() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.INVOKER_PACKAGE, "xyz.invoker");
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.REST_ASSURED)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+
+        Path oper = Paths.get(output + "/src/main/java/xyz/invoker/Oper.java");
+        TestUtils.assertFileContains(oper,
+                //multiple files
+                "public interface Oper"
+        );
+
+        Path apiContainsOperImport = Paths.get(output + "/src/main/java/xyz/api/PetApi.java");
+        TestUtils.assertFileContains(apiContainsOperImport,
+                //multiple files
+                "import xyz.invoker.Oper;"
+        );
+    }
+
 }
