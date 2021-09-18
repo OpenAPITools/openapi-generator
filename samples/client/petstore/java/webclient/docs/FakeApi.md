@@ -1132,7 +1132,7 @@ No authorization required
 
 ## testQueryParameterCollectionFormat
 
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
 
 
 
@@ -1159,9 +1159,10 @@ public class Example {
         List<String> http = Arrays.asList(); // List<String> | 
         List<String> url = Arrays.asList(); // List<String> | 
         List<String> context = Arrays.asList(); // List<String> | 
+        String allowEmpty = "allowEmpty_example"; // String | 
         Map<String, String> language = new HashMap(); // Map<String, String> | 
         try {
-            apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language);
+            apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testQueryParameterCollectionFormat");
             System.err.println("Status code: " + e.getCode());
@@ -1183,6 +1184,7 @@ Name | Type | Description  | Notes
  **http** | [**List&lt;String&gt;**](String.md)|  |
  **url** | [**List&lt;String&gt;**](String.md)|  |
  **context** | [**List&lt;String&gt;**](String.md)|  |
+ **allowEmpty** | **String**|  |
  **language** | [**Map&lt;String, String&gt;**](String.md)|  | [optional]
 
 ### Return type

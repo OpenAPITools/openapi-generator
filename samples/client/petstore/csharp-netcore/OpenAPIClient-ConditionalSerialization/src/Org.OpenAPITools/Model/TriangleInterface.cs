@@ -47,7 +47,10 @@ namespace Org.OpenAPITools.Model
         public TriangleInterface(string triangleType = default(string))
         {
             // to ensure "triangleType" is required (not null)
-            this._TriangleType = triangleType ?? throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
+            if (triangleType == null) {
+                throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
+            }
+            this._TriangleType = triangleType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

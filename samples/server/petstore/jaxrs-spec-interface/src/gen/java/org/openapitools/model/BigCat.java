@@ -69,6 +69,7 @@ public enum KindEnum {
     return kind;
   }
 
+  @JsonProperty("kind")
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }

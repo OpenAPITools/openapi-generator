@@ -2834,7 +2834,7 @@ public class DefaultCodegen implements CodegenConfig {
                                 "'{}' defines discriminator '{}', but the referenced OneOf schema '{}' is missing {}",
                                 composedSchemaName, discPropName, modelName, discPropName);
                     }
-                    if (cp.dataType == null) {
+                    if (cp != null && cp.dataType == null) {
                         cp = thisCp;
                         continue;
                     }
@@ -3030,13 +3030,16 @@ public class DefaultCodegen implements CodegenConfig {
                 MappedModel mm = new MappedModel(modelName, toModelName(modelName));
                 descendentSchemas.add(mm);
                 Schema cs = ModelUtils.getSchema(openAPI, modelName);
-                Map<String, Object> vendorExtensions = cs.getExtensions();
-                if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
-                    String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                    mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
-                    descendentSchemas.add(mm);
+                if (cs == null) { // cannot lookup the model based on the name
+                    LOGGER.error("Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.", modelName);
+                } else {
+                    Map<String, Object> vendorExtensions = cs.getExtensions();
+                    if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
+                        String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
+                        mm = new MappedModel(xDiscriminatorValue, toModelName(modelName));
+                        descendentSchemas.add(mm);
+                    }
                 }
-
             }
         }
         return descendentSchemas;
@@ -4547,6 +4550,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isQueryParam = true;
+            codegenParameter.isAllowEmptyValue = parameter.getAllowEmptyValue() != null && parameter.getAllowEmptyValue();
         } else if (parameter instanceof PathParameter || "path".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.required = true;
             codegenParameter.isPathParam = true;

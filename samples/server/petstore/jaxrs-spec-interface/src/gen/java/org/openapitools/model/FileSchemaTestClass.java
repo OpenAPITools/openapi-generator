@@ -37,6 +37,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return file;
   }
 
+  @JsonProperty("file")
   public void setFile(java.io.File file) {
     this.file = file;
   }
@@ -57,6 +58,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return files;
   }
 
+  @JsonProperty("files")
   public void setFiles(List<java.io.File> files) {
     this.files = files;
   }

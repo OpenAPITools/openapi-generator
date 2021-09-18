@@ -44,6 +44,7 @@ import qualified Data.CaseInsensitive as CI
 import qualified Data.Data as P (Data, Typeable, TypeRep, typeRep)
 import qualified Data.Foldable as P
 import qualified Data.Ix as P
+import qualified Data.Kind as K (Type)
 import qualified Data.Maybe as P
 import qualified Data.Proxy as P (Proxy(..))
 import qualified Data.Text as T
@@ -55,9 +56,9 @@ import qualified Lens.Micro as L
 import qualified Network.HTTP.Client.MultipartFormData as NH
 import qualified Network.HTTP.Types as NH
 import qualified Prelude as P
+import qualified Text.Printf as T
 import qualified Web.FormUrlEncoded as WH
 import qualified Web.HttpApiData as WH
-import qualified Text.Printf as T
 
 import Control.Applicative ((<|>))
 import Control.Applicative (Alternative)
@@ -560,4 +561,4 @@ _showBinaryBase64 = T.decodeUtf8 . BL.toStrict . BL64.encode . unBinary
 -- * Lens Type Aliases
 
 type Lens_' s a = Lens_ s s a a
-type Lens_ s t a b = forall (f :: * -> *). Functor f => (a -> f b) -> s -> f t
+type Lens_ s t a b = forall (f :: K.Type -> K.Type). Functor f => (a -> f b) -> s -> f t
