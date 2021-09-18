@@ -4441,6 +4441,20 @@ public class DefaultCodegen implements CodegenConfig {
             parameterSchema = null;
         }
 
+        if (parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn())) {
+            codegenParameter.isQueryParam = true;
+            codegenParameter.isAllowEmptyValue = parameter.getAllowEmptyValue() != null && parameter.getAllowEmptyValue();
+        } else if (parameter instanceof PathParameter || "path".equalsIgnoreCase(parameter.getIn())) {
+            codegenParameter.required = true;
+            codegenParameter.isPathParam = true;
+        } else if (parameter instanceof HeaderParameter || "header".equalsIgnoreCase(parameter.getIn())) {
+            codegenParameter.isHeaderParam = true;
+        } else if (parameter instanceof CookieParameter || "cookie".equalsIgnoreCase(parameter.getIn())) {
+            codegenParameter.isCookieParam = true;
+        } else {
+            LOGGER.warn("Unknown parameter type: {}", parameter.getName());
+        }
+
         if (parameterSchema != null) {
             parameterSchema = unaliasSchema(parameterSchema, Collections.<String, String>emptyMap());
             if (parameterSchema == null) {
@@ -4572,20 +4586,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         } else {
             LOGGER.error("Not handling {} as Body Parameter at the moment", parameter);
-        }
-
-        if (parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn())) {
-            codegenParameter.isQueryParam = true;
-            codegenParameter.isAllowEmptyValue = parameter.getAllowEmptyValue() != null && parameter.getAllowEmptyValue();
-        } else if (parameter instanceof PathParameter || "path".equalsIgnoreCase(parameter.getIn())) {
-            codegenParameter.required = true;
-            codegenParameter.isPathParam = true;
-        } else if (parameter instanceof HeaderParameter || "header".equalsIgnoreCase(parameter.getIn())) {
-            codegenParameter.isHeaderParam = true;
-        } else if (parameter instanceof CookieParameter || "cookie".equalsIgnoreCase(parameter.getIn())) {
-            codegenParameter.isCookieParam = true;
-        } else {
-            LOGGER.warn("Unknown parameter type: {}", parameter.getName());
         }
 
         // default to UNKNOWN_PARAMETER_NAME if paramName is null
