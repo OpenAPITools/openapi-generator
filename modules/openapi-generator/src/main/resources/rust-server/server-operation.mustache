@@ -309,23 +309,6 @@
                                         reader.read_to_end(&mut data).expect("Reading saved binary data should never fail");
                                         swagger::ByteArray(data)
                                 {{/isBinary}}
-                                {{#isByteArray}}
-                                  {{#jsonSchema}}
-                                        let mut data = String::new();
-                                        reader.read_to_string(&mut data).expect("Reading saved String should never fail");
-                                        let {{{paramName}}}_model: {{{dataType}}} = match serde_json::from_str(&data) {
-                                            Ok(model) => model,
-                                            Err(e) => {
-                                                return Ok(
-                                                    Response::builder()
-                                                    .status(StatusCode::BAD_REQUEST)
-                                                    .body(Body::from(format!("{{{baseName}}} data does not match API definition : {}", e)))
-                                                    .expect("Unable to create Bad Request due to missing required form parameter {{{baseName}}}"))
-                                            }
-                                        };
-                                        {{{paramName}}}_model
-                                  {{/jsonSchema}}
-                                {{/isByteArray}}
                                 {{#isModel}}
                                     {{#jsonSchema}}
                                         let mut data = String::new();
@@ -345,7 +328,6 @@
                                 {{/isModel}}
                                 {{#isPrimitiveType}}
                                     {{^isBinary}}
-                                    {{^isByteArray}}
                                         let mut data = String::new();
                                         reader.read_to_string(&mut data).expect("Reading saved String should never fail");
                                         match <{{{dataType}}} as std::str::FromStr>::from_str(&data) {
@@ -358,7 +340,6 @@
                                                     .expect("Unable to create Bad Request due to missing required form parameter {{{baseName}}}"))
                                             }
                                         }
-                                    {{/isByteArray}}
                                     {{/isBinary}}
                                 {{/isPrimitiveType}}
                 {{^required}}

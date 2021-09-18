@@ -392,7 +392,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         let mut reader = field[0].data.readable().expect("Unable to read field for binary_field");
                                         let mut data = String::new();
                                         reader.read_to_string(&mut data).expect("Reading saved String should never fail");
-                                        let binary_field_model: swagger::ByteArray = match serde_json::from_str(&data) {
+                                        match <swagger::ByteArray as std::str::FromStr>::from_str(&data) {
                                             Ok(model) => model,
                                             Err(e) => {
                                                 return Ok(
@@ -401,8 +401,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                     .body(Body::from(format!("binary_field data does not match API definition : {}", e)))
                                                     .expect("Unable to create Bad Request due to missing required form parameter binary_field"))
                                             }
-                                        };
-                                        binary_field_model
+                                        }
                                     },
                                     None => {
                                         return Ok(
