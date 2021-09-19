@@ -125,6 +125,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         importMapping.remove("Set");
         importMapping.remove("Map");
 
+        // TODO: there is no specific sttp mapping. All Scala Type mappings should be in AbstractScala
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Seq");
         typeMapping.put("set", "Set");
@@ -143,6 +144,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
         typeMapping.put("decimal", "BigDecimal");
+        typeMapping.put("ByteArray", "Array[Byte]");
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
