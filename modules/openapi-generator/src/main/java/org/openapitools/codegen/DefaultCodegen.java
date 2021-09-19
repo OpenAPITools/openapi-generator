@@ -1560,6 +1560,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("char", "String");
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "Integer");
+        // FIXME: java specific type should be in Java Based Abstract Impl's
         typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("binary", "File");
         typeMapping.put("file", "File");

@@ -143,8 +143,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
         typeMapping.put("decimal", "BigDecimal");
-        typeMapping.put("ByteArray", "Array[Byte]");
-        typeMapping.put("ArrayByte", "Array[Byte]");
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
