@@ -6402,10 +6402,8 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.dataType = getTypeDeclaration(arraySchema);
             codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
-            codegenParameter.isArray = Boolean.TRUE;
             codegenParameter.isNullable = codegenProperty.isNullable;
 
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
 
