@@ -6259,7 +6259,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
         }
