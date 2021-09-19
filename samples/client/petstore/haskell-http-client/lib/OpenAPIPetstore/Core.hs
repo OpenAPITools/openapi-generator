@@ -67,7 +67,7 @@ import Data.Function ((&))
 import Data.Foldable(foldlM)
 import Data.Monoid ((<>))
 import Data.Text (Text)
-import Prelude (($), (.), (<$>), (<*>), Maybe(..), Bool(..), Char, String, fmap, mempty, pure, return, show, IO, Monad, Functor)
+import Prelude (($), (.), (&&), (<$>), (<*>), Maybe(..), Bool(..), Char, String, fmap, mempty, pure, return, show, IO, Monad, Functor, maybe)
 
 -- * OpenAPIPetstoreConfig
 
@@ -79,6 +79,7 @@ data OpenAPIPetstoreConfig = OpenAPIPetstoreConfig
   , configLogContext :: LogContext -- ^ Configures the logger
   , configAuthMethods :: [AnyAuthMethod] -- ^ List of configured auth methods
   , configValidateAuthMethods :: Bool -- ^ throw exceptions if auth methods are not configured
+  , configQueryExtraUnreserved :: B.ByteString -- ^ Configures additional querystring characters which must not be URI encoded, e.g. '+' or ':' 
   }
 
 -- | display the config
@@ -109,6 +110,7 @@ newConfig = do
         , configLogContext = logCxt
         , configAuthMethods = []
         , configValidateAuthMethods = True
+        , configQueryExtraUnreserved = ""
         }
 
 -- | updates config use AuthMethod on matching requests
@@ -335,6 +337,16 @@ toForm (k,v) = WH.toForm [(BC.unpack k,v)]
 toQuery :: WH.ToHttpApiData a => (BC.ByteString, Maybe a) -> [NH.QueryItem]
 toQuery x = [(fmap . fmap) toQueryParam x]
   where toQueryParam = T.encodeUtf8 . WH.toQueryParam
+
+toPartialEscapeQuery :: B.ByteString -> NH.Query -> NH.PartialEscapeQuery
+toPartialEscapeQuery extraUnreserved query = fmap (\(k, v) -> (k, maybe [] go v)) query
+  where go :: B.ByteString -> [NH.EscapeItem]
+        go v = v & B.groupBy (\a b -> a `B.notElem` extraUnreserved && b `B.notElem` extraUnreserved)
+                 & fmap (\xs -> if B.null xs then NH.QN xs
+                                  else if B.head xs `B.elem` extraUnreserved
+                                          then NH.QN xs -- Not Encoded
+                                          else NH.QE xs -- Encoded
+                        )
 
 -- *** OpenAPI `CollectionFormat` Utils
 

@@ -152,6 +152,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String apiNamePrefix = "", apiNameSuffix = "Api";
     protected String testPackage = "";
+    protected String filesMetadataFilename = "FILES";
+    protected String versionMetadataFilename = "VERSION";
     /*
     apiTemplateFiles are for API outputs only (controllers/handlers).
     API templates may be written multiple times; APIs are grouped by tag and the file is written once per tag group.
@@ -1175,6 +1177,24 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public void setInputSpec(String inputSpec) {
         this.inputSpec = inputSpec;
+    }
+
+    @Override
+    public String getFilesMetadataFilename() {
+        return filesMetadataFilename;
+    }
+
+    public void setFilesMetadataFilename(String filesMetadataFilename) {
+        this.filesMetadataFilename = filesMetadataFilename;
+    }
+
+    @Override
+    public String getVersionMetadataFilename() {
+        return versionMetadataFilename;
+    }
+
+    public void setVersionMetadataFilename(String versionMetadataFilename) {
+        this.versionMetadataFilename = versionMetadataFilename;
     }
 
     public void setTemplateDir(String templateDir) {
