@@ -6316,7 +6316,6 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 codegenParameter.baseName = bodyParameterName;
             }
-            codegenParameter.isNull = codegenProperty.isNull;
             codegenParameter.isPrimitiveType = true;
             codegenParameter.baseType = codegenProperty.baseType;
             codegenParameter.dataType = codegenProperty.dataType;
@@ -6330,7 +6329,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
         }
-        setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
         // set nullable
         setParameterNullable(codegenParameter, codegenProperty);
     }
