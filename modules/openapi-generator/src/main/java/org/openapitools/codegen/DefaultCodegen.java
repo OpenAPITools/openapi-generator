@@ -6301,8 +6301,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isMap = Boolean.TRUE;
             codegenParameter.isNullable = codegenProperty.isNullable;
 
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
         }
