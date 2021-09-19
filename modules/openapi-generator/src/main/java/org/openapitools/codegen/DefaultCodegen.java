@@ -6342,6 +6342,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (isFreeFormObject(schema)) {
             // non-composed object type with no properties + additionalProperties
             // additionalProperties must be null, ObjectSchema, or empty Schema
+            codegenParameter.isFreeFormObject = true;
 
             // HTTP request body is free form object
             CodegenProperty codegenProperty = fromProperty("FREE_FORM_REQUEST_BODY", schema);
@@ -6358,7 +6359,6 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.isNullable = codegenProperty.isNullable;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
             }
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
         } else if (ModelUtils.isObjectSchema(schema)) {
