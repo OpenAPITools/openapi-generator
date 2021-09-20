@@ -6046,38 +6046,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // array of schema
                 if (ModelUtils.isArraySchema(s)) {
                     final ArraySchema arraySchema = (ArraySchema) s;
-                    Schema inner = getSchemaItems(arraySchema);
-
-                    codegenParameter = fromFormProperty(entry.getKey(), inner, imports);
-                    CodegenProperty codegenProperty = fromProperty("inner", inner);
-                    codegenParameter.items = codegenProperty;
-                    codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-                    codegenParameter.baseType = codegenProperty.dataType;
-                    codegenParameter.isPrimitiveType = false;
-                    codegenParameter.isContainer = true;
-                    codegenParameter.isArray = true;
-                    codegenParameter.description = escapeText(s.getDescription());
-                    codegenParameter.dataType = getTypeDeclaration(arraySchema);
-                    if (codegenParameter.baseType != null && codegenParameter.enumName != null) {
-                        codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
-                    } else {
-                        LOGGER.warn("Could not compute datatypeWithEnum from {}, {}", codegenParameter.baseType, codegenParameter.enumName);
-                    }
-                    //TODO fix collectionFormat for form parameters
-                    //collectionFormat = getCollectionFormat(s);
-                    String collectionFormat = getCollectionFormat(codegenParameter);
-                    // default to csv:
-                    codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
-
-                    // set nullable
-                    setParameterNullable(codegenParameter, codegenProperty);
-
-                    // recursively add import
-                    while (codegenProperty != null) {
-                        imports.add(codegenProperty.baseType);
-                        codegenProperty = codegenProperty.items;
-                    }
-
+                    codegenParameter = fromFormProperty(entry.getKey(), s, imports);
                 } else if (ModelUtils.isMapSchema(s)) {
                     LOGGER.error("Map of form parameters not supported. Please report the issue to https://github.com/openapitools/openapi-generator if you need help.");
                     continue;
@@ -6109,6 +6078,13 @@ public class DefaultCodegen implements CodegenConfig {
         if (ps.getPattern() != null) {
             codegenParameter.pattern = toRegularExpression(ps.getPattern());
         }
+
+        codegenParameter.baseType = codegenProperty.baseType;
+        codegenParameter.dataType = codegenProperty.dataType;
+        codegenParameter.defaultValue = codegenProperty.getDefaultValue();
+        codegenParameter.baseName = codegenProperty.baseName;
+        codegenParameter.paramName = toParamName((codegenParameter.baseName));
+        codegenParameter.dataFormat = codegenProperty.dataFormat;
 
         if (ModelUtils.isStringSchema(ps)) {
             if (ModelUtils.isEmailSchema(ps)) {
@@ -6170,6 +6146,38 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isAnyType(ps)) {
             // any schema with no type set, composed schemas often do this
             ;
+        } else if (ModelUtils.isArraySchema(ps)) {
+            Schema inner = getSchemaItems((ArraySchema) ps);
+            CodegenProperty arrayInnerProperty = fromProperty("inner", inner);
+            codegenParameter.items = arrayInnerProperty;
+            codegenParameter.mostInnerItems = arrayInnerProperty.mostInnerItems;
+            codegenParameter.isPrimitiveType = false;
+            codegenParameter.isContainer = true;
+            // hoist items data into the array property
+            // TODO this hoisting code is generator specific and should be isolated into updateFormPropertyForArray
+            codegenParameter.baseType = arrayInnerProperty.dataType;
+            codegenParameter.defaultValue = arrayInnerProperty.getDefaultValue();
+            if (codegenParameter.items.isFile) {
+                codegenParameter.isFile = true;
+                codegenParameter.dataFormat = codegenParameter.items.dataFormat;
+            }
+            if (arrayInnerProperty.baseType != null && arrayInnerProperty.enumName != null) {
+                codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(arrayInnerProperty.baseType, arrayInnerProperty.enumName);
+            } else {
+                LOGGER.warn("Could not compute datatypeWithEnum from {}, {}", arrayInnerProperty.baseType, arrayInnerProperty.enumName);
+            }
+            // end of hoisting
+            //TODO fix collectionFormat for form parameters
+            //collectionFormat = getCollectionFormat(s);
+            String collectionFormat = getCollectionFormat(codegenParameter);
+            // default to csv:
+            codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
+
+            // recursively add import
+            while (arrayInnerProperty != null) {
+                imports.add(arrayInnerProperty.baseType);
+                arrayInnerProperty = arrayInnerProperty.items;
+            }
         } else {
             // referenced schemas
             ;
@@ -6180,15 +6188,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         codegenParameter.isFormParam = Boolean.TRUE;
-        codegenParameter.baseName = codegenProperty.baseName;
-        codegenParameter.paramName = toParamName((codegenParameter.baseName));
-        codegenParameter.baseType = codegenProperty.baseType;
-        codegenParameter.dataType = codegenProperty.dataType;
-        codegenParameter.dataFormat = codegenProperty.dataFormat;
         codegenParameter.description = escapeText(codegenProperty.description);
         codegenParameter.unescapedDescription = codegenProperty.getDescription();
         codegenParameter.jsonSchema = Json.pretty(propertySchema);
-        codegenParameter.defaultValue = codegenProperty.getDefaultValue();
 
         if (codegenProperty.getVendorExtensions() != null && !codegenProperty.getVendorExtensions().isEmpty()) {
             codegenParameter.vendorExtensions = codegenProperty.getVendorExtensions();
