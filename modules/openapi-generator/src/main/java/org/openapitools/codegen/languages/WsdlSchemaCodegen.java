@@ -145,18 +145,21 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
                 // if param is enum, uppercase 'baseName' to have a reference to wsdl simpletype
                 if (param.isEnum) {
-                    param.baseName = param.baseName.substring(0, 1).toUpperCase() + param.baseName.substring(1);
+                    param.baseName = param.baseName.substring(0, 1).toUpperCase()
+                            + param.baseName.substring(1);
                 }
             }
 
-            // uppercase data-/basetype just in case when schema-name is lowercase in openapi to have a correct reference to wsdl complextype
-            for (CodegenResponse response: op.responses) {
+            // handle case lowercase schema-name in openapi to have reference to wsdl complextype
+            for (CodegenResponse response : op.responses) {
                 if (response.isModel) {
-                    response.dataType = response.dataType.substring(0, 1).toUpperCase() + response.dataType.substring(1); 
+                    response.dataType = response.dataType.substring(0, 1).toUpperCase()
+                            + response.dataType.substring(1); 
                 }
 
                 if (response.isArray) {
-                    response.baseType = response.baseType.substring(0, 1).toUpperCase() + response.baseType.substring(1);
+                    response.baseType = response.baseType.substring(0, 1).toUpperCase()
+                            + response.baseType.substring(1);
                 }
             }
 
@@ -206,11 +209,12 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
                 // lowercase basetypes if openapitype is string
                 if ("string".equals(var.openApiType)) {
-                    var.baseType = var.baseType.substring(0, 1).toLowerCase() + var.baseType.substring(1);
+                    var.baseType = var.baseType.substring(0, 1).toLowerCase()
+                            + var.baseType.substring(1);
                 }
                 // if string enum, uppercase 'name' to have a reference to wsdl simpletype
                 if (var.isEnum) {
-                    var.name = var.name.substring(0, 1).toUpperCase() +var.name.substring(1);
+                    var.name = var.name.substring(0, 1).toUpperCase() + var.name.substring(1);
                 }
                 // prevent default="null" in wsdl-tag if no default was specified for a property
                 if ("null".equals(var.defaultValue) || var.defaultValue == null) {
@@ -232,8 +236,10 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                 // specify appearing schema names in case of openapi array with oneOf elements
                 if (var.openApiType == "array" && var.items.dataType.startsWith("oneOf<")) {
                     // get only comma separated names of schemas from oneOf<name1,name2...>
-                    String schemaNamesString = var.items.dataType.substring(6, var.items.dataType.length() - 1);
-                    List<String> oneofSchemas = new ArrayList<String>(Arrays.asList(schemaNamesString.split("\\s*,\\s*")));
+                    String schemaNamesString =
+                            var.items.dataType.substring(6, var.items.dataType.length() - 1);
+                    List<String> oneofSchemas =
+                            new ArrayList<String>(Arrays.asList(schemaNamesString.split("\\s*,\\s*")));
 
                     for (int i = 0; i < oneofSchemas.size(); i++) {
                         oneofSchemas.set(i, lowerCaseStringExceptFirstLetter(oneofSchemas.get(i)));
@@ -257,7 +263,8 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                 pathElements[i] = "";
             }
             if (pathElements[i].length() > 0) {
-                newOperationid = newOperationid + this.lowerCaseStringExceptFirstLetter(pathElements[i]);
+                newOperationid = newOperationid
+                    + this.lowerCaseStringExceptFirstLetter(pathElements[i]);
             }
         }
 
