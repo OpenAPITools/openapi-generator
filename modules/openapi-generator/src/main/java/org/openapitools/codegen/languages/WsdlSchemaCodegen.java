@@ -30,23 +30,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Arrays;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.SupportingFile;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
