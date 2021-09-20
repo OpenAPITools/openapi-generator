@@ -118,9 +118,15 @@ int PFXStoreApi::addServerConfiguration(const QString &operation, const QUrl &ur
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
 void PFXStoreApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
         setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
+#else
+    for (auto &e : _serverIndices.keys()) {
+        setServerIndex(e, addServerConfiguration(e, url, description, variables));
+    }
+#endif
 }
 
 /**
@@ -235,9 +241,15 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     PFXHttpRequestInput input(fullPath, "DELETE");
 
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
@@ -281,9 +293,15 @@ void PFXStoreApi::getInventory() {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
@@ -347,9 +365,15 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
@@ -394,9 +418,15 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
         QByteArray output = body.asJson().toUtf8();
         input.request_body.append(output);
     }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
+#else
+    for (auto key : _defaultHeaders.keys()) {
+        input.headers.insert(key, _defaultHeaders[key]);
+    }
+#endif
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);

@@ -24,7 +24,7 @@ open class AnotherFakeAPI {
      */
     #if canImport(Combine)
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<Client, Error> {
+    open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Client, Error> {
         return Future<Client, Error>.init { promise in
             call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
@@ -47,7 +47,7 @@ open class AnotherFakeAPI {
      */
     open class func call123testSpecialTagsWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let localVariablePath = "/another-fake/dummy"
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -58,7 +58,7 @@ open class AnotherFakeAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
