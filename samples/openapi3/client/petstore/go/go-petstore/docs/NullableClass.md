@@ -283,20 +283,20 @@ HasArrayNullableProp returns a boolean if a field has been set.
 UnsetArrayNullableProp ensures that no value is present for ArrayNullableProp, not even an explicit nil
 ### GetArrayAndItemsNullableProp
 
-`func (o *NullableClass) GetArrayAndItemsNullableProp() []*map[string]interface{}`
+`func (o *NullableClass) GetArrayAndItemsNullableProp() []map[string]interface{}`
 
 GetArrayAndItemsNullableProp returns the ArrayAndItemsNullableProp field if non-nil, zero value otherwise.
 
 ### GetArrayAndItemsNullablePropOk
 
-`func (o *NullableClass) GetArrayAndItemsNullablePropOk() (*[]*map[string]interface{}, bool)`
+`func (o *NullableClass) GetArrayAndItemsNullablePropOk() (*[]map[string]interface{}, bool)`
 
 GetArrayAndItemsNullablePropOk returns a tuple with the ArrayAndItemsNullableProp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArrayAndItemsNullableProp
 
-`func (o *NullableClass) SetArrayAndItemsNullableProp(v []*map[string]interface{})`
+`func (o *NullableClass) SetArrayAndItemsNullableProp(v []map[string]interface{})`
 
 SetArrayAndItemsNullableProp sets ArrayAndItemsNullableProp field to given value.
 
@@ -318,20 +318,20 @@ HasArrayAndItemsNullableProp returns a boolean if a field has been set.
 UnsetArrayAndItemsNullableProp ensures that no value is present for ArrayAndItemsNullableProp, not even an explicit nil
 ### GetArrayItemsNullable
 
-`func (o *NullableClass) GetArrayItemsNullable() []*map[string]interface{}`
+`func (o *NullableClass) GetArrayItemsNullable() []map[string]interface{}`
 
 GetArrayItemsNullable returns the ArrayItemsNullable field if non-nil, zero value otherwise.
 
 ### GetArrayItemsNullableOk
 
-`func (o *NullableClass) GetArrayItemsNullableOk() (*[]*map[string]interface{}, bool)`
+`func (o *NullableClass) GetArrayItemsNullableOk() (*[]map[string]interface{}, bool)`
 
 GetArrayItemsNullableOk returns a tuple with the ArrayItemsNullable field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetArrayItemsNullable
 
-`func (o *NullableClass) SetArrayItemsNullable(v []*map[string]interface{})`
+`func (o *NullableClass) SetArrayItemsNullable(v []map[string]interface{})`
 
 SetArrayItemsNullable sets ArrayItemsNullable field to given value.
 
