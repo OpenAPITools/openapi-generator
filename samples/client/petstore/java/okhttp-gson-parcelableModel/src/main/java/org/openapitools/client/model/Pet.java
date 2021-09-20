@@ -206,7 +206,7 @@ public class Pet implements Parcelable {
   }
 
 
-  @JsonDeserialize(using = LinkedHashSet.class)
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }

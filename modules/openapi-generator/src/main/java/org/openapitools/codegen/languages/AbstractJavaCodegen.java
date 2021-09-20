@@ -1283,7 +1283,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             } else if ("set".equals(property.containerType)) {
                 model.imports.add("LinkedHashSet");
                 model.imports.add("JsonDeserialize");
-                property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(using = LinkedHashSet.class)");
+                property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");
             } else if ("map".equals(property.containerType)) {
                 model.imports.add("HashMap");
             }

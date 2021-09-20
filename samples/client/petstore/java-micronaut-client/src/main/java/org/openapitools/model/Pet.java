@@ -192,7 +192,7 @@ public class Pet {
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
-  @JsonDeserialize(using = LinkedHashSet.class)
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }

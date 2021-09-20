@@ -136,7 +136,7 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
     return photoUrls;
   }
 
-  @JsonDeserialize(using = LinkedHashSet.class)
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
