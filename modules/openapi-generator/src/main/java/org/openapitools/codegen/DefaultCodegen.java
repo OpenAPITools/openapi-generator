@@ -6103,10 +6103,80 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("Debugging fromFormProperty {}: {}", name, propertySchema);
         CodegenProperty codegenProperty = fromProperty(name, propertySchema);
 
-        ModelUtils.syncValidationProperties(propertySchema, codegenProperty);
-        codegenParameter.setTypeProperties(propertySchema);
-        if (ModelUtils.isByteArraySchema(propertySchema)) {
-            codegenParameter.setIsString(false);
+        Schema ps = unaliasSchema(propertySchema, importMapping);
+        ModelUtils.syncValidationProperties(ps, codegenParameter);
+        codegenParameter.setTypeProperties(ps);
+        if (ps.getPattern() != null) {
+            codegenParameter.pattern = toRegularExpression(ps.getPattern());
+        }
+
+        if (ModelUtils.isStringSchema(ps)) {
+            if (ModelUtils.isEmailSchema(ps)) {
+                codegenParameter.isEmail = true;
+            } else if (ModelUtils.isUUIDSchema(ps)) {
+                codegenParameter.isUuid = true;
+            } else if (ModelUtils.isByteArraySchema(ps)) {
+                codegenParameter.setIsString(false);
+                codegenParameter.isByteArray = true;
+                codegenParameter.isPrimitiveType = true;
+            } else if (ModelUtils.isBinarySchema(ps)) {
+                codegenParameter.isBinary = true;
+                codegenParameter.isFile = true; // file = binary in OAS3
+                codegenParameter.isPrimitiveType = true;
+            } else if (ModelUtils.isFileSchema(ps)) {
+                // file = binary in OAS3
+                codegenParameter.isFile = true;
+            } else if (ModelUtils.isDateSchema(ps)) {
+                codegenParameter.isDate = true;
+                codegenParameter.isPrimitiveType = true;
+            } else if (ModelUtils.isDateTimeSchema(ps)) {
+                codegenParameter.isDateTime = true;
+                codegenParameter.isPrimitiveType = true;
+            } else if (ModelUtils.isDecimalSchema(ps)) { // type: string, format: number
+                codegenParameter.setIsString(false);
+                codegenParameter.isDecimal = true;
+                codegenParameter.isPrimitiveType = true;
+            }
+            if (Boolean.TRUE.equals(codegenParameter.isString)) {
+                codegenParameter.isPrimitiveType = true;
+            }
+        } else if (ModelUtils.isBooleanSchema(ps)) {
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isNumberSchema(ps)) {
+            codegenParameter.isPrimitiveType = true;
+            if (ModelUtils.isFloatSchema(ps)) { // float
+                codegenParameter.isFloat = true;
+            } else if (ModelUtils.isDoubleSchema(ps)) { // double
+                codegenParameter.isDouble = true;
+            }
+        } else if (ModelUtils.isIntegerSchema(ps)) { // integer type
+            codegenParameter.isPrimitiveType = true;
+            if (ModelUtils.isLongSchema(ps)) { // int64/long format
+                codegenParameter.isLong = true;
+            } else {
+                codegenParameter.isInteger = true;
+                if (ModelUtils.isShortSchema(ps)) { // int32/short format
+                    codegenParameter.isShort = true;
+                } else { // unbounded integer
+                    ;
+                }
+            }
+        } else if (ModelUtils.isTypeObjectSchema(ps)) {
+            if (ModelUtils.isFreeFormObject(openAPI, ps)) {
+                codegenParameter.isFreeFormObject = true;
+            }
+        } else if (ModelUtils.isNullType(ps)) {
+            ;
+        } else if (ModelUtils.isAnyType(ps)) {
+            // any schema with no type set, composed schemas often do this
+            ;
+        } else {
+            // referenced schemas
+            ;
+        }
+
+        if (Boolean.TRUE.equals(codegenProperty.isModel)) {
+            codegenParameter.isModel = true;
         }
 
         codegenParameter.isFormParam = Boolean.TRUE;
@@ -6148,35 +6218,6 @@ public class DefaultCodegen implements CodegenConfig {
             imports.add(codegenProperty.complexType);
         }
 
-        // validation
-        // handle maximum, minimum properly for int/long by removing the trailing ".0"
-        if (ModelUtils.isIntegerSchema(propertySchema)) {
-            codegenParameter.maximum = propertySchema.getMaximum() == null ? null : String.valueOf(propertySchema.getMaximum().longValue());
-            codegenParameter.minimum = propertySchema.getMinimum() == null ? null : String.valueOf(propertySchema.getMinimum().longValue());
-        } else {
-            codegenParameter.maximum = propertySchema.getMaximum() == null ? null : String.valueOf(propertySchema.getMaximum());
-            codegenParameter.minimum = propertySchema.getMinimum() == null ? null : String.valueOf(propertySchema.getMinimum());
-        }
-
-        codegenParameter.exclusiveMaximum = propertySchema.getExclusiveMaximum() == null ? false : propertySchema.getExclusiveMaximum();
-        codegenParameter.exclusiveMinimum = propertySchema.getExclusiveMinimum() == null ? false : propertySchema.getExclusiveMinimum();
-        codegenParameter.maxLength = propertySchema.getMaxLength();
-        codegenParameter.minLength = propertySchema.getMinLength();
-        codegenParameter.pattern = toRegularExpression(propertySchema.getPattern());
-        codegenParameter.maxItems = propertySchema.getMaxItems();
-        codegenParameter.minItems = propertySchema.getMinItems();
-        codegenParameter.uniqueItems = propertySchema.getUniqueItems() == null ? false : propertySchema.getUniqueItems();
-        codegenParameter.multipleOf = propertySchema.getMultipleOf();
-
-        // exclusive* are noop without corresponding min/max
-        if (codegenParameter.maximum != null || codegenParameter.minimum != null ||
-                codegenParameter.maxLength != null || codegenParameter.minLength != null ||
-                codegenParameter.maxItems != null || codegenParameter.minItems != null ||
-                codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
-            codegenParameter.hasValidation = true;
-        }
-
-        setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
         setParameterExampleValue(codegenParameter);
         // set nullable
         setParameterNullable(codegenParameter, codegenProperty);
