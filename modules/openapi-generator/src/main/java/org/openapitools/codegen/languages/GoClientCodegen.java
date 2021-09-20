@@ -544,6 +544,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (modelMaps.containsKey(dataType)) {
                 prefix = "[]" + goImportAlias + "." + dataType;
             }
+            if (codegenProperty.items.isNullable) {
+                // We can't easily generate a pointer inline, so just use nil in that case
+                return prefix + "{nil}";
+            }
             return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isMap) { // map
             String prefix = codegenProperty.dataType;

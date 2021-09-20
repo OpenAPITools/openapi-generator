@@ -42,6 +42,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return uuid;
   }
 
+  @JsonProperty("uuid")
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
@@ -62,6 +63,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return dateTime;
   }
 
+  @JsonProperty("dateTime")
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
   }
@@ -82,6 +84,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return map;
   }
 
+  @JsonProperty("map")
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }

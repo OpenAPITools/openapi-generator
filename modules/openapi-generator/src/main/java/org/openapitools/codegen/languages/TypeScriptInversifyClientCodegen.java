@@ -91,7 +91,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     @Override
     public void processOpts() {
         super.processOpts();
-        // HttpCliens
+        // HttpClient
         supportingFiles.add(new SupportingFile("IHttpClient.mustache", getIndexDirectory(), "IHttpClient.ts"));
         supportingFiles.add(new SupportingFile("IAPIConfiguration.mustache", getIndexDirectory(), "IAPIConfiguration.ts"));
         supportingFiles.add(new SupportingFile("HttpClient.mustache", getIndexDirectory(), "HttpClient.ts"));

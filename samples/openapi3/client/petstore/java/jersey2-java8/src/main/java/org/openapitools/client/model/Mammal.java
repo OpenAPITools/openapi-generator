@@ -348,7 +348,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Pig`. If the actual instanct is not `Pig`,
+     * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Pig`
@@ -359,7 +359,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Whale`. If the actual instanct is not `Whale`,
+     * Get the actual instance of `Whale`. If the actual instance is not `Whale`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Whale`
@@ -370,7 +370,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `Zebra`. If the actual instanct is not `Zebra`,
+     * Get the actual instance of `Zebra`. If the actual instance is not `Zebra`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `Zebra`

@@ -192,7 +192,7 @@ public class Swift5ClientCodegenTest {
                     .setGeneratorName("swift5")
                     .setValidateSpec(false)
 //                    .setInputSpec("http://localhost:8080/api/openapi.yaml")
-                    .setInputSpec("src/test/resources/bugs/Swift5CodeGenarationBug2.yaml")
+                    .setInputSpec("src/test/resources/bugs/Swift5CodeGenerationBug2.yaml")
                     //.setInputSpec("http://localhost:8080/api/openapi.yaml")
                     .setEnablePostProcessFile(true)
                     .setOutputDir(target.toAbsolutePath().toString());

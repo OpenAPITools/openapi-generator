@@ -48,7 +48,7 @@ steps:
   - dune build --build-dir=./_build
 # test haskell client
 - name: haskell-client-test
-  image: haskell:8.6.5
+  image: haskell:8.10.4
   commands:
   - (cd samples/client/petstore/haskell-http-client/ && stack --allow-different-user --install-ghc --no-haddock-deps haddock --fast && stack --allow-different-user test --fast)
 # test erlang client and server

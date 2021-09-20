@@ -360,7 +360,7 @@ import org.openapitools.codegen.languages.*;
 
 public class MyObjcCodegen extends ObjcClientCodegen {
     static {
-        PREFIX = "HELO";
+        PREFIX = "HELLO";
     }
 }
 ```

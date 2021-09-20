@@ -175,7 +175,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     @Override
     public String toVarName(final String name) {
         String varName = sanitizeName(name);
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             varName = varName.toLowerCase(Locale.ROOT);
         }

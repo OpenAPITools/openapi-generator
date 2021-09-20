@@ -554,6 +554,11 @@ class FakeController extends Controller
         }
         $context = $input['context'];
 
+        if (!isset($input['allowEmpty'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $allowEmpty when calling testQueryParameterCollectionFormat');
+        }
+        $allowEmpty = $input['allowEmpty'];
+
         $language = $input['language'];
 
 

@@ -311,7 +311,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "`" + name + "`";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z0-9_]*$")) {
             return name;
         }
