@@ -243,4 +243,3 @@ export function PetToJSON(value?: Pet | null): any {
     };
 }
 
-

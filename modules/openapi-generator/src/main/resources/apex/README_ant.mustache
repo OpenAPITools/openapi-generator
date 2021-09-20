@@ -2,7 +2,7 @@
 
 {{#appDescription}}
 
-{{{appDescription}}}
+{{{.}}}
 {{/appDescription}}
 
 ## Requirements
@@ -52,7 +52,7 @@ For more information, see <https://developer.salesforce.com/docs/atlas.en-us.daa
 {{/gitUserId}}{{/gitRepoId}}
 
 2. Set the `SF_USERNAME` and `SF_PASSWORD` environment variables to your Salesforce username and password. Alternatively, they may be set in `build.properties`. Environment variables will override the values in `build.properties` if set. `SF_SESSIONID` may also be set instead of `SF_USERNAME` and `SF_PASSWORD` (more info in `build.properties`)
-3. Open up a command prompt in the root project directory {{#gitRepoId}}`{{gitRepoId}}` {{/gitRepoId}}(the same directory as this README and `build.xml`)
+3. Open up a command prompt in the root project directory {{#gitRepoId}}`{{.}}` {{/gitRepoId}}(the same directory as this README and `build.xml`)
 4. Deploy to your Salesforce org
 
     ```bash
@@ -131,7 +131,7 @@ Map<String, Object> params = new Map<String, Object>{
 
 try {
     // cross your fingers
-    {{#returnType}}{{{returnType}}} result = {{/returnType}}api.{{{operationId}}}({{#hasParams}}params{{/hasParams}});
+    {{#returnType}}{{{.}}} result = {{/returnType}}api.{{{operationId}}}({{#hasParams}}params{{/hasParams}});
   {{#returnType}}
     System.debug(result);
   {{/returnType}}
@@ -146,7 +146,7 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation for Models
@@ -170,7 +170,7 @@ Class | Method | HTTP request | Description
 {{/isBasic}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{flow}}
-- **Authorizatoin URL**: {{authorizationUrl}}
+- **Authorization URL**: {{authorizationUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
 {{#scopes}}  - {{scope}}: {{description}}
 {{/scopes}}

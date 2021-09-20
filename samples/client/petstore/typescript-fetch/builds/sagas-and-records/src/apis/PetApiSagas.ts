@@ -35,9 +35,6 @@ import {
     Pet,
     PetRecord,
     petRecordUtils,
-    PetRegionsResponse,
-    PetRegionsResponseRecord,
-    petRegionsResponseRecordUtils,
     UserRecord,
 } from '../models';
 
@@ -55,9 +52,7 @@ export const petApiSagaMap = new Map<string, () => Generator<any, any, any>>([
         ["findPetsByTags", findPetsByTagsSaga],
         ["findPetsByUserIds", findPetsByUserIdsSaga],
         ["getPetById", getPetByIdSaga],
-        ["getPetRegions", getPetRegionsSaga],
         ["updatePet", updatePetSaga],
-        ["updatePetRegions", updatePetRegionsSaga],
         ["updatePetWithForm", updatePetWithFormSaga],
         ["uploadFile", uploadFileSaga],
     ]
@@ -185,7 +180,7 @@ export function *findPetsByIdsSagaImp(_action_: Action<PayloadFindPetsByIds>) {
         yield put(findPetsByIdsRequest(requestPayload));
 
         const response: Required<Array<Pet>> = yield apiCall(Api.petApi, Api.petApi.findPetsByIds,
-            ids.map(p => (p ? parseFloat(p) : null) as number ).toArray(),
+            ids.map(p => parseFloat(p)).toArray(),
         );
 
         let successReturnValue: any = undefined;
@@ -344,7 +339,7 @@ export function *findPetsByUserIdsSagaImp(_action_: Action<PayloadFindPetsByUser
         yield put(findPetsByUserIdsRequest(requestPayload));
 
         const response: Required<FindPetsByUserResponse> = yield apiCall(Api.petApi, Api.petApi.findPetsByUserIds,
-            ids.map(p => (p ? parseFloat(p) : null) as number ).toArray(),
+            ids.map(p => parseFloat(p)).toArray(),
         );
 
         let successReturnValue: any = undefined;
@@ -419,50 +414,6 @@ export function *getPetByIdSagaImp(_action_: Action<PayloadGetPetById>) {
     }
 }
 //endregion
-//region getPetRegions
-
-export interface PayloadGetPetRegions extends PayloadGetPetRegionsRequest, BasePayloadApiAction {
-}
-
-export interface PayloadGetPetRegionsRequest {
-    petId: string;
-}
-
-export const getPetRegionsRequest = createSagaAction<PayloadGetPetRegionsRequest>("getPetRegionsRequest");
-export const getPetRegionsSuccess = createSagaAction<List<List<string | null>>>("getPetRegionsSuccess");
-export const getPetRegionsFailure = createSagaAction<{error: any, requestPayload: PayloadGetPetRegions}>("getPetRegionsFailure");
-
-export const getPetRegions = createSagaAction<PayloadGetPetRegions>("getPetRegions");
-
-export function *getPetRegionsSaga() {
-    yield takeLatest(getPetRegions, getPetRegionsSagaImp);
-}
-
-export function *getPetRegionsSagaImp(_action_: Action<PayloadGetPetRegions>) {
-    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
-    try {
-        const {
-            petId,
-        } = _payloadRest_;
-
-        yield put(getPetRegionsRequest(_action_.payload));
-
-        const response: Required<PetRegionsResponse> = yield apiCall(Api.petApi, Api.petApi.getPetRegions,
-            parseFloat(petId),
-        );
-
-        let successReturnValue: any = undefined;
-            successReturnValue = petRegionsResponseRecordUtils.fromApiPassthrough(response);
-            yield put(getPetRegionsSuccess(successReturnValue));
-
-        return successReturnValue;
-    } catch (error) {
-        if (markErrorsAsHandled) {error.wasHandled = true; }
-        yield put(getPetRegionsFailure({error, requestPayload: _action_.payload}));
-        return error;
-    }
-}
-//endregion
 //region updatePet
 
 export interface PayloadUpdatePet extends PayloadUpdatePetRequest, BasePayloadApiAction {
@@ -501,53 +452,6 @@ export function *updatePetSagaImp(_action_: Action<PayloadUpdatePet>) {
     } catch (error) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(updatePetFailure({error, requestPayload: _action_.payload}));
-        return error;
-    }
-}
-//endregion
-//region updatePetRegions
-
-export interface PayloadUpdatePetRegions extends PayloadUpdatePetRegionsRequest, BasePayloadApiAction {
-}
-
-export interface PayloadUpdatePetRegionsRequest {
-    petId: string;
-    newRegions: List<List<string | null>>;
-}
-
-export const updatePetRegionsRequest = createSagaAction<PayloadUpdatePetRegionsRequest>("updatePetRegionsRequest");
-export const updatePetRegionsSuccess = createSagaAction<List<List<string | null>>>("updatePetRegionsSuccess");
-export const updatePetRegionsFailure = createSagaAction<{error: any, requestPayload: PayloadUpdatePetRegions}>("updatePetRegionsFailure");
-
-export const updatePetRegions = createSagaAction<PayloadUpdatePetRegions>("updatePetRegions");
-
-export function *updatePetRegionsSaga() {
-    yield takeLatest(updatePetRegions, updatePetRegionsSagaImp);
-}
-
-export function *updatePetRegionsSagaImp(_action_: Action<PayloadUpdatePetRegions>) {
-    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
-    try {
-        const {
-            petId,
-            newRegions,
-        } = _payloadRest_;
-
-        yield put(updatePetRegionsRequest(_action_.payload));
-
-        const response: Required<PetRegionsResponse> = yield apiCall(Api.petApi, Api.petApi.updatePetRegions,
-            parseFloat(petId),
-            newRegions.map(p => p.toArray().map(p2 => (p2 ? parseFloat(p2) : null) as number)).toArray(),
-        );
-
-        let successReturnValue: any = undefined;
-            successReturnValue = petRegionsResponseRecordUtils.fromApiPassthrough(response);
-            yield put(updatePetRegionsSuccess(successReturnValue));
-
-        return successReturnValue;
-    } catch (error) {
-        if (markErrorsAsHandled) {error.wasHandled = true; }
-        yield put(updatePetRegionsFailure({error, requestPayload: _action_.payload}));
         return error;
     }
 }

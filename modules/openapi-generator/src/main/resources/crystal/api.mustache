@@ -12,34 +12,34 @@ module {{moduleName}}
     end
 {{#operation}}
     {{#summary}}
-    # {{{summary}}}
+    # {{{.}}}
     {{/summary}}
     {{#notes}}
-    # {{{notes}}}
+    # {{{.}}}
     {{/notes}}
     {{#allParams}}
     {{#required}}
     # @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}] {{description}}
     {{/required}}
     {{/allParams}}
-    # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}]
+    # @return [{{{returnType}}}{{^returnType}}nil{{/returnType}}]
     def {{operationId}}({{#allParams}}{{paramName}} : {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
       {{#returnType}}data, _status_code, _headers = {{/returnType}}{{operationId}}_with_http_info({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
       {{#returnType}}data{{/returnType}}{{^returnType}}nil{{/returnType}}
     end
 
     {{#summary}}
-    # {{summary}}
+    # {{.}}
     {{/summary}}
     {{#notes}}
-    # {{notes}}
+    # {{.}}
     {{/notes}}
     {{#allParams}}
     {{#required}}
     # @param {{paramName}} [{{{dataType}}}{{^required}}?{{/required}}] {{description}}
     {{/required}}
     {{/allParams}}
-    # @return [Array<({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{returnType}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
+    # @return [Array<({{{returnType}}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{.}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
     def {{operationId}}_with_http_info({{#allParams}}{{paramName}} : {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
       if @api_client.config.debugging
         Log.debug {"Calling API: {{classname}}.{{operationId}} ..."}
@@ -128,9 +128,9 @@ module {{moduleName}}
       local_var_path = "{{{path}}}"{{#pathParams}}.sub("{" + "{{baseName}}" + "}", URI.encode({{paramName}}.to_s){{^strictSpecBehavior}}.gsub("%2F", "/"){{/strictSpecBehavior}}){{/pathParams}}
 
       # query parameters
-      query_params = Hash(Symbol, String).new
+      query_params = Hash(String, String).new
       {{#queryParams}}
-      query_params[:"{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
+      query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
       {{/queryParams}}
 
       # header parameters

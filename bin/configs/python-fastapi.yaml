@@ -1,0 +1,6 @@
+generatorName: python-fastapi
+outputDir: samples/server/petstore/python-fastapi
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/python-fastapi
+additionalProperties:
+  hideGenerationTimestamp: "true"

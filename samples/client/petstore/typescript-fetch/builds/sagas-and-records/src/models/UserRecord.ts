@@ -69,7 +69,6 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
 
     public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
-        // @ts-ignore
         const entity = yield select(apiEntityUserSelector, {id: entityId});
         if (!entity) {return undefined; }
 
@@ -91,7 +90,6 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
         if (!entityIds) {return null; }
         let entities = List<UserRecord>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
-            // @ts-ignore
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
             if (entity) {
                 entities.push(entity);

@@ -7,7 +7,6 @@ import 'dart:async';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 
-import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/api_response.dart';
@@ -22,8 +21,19 @@ class PetApi {
   const PetApi(this._dio, this._serializers);
 
   /// Add a new pet to the store
-  ///
   /// 
+  ///
+  /// Parameters:
+  /// * [pet] - Pet object that needs to be added to the store
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> addPet({ 
     required Pet pet,
     CancelToken? cancelToken,
@@ -48,15 +58,9 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
-
-    final _queryParameters = <String, dynamic>{
-    };
 
     dynamic _bodyData;
 
@@ -64,23 +68,21 @@ class PetApi {
       const _type = FullType(Pet);
       _bodyData = _serializers.serialize(pet, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -90,8 +92,20 @@ class PetApi {
   }
 
   /// Deletes a pet
-  ///
   /// 
+  ///
+  /// Parameters:
+  /// * [petId] - Pet id to delete
+  /// * [apiKey] 
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> deletePet({ 
     required int petId,
     String? apiKey,
@@ -118,19 +132,12 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
-
-    final _queryParameters = <String, dynamic>{
-    };
 
     final _response = await _dio.request<Object>(
       _path,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -140,8 +147,19 @@ class PetApi {
   }
 
   /// Finds Pets by status
-  ///
   /// Multiple status values can be provided with comma separated strings
+  ///
+  /// Parameters:
+  /// * [status] - Status values that need to be considered for filter
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [BuiltList<Pet>] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<BuiltList<Pet>>> findPetsByStatus({ 
     required BuiltList<String> status,
     CancelToken? cancelToken,
@@ -166,14 +184,11 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
     final _queryParameters = <String, dynamic>{
-      r'status': status,
+      r'status': encodeCollectionQueryParameter<String>(_serializers, status, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
     };
 
     final _response = await _dio.request<Object>(
@@ -194,13 +209,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as BuiltList<Pet>;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<BuiltList<Pet>>(
@@ -216,8 +231,20 @@ class PetApi {
   }
 
   /// Finds Pets by tags
-  ///
   /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+  ///
+  /// Parameters:
+  /// * [tags] - Tags to filter by
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [BuiltSet<Pet>] as data
+  /// Throws [DioError] if API call or serialization fails
+  @Deprecated('This operation has been deprecated')
   Future<Response<BuiltSet<Pet>>> findPetsByTags({ 
     required BuiltSet<String> tags,
     CancelToken? cancelToken,
@@ -242,14 +269,11 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
 
     final _queryParameters = <String, dynamic>{
-      r'tags': tags,
+      r'tags': encodeCollectionQueryParameter<String>(_serializers, tags, const FullType(BuiltSet, [FullType(String)]), format: ListFormat.csv,),
     };
 
     final _response = await _dio.request<Object>(
@@ -270,13 +294,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as BuiltSet<Pet>;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<BuiltSet<Pet>>(
@@ -292,8 +316,19 @@ class PetApi {
   }
 
   /// Find pet by ID
-  ///
   /// Returns a single pet
+  ///
+  /// Parameters:
+  /// * [petId] - ID of pet to return
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [Pet] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<Pet>> getPetById({ 
     required int petId,
     CancelToken? cancelToken,
@@ -320,19 +355,12 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-      ].first,
       validateStatus: validateStatus,
     );
-
-    final _queryParameters = <String, dynamic>{
-    };
 
     final _response = await _dio.request<Object>(
       _path,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -347,13 +375,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as Pet;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<Pet>(
@@ -369,8 +397,19 @@ class PetApi {
   }
 
   /// Update an existing pet
-  ///
   /// 
+  ///
+  /// Parameters:
+  /// * [pet] - Pet object that needs to be added to the store
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> updatePet({ 
     required Pet pet,
     CancelToken? cancelToken,
@@ -395,15 +434,9 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/json',
-        'application/xml',
-      ].first,
+      contentType: 'application/json',
       validateStatus: validateStatus,
     );
-
-    final _queryParameters = <String, dynamic>{
-    };
 
     dynamic _bodyData;
 
@@ -411,23 +444,21 @@ class PetApi {
       const _type = FullType(Pet);
       _bodyData = _serializers.serialize(pet, specifiedType: _type);
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -437,8 +468,21 @@ class PetApi {
   }
 
   /// Updates a pet in the store with form data
-  ///
   /// 
+  ///
+  /// Parameters:
+  /// * [petId] - ID of pet that needs to be updated
+  /// * [name] - Updated name of the pet
+  /// * [status] - Updated status of the pet
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> updatePetWithForm({ 
     required int petId,
     String? name,
@@ -465,40 +509,33 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'application/x-www-form-urlencoded',
-      ].first,
+      contentType: 'application/x-www-form-urlencoded',
       validateStatus: validateStatus,
     );
-
-    final _queryParameters = <String, dynamic>{
-    };
 
     dynamic _bodyData;
 
     try {
       _bodyData = <String, dynamic>{
-        if (name != null) r'name': encodeFormParameter(_serializers, name, const FullType(String)),
-        if (status != null) r'status': encodeFormParameter(_serializers, status, const FullType(String)),
+        if (name != null) r'name': encodeQueryParameter(_serializers, name, const FullType(String)),
+        if (status != null) r'status': encodeQueryParameter(_serializers, status, const FullType(String)),
       };
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -508,12 +545,25 @@ class PetApi {
   }
 
   /// uploads an image
-  ///
   /// 
+  ///
+  /// Parameters:
+  /// * [petId] - ID of pet to update
+  /// * [additionalMetadata] - Additional data to pass to server
+  /// * [file] - file to upload
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<ApiResponse>> uploadFile({ 
     required int petId,
     String? additionalMetadata,
-    Uint8List? file,
+    MultipartFile? file,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -536,40 +586,33 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'multipart/form-data',
-      ].first,
+      contentType: 'multipart/form-data',
       validateStatus: validateStatus,
     );
-
-    final _queryParameters = <String, dynamic>{
-    };
 
     dynamic _bodyData;
 
     try {
       _bodyData = FormData.fromMap(<String, dynamic>{
         if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
-        if (file != null) r'file': MultipartFile.fromBytes(file, filename: r'file'),
+        if (file != null) r'file': file,
       });
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -584,13 +627,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as ApiResponse;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ApiResponse>(
@@ -606,11 +649,24 @@ class PetApi {
   }
 
   /// uploads an image (required)
-  ///
   /// 
+  ///
+  /// Parameters:
+  /// * [petId] - ID of pet to update
+  /// * [requiredFile] - file to upload
+  /// * [additionalMetadata] - Additional data to pass to server
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
+  /// Throws [DioError] if API call or serialization fails
   Future<Response<ApiResponse>> uploadFileWithRequiredFile({ 
     required int petId,
-    required Uint8List requiredFile,
+    required MultipartFile requiredFile,
     String? additionalMetadata,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -634,40 +690,33 @@ class PetApi {
         ],
         ...?extra,
       },
-      contentType: [
-        'multipart/form-data',
-      ].first,
+      contentType: 'multipart/form-data',
       validateStatus: validateStatus,
     );
-
-    final _queryParameters = <String, dynamic>{
-    };
 
     dynamic _bodyData;
 
     try {
       _bodyData = FormData.fromMap(<String, dynamic>{
         if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_serializers, additionalMetadata, const FullType(String)),
-        r'requiredFile': MultipartFile.fromBytes(requiredFile, filename: r'requiredFile'),
+        r'requiredFile': requiredFile,
       });
 
-    } catch(error) {
+    } catch(error, stackTrace) {
       throw DioError(
          requestOptions: _options.compose(
           _dio.options,
           _path,
-          queryParameters: _queryParameters,
         ),
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     final _response = await _dio.request<Object>(
       _path,
       data: _bodyData,
       options: _options,
-      queryParameters: _queryParameters,
       cancelToken: cancelToken,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
@@ -682,13 +731,13 @@ class PetApi {
         specifiedType: _responseType,
       ) as ApiResponse;
 
-    } catch (error) {
+    } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.other,
         error: error,
-      );
+      )..stackTrace = stackTrace;
     }
 
     return Response<ApiResponse>(

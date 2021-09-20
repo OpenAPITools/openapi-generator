@@ -34,6 +34,7 @@ lib/app/Models/CatAllOf.php
 lib/app/Models/Category.php
 lib/app/Models/ClassModel.php
 lib/app/Models/Client.php
+lib/app/Models/DeprecatedObject.php
 lib/app/Models/Dog.php
 lib/app/Models/DogAllOf.php
 lib/app/Models/EnumArrays.php
@@ -54,6 +55,7 @@ lib/app/Models/ModelReturn.php
 lib/app/Models/Name.php
 lib/app/Models/NullableClass.php
 lib/app/Models/NumberOnly.php
+lib/app/Models/ObjectWithDeprecatedFields.php
 lib/app/Models/Order.php
 lib/app/Models/OuterComposite.php
 lib/app/Models/OuterEnum.php

@@ -339,7 +339,7 @@ Your config file for Java can look like
 }
 ```
 
-Or if you preffer yaml format it can look like
+Or if you prefer yaml format it can look like
 
 ```yaml
 groupId: "com.my.company"
@@ -360,7 +360,7 @@ import org.openapitools.codegen.languages.*;
 
 public class MyObjcCodegen extends ObjcClientCodegen {
     static {
-        PREFIX = "HELO";
+        PREFIX = "HELLO";
     }
 }
 ```

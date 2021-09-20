@@ -5,11 +5,10 @@
 //
 
 import Foundation
-
 open class PetstoreClientAPI {
     public static var basePath = "http://petstore.swagger.io:80/v2"
-    public static var credential: URLCredential?
     public static var customHeaders: [String: String] = [:]
+    public static var credential: URLCredential?
     public static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
     public static var apiResponseQueue: DispatchQueue = .main
 }

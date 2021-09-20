@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -23,6 +24,7 @@ class InlineResponseDefault {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (string == null ? 0 : string.hashCode);
 
   @override
@@ -37,33 +39,46 @@ class InlineResponseDefault {
   }
 
   /// Returns a new [InlineResponseDefault] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static InlineResponseDefault fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : InlineResponseDefault(
+  /// [value] if it's a [Map], null otherwise.
+  // ignore: prefer_constructors_over_static_methods
+  static InlineResponseDefault fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return InlineResponseDefault(
         string: Foo.fromJson(json[r'string']),
-    );
+      );
+    }
+    return null;
+  }
 
-  static List<InlineResponseDefault> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <InlineResponseDefault>[]
-      : json.map((v) => InlineResponseDefault.fromJson(v)).toList(growable: true == growable);
+  static List<InlineResponseDefault> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(InlineResponseDefault.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <InlineResponseDefault>[];
 
-  static Map<String, InlineResponseDefault> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, InlineResponseDefault> mapFromJson(dynamic json) {
     final map = <String, InlineResponseDefault>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = InlineResponseDefault.fromJson(v));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = InlineResponseDefault.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of InlineResponseDefault-objects as value to a dart map
-  static Map<String, List<InlineResponseDefault>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<InlineResponseDefault>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<InlineResponseDefault>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = InlineResponseDefault.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = InlineResponseDefault.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }

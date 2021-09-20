@@ -7,8 +7,11 @@ import 'package:built_value/serializer.dart';
 
 part 'model200_response.g.dart';
 
-
-
+/// Model for testing model name starting with number
+///
+/// Properties:
+/// * [name] 
+/// * [class_] 
 abstract class Model200Response implements Built<Model200Response, Model200ResponseBuilder> {
     @BuiltValueField(wireName: r'name')
     int? get name;
@@ -18,7 +21,8 @@ abstract class Model200Response implements Built<Model200Response, Model200Respo
 
     Model200Response._();
 
-    static void _initializeBuilder(Model200ResponseBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(Model200ResponseBuilder b) => b;
 
     factory Model200Response([void updates(Model200ResponseBuilder b)]) = _$Model200Response;
 
@@ -62,14 +66,17 @@ class _$Model200ResponseSerializer implements StructuredSerializer<Model200Respo
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'name':
-                    result.name = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(int)) as int;
+                    result.name = valueDes;
                     break;
                 case r'class':
-                    result.class_ = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.class_ = valueDes;
                     break;
             }
         }

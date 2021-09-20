@@ -14,8 +14,8 @@
 -fno-warn-unused-binds -fno-warn-unused-imports -freduction-depth=328 #-}
 
 module {{title}}.API
-  -- * Client and Server
-  ( Config(..)
+  ( -- * Client and Server
+    Config(..)
   , {{title}}Backend(..)
   , create{{title}}Client
   , run{{title}}Server
@@ -27,6 +27,8 @@ module {{title}}.API
   , {{title}}ClientError(..)
   -- ** Servant
   , {{title}}API
+  -- ** Plain WAI Application
+  , serverWaiApplication{{title}}
   ) where
 
 import           {{title}}.Types
@@ -232,7 +234,13 @@ run{{title}}MiddlewareServer Config{..} middleware backend = do
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ middleware $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serverWaiApplication{{title}} backend
+
+-- | Plain "Network.Wai" Application for the {{title}} server.
+--
+-- Can be used to implement e.g. tests that call the API without a full webserver.
+serverWaiApplication{{title}} :: {{title}}Backend (ExceptT ServerError IO) -> Application
+serverWaiApplication{{title}} backend = serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
   where
     serverFromBackend {{title}}Backend{..} =
       ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{^-last}} :<|>

@@ -29,7 +29,7 @@ public class CodegenOperation {
             isArray, isMultipart,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest, uniqueItems;
+            isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
@@ -169,6 +169,15 @@ public class CodegenOperation {
     }
 
     /**
+     * Check if there's a default response
+     *
+     * @return true if responses contain a default response, false otherwise
+     */
+    public boolean getHasDefaultResponse() {
+        return responses.stream().filter(response -> response.isDefault).findFirst().isPresent();
+    }
+
+    /**
      * Check if act as Restful index method
      *
      * @return true if act as Restful index method, false otherwise
@@ -270,6 +279,7 @@ public class CodegenOperation {
         sb.append(", isResponseBinary=").append(isResponseBinary);
         sb.append(", isResponseFile=").append(isResponseFile);
         sb.append(", hasReference=").append(hasReference);
+        sb.append(", hasDefaultResponse=").append(hasDefaultResponse);
         sb.append(", isRestfulIndex=").append(isRestfulIndex);
         sb.append(", isRestfulShow=").append(isRestfulShow);
         sb.append(", isRestfulCreate=").append(isRestfulCreate);
@@ -343,6 +353,7 @@ public class CodegenOperation {
                 isResponseBinary == that.isResponseBinary &&
                 isResponseFile == that.isResponseFile &&
                 hasReference == that.hasReference &&
+                hasDefaultResponse == that.hasDefaultResponse &&
                 isRestfulIndex == that.isRestfulIndex &&
                 isRestfulShow == that.isRestfulShow &&
                 isRestfulCreate == that.isRestfulCreate &&
@@ -400,7 +411,7 @@ public class CodegenOperation {
 
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-                isArray, isMultipart, isResponseBinary, isResponseFile, hasReference, isRestfulIndex,
+                isArray, isMultipart, isResponseBinary, isResponseFile, hasReference, hasDefaultResponse, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,
                 isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod, returnBaseType,
                 returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse, discriminator, consumes,

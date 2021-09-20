@@ -9,8 +9,12 @@ import 'package:built_value/serializer.dart';
 
 part 'array_test.g.dart';
 
-
-
+/// ArrayTest
+///
+/// Properties:
+/// * [arrayOfString] 
+/// * [arrayArrayOfInteger] 
+/// * [arrayArrayOfModel] 
 abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
     @BuiltValueField(wireName: r'array_of_string')
     BuiltList<String>? get arrayOfString;
@@ -23,7 +27,8 @@ abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
 
     ArrayTest._();
 
-    static void _initializeBuilder(ArrayTestBuilder b) => b;
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults(ArrayTestBuilder b) => b;
 
     factory ArrayTest([void updates(ArrayTestBuilder b)]) = _$ArrayTest;
 
@@ -73,18 +78,22 @@ class _$ArrayTestSerializer implements StructuredSerializer<ArrayTest> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'array_of_string':
-                    result.arrayOfString.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>;
+                    result.arrayOfString.replace(valueDes);
                     break;
                 case r'array_array_of_integer':
-                    result.arrayArrayOfInteger.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(int)])])) as BuiltList<BuiltList<int>>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(int)])])) as BuiltList<BuiltList<int>>;
+                    result.arrayArrayOfInteger.replace(valueDes);
                     break;
                 case r'array_array_of_model':
-                    result.arrayArrayOfModel.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(ReadOnlyFirst)])])) as BuiltList<BuiltList<ReadOnlyFirst>>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(ReadOnlyFirst)])])) as BuiltList<BuiltList<ReadOnlyFirst>>;
+                    result.arrayArrayOfModel.replace(valueDes);
                     break;
             }
         }

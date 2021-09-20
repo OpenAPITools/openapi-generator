@@ -62,6 +62,7 @@ Order <- R6::R6Class(
         self$`status` <- `status`
       }
       if (!is.null(`complete`)) {
+        stopifnot(is.logical(`complete`), length(`complete`) == 1)
         self$`complete` <- `complete`
       }
     },
@@ -156,9 +157,9 @@ Order <- R6::R6Class(
         if (!is.null(self$`complete`)) {
         sprintf(
         '"complete":
-          "%s"
+          %s
                 ',
-        self$`complete`
+        tolower(self$`complete`)
         )}
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
@@ -176,4 +177,3 @@ Order <- R6::R6Class(
     }
   )
 )
-

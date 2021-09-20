@@ -10,7 +10,7 @@ jobs:
     machine:
       image: circleci/classic:latest
     working_directory: ~/OpenAPITools/openapi-generator
-    parallelism: 3
+    parallelism: 4
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
@@ -82,7 +82,6 @@ jobs:
         - ~/.bundle
         - ~/.go_workspace
         - ~/.gradle
-        - ~/.pub-cache
         - ~/.cache/bower
         - ".git"
         - ~/.stack

@@ -71,7 +71,7 @@ public class JavaModelTest {
         Assert.assertEquals(property1.setter, "setId");
         Assert.assertEquals(property1.dataType, "Long");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, null);
+        Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "Long");
         Assert.assertTrue(property1.required);
         Assert.assertFalse(property1.isContainer);
@@ -84,7 +84,7 @@ public class JavaModelTest {
         Assert.assertEquals(property2.setter, "setName");
         Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, null);
+        Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.example, "Tony");
         Assert.assertTrue(property2.required);
@@ -98,7 +98,7 @@ public class JavaModelTest {
         Assert.assertEquals(property3.setter, "setCreatedAt");
         Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, null);
+        Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "Date");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
@@ -274,7 +274,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setAtSomeColonRestrictedPercentCharactersHashToExclamationHandlePlus");
         Assert.assertEquals(property.dataType, "Boolean");
         Assert.assertEquals(property.name, "atSomeColonRestrictedPercentCharactersHashToExclamationHandlePlus");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.baseType, "Boolean");
         Assert.assertFalse(property.required);
         Assert.assertFalse(property.isContainer);
@@ -491,7 +491,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setNAME");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "NAME");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertTrue(property.required);
         Assert.assertFalse(property.isContainer);
@@ -518,7 +518,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setNAME1");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "NAME1");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertTrue(property.required);
         Assert.assertFalse(property.isContainer);
@@ -545,7 +545,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setpId");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "pId");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertTrue(property.required);
         Assert.assertFalse(property.isContainer);
@@ -572,7 +572,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setAtTName");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "atTName");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertTrue(property.required);
         Assert.assertFalse(property.isContainer);
@@ -599,7 +599,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setATTNAME");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "ATT_NAME");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertTrue(property.required);
         Assert.assertFalse(property.isContainer);
@@ -668,7 +668,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setInputBinaryData");
         Assert.assertEquals(property.dataType, "byte[]");
         Assert.assertEquals(property.name, "inputBinaryData");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.baseType, "byte[]");
         Assert.assertFalse(property.required);
         Assert.assertFalse(property.isContainer);
@@ -694,7 +694,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setU");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "u");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertNull(property.defaultValue);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.isContainer);
     }
@@ -839,7 +839,7 @@ public class JavaModelTest {
         Assert.assertEquals(property2.setter, "setName");
         Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, null);
+        Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.example, "Tony");
         Assert.assertTrue(property2.required);
@@ -854,7 +854,7 @@ public class JavaModelTest {
         Assert.assertEquals(property3.setter, "setCreatedAt");
         Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, null);
+        Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "Date");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);

@@ -2,24 +2,21 @@ package org.openapitools.client.infrastructure
 
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
-import io.ktor.client.call.call
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.JsonSerializer
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.request.accept
+import io.ktor.client.request.*
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
-import io.ktor.client.response.HttpResponse
+import io.ktor.client.statement.HttpResponse
 import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.PartData
-import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 
 import org.openapitools.client.apis.*
 import org.openapitools.client.models.*
@@ -28,17 +25,11 @@ import org.openapitools.client.auth.*
 open class ApiClient(
         private val baseUrl: String,
         httpClientEngine: HttpClientEngine?,
-        serializer: KotlinxSerializer) {
-
-    @UseExperimental(UnstableDefault::class)
-    constructor(
-            baseUrl: String,
-            httpClientEngine: HttpClientEngine?,
-            jsonConfiguration: JsonConfiguration) :
-            this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
+        private val json: Json
+) {
 
     private val serializer: JsonSerializer by lazy {
-        serializer.apply { setMappers(this) }.ignoreOutgoingContent()
+        KotlinxSerializer(json).ignoreOutgoingContent()
     }
 
     private val client: HttpClient by lazy {
@@ -53,23 +44,9 @@ open class ApiClient(
     }
 
     companion object {
+        const val BASE_URL = "http://petstore.swagger.io/v2"
+        val JSON_DEFAULT = Json { ignoreUnknownKeys = true }
         protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
-
-        private fun setMappers(serializer: KotlinxSerializer) {
-            
-            PetApi.setMappers(serializer)
-            
-            StoreApi.setMappers(serializer)
-            
-            UserApi.setMappers(serializer)
-            
-            serializer.setMapper(org.openapitools.client.models.ApiResponse::class, org.openapitools.client.models.ApiResponse.serializer())
-            serializer.setMapper(org.openapitools.client.models.Category::class, org.openapitools.client.models.Category.serializer())
-            serializer.setMapper(org.openapitools.client.models.Order::class, org.openapitools.client.models.Order.serializer())
-            serializer.setMapper(org.openapitools.client.models.Pet::class, org.openapitools.client.models.Pet.serializer())
-            serializer.setMapper(org.openapitools.client.models.Tag::class, org.openapitools.client.models.Tag.serializer())
-            serializer.setMapper(org.openapitools.client.models.User::class, org.openapitools.client.models.User.serializer())
-        }
     }
 
     /**
@@ -140,26 +117,26 @@ open class ApiClient(
         auth.bearerToken = bearerToken
     }
 
-    protected suspend fun multipartFormRequest(requestConfig: RequestConfig, body: kotlin.collections.List<PartData>?, authNames: kotlin.collections.List<String>): HttpResponse {
+    protected suspend fun <T: Any?> multipartFormRequest(requestConfig: RequestConfig<T>, body: kotlin.collections.List<PartData>?, authNames: kotlin.collections.List<String>): HttpResponse {
         return request(requestConfig, MultiPartFormDataContent(body ?: listOf()), authNames)
     }
 
-    protected suspend fun urlEncodedFormRequest(requestConfig: RequestConfig, body: Parameters?, authNames: kotlin.collections.List<String>): HttpResponse {
+    protected suspend fun <T: Any?> urlEncodedFormRequest(requestConfig: RequestConfig<T>, body: Parameters?, authNames: kotlin.collections.List<String>): HttpResponse {
         return request(requestConfig, FormDataContent(body ?: Parameters.Empty), authNames)
     }
 
-    protected suspend fun jsonRequest(requestConfig: RequestConfig, body: Any? = null, authNames: kotlin.collections.List<String>): HttpResponse {
+    protected suspend fun <T: Any?> jsonRequest(requestConfig: RequestConfig<T>, body: Any? = null, authNames: kotlin.collections.List<String>): HttpResponse {
         val contentType = (requestConfig.headers[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
                 ?: ContentType.Application.Json)
         return if (body != null) request(requestConfig, serializer.write(body, contentType), authNames)
         else request(requestConfig, authNames = authNames)
     }
 
-    protected suspend fun request(requestConfig: RequestConfig, body: OutgoingContent = EmptyContent, authNames: kotlin.collections.List<String>): HttpResponse {
-        requestConfig.updateForAuth(authNames)
+    protected suspend fun <T: Any?> request(requestConfig: RequestConfig<T>, body: OutgoingContent = EmptyContent, authNames: kotlin.collections.List<String>): HttpResponse {
+        requestConfig.updateForAuth<T>(authNames)
         val headers = requestConfig.headers
 
-        return client.call {
+        return client.request<HttpResponse> {
             this.url {
                 this.takeFrom(URLBuilder(baseUrl))
                 appendPath(requestConfig.path.trimStart('/').split('/'))
@@ -174,10 +151,10 @@ open class ApiClient(
             if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH))
                 this.body = body
 
-        }.response
+        }
     }
 
-    private fun RequestConfig.updateForAuth(authNames: kotlin.collections.List<String>) {
+    private fun <T: Any?> RequestConfig<T>.updateForAuth(authNames: kotlin.collections.List<String>) {
         for (authName in authNames) {
             val auth = authentications?.get(authName) ?: throw Exception("Authentication undefined: $authName")
             auth.apply(query, headers)

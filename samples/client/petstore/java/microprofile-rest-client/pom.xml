@@ -10,6 +10,19 @@
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
       <plugin>
+        <groupId>org.jboss.jandex</groupId>
+        <artifactId>jandex-maven-plugin</artifactId>
+        <version>1.1.0</version>
+        <executions>
+          <execution>
+            <id>make-index</id>
+            <goals>
+              <goal>jandex</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>2.6</version>
         <executions>
@@ -112,7 +125,7 @@
         <artifactId>activation</artifactId>
         <version>1.1.1</version>
     </dependency>
-    
+
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-joda</artifactId>
@@ -141,7 +154,7 @@
     <swagger-core-version>1.5.18</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <junit-version>4.13.1</junit-version>
-    <logback-version>1.1.7</logback-version>
+    <logback-version>1.2.0</logback-version>
     <servlet-api-version>2.5</servlet-api-version>
     <cxf-version>3.2.7</cxf-version>
     <jackson-jaxrs-version>2.9.7</jackson-jaxrs-version>

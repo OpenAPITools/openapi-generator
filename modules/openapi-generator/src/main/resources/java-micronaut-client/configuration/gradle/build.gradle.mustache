@@ -1,0 +1,51 @@
+plugins {
+    {{#isTestSpock}}
+    id("groovy")
+    {{/isTestSpock}}
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("io.micronaut.application") version "2.0.3"
+}
+
+version = "{{artifactVersion}}"
+group = "{{invokerPackage}}"
+
+repositories {
+    mavenCentral()
+}
+
+micronaut {
+    runtime("netty")
+    {{#isTestSpock}}
+    testRuntime("spock2")
+    {{/isTestSpock}}
+    {{#isTestJunit}}
+    testRuntime("junit5")
+    {{/isTestJunit}}
+    processing {
+        incremental(true)
+        annotations("{{invokerPackage}}.*")
+    }
+}
+
+
+dependencies {
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.security:micronaut-security")
+    implementation("io.micronaut.security:micronaut-security-oauth2")
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.swagger:swagger-annotations:1.5.9")
+    runtimeOnly("ch.qos.logback:logback-classic")
+}
+
+// TODO Set the main class
+application {
+    mainClass.set("{{invokerPackage}}.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("1.8")
+    targetCompatibility = JavaVersion.toVersion("1.8")
+}

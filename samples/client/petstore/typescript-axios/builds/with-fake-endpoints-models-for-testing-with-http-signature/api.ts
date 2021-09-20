@@ -383,6 +383,7 @@ export enum EnumArraysArrayEnumEnum {
  * @export
  * @enum {string}
  */
+
 export enum EnumClass {
     Abc = '_abc',
     Efg = '-efg',
@@ -1017,6 +1018,7 @@ export interface OuterComposite {
  * @export
  * @enum {string}
  */
+
 export enum OuterEnum {
     Placed = 'placed',
     Approved = 'approved',
@@ -1028,6 +1030,7 @@ export enum OuterEnum {
  * @export
  * @enum {string}
  */
+
 export enum OuterEnumDefaultValue {
     Placed = 'placed',
     Approved = 'approved',
@@ -1039,6 +1042,7 @@ export enum OuterEnumDefaultValue {
  * @export
  * @enum {string}
  */
+
 export enum OuterEnumInteger {
     NUMBER_0 = 0,
     NUMBER_1 = 1,
@@ -1050,6 +1054,7 @@ export enum OuterEnumInteger {
  * @export
  * @enum {string}
  */
+
 export enum OuterEnumIntegerDefaultValue {
     NUMBER_0 = 0,
     NUMBER_1 = 1,
@@ -1096,6 +1101,7 @@ export interface Pet {
      * pet status in the store
      * @type {string}
      * @memberof Pet
+     * @deprecated
      */
     status?: PetStatusEnum;
 }
@@ -1128,6 +1134,55 @@ export interface ReadOnlyFirst {
      * @memberof ReadOnlyFirst
      */
     baz?: string;
+}
+/**
+ * 
+ * @export
+ * @interface ReadOnlyWithDefault
+ */
+export interface ReadOnlyWithDefault {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadOnlyWithDefault
+     */
+    prop1?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadOnlyWithDefault
+     */
+    prop2?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadOnlyWithDefault
+     */
+    prop3?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReadOnlyWithDefault
+     */
+    boolProp1?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReadOnlyWithDefault
+     */
+    boolProp2?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReadOnlyWithDefault
+     */
+    intProp1?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReadOnlyWithDefault
+     */
+    intProp2?: number;
 }
 /**
  * Model for testing reserved words
@@ -2157,7 +2212,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             assertParamExists('testQueryParameterCollectionFormat', 'url', url)
             // verify required parameter 'context' is not null or undefined
             assertParamExists('testQueryParameterCollectionFormat', 'context', context)
-            const localVarPath = `/fake/test-query-paramters`;
+            const localVarPath = `/fake/test-query-parameters`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2212,7 +2267,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             assertParamExists('testUniqueItemsHeaderAndQueryParameterCollectionFormat', 'queryUnique', queryUnique)
             // verify required parameter 'headerUnique' is not null or undefined
             assertParamExists('testUniqueItemsHeaderAndQueryParameterCollectionFormat', 'headerUnique', headerUnique)
-            const localVarPath = `/fake/test-unique-paramters`;
+            const localVarPath = `/fake/test-unique-parameters`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3089,6 +3144,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @summary Finds Pets by tags
          * @param {Array<string>} tags Tags to filter by
          * @param {*} [options] Override http request option.
+         * @deprecated
          * @throws {RequiredError}
          */
         findPetsByTags: async (tags: Array<string>, options: any = {}): Promise<RequestArgs> => {
@@ -3413,6 +3469,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @summary Finds Pets by tags
          * @param {Array<string>} tags Tags to filter by
          * @param {*} [options] Override http request option.
+         * @deprecated
          * @throws {RequiredError}
          */
         async findPetsByTags(tags: Array<string>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
@@ -3526,6 +3583,7 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @summary Finds Pets by tags
          * @param {Array<string>} tags Tags to filter by
          * @param {*} [options] Override http request option.
+         * @deprecated
          * @throws {RequiredError}
          */
         findPetsByTags(tags: Array<string>, options?: any): AxiosPromise<Array<Pet>> {
@@ -3639,6 +3697,7 @@ export class PetApi extends BaseAPI {
      * @summary Finds Pets by tags
      * @param {Array<string>} tags Tags to filter by
      * @param {*} [options] Override http request option.
+     * @deprecated
      * @throws {RequiredError}
      * @memberof PetApi
      */

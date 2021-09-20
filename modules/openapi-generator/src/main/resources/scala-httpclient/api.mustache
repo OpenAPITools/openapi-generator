@@ -71,9 +71,9 @@ class {{classname}}(
    * {{notes}}
    *
 {{#allParams}}   * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-{{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{/allParams}}   * @return {{{returnType}}}{{^returnType}}void{{/returnType}}
    */
-  def {{operationId}}({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{/required}}{{^required}}Option[{{dataType}}] = None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
+  def {{operationId}}({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{/required}}{{^required}}Option[{{dataType}}] = None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: Option[{{.}}]{{/returnType}} = {
     val await = Try(Await.result({{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
@@ -86,9 +86,9 @@ class {{classname}}(
    * {{notes}}
    *
 {{#allParams}}   * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-{{/allParams}}   * @return Future({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}})
+{{/allParams}}   * @return Future({{{returnType}}}{{^returnType}}void{{/returnType}})
    */
-  def {{operationId}}Async({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{/required}}{{^required}}Option[{{dataType}}] = None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}} = {
+  def {{operationId}}Async({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{/required}}{{^required}}Option[{{dataType}}] = None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: Future[{{.}}]{{/returnType}} = {
       helper.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
   }
 
@@ -100,7 +100,7 @@ class {{classname}}AsyncHelper(client: TransportClient, config: SwaggerConfig) e
 {{#operation}}
   def {{operationId}}({{#allParams}}{{^required}}{{paramName}}: Option[{{dataType}}] = None{{^-last}},{{/-last}}
     {{/required}}{{#required}}{{paramName}}: {{dataType}}{{^-last}},
-    {{/-last}}{{/required}}{{/allParams}})(implicit reader: ClientResponseReader[{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]{{#bodyParams}}, writer: RequestWriter[{{^required}}Option[{{dataType}}]{{/required}}{{#required}}{{dataType}}{{/required}}]{{/bodyParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
+    {{/-last}}{{/required}}{{/allParams}})(implicit reader: ClientResponseReader[{{returnType}}{{^returnType}}Unit{{/returnType}}]{{#bodyParams}}, writer: RequestWriter[{{^required}}Option[{{dataType}}]{{/required}}{{#required}}{{dataType}}{{/required}}]{{/bodyParams}}){{#returnType}}: Future[{{.}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
     // create path and map variables
     val path = (addFmt("{{path}}"){{#pathParams}}
       replaceAll("\\{" + "{{baseName}}" + "\\}", {{paramName}}.toString){{/pathParams}})

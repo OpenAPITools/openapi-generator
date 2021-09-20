@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		198019EEC6E3CB01FC884C7A /* Pods_SwaggerClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D829DFE4E137D91D6174D75A /* Pods_SwaggerClientTests.framework */; };
 		1A501F48219C3DC600F372F6 /* DateFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A501F47219C3DC600F372F6 /* DateFormatTests.swift */; };
 		6D4EFB951C692C6300B96B06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFB941C692C6300B96B06 /* AppDelegate.swift */; };
 		6D4EFB971C692C6300B96B06 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFB961C692C6300B96B06 /* ViewController.swift */; };
@@ -18,9 +17,9 @@
 		6D4EFBB71C693BED00B96B06 /* StoreAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */; };
 		6D4EFBB91C693BFC00B96B06 /* UserAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */; };
 		A5465873259E306E00C3929B /* BearerDecodableRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5465872259E306E00C3929B /* BearerDecodableRequestBuilder.swift */; };
+		A5782C6D2664F91D00CAA106 /* PetstoreClient in Frameworks */ = {isa = PBXBuildFile; productRef = A5782C6C2664F91D00CAA106 /* PetstoreClient */; };
 		A5EA12542419387200E30FC3 /* FileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EA12522419387100E30FC3 /* FileUtils.swift */; };
 		A5EA12552419387200E30FC3 /* UIImage+Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EA12532419387100E30FC3 /* UIImage+Extras.swift */; };
-		B68489033454646C60C16C88 /* Pods_SwaggerClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79549D5237E5E83F567030EC /* Pods_SwaggerClient.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +34,6 @@
 
 /* Begin PBXFileReference section */
 		1A501F47219C3DC600F372F6 /* DateFormatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatTests.swift; sourceTree = "<group>"; };
-		32ED0E88E0B89A537075D9C9 /* Pods-SwaggerClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient.debug.xcconfig"; path = "Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.debug.xcconfig"; sourceTree = "<group>"; };
 		6D4EFB911C692C6300B96B06 /* SwaggerClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwaggerClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D4EFB941C692C6300B96B06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6D4EFB961C692C6300B96B06 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -48,15 +46,9 @@
 		6D4EFBB41C693BE200B96B06 /* PetAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PetAPITests.swift; sourceTree = "<group>"; };
 		6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreAPITests.swift; sourceTree = "<group>"; };
 		6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAPITests.swift; sourceTree = "<group>"; };
-		74246FD63841F7C179AD697F /* Pods-SwaggerClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClientTests.debug.xcconfig"; path = "Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.debug.xcconfig"; sourceTree = "<group>"; };
-		79549D5237E5E83F567030EC /* Pods_SwaggerClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8ABA6AE59F792DAA1F79C48F /* Pods-SwaggerClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClientTests.release.xcconfig"; path = "Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.release.xcconfig"; sourceTree = "<group>"; };
 		A5465872259E306E00C3929B /* BearerDecodableRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BearerDecodableRequestBuilder.swift; sourceTree = "<group>"; };
 		A5EA12522419387100E30FC3 /* FileUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileUtils.swift; sourceTree = "<group>"; };
 		A5EA12532419387100E30FC3 /* UIImage+Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extras.swift"; sourceTree = "<group>"; };
-		C07EC0A94AA0F86D60668B32 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D829DFE4E137D91D6174D75A /* Pods_SwaggerClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClientTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FB503FF47F354A87D697DD0A /* Pods-SwaggerClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient.release.xcconfig"; path = "Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B68489033454646C60C16C88 /* Pods_SwaggerClient.framework in Frameworks */,
+				A5782C6D2664F91D00CAA106 /* PetstoreClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,7 +64,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				198019EEC6E3CB01FC884C7A /* Pods_SwaggerClientTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,9 +73,6 @@
 		3FABC56EC0BA84CBF4F99564 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C07EC0A94AA0F86D60668B32 /* Pods.framework */,
-				79549D5237E5E83F567030EC /* Pods_SwaggerClient.framework */,
-				D829DFE4E137D91D6174D75A /* Pods_SwaggerClientTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -96,7 +84,6 @@
 				6D4EFBA81C692C6300B96B06 /* SwaggerClientTests */,
 				6D4EFB921C692C6300B96B06 /* Products */,
 				3FABC56EC0BA84CBF4F99564 /* Frameworks */,
-				AC485EA5DC51CA28F3F7FECF /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,18 +124,6 @@
 			path = SwaggerClientTests;
 			sourceTree = "<group>";
 		};
-		AC485EA5DC51CA28F3F7FECF /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				32ED0E88E0B89A537075D9C9 /* Pods-SwaggerClient.debug.xcconfig */,
-				FB503FF47F354A87D697DD0A /* Pods-SwaggerClient.release.xcconfig */,
-				74246FD63841F7C179AD697F /* Pods-SwaggerClientTests.debug.xcconfig */,
-				8ABA6AE59F792DAA1F79C48F /* Pods-SwaggerClientTests.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -156,17 +131,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6D4EFBAE1C692C6300B96B06 /* Build configuration list for PBXNativeTarget "SwaggerClient" */;
 			buildPhases = (
-				53EC90CFFB0E0FABA75F972D /* [CP] Check Pods Manifest.lock */,
 				6D4EFB8D1C692C6300B96B06 /* Sources */,
 				6D4EFB8E1C692C6300B96B06 /* Frameworks */,
 				6D4EFB8F1C692C6300B96B06 /* Resources */,
-				3E0F8DF721D95AAFC75864D4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = SwaggerClient;
+			packageProductDependencies = (
+				A5782C6C2664F91D00CAA106 /* PetstoreClient */,
+			);
 			productName = SwaggerClient;
 			productReference = 6D4EFB911C692C6300B96B06 /* SwaggerClient.app */;
 			productType = "com.apple.product-type.application";
@@ -175,7 +151,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6D4EFBB11C692C6300B96B06 /* Build configuration list for PBXNativeTarget "SwaggerClientTests" */;
 			buildPhases = (
-				89F684025365A60C007C7DA9 /* [CP] Check Pods Manifest.lock */,
 				6D4EFBA11C692C6300B96B06 /* Sources */,
 				6D4EFBA21C692C6300B96B06 /* Frameworks */,
 				6D4EFBA31C692C6300B96B06 /* Resources */,
@@ -249,73 +224,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		3E0F8DF721D95AAFC75864D4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/PetstoreClient/PetstoreClient.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PetstoreClient.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		53EC90CFFB0E0FABA75F972D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SwaggerClient-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		89F684025365A60C007C7DA9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SwaggerClientTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6D4EFB8D1C692C6300B96B06 /* Sources */ = {
@@ -418,7 +326,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -469,7 +377,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -481,11 +389,13 @@
 		};
 		6D4EFBAF1C692C6300B96B06 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32ED0E88E0B89A537075D9C9 /* Pods-SwaggerClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SwaggerClient/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.swagger.SwaggerClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -494,11 +404,13 @@
 		};
 		6D4EFBB01C692C6300B96B06 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB503FF47F354A87D697DD0A /* Pods-SwaggerClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SwaggerClient/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.swagger.SwaggerClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -507,11 +419,14 @@
 		};
 		6D4EFBB21C692C6300B96B06 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74246FD63841F7C179AD697F /* Pods-SwaggerClientTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = SwaggerClientTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.swagger.SwaggerClientTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -521,11 +436,14 @@
 		};
 		6D4EFBB31C692C6300B96B06 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8ABA6AE59F792DAA1F79C48F /* Pods-SwaggerClientTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = SwaggerClientTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.swagger.SwaggerClientTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -564,6 +482,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A5782C6C2664F91D00CAA106 /* PetstoreClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PetstoreClient;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6D4EFB891C692C6300B96B06 /* Project object */;
 }

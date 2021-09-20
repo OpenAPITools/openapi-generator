@@ -5,9 +5,18 @@
   <packaging>jar</packaging>
   <name>{{artifactId}}</name>
   {{#appDescription}}
-  <description>{{appDescription}}</description>
+  <description>{{.}}</description>
   {{/appDescription}}
   <version>{{artifactVersion}}</version>
+
+{{#parentOverridden}}
+  <parent>
+    <groupId>{{parentGroupId}}</groupId>
+    <artifactId>{{parentArtifactId}}</artifactId>
+    <version>{{parentVersion}}</version>
+  </parent>
+{{/parentOverridden}}
+
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
@@ -131,7 +140,7 @@
         <version>${cxf-version}</version>
         <scope>test</scope>
     </dependency>
-    
+
      <!-- CXF server -->
     <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -177,7 +186,7 @@
         <version>${jackson-jaxrs-version}</version>
     </dependency>
 {{/java8}}
-{{#useBeanValidationFeature}}    
+{{#useBeanValidationFeature}}
     <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-validator</artifactId>
@@ -207,7 +216,7 @@
     <swagger-core-version>1.5.18</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <junit-version>4.13.1</junit-version>
-    <logback-version>1.1.7</logback-version>
+    <logback-version>1.2.0</logback-version>
     <servlet-api-version>2.5</servlet-api-version>
 {{#useBeanValidation}}
     <beanvalidation-version>1.1.0.Final</beanvalidation-version>

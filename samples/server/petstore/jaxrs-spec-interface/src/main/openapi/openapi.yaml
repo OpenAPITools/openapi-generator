@@ -1232,7 +1232,7 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: fake
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat

@@ -18,9 +18,11 @@ class ApiKeyAuth implements Authentication {
     } else if (location == 'header' && value != null) {
       headerParams[paramName] = value;
     } else if (location == 'cookie' && value != null) {
-      headerParams.update('Cookie', (String existingCookie) {
-        return '$existingCookie; $paramName=$value';
-      }, ifAbsent: () => '$paramName=$value');
+      headerParams.update(
+        'Cookie',
+        (existingCookie) => '$existingCookie; $paramName=$value',
+        ifAbsent: () => '$paramName=$value',
+      );
     }
   }
 }

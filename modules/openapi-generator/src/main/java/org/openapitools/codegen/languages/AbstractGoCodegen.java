@@ -192,7 +192,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name);
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$"))
             return name;
 
@@ -202,7 +202,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         // for reserved word append _
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as variable name. Renamed to " + escapeReservedWord(name));
+            LOGGER.warn("{} (reserved word) cannot be used as variable name. Renamed to {}", name, escapeReservedWord(name));
             name = escapeReservedWord(name);
         }
 
@@ -234,7 +234,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // really should just be a letter, e.g. "p Person"), but we'll get
         // around to that some other time... Maybe.
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as parameter name. Renamed to " + name + "_");
+            LOGGER.warn("{} (reserved word) cannot be used as parameter name. Renamed to {}_", name, name);
             name = name + "_";
         }
 
@@ -269,7 +269,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         name = toModel("model_" + name);
 
         if (isReservedFilename(name)) {
-            LOGGER.warn(name + ".go with suffix (reserved word) cannot be used as filename. Renamed to " + name + "_.go");
+            LOGGER.warn("{}.go with suffix (reserved word) cannot be used as filename. Renamed to {}_.go", name,
+                    name);
             name += "_";
         }
         return name;
@@ -292,14 +293,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to "
-                    + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -317,7 +318,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // e.g. PetApi.go => pet_api.go
         api = "api_" + underscore(api);
         if (isReservedFilename(api)) {
-            LOGGER.warn(name + ".go with suffix (reserved word) cannot be used as filename. Renamed to " + api + "_.go");
+            LOGGER.warn("{}.go with suffix (reserved word) cannot be used as filename. Renamed to {}_.go", name,
+                    api);
             api += "_";
         }
         apiName = api;
@@ -347,6 +349,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 typDecl = getTypeDeclaration(inner);
             } else {
                 typDecl = "interface{}";
+            }
+            if (inner != null && Boolean.TRUE.equals(inner.getNullable())) {
+                typDecl = "*" + typDecl;
             }
             return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
@@ -418,7 +423,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
      * <p>
      * Note the 'parent' attribute in the codegen model is used in the following scenarios:
      * - Indicate a polymorphic association with some other type (e.g. class inheritance).
-     * - If the specification has a discriminator, cogegen create a “parent” based on the discriminator.
+     * - If the specification has a discriminator, codegen create a “parent” based on the discriminator.
      * - Use of the 'additionalProperties' attribute in the OAS specification.
      * This is the specific scenario when codegen invokes this function.
      *
@@ -441,14 +446,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
-                    + camelize("call_" + sanitizedOperationId));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + sanitizedOperationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
         // operationId starts with a number
         if (sanitizedOperationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + sanitizedOperationId));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + sanitizedOperationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -831,7 +835,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());

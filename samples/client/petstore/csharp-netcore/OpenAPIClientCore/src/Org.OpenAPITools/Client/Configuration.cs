@@ -72,11 +72,11 @@ namespace Org.OpenAPITools.Client
         /// Defines the base path of the target API server.
         /// Example: http://localhost:3000/v1/
         /// </summary>
-        private String _basePath;
+        private string _basePath;
 
         /// <summary>
         /// Gets or sets the API key based on the authentication name.
-        /// This is the key and value comprising the "secret" for acessing an API.
+        /// This is the key and value comprising the "secret" for accessing an API.
         /// </summary>
         /// <value>The API key.</value>
         private IDictionary<string, string> _apiKey;
@@ -492,7 +492,7 @@ namespace Org.OpenAPITools.Client
                 }
                 else
                 {
-                    // use defualt value
+                    // use default value
                     url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
                 }
             }
@@ -501,7 +501,7 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Gets and Sets the HttpSigningConfiuration
+        /// Gets and Sets the HttpSigningConfiguration
         /// </summary>
         public HttpSigningConfiguration HttpSigningConfiguration
         {
@@ -516,9 +516,9 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Returns a string with essential information for debugging.
         /// </summary>
-        public static String ToDebugReport()
+        public static string ToDebugReport()
         {
-            String report = "C# SDK (Org.OpenAPITools) Debug Report:\n";
+            string report = "C# SDK (Org.OpenAPITools) Debug Report:\n";
             report += "    OS: " + System.Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + System.Environment.Version  + "\n";
             report += "    Version of the API: 1.0.0\n";

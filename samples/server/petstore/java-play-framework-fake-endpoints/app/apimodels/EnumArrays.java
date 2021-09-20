@@ -78,7 +78,7 @@ public class EnumArrays   {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
- 
+
   @JsonProperty("array_enum")
   
   private List<ArrayEnumEnum> arrayEnum = null;

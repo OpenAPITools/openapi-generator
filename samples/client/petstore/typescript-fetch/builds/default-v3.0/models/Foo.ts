@@ -54,4 +54,3 @@ export function FooToJSON(value?: Foo | null): any {
     };
 }
 
-

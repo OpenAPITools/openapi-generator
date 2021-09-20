@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **Decimal** | **decimal** |  | [optional] 
 **String** | **string** |  | [optional] 
 **Byte** | **byte[]** |  | 
-**Binary** | **System.IO.Stream** |  | [optional] 
+**Binary** | [**FileParameter**](FileParameter.md) |  | [optional] 
 **Date** | **DateTime** |  | 
 **DateTime** | **DateTime** |  | [optional] 
 **Uuid** | **Guid** |  | [optional] 

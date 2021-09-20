@@ -17,7 +17,7 @@
 
 #include "Templates/SharedPointer.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 inline FString ToString(const OpenAPIPet::StatusEnum& Value)
@@ -32,8 +32,32 @@ inline FString ToString(const OpenAPIPet::StatusEnum& Value)
 		return TEXT("sold");
 	}
 
-	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIPet::StatusEnum Value (%d)"), (int)Value);	
+	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIPet::StatusEnum Value (%d)"), (int)Value);
 	return TEXT("");
+}
+
+FString OpenAPIPet::EnumToString(const OpenAPIPet::StatusEnum& EnumValue)
+{
+	return ToString(EnumValue);
+}
+
+inline bool FromString(const FString& EnumAsString, OpenAPIPet::StatusEnum& Value)
+{
+	static TMap<FString, OpenAPIPet::StatusEnum> StringToEnum = { 
+		{ TEXT("available"), OpenAPIPet::StatusEnum::Available },
+		{ TEXT("pending"), OpenAPIPet::StatusEnum::Pending },
+		{ TEXT("sold"), OpenAPIPet::StatusEnum::Sold }, };
+
+	const auto Found = StringToEnum.Find(EnumAsString);
+	if(Found)
+		Value = *Found;
+
+	return Found != nullptr;
+}
+
+bool OpenAPIPet::EnumFromString(const FString& EnumAsString, OpenAPIPet::StatusEnum& EnumValue)
+{
+	return FromString(EnumAsString, EnumValue);
 }
 
 inline FStringFormatArg ToStringFormatArg(const OpenAPIPet::StatusEnum& Value)
@@ -51,17 +75,8 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIPet:
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, OpenAPIPet::StatusEnum> StringToEnum = { 
-			{ TEXT("available"), OpenAPIPet::StatusEnum::Available },
-			{ TEXT("pending"), OpenAPIPet::StatusEnum::Pending },
-			{ TEXT("sold"), OpenAPIPet::StatusEnum::Sold }, };
-
-		const auto Found = StringToEnum.Find(TmpValue);
-		if(Found)
-		{
-			Value = *Found;
+		if(FromString(TmpValue, Value))
 			return true;
-		}
 	}
 	return false;
 }
@@ -71,21 +86,21 @@ void OpenAPIPet::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectStart();
 	if (Id.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());
 	}
 	if (Category.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("category")); WriteJsonValue(Writer, Category.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("category")); WriteJsonValue(Writer, Category.GetValue());
 	}
 	Writer->WriteIdentifierPrefix(TEXT("name")); WriteJsonValue(Writer, Name);
 	Writer->WriteIdentifierPrefix(TEXT("photoUrls")); WriteJsonValue(Writer, PhotoUrls);
 	if (Tags.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("tags")); WriteJsonValue(Writer, Tags.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("tags")); WriteJsonValue(Writer, Tags.GetValue());
 	}
 	if (Status.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("status")); WriteJsonValue(Writer, Status.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("status")); WriteJsonValue(Writer, Status.GetValue());
 	}
 	Writer->WriteObjectEnd();
 }

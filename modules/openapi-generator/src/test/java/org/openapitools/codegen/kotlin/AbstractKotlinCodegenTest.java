@@ -36,7 +36,7 @@ public class AbstractKotlinCodegenTest {
     }
 
     @Test
-    public void uppercasEnumConverter() {
+    public void uppercaseEnumConverter() {
         codegen.setEnumPropertyNaming(UPPERCASE.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "LONG_NAME");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1LONG_NAME");

@@ -20,8 +20,7 @@ class UserCreateWithList
      * @PHA\Post()
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Consumer(name=PHConsumer\Json::class, mediaRange="application/json")
-     * TODO check if attribute is valid and can handle your container type
-     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":"\App\DTO\User[]","objectAttr":"bodyData"})
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\Collection36::class,"objectAttr":"bodyData"})
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 501 if the method is not implemented
@@ -29,7 +28,7 @@ class UserCreateWithList
     public function createUsersWithListInput(ServerRequestInterface $request)
     {
         //TODO implement method
-        /** @var \App\DTO\User[] $bodyData */
+        /** @var \App\DTO\Collection36 $bodyData */
         $bodyData = $request->getAttribute("bodyData");
         throw new PHException\HttpCode(501, "Not implemented");
     }

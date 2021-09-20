@@ -2,29 +2,30 @@ import 'dart:typed_data';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/src/parameter.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openapi/openapi.dart';
 import 'package:test/test.dart';
 
 void main() {
   Openapi client;
-  DioAdapter server;
+  DioAdapter tester;
 
   setUp(() {
-    server = DioAdapter();
-    client = Openapi(dio: Dio()..httpClientAdapter = server);
+    client = Openapi(dio: Dio());
+    tester = DioAdapter(dio: client.dio);
   });
 
   tearDown(() {
-    server.close();
+    tester.close();
   });
 
   group(FakeApi, () {
     group('testEndpointParameters', () {
       test('complete', () async {
-        server.onPost(
+        tester.onPost(
           '/fake',
-          (request) => request.reply(200, null),
+          (server) => server.reply(200, null),
           data: {
             'number': '3',
             'double': '-13.57',
@@ -36,7 +37,7 @@ void main() {
             'int64': '9223372036854775807',
             'date': '2020-08-11',
             'dateTime': '2020-08-11T12:30:55.123Z',
-            'binary': "Instance of 'MultipartFile'",
+            'binary': '[0, 1, 2, 3, 4, 5]',
           },
           headers: <String, dynamic>{
             'content-type': 'application/x-www-form-urlencoded',
@@ -62,9 +63,9 @@ void main() {
       });
 
       test('minimal', () async {
-        server.onPost(
+        tester.onPost(
           '/fake',
-          (request) => request.reply(200, null),
+          (server) => server.reply(200, null),
           data: {
             'byte': '0',
             'double': '-13.57',
@@ -92,12 +93,25 @@ void main() {
       test('in body data', () async {
         // Not sure if this is correct, we are not sending
         // form data in the body but some weird map
-        server.onGet(
+        tester.onGet(
           '/fake',
-          (request) => request.reply(200, null),
+          (server) => server.reply(200, null),
           data: {
             'enum_form_string': 'formString',
-            'enum_form_string_array': '[foo, bar]',
+            'enum_form_string_array': Matchers.listParam<String>(
+              ListParam(
+                ['foo', 'bar'],
+                ListFormat.csv,
+              ),
+            ),
+          },
+          queryParameters: <String, dynamic>{
+            'enum_query_string_array': Matchers.listParam<String>(
+              ListParam(
+                ['a', 'b', 'c'],
+                ListFormat.multi,
+              ),
+            ),
           },
           headers: <String, dynamic>{
             'content-type': 'application/x-www-form-urlencoded',
@@ -105,6 +119,9 @@ void main() {
         );
 
         final response = await client.getFakeApi().testEnumParameters(
+              enumQueryStringArray: ListBuilder<String>(
+                <String>['a', 'b', 'c'],
+              ).build(),
               enumFormString: 'formString',
               enumFormStringArray: ListBuilder<String>(
                 <String>['foo', 'bar'],

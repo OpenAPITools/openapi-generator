@@ -1,13 +1,22 @@
       {{#hasFormParams}}
-      _bodyData = {{#isMultipart}}FormData.fromMap({{/isMultipart}}<String, dynamic>{
+      {{#isMultipart}}
+      _bodyData = FormData.fromMap(<String, dynamic>{
         {{#formParams}}
-        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}MultipartFile.fromBytes({{{paramName}}}, filename: r'{{{baseName}}}'){{/isFile}}{{^isFile}}encodeFormParameter(_serializers, {{{paramName}}}, const FullType({{^isContainer}}{{{baseType}}}{{/isContainer}}{{#isContainer}}Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]{{/isContainer}})){{/isFile}},
+        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{#isFile}}{{{paramName}}}{{#isArray}}.toList(){{/isArray}}{{/isFile}}{{^isFile}}encodeFormParameter(_serializers, {{{paramName}}}, const FullType({{^isContainer}}{{{baseType}}}{{/isContainer}}{{#isContainer}}Built{{#isMap}}Map{{/isMap}}{{#isArray}}{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}{{/isArray}}, [{{#isMap}}FullType(String), {{/isMap}}FullType({{{baseType}}})]{{/isContainer}})){{/isFile}},
         {{/formParams}}
-      }{{#isMultipart}}){{/isMultipart}};
+      });
+      {{/isMultipart}}
+      {{^isMultipart}}
+      _bodyData = <String, dynamic>{
+        {{#formParams}}
+        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{{baseName}}}': {{>serialization/built_value/query_param}},
+        {{/formParams}}
+      };
+      {{/isMultipart}}
       {{/hasFormParams}}
       {{#bodyParam}}
       {{#isPrimitiveType}}
-      _bodyData = {{paramName}};
+      _bodyData = {{paramName}}{{#isFile}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}.finalize(){{/isFile}};
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
       {{#isContainer}}

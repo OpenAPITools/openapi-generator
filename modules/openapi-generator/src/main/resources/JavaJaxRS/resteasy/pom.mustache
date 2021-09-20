@@ -6,6 +6,14 @@
     <packaging>war</packaging>
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
+
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{parentGroupId}}</groupId>
+        <artifactId>{{parentArtifactId}}</artifactId>
+        <version>{{parentVersion}}</version>
+    </parent>
+{{/parentOverridden}}
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
@@ -126,16 +134,25 @@
             <scope>provided</scope>
         </dependency>
 
+  {{#java8}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+  {{/java8}}
+  {{^java8}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
-            <version>2.11.2</version>
+            <version>${jackson-version}</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.7</version>
         </dependency>
+  {{/java8}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-jaxrs</artifactId>
@@ -175,8 +192,8 @@
         <version>1.1.0.Final</version>
         <scope>provided</scope>
     </dependency>
-{{/useBeanValidation}}        
-        
+{{/useBeanValidation}}
+
     </dependencies>
     <repositories>
         <repository>
@@ -189,6 +206,7 @@
     </repositories>
     <properties>
         <swagger-core-version>1.5.22</swagger-core-version>
+        <jackson-version>2.11.2</jackson-version>
         <jetty-version>9.2.9.v20150224</jetty-version>
         <resteasy-version>3.13.0.Final</resteasy-version>
         <slf4j-version>1.6.3</slf4j-version>

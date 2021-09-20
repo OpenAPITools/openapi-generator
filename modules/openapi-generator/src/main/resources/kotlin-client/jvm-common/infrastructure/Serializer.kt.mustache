@@ -27,8 +27,8 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 {{/jackson}}
-import java.util.Date
 {{#kotlinx_serialization}}
+import java.util.Date
 import java.math.BigDecimal
 import java.math.BigInteger
 {{^threetenbp}}
@@ -60,6 +60,7 @@ import java.util.concurrent.atomic.AtomicLong
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
         .add(ByteArrayAdapter())
+        .add(URIAdapter())
         {{^moshiCodeGen}}
         .add(KotlinJsonAdapterFactory())
         {{/moshiCodeGen}}
@@ -78,7 +79,7 @@ import java.util.concurrent.atomic.AtomicLong
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
-    
+
     @JvmStatic
     val gson: Gson by lazy {
         gsonBuilder.create()
@@ -104,8 +105,8 @@ import java.util.concurrent.atomic.AtomicLong
         contextual(AtomicInteger::class, AtomicIntegerAdapter)
         contextual(AtomicLong::class, AtomicLongAdapter)
         contextual(AtomicBoolean::class, AtomicBooleanAdapter)
-        contextual(URI::class, UriAdapter)
-        contextual(URL::class, UrlAdapter)
+        contextual(URI::class, URIAdapter)
+        contextual(URL::class, URLAdapter)
         contextual(StringBuilder::class, StringBuilderAdapter)
     }
 

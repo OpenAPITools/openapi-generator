@@ -105,7 +105,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `EquilateralTriangle`. If the actual instanct is not `EquilateralTriangle`,
+        /// Get the actual instance of `EquilateralTriangle`. If the actual instance is not `EquilateralTriangle`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of EquilateralTriangle</returns>
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `IsoscelesTriangle`. If the actual instanct is not `IsoscelesTriangle`,
+        /// Get the actual instance of `IsoscelesTriangle`. If the actual instance is not `IsoscelesTriangle`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of IsoscelesTriangle</returns>
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `ScaleneTriangle`. If the actual instanct is not `ScaleneTriangle`,
+        /// Get the actual instance of `ScaleneTriangle`. If the actual instance is not `ScaleneTriangle`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of ScaleneTriangle</returns>
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
         {
             Triangle newTriangle = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newTriangle;
             }
@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into EquilateralTriangle: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into EquilateralTriangle: {1}", jsonString, exception.ToString()));
             }
 
             try
@@ -209,7 +209,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into IsoscelesTriangle: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into IsoscelesTriangle: {1}", jsonString, exception.ToString()));
             }
 
             try
@@ -229,7 +229,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into ScaleneTriangle: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into ScaleneTriangle: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -304,7 +304,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof(Triangle).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof(Triangle).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>

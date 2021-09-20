@@ -1,6 +1,5 @@
 package org.openapitools.client.infrastructure
 
-import okhttp3.Credentials
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -12,17 +11,26 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
-import java.io.File
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import okhttp3.internal.EMPTY_REQUEST
 import java.io.BufferedWriter
+import java.io.File
 import java.io.FileWriter
+import java.io.IOException
 import java.net.URLConnection
-import java.nio.file.Files
-import java.util.Date
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
+import java.util.Date
+import java.util.Locale
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlinx.coroutines.suspendCancellableCoroutine
+import com.google.gson.reflect.TypeToken
 
 open class ApiClient(val baseUrl: String) {
     companion object {
@@ -62,9 +70,7 @@ open class ApiClient(val baseUrl: String) {
 
     protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
         when {
-            content is File -> content.asRequestBody(
-                mediaType.toMediaTypeOrNull()
-            )
+            content is File -> content.asRequestBody(mediaType.toMediaTypeOrNull())
             mediaType == FormDataMediaType -> {
                 MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
@@ -101,9 +107,16 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> Serializer.gson.toJson(content, T::class.java).toRequestBody(
-                mediaType.toMediaTypeOrNull()
-            )
+            mediaType == JsonMediaType -> {
+                if (content == null) {
+                    EMPTY_REQUEST
+                } else {
+                    Serializer.gson.toJson(content, T::class.java)
+                        .toRequestBody(
+                            mediaType.toMediaTypeOrNull()
+                        )
+                }
+            }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
@@ -119,7 +132,7 @@ open class ApiClient(val baseUrl: String) {
         }
         if (T::class.java == File::class.java) {
             // return tempfile
-            val f = Files.createTempFile("tmp.org.openapitools.client", null).toFile()
+            val f = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
             f.deleteOnExit()
             val out = BufferedWriter(FileWriter(f))
             out.write(bodyContent)
@@ -127,12 +140,12 @@ open class ApiClient(val baseUrl: String) {
             return f as T
         }
         return when(mediaType) {
-            JsonMediaType -> Serializer.gson.fromJson(bodyContent, T::class.java)
+            JsonMediaType -> Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType())
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
 
-    protected fun updateAuthParams(requestConfig: RequestConfig) {
+    protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
         if (requestConfig.headers["api_key"].isNullOrEmpty()) {
             if (apiKey["api_key"] != null) {
                 if (apiKeyPrefix["api_key"] != null) {
@@ -149,7 +162,7 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
-    protected inline fun <reified T: Any?> request(requestConfig: RequestConfig): ApiInfrastructureResponse<T?> {
+    protected suspend inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
         // take authMethod from operation
@@ -183,7 +196,7 @@ open class ApiClient(val baseUrl: String) {
         }
 
         // TODO: support multiple contentType options here.
-        val contentType = (headers[ContentType] as String).substringBefore(";").toLowerCase()
+        val contentType = (headers[ContentType] as String).substringBefore(";").lowercase(Locale.getDefault())
 
         val request = when (requestConfig.method) {
             RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(requestConfig.body, contentType))
@@ -197,58 +210,59 @@ open class ApiClient(val baseUrl: String) {
             headers.forEach { header -> addHeader(header.key, header.value) }
         }.build()
 
-        val response = client.newCall(request).execute()
-        val accept = response.header(ContentType)?.substringBefore(";")?.toLowerCase()
+        val response: Response = suspendCancellableCoroutine { continuation ->
+            val call = client.newCall(request)
+            continuation.invokeOnCancellation { call.cancel() }
+            call.enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    continuation.resumeWithException(e)
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    continuation.resume(response)
+                }
+            })
+        }
+
+        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
-        when {
-            response.isRedirect -> return Redirection(
-                    response.code,
-                    response.headers.toMultimap()
+        return when {
+            response.isRedirect -> Redirection(
+                response.code,
+                response.headers.toMultimap()
             )
-            response.isInformational -> return Informational(
-                    response.message,
-                    response.code,
-                    response.headers.toMultimap()
+            response.isInformational -> Informational(
+                response.message,
+                response.code,
+                response.headers.toMultimap()
             )
-            response.isSuccessful -> return Success(
-                    responseBody(response.body, accept),
-                    response.code,
-                    response.headers.toMultimap()
+            response.isSuccessful -> Success(
+                responseBody(response.body, accept),
+                response.code,
+                response.headers.toMultimap()
             )
-            response.isClientError -> return ClientError(
-                    response.message,
-                    response.body?.string(),
-                    response.code,
-                    response.headers.toMultimap()
+            response.isClientError -> ClientError(
+                response.message,
+                response.body?.string(),
+                response.code,
+                response.headers.toMultimap()
             )
-            else -> return ServerError(
-                    response.message,
-                    response.body?.string(),
-                    response.code,
-                    response.headers.toMultimap()
+            else -> ServerError(
+                response.message,
+                response.body?.string(),
+                response.code,
+                response.headers.toMultimap()
             )
         }
     }
 
-    protected fun parameterToString(value: Any?): String {
-        when (value) {
-            null -> {
-                return ""
-            }
-            is Array<*> -> {
-                return toMultiValue(value, "csv").toString()
-            }
-            is Iterable<*> -> {
-                return toMultiValue(value, "csv").toString()
-            }
-            is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date -> {
-                return parseDateToQueryString<Any>(value)
-            }
-            else -> {
-                return value.toString()
-            }
-        }
+    protected fun parameterToString(value: Any?): String = when (value) {
+        null -> ""
+        is Array<*> -> toMultiValue(value, "csv").toString()
+        is Iterable<*> -> toMultiValue(value, "csv").toString()
+        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date ->
+            parseDateToQueryString(value)
+        else -> value.toString()
     }
 
     protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {

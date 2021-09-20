@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
+using FileParameter = Org.OpenAPITools.Client.FileParameter;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using System.Reflection;
@@ -97,7 +98,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `AppleReq`. If the actual instanct is not `AppleReq`,
+        /// Get the actual instance of `AppleReq`. If the actual instance is not `AppleReq`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of AppleReq</returns>
@@ -107,7 +108,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `BananaReq`. If the actual instanct is not `BananaReq`,
+        /// Get the actual instance of `BananaReq`. If the actual instance is not `BananaReq`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of BananaReq</returns>
@@ -147,7 +148,7 @@ namespace Org.OpenAPITools.Model
         {
             FruitReq newFruitReq = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newFruitReq;
             }
@@ -171,7 +172,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into AppleReq: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into AppleReq: {1}", jsonString, exception.ToString()));
             }
 
             try
@@ -191,7 +192,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into BananaReq: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into BananaReq: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -266,7 +267,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof(FruitReq).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof(FruitReq).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>

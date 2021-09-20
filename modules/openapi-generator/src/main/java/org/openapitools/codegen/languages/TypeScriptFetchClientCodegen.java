@@ -572,7 +572,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         }
 
-        this.addOperationModelImportInfomation(operations);
+        this.addOperationModelImportInformation(operations);
         this.updateOperationParameterForEnum(operations);
         if (this.getSagasAndRecords()) {
             this.updateOperationParameterForSagaAndRecords(operations);
@@ -760,9 +760,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    private void addOperationModelImportInfomation(Map<String, Object> operations) {
-        // This method will add extra infomation to the operations.imports array.
-        // The api template uses this infomation to import all the required
+    private void addOperationModelImportInformation(Map<String, Object> operations) {
+        // This method will add extra information to the operations.imports array.
+        // The api template uses this information to import all the required
         // models for a given operation.
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         List<String> existingRecordClassNames = new ArrayList<String>();
@@ -793,7 +793,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void updateOperationParameterForEnum(Map<String, Object> operations) {
-        // This method will add extra infomation as to whether or not we have enums and
+        // This method will add extra information as to whether or not we have enums and
         // update their names with the operation.id prefixed.
         // It will also set the uniqueId status if provided.
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
@@ -815,7 +815,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void updateOperationParameterForSagaAndRecords(Map<String, Object> operations) {
-        // This method will add extra infomation as to whether or not we have enums and
+        // This method will add extra information as to whether or not we have enums and
         // update their names with the operation.id prefixed.
         // It will also set the uniqueId status if provided.
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
@@ -865,8 +865,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void addOperationObjectResponseInformation(Map<String, Object> operations) {
-        // This method will modify the infomation on the operations' return type.
-        // The api template uses this infomation to know when to return a text
+        // This method will modify the information on the operations' return type.
+        // The api template uses this information to know when to return a text
         // response for a given simple response operation.
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");

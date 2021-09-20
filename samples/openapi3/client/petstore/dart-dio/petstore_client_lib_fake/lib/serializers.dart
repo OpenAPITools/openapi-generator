@@ -24,6 +24,7 @@ import 'package:openapi/model/cat.dart';
 import 'package:openapi/model/cat_all_of.dart';
 import 'package:openapi/model/category.dart';
 import 'package:openapi/model/class_model.dart';
+import 'package:openapi/model/deprecated_object.dart';
 import 'package:openapi/model/dog.dart';
 import 'package:openapi/model/dog_all_of.dart';
 import 'package:openapi/model/enum_arrays.dart';
@@ -45,6 +46,7 @@ import 'package:openapi/model/model_return.dart';
 import 'package:openapi/model/name.dart';
 import 'package:openapi/model/nullable_class.dart';
 import 'package:openapi/model/number_only.dart';
+import 'package:openapi/model/object_with_deprecated_fields.dart';
 import 'package:openapi/model/order.dart';
 import 'package:openapi/model/outer_composite.dart';
 import 'package:openapi/model/outer_enum.dart';
@@ -72,6 +74,7 @@ part 'serializers.g.dart';
   CatAllOf,
   Category,
   ClassModel,
+  DeprecatedObject,
   Dog,
   DogAllOf,
   EnumArrays,
@@ -93,6 +96,7 @@ part 'serializers.g.dart';
   Name,
   NullableClass,
   NumberOnly,
+  ObjectWithDeprecatedFields,
   Order,
   OuterComposite,
   OuterEnum,

@@ -30,6 +30,7 @@ object Pets : BaseTable<Pet>("Pet") {
     val name = text("name")
     val id = long("id") /* null */
     val category = long("category") /* null */
+    @Deprecated(message = "This property is deprecated.")
     val status = text("status").transform({ Pet.Status.valueOf(it ?: "available") }, { it.value }) /* null */ /* pet status in the store */
 
 

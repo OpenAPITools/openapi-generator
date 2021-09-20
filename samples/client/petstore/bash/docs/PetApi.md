@@ -31,7 +31,7 @@ petstore-cli addPet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -135,11 +135,11 @@ petstore-cli findPetsByTags  Specify as:  tags="value1,value2,..."
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**array[string]**](string.md) | Tags to filter by | [default to null]
+ **tags** | [**Set[string]**](string.md) | Tags to filter by | [default to null]
 
 ### Return type
 
-[**array[Pet]**](Pet.md)
+[**Set[Pet]**](Pet.md)
 
 ### Authorization
 
@@ -203,7 +203,7 @@ petstore-cli updatePet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
 
 ### Return type
 
