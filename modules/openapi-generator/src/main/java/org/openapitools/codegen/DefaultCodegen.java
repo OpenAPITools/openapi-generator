@@ -6042,17 +6042,13 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenParameter codegenParameter;
                 // key => property name
                 // value => property schema
-                Schema s = entry.getValue();
-                // array of schema
-                if (ModelUtils.isArraySchema(s)) {
-                    final ArraySchema arraySchema = (ArraySchema) s;
-                    codegenParameter = fromFormProperty(entry.getKey(), s, imports);
-                } else if (ModelUtils.isMapSchema(s)) {
+                String propertyName = entry.getKey();
+                Schema propertySchema = entry.getValue();
+                if (ModelUtils.isMapSchema(propertySchema)) {
                     LOGGER.error("Map of form parameters not supported. Please report the issue to https://github.com/openapitools/openapi-generator if you need help.");
                     continue;
-                } else {
-                    codegenParameter = fromFormProperty(entry.getKey(), entry.getValue(), imports);
                 }
+                codegenParameter = fromFormProperty(propertyName, propertySchema, imports);
 
                 // Set 'required' flag defined in the schema element
                 if (!codegenParameter.required && schema.getRequired() != null) {
