@@ -442,7 +442,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @return API client
    */
   public ApiClient setUserAgent(String userAgent) {
-    userAgent = userAgent;
+    this.userAgent = userAgent;
     addDefaultHeader("User-Agent", userAgent);
     return this;
   }

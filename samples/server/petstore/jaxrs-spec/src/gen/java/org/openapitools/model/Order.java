@@ -73,6 +73,7 @@ public enum StatusEnum {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
   }
@@ -93,6 +94,7 @@ public enum StatusEnum {
     return petId;
   }
 
+  @JsonProperty("petId")
   public void setPetId(Long petId) {
     this.petId = petId;
   }
@@ -113,6 +115,7 @@ public enum StatusEnum {
     return quantity;
   }
 
+  @JsonProperty("quantity")
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
@@ -133,6 +136,7 @@ public enum StatusEnum {
     return shipDate;
   }
 
+  @JsonProperty("shipDate")
   public void setShipDate(Date shipDate) {
     this.shipDate = shipDate;
   }
@@ -154,6 +158,7 @@ public enum StatusEnum {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
@@ -174,6 +179,7 @@ public enum StatusEnum {
     return complete;
   }
 
+  @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }

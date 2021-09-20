@@ -18,11 +18,14 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
 import java.text.Normalizer;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Arrays;
@@ -46,8 +49,6 @@ import org.slf4j.LoggerFactory;
 
 public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
-
-    static final Logger LOGGER = LoggerFactory.getLogger(WsdlSchemaCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SCHEMA;
