@@ -43,6 +43,7 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -81,24 +82,9 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -1365,26 +1351,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     LOGGER.info("Processing operation {}", operation.getOperationId());
                     boolean hasBodyParameter = hasBodyParameter(openAPI, operation);
                     boolean hasFormParameter = hasFormParameter(openAPI, operation);
+
                     // OpenAPI parser do not add Inline One Of models in Operations to Components/Schemas
                     if (hasBodyParameter) {
-                        RequestBody requestBody = operation.getRequestBody();
-                        Optional.ofNullable(requestBody)
-                                .map(ModelUtils::getSchemaFromRequestBody)
-                                .ifPresent(schema -> {
-                                    if (schema instanceof ComposedSchema
-                                            && ((ComposedSchema) schema).getProperties() == null
-                                            && Optional.ofNullable(schema.getExtensions()).map(m -> m.containsKey("x-one-of-name")).orElse(false)
-                                    ) {
-                                        String oneOfModelName = (String) schema.getExtensions().get("x-one-of-name");
-                                        Schema originalSchema = ModelUtils.getSchemaFromRequestBody(requestBody);
-                                        Schema replacedSchema = new Schema<>().$ref("#/components/schemas/" + oneOfModelName);
-                                        requestBody.getContent().values().forEach(mediaType -> {
-                                            mediaType.setSchema(replacedSchema);
-                                            ModelUtils.getSchemas(openAPI).put(oneOfModelName, originalSchema);
-                                        });
-                                    }
-                                });
+                        Optional.ofNullable(operation.getRequestBody())
+                                .map(RequestBody::getContent)
+                                .ifPresent(this::repairInlineOneOf);
                     }
+                    if (operation.getResponses() != null) {
+                        operation.getResponses().values().stream().map(ApiResponse::getContent)
+                                .filter(Objects::nonNull)
+                                .forEach(this::repairInlineOneOf);
+                    }
+
                     if (hasBodyParameter || hasFormParameter) {
                         String defaultContentType = hasFormParameter ? "application/x-www-form-urlencoded" : "application/json";
                         List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
@@ -1441,6 +1420,33 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                                     .findFirst()
                                     .orElse((Schema) s)));
         }
+    }
+
+
+    /**
+     * Add all OneOf schemas to #/components/schemas and replace them in the original content by ref schema
+     *
+     * OpenAPI Parser does not add inline OneOf schemas to models to generate
+     *
+     * @param content a 'content' section in the OAS specification.
+     */
+    private void repairInlineOneOf(final Content content) {
+        content.values().forEach(mediaType -> {
+            final Schema replacingSchema = mediaType.getSchema();
+            if (isOneOfSchema(replacingSchema)) {
+                final String oneOfModelName = (String) replacingSchema.getExtensions().get("x-one-of-name");
+                final Schema newRefSchema = new Schema<>().$ref("#/components/schemas/" + oneOfModelName);
+                mediaType.setSchema(newRefSchema);
+                ModelUtils.getSchemas(openAPI).put(oneOfModelName, replacingSchema);
+            }
+        });
+    }
+
+    private static boolean isOneOfSchema(final Schema schema) {
+        return schema instanceof ComposedSchema
+                && ((ComposedSchema) schema).getProperties() == null
+                && Optional.ofNullable(schema.getExtensions()).map(m -> m.containsKey("x-one-of-name"))
+                .orElse(false);
     }
 
     private static String getAccept(OpenAPI openAPI, Operation operation) {
