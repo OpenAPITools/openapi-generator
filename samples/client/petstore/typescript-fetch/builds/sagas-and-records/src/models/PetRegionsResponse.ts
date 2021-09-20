@@ -69,4 +69,3 @@ export function PetRegionsResponseToJSON(value?: PetRegionsResponse | null): any
     };
 }
 
-
