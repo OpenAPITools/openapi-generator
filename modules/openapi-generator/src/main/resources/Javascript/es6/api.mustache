@@ -43,7 +43,7 @@ export default class <&classname> {
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with an object containing data of type {@link <&vendorExtensions.x-jsdoc-type>} and HTTP response</returnType><^returnType>, with an object containing HTTP response</returnType></usePromises>
      */
-</emitJSDoc>    <operationId><#usePromises>WithHttpInfo</usePromises>(<vendorExtensions.x-codegen-arg-list>) {
+</emitJSDoc>    <operationId><#usePromises>WithHttpInfo</usePromises>(<vendorExtensions.x-codegen-arg-list>, accept='') {
       <#vendorExtensions.x-codegen-has-optional-params>
       opts = opts || {};
       </vendorExtensions.x-codegen-has-optional-params>
@@ -73,6 +73,10 @@ export default class <&classname> {
       let authNames = [<#authMethods>'<name>'<^-last>, </-last></authMethods>];
       let contentTypes = [<#consumes>'<& mediaType>'<^-last>, </-last></consumes>];
       let accepts = [<#produces>'<& mediaType>'<^-last>, </-last></produces>];
+      if (accept !== '') {
+        const index = accepts.indexOf(accept);
+        accepts = index > -1 ? [accepts[index]] : accepts;
+      } 
       let returnType = <#vendorExtensions.x-return-type><&vendorExtensions.x-return-type></vendorExtensions.x-return-type><^vendorExtensions.x-return-type>null</vendorExtensions.x-return-type>;
       <#servers.0>
       let basePaths = [<#servers>'<url>'<^-last>, </-last></servers>];
