@@ -129,7 +129,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
                 // if param is enum, uppercase 'baseName' to have a reference to wsdl simpletype
                 if (param.isEnum) {
-                    param.baseName = param.baseName.substring(0, 1).toUpperCase()
+                    param.baseName = param.baseName.substring(0, 1).toUpperCase(Locale.getDefault())
                             + param.baseName.substring(1);
                 }
             }
@@ -137,12 +137,12 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
             // handle case lowercase schema-name in openapi to have reference to wsdl complextype
             for (CodegenResponse response : op.responses) {
                 if (response.isModel) {
-                    response.dataType = response.dataType.substring(0, 1).toUpperCase()
+                    response.dataType = response.dataType.substring(0, 1).toUpperCase(Locale.getDefault())
                             + response.dataType.substring(1); 
                 }
 
                 if (response.isArray) {
-                    response.baseType = response.baseType.substring(0, 1).toUpperCase()
+                    response.baseType = response.baseType.substring(0, 1).toUpperCase(Locale.getDefault())
                             + response.baseType.substring(1);
                 }
             }
@@ -193,12 +193,12 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
                 // lowercase basetypes if openapitype is string
                 if ("string".equals(var.openApiType)) {
-                    var.baseType = var.baseType.substring(0, 1).toLowerCase()
+                    var.baseType = var.baseType.substring(0, 1).toLowerCase(Locale.getDefault())
                             + var.baseType.substring(1);
                 }
                 // if string enum, uppercase 'name' to have a reference to wsdl simpletype
                 if (var.isEnum) {
-                    var.name = var.name.substring(0, 1).toUpperCase() + var.name.substring(1);
+                    var.name = var.name.substring(0, 1).toUpperCase(Locale.getDefault()) + var.name.substring(1);
                 }
                 // prevent default="null" in wsdl-tag if no default was specified for a property
                 if ("null".equals(var.defaultValue) || var.defaultValue == null) {
