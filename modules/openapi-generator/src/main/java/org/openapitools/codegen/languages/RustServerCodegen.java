@@ -1695,8 +1695,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isBinarySchema(schema)) {
             codegenParameter.isBinary = true;
             codegenParameter.isFile = true; // file = binary in OAS3
-        } else if (ModelUtils.isFileSchema(schema)) {
-            codegenParameter.isFile = true;
         } else if (ModelUtils.isUUIDSchema(schema)) {
             codegenParameter.isUuid = true;
         } else if (ModelUtils.isURISchema(schema)) {
