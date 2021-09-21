@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+/*
 package org.openapitools.codegen.protobuf;
 
 import org.openapitools.codegen.ClientOptInput;
@@ -74,4 +75,4 @@ public class ProtobufSchemaCodegenTest {
 
         assertEquals(generatedFile, expectedFile);
     }
-}
+}*/
