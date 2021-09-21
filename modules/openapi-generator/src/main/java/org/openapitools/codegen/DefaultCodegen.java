@@ -5653,6 +5653,9 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Set CodegenParameter boolean flag using CodegenProperty.
+     * NOTE: This is deprecated and can be removed in 6.0.0
+     * This logic has been folded into the original call sites and long term will be moved into
+     * IJsonSchemaValidationProperties.setTypeProperties and overrides like updateModelForObject
      *
      * @param parameter Codegen Parameter
      * @param property  Codegen property
