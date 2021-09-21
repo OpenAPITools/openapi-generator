@@ -152,6 +152,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String apiNamePrefix = "", apiNameSuffix = "Api";
     protected String testPackage = "";
+    protected String filesMetadataFilename = "FILES";
+    protected String versionMetadataFilename = "VERSION";
     /*
     apiTemplateFiles are for API outputs only (controllers/handlers).
     API templates may be written multiple times; APIs are grouped by tag and the file is written once per tag group.
@@ -1177,6 +1179,24 @@ public class DefaultCodegen implements CodegenConfig {
         this.inputSpec = inputSpec;
     }
 
+    @Override
+    public String getFilesMetadataFilename() {
+        return filesMetadataFilename;
+    }
+
+    public void setFilesMetadataFilename(String filesMetadataFilename) {
+        this.filesMetadataFilename = filesMetadataFilename;
+    }
+
+    @Override
+    public String getVersionMetadataFilename() {
+        return versionMetadataFilename;
+    }
+
+    public void setVersionMetadataFilename(String versionMetadataFilename) {
+        this.versionMetadataFilename = versionMetadataFilename;
+    }
+
     public void setTemplateDir(String templateDir) {
         this.templateDir = templateDir;
     }
@@ -1560,6 +1580,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("char", "String");
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "Integer");
+        // FIXME: java specific type should be in Java Based Abstract Impl's
         typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("binary", "File");
         typeMapping.put("file", "File");

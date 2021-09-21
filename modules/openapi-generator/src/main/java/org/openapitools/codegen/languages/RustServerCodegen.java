@@ -395,8 +395,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
-            camelizedName = "Model" + camelizedName;
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, camelizedName);
+            final String modelName = "Model" + camelizedName;
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+            return modelName;
         }
 
         // model name starts with number

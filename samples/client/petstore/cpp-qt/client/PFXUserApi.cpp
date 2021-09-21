@@ -126,9 +126,15 @@ int PFXUserApi::addServerConfiguration(const QString &operation, const QUrl &url
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
 void PFXUserApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
         setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
+#else
+    for (auto &e : _serverIndices.keys()) {
+        setServerIndex(e, addServerConfiguration(e, url, description, variables));
+    }
+#endif
 }
 
 /**
@@ -238,7 +244,7 @@ void PFXUserApi::createUser(const PFXUser &body) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -290,7 +296,7 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -342,7 +348,7 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -404,7 +410,7 @@ void PFXUserApi::deleteUser(const QString &username) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -466,7 +472,7 @@ void PFXUserApi::getUserByName(const QString &username) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -546,7 +552,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -596,7 +602,7 @@ void PFXUserApi::logoutUser() {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
@@ -662,7 +668,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
 #else
-    for (auto key = _defaultHeaders.keys()) {
+    for (auto key : _defaultHeaders.keys()) {
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif

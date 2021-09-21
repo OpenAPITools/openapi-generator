@@ -14,6 +14,7 @@ import okhttp3.MultipartBody
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
+import okhttp3.internal.EMPTY_REQUEST
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -103,9 +104,16 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> Serializer.jacksonObjectMapper.writeValueAsString(content).toRequestBody(
-                mediaType.toMediaTypeOrNull()
-            )
+            mediaType == JsonMediaType -> {
+                if (content == null) {
+                    EMPTY_REQUEST
+                } else {
+                    Serializer.jacksonObjectMapper.writeValueAsString(content)
+                        .toRequestBody(
+                            mediaType.toMediaTypeOrNull()
+                        )
+                }
+            }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
