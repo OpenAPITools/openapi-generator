@@ -6149,7 +6149,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.dataType = codegenProperty.dataType;
         codegenParameter.defaultValue = codegenProperty.getDefaultValue();
         codegenParameter.baseName = codegenProperty.baseName;
-        codegenParameter.paramName = toParamName((codegenParameter.baseName));
+        codegenParameter.paramName = toParamName(codegenParameter.baseName);
         codegenParameter.dataFormat = codegenProperty.dataFormat;
 
         if (ModelUtils.isFileSchema(ps) && !ModelUtils.isStringSchema(ps)) {
