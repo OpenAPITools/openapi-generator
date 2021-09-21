@@ -89,6 +89,7 @@ class ArrayTest(ModelNormal):
         return {
             'array_of_string': ([str],),  # noqa: E501
             'array_array_of_integer': ([[int]],),  # noqa: E501
+            'array_of_free_form_object': ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}],),  # noqa: E501
             'array_array_of_model': ([[ReadOnlyFirst]],),  # noqa: E501
         }
 
@@ -100,6 +101,7 @@ class ArrayTest(ModelNormal):
     attribute_map = {
         'array_of_string': 'array_of_string',  # noqa: E501
         'array_array_of_integer': 'array_array_of_integer',  # noqa: E501
+        'array_of_free_form_object': 'array_of_free_form_object',  # noqa: E501
         'array_array_of_model': 'array_array_of_model',  # noqa: E501
     }
 
@@ -146,6 +148,7 @@ class ArrayTest(ModelNormal):
                                 _visited_composed_classes = (Animal,)
             array_of_string ([str]): [optional]  # noqa: E501
             array_array_of_integer ([[int]]): [optional]  # noqa: E501
+            array_of_free_form_object ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}]): [optional]  # noqa: E501
             array_array_of_model ([[ReadOnlyFirst]]): [optional]  # noqa: E501
         """
 
@@ -230,6 +233,7 @@ class ArrayTest(ModelNormal):
                                 _visited_composed_classes = (Animal,)
             array_of_string ([str]): [optional]  # noqa: E501
             array_array_of_integer ([[int]]): [optional]  # noqa: E501
+            array_of_free_form_object ([{str: (bool, date, datetime, dict, float, int, list, str, none_type)}]): [optional]  # noqa: E501
             array_array_of_model ([[ReadOnlyFirst]]): [optional]  # noqa: E501
         """
 

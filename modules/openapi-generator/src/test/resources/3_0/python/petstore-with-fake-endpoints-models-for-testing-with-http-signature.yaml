@@ -1944,6 +1944,11 @@ components:
             items:
               type: integer
               format: int64
+        array_of_free_form_object:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
         array_array_of_model:
           type: array
           items:

@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **array_of_string** | **[str]** |  | [optional] 
 **array_array_of_integer** | **[[int]]** |  | [optional] 
+**array_of_free_form_object** | **[{str: (bool, date, datetime, dict, float, int, list, str, none_type)}]** |  | [optional] 
 **array_array_of_model** | [**[[ReadOnlyFirst]]**](ReadOnlyFirst.md) |  | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
