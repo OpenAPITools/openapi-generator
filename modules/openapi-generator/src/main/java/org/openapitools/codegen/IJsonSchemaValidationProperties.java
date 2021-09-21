@@ -156,14 +156,15 @@ public interface IJsonSchemaValidationProperties {
             setIsMap(true);
         } else if (ModelUtils.isArraySchema(p)) {
             setIsArray(true);
+        } else if (ModelUtils.isFileSchema(p) && !ModelUtils.isStringSchema(p)) {
+            // swagger v2 only, type file
+            ;
         } else if (ModelUtils.isStringSchema(p)) {
             setIsString(true);
             if (ModelUtils.isByteArraySchema(p)) {
                 ;
             } else if (ModelUtils.isBinarySchema(p)) {
-                setIsString(false);
-            } else if (ModelUtils.isFileSchema(p)) {
-                // file = binary in OAS3
+                //  openapi v3 way of representing binary + file data
                 setIsString(false);
             } else if (ModelUtils.isUUIDSchema(p)) {
                 // keep isString to true to make it backward compatible
