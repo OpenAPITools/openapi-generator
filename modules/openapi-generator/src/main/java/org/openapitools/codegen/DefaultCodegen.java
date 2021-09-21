@@ -4429,6 +4429,35 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema){
+        if (ModelUtils.isEmailSchema(parameterSchema)) {
+            codegenParameter.isEmail = true;
+        } else if (ModelUtils.isUUIDSchema(parameterSchema)) {
+            codegenParameter.isUuid = true;
+        } else if (ModelUtils.isByteArraySchema(parameterSchema)) {
+            codegenParameter.setIsString(false);
+            codegenParameter.isByteArray = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isBinarySchema(parameterSchema)) {
+            codegenParameter.isBinary = true;
+            codegenParameter.isFile = true; // file = binary in OAS3
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDateSchema(parameterSchema)) {
+            codegenParameter.isDate = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDateTimeSchema(parameterSchema)) {
+            codegenParameter.isDateTime = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDecimalSchema(parameterSchema)) { // type: string, format: number
+            codegenParameter.setIsString(false);
+            codegenParameter.isDecimal = true;
+            codegenParameter.isPrimitiveType = true;
+        }
+        if (Boolean.TRUE.equals(codegenParameter.isString)) {
+            codegenParameter.isPrimitiveType = true;
+        }
+    }
+
     /**
      * Convert OAS Parameter object to Codegen Parameter object
      *
@@ -4528,32 +4557,7 @@ public class DefaultCodegen implements CodegenConfig {
             // swagger v2 only, type file
             codegenParameter.isFile = true;
         } else if (ModelUtils.isStringSchema(parameterSchema)) {
-            if (ModelUtils.isEmailSchema(parameterSchema)) {
-                codegenParameter.isEmail = true;
-            } else if (ModelUtils.isUUIDSchema(parameterSchema)) {
-                codegenParameter.isUuid = true;
-            } else if (ModelUtils.isByteArraySchema(parameterSchema)) {
-                codegenParameter.setIsString(false);
-                codegenParameter.isByteArray = true;
-                codegenParameter.isPrimitiveType = true;
-            } else if (ModelUtils.isBinarySchema(parameterSchema)) {
-                codegenParameter.isBinary = true;
-                codegenParameter.isFile = true; // file = binary in OAS3
-                codegenParameter.isPrimitiveType = true;
-            } else if (ModelUtils.isDateSchema(parameterSchema)) {
-                codegenParameter.isDate = true;
-                codegenParameter.isPrimitiveType = true;
-            } else if (ModelUtils.isDateTimeSchema(parameterSchema)) {
-                codegenParameter.isDateTime = true;
-                codegenParameter.isPrimitiveType = true;
-            } else if (ModelUtils.isDecimalSchema(parameterSchema)) { // type: string, format: number
-                codegenParameter.setIsString(false);
-                codegenParameter.isDecimal = true;
-                codegenParameter.isPrimitiveType = true;
-            }
-            if (Boolean.TRUE.equals(codegenParameter.isString)) {
-                codegenParameter.isPrimitiveType = true;
-            }
+            updateParameterForString(codegenParameter, parameterSchema);
         } else if (ModelUtils.isBooleanSchema(parameterSchema)) {
             codegenParameter.isPrimitiveType = true;
         } else if (ModelUtils.isNumberSchema(parameterSchema)) {

@@ -1711,4 +1711,37 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
         codegenParameter.pattern = toRegularExpression(schema.getPattern());
     }
+
+    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema){
+        /**
+         * we have a custom version of this function to set isString to false for uuid
+         */
+        if (ModelUtils.isEmailSchema(parameterSchema)) {
+            codegenParameter.isEmail = true;
+        } else if (ModelUtils.isUUIDSchema(parameterSchema)) {
+            codegenParameter.setIsString(false);
+            codegenParameter.isUuid = true;
+        } else if (ModelUtils.isByteArraySchema(parameterSchema)) {
+            codegenParameter.setIsString(false);
+            codegenParameter.isByteArray = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isBinarySchema(parameterSchema)) {
+            codegenParameter.isBinary = true;
+            codegenParameter.isFile = true; // file = binary in OAS3
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDateSchema(parameterSchema)) {
+            codegenParameter.isDate = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDateTimeSchema(parameterSchema)) {
+            codegenParameter.isDateTime = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDecimalSchema(parameterSchema)) { // type: string, format: number
+            codegenParameter.setIsString(false);
+            codegenParameter.isDecimal = true;
+            codegenParameter.isPrimitiveType = true;
+        }
+        if (Boolean.TRUE.equals(codegenParameter.isString)) {
+            codegenParameter.isPrimitiveType = true;
+        }
+    }
 }
