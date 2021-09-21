@@ -109,10 +109,6 @@ func selectHeaderAccept(accepts []string) string {
 		return ""
 	}
 
-	if contains(accepts, "application/json") {
-		return "application/json"
-	}
-
 	return strings.Join(accepts, ",")
 }
 
