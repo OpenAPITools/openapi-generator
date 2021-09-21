@@ -15,6 +15,7 @@ DIRECTORY=`dirname $0`
 
 # spm build
 mvn -f $DIRECTORY/alamofireLibrary/pom.xml integration-test
+mvn -f $DIRECTORY/asyncAwaitLibrary/pom.xml integration-test
 mvn -f $DIRECTORY/combineLibrary/pom.xml integration-test
 mvn -f $DIRECTORY/default/pom.xml integration-test
 mvn -f $DIRECTORY/deprecated/pom.xml integration-test

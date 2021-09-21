@@ -22,7 +22,7 @@ open class UserAPI {
      */
     open class func createUser( body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+        createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -67,7 +67,7 @@ open class UserAPI {
      */
     open class func createUsersWithArrayInput( body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+        createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -111,7 +111,7 @@ open class UserAPI {
      */
     open class func createUsersWithListInput( body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+        createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -155,7 +155,7 @@ open class UserAPI {
      */
     open class func deleteUser( username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result -> Void in
+        deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -203,7 +203,7 @@ open class UserAPI {
      */
     open class func getUserByName( username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<User> {
         let deferred = Promise<User>.pending()
-        getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result -> Void in
+        getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -251,7 +251,7 @@ open class UserAPI {
      */
     open class func loginUser( username: String,  password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<String> {
         let deferred = Promise<String>.pending()
-        loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result -> Void in
+        loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -300,7 +300,7 @@ open class UserAPI {
      */
     open class func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        logoutUserWithRequestBuilder().execute(apiResponseQueue) { result -> Void in
+        logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -344,7 +344,7 @@ open class UserAPI {
      */
     open class func updateUser( username: String,  body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result -> Void in
+        updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())

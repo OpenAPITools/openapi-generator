@@ -22,7 +22,7 @@ open class UserAPI {
      */
     open class func createUser(body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+            createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -69,7 +69,7 @@ open class UserAPI {
      */
     open class func createUsersWithArrayInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+            createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -115,7 +115,7 @@ open class UserAPI {
      */
     open class func createUsersWithListInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+            createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -161,7 +161,7 @@ open class UserAPI {
      */
     open class func deleteUser(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result -> Void in
+            deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -211,7 +211,7 @@ open class UserAPI {
      */
     open class func getUserByName(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<User> {
         return Observable.create { observer -> Disposable in
-            getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result -> Void in
+            getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -261,7 +261,7 @@ open class UserAPI {
      */
     open class func loginUser(username: String, password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<String> {
         return Observable.create { observer -> Disposable in
-            loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result -> Void in
+            loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -312,7 +312,7 @@ open class UserAPI {
      */
     open class func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            logoutUserWithRequestBuilder().execute(apiResponseQueue) { result -> Void in
+            logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -358,7 +358,7 @@ open class UserAPI {
      */
     open class func updateUser(username: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result -> Void in
+            updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
