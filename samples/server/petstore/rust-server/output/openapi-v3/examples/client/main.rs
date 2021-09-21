@@ -189,7 +189,7 @@ fn main() {
         },
         Some("ParamgetGet") => {
             let result = rt.block_on(client.paramget_get(
-                  Some(serde_json::from_str::<uuid::Uuid>(r#"38400000-8cf0-11bd-b23e-10b96e4ef00d"#).expect("Failed to parse JSON example")),
+                  Some("38400000-8cf0-11bd-b23e-10b96e4ef00d".to_string()),
                   None,
                   None
             ));

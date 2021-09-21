@@ -4411,6 +4411,22 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging codegenParameter return: {}", codegenParameter);
     }
 
+
+    private void updateParameterForMap(CodegenParameter codegenParameter, Schema parameterSchema, Set<String> imports) {
+        CodegenProperty codegenProperty = fromProperty("inner", getAdditionalProperties(parameterSchema));
+        codegenParameter.items = codegenProperty;
+        codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
+        codegenParameter.baseType = codegenProperty.dataType;
+        codegenParameter.isContainer = true;
+        codegenParameter.isMap = true;
+
+        // recursively add import
+        while (codegenProperty != null) {
+            imports.add(codegenProperty.baseType);
+            codegenProperty = codegenProperty.items;
+        }
+    }
+
     /**
      * Convert OAS Parameter object to Codegen Parameter object
      *
@@ -4484,6 +4500,7 @@ public class DefaultCodegen implements CodegenConfig {
             return codegenParameter;
         }
         ModelUtils.syncValidationProperties(parameterSchema, codegenParameter);
+        codegenParameter.setTypeProperties(parameterSchema);
 
         if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
             codegenParameter.isNullable = true;
@@ -4504,7 +4521,73 @@ public class DefaultCodegen implements CodegenConfig {
         // TODO revise collectionFormat, default collection format in OAS 3 appears to multi at least for query parameters
         // https://swagger.io/docs/specification/serialization/
         String collectionFormat = null;
-        if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
+
+        if (ModelUtils.isStringSchema(parameterSchema)) {
+            if (ModelUtils.isEmailSchema(parameterSchema)) {
+                codegenParameter.isEmail = true;
+            } else if (ModelUtils.isUUIDSchema(parameterSchema)) {
+                codegenParameter.isUuid = true;
+            } else if (ModelUtils.isByteArraySchema(parameterSchema)) {
+                codegenParameter.setIsString(false);
+                codegenParameter.isByteArray = true;
+                codegenParameter.isPrimitiveType = true;
+            } else if (ModelUtils.isBinarySchema(parameterSchema)) {
+                codegenParameter.isBinary = true;
+                codegenParameter.isFile = true; // file = binary in OAS3
+                codegenParameter.isPrimitiveType = true;
+            } else if (ModelUtils.isFileSchema(parameterSchema)) {
+                // file = binary in OAS3
+                codegenParameter.isFile = true;
+            } else if (ModelUtils.isDateSchema(parameterSchema)) {
+                codegenParameter.isDate = true;
+                codegenParameter.isPrimitiveType = true;
+            } else if (ModelUtils.isDateTimeSchema(parameterSchema)) {
+                codegenParameter.isDateTime = true;
+                codegenParameter.isPrimitiveType = true;
+            } else if (ModelUtils.isDecimalSchema(parameterSchema)) { // type: string, format: number
+                codegenParameter.setIsString(false);
+                codegenParameter.isDecimal = true;
+                codegenParameter.isPrimitiveType = true;
+            }
+            if (Boolean.TRUE.equals(codegenParameter.isString)) {
+                codegenParameter.isPrimitiveType = true;
+            }
+        } else if (ModelUtils.isBooleanSchema(parameterSchema)) {
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isNumberSchema(parameterSchema)) {
+            codegenParameter.isPrimitiveType = true;
+            if (ModelUtils.isFloatSchema(parameterSchema)) { // float
+                codegenParameter.isFloat = true;
+            } else if (ModelUtils.isDoubleSchema(parameterSchema)) { // double
+                codegenParameter.isDouble = true;
+            }
+        } else if (ModelUtils.isIntegerSchema(parameterSchema)) { // integer type
+            codegenParameter.isPrimitiveType = true;
+            if (ModelUtils.isLongSchema(parameterSchema)) { // int64/long format
+                codegenParameter.isLong = true;
+            } else {
+                codegenParameter.isInteger = true;
+                if (ModelUtils.isShortSchema(parameterSchema)) { // int32/short format
+                    codegenParameter.isShort = true;
+                } else { // unbounded integer
+                    ;
+                }
+            }
+        } else if (ModelUtils.isTypeObjectSchema(parameterSchema)) {
+            if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
+                updateParameterForMap(codegenParameter, parameterSchema, imports);
+            }
+            if (ModelUtils.isFreeFormObject(openAPI, parameterSchema)) {
+                codegenParameter.isFreeFormObject = true;
+            }
+        } else if (ModelUtils.isNullType(parameterSchema)) {
+            ;
+        } else if (ModelUtils.isAnyType(parameterSchema)) {
+            // any schema with no type set, composed schemas often do this
+            if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
+                updateParameterForMap(codegenParameter, parameterSchema, imports);
+            }
+        } else if (ModelUtils.isArraySchema(parameterSchema)) {
             final ArraySchema arraySchema = (ArraySchema) parameterSchema;
             Schema inner = getSchemaItems(arraySchema);
 
@@ -4516,48 +4599,26 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             codegenParameter.baseType = codegenProperty.dataType;
             codegenParameter.isContainer = true;
-            codegenParameter.isArray = true;
 
             // recursively add import
             while (codegenProperty != null) {
                 imports.add(codegenProperty.baseType);
                 codegenProperty = codegenProperty.items;
             }
-
-        } else if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
-            CodegenProperty codegenProperty = fromProperty("inner", getAdditionalProperties(parameterSchema));
-            codegenParameter.items = codegenProperty;
-            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-            codegenParameter.baseType = codegenProperty.dataType;
-            codegenParameter.isContainer = true;
-            codegenParameter.isMap = true;
-
-            // recursively add import
-            while (codegenProperty != null) {
-                imports.add(codegenProperty.baseType);
-                codegenProperty = codegenProperty.items;
-            }
-        } else if (ModelUtils.isNullType(parameterSchema)) {
-            codegenParameter.isNull = true;
-        }
-/* TODO revise the logic below
         } else {
-            Map<PropertyId, Object> args = new HashMap<PropertyId, Object>();
-            String format = qp.getFormat();
-            args.put(PropertyId.ENUM, qp.getEnum());
-            property = PropertyBuilder.build(type, format, args);
+            // referenced schemas
+            ;
         }
-*/
 
         CodegenProperty codegenProperty = fromProperty(parameter.getName(), parameterSchema);
+        if (Boolean.TRUE.equals(codegenProperty.isModel)) {
+            codegenParameter.isModel = true;
+        }
         // TODO revise below which seems not working
         //if (parameterSchema.getRequired() != null && !parameterSchema.getRequired().isEmpty() && parameterSchema.getRequired().contains(codegenProperty.baseName)) {
         codegenProperty.required = Boolean.TRUE.equals(parameter.getRequired()) ? true : false;
         //}
         //codegenProperty.required = true;
-
-        // set boolean flag (e.g. isString)
-        setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
 
         String parameterDataType = this.getParameterDataType(parameter, parameterSchema);
         if (parameterDataType != null) {

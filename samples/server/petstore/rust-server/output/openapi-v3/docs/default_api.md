@@ -326,7 +326,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **uuid** | [****](.md)| The stuff to get | 
+ **uuid** | **uuid::Uuid**| The stuff to get | 
  **some_object** | [****](.md)| Some object to pass as query parameter | 
  **some_list** | [****](.md)| Some list to pass as query parameter | 
 
