@@ -916,16 +916,4 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
-    @Override
-    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
-            Map<String, String> oneImport = new HashMap<String, String>() {{
-                put("import", importMapping.get(i));
-            }};
-            if (!imports.contains(oneImport)) {
-                imports.add(oneImport);
-            }
-        }
-    }
-
 }
