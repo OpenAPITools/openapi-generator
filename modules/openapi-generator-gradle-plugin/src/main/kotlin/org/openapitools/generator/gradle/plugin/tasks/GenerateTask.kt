@@ -38,6 +38,8 @@ import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
 import org.openapitools.codegen.config.GlobalSettings
+import org.openapitools.generator.gradle.plugin.service.PropertyHandler.Companion.ifNotEmpty
+import org.openapitools.generator.gradle.plugin.service.SpecificationHandler
 
 /**
  * A task which generates the desired code.
@@ -91,9 +93,17 @@ open class GenerateTask : DefaultTask() {
     /**
      * The Open API 2.0/3.x specification location.
      */
+    @Optional
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
+
+    /**
+     * The Open API 2.0/3.x specification location in remote source.
+     */
+    @Optional
+    @Input
+    val remoteSpec = project.objects.property<String?>()
 
     /**
      * The template directory holding a custom template.
@@ -533,10 +543,6 @@ open class GenerateTask : DefaultTask() {
                 configurator.setSkipOverwrite(value ?: false)
             }
 
-            inputSpec.ifNotEmpty { value ->
-                configurator.setInputSpec(value)
-            }
-
             generatorName.ifNotEmpty { value ->
                 configurator.setGeneratorName(value)
             }
@@ -646,6 +652,9 @@ open class GenerateTask : DefaultTask() {
                     configurator.setTemplatingEngineName("handlebars")
                 }
             }
+
+            val spec = SpecificationHandler.getInputSpec(inputSpec = inputSpec, remoteSpec = remoteSpec)
+            configurator.setInputSpec(spec)
 
             if (globalProperties.isPresent) {
                 globalProperties.get().forEach { entry ->

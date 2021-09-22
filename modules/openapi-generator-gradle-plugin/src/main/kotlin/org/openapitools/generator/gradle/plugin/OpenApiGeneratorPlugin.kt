@@ -84,6 +84,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     description = "Validates an Open API 2.0 or 3.x specification document."
 
                     inputSpec.set(validate.inputSpec)
+                    remoteSpec.set(validate.remoteSpec)
                     recommend.set(validate.recommend)
                 }
 
@@ -96,6 +97,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     generatorName.set(generate.generatorName)
                     outputDir.set(generate.outputDir)
                     inputSpec.set(generate.inputSpec)
+                    remoteSpec.set(generate.remoteSpec)
                     templateDir.set(generate.templateDir)
                     auth.set(generate.auth)
                     globalProperties.set(generate.globalProperties)

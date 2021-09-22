@@ -31,6 +31,11 @@ open class OpenApiGeneratorValidateExtension(project: Project) {
     val inputSpec = project.objects.property<String>()
 
     /**
+     * The input specification to validate. Should be used for remote spec location.
+     */
+    val remoteSpec = project.objects.property<String>()
+
+    /**
      * Whether or not to offer recommendations related to the validated specification document.
      */
     val recommend = project.objects.property<Boolean?>()

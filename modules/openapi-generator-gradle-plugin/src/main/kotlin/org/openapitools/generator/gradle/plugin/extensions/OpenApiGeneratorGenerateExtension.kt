@@ -54,6 +54,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val inputSpec = project.objects.property<String>()
 
     /**
+     * The Open API 2.0/3.x specification location in remote source.
+     */
+    val remoteSpec = project.objects.property<String>()
+
+    /**
      * The template directory holding a custom template.
      */
     val templateDir = project.objects.property<String?>()

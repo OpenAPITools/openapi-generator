@@ -66,6 +66,8 @@ dependencies {
             "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 
     testCompile "org.jetbrains.kotlin:kotlin-compiler-embeddable:$kotlin_version"
+
+    testCompile "com.github.tomakehurst:wiremock-jre8:$wiremock_version"
 }
 
 test {
