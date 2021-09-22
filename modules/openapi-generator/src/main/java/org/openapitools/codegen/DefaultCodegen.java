@@ -6275,12 +6275,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
             codegenParameter.enumName = codegenProperty.enumName;
         }
-
-//        if (codegenProperty.items != null && codegenProperty.items.isEnum) {
-//            codegenParameter.items = codegenProperty.items;
-//            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-//        }
-
+        
         // import
         if (codegenProperty.complexType != null) {
             imports.add(codegenProperty.complexType);
