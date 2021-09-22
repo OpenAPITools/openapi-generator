@@ -78,7 +78,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
         return manager.request(URLString, method: method, parameters: parameters, encoding: encoding, headers: HTTPHeaders(headers))
     }
 
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()

@@ -35,6 +35,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(String bar) {
     this.bar = bar;
   }
@@ -55,6 +56,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return baz;
   }
 
+  @JsonProperty("baz")
   public void setBaz(String baz) {
     this.baz = baz;
   }

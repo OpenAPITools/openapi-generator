@@ -1279,7 +1279,7 @@ No authorization required
 
 ## TestQueryParameterCollectionFormat
 
-> void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, Dictionary<string, string> language = null)
+> void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string allowEmpty, Dictionary<string, string> language = null)
 
 
 
@@ -1307,11 +1307,12 @@ namespace Example
             var http = new List<string>(); // List<string> | 
             var url = new List<string>(); // List<string> | 
             var context = new List<string>(); // List<string> | 
+            var allowEmpty = allowEmpty_example;  // string | 
             var language = new Dictionary<string, string>(); // Dictionary<string, string> |  (optional) 
 
             try
             {
-                apiInstance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language);
+                apiInstance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
             }
             catch (ApiException e)
             {
@@ -1334,6 +1335,7 @@ Name | Type | Description  | Notes
  **http** | [**List&lt;string&gt;**](string.md)|  | 
  **url** | [**List&lt;string&gt;**](string.md)|  | 
  **context** | [**List&lt;string&gt;**](string.md)|  | 
+ **allowEmpty** | **string**|  | 
  **language** | [**Dictionary&lt;string, string&gt;**](string.md)|  | [optional] 
 
 ### Return type

@@ -4247,15 +4247,16 @@ class FakeApi
      * @param  string[] $http http (required)
      * @param  string[] $url url (required)
      * @param  string[] $context context (required)
+     * @param  string $allow_empty allow_empty (required)
      * @param  array<string,string> $language language (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context, $language = null)
+    public function testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null)
     {
-        $this->testQueryParameterCollectionFormatWithHttpInfo($pipe, $ioutil, $http, $url, $context, $language);
+        $this->testQueryParameterCollectionFormatWithHttpInfo($pipe, $ioutil, $http, $url, $context, $allow_empty, $language);
     }
 
     /**
@@ -4266,15 +4267,16 @@ class FakeApi
      * @param  string[] $http (required)
      * @param  string[] $url (required)
      * @param  string[] $context (required)
+     * @param  string $allow_empty (required)
      * @param  array<string,string> $language (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testQueryParameterCollectionFormatWithHttpInfo($pipe, $ioutil, $http, $url, $context, $language = null)
+    public function testQueryParameterCollectionFormatWithHttpInfo($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null)
     {
-        $request = $this->testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $language);
+        $request = $this->testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $allow_empty, $language);
 
         try {
             $options = $this->createHttpClientOption();
@@ -4321,14 +4323,15 @@ class FakeApi
      * @param  string[] $http (required)
      * @param  string[] $url (required)
      * @param  string[] $context (required)
+     * @param  string $allow_empty (required)
      * @param  array<string,string> $language (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testQueryParameterCollectionFormatAsync($pipe, $ioutil, $http, $url, $context, $language = null)
+    public function testQueryParameterCollectionFormatAsync($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null)
     {
-        return $this->testQueryParameterCollectionFormatAsyncWithHttpInfo($pipe, $ioutil, $http, $url, $context, $language)
+        return $this->testQueryParameterCollectionFormatAsyncWithHttpInfo($pipe, $ioutil, $http, $url, $context, $allow_empty, $language)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4344,15 +4347,16 @@ class FakeApi
      * @param  string[] $http (required)
      * @param  string[] $url (required)
      * @param  string[] $context (required)
+     * @param  string $allow_empty (required)
      * @param  array<string,string> $language (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testQueryParameterCollectionFormatAsyncWithHttpInfo($pipe, $ioutil, $http, $url, $context, $language = null)
+    public function testQueryParameterCollectionFormatAsyncWithHttpInfo($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null)
     {
         $returnType = '';
-        $request = $this->testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $language);
+        $request = $this->testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $allow_empty, $language);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -4385,12 +4389,13 @@ class FakeApi
      * @param  string[] $http (required)
      * @param  string[] $url (required)
      * @param  string[] $context (required)
+     * @param  string $allow_empty (required)
      * @param  array<string,string> $language (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $language = null)
+    public function testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context, $allow_empty, $language = null)
     {
         // verify the required parameter 'pipe' is set
         if ($pipe === null || (is_array($pipe) && count($pipe) === 0)) {
@@ -4420,6 +4425,12 @@ class FakeApi
         if ($context === null || (is_array($context) && count($context) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter $context when calling testQueryParameterCollectionFormat'
+            );
+        }
+        // verify the required parameter 'allow_empty' is set
+        if ($allow_empty === null || (is_array($allow_empty) && count($allow_empty) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $allow_empty when calling testQueryParameterCollectionFormat'
             );
         }
 
@@ -4478,6 +4489,17 @@ class FakeApi
             }
             else {
                 $queryParams['language'] = $language;
+            }
+        }
+        // query params
+        if ($allow_empty !== null) {
+            if('form' === 'form' && is_array($allow_empty)) {
+                foreach($allow_empty as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['allowEmpty'] = $allow_empty;
             }
         }
 

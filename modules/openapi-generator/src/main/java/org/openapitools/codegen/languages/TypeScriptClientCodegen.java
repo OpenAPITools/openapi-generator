@@ -1180,7 +1180,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
                     // this seed makes it so if we have [a-z] we pick a
                     Random random = new Random(18);
-                    example = rgxGen.generate(random);
+                    if (rgxGen != null){
+                        example = rgxGen.generate(random);
+                    } else {
+                        throw new RuntimeException("rgxGen cannot be null. Please open an issue in the openapi-generator github repo.");
+                    }
                 } else if (schema.getMinLength() != null) {
                     example = "";
                     int len = schema.getMinLength().intValue();

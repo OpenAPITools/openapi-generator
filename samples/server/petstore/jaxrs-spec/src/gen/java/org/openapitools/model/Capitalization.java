@@ -39,6 +39,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return smallCamel;
   }
 
+  @JsonProperty("smallCamel")
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
@@ -59,6 +60,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return capitalCamel;
   }
 
+  @JsonProperty("CapitalCamel")
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
@@ -79,6 +81,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return smallSnake;
   }
 
+  @JsonProperty("small_Snake")
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
@@ -99,6 +102,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return capitalSnake;
   }
 
+  @JsonProperty("Capital_Snake")
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
@@ -119,6 +123,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return scAETHFlowPoints;
   }
 
+  @JsonProperty("SCA_ETH_Flow_Points")
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
@@ -140,6 +145,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return ATT_NAME;
   }
 
+  @JsonProperty("ATT_NAME")
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
