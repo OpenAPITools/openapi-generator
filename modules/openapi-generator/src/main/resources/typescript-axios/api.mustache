@@ -1,5 +1,5 @@
 {{>licenseInfo}}
-import { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig, Method } from 'axios';
 import { axios } from '../axios.config';
 {{#hasFormParams}}
 import { stringify } from 'qs';
@@ -39,7 +39,7 @@ export class {{classname}}Resource {
 {{/hasFormParams}}
         let reqConfig = {
             ...axiosConfig,
-            method: '{{httpMethod}}',
+            method: '{{httpMethod}}' as Method,
             url: reqPath{{#hasQueryParams}},
             params: query{{/hasQueryParams}}{{#bodyParam}},
             data: {{paramName}}{{/bodyParam}}{{#hasFormParams}},
