@@ -434,7 +434,7 @@ let enumQueryStringArray = ["enumQueryStringArray_example"] // [String] | Query 
 let enumQueryString = "enumQueryString_example" // String | Query parameter enum test (string) (optional) (default to .efg)
 let enumQueryInteger = 987 // Int | Query parameter enum test (double) (optional)
 let enumQueryDouble = 987 // Double | Query parameter enum test (double) (optional)
-let enumFormStringArray = ["enumFormStringArray_example"] // [String] | Form parameter enum test (string array) (optional) (default to .dollar)
+let enumFormStringArray = ["inner_example"] // [String] | Form parameter enum test (string array) (optional) (default to .dollar)
 let enumFormString = "enumFormString_example" // String | Form parameter enum test (string) (optional) (default to .efg)
 
 // To test enum parameters

@@ -661,7 +661,7 @@ func main() {
     enumQueryString := "enumQueryString_example" // string | Query parameter enum test (string) (optional) (default to "-efg")
     enumQueryInteger := int32(56) // int32 | Query parameter enum test (double) (optional)
     enumQueryDouble := float64(1.2) // float64 | Query parameter enum test (double) (optional)
-    enumFormStringArray := []string{"EnumFormStringArray_example"} // []string | Form parameter enum test (string array) (optional) (default to "$")
+    enumFormStringArray := []string{"Inner_example"} // []string | Form parameter enum test (string array) (optional) (default to "$")
     enumFormString := "enumFormString_example" // string | Form parameter enum test (string) (optional) (default to "-efg")
 
     configuration := openapiclient.NewConfiguration()
