@@ -10,7 +10,7 @@ use super::{Error, configuration};
 {{#vendorExtensions.x-group-parameters}}
 {{#allParams}}
 {{#-first}}
-/// struct for passing parameters to the method `{{operationId}}`
+/// struct for passing parameters to the method [`{{operationId}}`]
 #[derive(Clone, Debug, Default)]
 pub struct {{{operationIdCamelCase}}}Params {
 {{/-first}}
@@ -30,7 +30,7 @@ pub struct {{{operationIdCamelCase}}}Params {
 {{#supportMultipleResponses}}
 {{#operations}}
 {{#operation}}
-/// struct for typed successes of method `{{operationId}}`
+/// struct for typed successes of method [`{{operationId}}`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum {{{operationIdCamelCase}}}Success {
@@ -50,7 +50,7 @@ pub enum {{{operationIdCamelCase}}}Success {
 {{/supportMultipleResponses}}
 {{#operations}}
 {{#operation}}
-/// struct for typed errors of method `{{operationId}}`
+/// struct for typed errors of method [`{{operationId}}`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum {{{operationIdCamelCase}}}Error {
