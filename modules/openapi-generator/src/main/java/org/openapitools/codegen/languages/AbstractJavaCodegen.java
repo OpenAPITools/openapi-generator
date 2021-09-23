@@ -1439,6 +1439,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     /**
      * Add all OneOf schemas to #/components/schemas and replace them in the original content by ref schema
+     * Replace OneOf with unmodifiable types with an empty Schema
      *
      * OpenAPI Parser does not add inline OneOf schemas to models to generate
      *
@@ -1447,28 +1448,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private void repairInlineOneOf(final Content content) {
         content.values().forEach(mediaType -> {
             final Schema replacingSchema = mediaType.getSchema();
-            if (isOneOfSchema(replacingSchema)
-                && (replacingSchema.getProperties() == null || replacingSchema.getProperties().isEmpty())) {
-                if (!ModelUtils.isSchemaOneOfConsistsOfCustomTypes(openAPI, replacingSchema)) {
-                    mediaType.setSchema(new Schema());
-                    return;
+            if (isOneOfSchema(replacingSchema)) {
+                if (ModelUtils.isSchemaOneOfConsistsOfCustomTypes(openAPI, replacingSchema)) {
+                    final String oneOfModelName = (String) replacingSchema.getExtensions().get("x-one-of-name");
+                    final Schema newRefSchema = new Schema<>().$ref("#/components/schemas/" + oneOfModelName);
+                    mediaType.setSchema(newRefSchema);
+                    ModelUtils.getSchemas(openAPI).put(oneOfModelName, replacingSchema);
                 } else {
-                    if (((ComposedSchema) replacingSchema).getOneOf().stream().map(Schema::get$ref).allMatch(Objects::nonNull)) {
-                        final String oneOfModelName = (String) replacingSchema.getExtensions().get("x-one-of-name");
-                        final Schema newRefSchema = new Schema<>().$ref("#/components/schemas/" + oneOfModelName);
-                        mediaType.setSchema(newRefSchema);
-                        ModelUtils.getSchemas(openAPI).put(oneOfModelName, replacingSchema);
-                    }
+                    mediaType.setSchema(new Schema());
                 }
             }
         });
     }
 
     private static boolean isOneOfSchema(final Schema schema) {
-        return schema instanceof ComposedSchema
-                && ((ComposedSchema) schema).getProperties() == null
-                && Optional.ofNullable(schema.getExtensions()).map(m -> m.containsKey("x-one-of-name"))
-                .orElse(false);
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema composedSchema = (ComposedSchema) schema;
+            return Optional.ofNullable(composedSchema.getProperties()).map(Map::isEmpty).orElse(true)
+                    && Optional.ofNullable(schema.getExtensions()).map(m -> m.containsKey("x-one-of-name")).orElse(false);
+        }
+        return false;
     }
 
     private static String getAccept(OpenAPI openAPI, Operation operation) {
