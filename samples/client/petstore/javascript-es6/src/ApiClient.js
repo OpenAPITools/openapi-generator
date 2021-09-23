@@ -28,13 +28,18 @@ import querystring from "querystring";
 * @class
 */
 class ApiClient {
-    constructor() {
+    /**
+     * The base URL against which to resolve every API call's (relative) path.
+     * Overrides the default value set in spec file if present
+     * @param {String} basePath
+     */
+    constructor(basePath = 'http://petstore.swagger.io:80/v2') {
         /**
          * The base URL against which to resolve every API call's (relative) path.
          * @type {String}
          * @default http://petstore.swagger.io:80/v2
          */
-        this.basePath = 'http://petstore.swagger.io:80/v2'.replace(/\/+$/, '');
+        this.basePath = basePath.replace(/\/+$/, '');
 
         /**
          * The authentication methods to be included for all API calls.
