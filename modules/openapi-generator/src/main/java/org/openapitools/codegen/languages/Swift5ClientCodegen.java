@@ -76,7 +76,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected static final String RESPONSE_LIBRARY_RX_SWIFT = "RxSwift";
     protected static final String RESPONSE_LIBRARY_RESULT = "Result";
     protected static final String RESPONSE_LIBRARY_COMBINE = "Combine";
-    protected static final String[] RESPONSE_LIBRARIES = {RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE};
+    protected static final String RESPONSE_LIBRARY_ASYNC_AWAIT = "AsyncAwait";
+    protected static final String[] RESPONSE_LIBRARIES = {RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_ASYNC_AWAIT};
     protected String projectName = "OpenAPIClient";
     protected boolean nonPublicApi = false;
     protected boolean objcCompatible = false;
@@ -442,6 +443,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_COMBINE)) {
             additionalProperties.put("useCombine", true);
+        }
+        if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_ASYNC_AWAIT)) {
+            additionalProperties.put("useAsyncAwait", true);
         }
 
         // Setup readonlyProperties option, which declares properties so they can only

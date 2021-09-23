@@ -1,8 +1,8 @@
 package org.openapitools.codegen.scala;
 
 import org.openapitools.codegen.languages.ScalaSttpClientCodegen;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import io.swagger.v3.oas.models.media.Schema;
 

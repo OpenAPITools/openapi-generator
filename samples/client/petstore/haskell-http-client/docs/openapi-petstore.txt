@@ -162,7 +162,7 @@ instance OpenAPIPetstore.MimeTypes.MimeType OpenAPIPetstore.MimeTypes.MimeNoCont
 module OpenAPIPetstore.Core
 
 data OpenAPIPetstoreConfig
-OpenAPIPetstoreConfig :: ByteString -> Text -> LogExecWithContext -> LogContext -> [AnyAuthMethod] -> Bool -> OpenAPIPetstoreConfig
+OpenAPIPetstoreConfig :: ByteString -> Text -> LogExecWithContext -> LogContext -> [AnyAuthMethod] -> Bool -> ByteString -> OpenAPIPetstoreConfig
 
 -- | host supplied in the Request
 [configHost] :: OpenAPIPetstoreConfig -> ByteString
@@ -181,6 +181,10 @@ OpenAPIPetstoreConfig :: ByteString -> Text -> LogExecWithContext -> LogContext 
 
 -- | throw exceptions if auth methods are not configured
 [configValidateAuthMethods] :: OpenAPIPetstoreConfig -> Bool
+
+-- | Configures additional querystring characters which must not be URI
+--   encoded, e.g. <tt>+</tt> or <tt>:</tt>
+[configQueryExtraUnreserved] :: OpenAPIPetstoreConfig -> ByteString
 
 -- | constructs a default OpenAPIPetstoreConfig
 --   
@@ -301,6 +305,7 @@ toPath :: ToHttpApiData a => a -> ByteString
 toHeader :: ToHttpApiData a => (HeaderName, a) -> [Header]
 toForm :: ToHttpApiData v => (ByteString, v) -> Form
 toQuery :: ToHttpApiData a => (ByteString, Maybe a) -> [QueryItem]
+toPartialEscapeQuery :: ByteString -> Query -> PartialEscapeQuery
 
 -- | Determines the format of the array if type array is used.
 data CollectionFormat
