@@ -6297,10 +6297,6 @@ public class DefaultCodegen implements CodegenConfig {
         Schema validationSchema = unaliasSchema(schema, importMapping);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
-        if (!ModelUtils.isSchemaOneOfConsistsOfCustomTypes(this.openAPI, schema)) {
-            schema = new Schema().type("AnyType").name("body");
-        }
-
         ModelUtils.syncValidationProperties(validationSchema, codegenParameter);
 
         if (ModelUtils.isMapSchema(schema)) {
