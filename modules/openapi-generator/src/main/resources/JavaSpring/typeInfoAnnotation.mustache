@@ -1,8 +1,14 @@
 {{#jackson}}
 
+{{^vendorExtensions.x-deduction}}
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "{{{discriminator.propertyBaseName}}}", visible = true)
+{{/vendorExtensions.x-deduction}}{{#vendorExtensions.x-deduction}}
+@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION){{/vendorExtensions.x-deduction}}
 @JsonSubTypes({
   {{#discriminator.mappedModels}}
   @JsonSubTypes.Type(value = {{modelName}}.class, name = "{{^vendorExtensions.x-discriminator-value}}{{mappingName}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}"),
   {{/discriminator.mappedModels}}
+  {{#vendorExtensions.x-deduction-model-names}}
+  @JsonSubTypes.Type(value = {{.}}.class, name = "{{.}}"),
+  {{/vendorExtensions.x-deduction-model-names}}
 }){{/jackson}}

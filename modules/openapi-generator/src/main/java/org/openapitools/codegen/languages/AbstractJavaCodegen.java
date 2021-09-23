@@ -43,6 +43,7 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -1363,8 +1364,23 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 for (Operation operation : path.readOperations()) {
                     LOGGER.info("Processing operation {}", operation.getOperationId());
-                    if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
-                        String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
+                    boolean hasBodyParameter = hasBodyParameter(openAPI, operation);
+                    boolean hasFormParameter = hasFormParameter(openAPI, operation);
+
+                    // OpenAPI parser do not add Inline One Of models in Operations to Components/Schemas
+                    if (hasBodyParameter) {
+                        Optional.ofNullable(operation.getRequestBody())
+                                .map(RequestBody::getContent)
+                                .ifPresent(this::repairInlineOneOf);
+                    }
+                    if (operation.getResponses() != null) {
+                        operation.getResponses().values().stream().map(ApiResponse::getContent)
+                                .filter(Objects::nonNull)
+                                .forEach(this::repairInlineOneOf);
+                    }
+
+                    if (hasBodyParameter || hasFormParameter) {
+                        String defaultContentType = hasFormParameter ? "application/x-www-form-urlencoded" : "application/json";
                         List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
                         String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
                         operation.addExtension("x-contentType", contentType);
@@ -1419,6 +1435,40 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                                     .findFirst()
                                     .orElse((Schema) s)));
         }
+    }
+
+    /**
+     * Add all OneOf schemas to #/components/schemas and replace them in the original content by ref schema
+     *
+     * OpenAPI Parser does not add inline OneOf schemas to models to generate
+     *
+     * @param content a 'content' section in the OAS specification.
+     */
+    private void repairInlineOneOf(final Content content) {
+        content.values().forEach(mediaType -> {
+            final Schema replacingSchema = mediaType.getSchema();
+            if (isOneOfSchema(replacingSchema)
+                && (replacingSchema.getProperties() == null || replacingSchema.getProperties().isEmpty())) {
+                if (!ModelUtils.isSchemaOneOfConsistsOfCustomTypes(openAPI, replacingSchema)) {
+                    mediaType.setSchema(new Schema());
+                    return;
+                } else {
+                    if (((ComposedSchema) replacingSchema).getOneOf().stream().map(Schema::get$ref).allMatch(Objects::nonNull)) {
+                        final String oneOfModelName = (String) replacingSchema.getExtensions().get("x-one-of-name");
+                        final Schema newRefSchema = new Schema<>().$ref("#/components/schemas/" + oneOfModelName);
+                        mediaType.setSchema(newRefSchema);
+                        ModelUtils.getSchemas(openAPI).put(oneOfModelName, replacingSchema);
+                    }
+                }
+            }
+        });
+    }
+
+    private static boolean isOneOfSchema(final Schema schema) {
+        return schema instanceof ComposedSchema
+                && ((ComposedSchema) schema).getProperties() == null
+                && Optional.ofNullable(schema.getExtensions()).map(m -> m.containsKey("x-one-of-name"))
+                .orElse(false);
     }
 
     private static String getAccept(OpenAPI openAPI, Operation operation) {
