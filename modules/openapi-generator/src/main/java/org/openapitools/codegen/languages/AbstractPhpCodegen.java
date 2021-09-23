@@ -109,6 +109,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
+        typeMapping.put("BigDecimal", "float");
         typeMapping.put("number", "float");
         typeMapping.put("float", "float");
         typeMapping.put("double", "double");
