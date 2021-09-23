@@ -103,7 +103,7 @@ public class CSharpFunctionsCodegen extends AbstractCSharpCodegen {
     protected boolean needsCustomHttpMethod = false;
     protected boolean needsUriBuilder = false;
 
-    public CSharpNetCoreClientCodegen() {
+    public CSharpFunctionsCodegen() {
         super();
 
         modifyFeatureSet(features -> features
