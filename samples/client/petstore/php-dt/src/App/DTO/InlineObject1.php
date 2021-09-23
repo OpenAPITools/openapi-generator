@@ -20,8 +20,7 @@ class InlineObject1
     /**
      * file to upload
      * @DTA\Data(field="file", nullable=true)
-     * @DTA\Strategy(name="Object", options={"type":\SplFileObject::class})
-     * @DTA\Validator(name="TypeCompliant", options={"type":\SplFileObject::class})
+     * @DTA\Validator(name="Scalar", options={"type":"\SplFileObject"})
      * @var \SplFileObject|null
      */
     public $file;

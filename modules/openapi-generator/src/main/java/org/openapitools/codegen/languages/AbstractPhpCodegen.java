@@ -90,7 +90,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                         "string",
                         "object",
                         "array",
-                        "DateTime",
+                        "\\DateTime",
+                        "\\SplFileObject",
                         "mixed",
                         "number",
                         "void",
@@ -109,9 +110,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
-        typeMapping.put("BigDecimal", "float");
         typeMapping.put("number", "float");
         typeMapping.put("float", "float");
+        typeMapping.put("decimal", "float");
         typeMapping.put("double", "double");
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
@@ -342,19 +343,27 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
+
+        if (openAPIType == null) {
+            LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
+            openAPIType = "UNKNOWN_OPENAPI_TYPE";
+        }
+
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             } else if (instantiationTypes.containsKey(type)) {
                 return type;
+            } else {
+                throw new RuntimeException("OpenAPI type `" + openAPIType + "` defined but can't mapped to language type." +
+                        " Please report the issue via OpenAPI Generator github repo." +
+                        " (if you're not using custom format with proper type mappings provided to openapi-generator)");
             }
         } else {
             type = openAPIType;
         }
-        if (type == null) {
-            return null;
-        }
+
         return toModelName(type);
     }
 
