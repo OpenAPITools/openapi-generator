@@ -23,7 +23,6 @@ class Order
     public int|null $quantity = null;
 
     #[DTA\Data(field: "shipDate", nullable: true)]
-    #[DTA\Validator("Scalar", ["type" => "\DateTime"])]
     #[DTA\Strategy("DateTime")]
     #[DTA\Validator("Date", ["format" => \DateTime::RFC3339])]
     public \DateTime|null $ship_date = null;

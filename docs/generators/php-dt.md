@@ -40,8 +40,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>\DateTime</li>
-<li>\SplFileObject</li>
 <li>array</li>
 <li>bool</li>
 <li>boolean</li>

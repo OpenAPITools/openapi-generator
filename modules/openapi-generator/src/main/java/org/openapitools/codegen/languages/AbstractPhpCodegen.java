@@ -355,11 +355,15 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                 return type;
             } else if (instantiationTypes.containsKey(type)) {
                 return type;
+            }
+            /*
+            // comment out the following as php-dt, php-mezzio still need to treat DateTime, SplFileObject as objects
             } else {
                 throw new RuntimeException("OpenAPI type `" + openAPIType + "` defined but can't mapped to language type." +
                         " Please report the issue via OpenAPI Generator github repo." +
                         " (if you're not using custom format with proper type mappings provided to openapi-generator)");
             }
+            */
         } else {
             type = openAPIType;
         }

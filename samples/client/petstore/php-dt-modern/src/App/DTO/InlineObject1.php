@@ -18,7 +18,8 @@ class InlineObject1
      * file to upload
      */
     #[DTA\Data(field: "file", nullable: true)]
-    #[DTA\Validator("Scalar", ["type" => "\SplFileObject"])]
+    #[DTA\Strategy("Object", ["type" => \SplFileObject::class])]
+    #[DTA\Validator("TypeCompliant", ["type" => \SplFileObject::class])]
     public \SplFileObject|null $file = null;
 
 }

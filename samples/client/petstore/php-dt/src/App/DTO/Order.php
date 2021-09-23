@@ -33,7 +33,6 @@ class Order
 
     /**
      * @DTA\Data(field="shipDate", nullable=true)
-     * @DTA\Validator(name="Scalar", options={"type":"\DateTime"})
      * @DTA\Strategy(name="DateTime")
      * @DTA\Validator(name="Date", options={"format": \DateTime::RFC3339})
      * @var \DateTime|null
