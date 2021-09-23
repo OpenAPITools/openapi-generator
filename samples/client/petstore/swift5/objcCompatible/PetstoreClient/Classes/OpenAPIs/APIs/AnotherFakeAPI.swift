@@ -20,7 +20,7 @@ import AnyCodable
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
-        call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+        call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
