@@ -34,11 +34,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/user';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.POST,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -80,11 +76,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/user/createWithArray';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.POST,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -126,11 +118,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/user/createWithList';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.POST,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -174,11 +162,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.DELETE,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -210,11 +194,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.GET,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -246,11 +226,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/user/login';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.GET,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -278,11 +254,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/user/logout';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.GET,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -322,11 +294,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.PUT,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 

@@ -29,11 +29,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/file';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.POST,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -63,11 +59,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pets-filtered';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.PATCH,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -97,11 +89,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pets';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.PATCH,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 

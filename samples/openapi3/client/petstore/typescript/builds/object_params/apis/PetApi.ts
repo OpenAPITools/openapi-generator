@@ -34,11 +34,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.POST,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -85,11 +81,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.DELETE,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Header Params
@@ -124,11 +116,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet/findByStatus';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.GET,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -165,11 +153,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet/findByTags';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.GET,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
@@ -207,11 +191,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.GET,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -242,11 +222,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         const localVarPath = '/pet';
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.PUT,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -295,11 +271,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.POST,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Form Params
@@ -364,11 +336,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
         // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(
-            localVarPath,
-            HttpMethod.POST,
-            _config.baseServer.getHeaders()
-        );
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Form Params

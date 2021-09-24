@@ -2,7 +2,7 @@ import { RequestContext, HttpMethod, Headers } from "./http/http";
 
 export interface BaseServerConfiguration {
     getHeaders(): Headers
-    makeRequestContext(endpoint: string, httpMethod: HttpMethod, headers?: Headers): RequestContext;
+    makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
     setHeaders(headers: Headers): any;
     setHeaderParam(key: string, value: string): void
 }
@@ -58,8 +58,8 @@ export class ServerConfiguration<T extends { [key: string]: string }> implements
      * @param httpMethod httpMethod to be used
      *
      */
-    public makeRequestContext(endpoint: string, httpMethod: HttpMethod, headers?: Headers): RequestContext {
-        return new RequestContext(this.getUrl() + endpoint, httpMethod, headers);
+    public makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext {
+        return new RequestContext(this.getUrl() + endpoint, httpMethod, this.headers);
     }
 }
 
