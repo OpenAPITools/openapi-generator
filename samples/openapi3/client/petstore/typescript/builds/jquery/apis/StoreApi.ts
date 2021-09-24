@@ -154,7 +154,7 @@ export class StoreApiResponseProcessor {
             return;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -183,7 +183,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -218,7 +218,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -250,7 +250,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
 }

@@ -414,7 +414,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -435,7 +435,7 @@ export class PetApiResponseProcessor {
             return;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -467,7 +467,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -499,7 +499,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -534,7 +534,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -572,7 +572,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -593,7 +593,7 @@ export class PetApiResponseProcessor {
             return;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -622,7 +622,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
 }

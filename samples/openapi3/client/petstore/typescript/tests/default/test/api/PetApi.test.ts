@@ -55,8 +55,8 @@ describe("PetApi", () => {
             // here.
             expect(err.code).to.equal(404);
             expect(err.message).to.include("Unknown API Status Code");
-            expect(err.body).to.have.property("code").equal(404);
-            expect(err.body).to.have.property("message");
+            expect(err.body).to.include("404");
+            expect(err.body).to.include("message");
             return;
         }
         throw new Error("Deleted non-existant pet with id " + nonExistantId + "!");

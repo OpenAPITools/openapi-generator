@@ -190,22 +190,18 @@ export class ResponseContext {
 
     /**
      * Use a heuristic to get a body of unknown data structure.
-     * Try JSON with fall back to plain text and binary.
+     * Return as string if possible, otherwise as binary.
      */
-    public async getBodyAsAny(): Promise<any> {
+    public getBodyAsAny(): Promise<string | Buffer | undefined> {
         try {
-            const body = await this.body.text();
-            try {
-                return JSON.parse(body);
-            } catch {}
-            return body;
+            return this.body.text();
         } catch {}
 
         try {
             return this.body.binary();
         } catch {}
 
-        return undefined;
+        return Promise.resolve(undefined);
     }
 }
 

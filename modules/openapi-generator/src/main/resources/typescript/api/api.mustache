@@ -233,7 +233,7 @@ export class {{classname}}ResponseProcessor {
             {{/returnType}}
         }
 
-        throw new ApiException<any>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | {{{fileContentDataType}}} | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     {{/operation}}
