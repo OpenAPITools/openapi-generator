@@ -29,6 +29,7 @@ class GsonRequest<T>(
     private val params: MutableMap<String, String>?,
     private val contentTypeForBody: String?,
     private val encodingForParams: String?,
+    private val gsonAdapters: Map<Type, Object>?,
     private val type: Type,
     private val listener: Response.Listener<T>,
     errorListener: Response.ErrorListener
@@ -39,6 +40,11 @@ class GsonRequest<T>(
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
+        .apply {
+            gsonAdapters?.forEach {
+                this.registerTypeAdapter(it.key, it.value)
+            }
+        }
 
     val gson: Gson by lazy {
         gsonBuilder.create()
