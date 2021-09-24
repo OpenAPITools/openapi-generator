@@ -1164,4 +1164,62 @@ public class JavaClientCodegenTest {
                 "formParams.add(\"file\", file);"
         );
     }
+    
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/8352
+     */
+    @Test
+    public void testRestTemplateWithFreeFormInQueryParameters() throws IOException {
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        final File output = Files.createTempDirectory("test")
+                .toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue8352.yaml")
+                .setOutputDir(output.getAbsolutePath()
+                        .replace("\\", "/"));
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(configurator.toClientOptInput())
+                .generate();
+        files.forEach(File::deleteOnExit);
+
+        final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileContains(defaultApi, "value instanceof Map");
+    }
+    
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/8352
+     */
+    @Test
+    public void testWebClientWithFreeFormInQueryParameters() throws IOException {
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        final File output = Files.createTempDirectory("test")
+                .toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue8352.yaml")
+                .setOutputDir(output.getAbsolutePath()
+                        .replace("\\", "/"));
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(configurator.toClientOptInput())
+                .generate();
+        files.forEach(File::deleteOnExit);
+
+        final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileContains(defaultApi, "value instanceof Map");
+    }
 }

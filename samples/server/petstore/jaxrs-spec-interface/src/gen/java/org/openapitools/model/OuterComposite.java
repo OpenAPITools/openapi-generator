@@ -37,6 +37,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return myNumber;
   }
 
+  @JsonProperty("my_number")
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
@@ -57,6 +58,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return myString;
   }
 
+  @JsonProperty("my_string")
   public void setMyString(String myString) {
     this.myString = myString;
   }
@@ -77,6 +79,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return myBoolean;
   }
 
+  @JsonProperty("my_boolean")
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }

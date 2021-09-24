@@ -106,9 +106,15 @@ namespace Org.OpenAPITools.Model
         public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
         {
             // to ensure "name" is required (not null)
-            this._Name = name ?? throw new ArgumentNullException("name is a required property for Pet and cannot be null");
+            if (name == null) {
+                throw new ArgumentNullException("name is a required property for Pet and cannot be null");
+            }
+            this._Name = name;
             // to ensure "photoUrls" is required (not null)
-            this._PhotoUrls = photoUrls ?? throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
+            if (photoUrls == null) {
+                throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
+            }
+            this._PhotoUrls = photoUrls;
             this._Id = id;
             this._Category = category;
             this._Tags = tags;
@@ -320,7 +326,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }
