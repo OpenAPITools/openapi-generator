@@ -1,14 +1,14 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-    kotlin("multiplatform") version "1.6.0-M1" // kotlin_version
-    kotlin("plugin.serialization") version "1.6.0-M1" // kotlin_version
+    kotlin("multiplatform") version "1.5.31" // kotlin_version
+    kotlin("plugin.serialization") version "1.5.31" // kotlin_version
 }
 
 group = "org.openapitools"
 version = "1.0.0"
 
-val kotlin_version = "1.6.0-M1"
+val kotlin_version = "1.5.31"
 val coroutines_version = "1.5.1"
 val serialization_version = "1.2.2"
 val ktor_version = "1.6.3"
