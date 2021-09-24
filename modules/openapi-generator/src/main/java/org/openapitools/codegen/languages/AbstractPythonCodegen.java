@@ -20,6 +20,7 @@ import com.github.curiousoddman.rgxgen.RgxGen;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -355,6 +356,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 LOGGER.warn("allDefinitions not defined in toExampleValue!\n");
             }
         }
+        else if (schema instanceof ComposedSchema)
+        {
+            ComposedSchema cs = (ComposedSchema) schema;
+
+            if (cs.getAllOf() != null) {
+                return toExampleValueRecursive(cs.getAllOf().get(0), includedSchemas, indentation);
+            } else if (cs.getAnyOf() != null) { // anyOf
+                return toExampleValueRecursive(cs.getAnyOf().get(0), includedSchemas, indentation);
+            } else if (cs.getOneOf() != null) { // oneOf
+                return toExampleValueRecursive(cs.getOneOf().get(0), includedSchemas, indentation);
+            }
+        }
         if (ModelUtils.isDateSchema(schema)) {
             example = "datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date()";
             return example;
@@ -415,7 +428,20 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 includedSchemas.add(schema.getTitle());
             }
             ArraySchema arrayschema = (ArraySchema) schema;
-            example = "[\n" + indentationString + toExampleValueRecursive(arrayschema.getItems(), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
+            Integer minItems = 1;
+            if (arrayschema.getMinItems() != null && arrayschema.getMinItems() > 1) {
+                minItems = arrayschema.getMinItems();
+            }
+            String item = toExampleValueRecursive(arrayschema.getItems(), includedSchemas, indentation + 1);
+            example = "[\n";
+            for (int i=1; i<=minItems; i++) {
+                example += indentationString + item;
+                if (i != minItems) {
+                    example += ",";
+                }
+                example += "\n";
+              }
+            example += indentationString + "]";
         } else if (ModelUtils.isMapSchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 includedSchemas.add(schema.getTitle());
