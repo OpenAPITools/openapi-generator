@@ -4600,16 +4600,16 @@ public class DefaultCodegen implements CodegenConfig {
             collectionFormat = getCollectionFormat(parameter);
             // default to csv:
             collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
-            CodegenProperty codegenProperty = fromProperty("inner", inner);
-            codegenParameter.items = codegenProperty;
-            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-            codegenParameter.baseType = codegenProperty.dataType;
+            CodegenProperty itemsProperty = fromProperty("inner", inner);
+            codegenParameter.items = itemsProperty;
+            codegenParameter.mostInnerItems = itemsProperty.mostInnerItems;
+            codegenParameter.baseType = itemsProperty.dataType;
             codegenParameter.isContainer = true;
 
             // recursively add import
-            while (codegenProperty != null) {
-                imports.add(codegenProperty.baseType);
-                codegenProperty = codegenProperty.items;
+            while (itemsProperty != null) {
+                imports.add(itemsProperty.baseType);
+                itemsProperty = itemsProperty.items;
             }
         } else {
             // referenced schemas
