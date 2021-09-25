@@ -226,6 +226,7 @@
                 <version>${surefire-version}</version>
                 <configuration>
                     <printSummary>true</printSummary>
+                    <forkedProcessExitTimeoutInSeconds>120</forkedProcessExitTimeoutInSeconds>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
@@ -1616,7 +1617,7 @@
         <jmustache-version>1.14</jmustache-version>
         <handlebars.java-version>4.1.2</handlebars.java-version>
         <testng-version>7.1.0</testng-version>
-        <surefire-version>3.0.0-M3</surefire-version>
+        <surefire-version>3.0.0-M5</surefire-version>
         <reflections-version>0.9.10</reflections-version>
         <mockito-version>3.6.28</mockito-version>
         <jacoco.version>0.8.5</jacoco.version>
