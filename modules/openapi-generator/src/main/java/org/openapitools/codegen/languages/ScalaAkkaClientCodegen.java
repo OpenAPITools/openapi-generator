@@ -51,7 +51,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     protected boolean removeOAuthSecurities = true;
 
     @SuppressWarnings("hiding")
-    protected Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaClientCodegen.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaClientCodegen.class);
 
     public ScalaAkkaClientCodegen() {
         super();

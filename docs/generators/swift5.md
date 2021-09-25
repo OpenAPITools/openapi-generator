@@ -33,7 +33,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |projectName|Project name in Xcode| |null|
 |readonlyProperties|Make properties readonly (default: false)| |null|
-|responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift, Result, Combine are available.| |null|
+|removeMigrationProjectNameClass|Make properties removeMigrationProjectNameClass (default: false)| |null|
+|responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift, Result, Combine, AsyncAwait are available.| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |swiftPackagePath|Set a custom source path instead of OpenAPIClient/Classes/OpenAPIs.| |null|

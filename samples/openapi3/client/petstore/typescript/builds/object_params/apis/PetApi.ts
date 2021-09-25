@@ -402,7 +402,7 @@ export class PetApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("405", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid input");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid input", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -414,8 +414,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -428,7 +427,7 @@ export class PetApiResponseProcessor {
      public async deletePet(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid pet value");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid pet value", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -436,8 +435,7 @@ export class PetApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -457,7 +455,7 @@ export class PetApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid status value");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid status value", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -469,8 +467,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -490,7 +487,7 @@ export class PetApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid tag value");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid tag value", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -502,8 +499,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -523,10 +519,10 @@ export class PetApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Pet not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "Pet not found", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -538,8 +534,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -559,13 +554,13 @@ export class PetApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Pet not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "Pet not found", undefined);
         }
         if (isCodeInRange("405", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Validation exception");
+            throw new ApiException<undefined>(response.httpStatusCode, "Validation exception", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -577,8 +572,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -591,7 +585,7 @@ export class PetApiResponseProcessor {
      public async updatePetWithForm(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("405", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid input");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid input", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -599,8 +593,7 @@ export class PetApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -629,8 +622,7 @@ export class PetApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
 }

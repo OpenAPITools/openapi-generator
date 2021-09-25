@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -23,6 +24,7 @@ class ModelList {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (n123list == null ? 0 : n123list.hashCode);
 
   @override
@@ -34,34 +36,47 @@ class ModelList {
     return json;
   }
 
-  /// Returns a new [ModelList] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static ModelList? fromJson(Map<String, dynamic>? json) => json == null
-    ? null
-    : ModelList(
-        n123list: json[r'123-list'],
-    );
+  /// [value] if it's a [Map], null otherwise.
+  // ignore: prefer_constructors_over_static_methods
+  static ModelList? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return ModelList(
+        n123list: mapValueOfType<String>(json, r'123-list'),
+      );
+    }
+    return null;
+  }
 
-  static List<ModelList> listFromJson(List<dynamic> json, {bool emptyIsNull = false, bool growable = false,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <ModelList>[]
-      : json.map((dynamic value) => ModelList.fromJson(value)).toList(growable: growable);
 
-  static Map<String, ModelList> mapFromJson(Map<String, dynamic> json) {
+  static List<ModelList> listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(ModelList.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <ModelList>[];
+
+  static Map<String, ModelList> mapFromJson(dynamic json) {
     final map = <String, ModelList>{};
-    if (json.isNotEmpty) {
-      json.forEach((key, value) => map[key] = ModelList.fromJson(value));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = ModelList.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of ModelList-objects as value to a dart map
-  static Map<String, List<ModelList>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<ModelList>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ModelList>>{};
-    if (json.isNotEmpty) {
-      json.forEach((key, value) {
-        map[key] = ModelList.listFromJson(value, emptyIsNull: emptyIsNull, growable: growable,);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = ModelList.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }
