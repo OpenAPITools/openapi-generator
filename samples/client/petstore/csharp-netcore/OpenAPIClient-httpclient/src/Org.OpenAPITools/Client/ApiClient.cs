@@ -278,7 +278,7 @@ namespace Org.OpenAPITools.Client
                 foreach (var fileParam in options.FileParameters)
                 {
                     var content = new StreamContent(fileParam.Value.Content);
-                    content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                    content.Headers.ContentType = new MediaTypeHeaderValue(fileParam.Value.ContentType);
                     multipartContent.Add(content, fileParam.Key,
                         fileParam.Value.Name);
                 }
