@@ -1901,27 +1901,23 @@ impl ObjectParam {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectUntypedProps {
     #[serde(rename = "required_untyped")]
-    pub required_untyped: swagger::Nullable<serde_json::Value>,
+    pub required_untyped: serde_json::Value,
 
     #[serde(rename = "required_untyped_nullable")]
     pub required_untyped_nullable: swagger::Nullable<serde_json::Value>,
 
     #[serde(rename = "not_required_untyped")]
-    #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
-    #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub not_required_untyped: Option<swagger::Nullable<serde_json::Value>>,
+    pub not_required_untyped: Option<serde_json::Value>,
 
     #[serde(rename = "not_required_untyped_nullable")]
-    #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
-    #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub not_required_untyped_nullable: Option<swagger::Nullable<serde_json::Value>>,
+    pub not_required_untyped_nullable: Option<serde_json::Value>,
 
 }
 
 impl ObjectUntypedProps {
-    pub fn new(required_untyped: swagger::Nullable<serde_json::Value>, required_untyped_nullable: swagger::Nullable<serde_json::Value>, ) -> ObjectUntypedProps {
+    pub fn new(required_untyped: serde_json::Value, required_untyped_nullable: swagger::Nullable<serde_json::Value>, ) -> ObjectUntypedProps {
         ObjectUntypedProps {
             required_untyped: required_untyped,
             required_untyped_nullable: required_untyped_nullable,
@@ -1979,10 +1975,10 @@ impl std::str::FromStr for ObjectUntypedProps {
 
             if let Some(key) = key_result {
                 match key {
-                    "required_untyped" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ObjectUntypedProps".to_string()),
+                    "required_untyped" => intermediate_rep.required_untyped.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     "required_untyped_nullable" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ObjectUntypedProps".to_string()),
-                    "not_required_untyped" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ObjectUntypedProps".to_string()),
-                    "not_required_untyped_nullable" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ObjectUntypedProps".to_string()),
+                    "not_required_untyped" => intermediate_rep.not_required_untyped.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectUntypedProps".to_string())
                 }
             }
@@ -1993,10 +1989,10 @@ impl std::str::FromStr for ObjectUntypedProps {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(ObjectUntypedProps {
-            required_untyped: std::result::Result::Err("Nullable types not supported in ObjectUntypedProps".to_string())?,
+            required_untyped: intermediate_rep.required_untyped.into_iter().next().ok_or("required_untyped missing in ObjectUntypedProps".to_string())?,
             required_untyped_nullable: std::result::Result::Err("Nullable types not supported in ObjectUntypedProps".to_string())?,
-            not_required_untyped: std::result::Result::Err("Nullable types not supported in ObjectUntypedProps".to_string())?,
-            not_required_untyped_nullable: std::result::Result::Err("Nullable types not supported in ObjectUntypedProps".to_string())?,
+            not_required_untyped: intermediate_rep.not_required_untyped.into_iter().next(),
+            not_required_untyped_nullable: intermediate_rep.not_required_untyped_nullable.into_iter().next(),
         })
     }
 }

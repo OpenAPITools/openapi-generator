@@ -1712,6 +1712,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         codegenParameter.pattern = toRegularExpression(schema.getPattern());
     }
 
+    @Override
     protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema){
         /**
          * we have a custom version of this function to set isString to false for uuid
@@ -1742,6 +1743,27 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
         if (Boolean.TRUE.equals(codegenParameter.isString)) {
             codegenParameter.isPrimitiveType = true;
+        }
+    }
+
+    @Override
+    protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
+        /**
+         * we have a custom version of this function to not set isNullable to true
+         */
+        // The 'null' value is allowed when the OAS schema is 'any type'.
+        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        if (Boolean.FALSE.equals(p.getNullable())) {
+            LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
+        }
+        if (languageSpecificPrimitives.contains(property.dataType)) {
+            property.isPrimitiveType = true;
+        }
+        if (ModelUtils.isMapSchema(p)) {
+            // an object or anyType composed schema that has additionalProperties set
+            // some of our code assumes that any type schema with properties defined will be a map
+            // even though it should allow in any type and have map constraints for properties
+            updatePropertyForMap(property, p);
         }
     }
 }
