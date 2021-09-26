@@ -3796,4 +3796,54 @@ public class DefaultCodegenTest {
         cp = co.bodyParam;
         assertTrue(cp.getIsAnyType());
     }
+
+    @Test
+    public void testComposedRequestQueryParamTypes() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10330.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+        CodegenParameter cp;
+
+        path = "/ComposedObject";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsMap());
+
+        path = "/ComposedNumber";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsNumber());
+
+        path = "/ComposedInteger";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsUnboundedInteger());
+
+        path = "/ComposedString";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsString());
+
+        path = "/ComposedBool";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsBoolean());
+
+        path = "/ComposedArray";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsArray());
+
+        path = "/ComposedNone";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsNull());
+
+        path = "/ComposedAnyType";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsAnyType());
+    }
 }

@@ -12,6 +12,13 @@ tags: []
 paths:
   /ComposedObject:
     get:
+      parameters:
+      - in: query
+        name: ComposedObject
+        schema:
+          type: object
+          allOf:
+            - {}
       requestBody:
         required: true
         content:
@@ -22,7 +29,7 @@ paths:
                 - {}
       responses:
         '200':
-          description: 'ComposedObject'
+          description: ComposedObject
           content:
             application/json:
               schema:
@@ -31,6 +38,13 @@ paths:
                   - {}
   /ComposedNumber:
     get:
+      parameters:
+        - in: query
+          name: ComposedNumber
+          schema:
+            type: number
+            allOf:
+              - {}
       requestBody:
         required: true
         content:
@@ -41,7 +55,7 @@ paths:
                 - {}
       responses:
         '200':
-          description: 'ComposedNumber'
+          description: ComposedNumber
           content:
             application/json:
               schema:
@@ -50,6 +64,13 @@ paths:
                   - {}
   /ComposedInteger:
     get:
+      parameters:
+        - in: query
+          name: ComposedInteger
+          schema:
+            type: integer
+            allOf:
+              - {}
       requestBody:
         required: true
         content:
@@ -60,7 +81,7 @@ paths:
                 - {}
       responses:
         '200':
-          description: 'ComposedInteger'
+          description: ComposedInteger
           content:
             application/json:
               schema:
@@ -69,6 +90,13 @@ paths:
                   - {}
   /ComposedString:
     get:
+      parameters:
+        - in: query
+          name: ComposedString
+          schema:
+            type: string
+            allOf:
+              - {}
       requestBody:
         required: true
         content:
@@ -79,7 +107,7 @@ paths:
                 - {}
       responses:
         '200':
-          description: 'ComposedString'
+          description: ComposedString
           content:
             application/json:
               schema:
@@ -88,6 +116,13 @@ paths:
                   - {}
   /ComposedBool:
     get:
+      parameters:
+        - in: query
+          name: ComposedBool
+          schema:
+            type: boolean
+            allOf:
+              - {}
       requestBody:
         required: true
         content:
@@ -98,7 +133,7 @@ paths:
                 - {}
       responses:
         '200':
-          description: 'ComposedBool'
+          description: ComposedBool
           content:
             application/json:
               schema:
@@ -107,6 +142,14 @@ paths:
                   - {}
   /ComposedArray:
     get:
+      parameters:
+        - in: query
+          name: ComposedArray
+          schema:
+            type: array
+            items: {}
+            allOf:
+              - {}
       requestBody:
         required: true
         content:
@@ -118,7 +161,7 @@ paths:
                 - {}
       responses:
         '200':
-          description: 'ComposedArray'
+          description: ComposedArray
           content:
             application/json:
               schema:
@@ -128,6 +171,13 @@ paths:
                   - {}
   /ComposedNone:
     get:
+      parameters:
+        - in: query
+          name: ComposedNone
+          schema:
+            type: 'null'
+            allOf:
+              - {}
       requestBody:
         required: true
         content:
@@ -138,7 +188,7 @@ paths:
                 - {}
       responses:
         '200':
-          description: 'ComposedNone'
+          description: ComposedNone
           content:
             application/json:
               schema:
@@ -147,6 +197,12 @@ paths:
                   - {}
   /ComposedAnyType:
     get:
+      parameters:
+        - in: query
+          name: ComposedAnyType
+          schema:
+            allOf:
+              - {}
       requestBody:
         required: true
         content:
@@ -156,7 +212,7 @@ paths:
                 - {}
       responses:
         '200':
-          description: 'ComposedAnyType'
+          description: ComposedAnyType
           content:
             application/json:
               schema:
