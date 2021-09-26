@@ -804,4 +804,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         return packageName;
     }
+
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        return "string".equals(dataType);
+    }
 }
