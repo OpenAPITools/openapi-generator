@@ -1702,8 +1702,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isEmailSchema(schema)) {
             codegenParameter.isEmail = true;
         } else if (ModelUtils.isDateSchema(schema)) { // date format
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
             codegenParameter.isDate = true;
         } else if (ModelUtils.isDateTimeSchema(schema)) { // date-time format
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
             codegenParameter.isDateTime = true;
         } else if (ModelUtils.isDecimalSchema(schema)) { // type: string, format: number
             codegenParameter.isDecimal = true;
