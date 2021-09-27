@@ -3319,6 +3319,7 @@ public class DefaultCodegen implements CodegenConfig {
             // an object or anyType composed schema that has additionalProperties set
             updatePropertyForMap(property, p);
         }
+        addVarsRequiredVarsAdditionalProps(p, property);
     }
 
     protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
@@ -3337,6 +3338,7 @@ public class DefaultCodegen implements CodegenConfig {
             // even though it should allow in any type and have map constraints for properties
             updatePropertyForMap(property, p);
         }
+        addVarsRequiredVarsAdditionalProps(p, property);
     }
 
     protected void updatePropertyForString(CodegenProperty property, Schema p) {
@@ -3583,7 +3585,6 @@ public class DefaultCodegen implements CodegenConfig {
             property.isModel = (ModelUtils.isComposedSchema(referencedSchema) || ModelUtils.isObjectSchema(referencedSchema)) && ModelUtils.isModel(referencedSchema);
         }
 
-        addVarsRequiredVarsAdditionalProps(p, property);
         LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);
         return property;
@@ -4318,7 +4319,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
             r.simpleType = false;
             r.containerType = cp.containerType;
-        } else if (!ModelUtils.isAnyType(responseSchema) && !ModelUtils.isBooleanSchema(responseSchema)){
+            addVarsRequiredVarsAdditionalProps(responseSchema, r);
+        } else if (ModelUtils.isAnyType(responseSchema)) {
+            addVarsRequiredVarsAdditionalProps(responseSchema, r);
+        } else if (!ModelUtils.isBooleanSchema(responseSchema)){
             // referenced schemas
             LOGGER.debug("Property type is not primitive: {}", cp.dataType);
         }
@@ -4327,8 +4331,6 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = true;
         }
         r.primitiveType = (r.baseType == null || languageSpecificPrimitives().contains(r.baseType));
-
-        addVarsRequiredVarsAdditionalProps(responseSchema, r);
 
         if (r.baseType == null) {
             r.isMap = false;
@@ -6599,6 +6601,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.setIsShort(Boolean.TRUE);
                 }
             }
+            addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
         } else if (ModelUtils.isBooleanSchema(schema)) { // boolean type
             updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
         } else if (ModelUtils.isFileSchema(schema) && !ModelUtils.isStringSchema(schema)) {
@@ -6626,12 +6629,12 @@ public class DefaultCodegen implements CodegenConfig {
                 // object type schema OR (AnyType schema with properties defined)
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
             }
+            addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
         } else {
             // referenced schemas
             updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
         }
 
-        addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
         addJsonSchemaForBodyRequestInCaseItsNotPresent(codegenParameter, body);
 
         // set the parameter's example value
