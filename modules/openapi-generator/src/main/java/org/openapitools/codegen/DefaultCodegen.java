@@ -6151,6 +6151,11 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = codegenProperty.baseName;
         codegenParameter.paramName = toParamName(codegenParameter.baseName);
         codegenParameter.dataFormat = codegenProperty.dataFormat;
+        // non-array/map
+        updateCodegenPropertyEnum(codegenProperty);
+        codegenParameter.isEnum = codegenProperty.isEnum;
+        codegenParameter._enum = codegenProperty._enum;
+        codegenParameter.allowableValues = codegenProperty.allowableValues;
 
         if (ModelUtils.isFileSchema(ps) && !ModelUtils.isStringSchema(ps)) {
             // swagger v2 only, type file
@@ -6227,6 +6232,9 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.isFile = true;
                 codegenParameter.dataFormat = codegenParameter.items.dataFormat;
             }
+            if (arrayInnerProperty._enum != null) {
+                codegenParameter._enum = arrayInnerProperty._enum;
+            }
             if (arrayInnerProperty.baseType != null && arrayInnerProperty.enumName != null) {
                 codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(arrayInnerProperty.baseType, arrayInnerProperty.enumName);
             } else {
@@ -6264,12 +6272,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (propertySchema.getRequired() != null && !propertySchema.getRequired().isEmpty() && propertySchema.getRequired().contains(codegenProperty.baseName)) {
             codegenParameter.required = Boolean.TRUE;
         }
-
-        // non-array/map
-        updateCodegenPropertyEnum(codegenProperty);
-        codegenParameter.isEnum = codegenProperty.isEnum;
-        codegenParameter._enum = codegenProperty._enum;
-        codegenParameter.allowableValues = codegenProperty.allowableValues;
 
         if (codegenProperty.isEnum) {
             codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
