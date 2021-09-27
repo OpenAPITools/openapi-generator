@@ -175,11 +175,9 @@ public interface IJsonSchemaValidationProperties {
             } else if (ModelUtils.isEmailSchema(p)) {
                 ;
             } else if (ModelUtils.isDateSchema(p)) {
-                // for backward compatibility with 2.x
-                setIsString(false);
+                ;
             } else if (ModelUtils.isDateTimeSchema(p)) {
-                // for backward compatibility with 2.x
-                setIsString(false);
+                ;
             } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
                 ;
             }

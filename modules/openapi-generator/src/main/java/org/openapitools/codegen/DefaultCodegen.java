@@ -2710,9 +2710,11 @@ public class DefaultCodegen implements CodegenConfig {
             // NOTE: String schemas as CodegenModel is a rare use case and may be removed at a later date.
             if (ModelUtils.isDateTimeSchema(schema)) {
                 // NOTE: DateTime schemas as CodegenModel is a rare use case and may be removed at a later date.
+                m.setIsString(false); // for backward compatibility with 2.x
                 m.isDateTime = Boolean.TRUE;
             } else if (ModelUtils.isDateSchema(schema)) {
                 // NOTE: Date schemas as CodegenModel is a rare use case and may be removed at a later date.
+                m.setIsString(false); // for backward compatibility with 2.x
                 m.isDate = Boolean.TRUE;
             }
         } else if (ModelUtils.isNumberSchema(schema)) {
@@ -3350,8 +3352,10 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isEmailSchema(p)) {
             property.isEmail = true;
         } else if (ModelUtils.isDateSchema(p)) { // date format
+            property.setIsString(false); // for backward compatibility with 2.x
             property.isDate = true;
         } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
+            property.setIsString(false); // for backward compatibility with 2.x
             property.isDateTime = true;
         } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
             property.isDecimal = true;
@@ -4281,8 +4285,10 @@ public class DefaultCodegen implements CodegenConfig {
                 r.isFile = true; // file = binary in OAS3
                 r.isBinary = true;
             } else if (ModelUtils.isDateSchema(responseSchema)) {
+                r.setIsString(false); // for backward compatibility with 2.x
                 r.isDate = true;
             } else if (ModelUtils.isDateTimeSchema(responseSchema)) {
+                r.setIsString(false); // for backward compatibility with 2.x
                 r.isDateTime = true;
             } else if (ModelUtils.isDecimalSchema(responseSchema)) { // type: string, format: number
                 r.isDecimal = true;
@@ -4443,9 +4449,11 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isFile = true; // file = binary in OAS3
             codegenParameter.isPrimitiveType = true;
         } else if (ModelUtils.isDateSchema(parameterSchema)) {
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
             codegenParameter.isDate = true;
             codegenParameter.isPrimitiveType = true;
         } else if (ModelUtils.isDateTimeSchema(parameterSchema)) {
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
             codegenParameter.isDateTime = true;
             codegenParameter.isPrimitiveType = true;
         } else if (ModelUtils.isDecimalSchema(parameterSchema)) { // type: string, format: number
@@ -6174,9 +6182,11 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.isFile = true; // file = binary in OAS3
                 codegenParameter.isPrimitiveType = true;
             } else if (ModelUtils.isDateSchema(ps)) {
+                codegenParameter.setIsString(false); // for backward compatibility with 2.x
                 codegenParameter.isDate = true;
                 codegenParameter.isPrimitiveType = true;
             } else if (ModelUtils.isDateTimeSchema(ps)) {
+                codegenParameter.setIsString(false); // for backward compatibility with 2.x
                 codegenParameter.isDateTime = true;
                 codegenParameter.isPrimitiveType = true;
             } else if (ModelUtils.isDecimalSchema(ps)) { // type: string, format: number
@@ -6529,8 +6539,10 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isEmailSchema(schema)) {
             codegenParameter.isEmail = true;
         } else if (ModelUtils.isDateSchema(schema)) { // date format
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
             codegenParameter.isDate = true;
         } else if (ModelUtils.isDateTimeSchema(schema)) { // date-time format
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
             codegenParameter.isDateTime = true;
         } else if (ModelUtils.isDecimalSchema(schema)) { // type: string, format: number
             codegenParameter.isDecimal = true;

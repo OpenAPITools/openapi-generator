@@ -1731,9 +1731,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             codegenParameter.isFile = true; // file = binary in OAS3
             codegenParameter.isPrimitiveType = true;
         } else if (ModelUtils.isDateSchema(parameterSchema)) {
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
             codegenParameter.isDate = true;
             codegenParameter.isPrimitiveType = true;
         } else if (ModelUtils.isDateTimeSchema(parameterSchema)) {
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
             codegenParameter.isDateTime = true;
             codegenParameter.isPrimitiveType = true;
         } else if (ModelUtils.isDecimalSchema(parameterSchema)) { // type: string, format: number
