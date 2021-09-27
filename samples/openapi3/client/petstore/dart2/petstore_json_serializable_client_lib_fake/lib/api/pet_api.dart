@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -23,33 +24,34 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future<Response> addPetWithHttpInfo(Pet pet) async {
+  Future<Response> addPetWithHttpInfo(Pet pet,) async {
     // Verify required params are set.
     if (pet == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet';
 
+    // ignore: prefer_final_locals
     Object postBody = pet;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json', 'application/xml'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>['application/json', 'application/xml'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -60,8 +62,8 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future<void> addPet(Pet pet) async {
-    final response = await addPetWithHttpInfo(pet);
+  Future<void> addPet(Pet pet,) async {
+    final response = await addPetWithHttpInfo(pet,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -77,15 +79,17 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<Response> deletePetWithHttpInfo(int petId, { String apiKey }) async {
+  Future<Response> deletePetWithHttpInfo(int petId, { String apiKey, }) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
-      .replaceAll('{' + 'petId' + '}', petId.toString());
+      .replaceAll('{petId}', petId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -96,19 +100,18 @@ class PetApi {
       headerParams[r'api_key'] = parameterToString(apiKey);
     }
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'DELETE',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -121,8 +124,8 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<void> deletePet(int petId, { String apiKey }) async {
-    final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
+  Future<void> deletePet(int petId, { String apiKey, }) async {
+    final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -138,14 +141,16 @@ class PetApi {
   ///
   /// * [List<String>] status (required):
   ///   Status values that need to be considered for filter
-  Future<Response> findPetsByStatusWithHttpInfo(List<String> status) async {
+  Future<Response> findPetsByStatusWithHttpInfo(List<String> status,) async {
     // Verify required params are set.
     if (status == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: status');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/findByStatus';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -154,19 +159,18 @@ class PetApi {
 
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'status', status));
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -179,8 +183,8 @@ class PetApi {
   ///
   /// * [List<String>] status (required):
   ///   Status values that need to be considered for filter
-  Future<List<Pet>> findPetsByStatus(List<String> status) async {
-    final response = await findPetsByStatusWithHttpInfo(status);
+  Future<List<Pet>> findPetsByStatus(List<String> status,) async {
+    final response = await findPetsByStatusWithHttpInfo(status,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -193,7 +197,7 @@ class PetApi {
         .map((i) => Pet.fromJson(i))
         .toList();
     }
-    return Future<List<Pet>>.value(null);
+    return Future<List<Pet>>.value();
   }
 
   /// Finds Pets by tags
@@ -206,14 +210,16 @@ class PetApi {
   ///
   /// * [Set<String>] tags (required):
   ///   Tags to filter by
-  Future<Response> findPetsByTagsWithHttpInfo(Set<String> tags) async {
+  Future<Response> findPetsByTagsWithHttpInfo(Set<String> tags,) async {
     // Verify required params are set.
     if (tags == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: tags');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/findByTags';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -222,19 +228,18 @@ class PetApi {
 
       queryParams.addAll(_convertParametersForCollectionFormat('csv', 'tags', tags));
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -247,8 +252,8 @@ class PetApi {
   ///
   /// * [Set<String>] tags (required):
   ///   Tags to filter by
-  Future<Set<Pet>> findPetsByTags(Set<String> tags) async {
-    final response = await findPetsByTagsWithHttpInfo(tags);
+  Future<Set<Pet>> findPetsByTags(Set<String> tags,) async {
+    final response = await findPetsByTagsWithHttpInfo(tags,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -261,7 +266,7 @@ class PetApi {
         .map((i) => Pet.fromJson(i))
         .toSet();
     }
-    return Future<Set<Pet>>.value(null);
+    return Future<Set<Pet>>.value();
   }
 
   /// Find pet by ID
@@ -274,34 +279,35 @@ class PetApi {
   ///
   /// * [int] petId (required):
   ///   ID of pet to return
-  Future<Response> getPetByIdWithHttpInfo(int petId) async {
+  Future<Response> getPetByIdWithHttpInfo(int petId,) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
-      .replaceAll('{' + 'petId' + '}', petId.toString());
+      .replaceAll('{petId}', petId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['api_key'];
+    const authNames = <String>['api_key'];
+    const contentTypes = <String>[];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -314,8 +320,8 @@ class PetApi {
   ///
   /// * [int] petId (required):
   ///   ID of pet to return
-  Future<Pet> getPetById(int petId) async {
-    final response = await getPetByIdWithHttpInfo(petId);
+  Future<Pet> getPetById(int petId,) async {
+    final response = await getPetByIdWithHttpInfo(petId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -326,7 +332,7 @@ class PetApi {
 
       return Pet.fromJson(json.decode(response.body));
     }
-    return Future<Pet>.value(null);
+    return Future<Pet>.value();
   }
 
   /// Update an existing pet
@@ -337,33 +343,34 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future<Response> updatePetWithHttpInfo(Pet pet) async {
+  Future<Response> updatePetWithHttpInfo(Pet pet,) async {
     // Verify required params are set.
     if (pet == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet';
 
+    // ignore: prefer_final_locals
     Object postBody = pet;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json', 'application/xml'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>['application/json', 'application/xml'];
 
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -374,8 +381,8 @@ class PetApi {
   ///
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
-  Future<void> updatePet(Pet pet) async {
-    final response = await updatePetWithHttpInfo(pet);
+  Future<void> updatePet(Pet pet,) async {
+    final response = await updatePetWithHttpInfo(pet,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -395,24 +402,25 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String name, String status }) async {
+  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String name, String status, }) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
-      .replaceAll('{' + 'petId' + '}', petId.toString());
+      .replaceAll('{petId}', petId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/x-www-form-urlencoded'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (name != null) {
       formParams[r'name'] = parameterToString(name);
@@ -421,14 +429,14 @@ class PetApi {
       formParams[r'status'] = parameterToString(status);
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -445,8 +453,8 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future<void> updatePetWithForm(int petId, { String name, String status }) async {
-    final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
+  Future<void> updatePetWithForm(int petId, { String name, String status, }) async {
+    final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -466,24 +474,25 @@ class PetApi {
   ///
   /// * [MultipartFile] file:
   ///   file to upload
-  Future<Response> uploadFileWithHttpInfo(int petId, { String additionalMetadata, MultipartFile file }) async {
+  Future<Response> uploadFileWithHttpInfo(int petId, { String additionalMetadata, MultipartFile file, }) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/pet/{petId}/uploadImage'
-      .replaceAll('{' + 'petId' + '}', petId.toString());
+      .replaceAll('{petId}', petId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['multipart/form-data'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>['multipart/form-data'];
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
@@ -500,14 +509,14 @@ class PetApi {
       postBody = mp;
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -524,8 +533,8 @@ class PetApi {
   ///
   /// * [MultipartFile] file:
   ///   file to upload
-  Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
-    final response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file );
+  Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file, }) async {
+    final response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -536,7 +545,7 @@ class PetApi {
 
       return ApiResponse.fromJson(json.decode(response.body));
     }
-    return Future<ApiResponse>.value(null);
+    return Future<ApiResponse>.value();
   }
 
   /// uploads an image (required)
@@ -553,7 +562,7 @@ class PetApi {
   ///
   /// * [String] additionalMetadata:
   ///   Additional data to pass to server
-  Future<Response> uploadFileWithRequiredFileWithHttpInfo(int petId, MultipartFile requiredFile, { String additionalMetadata }) async {
+  Future<Response> uploadFileWithRequiredFileWithHttpInfo(int petId, MultipartFile requiredFile, { String additionalMetadata, }) async {
     // Verify required params are set.
     if (petId == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
@@ -562,18 +571,19 @@ class PetApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredFile');
     }
 
+    // ignore: prefer_const_declarations
     final path = r'/fake/{petId}/uploadImageWithRequiredFile'
-      .replaceAll('{' + 'petId' + '}', petId.toString());
+      .replaceAll('{petId}', petId.toString());
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['multipart/form-data'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['petstore_auth'];
+    const authNames = <String>['petstore_auth'];
+    const contentTypes = <String>['multipart/form-data'];
 
     bool hasFields = false;
     final mp = MultipartRequest('POST', Uri.parse(path));
@@ -590,14 +600,14 @@ class PetApi {
       postBody = mp;
     }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -614,8 +624,8 @@ class PetApi {
   ///
   /// * [String] additionalMetadata:
   ///   Additional data to pass to server
-  Future<ApiResponse> uploadFileWithRequiredFile(int petId, MultipartFile requiredFile, { String additionalMetadata }) async {
-    final response = await uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile,  additionalMetadata: additionalMetadata );
+  Future<ApiResponse> uploadFileWithRequiredFile(int petId, MultipartFile requiredFile, { String additionalMetadata, }) async {
+    final response = await uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile,  additionalMetadata: additionalMetadata, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -626,6 +636,6 @@ class PetApi {
 
       return ApiResponse.fromJson(json.decode(response.body));
     }
-    return Future<ApiResponse>.value(null);
+    return Future<ApiResponse>.value();
   }
 }

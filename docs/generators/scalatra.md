@@ -57,6 +57,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Any</li>
 <li>Array</li>
 <li>Boolean</li>
+<li>Byte</li>
 <li>Double</li>
 <li>Float</li>
 <li>Int</li>

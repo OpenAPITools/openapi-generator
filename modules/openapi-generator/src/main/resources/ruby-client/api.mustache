@@ -146,7 +146,10 @@ module {{moduleName}}
       {{/hasProduces}}
       {{#hasConsumes}}
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type([{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}])
+      content_type = @api_client.select_header_content_type([{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
       {{/hasConsumes}}
       {{#headerParams}}
       {{#required}}

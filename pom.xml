@@ -1214,9 +1214,7 @@
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
-                <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/cpp-qt</module>
-                -->
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
