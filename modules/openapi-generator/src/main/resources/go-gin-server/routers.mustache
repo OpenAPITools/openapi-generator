@@ -51,7 +51,7 @@ func DefaultHandleFunc(c *gin.Context) {
 type ApiHandleFunctions struct {
 {{#apiInfo}}{{#apis}}{{#operations}}
 	// Routes for the {{classname}} part of the API
-	{{classname}}	{{classname}}{{/operations}}{{/apis}}{{/apiInfo}}
+	{{classname}} {{classname}}{{/operations}}{{/apis}}{{/apiInfo}}
 }
 
 func getRoutes(handleFunctions ApiHandleFunctions) []Route {
