@@ -20,7 +20,7 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+        addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion((), nil)
@@ -66,7 +66,7 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func deletePet(apiKey: String? = nil, petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deletePetWithRequestBuilder(apiKey: apiKey, petId: petId).execute(apiResponseQueue) { result -> Void in
+        deletePetWithRequestBuilder(apiKey: apiKey, petId: petId).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion((), nil)
@@ -124,7 +124,7 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func findPetsByStatus(status: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: [Pet]?, _ error: Error?) -> Void)) {
-        findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result -> Void in
+        findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -174,7 +174,7 @@ internal class PetAPI {
      */
     @available(*, deprecated, message: "This operation is deprecated.")
     internal class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: [Pet]?, _ error: Error?) -> Void)) {
-        findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result -> Void in
+        findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -224,7 +224,7 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Pet?, _ error: Error?) -> Void)) {
-        getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result -> Void in
+        getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -273,7 +273,7 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+        updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion((), nil)
@@ -320,7 +320,7 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result -> Void in
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion((), nil)
@@ -378,7 +378,7 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: ApiResponse?, _ error: Error?) -> Void)) {
-        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result -> Void in
+        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -436,7 +436,7 @@ internal class PetAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func uploadFileWithRequiredFile(petId: Int64, additionalMetadata: String? = nil, requiredFile: URL, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: ApiResponse?, _ error: Error?) -> Void)) {
-        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, requiredFile: requiredFile).execute(apiResponseQueue) { result -> Void in
+        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, requiredFile: requiredFile).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)

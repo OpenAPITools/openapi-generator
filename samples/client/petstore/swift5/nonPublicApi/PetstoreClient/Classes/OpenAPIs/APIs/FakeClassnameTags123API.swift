@@ -20,7 +20,7 @@ internal class FakeClassnameTags123API {
      - parameter completion: completion handler to receive the data and the error objects
      */
     internal class func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Client?, _ error: Error?) -> Void)) {
-        testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+        testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
