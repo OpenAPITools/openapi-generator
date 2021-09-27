@@ -4596,6 +4596,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isFreeFormObject(openAPI, parameterSchema)) {
                 codegenParameter.isFreeFormObject = true;
             }
+            addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
         } else if (ModelUtils.isNullType(parameterSchema)) {
             ;
         } else if (ModelUtils.isAnyType(parameterSchema)) {
@@ -4603,6 +4604,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
                 updateParameterForMap(codegenParameter, parameterSchema, imports);
             }
+            addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
         } else if (ModelUtils.isArraySchema(parameterSchema)) {
             final ArraySchema arraySchema = (ArraySchema) parameterSchema;
             Schema inner = getSchemaItems(arraySchema);
@@ -4680,8 +4682,6 @@ public class DefaultCodegen implements CodegenConfig {
             imports.add(codegenProperty.complexType);
         }
         codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
-
-        addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
 
         if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
             Schema schema = ModelUtils.getSchema(openAPI, codegenParameter.dataType);
@@ -6478,6 +6478,7 @@ public class DefaultCodegen implements CodegenConfig {
             // object type schema or composed schema with properties defined
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
         }
+        addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
     }
 
     protected void updateRequestBodyForArray(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
@@ -6601,7 +6602,6 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.setIsShort(Boolean.TRUE);
                 }
             }
-            addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
         } else if (ModelUtils.isBooleanSchema(schema)) { // boolean type
             updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
         } else if (ModelUtils.isFileSchema(schema) && !ModelUtils.isStringSchema(schema)) {
