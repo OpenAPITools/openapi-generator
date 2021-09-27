@@ -1,4 +1,3 @@
-/*
 package org.openapitools.codegen.markdown;
 
 import java.io.File;
@@ -51,4 +50,3 @@ public class MarkdownSampleGeneratorTest {
     }
 
 }
-*/
