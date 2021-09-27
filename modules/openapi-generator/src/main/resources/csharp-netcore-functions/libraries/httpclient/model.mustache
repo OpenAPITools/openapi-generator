@@ -1,4 +1,5 @@
 {{>partial_header}}
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ using JsonSubTypes;
 {{#validatable}}
 using System.ComponentModel.DataAnnotations;
 {{/validatable}}
+using FileParameter = {{packageName}}.Client.FileParameter;
 using OpenAPIDateConverter = {{packageName}}.Client.OpenAPIDateConverter;
 {{#useCompareNetObjects}}
 using OpenAPIClientUtils = {{packageName}}.Client.ClientUtils;
