@@ -20,7 +20,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUser(user: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUserWithRequestBuilder(user: user).execute(apiResponseQueue) { result -> Void in
+        createUserWithRequestBuilder(user: user).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion((), nil)
@@ -66,7 +66,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUsersWithArrayInput(user: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUsersWithArrayInputWithRequestBuilder(user: user).execute(apiResponseQueue) { result -> Void in
+        createUsersWithArrayInputWithRequestBuilder(user: user).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion((), nil)
@@ -111,7 +111,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUsersWithListInput(user: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        createUsersWithListInputWithRequestBuilder(user: user).execute(apiResponseQueue) { result -> Void in
+        createUsersWithListInputWithRequestBuilder(user: user).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion((), nil)
@@ -156,7 +156,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func deleteUser(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result -> Void in
+        deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion((), nil)
@@ -205,7 +205,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getUserByName(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: User?, _ error: Error?) -> Void)) {
-        getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result -> Void in
+        getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -251,7 +251,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func loginUser(username: String, password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: String?, _ error: Error?) -> Void)) {
-        loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result -> Void in
+        loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -298,7 +298,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        logoutUserWithRequestBuilder().execute(apiResponseQueue) { result -> Void in
+        logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion((), nil)
@@ -343,7 +343,7 @@ open class UserAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func updateUser(username: String, user: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) {
-        updateUserWithRequestBuilder(username: username, user: user).execute(apiResponseQueue) { result -> Void in
+        updateUserWithRequestBuilder(username: username, user: user).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion((), nil)

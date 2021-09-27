@@ -15,7 +15,7 @@ use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 
-/// struct for typed errors of method `add_pet`
+/// struct for typed errors of method [`add_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetError {
@@ -23,7 +23,7 @@ pub enum AddPetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `delete_pet`
+/// struct for typed errors of method [`delete_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeletePetError {
@@ -31,7 +31,7 @@ pub enum DeletePetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `find_pets_by_status`
+/// struct for typed errors of method [`find_pets_by_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByStatusError {
@@ -39,7 +39,7 @@ pub enum FindPetsByStatusError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `find_pets_by_tags`
+/// struct for typed errors of method [`find_pets_by_tags`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByTagsError {
@@ -47,7 +47,7 @@ pub enum FindPetsByTagsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `get_pet_by_id`
+/// struct for typed errors of method [`get_pet_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPetByIdError {
@@ -56,7 +56,7 @@ pub enum GetPetByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `update_pet`
+/// struct for typed errors of method [`update_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetError {
@@ -66,7 +66,7 @@ pub enum UpdatePetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `update_pet_with_form`
+/// struct for typed errors of method [`update_pet_with_form`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetWithFormError {
@@ -74,7 +74,7 @@ pub enum UpdatePetWithFormError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `upload_file`
+/// struct for typed errors of method [`upload_file`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileError {

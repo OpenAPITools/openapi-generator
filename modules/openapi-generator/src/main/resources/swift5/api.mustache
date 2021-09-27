@@ -44,6 +44,7 @@ extension {{projectName}}API {
 {{^useRxSwift}}
 {{^useResult}}
 {{^useCombine}}
+{{^useAsyncAwait}}
     /**
      {{#summary}}
      {{{.}}}
@@ -56,7 +57,7 @@ extension {{projectName}}API {
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ data: {{{returnType}}}{{^returnType}}Void{{/returnType}}?, _ error: Error?) -> Void)) {
-        {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
+        {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
             switch result {
             {{#returnType}}
             case let .success(response):
@@ -71,6 +72,7 @@ extension {{projectName}}API {
             }
         }
     }
+{{/useAsyncAwait}}
 {{/useCombine}}
 {{/useResult}}
 {{/useRxSwift}}
@@ -90,7 +92,7 @@ extension {{projectName}}API {
     {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}} {{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) -> Promise<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {
         let deferred = Promise<{{{returnType}}}{{^returnType}}Void{{/returnType}}>.pending()
-        {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
+        {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
             switch result {
             {{#returnType}}
             case let .success(response):
@@ -121,7 +123,7 @@ extension {{projectName}}API {
     {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) -> Observable<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {
         return Observable.create { observer -> Disposable in
-            {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
+            {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
                 switch result {
                 {{#returnType}}
                 case let .success(response):
@@ -153,10 +155,10 @@ extension {{projectName}}API {
     {{#isDeprecated}}
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
-    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {
-        return Future<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error>.init { promise in
-            {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
+        return Future<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> { promise in
+            {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
                 switch result {
                 {{#returnType}}
                 case let .success(response):
@@ -174,6 +176,38 @@ extension {{projectName}}API {
     }
     #endif
 {{/useCombine}}
+{{#useAsyncAwait}}
+    /**
+     {{#summary}}
+     {{{.}}}
+     {{/summary}}{{#allParams}}
+     - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - returns: {{{returnType}}}{{^returnType}}Void{{/returnType}}
+     */
+    {{#isDeprecated}}
+    @available(*, deprecated, message: "This operation is deprecated.")
+    {{/isDeprecated}}
+    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) async throws{{#returnType}} -> {{{returnType}}}{{/returnType}} {
+        return try await withCheckedThrowingContinuation { continuation in
+            {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
+                switch result {
+                {{#returnType}}
+                case let .success(response):
+                    continuation.resume(returning: response.body!)
+                {{/returnType}}
+                {{^returnType}}
+                case .success:
+                    continuation.resume(returning: ())
+                {{/returnType}}
+                case let .failure(error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+{{/useAsyncAwait}}
 {{#useResult}}
     /**
      {{#summary}}
@@ -186,8 +220,8 @@ extension {{projectName}}API {
     {{#isDeprecated}}
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
-    open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error>) -> Void)) {
-        {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result -> Void in
+    open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<{{{returnType}}}{{^returnType}}Void{{/returnType}}, ErrorResponse>) -> Void)) {
+        {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
             switch result {
             {{#returnType}}
             case let .success(response):

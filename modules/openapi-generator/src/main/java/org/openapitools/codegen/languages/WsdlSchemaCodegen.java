@@ -24,11 +24,7 @@ import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
 import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Arrays;
+import java.util.*;
 
 public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
@@ -138,7 +134,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
             for (CodegenResponse response : op.responses) {
                 if (response.isModel) {
                     response.dataType = response.dataType.substring(0, 1).toUpperCase(Locale.getDefault())
-                            + response.dataType.substring(1); 
+                            + response.dataType.substring(1);
                 }
 
                 if (response.isArray) {
@@ -187,7 +183,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
             Map<String, Object> mod = (Map<String, Object>) mo;
             CodegenModel model = (CodegenModel) mod.get("model");
             Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
-            
+
             for (CodegenProperty var : model.vars) {
                 Map<String, Object> propertyVendorExtensions = var.getVendorExtensions();
 
@@ -218,7 +214,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                 }
 
                 // specify appearing schema names in case of openapi array with oneOf elements
-                if (var.openApiType == "array" && var.items.dataType.startsWith("oneOf<")) {
+                if ("array".equals(var.openApiType) && var.items.dataType.startsWith("oneOf<")) {
                     // get only comma separated names of schemas from oneOf<name1,name2...>
                     String schemaNamesString =
                             var.items.dataType.substring(6, var.items.dataType.length() - 1);
@@ -248,7 +244,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
             }
             if (pathElements[i].length() > 0) {
                 newOperationid = newOperationid
-                    + this.lowerCaseStringExceptFirstLetter(pathElements[i]);
+                        + this.lowerCaseStringExceptFirstLetter(pathElements[i]);
             }
         }
 

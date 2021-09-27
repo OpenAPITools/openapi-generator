@@ -14,51 +14,51 @@ use reqwest;
 use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method `add_pet`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`add_pet`]
+#[derive(Clone, Debug, Default)]
 pub struct AddPetParams {
     /// Pet object that needs to be added to the store
     pub pet: crate::models::Pet
 }
 
-/// struct for passing parameters to the method `delete_pet`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`delete_pet`]
+#[derive(Clone, Debug, Default)]
 pub struct DeletePetParams {
     /// Pet id to delete
     pub pet_id: i64,
     pub api_key: Option<String>
 }
 
-/// struct for passing parameters to the method `find_pets_by_status`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`find_pets_by_status`]
+#[derive(Clone, Debug, Default)]
 pub struct FindPetsByStatusParams {
     /// Status values that need to be considered for filter
     pub status: Vec<String>
 }
 
-/// struct for passing parameters to the method `find_pets_by_tags`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`find_pets_by_tags`]
+#[derive(Clone, Debug, Default)]
 pub struct FindPetsByTagsParams {
     /// Tags to filter by
     pub tags: Vec<String>
 }
 
-/// struct for passing parameters to the method `get_pet_by_id`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`get_pet_by_id`]
+#[derive(Clone, Debug, Default)]
 pub struct GetPetByIdParams {
     /// ID of pet to return
     pub pet_id: i64
 }
 
-/// struct for passing parameters to the method `update_pet`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`update_pet`]
+#[derive(Clone, Debug, Default)]
 pub struct UpdatePetParams {
     /// Pet object that needs to be added to the store
     pub pet: crate::models::Pet
 }
 
-/// struct for passing parameters to the method `update_pet_with_form`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`update_pet_with_form`]
+#[derive(Clone, Debug, Default)]
 pub struct UpdatePetWithFormParams {
     /// ID of pet that needs to be updated
     pub pet_id: i64,
@@ -68,8 +68,8 @@ pub struct UpdatePetWithFormParams {
     pub status: Option<String>
 }
 
-/// struct for passing parameters to the method `upload_file`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`upload_file`]
+#[derive(Clone, Debug, Default)]
 pub struct UploadFileParams {
     /// ID of pet to update
     pub pet_id: i64,
@@ -80,7 +80,7 @@ pub struct UploadFileParams {
 }
 
 
-/// struct for typed successes of method `add_pet`
+/// struct for typed successes of method [`add_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetSuccess {
@@ -88,14 +88,14 @@ pub enum AddPetSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `delete_pet`
+/// struct for typed successes of method [`delete_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeletePetSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `find_pets_by_status`
+/// struct for typed successes of method [`find_pets_by_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByStatusSuccess {
@@ -103,7 +103,7 @@ pub enum FindPetsByStatusSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `find_pets_by_tags`
+/// struct for typed successes of method [`find_pets_by_tags`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByTagsSuccess {
@@ -111,7 +111,7 @@ pub enum FindPetsByTagsSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `get_pet_by_id`
+/// struct for typed successes of method [`get_pet_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPetByIdSuccess {
@@ -119,7 +119,7 @@ pub enum GetPetByIdSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `update_pet`
+/// struct for typed successes of method [`update_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetSuccess {
@@ -127,14 +127,14 @@ pub enum UpdatePetSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `update_pet_with_form`
+/// struct for typed successes of method [`update_pet_with_form`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetWithFormSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `upload_file`
+/// struct for typed successes of method [`upload_file`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileSuccess {
@@ -142,7 +142,7 @@ pub enum UploadFileSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `add_pet`
+/// struct for typed errors of method [`add_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetError {
@@ -150,7 +150,7 @@ pub enum AddPetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `delete_pet`
+/// struct for typed errors of method [`delete_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeletePetError {
@@ -158,7 +158,7 @@ pub enum DeletePetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `find_pets_by_status`
+/// struct for typed errors of method [`find_pets_by_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByStatusError {
@@ -166,7 +166,7 @@ pub enum FindPetsByStatusError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `find_pets_by_tags`
+/// struct for typed errors of method [`find_pets_by_tags`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByTagsError {
@@ -174,7 +174,7 @@ pub enum FindPetsByTagsError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `get_pet_by_id`
+/// struct for typed errors of method [`get_pet_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPetByIdError {
@@ -183,7 +183,7 @@ pub enum GetPetByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `update_pet`
+/// struct for typed errors of method [`update_pet`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetError {
@@ -193,7 +193,7 @@ pub enum UpdatePetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `update_pet_with_form`
+/// struct for typed errors of method [`update_pet_with_form`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetWithFormError {
@@ -201,7 +201,7 @@ pub enum UpdatePetWithFormError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `upload_file`
+/// struct for typed errors of method [`upload_file`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileError {

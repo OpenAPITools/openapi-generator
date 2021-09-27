@@ -22,7 +22,7 @@ open class StoreAPI {
      */
     open class func deleteOrder( orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result -> Void in
+        deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -69,7 +69,7 @@ open class StoreAPI {
      */
     open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<[String: Int]> {
         let deferred = Promise<[String: Int]>.pending()
-        getInventoryWithRequestBuilder().execute(apiResponseQueue) { result -> Void in
+        getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -116,7 +116,7 @@ open class StoreAPI {
      */
     open class func getOrderById( orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
-        getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result -> Void in
+        getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -164,7 +164,7 @@ open class StoreAPI {
      */
     open class func placeOrder( body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
-        placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+        placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)

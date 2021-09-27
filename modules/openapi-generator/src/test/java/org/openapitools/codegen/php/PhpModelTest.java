@@ -76,7 +76,7 @@ public class PhpModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.complexType, "\\DateTime");
+        Assert.assertEquals(property3.complexType, null);
         Assert.assertEquals(property3.dataType, "\\DateTime");
         Assert.assertEquals(property3.name, "created_at");
         Assert.assertEquals(property3.defaultValue, null);

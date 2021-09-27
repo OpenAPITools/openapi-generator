@@ -14,36 +14,36 @@ use reqwest;
 use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method `delete_order`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`delete_order`]
+#[derive(Clone, Debug, Default)]
 pub struct DeleteOrderParams {
     /// ID of the order that needs to be deleted
     pub order_id: String
 }
 
-/// struct for passing parameters to the method `get_order_by_id`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`get_order_by_id`]
+#[derive(Clone, Debug, Default)]
 pub struct GetOrderByIdParams {
     /// ID of pet that needs to be fetched
     pub order_id: i64
 }
 
-/// struct for passing parameters to the method `place_order`
-#[derive(Clone, Debug)]
+/// struct for passing parameters to the method [`place_order`]
+#[derive(Clone, Debug, Default)]
 pub struct PlaceOrderParams {
     /// order placed for purchasing the pet
     pub order: crate::models::Order
 }
 
 
-/// struct for typed successes of method `delete_order`
+/// struct for typed successes of method [`delete_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteOrderSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `get_inventory`
+/// struct for typed successes of method [`get_inventory`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventorySuccess {
@@ -51,7 +51,7 @@ pub enum GetInventorySuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `get_order_by_id`
+/// struct for typed successes of method [`get_order_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOrderByIdSuccess {
@@ -59,7 +59,7 @@ pub enum GetOrderByIdSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `place_order`
+/// struct for typed successes of method [`place_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PlaceOrderSuccess {
@@ -67,7 +67,7 @@ pub enum PlaceOrderSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `delete_order`
+/// struct for typed errors of method [`delete_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteOrderError {
@@ -76,14 +76,14 @@ pub enum DeleteOrderError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `get_inventory`
+/// struct for typed errors of method [`get_inventory`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventoryError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `get_order_by_id`
+/// struct for typed errors of method [`get_order_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOrderByIdError {
@@ -92,7 +92,7 @@ pub enum GetOrderByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `place_order`
+/// struct for typed errors of method [`place_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PlaceOrderError {
