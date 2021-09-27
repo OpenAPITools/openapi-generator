@@ -26,7 +26,7 @@ const apiInstance = new .DefaultApi(configuration);
 let body:.DefaultApiFilePostRequest = {
   // InlineObject (optional)
   inlineObject: {
-    file: ,
+    file: null,
   },
 };
 
@@ -80,7 +80,7 @@ const apiInstance = new .DefaultApi(configuration);
 
 let body:.DefaultApiPetsFilteredPatchRequest = {
   // PetByAge | PetByType (optional)
-  petByAgePetByType: ,
+  petByAgePetByType: null,
 };
 
 apiInstance.petsFilteredPatch(body).then((data:any) => {
@@ -133,7 +133,7 @@ const apiInstance = new .DefaultApi(configuration);
 
 let body:.DefaultApiPetsPatchRequest = {
   // Cat | Dog (optional)
-  catDog: ,
+  catDog: null,
 };
 
 apiInstance.petsPatch(body).then((data:any) => {

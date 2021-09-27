@@ -1300,7 +1300,7 @@ export interface User {
      * @type {any}
      * @memberof User
      */
-    arbitraryTypeValue?: any | null;
+    arbitraryTypeValue?: any;
     /**
      * test code generation for any type Value can be any type - string, number, boolean, array, object or the \'null\' value.
      * @type {any}
