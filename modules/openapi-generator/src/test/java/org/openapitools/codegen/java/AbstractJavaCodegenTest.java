@@ -32,9 +32,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class AbstractJavaCodegenTest {
 
@@ -211,12 +209,13 @@ public class AbstractJavaCodegenTest {
         
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
-        
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
-        additionalModelTypeAnnotations.add("@Foo");
-        additionalModelTypeAnnotations.add("@Bar");
 
-        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
+        final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
+        Collections.sort(sortedAdditionalModelTypeAnnotations);
+
+        Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
     
     @Test
@@ -228,12 +227,13 @@ public class AbstractJavaCodegenTest {
         
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
-        
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
-        additionalModelTypeAnnotations.add("@Foo");
-        additionalModelTypeAnnotations.add("@Bar");
 
-        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
+        final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
+        Collections.sort(sortedAdditionalModelTypeAnnotations);
+
+        Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
     
     @Test
@@ -250,8 +250,12 @@ public class AbstractJavaCodegenTest {
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
 
-        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
-    }
+        final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
+        Collections.sort(sortedAdditionalModelTypeAnnotations);
+
+        Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);    }
     
     @Test
     public void testAdditionalModelTypeAnnotationsMixed() throws Exception {
@@ -268,7 +272,12 @@ public class AbstractJavaCodegenTest {
         additionalModelTypeAnnotations.add("@Bar");
         additionalModelTypeAnnotations.add("@Foobar");
 
-        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
+        final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
+        Collections.sort(sortedAdditionalModelTypeAnnotations);
+
+        Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
     
     @Test
@@ -285,7 +294,12 @@ public class AbstractJavaCodegenTest {
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
 
-        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
+        final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
+        Collections.sort(sortedAdditionalModelTypeAnnotations);
+
+        Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
     }
     
     @Test
