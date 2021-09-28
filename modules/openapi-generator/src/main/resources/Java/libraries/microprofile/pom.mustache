@@ -5,7 +5,7 @@
   <packaging>jar</packaging>
   <name>{{artifactId}}</name>
   {{#appDescription}}
-  <description>{{appDescription}}</description>
+  <description>{{.}}</description>
   {{/appDescription}}
   <version>{{artifactVersion}}</version>
   <build>
@@ -125,7 +125,7 @@
         <artifactId>activation</artifactId>
         <version>1.1.1</version>
     </dependency>
-    
+
 {{#java8}}
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -140,7 +140,7 @@
         <version>${jackson-jaxrs-version}</version>
     </dependency>
 {{/java8}}
-{{#useBeanValidationFeature}}    
+{{#useBeanValidationFeature}}
     <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-validator</artifactId>

@@ -7,6 +7,14 @@
     <artifactId>{{artifactId}}</artifactId>
     <version>{{artifactVersion}}</version>
 
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{parentGroupId}}</groupId>
+        <artifactId>{{parentArtifactId}}</artifactId>
+        <version>{{parentVersion}}</version>
+    </parent>
+{{/parentOverridden}}
+
     <properties>
         <mainClass>io.helidon.microprofile.server.Main</mainClass>
         <version.lib.helidon>1.2.0</version.lib.helidon>

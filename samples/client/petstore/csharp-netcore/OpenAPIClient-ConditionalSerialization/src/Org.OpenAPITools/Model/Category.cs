@@ -58,13 +58,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public long Id
-        { 
+        {
             get{ return _Id;}
             set
             {
                 _Id = value;
                 _flagId = true;
-            } 
+            }
         }
         private long _Id;
         private bool _flagId;
@@ -82,13 +82,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
         public string Name
-        { 
+        {
             get{ return _Name;}
             set
             {
                 _Name = value;
                 _flagName = true;
-            } 
+            }
         }
         private string _Name;
         private bool _flagName;

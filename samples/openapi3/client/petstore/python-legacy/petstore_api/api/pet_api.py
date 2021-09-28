@@ -160,7 +160,7 @@ class PetApi(object):
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -295,7 +295,7 @@ class PetApi(object):
         body_params = None
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -429,7 +429,7 @@ class PetApi(object):
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
-        
+
         response_types_map = {
             200: "list[Pet]",
             400: None,
@@ -566,7 +566,7 @@ class PetApi(object):
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
-        
+
         response_types_map = {
             200: "list[Pet]",
             400: None,
@@ -702,7 +702,7 @@ class PetApi(object):
 
         # Authentication setting
         auth_settings = ['api_key']  # noqa: E501
-        
+
         response_types_map = {
             200: "Pet",
             400: None,
@@ -850,7 +850,7 @@ class PetApi(object):
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -996,7 +996,7 @@ class PetApi(object):
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
-        
+
         response_types_map = {}
 
         return self.api_client.call_api(
@@ -1145,7 +1145,7 @@ class PetApi(object):
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
-        
+
         response_types_map = {
             200: "ApiResponse",
         }
@@ -1300,7 +1300,7 @@ class PetApi(object):
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
-        
+
         response_types_map = {
             200: "ApiResponse",
         }

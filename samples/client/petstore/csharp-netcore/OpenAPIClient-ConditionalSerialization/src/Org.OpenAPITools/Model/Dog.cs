@@ -59,13 +59,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "breed", EmitDefaultValue = false)]
         public string Breed
-        { 
+        {
             get{ return _Breed;}
             set
             {
                 _Breed = value;
                 _flagBreed = true;
-            } 
+            }
         }
         private string _Breed;
         private bool _flagBreed;

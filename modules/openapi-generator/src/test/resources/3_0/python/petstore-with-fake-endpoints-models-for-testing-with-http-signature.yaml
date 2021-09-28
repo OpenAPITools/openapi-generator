@@ -1666,6 +1666,10 @@ components:
         color:
           type: string
           default: red
+        tail:
+          type: boolean
+          default: true
+          readOnly: true
     AnimalFarm:
       type: array
       items:

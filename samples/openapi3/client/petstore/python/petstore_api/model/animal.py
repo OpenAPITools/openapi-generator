@@ -91,6 +91,7 @@ class Animal(ModelNormal):
         return {
             'class_name': (str,),  # noqa: E501
             'color': (str,),  # noqa: E501
+            'tail': (bool,),  # noqa: E501
         }
 
     @cached_property
@@ -107,9 +108,11 @@ class Animal(ModelNormal):
     attribute_map = {
         'class_name': 'className',  # noqa: E501
         'color': 'color',  # noqa: E501
+        'tail': 'tail',  # noqa: E501
     }
 
     read_only_vars = {
+        'tail',  # noqa: E501
     }
 
     _composed_schemas = {}
@@ -154,6 +157,7 @@ class Animal(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
+            tail (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -240,6 +244,7 @@ class Animal(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
+            tail (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

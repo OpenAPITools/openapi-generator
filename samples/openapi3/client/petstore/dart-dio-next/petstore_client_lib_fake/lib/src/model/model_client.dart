@@ -56,10 +56,12 @@ class _$ModelClientSerializer implements StructuredSerializer<ModelClient> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'client':
-                    result.client = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.client = valueDes;
                     break;
             }
         }
