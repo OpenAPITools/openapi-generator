@@ -254,7 +254,7 @@ public class AbstractJavaCodegenTest {
         
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
-        
+
         final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
