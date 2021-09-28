@@ -50,7 +50,7 @@ export class BaseAPI {
         if (response.status >= 200 && response.status < 300) {
             return response;
         }
-        throw response;
+        throw new ResponseError(response, 'Response returned an error code');
     }
 
     private createFetchParams(context: RequestOpts, initOverrides?: RequestInit) {
@@ -111,6 +111,13 @@ export class BaseAPI {
         return next;
     }
 };
+
+export class ResponseError extends Error {
+    name: "ResponseError" = "ResponseError";
+    constructor(public response: Response, msg?: string) {
+        super(msg);
+    }
+}
 
 export class RequiredError extends Error {
     name: "RequiredError" = "RequiredError";
