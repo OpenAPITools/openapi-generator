@@ -1614,7 +1614,7 @@
         <slf4j-version>1.7.29</slf4j-version>
         <scala-maven-plugin-version>4.3.1</scala-maven-plugin-version>
         <jmustache-version>1.14</jmustache-version>
-        <handlebars.java-version>4.1.2</handlebars.java-version>
+        <handlebars.java-version>4.2.1</handlebars.java-version>
         <testng-version>7.1.0</testng-version>
         <surefire-version>3.0.0-M3</surefire-version>
         <reflections-version>0.9.10</reflections-version>
