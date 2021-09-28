@@ -222,7 +222,8 @@ public class AbstractJavaCodegenTest {
 
         Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
         Collections.sort(sortedAdditionalModelTypeAnnotations);
-        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);    }
+        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
+    }
     
     @Test
     public void testAdditionalModelTypeAnnotationsNewLineLinux() throws Exception {
@@ -243,7 +244,8 @@ public class AbstractJavaCodegenTest {
 
         Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
         Collections.sort(sortedAdditionalModelTypeAnnotations);
-        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);    }
+        Assert.assertEquals(codegen.getAdditionalModelTypeAnnotations(), additionalModelTypeAnnotations);
+    }
     
     @Test
     public void testAdditionalModelTypeAnnotationsNewLineWindows() throws Exception {
