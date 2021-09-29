@@ -57,6 +57,7 @@ module Petstore
 
       connection = Faraday.new(:url => config.base_url, :ssl => ssl_options) do |conn|
         conn.basic_auth(config.username, config.password)
+        @config.configure_middleware(conn)
         if opts[:header_params]["Content-Type"] == "multipart/form-data"
           conn.request :multipart
           conn.request :url_encoded

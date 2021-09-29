@@ -149,6 +149,9 @@ module Petstore
       @ssl_ca_file = nil
       @ssl_client_cert = nil
       @ssl_client_key = nil
+      @middlewares = []
+      @request_middlewares = []
+      @response_middlewares = []
       @debugging = false
       @inject_format = false
       @force_ending_format = false
@@ -353,6 +356,36 @@ module Petstore
       end
 
       url
+    end
+
+    # Adds middleware to the stack
+    def use(*middleware)
+      @middlewares << middleware
+    end
+
+    # Adds request middleware to the stack
+    def request(*middleware)
+      @request_middlewares << middleware
+    end
+
+    # Adds response middleware to the stack
+    def response(*middleware)
+      @response_middlewares << middleware
+    end
+
+    # Set up middleware on the connection
+    def configure_middleware(connection)
+      @middlewares.each do |middleware|
+        connection.use(*middleware)
+      end
+
+      @request_middlewares.each do |middleware|
+        connection.request(*middleware)
+      end
+
+      @response_middlewares.each do |middleware|
+        connection.response(*middleware)
+      end
     end
   end
 end
