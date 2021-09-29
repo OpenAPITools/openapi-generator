@@ -322,34 +322,10 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-            return null;
-        } else if (ModelUtils.isDateSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-            return null;
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-            return null;
-        } else if (ModelUtils.isNumberSchema(p) || ModelUtils.isIntegerSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-            return null;
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "'" + (String) p.getDefault() + "'";
-            }
-            return null;
-        } else {
+        String def = super.toDefaultValue(p);
+        if ("undefined".equals(def)) {
             return null;
         }
-
+        return def;
     }
 }

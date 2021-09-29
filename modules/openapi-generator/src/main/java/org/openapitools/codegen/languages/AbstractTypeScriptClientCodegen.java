@@ -546,7 +546,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "'" + (String) p.getDefault() + "'";
+                return "'" + escapeText((String) p.getDefault()) + "'";
             }
             return UNDEFINED_VALUE;
         } else {
