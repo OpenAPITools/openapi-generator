@@ -336,9 +336,9 @@ public class DefaultGenerator implements Generator {
 
     private void generateModelTests(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         // to generate model test files
-        for (Map.Entry<String, String> config.modelTestTemplateFiles()Entry : config.modelTestTemplateFiles().entrySet()) {
-            String templateName = config.modelTestTemplateFiles()Entry.getKey();
-            String suffix = config.modelTestTemplateFiles()Entry.getValue();
+        for (Map.Entry<String, String> configModelTestTemplateFilesEntry : config.modelTestTemplateFiles().entrySet()) {
+            String templateName = configModelTestTemplateFilesEntry.getKey();
+            String suffix = configModelTestTemplateFilesEntry.getValue();
             String filename = config.modelTestFileFolder() + File.separator + config.toModelTestFilename(modelName) + suffix;
 
             if (generateModelTests) {
