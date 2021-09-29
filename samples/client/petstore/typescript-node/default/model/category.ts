@@ -16,8 +16,8 @@ import { RequestFile } from './models';
 * A category for a pet
 */
 export class Category {
-    'id'?: number = undefined;
-    'name'?: string = undefined;
+    'id'?: number;
+    'name'?: string;
 
     static discriminator: string | undefined = undefined;
 
