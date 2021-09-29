@@ -62,6 +62,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -335,8 +336,9 @@ public class DefaultGenerator implements Generator {
 
     private void generateModelTests(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         // to generate model test files
-        for (String templateName : config.modelTestTemplateFiles().keySet()) {
-            String suffix = config.modelTestTemplateFiles().get(templateName);
+        for (Map.Entry<String, String> config.modelTestTemplateFiles()Entry : config.modelTestTemplateFiles().entrySet()) {
+            String templateName = config.modelTestTemplateFiles()Entry.getKey();
+            String suffix = config.modelTestTemplateFiles()Entry.getValue();
             String filename = config.modelTestFileFolder() + File.separator + config.toModelTestFilename(modelName) + suffix;
 
             if (generateModelTests) {
@@ -1055,8 +1057,9 @@ public class DefaultGenerator implements Generator {
         if(paths == null) {
             return ops;
         }
-        for (String resourcePath : paths.keySet()) {
-            PathItem path = paths.get(resourcePath);
+        for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+            String resourcePath = pathsEntry.getKey();
+            PathItem path = pathsEntry.getValue();
             processOperation(resourcePath, "get", path.getGet(), ops, path);
             processOperation(resourcePath, "head", path.getHead(), ops, path);
             processOperation(resourcePath, "put", path.getPut(), ops, path);
@@ -1199,7 +1202,7 @@ public class DefaultGenerator implements Generator {
         operations.put("operations", objs);
         operations.put("package", config.apiPackage());
 
-        Set<String> allImports = new TreeSet<>();
+        Set<String> allImports = new ConcurrentSkipListSet<>();
         for (CodegenOperation op : ops) {
             allImports.addAll(op.imports);
         }
@@ -1267,8 +1270,9 @@ public class DefaultGenerator implements Generator {
         objs.put("package", config.modelPackage());
         List<Object> models = new ArrayList<>();
         Set<String> allImports = new LinkedHashSet<>();
-        for (String key : definitions.keySet()) {
-            Schema schema = definitions.get(key);
+        for (Map.Entry<String, Schema> definitionsEntry : definitions.entrySet()) {
+            String key = definitionsEntry.getKey();
+            Schema schema = definitionsEntry.getValue();
             if (schema == null)
                 throw new RuntimeException("schema cannot be null in processModels");
             CodegenModel cm = config.fromModel(key, schema);
@@ -1282,7 +1286,7 @@ public class DefaultGenerator implements Generator {
             allImports.addAll(cm.imports);
         }
         objs.put("models", models);
-        Set<String> importSet = new TreeSet<>();
+        Set<String> importSet = new ConcurrentSkipListSet<>();
         for (String nextImport : allImports) {
             String mapping = config.importMapping().get(nextImport);
             if (mapping == null) {
