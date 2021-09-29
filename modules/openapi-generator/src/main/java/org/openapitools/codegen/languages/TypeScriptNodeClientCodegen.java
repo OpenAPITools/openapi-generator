@@ -309,7 +309,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         return toApiFilename(name);
     }
 
-@Override
+    @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
         Schema additionalProperties = getAdditionalProperties(schema);
@@ -318,5 +318,38 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             codegenModel.additionalPropertiesType += '<' + getSchemaType(((ArraySchema) additionalProperties).getItems()) + '>';
         }
         addImport(codegenModel, codegenModel.additionalPropertiesType);
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return null;
+        } else if (ModelUtils.isDateSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return null;
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return null;
+        } else if (ModelUtils.isNumberSchema(p) || ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return null;
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + (String) p.getDefault() + "'";
+            }
+            return null;
+        } else {
+            return null;
+        }
+
     }
 }
