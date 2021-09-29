@@ -66,7 +66,7 @@ public class OAuth implements Interceptor {
             break;
         default:
             break;
-        }            
+        }
     }
 
     @Override
@@ -133,7 +133,7 @@ public class OAuth implements Interceptor {
      * Returns true if the access token has been updated
      */
     public synchronized boolean updateAccessToken(String requestAccessToken) throws IOException {
-        if (getAccessToken() == null || getAccessToken().equals(requestAccessToken)) {    
+        if (getAccessToken() == null || getAccessToken().equals(requestAccessToken)) {
             try {
                 OAuthJSONAccessTokenResponse accessTokenResponse = oauthClient.accessToken(this.tokenRequestBuilder.buildBodyMessage());
                 if (accessTokenResponse != null && accessTokenResponse.getAccessToken() != null) {

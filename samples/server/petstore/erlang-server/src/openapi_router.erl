@@ -171,5 +171,3 @@ prepare_validator() ->
 get_openapi_path() ->
     {ok, AppName} = application:get_application(?MODULE),
     filename:join(openapi_utils:priv_dir(AppName), "openapi.json").
-
-

@@ -22,14 +22,14 @@ Delete purchase order by ID
 
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getStoreApi();
 final String orderId = orderId_example; // String | ID of the order that needs to be deleted
 
-try { 
+try {
     api.deleteOrder(orderId);
 } catch on DioError (e) {
     print('Exception when calling StoreApi->deleteOrder: $e\n');
@@ -64,7 +64,7 @@ Returns pet inventories by status
 
 Returns a map of status codes to quantities
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure API key authorization: api_key
@@ -74,7 +74,7 @@ import 'package:openapi/api.dart';
 
 final api = Openapi().getStoreApi();
 
-try { 
+try {
     final response = api.getInventory();
     print(response);
 } catch on DioError (e) {
@@ -107,14 +107,14 @@ Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getStoreApi();
 final int orderId = 789; // int | ID of pet that needs to be fetched
 
-try { 
+try {
     final response = api.getOrderById(orderId);
     print(response);
 } catch on DioError (e) {
@@ -148,14 +148,14 @@ No authorization required
 
 Place an order for a pet
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 
 final api = Openapi().getStoreApi();
 final Order order = ; // Order | order placed for purchasing the pet
 
-try { 
+try {
     final response = api.placeOrder(order);
     print(response);
 } catch on DioError (e) {

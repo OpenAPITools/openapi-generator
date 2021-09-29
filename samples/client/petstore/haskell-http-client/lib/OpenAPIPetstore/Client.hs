@@ -32,6 +32,7 @@ import qualified Control.Exception.Safe as E
 import qualified Control.Monad.IO.Class as P
 import qualified Control.Monad as P
 import qualified Data.Aeson.Types as A
+import qualified Data.ByteString as B
 import qualified Data.ByteString.Char8 as BC
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.ByteString.Lazy.Char8 as BCL
@@ -69,7 +70,7 @@ dispatchLbs manager config request  = do
 -- | pair of decoded http body and http response
 data MimeResult res =
   MimeResult { mimeResult :: Either MimeError res -- ^ decoded http body
-             , mimeResultResponse :: NH.Response BCL.ByteString -- ^ http response 
+             , mimeResultResponse :: NH.Response BCL.ByteString -- ^ http response
              }
   deriving (Show, Functor, Foldable, Traversable)
 
@@ -77,8 +78,8 @@ data MimeResult res =
 data MimeError =
   MimeError {
     mimeError :: String -- ^ unrender/parser error
-  , mimeErrorResponse :: NH.Response BCL.ByteString -- ^ http response 
-  } deriving (Eq, Show)
+  , mimeErrorResponse :: NH.Response BCL.ByteString -- ^ http response
+  } deriving (Show)
 
 -- | send a request returning the 'MimeResult'
 dispatchMime
@@ -171,7 +172,7 @@ _toInitRequest
   => OpenAPIPetstoreConfig -- ^ config
   -> OpenAPIPetstoreRequest req contentType res accept -- ^ request
   -> IO (InitRequest req contentType res accept) -- ^ initialized request
-_toInitRequest config req0  = 
+_toInitRequest config req0  =
   runConfigLogWithExceptions "Client" config $ do
     parsedReq <- P.liftIO $ NH.parseRequest $ BCL.unpack $ BCL.append (configHost config) (BCL.concat (rUrlPath req0))
     req1 <- P.liftIO $ _applyAuthMethods req0 config
@@ -179,13 +180,18 @@ _toInitRequest config req0  =
         (configValidateAuthMethods config && (not . null . rAuthTypes) req1)
         (E.throw $ AuthMethodException $ "AuthMethod not configured: " <> (show . head . rAuthTypes) req1)
     let req2 = req1 & _setContentTypeHeader & _setAcceptHeader
-        reqHeaders = ("User-Agent", WH.toHeader (configUserAgent config)) : paramsHeaders (rParams req2)
-        reqQuery = NH.renderQuery True (paramsQuery (rParams req2))
-        pReq = parsedReq { NH.method = (rMethod req2)
+        params = rParams req2
+        reqHeaders = ("User-Agent", WH.toHeader (configUserAgent config)) : paramsHeaders params
+        reqQuery = let query = paramsQuery params
+                       queryExtraUnreserved = configQueryExtraUnreserved config
+                   in if B.null queryExtraUnreserved
+                        then NH.renderQuery True query
+                        else NH.renderQueryPartialEscape True (toPartialEscapeQuery queryExtraUnreserved query)
+        pReq = parsedReq { NH.method = rMethod req2
                         , NH.requestHeaders = reqHeaders
                         , NH.queryString = reqQuery
                         }
-    outReq <- case paramsBody (rParams req2) of
+    outReq <- case paramsBody params of
         ParamBodyNone -> pure (pReq { NH.requestBody = mempty })
         ParamBodyB bs -> pure (pReq { NH.requestBody = NH.RequestBodyBS bs })
         ParamBodyBL bl -> pure (pReq { NH.requestBody = NH.RequestBodyLBS bl })
@@ -202,16 +208,16 @@ modifyInitRequest (InitRequest req) f = InitRequest (f req)
 modifyInitRequestM :: Monad m => InitRequest req contentType res accept -> (NH.Request -> m NH.Request) -> m (InitRequest req contentType res accept)
 modifyInitRequestM (InitRequest req) f = fmap InitRequest (f req)
 
--- ** Logging 
+-- ** Logging
 
 -- | Run a block using the configured logger instance
 runConfigLog
   :: P.MonadIO m
-  => OpenAPIPetstoreConfig -> LogExec m
+  => OpenAPIPetstoreConfig -> LogExec m a
 runConfigLog config = configLogExecWithContext config (configLogContext config)
 
 -- | Run a block using the configured logger instance (logs exceptions)
 runConfigLogWithExceptions
   :: (E.MonadCatch m, P.MonadIO m)
-  => T.Text -> OpenAPIPetstoreConfig -> LogExec m
+  => T.Text -> OpenAPIPetstoreConfig -> LogExec m a
 runConfigLogWithExceptions src config = runConfigLog config . logExceptions src

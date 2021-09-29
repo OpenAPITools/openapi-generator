@@ -65,4 +65,3 @@ export function CatToJSON(value?: Cat | null): any {
     };
 }
 
-

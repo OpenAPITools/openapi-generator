@@ -669,7 +669,7 @@ class SlimRouter
       }
     },
     "X-Expires-After" : {
-      "description" : "date in UTC when toekn expires",
+      "description" : "date in UTC when token expires",
       "style" : "simple",
       "explode" : false,
       "schema" : {

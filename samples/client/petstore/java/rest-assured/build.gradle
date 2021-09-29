@@ -24,7 +24,7 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
     apply plugin: 'com.github.dcendents.android-maven'
-    
+
     android {
         compileSdkVersion 23
         buildToolsVersion '23.0.2'
@@ -36,7 +36,7 @@ if(hasProperty('target') && target == 'android') {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
         }
-    
+
         // Rename the aar correctly
         libraryVariants.all { variant ->
             variant.outputs.each { output ->
@@ -52,7 +52,7 @@ if(hasProperty('target') && target == 'android') {
             provided 'javax.annotation:jsr250-api:1.0'
         }
     }
-    
+
     afterEvaluate {
         android.libraryVariants.all { variant ->
             def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
@@ -64,12 +64,12 @@ if(hasProperty('target') && target == 'android') {
             artifacts.add('archives', task);
         }
     }
-    
+
     task sourcesJar(type: Jar) {
         from android.sourceSets.main.java.srcDirs
         classifier = 'sources'
     }
-    
+
     artifacts {
         archives sourcesJar
     }
@@ -87,7 +87,7 @@ if(hasProperty('target') && target == 'android') {
             pom.artifactId = 'petstore-rest-assured'
         }
     }
-    
+
     task execute(type:JavaExec) {
        main = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath

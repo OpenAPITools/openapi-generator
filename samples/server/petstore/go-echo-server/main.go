@@ -15,7 +15,7 @@ func main() {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	
+
 
 	// AddPet - Add a new pet to the store
 	e.POST("/v2/pet", c.AddPet)

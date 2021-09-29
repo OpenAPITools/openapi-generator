@@ -61,7 +61,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);

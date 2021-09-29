@@ -148,7 +148,7 @@ export class Configuration {
         return this.configuration.basePath != null ? this.configuration.basePath : BASE_PATH;
     }
 
-    get fetchApi(): FetchAPI {
+    get fetchApi(): FetchAPI | undefined {
         return this.configuration.fetchApi;
     }
 

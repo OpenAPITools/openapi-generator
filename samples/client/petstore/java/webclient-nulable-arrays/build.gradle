@@ -93,7 +93,7 @@ if(hasProperty('target') && target == 'android') {
        main = System.getProperty('mainClass')
        classpath = sourceSets.main.runtimeClasspath
     }
-    
+
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
         from sourceSets.main.allSource
@@ -138,4 +138,3 @@ dependencies {
     implementation "javax.annotation:javax.annotation-api:$javax_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }
-

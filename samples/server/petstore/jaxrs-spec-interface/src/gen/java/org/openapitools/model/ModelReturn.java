@@ -36,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return _return;
   }
 
+  @JsonProperty("return")
   public void setReturn(Integer _return) {
     this._return = _return;
   }

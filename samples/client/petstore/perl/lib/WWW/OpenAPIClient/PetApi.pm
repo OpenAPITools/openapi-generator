@@ -22,7 +22,7 @@ package WWW::OpenAPIClient::PetApi;
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -52,7 +52,7 @@ sub new {
 # add_pet
 #
 # Add a new pet to the store
-# 
+#
 # @param Pet $pet Pet object that needs to be added to the store (required)
 {
     my $params = {
@@ -62,7 +62,7 @@ sub new {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'add_pet' } = { 
+    __PACKAGE__->method_documentation->{ 'add_pet' } = {
         summary => 'Add a new pet to the store',
         params => $params,
         returns => undef,
@@ -113,7 +113,7 @@ sub add_pet {
 # delete_pet
 #
 # Deletes a pet
-# 
+#
 # @param int $pet_id Pet id to delete (required)
 # @param string $api_key  (optional)
 {
@@ -129,7 +129,7 @@ sub add_pet {
         required => '0',
     },
     };
-    __PACKAGE__->method_documentation->{ 'delete_pet' } = { 
+    __PACKAGE__->method_documentation->{ 'delete_pet' } = {
         summary => 'Deletes a pet',
         params => $params,
         returns => undef,
@@ -187,7 +187,7 @@ sub delete_pet {
 # find_pets_by_status
 #
 # Finds Pets by status
-# 
+#
 # @param ARRAY[string] $status Status values that need to be considered for filter (required)
 {
     my $params = {
@@ -197,7 +197,7 @@ sub delete_pet {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'find_pets_by_status' } = { 
+    __PACKAGE__->method_documentation->{ 'find_pets_by_status' } = {
         summary => 'Finds Pets by status',
         params => $params,
         returns => 'ARRAY[Pet]',
@@ -252,7 +252,7 @@ sub find_pets_by_status {
 # find_pets_by_tags
 #
 # Finds Pets by tags
-# 
+#
 # @param ARRAY[string] $tags Tags to filter by (required)
 {
     my $params = {
@@ -262,7 +262,7 @@ sub find_pets_by_status {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'find_pets_by_tags' } = { 
+    __PACKAGE__->method_documentation->{ 'find_pets_by_tags' } = {
         summary => 'Finds Pets by tags',
         params => $params,
         returns => 'ARRAY[Pet]',
@@ -317,7 +317,7 @@ sub find_pets_by_tags {
 # get_pet_by_id
 #
 # Find pet by ID
-# 
+#
 # @param int $pet_id ID of pet to return (required)
 {
     my $params = {
@@ -327,7 +327,7 @@ sub find_pets_by_tags {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'get_pet_by_id' } = { 
+    __PACKAGE__->method_documentation->{ 'get_pet_by_id' } = {
         summary => 'Find pet by ID',
         params => $params,
         returns => 'Pet',
@@ -384,7 +384,7 @@ sub get_pet_by_id {
 # update_pet
 #
 # Update an existing pet
-# 
+#
 # @param Pet $pet Pet object that needs to be added to the store (required)
 {
     my $params = {
@@ -394,7 +394,7 @@ sub get_pet_by_id {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'update_pet' } = { 
+    __PACKAGE__->method_documentation->{ 'update_pet' } = {
         summary => 'Update an existing pet',
         params => $params,
         returns => undef,
@@ -445,7 +445,7 @@ sub update_pet {
 # update_pet_with_form
 #
 # Updates a pet in the store with form data
-# 
+#
 # @param int $pet_id ID of pet that needs to be updated (required)
 # @param string $name Updated name of the pet (optional)
 # @param string $status Updated status of the pet (optional)
@@ -467,7 +467,7 @@ sub update_pet {
         required => '0',
     },
     };
-    __PACKAGE__->method_documentation->{ 'update_pet_with_form' } = { 
+    __PACKAGE__->method_documentation->{ 'update_pet_with_form' } = {
         summary => 'Updates a pet in the store with form data',
         params => $params,
         returns => undef,
@@ -509,12 +509,12 @@ sub update_pet_with_form {
     if ( exists $args{'name'} ) {
                 $form_params->{'name'} = $self->{api_client}->to_form_value($args{'name'});
     }
-    
+
     # form params
     if ( exists $args{'status'} ) {
                 $form_params->{'status'} = $self->{api_client}->to_form_value($args{'status'});
     }
-    
+
     my $_body_data;
     # authentication setting, if any
     my $auth_settings = [qw(petstore_auth )];
@@ -530,7 +530,7 @@ sub update_pet_with_form {
 # upload_file
 #
 # uploads an image
-# 
+#
 # @param int $pet_id ID of pet to update (required)
 # @param string $additional_metadata Additional data to pass to server (optional)
 # @param string $file file to upload (optional)
@@ -552,7 +552,7 @@ sub update_pet_with_form {
         required => '0',
     },
     };
-    __PACKAGE__->method_documentation->{ 'upload_file' } = { 
+    __PACKAGE__->method_documentation->{ 'upload_file' } = {
         summary => 'uploads an image',
         params => $params,
         returns => 'ApiResponse',
@@ -594,13 +594,13 @@ sub upload_file {
     if ( exists $args{'additional_metadata'} ) {
                 $form_params->{'additionalMetadata'} = $self->{api_client}->to_form_value($args{'additional_metadata'});
     }
-    
+
     # form params
     if ( exists $args{'file'} ) {
         $form_params->{'file'} = [] unless defined $form_params->{'file'};
         push @{$form_params->{'file'}}, $args{'file'};
             }
-    
+
     my $_body_data;
     # authentication setting, if any
     my $auth_settings = [qw(petstore_auth )];
@@ -620,7 +620,7 @@ sub upload_file {
 # upload_file_with_required_file
 #
 # uploads an image (required)
-# 
+#
 # @param int $pet_id ID of pet to update (required)
 # @param string $required_file file to upload (required)
 # @param string $additional_metadata Additional data to pass to server (optional)
@@ -642,7 +642,7 @@ sub upload_file {
         required => '0',
     },
     };
-    __PACKAGE__->method_documentation->{ 'upload_file_with_required_file' } = { 
+    __PACKAGE__->method_documentation->{ 'upload_file_with_required_file' } = {
         summary => 'uploads an image (required)',
         params => $params,
         returns => 'ApiResponse',
@@ -689,13 +689,13 @@ sub upload_file_with_required_file {
     if ( exists $args{'additional_metadata'} ) {
                 $form_params->{'additionalMetadata'} = $self->{api_client}->to_form_value($args{'additional_metadata'});
     }
-    
+
     # form params
     if ( exists $args{'required_file'} ) {
         $form_params->{'requiredFile'} = [] unless defined $form_params->{'requiredFile'};
         push @{$form_params->{'requiredFile'}}, $args{'required_file'};
             }
-    
+
     my $_body_data;
     # authentication setting, if any
     my $auth_settings = [qw(petstore_auth )];

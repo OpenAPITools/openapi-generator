@@ -19,7 +19,7 @@ class {{classname}} {
   /// {{{summary}}}
   ///
   /// {{{notes}}}
-  Future<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {{nickname}}({{^hasRequiredParams}}{ {{/hasRequiredParams}}{{#requiredParams}}
+  Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({{^hasRequiredParams}}{ {{/hasRequiredParams}}{{#requiredParams}}
     {{{dataType}}} {{paramName}},{{#-last}} { {{/-last}}{{/requiredParams}}{{#optionalParams}}
     {{{dataType}}} {{paramName}},{{/optionalParams}}
     CancelToken cancelToken,

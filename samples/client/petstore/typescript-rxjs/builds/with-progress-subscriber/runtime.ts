@@ -86,7 +86,7 @@ export class BaseAPI {
             map((res) => {
                 const { status, response } = res;
                 if (status >= 200 && status < 300) {
-                    return responseOpts?.respone === 'raw' ? res : response;
+                    return responseOpts?.response === 'raw' ? res : response;
                 }
                 throw res;
             })
@@ -156,7 +156,7 @@ export type HttpBody = Json | FormData;
 
 export interface RequestOpts extends AjaxRequest {
     query?: HttpQuery; // additional prop
-    // the following props have improved types over AjaxRequest 
+    // the following props have improved types over AjaxRequest
     method: HttpMethod;
     headers?: HttpHeaders;
     body?: HttpBody;
@@ -165,7 +165,7 @@ export interface RequestOpts extends AjaxRequest {
 }
 
 export interface ResponseOpts {
-    respone?: 'raw';
+    response?: 'raw';
 }
 
 export interface OperationOpts {
@@ -173,7 +173,7 @@ export interface OperationOpts {
     responseOpts?: ResponseOpts;
 }
 
-// AjaxResponse with typed response 
+// AjaxResponse with typed response
 export interface RawAjaxResponse<T> extends AjaxResponse {
     response: T;
 }

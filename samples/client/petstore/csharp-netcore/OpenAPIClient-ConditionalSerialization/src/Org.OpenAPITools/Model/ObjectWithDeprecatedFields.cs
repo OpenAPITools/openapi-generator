@@ -53,13 +53,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
         public string Uuid
-        { 
+        {
             get{ return _Uuid;}
             set
             {
                 _Uuid = value;
                 _flagUuid = true;
-            } 
+            }
         }
         private string _Uuid;
         private bool _flagUuid;
@@ -78,13 +78,13 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "id", EmitDefaultValue = false)]
         [Obsolete]
         public decimal Id
-        { 
+        {
             get{ return _Id;}
             set
             {
                 _Id = value;
                 _flagId = true;
-            } 
+            }
         }
         private decimal _Id;
         private bool _flagId;
@@ -103,13 +103,13 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "deprecatedRef", EmitDefaultValue = false)]
         [Obsolete]
         public DeprecatedObject DeprecatedRef
-        { 
+        {
             get{ return _DeprecatedRef;}
             set
             {
                 _DeprecatedRef = value;
                 _flagDeprecatedRef = true;
-            } 
+            }
         }
         private DeprecatedObject _DeprecatedRef;
         private bool _flagDeprecatedRef;
@@ -128,13 +128,13 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name = "bars", EmitDefaultValue = false)]
         [Obsolete]
         public List<string> Bars
-        { 
+        {
             get{ return _Bars;}
             set
             {
                 _Bars = value;
                 _flagBars = true;
-            } 
+            }
         }
         private List<string> _Bars;
         private bool _flagBars;
@@ -226,7 +226,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

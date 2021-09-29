@@ -49,7 +49,7 @@ data class Order (
     /* Order Status */
     @SerialName(value = "status") val status: Order.Status? = null,
 
-    @SerialName(value = "complete") val complete: kotlin.Boolean? = null
+    @SerialName(value = "complete") val complete: kotlin.Boolean? = false
 
 ) {
 

@@ -28,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 {{#vendorExtensions.x-spring-paginated}}
 import org.springframework.data.domain.Pageable;
 {{/vendorExtensions.x-spring-paginated}}
-import springfox.documentation.annotations.ApiIgnore;
 
     {{#useBeanValidation}}
 import javax.validation.constraints.*;
@@ -37,6 +36,11 @@ import javax.validation.Valid;
 {{/jdk8}}
 {{#jdk8}}
 import java.util.Optional;
+{{/jdk8}}
+{{^jdk8}}
+    {{#useOptional}}
+import java.util.Optional;
+    {{/useOptional}}
 {{/jdk8}}
 {{^jdk8}}
 import java.util.List;
@@ -114,7 +118,7 @@ public class {{classname}}Controller implements {{classname}} {
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */
-    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},{{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}, @ApiIgnore final Pageable pageable{{/vendorExtensions.x-spring-paginated}}) {
+    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},{{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}, @springfox.documentation.annotations.ApiIgnore final Pageable pageable{{/vendorExtensions.x-spring-paginated}}) {
     {{^isDelegate}}
         {{^async}}
         {{>methodBody}}

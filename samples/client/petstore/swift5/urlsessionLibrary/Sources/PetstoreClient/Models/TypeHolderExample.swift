@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.TypeHolderExample")
-public typealias TypeHolderExample = PetstoreClient.TypeHolderExample
+@available(*, deprecated, renamed: "PetstoreClientAPI.TypeHolderExample")
+public typealias TypeHolderExample = PetstoreClientAPI.TypeHolderExample
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class TypeHolderExample: Codable, Hashable {
 

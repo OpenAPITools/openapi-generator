@@ -1040,7 +1040,7 @@ paths:
               format: binary
         description: image to upload
         required: true
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -1089,6 +1089,20 @@ paths:
             type: array
             items:
               type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+              format: string
+        - name: allowEmpty
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
       responses:
         "200":
           description: Success

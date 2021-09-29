@@ -52,13 +52,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "mainShape", EmitDefaultValue = false)]
         public Shape MainShape
-        { 
+        {
             get{ return _MainShape;}
             set
             {
                 _MainShape = value;
                 _flagMainShape = true;
-            } 
+            }
         }
         private Shape _MainShape;
         private bool _flagMainShape;
@@ -76,13 +76,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "shapeOrNull", EmitDefaultValue = false)]
         public ShapeOrNull ShapeOrNull
-        { 
+        {
             get{ return _ShapeOrNull;}
             set
             {
                 _ShapeOrNull = value;
                 _flagShapeOrNull = true;
-            } 
+            }
         }
         private ShapeOrNull _ShapeOrNull;
         private bool _flagShapeOrNull;
@@ -100,13 +100,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "nullableShape", EmitDefaultValue = true)]
         public NullableShape NullableShape
-        { 
+        {
             get{ return _NullableShape;}
             set
             {
                 _NullableShape = value;
                 _flagNullableShape = true;
-            } 
+            }
         }
         private NullableShape _NullableShape;
         private bool _flagNullableShape;
@@ -124,13 +124,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "shapes", EmitDefaultValue = false)]
         public List<Shape> Shapes
-        { 
+        {
             get{ return _Shapes;}
             set
             {
                 _Shapes = value;
                 _flagShapes = true;
-            } 
+            }
         }
         private List<Shape> _Shapes;
         private bool _flagShapes;
@@ -215,7 +215,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

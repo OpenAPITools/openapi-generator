@@ -394,7 +394,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         sanName = camelize(sanName);
 
         // model name cannot use reserved keyword, e.g. return
-        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowcase
+        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowercase
         if (isReservedWord(sanName)) {
             String modelName = safePrefix + sanName;
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", sanName, modelName);

@@ -18,34 +18,16 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
 import java.text.Normalizer;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Map;
-
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.SupportingFile;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.*;
 
 public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
-
-    static final Logger LOGGER = LoggerFactory.getLogger(WsdlSchemaCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SCHEMA;
@@ -131,7 +113,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                     paramVendorExtensions.put("x-param-has-defaultvalue", true);
                 }
 
-                // check if param has a minimum or maximum number or lenght
+                // check if param has a minimum or maximum number or length
                 if (param.minimum != null
                         || param.maximum != null
                         || param.minLength != null
@@ -143,9 +125,21 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
                 // if param is enum, uppercase 'baseName' to have a reference to wsdl simpletype
                 if (param.isEnum) {
-                    char[] c = param.baseName.toCharArray();
-                    c[0] = Character.toUpperCase(c[0]);
-                    param.baseName = new String(c);
+                    param.baseName = param.baseName.substring(0, 1).toUpperCase(Locale.getDefault())
+                            + param.baseName.substring(1);
+                }
+            }
+
+            // handle case lowercase schema-name in openapi to have reference to wsdl complextype
+            for (CodegenResponse response : op.responses) {
+                if (response.isModel) {
+                    response.dataType = response.dataType.substring(0, 1).toUpperCase(Locale.getDefault())
+                            + response.dataType.substring(1);
+                }
+
+                if (response.isArray) {
+                    response.baseType = response.baseType.substring(0, 1).toUpperCase(Locale.getDefault())
+                            + response.baseType.substring(1);
                 }
             }
 
@@ -190,32 +184,18 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
             CodegenModel model = (CodegenModel) mod.get("model");
             Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
 
-            /* check if model is a model with no properties
-             * Used in the mustache template to ensure that no complextype is created
-             * if model is just a schema with an enum defined in the openapi specification
-             */
-            if (model.allowableValues != null) {
-                modelVendorExtensions.put("x-is-openapimodel-enum", true);
-            } else {
-                modelVendorExtensions.put("x-is-openapimodel-enum", false);
-            }
-
             for (CodegenProperty var : model.vars) {
                 Map<String, Object> propertyVendorExtensions = var.getVendorExtensions();
 
                 // lowercase basetypes if openapitype is string
                 if ("string".equals(var.openApiType)) {
-                    char[] c = var.baseType.toCharArray();
-                    c[0] = Character.toLowerCase(c[0]);
-                    var.baseType = new String(c);
+                    var.baseType = var.baseType.substring(0, 1).toLowerCase(Locale.getDefault())
+                            + var.baseType.substring(1);
                 }
                 // if string enum, uppercase 'name' to have a reference to wsdl simpletype
                 if (var.isEnum) {
-                    char[] c = var.name.toCharArray();
-                    c[0] = Character.toUpperCase(c[0]);
-                    var.name = new String(c);
+                    var.name = var.name.substring(0, 1).toUpperCase(Locale.getDefault()) + var.name.substring(1);
                 }
-
                 // prevent default="null" in wsdl-tag if no default was specified for a property
                 if ("null".equals(var.defaultValue) || var.defaultValue == null) {
                     propertyVendorExtensions.put("x-prop-has-defaultvalue", false);
@@ -223,7 +203,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                     propertyVendorExtensions.put("x-prop-has-defaultvalue", true);
                 }
 
-                // check if model property has a minimum or maximum number or lenght
+                // check if model property has a minimum or maximum number or length
                 if (var.minimum != null
                         || var.maximum != null
                         || var.minLength != null
@@ -231,6 +211,21 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                     propertyVendorExtensions.put("x-prop-has-minormax", true);
                 } else {
                     propertyVendorExtensions.put("x-prop-has-minormax", false);
+                }
+
+                // specify appearing schema names in case of openapi array with oneOf elements
+                if ("array".equals(var.openApiType) && var.items.dataType.startsWith("oneOf<")) {
+                    // get only comma separated names of schemas from oneOf<name1,name2...>
+                    String schemaNamesString =
+                            var.items.dataType.substring(6, var.items.dataType.length() - 1);
+                    List<String> oneofSchemas =
+                            new ArrayList<String>(Arrays.asList(schemaNamesString.split("\\s*,\\s*")));
+
+                    for (int i = 0; i < oneofSchemas.size(); i++) {
+                        oneofSchemas.set(i, lowerCaseStringExceptFirstLetter(oneofSchemas.get(i)));
+                    }
+
+                    propertyVendorExtensions.put("x-oneof-schemas", oneofSchemas);
                 }
             }
         }
@@ -248,7 +243,8 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                 pathElements[i] = "";
             }
             if (pathElements[i].length() > 0) {
-                newOperationid = newOperationid + this.lowerCaseStringExceptFirstLetter(pathElements[i]);
+                newOperationid = newOperationid
+                        + this.lowerCaseStringExceptFirstLetter(pathElements[i]);
             }
         }
 

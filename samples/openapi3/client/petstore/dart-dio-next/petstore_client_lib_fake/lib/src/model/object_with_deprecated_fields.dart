@@ -88,22 +88,27 @@ class _$ObjectWithDeprecatedFieldsSerializer implements StructuredSerializer<Obj
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 case r'uuid':
-                    result.uuid = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(String)) as String;
+                    result.uuid = valueDes;
                     break;
                 case r'id':
-                    result.id = serializers.deserialize(value,
+                    final valueDes = serializers.deserialize(value,
                         specifiedType: const FullType(num)) as num;
+                    result.id = valueDes;
                     break;
                 case r'deprecatedRef':
-                    result.deprecatedRef.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(DeprecatedObject)) as DeprecatedObject);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(DeprecatedObject)) as DeprecatedObject;
+                    result.deprecatedRef.replace(valueDes);
                     break;
                 case r'bars':
-                    result.bars.replace(serializers.deserialize(value,
-                        specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>);
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const FullType(BuiltList, [FullType(String)])) as BuiltList<String>;
+                    result.bars.replace(valueDes);
                     break;
             }
         }

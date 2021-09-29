@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "JustNumber", EmitDefaultValue = false)]
         public decimal JustNumber
-        { 
+        {
             get{ return _JustNumber;}
             set
             {
                 _JustNumber = value;
                 _flagJustNumber = true;
-            } 
+            }
         }
         private decimal _JustNumber;
         private bool _flagJustNumber;
@@ -136,7 +136,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

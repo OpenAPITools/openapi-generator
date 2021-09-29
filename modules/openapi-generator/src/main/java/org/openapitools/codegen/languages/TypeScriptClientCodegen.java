@@ -385,7 +385,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             name = "_u";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -430,7 +430,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         sanName = camelize(sanName);
 
         // model name cannot use reserved keyword, e.g. return
-        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowcase
+        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowercase
         if (isReservedWord(sanName)) {
             String modelName = safePrefix + sanName;
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", sanName, modelName);
@@ -1032,12 +1032,12 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
      * @param schema the schema that we need an example for
      * @param objExample the example that applies to this schema, for now only string example are used
      * @param indentationLevel integer indentation level that we are currently at
-     *                         we assume the indentaion amount is 2 spaces times this integer
+     *                         we assume the indentation amount is 2 spaces times this integer
      * @param prefix the string prefix that we will use when assigning an example for this line
      *               this is used when setting key: value, pairs "key: " is the prefix
      *               and this is used when setting properties like some_property='some_property_example'
-     * @param exampleLine this is the current line that we are generatign an example for, starts at 0
-     *                    we don't indentin the 0th line because using the example value looks like:
+     * @param exampleLine this is the current line that we are generating an example for, starts at 0
+     *                    we don't indent the 0th line because using the example value looks like:
      *                    prop = ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
@@ -1100,7 +1100,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
             String refModelName = getModelName(schema);
             return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, seenSchemas);
-        } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
+        } else if (ModelUtils.isNullType(schema) || ModelUtils.isAnyType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
             return fullPrefix + "null" + closeChars;
@@ -1180,7 +1180,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
                     // this seed makes it so if we have [a-z] we pick a
                     Random random = new Random(18);
-                    example = rgxGen.generate(random);
+                    if (rgxGen != null){
+                        example = rgxGen.generate(random);
+                    } else {
+                        throw new RuntimeException("rgxGen cannot be null. Please open an issue in the openapi-generator github repo.");
+                    }
                 } else if (schema.getMinLength() != null) {
                     example = "";
                     int len = schema.getMinLength().intValue();

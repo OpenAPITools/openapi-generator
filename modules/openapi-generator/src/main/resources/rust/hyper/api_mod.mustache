@@ -16,7 +16,7 @@ pub struct ApiError<T> {
     pub content: Option<T>,
 }
 
-impl<'de, T> From<(hyper::StatusCode, &'de [u8])> for Error<T> 
+impl<'de, T> From<(hyper::StatusCode, &'de [u8])> for Error<T>
     where T: serde::Deserialize<'de> {
     fn from(e: (hyper::StatusCode, &'de [u8])) -> Self {
         if e.1.len() == 0 {

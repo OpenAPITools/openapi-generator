@@ -27,7 +27,7 @@ Method | HTTP request | Description
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 [**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
 [**upload_file**](FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
 [**upload_files**](FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
@@ -39,6 +39,7 @@ Method | HTTP request | Description
 Additional Properties with Array of Enums
 
 ### Example
+
 
 ```python
 import time
@@ -95,6 +96,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Got object with additional properties with array of enums |  -  |
@@ -109,6 +111,7 @@ No authorization required
 Test serialization of ArrayModel
 
 ### Example
+
 
 ```python
 import time
@@ -162,6 +165,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output model |  -  |
@@ -174,6 +178,7 @@ No authorization required
 Array of Enums
 
 ### Example
+
 
 ```python
 import time
@@ -228,6 +233,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Got named array of enums |  -  |
@@ -242,6 +248,7 @@ No authorization required
 Test serialization of outer boolean types
 
 ### Example
+
 
 ```python
 import time
@@ -292,6 +299,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output boolean |  -  |
@@ -306,6 +314,7 @@ No authorization required
 Test serialization of object with $refed properties
 
 ### Example
+
 
 ```python
 import time
@@ -324,7 +333,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    composed_one_of_number_with_validations = ComposedOneOfNumberWithValidations() # ComposedOneOfNumberWithValidations | Input model (optional)
+    composed_one_of_number_with_validations = ComposedOneOfNumberWithValidations(None) # ComposedOneOfNumberWithValidations | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -357,6 +366,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output model |  -  |
@@ -369,6 +379,7 @@ No authorization required
 downloads a file using Content-Disposition
 
 ### Example
+
 
 ```python
 import time
@@ -419,6 +430,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  * Content-Disposition - describes the received file. Looks like: &#39;attachment; filename&#x3D;fileName.txt&#39; <br>  |
@@ -431,6 +443,7 @@ No authorization required
 Object contains enum properties and array properties containing enums
 
 ### Example
+
 
 ```python
 import time
@@ -501,6 +514,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Got object containing enums |  -  |
@@ -513,6 +527,7 @@ No authorization required
 Health check endpoint
 
 ### Example
+
 
 ```python
 import time
@@ -560,6 +575,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | The instance started successfully |  -  |
@@ -574,6 +590,7 @@ No authorization required
 Test serialization of mammals
 
 ### Example
+
 
 ```python
 import time
@@ -592,11 +609,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    mammal = Mammal(
-        has_baleen=True,
-        has_teeth=True,
-        class_name="whale",
-    ) # Mammal | Input mammal
+    mammal = Mammal(None) # Mammal | Input mammal
 
     # example passing only required values which don't have defaults set
     try:
@@ -628,6 +641,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output mammal |  -  |
@@ -642,6 +656,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 
 ```python
 import time
@@ -693,6 +708,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output number |  -  |
@@ -707,6 +723,7 @@ No authorization required
 Test serialization of object with $refed properties
 
 ### Example
+
 
 ```python
 import time
@@ -762,6 +779,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output model |  -  |
@@ -774,6 +792,7 @@ No authorization required
 
 
 ### Example
+
 
 ```python
 import time
@@ -833,6 +852,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | InlineAdditionalPropertiesPayload |  -  |
@@ -845,6 +865,7 @@ No authorization required
 
 
 ### Example
+
 
 ```python
 import time
@@ -904,6 +925,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | InlineAdditionalPropertiesRefPayload |  -  |
@@ -918,6 +940,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 
 ```python
 import time
@@ -968,6 +991,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output string |  -  |
@@ -982,6 +1006,7 @@ No authorization required
 Test serialization of outer enum
 
 ### Example
+
 
 ```python
 import time
@@ -1033,6 +1058,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output enum |  -  |
@@ -1047,6 +1073,7 @@ No authorization required
 For this test, the body for this request much reference a schema named `File`.
 
 ### Example
+
 
 ```python
 import time
@@ -1105,6 +1132,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -1117,6 +1145,7 @@ No authorization required
 
 
 ### Example
+
 
 ```python
 import time
@@ -1181,6 +1210,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -1195,6 +1225,7 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 
 ```python
 import time
@@ -1248,6 +1279,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1264,6 +1296,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example
 
 * Basic Authentication (http_basic_test):
+
 ```python
 import time
 import petstore_api
@@ -1356,6 +1389,7 @@ void (empty response body)
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid username supplied |  -  |
@@ -1371,6 +1405,7 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 
 ```python
 import time
@@ -1398,7 +1433,9 @@ with petstore_api.ApiClient() as api_client:
     enum_query_string = "-efg" # str | Query parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
     enum_query_integer = 1 # int | Query parameter enum test (double) (optional)
     enum_query_double = 1.1 # float | Query parameter enum test (double) (optional)
-    enum_form_string_array = "$" # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of "$"
+    enum_form_string_array = [
+        "$",
+    ] # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of "$"
     enum_form_string = "-efg" # str | Form parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
 
     # example passing only required values which don't have defaults set
@@ -1439,6 +1476,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid request |  -  |
@@ -1456,6 +1494,7 @@ Fake endpoint to test group parameters (optional)
 ### Example
 
 * Bearer (JWT) Authentication (bearer_test):
+
 ```python
 import time
 import petstore_api
@@ -1531,6 +1570,7 @@ void (empty response body)
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Someting wrong |  -  |
@@ -1543,6 +1583,7 @@ void (empty response body)
 test inline additionalProperties
 
 ### Example
+
 
 ```python
 import time
@@ -1594,6 +1635,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1606,6 +1648,7 @@ No authorization required
 test json serialization of form data
 
 ### Example
+
 
 ```python
 import time
@@ -1657,6 +1700,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1671,6 +1715,7 @@ No authorization required
 To test the collection format in query parameters
 
 ### Example
+
 
 ```python
 import time
@@ -1737,6 +1782,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -1749,6 +1795,7 @@ No authorization required
 uploads a file and downloads a file using application/octet-stream
 
 ### Example
+
 
 ```python
 import time
@@ -1799,6 +1846,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1811,6 +1859,7 @@ No authorization required
 uploads a file using multipart/form-data
 
 ### Example
+
 
 ```python
 import time
@@ -1873,6 +1922,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1885,6 +1935,7 @@ No authorization required
 uploads files using multipart/form-data
 
 ### Example
+
 
 ```python
 import time
@@ -1903,7 +1954,9 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    files = open('/path/to/file', 'rb') # [file_type] |  (optional)
+    files = [
+        open('/path/to/file', 'rb'),
+    ] # [file_type] |  (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -1937,6 +1990,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

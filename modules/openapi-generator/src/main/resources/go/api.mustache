@@ -356,9 +356,22 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		{{#dataType}}
 		{{^is1xx}}
 		{{^is2xx}}
+		{{#range}}
+		{{#is3xx}}
+		if localVarHTTPResponse.StatusCode >= 300 && localVarHTTPResponse.StatusCode < 400 {
+		{{/is3xx}}
+		{{#is4xx}}
+		if localVarHTTPResponse.StatusCode >= 400 && localVarHTTPResponse.StatusCode < 500 {
+		{{/is4xx}}
+		{{#is5xx}}
+		if localVarHTTPResponse.StatusCode >= 500
+		{{/is5xx}}
+		{{/range}}
+		{{^range}}
 		{{^wildcard}}
 		if localVarHTTPResponse.StatusCode == {{{code}}} {
 		{{/wildcard}}
+		{{/range}}
 			var v {{{dataType}}}
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

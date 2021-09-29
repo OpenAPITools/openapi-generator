@@ -38,7 +38,7 @@ $User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -L
 try {
     $Result = New-PSUser -User $User
 } catch {
-    Write-Host ("Exception occured when calling New-PSUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling New-PSUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -86,7 +86,7 @@ $User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -L
 try {
     $Result = New-PSUsersWithArrayInput -User $User
 } catch {
-    Write-Host ("Exception occured when calling New-PSUsersWithArrayInput: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling New-PSUsersWithArrayInput: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -134,7 +134,7 @@ $User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -L
 try {
     $Result = New-PSUsersWithListInput -User $User
 } catch {
-    Write-Host ("Exception occured when calling New-PSUsersWithListInput: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling New-PSUsersWithListInput: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -184,7 +184,7 @@ $Username = "MyUsername" # String | The name that needs to be deleted
 try {
     $Result = Remove-PSUser -Username $Username
 } catch {
-    Write-Host ("Exception occured when calling Remove-PSUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Remove-PSUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -225,7 +225,7 @@ $Username = "MyUsername" # String | The name that needs to be fetched. Use user1
 try {
     $Result = Get-PSUserByName -Username $Username
 } catch {
-    Write-Host ("Exception occured when calling Get-PSUserByName: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Get-PSUserByName: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -268,7 +268,7 @@ $Password = "MyPassword" # String | The password for login in clear text
 try {
     $Result = Invoke-PSLoginUser -Username $Username -Password $Password
 } catch {
-    Write-Host ("Exception occured when calling Invoke-PSLoginUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Invoke-PSLoginUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -315,7 +315,7 @@ $Configuration.ApiKey.AUTH_KEY = "YOUR_API_KEY"
 try {
     $Result = Invoke-PSLogoutUser
 } catch {
-    Write-Host ("Exception occured when calling Invoke-PSLogoutUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Invoke-PSLogoutUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -364,7 +364,7 @@ $User = Initialize-User -Id 0 -Username "MyUsername" -FirstName "MyFirstName" -L
 try {
     $Result = Update-PSUser -Username $Username -User $User
 } catch {
-    Write-Host ("Exception occured when calling Update-PSUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Update-PSUser: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```

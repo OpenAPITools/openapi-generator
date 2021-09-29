@@ -19,7 +19,7 @@ To test class name in snake case
 
 To test class name in snake case
 
-### Example 
+### Example
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure API key authorization: api_key_query
@@ -30,7 +30,7 @@ import 'package:openapi/api.dart';
 final api = Openapi().getFakeClassnameTags123Api();
 final ModelClient modelClient = ; // ModelClient | client model
 
-try { 
+try {
     final response = api.testClassname(modelClient);
     print(response);
 } catch on DioError (e) {
