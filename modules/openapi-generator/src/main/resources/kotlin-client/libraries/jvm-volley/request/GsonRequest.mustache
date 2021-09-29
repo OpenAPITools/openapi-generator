@@ -29,7 +29,7 @@ class GsonRequest<T>(
     private val params: MutableMap<String, String>?,
     private val contentTypeForBody: String?,
     private val encodingForParams: String?,
-    private val gsonAdapters: Map<Type, Object>?,
+    private val gsonAdapters: Map<Type, Any>?,
     private val type: Type,
     private val listener: Response.Listener<T>,
     errorListener: Response.ErrorListener
