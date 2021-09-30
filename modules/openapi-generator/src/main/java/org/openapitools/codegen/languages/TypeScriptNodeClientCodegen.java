@@ -309,7 +309,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         return toApiFilename(name);
     }
 
-@Override
+    @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
         Schema additionalProperties = getAdditionalProperties(schema);
@@ -318,5 +318,14 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             codegenModel.additionalPropertiesType += '<' + getSchemaType(((ArraySchema) additionalProperties).getItems()) + '>';
         }
         addImport(codegenModel, codegenModel.additionalPropertiesType);
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        String def = super.toDefaultValue(p);
+        if ("undefined".equals(def)) {
+            return null;
+        }
+        return def;
     }
 }

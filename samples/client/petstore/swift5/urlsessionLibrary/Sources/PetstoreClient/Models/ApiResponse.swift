@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.ApiResponse")
-public typealias ApiResponse = PetstoreClient.ApiResponse
+@available(*, deprecated, renamed: "PetstoreClientAPI.ApiResponse")
+public typealias ApiResponse = PetstoreClientAPI.ApiResponse
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class ApiResponse: Codable, Hashable {
 

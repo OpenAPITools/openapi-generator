@@ -17,7 +17,7 @@
 
 #include "Templates/SharedPointer.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 inline FString ToString(const OpenAPIOrder::StatusEnum& Value)
@@ -32,7 +32,7 @@ inline FString ToString(const OpenAPIOrder::StatusEnum& Value)
 		return TEXT("delivered");
 	}
 
-	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIOrder::StatusEnum Value (%d)"), (int)Value);	
+	UE_LOG(LogOpenAPI, Error, TEXT("Invalid OpenAPIOrder::StatusEnum Value (%d)"), (int)Value);
 	return TEXT("");
 }
 
@@ -86,27 +86,27 @@ void OpenAPIOrder::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectStart();
 	if (Id.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("id")); WriteJsonValue(Writer, Id.GetValue());
 	}
 	if (PetId.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("petId")); WriteJsonValue(Writer, PetId.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("petId")); WriteJsonValue(Writer, PetId.GetValue());
 	}
 	if (Quantity.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("quantity")); WriteJsonValue(Writer, Quantity.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("quantity")); WriteJsonValue(Writer, Quantity.GetValue());
 	}
 	if (ShipDate.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("shipDate")); WriteJsonValue(Writer, ShipDate.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("shipDate")); WriteJsonValue(Writer, ShipDate.GetValue());
 	}
 	if (Status.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("status")); WriteJsonValue(Writer, Status.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("status")); WriteJsonValue(Writer, Status.GetValue());
 	}
 	if (Complete.IsSet())
 	{
-		Writer->WriteIdentifierPrefix(TEXT("complete")); WriteJsonValue(Writer, Complete.GetValue());	
+		Writer->WriteIdentifierPrefix(TEXT("complete")); WriteJsonValue(Writer, Complete.GetValue());
 	}
 	Writer->WriteObjectEnd();
 }

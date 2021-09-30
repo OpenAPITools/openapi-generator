@@ -6,10 +6,14 @@
 
 import Foundation
 
-@available(*, deprecated, renamed: "PetstoreClient")
-internal typealias PetstoreClientAPI = PetstoreClient
+// We reverted the change of PetstoreClientAPI to PetstoreClient introduced in https://github.com/OpenAPITools/openapi-generator/pull/9624
+// Because it was causing the following issue https://github.com/OpenAPITools/openapi-generator/issues/9953
+// If you are affected by this issue, please consider removing the following two lines,
+// By setting the option removeMigrationProjectNameClass to true in the generator
+@available(*, deprecated, renamed: "PetstoreClientAPI")
+internal typealias PetstoreClient = PetstoreClientAPI
 
-internal class PetstoreClient {
+internal class PetstoreClientAPI {
     internal static var basePath = "http://petstore.swagger.io:80/v2"
     internal static var customHeaders: [String: String] = [:]
     internal static var credential: URLCredential?
@@ -35,7 +39,7 @@ internal class RequestBuilder<T> {
         self.parameters = parameters
         self.headers = headers
 
-        addHeaders(PetstoreClient.customHeaders)
+        addHeaders(PetstoreClientAPI.customHeaders)
     }
 
     internal func addHeaders(_ aHeaders: [String: String]) {
@@ -44,7 +48,7 @@ internal class RequestBuilder<T> {
         }
     }
 
-    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) { }
+    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) { }
 
     internal func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
@@ -54,7 +58,7 @@ internal class RequestBuilder<T> {
     }
 
     internal func addCredential() -> Self {
-        credential = PetstoreClient.credential
+        credential = PetstoreClientAPI.credential
         return self
     }
 }

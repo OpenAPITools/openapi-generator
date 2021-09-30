@@ -23,12 +23,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +68,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
     protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
 
+    // model classes cannot use the same property names defined in HashMap
+    // ref: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/
+    protected Set<String> propertyAdditionalKeywords = new HashSet<>(Arrays.asList("entries", "keys", "size", "values"));
+
     public AbstractKotlinCodegen() {
         super();
 
@@ -99,24 +98,64 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // this includes hard reserved words defined by https://github.com/JetBrains/kotlin/blob/master/core/descriptors/src/org/jetbrains/kotlin/renderer/KeywordStringsGenerated.java
         // as well as keywords from https://kotlinlang.org/docs/reference/keyword-reference.html
         reservedWords = new HashSet<String>(Arrays.asList(
+                "abstract",
+                "actual",
+                "annotation",
                 "as",
                 "break",
                 "class",
+                "companion",
+                "const",
+                "constructor",
                 "continue",
+                "crossinline",
+                "data",
+                "delegate",
                 "do",
+                "dynamic",
                 "else",
+                "enum",
+                "expect",
+                "external",
                 "false",
+                "field",
+                "final",
+                "finally",
                 "for",
                 "fun",
                 "if",
+                "import",
                 "in",
+                "infix",
+                "init",
+                "inline",
+                "inner",
                 "interface",
+                "internal",
                 "is",
+                "it",
+                "lateinit",
+                "noinline",
                 "null",
                 "object",
+                "open",
+                "operator",
+                "out",
+                "override",
                 "package",
+                "param",
+                "private",
+                "property",
+                "protected",
+                "public",
+                "receiver",
+                "reified",
                 "return",
+                "sealed",
+                "setparam",
                 "super",
+                "suspend",
+                "tailrec",
                 "this",
                 "throw",
                 "true",
@@ -124,13 +163,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "typealias",
                 "typeof",
                 "val",
+                "value",
                 "var",
+                "vararg",
                 "when",
-                "while",
-                "private",
-                "open",
-                "external",
-                "internal"
+                "where",
+                "while"
         ));
 
         defaultIncludes = new HashSet<String>(Arrays.asList(
@@ -170,6 +208,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("binary", "kotlin.ByteArray");
         typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.OffsetDateTime");
+        typeMapping.put("AnyType", "kotlin.Any");
 
         instantiationTypes.put("array", "kotlin.collections.ArrayList");
         instantiationTypes.put("list", "kotlin.collections.ArrayList");
@@ -816,11 +855,20 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // should be the same as variable name
-        return toVarName(name);
+        return toVariableName(name);
     }
 
     @Override
     public String toVarName(String name) {
+        name = toVariableName(name);
+        if (propertyAdditionalKeywords.contains(name)) {
+            return camelize("property_" + name, true);
+        } else {
+            return name;
+        }
+    }
+
+    protected String toVariableName(String name) {
         // sanitize name
         name = sanitizeName(name, "\\W-[\\$]");
         name = sanitizeKotlinSpecificNames(name);
@@ -833,7 +881,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             name = "_u";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z0-9_]*$")) {
             return name;
         }
@@ -944,7 +992,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                     itemsSchema.setDefault(element.asText());
                     defaultContent.append(toDefaultValue(itemsSchema)).append(",");
                 });
-                defaultContent.deleteCharAt(defaultContent.length()-1); // remove trailing comma
+                defaultContent.deleteCharAt(defaultContent.length() - 1); // remove trailing comma
                 return arrInstantiationType + "Of(" + defaultContent + ")";
             }
         } else if (ModelUtils.isStringSchema(p)) {

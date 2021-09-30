@@ -395,8 +395,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
-            camelizedName = "Model" + camelizedName;
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, camelizedName);
+            final String modelName = "Model" + camelizedName;
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+            return modelName;
         }
 
         // model name starts with number
@@ -1678,6 +1679,95 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
+        }
+    }
+
+    @Override
+    protected void updateRequestBodyForString(CodegenParameter codegenParameter, Schema schema, Set<String> imports, String bodyParameterName) {
+        /**
+         * we have a custom version of this function to set isString to false for isByteArray
+         */
+        updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
+        if (ModelUtils.isByteArraySchema(schema)) {
+            codegenParameter.isByteArray = true;
+            // custom code
+            codegenParameter.setIsString(false);
+        } else if (ModelUtils.isBinarySchema(schema)) {
+            codegenParameter.isBinary = true;
+            codegenParameter.isFile = true; // file = binary in OAS3
+        } else if (ModelUtils.isUUIDSchema(schema)) {
+            codegenParameter.isUuid = true;
+        } else if (ModelUtils.isURISchema(schema)) {
+            codegenParameter.isUri = true;
+        } else if (ModelUtils.isEmailSchema(schema)) {
+            codegenParameter.isEmail = true;
+        } else if (ModelUtils.isDateSchema(schema)) { // date format
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
+            codegenParameter.isDate = true;
+        } else if (ModelUtils.isDateTimeSchema(schema)) { // date-time format
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
+            codegenParameter.isDateTime = true;
+        } else if (ModelUtils.isDecimalSchema(schema)) { // type: string, format: number
+            codegenParameter.isDecimal = true;
+            codegenParameter.setIsString(false);
+        }
+        codegenParameter.pattern = toRegularExpression(schema.getPattern());
+    }
+
+    @Override
+    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema){
+        /**
+         * we have a custom version of this function to set isString to false for uuid
+         */
+        if (ModelUtils.isEmailSchema(parameterSchema)) {
+            codegenParameter.isEmail = true;
+        } else if (ModelUtils.isUUIDSchema(parameterSchema)) {
+            codegenParameter.setIsString(false);
+            codegenParameter.isUuid = true;
+        } else if (ModelUtils.isByteArraySchema(parameterSchema)) {
+            codegenParameter.setIsString(false);
+            codegenParameter.isByteArray = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isBinarySchema(parameterSchema)) {
+            codegenParameter.isBinary = true;
+            codegenParameter.isFile = true; // file = binary in OAS3
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDateSchema(parameterSchema)) {
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
+            codegenParameter.isDate = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDateTimeSchema(parameterSchema)) {
+            codegenParameter.setIsString(false); // for backward compatibility with 2.x
+            codegenParameter.isDateTime = true;
+            codegenParameter.isPrimitiveType = true;
+        } else if (ModelUtils.isDecimalSchema(parameterSchema)) { // type: string, format: number
+            codegenParameter.setIsString(false);
+            codegenParameter.isDecimal = true;
+            codegenParameter.isPrimitiveType = true;
+        }
+        if (Boolean.TRUE.equals(codegenParameter.isString)) {
+            codegenParameter.isPrimitiveType = true;
+        }
+    }
+
+    @Override
+    protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
+        /**
+         * we have a custom version of this function to not set isNullable to true
+         */
+        // The 'null' value is allowed when the OAS schema is 'any type'.
+        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        if (Boolean.FALSE.equals(p.getNullable())) {
+            LOGGER.warn("Schema '{}' is any type, which includes the 'null' value. 'nullable' cannot be set to 'false'", p.getName());
+        }
+        if (languageSpecificPrimitives.contains(property.dataType)) {
+            property.isPrimitiveType = true;
+        }
+        if (ModelUtils.isMapSchema(p)) {
+            // an object or anyType composed schema that has additionalProperties set
+            // some of our code assumes that any type schema with properties defined will be a map
+            // even though it should allow in any type and have map constraints for properties
+            updatePropertyForMap(property, p);
         }
     }
 }

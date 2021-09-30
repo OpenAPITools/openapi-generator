@@ -50,6 +50,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_default'
           description: response
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_default'
+          description: client error
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_default'
+          description: not found
   /pet:
     post:
       operationId: addPet
@@ -93,7 +105,8 @@ paths:
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
       parameters:
-      - description: Status values that need to be considered for filter
+      - deprecated: true
+        description: Status values that need to be considered for filter
         explode: false
         in: query
         name: status
@@ -1065,7 +1078,7 @@ paths:
           description: Success
       tags:
       - fake
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat
@@ -1120,7 +1133,7 @@ paths:
           description: Success
       tags:
       - fake
-  /fake/test-unique-paramters:
+  /fake/test-unique-parameters:
     put:
       description: To test unique items in header and query parameters
       operationId: testUniqueItemsHeaderAndQueryParameterCollectionFormat
@@ -1440,6 +1453,7 @@ components:
             name: tag
             wrapped: true
         status:
+          deprecated: true
           description: pet status in the store
           enum:
           - available
@@ -2031,6 +2045,33 @@ components:
           type: boolean
       required:
       - lengthCm
+      type: object
+    ReadOnlyWithDefault:
+      properties:
+        prop1:
+          readOnly: true
+          type: string
+        prop2:
+          default: defaultProp2
+          readOnly: true
+          type: string
+        prop3:
+          default: defaultProp3
+          type: string
+        boolProp1:
+          default: false
+          readOnly: true
+          type: boolean
+        boolProp2:
+          default: true
+          type: boolean
+        intProp1:
+          default: 100
+          readOnly: true
+          type: number
+        intProp2:
+          default: 120
+          type: number
       type: object
     inline_response_default:
       example:

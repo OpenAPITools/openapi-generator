@@ -8,7 +8,7 @@
 - Build date: {{generatedDate}}
 {{/hideGenerationTimestamp}}
 
-{{#appDescriptionWithNewLines}}{{{appDescriptionWithNewLines}}}{{/appDescriptionWithNewLines}}
+{{{appDescriptionWithNewLines}}}
 
 {{#infoUrl}}
   For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
@@ -89,7 +89,7 @@ example.cpp:
 #include "../client/{{{classname}}}.h"
 #include "example.h"
 #include <QTimer>
-#include <QEventLoop> 
+#include <QEventLoop>
 
 {{#allParams}}
 {{dataType}} Example::create(){
@@ -113,7 +113,7 @@ void Example::exampleFunction1(){
       {{/authMethods}}
       {{/hasAuthMethods}}
         {{#allParams}}
-        
+
       QEventLoop loop;
       connect(&apiInstance, &{{{classname}}}::{{nickname}}Signal, [&]() {
           loop.quit();
@@ -138,7 +138,7 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{commonPath}}{{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{commonPath}}{{path}} | {{summary}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation for Models
@@ -148,7 +148,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Servers
 
-Parameterized Servers are supported. Define a server in the API for each endpoint with arbitrary numbers of variables: 
+Parameterized Servers are supported. Define a server in the API for each endpoint with arbitrary numbers of variables:
 
 ```
 servers:
@@ -173,7 +173,7 @@ To change the default variable, use this function in each Api:
 ```
     int setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);
 ```
-The parameter "serverIndex" will choose a server from the server list for each endpoint. There is always at least one server with index 0. The Paramter "operation" should be the desired endpoint operationid. 
+The parameter "serverIndex" will choose a server from the server list for each endpoint. There is always at least one server with index 0. The Parameter "operation" should be the desired endpoint operationid.
 Variable is the name of the variable you wish to change and the value is the new default Value.
 The function will return -1 when the variable does not exists, -2 if value is not defined in the variable enum and -3 if the operation is not found.
 

@@ -181,4 +181,3 @@ export function FormatTestToJSON(value?: FormatTest | null): any {
     };
 }
 
-

@@ -57,10 +57,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MapOfEnumString
         /// </summary>
-        
+
         [DataMember(Name = "map_of_enum_string", EmitDefaultValue = false)]
-        public Dictionary<string, InnerEnum> MapOfEnumString 
-        { 
+        public Dictionary<string, InnerEnum> MapOfEnumString
+        {
             get{ return _MapOfEnumString;}
             set
             {
@@ -100,13 +100,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map_map_of_string", EmitDefaultValue = false)]
         public Dictionary<string, Dictionary<string, string>> MapMapOfString
-        { 
+        {
             get{ return _MapMapOfString;}
             set
             {
                 _MapMapOfString = value;
                 _flagMapMapOfString = true;
-            } 
+            }
         }
         private Dictionary<string, Dictionary<string, string>> _MapMapOfString;
         private bool _flagMapMapOfString;
@@ -124,13 +124,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "direct_map", EmitDefaultValue = false)]
         public Dictionary<string, bool> DirectMap
-        { 
+        {
             get{ return _DirectMap;}
             set
             {
                 _DirectMap = value;
                 _flagDirectMap = true;
-            } 
+            }
         }
         private Dictionary<string, bool> _DirectMap;
         private bool _flagDirectMap;
@@ -148,13 +148,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "indirect_map", EmitDefaultValue = false)]
         public Dictionary<string, bool> IndirectMap
-        { 
+        {
             get{ return _IndirectMap;}
             set
             {
                 _IndirectMap = value;
                 _flagIndirectMap = true;
-            } 
+            }
         }
         private Dictionary<string, bool> _IndirectMap;
         private bool _flagIndirectMap;
@@ -246,7 +246,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

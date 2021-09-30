@@ -46,6 +46,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk7"))
+                implementation("io.ktor:ktor-client-cio-jvm:$ktor_version")
             }
         }
 

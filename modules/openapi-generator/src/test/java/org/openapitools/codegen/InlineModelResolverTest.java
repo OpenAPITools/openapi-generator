@@ -708,8 +708,8 @@ public class InlineModelResolverTest {
         Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, schema.getItems());
         assertTrue(referencedSchema.getProperties().get("arbitrary_object_response_array_inline") instanceof ObjectSchema);
 
-        ObjectSchema arbitaryObject = (ObjectSchema) referencedSchema.getProperties().get("arbitrary_object_response_array_inline");
-        assertNull(arbitaryObject.getProperties());
+        ObjectSchema arbitraryObject = (ObjectSchema) referencedSchema.getProperties().get("arbitrary_object_response_array_inline");
+        assertNull(arbitraryObject.getProperties());
     }
 
     @Test
@@ -994,7 +994,7 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void regresssion_6905() {
+    public void regression_6905() {
 
     }
 }

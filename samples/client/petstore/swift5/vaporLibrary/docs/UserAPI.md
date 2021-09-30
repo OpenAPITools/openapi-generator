@@ -16,14 +16,14 @@ Method | HTTP request | Description
 
 # **createUser**
 ```swift
-    open class func createUser(body: User, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUser>
+    open class func createUser(body: User, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUser>
 ```
 
 Create user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -73,12 +73,12 @@ No authorization required
 
 # **createUsersWithArrayInput**
 ```swift
-    open class func createUsersWithArrayInput(body: [User], headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUsersWithArrayInput>
+    open class func createUsersWithArrayInput(body: [User], headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUsersWithArrayInput>
 ```
 
 Creates list of users with given input array
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -128,12 +128,12 @@ No authorization required
 
 # **createUsersWithListInput**
 ```swift
-    open class func createUsersWithListInput(body: [User], headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUsersWithListInput>
+    open class func createUsersWithListInput(body: [User], headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUsersWithListInput>
 ```
 
 Creates list of users with given input array
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -183,14 +183,14 @@ No authorization required
 
 # **deleteUser**
 ```swift
-    open class func deleteUser(username: String, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeleteUser>
+    open class func deleteUser(username: String, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeleteUser>
 ```
 
 Delete user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -244,12 +244,12 @@ No authorization required
 
 # **getUserByName**
 ```swift
-    open class func getUserByName(username: String, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetUserByName>
+    open class func getUserByName(username: String, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetUserByName>
 ```
 
 Get user by user name
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -305,12 +305,12 @@ No authorization required
 
 # **loginUser**
 ```swift
-    open class func loginUser(username: String, password: String, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<LoginUser>
+    open class func loginUser(username: String, password: String, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<LoginUser>
 ```
 
 Logs user into the system
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -366,12 +366,12 @@ No authorization required
 
 # **logoutUser**
 ```swift
-    open class func logoutUser(headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<LogoutUser>
+    open class func logoutUser(headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<LogoutUser>
 ```
 
 Logs out current logged in user session
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
@@ -417,14 +417,14 @@ No authorization required
 
 # **updateUser**
 ```swift
-    open class func updateUser(username: String, body: User, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdateUser>
+    open class func updateUser(username: String, body: User, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdateUser>
 ```
 
 Updated user
 
 This can only be done by the logged in user.
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient

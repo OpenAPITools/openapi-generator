@@ -151,7 +151,9 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                         "number",
                         "void",
                         "byte",
-                        "array"
+                        "array",
+                        "\\DateTime",
+                        "UploadedFile"
                 )
         );
 
@@ -174,6 +176,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         typeMapping = new HashMap<String, String>();
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
+        typeMapping.put("decimal", "float");
         typeMapping.put("number", "float");
         typeMapping.put("float", "float");
         typeMapping.put("double", "double");
@@ -304,7 +307,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         additionalProperties.put("modelTestsPackage", modelTestsPackage);
         additionalProperties.put("controllerTestsPackage", controllerTestsPackage);
 
-        // make Symonfy-specific properties available
+        // make Symfony-specific properties available
         additionalProperties.put("bundleName", bundleName);
         additionalProperties.put("bundleClassName", bundleClassName);
         additionalProperties.put("bundleExtensionName", bundleExtensionName);
@@ -412,17 +415,17 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 }
 
                 // Create a variable to display the correct data type in comments for interfaces
-                param.vendorExtensions.put("x-comment-type", param.dataType);
+                param.vendorExtensions.put("x-comment-type", "\\" + param.dataType);
                 if (param.isContainer) {
-                    param.vendorExtensions.put("x-comment-type", param.dataType + "[]");
+                    param.vendorExtensions.put("x-comment-type", "\\" + param.dataType + "[]");
                 }
             }
 
             // Create a variable to display the correct return type in comments for interfaces
             if (op.returnType != null) {
-                op.vendorExtensions.put("x-comment-type", op.returnType);
+                op.vendorExtensions.put("x-comment-type", "\\" + op.returnType);
                 if ("array".equals(op.returnContainer)) {
-                    op.vendorExtensions.put("x-comment-type", op.returnType + "[]");
+                    op.vendorExtensions.put("x-comment-type", "\\" + op.returnType + "[]");
                 }
             } else {
                 op.vendorExtensions.put("x-comment-type", "void");

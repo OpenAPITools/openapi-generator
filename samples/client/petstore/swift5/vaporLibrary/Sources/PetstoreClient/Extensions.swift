@@ -128,4 +128,3 @@ extension Set: RequestDecodable where Element: Content {
 extension Set: Content where Element: Content { }
 
 extension AnyCodable: Content {}
-

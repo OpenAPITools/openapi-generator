@@ -34,6 +34,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return client;
   }
 
+  @JsonProperty("client")
   public void setClient(String client) {
     this.client = client;
   }

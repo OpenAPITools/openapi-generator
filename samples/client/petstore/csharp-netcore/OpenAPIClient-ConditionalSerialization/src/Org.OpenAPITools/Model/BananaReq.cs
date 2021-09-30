@@ -53,13 +53,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "lengthCm", IsRequired = true, EmitDefaultValue = false)]
         public decimal LengthCm
-        { 
+        {
             get{ return _LengthCm;}
             set
             {
                 _LengthCm = value;
                 _flagLengthCm = true;
-            } 
+            }
         }
         private decimal _LengthCm;
         private bool _flagLengthCm;
@@ -77,13 +77,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "sweet", EmitDefaultValue = true)]
         public bool Sweet
-        { 
+        {
             get{ return _Sweet;}
             set
             {
                 _Sweet = value;
                 _flagSweet = true;
-            } 
+            }
         }
         private bool _Sweet;
         private bool _flagSweet;
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

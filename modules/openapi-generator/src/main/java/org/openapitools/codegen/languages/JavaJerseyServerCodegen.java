@@ -126,6 +126,9 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportingFiles.add(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml")
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
+
+        // JsonNullable is not implemented for this generator
+        openApiNullable = false;
     }
 
 

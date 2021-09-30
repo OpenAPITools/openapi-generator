@@ -9,7 +9,7 @@ package {{moduleName}}::{{classname}};
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -41,7 +41,7 @@ sub new {
 # {{{operationId}}}
 #
 # {{{summary}}}
-# 
+#
 {{#allParams}}# @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
 {
@@ -54,13 +54,13 @@ sub new {
     },
 {{/allParams}}
     };
-    __PACKAGE__->method_documentation->{ '{{operationId}}' } = { 
+    __PACKAGE__->method_documentation->{ '{{operationId}}' } = {
         summary => '{{summary}}',
         params => $params,
-        returns => {{#returnType}}'{{{returnType}}}'{{/returnType}}{{^returnType}}undef{{/returnType}},
+        returns => {{#returnType}}'{{{.}}}'{{/returnType}}{{^returnType}}undef{{/returnType}},
         };
 }
-# @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+# @return {{{returnType}}}{{^returnType}}void{{/returnType}}
 #
 sub {{operationId}} {
     my ($self, %args) = @_;
@@ -123,7 +123,7 @@ sub {{operationId}} {
         {{^isFile}}$form_params->{'{{baseName}}'} = $self->{api_client}->to_form_value($args{'{{paramName}}'});
         {{/isFile}}
     }
-    
+
     {{/formParams}}
     my $_body_data;
     {{#bodyParams}}

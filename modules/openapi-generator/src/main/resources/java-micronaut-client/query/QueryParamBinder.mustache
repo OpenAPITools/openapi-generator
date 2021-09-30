@@ -1,0 +1,164 @@
+{{>licenseInfo}}
+package {{invokerPackage}}.query;
+
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.beans.BeanProperty;
+import io.micronaut.core.beans.BeanWrapper;
+import io.micronaut.core.convert.ArgumentConversionContext;
+import io.micronaut.core.convert.ConversionContext;
+import io.micronaut.core.convert.ConversionService;
+import io.micronaut.core.util.StringUtils;
+import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.client.bind.AnnotatedClientArgumentRequestBinder;
+import io.micronaut.http.client.bind.ClientRequestUriContext;
+
+import java.util.Collection;
+import java.util.Optional;
+import jakarta.inject.Singleton;
+import javax.annotation.Generated;
+
+
+{{>generatedAnnotation}}
+@Singleton
+public class QueryParamBinder implements AnnotatedClientArgumentRequestBinder<QueryParam> {
+    private static final Character COMMA_DELIMITER = ',';
+    private static final Character PIPE_DELIMITER = '|';
+    private static final Character SPACE_DELIMITER = ' ';
+
+    private final ConversionService<?> conversionService;
+
+    public QueryParamBinder(ConversionService<?> conversionService) {
+        this.conversionService = conversionService;
+    }
+
+    @NonNull
+    @Override
+    public Class<QueryParam> getAnnotationType() {
+        return QueryParam.class;
+    }
+
+    @Override
+    public void bind(@NonNull ArgumentConversionContext<Object> context,
+                     @NonNull ClientRequestUriContext uriContext,
+                     @NonNull Object value,
+                     @NonNull MutableHttpRequest<?> request
+    ) {
+        String key = context.getAnnotationMetadata().stringValue(QueryParam.class)
+                .filter(StringUtils::isNotEmpty)
+                .orElse(context.getArgument().getName());
+
+        QueryParam.Format format = context.getAnnotationMetadata()
+                .enumValue(QueryParam.class, "format", QueryParam.Format.class)
+                .orElse(QueryParam.Format.CSV);
+
+        if (format == QueryParam.Format.DEEP_OBJECT) {
+            addDeepObjectParameters(context, value, key, uriContext);
+        } else if (format == QueryParam.Format.MULTI) {
+            addMultiParameters(context, value, key, uriContext);
+        } else {
+            Character delimiter = ' ';
+            switch (format) {
+                case SSV:
+                    delimiter = SPACE_DELIMITER;
+                    break;
+                case PIPES:
+                    delimiter = PIPE_DELIMITER;
+                    break;
+                case CSV:
+                    delimiter = COMMA_DELIMITER;
+                    break;
+                default:
+            }
+            createSeparatedQueryParam(context, value, delimiter)
+                    .ifPresent(v -> uriContext.addQueryParameter(key, v));
+        }
+    }
+
+    private void addMultiParameters(
+            ArgumentConversionContext<Object> context, Object value, String key, ClientRequestUriContext uriContext
+    ) {
+        if (value instanceof Iterable) {
+            // noinspection unchecked
+            Iterable<?> iterable = (Iterable<?>) value;
+
+            for (Object item : iterable) {
+                convertToString(context, item).ifPresent(v -> uriContext.addQueryParameter(key, v));
+            }
+        } else {
+            convertToString(context, value).ifPresent(v -> uriContext.addQueryParameter(key, v));
+        }
+    }
+
+    private void addDeepObjectParameters(
+            ArgumentConversionContext<Object> context, Object value, String key, ClientRequestUriContext uriContext
+    ) {
+        if (value instanceof Iterable) {
+            StringBuilder builder = new StringBuilder(key);
+
+            Iterable<?> iterable = (Iterable<?>) value;
+
+            int i = 0;
+            for (Object item: iterable) {
+                if (item == null) {
+                    continue;
+                }
+                String index = String.valueOf(i);
+
+                builder.append('[');
+                builder.append(index);
+                builder.append(']');
+
+                convertToString(context, item).ifPresent(v -> uriContext.addQueryParameter(builder.toString(), v));
+                builder.delete(builder.length() - index.length() - 2, builder.length());
+                i++;
+            }
+        } else if (value != null) {
+            StringBuilder builder = new StringBuilder(key);
+            BeanWrapper<Object> wrapper = BeanWrapper.getWrapper(value);
+            Collection<BeanProperty<Object, Object>> properties = wrapper.getBeanProperties();
+            for (BeanProperty<Object, Object> property: properties) {
+                Object item = property.get(value);
+                if (item == null) {
+                    continue;
+                }
+                builder.append('[');
+                builder.append(property.getName());
+                builder.append(']');
+
+                convertToString(context, item).ifPresent(v -> uriContext.addQueryParameter(builder.toString(), v));
+                builder.delete(builder.length() - property.getName().length() - 2, builder.length());
+            }
+        }
+    }
+
+    private Optional<String> createSeparatedQueryParam(
+            ArgumentConversionContext<Object> context, Object value, Character delimiter
+    ) {
+        if (value instanceof Iterable) {
+            StringBuilder builder = new StringBuilder();
+            // noinspection unchecked
+            Iterable<?> iterable = (Iterable<?>) value;
+
+            boolean first = true;
+            for (Object item : iterable) {
+                Optional<String> opt = convertToString(context, item);
+                if (opt.isPresent()) {
+                    if (!first) {
+                        builder.append(delimiter);
+                    }
+                    first = false;
+                    builder.append(opt.get());
+                }
+            }
+
+            return Optional.of(builder.toString());
+        } else {
+            return convertToString(context, value);
+        }
+    }
+
+    private Optional<String> convertToString(ArgumentConversionContext<Object> context, Object value) {
+        return conversionService.convert(value, ConversionContext.STRING.with(context.getAnnotationMetadata()))
+                .filter(StringUtils::isNotEmpty);
+    }
+}

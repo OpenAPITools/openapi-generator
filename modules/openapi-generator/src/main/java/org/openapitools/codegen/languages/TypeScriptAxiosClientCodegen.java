@@ -22,6 +22,8 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.utils.ModelUtils;
+
 import java.util.*;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -255,4 +257,19 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
     }
 
+    @Override
+    protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
+        // The 'null' value is allowed when the OAS schema is 'any type'.
+        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        // custom line here, do not set property.isNullable = true
+        if (languageSpecificPrimitives.contains(property.dataType)) {
+            property.isPrimitiveType = true;
+        }
+        if (ModelUtils.isMapSchema(p)) {
+            // an object or anyType composed schema that has additionalProperties set
+            // some of our code assumes that any type schema with properties defined will be a map
+            // even though it should allow in any type and have map constraints for properties
+            updatePropertyForMap(property, p);
+        }
+    }
 }

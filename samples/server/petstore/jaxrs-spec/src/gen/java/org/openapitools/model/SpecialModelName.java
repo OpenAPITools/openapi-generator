@@ -34,6 +34,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return $specialPropertyName;
   }
 
+  @JsonProperty("$special[property.name]")
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }

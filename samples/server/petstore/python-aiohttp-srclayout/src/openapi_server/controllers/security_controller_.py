@@ -26,4 +26,3 @@ def validate_scope_petstore_auth(required_scopes: List[str], token_scopes: List[
     """ Validate required scopes are included in token scope """
     return set(required_scopes).issubset(set(token_scopes))
 
-

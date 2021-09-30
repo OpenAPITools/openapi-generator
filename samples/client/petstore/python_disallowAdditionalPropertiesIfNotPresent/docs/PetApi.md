@@ -23,6 +23,7 @@ Add a new pet to the store
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -100,6 +101,7 @@ void (empty response body)
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -115,6 +117,7 @@ Deletes a pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -183,6 +186,7 @@ void (empty response body)
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -200,6 +204,7 @@ Multiple status values can be provided with comma separated strings
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -262,6 +267,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -279,6 +285,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -341,6 +348,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -358,6 +366,7 @@ Returns a single pet
 ### Example
 
 * Api Key Authentication (api_key):
+
 ```python
 import time
 import petstore_api
@@ -418,6 +427,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -434,6 +444,7 @@ Update an existing pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -511,6 +522,7 @@ void (empty response body)
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -528,6 +540,7 @@ Updates a pet in the store with form data
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -598,6 +611,7 @@ void (empty response body)
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **405** | Invalid input |  -  |
@@ -612,6 +626,7 @@ uploads an image
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -642,7 +657,9 @@ with petstore_api.ApiClient(configuration) as api_client:
     pet_id = 1 # int | ID of pet to update
     additional_metadata = "additional_metadata_example" # str | Additional data to pass to server (optional)
     file = open('/path/to/file', 'rb') # file_type | file to upload (optional)
-    files =  # [file_type] | files to upload (optional)
+    files = [
+null,
+    ] # [file_type] | files to upload (optional)
 
     # example passing only required values which don't have defaults set
     try:
@@ -687,6 +704,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -701,6 +719,7 @@ uploads an image (required)
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -774,6 +793,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

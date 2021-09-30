@@ -438,12 +438,14 @@ public interface FakeApi extends ApiClient.Api {
    * @param http  (required)
    * @param url  (required)
    * @param context  (required)
+   * @param allowEmpty  (required)
+   * @param language  (optional)
    */
-  @RequestLine("PUT /fake/test-query-paramters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}")
+  @RequestLine("PUT /fake/test-query-parameters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}&language={language}&allowEmpty={allowEmpty}")
   @Headers({
     "Accept: application/json",
   })
-  void testQueryParameterCollectionFormat(@Param("pipe") List<String> pipe, @Param("ioutil") List<String> ioutil, @Param("http") List<String> http, @Param("url") List<String> url, @Param("context") List<String> context);
+  void testQueryParameterCollectionFormat(@Param("pipe") List<String> pipe, @Param("ioutil") List<String> ioutil, @Param("http") List<String> http, @Param("url") List<String> url, @Param("context") List<String> context, @Param("allowEmpty") String allowEmpty, @Param("language") Map<String, String> language);
 
   /**
    * 
@@ -461,9 +463,11 @@ public interface FakeApi extends ApiClient.Api {
    *   <li>http -  (required)</li>
    *   <li>url -  (required)</li>
    *   <li>context -  (required)</li>
+   *   <li>language -  (optional)</li>
+   *   <li>allowEmpty -  (required)</li>
    *   </ul>
    */
-  @RequestLine("PUT /fake/test-query-paramters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}")
+  @RequestLine("PUT /fake/test-query-parameters?pipe={pipe}&ioutil={ioutil}&http={http}&url={url}&context={context}&language={language}&allowEmpty={allowEmpty}")
   @Headers({
   "Accept: application/json",
   })
@@ -492,6 +496,14 @@ public interface FakeApi extends ApiClient.Api {
     }
     public TestQueryParameterCollectionFormatQueryParams context(final List<String> value) {
       put("context", EncodingUtils.encodeCollection(value, "multi"));
+      return this;
+    }
+    public TestQueryParameterCollectionFormatQueryParams language(final Map<String, String> value) {
+      put("language", EncodingUtils.encode(value));
+      return this;
+    }
+    public TestQueryParameterCollectionFormatQueryParams allowEmpty(final String value) {
+      put("allowEmpty", EncodingUtils.encode(value));
       return this;
     }
   }

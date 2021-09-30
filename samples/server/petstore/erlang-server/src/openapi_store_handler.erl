@@ -109,7 +109,9 @@ is_authorized(
         {false, AuthHeader, Req} ->  {{false, AuthHeader}, Req, State}
     end;
 is_authorized(Req, State) ->
-    {true, Req, State}.
+    {{false, <<"">>}, Req, State}.
+is_authorized(Req, State) ->
+    {{false, <<"">>}, Req, State}.
 
 -spec content_types_accepted(Req :: cowboy_req:req(), State :: state()) ->
     {

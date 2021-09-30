@@ -154,7 +154,7 @@ packages:
       name: http_mock_adapter
       url: "https://pub.intern.sk"
     source: hosted
-    version: "0.2.1"
+    version: "0.3.2"
   http_multi_server:
     dependency: transitive
     description:
@@ -217,7 +217,7 @@ packages:
       name: mockito
       url: "https://pub.intern.sk"
     source: hosted
-    version: "5.0.8"
+    version: "5.0.11"
   node_preamble:
     dependency: transitive
     description:

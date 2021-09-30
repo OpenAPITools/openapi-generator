@@ -26,7 +26,7 @@ using namespace {{modelNamespace}};
 }
 
 {{#operation}}
-pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) const
+pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) const
 {
 {{#allParams}}{{#required}}{{^isPrimitiveType}}{{^isContainer}}
     // verify the required parameter '{{paramName}}' is set

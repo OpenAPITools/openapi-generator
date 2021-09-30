@@ -3,9 +3,11 @@ import { BaseAPIRequestFactory, RequiredError } from './baseapi';
 import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import * as FormData from "form-data";
+import { URLSearchParams } from 'url';
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
-import {isCodeInRange} from '../util';
+import {canConsumeForm, isCodeInRange} from '../util';
+
 import { injectable } from "inversify";
 
 import { Order } from '../models/Order';
@@ -38,16 +40,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
-
-        // Apply auth methods
 
         return requestContext;
     }
@@ -66,14 +59,6 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
 
         let authMethod = null;
         // Apply auth methods
@@ -107,16 +92,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
 
-        // Header Params
-
-        // Form Params
-
-
-        // Body Params
-
-        // Apply auth methods
 
         return requestContext;
     }
@@ -141,12 +117,6 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-        // Query Params
-
-        // Header Params
-
-        // Form Params
-
 
         // Body Params
         const contentType = ObjectSerializer.getPreferredMediaType([
@@ -159,7 +129,6 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 
-        // Apply auth methods
 
         return requestContext;
     }
@@ -179,10 +148,10 @@ export class StoreApiResponseProcessor {
      public async deleteOrder(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Order not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "Order not found", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -190,8 +159,7 @@ export class StoreApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -220,8 +188,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -241,10 +208,10 @@ export class StoreApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Order not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "Order not found", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -256,8 +223,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -277,7 +243,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid Order");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid Order", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -289,8 +255,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
 }

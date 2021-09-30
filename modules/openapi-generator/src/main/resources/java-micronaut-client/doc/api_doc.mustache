@@ -1,0 +1,68 @@
+# {{classname}}{{#description}}
+{{description}}{{/description}}
+
+All URIs are relative to *{{basePath}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{/operation}}{{/operations}}
+
+## Creating {{classname}}
+
+To initiate an instance of `{{classname}}`, you can use micronaut's `ApplicationContext`:
+```java
+/* imports
+import io.micronaut.runtime.Micronaut;
+import io.micronaut.context.ApplicationContext;
+import {{package}}.{{classname}};
+*/
+
+ApplicationContext context = Micronaut.run(/* ... */);
+PetApi apiInstance = context.getBean({{classname}}.class);
+```
+
+Or the `@Inject` annotation:
+```java
+@Singleton
+class MyClass {
+    @Inject
+    {{classname}} {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}};
+
+    /* ... use the injected variable */
+}
+```
+Note that the class needs to be annotated with one of Micronaut's [scope annotations](https://docs.micronaut.io/latest/guide/#scopes) like `Singleton` in order to be processed.
+
+More information can be found inside [Inversion of Control guide section](https://docs.micronaut.io/latest/guide/#ioc).
+
+{{#operations}}
+{{#operation}}
+<a name="{{operationId}}"></a>
+# **{{operationId}}**
+```java
+{{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Void>{{/returnType}} {{classname}}.{{nickname}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+```
+
+{{summary}}{{#notes}}
+
+{{notes}}{{/notes}}
+
+{{#allParams}}{{#-last}}### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}`{{dataType}}`{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}`{{dataType}}`{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional parameter]{{/required}}{{#defaultValue}} [default to `{{defaultValue}}`]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}`{{{.}}}`{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{/allParams}}{{/-last}}{{/allParams}}
+
+{{#returnType}}### Return type
+{{#returnTypeIsPrimitive}}`{{returnType}}`{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}
+
+{{#authMethods}}{{#-last}}### Authorization{{#authMethods}}
+* **[{{name}}](auth.md#{{name}})**{{#scopes}}{{#-last}}, scopes: {{#scopes}}`{{{scope}}}`{{^-last}}, {{/-last}}{{/scopes}}{{/-last}}{{/scopes}}{{/authMethods}}{{/-last}}{{/authMethods}}
+
+### HTTP request headers
+ - **Content-Type**: {{#consumes}}`{{{mediaType}}}`{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}`{{{mediaType}}}`{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{/operation}}
+{{/operations}}
