@@ -81,66 +81,6 @@
                             </arguments>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>tests-pub-get</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <workingDirectory>../dio_http_petstore_client_lib_fake_tests</workingDirectory>
-                            <executable>pub</executable>
-                            <arguments>
-                                <argument>get</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>tests-dart-format</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <workingDirectory>../dio_http_petstore_client_lib_fake_tests</workingDirectory>
-                            <executable>dart</executable>
-                            <arguments>
-                                <argument>format</argument>
-                                <argument>--set-exit-if-changed</argument>
-                                <argument>--output=none</argument>
-                                <argument>.</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>tests-dart-analyze</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <workingDirectory>../dio_http_petstore_client_lib_fake_tests</workingDirectory>
-                            <executable>dart</executable>
-                            <arguments>
-                                <argument>analyze</argument>
-                                <argument>--fatal-infos</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>tests-dart-test</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <workingDirectory>../dio_http_petstore_client_lib_fake_tests</workingDirectory>
-                            <executable>dart</executable>
-                            <arguments>
-                                <argument>test</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
         </plugins>
