@@ -63,6 +63,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
+    public static final String EXPOSE_RESPONSE_HEADERS = "exposeResponseHeaders";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -113,6 +114,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean dynamicOperations = false;
     protected String authFolder;
     protected String serializationLibrary = null;
+    protected boolean exposeResponseHeaders = false;
 
     public JavaClientCodegen() {
         super();
@@ -154,6 +156,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
+        cliOptions.add(CliOption.newBoolean(EXPOSE_RESPONSE_HEADERS, "Property used by feign client to expose the response headers on the API. It wraps the response type on a class that contains both the headers and the deserialized body.", this.exposeResponseHeaders));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -320,6 +323,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
+        final String modelsFolder = (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
         authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
 
         //Common files
@@ -381,6 +385,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             apiDocTemplateFiles.remove("api_doc.mustache");
         }
 
+        if (FEIGN.equals(getLibrary()) && additionalProperties.containsKey(EXPOSE_RESPONSE_HEADERS)) {
+            supportingFiles.add(new SupportingFile("model/HeaderAwareResponse.mustache", modelsFolder, "HeaderAwareResponse.java"));
+            supportingFiles.add(new SupportingFile("ResponseHeadersDecoder.mustache", invokerFolder, "ResponseHeadersDecoder.java"));
+        }
+
         if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || RETROFIT_2.equals(getLibrary()) || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || WEBCLIENT.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
@@ -423,7 +432,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpSignatureAuth.mustache", authFolder, "HttpSignatureAuth.java"));
             }
-            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiSchema.java"));
+            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
 
             // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
@@ -437,7 +446,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             setJava8ModeAndAdditionalProperties(true);
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
-            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiSchema.java"));
+            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (RESTEASY.equals(getLibrary())) {
             setJava8ModeAndAdditionalProperties(true);
@@ -660,6 +669,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             for (CodegenOperation op : operationList) {
                 String path = op.path;
                 String method = "";
+
+                //If the client must exposes the headers we wrap the response type in the HeaderAwareResponse type
+                if(additionalProperties.containsKey(EXPOSE_RESPONSE_HEADERS)){
+                    if(op.returnType != null){
+                        op.returnType= "HeaderAwareResponse<"+ op.returnType+">";
+                    }else{
+                        op.returnType= "HeaderAwareResponse<Void>";
+                    }
+                }
 
                 // if a custom method is found at the end of the path, cut it off for later
                 Matcher m = methodPattern.matcher(path);

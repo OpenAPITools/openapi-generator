@@ -5,6 +5,9 @@ import {{invokerPackage}}.EncodingUtils;
 {{#legacyDates}}
 import {{invokerPackage}}.ParamExpander;
 {{/legacyDates}}
+{{#exposeResponseHeaders}}
+    import {{modelPackage}}.HeaderAwareResponse;
+{{/exposeResponseHeaders}}
 
 {{#imports}}import {{import}};
 {{/imports}}

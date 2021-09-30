@@ -36,6 +36,9 @@ import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
 
+{{#exposeResponseHeaders}}
+import {{invokerPackage}}.ResponseHeadersDecoder;
+{{/exposeResponseHeaders}}
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.ApiErrorDecoder;
 import {{invokerPackage}}.auth.OAuth;
@@ -63,7 +66,12 @@ public class ApiClient {
     feignBuilder = Feign.builder()
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
+                {{#exposeResponseHeaders}}
+                .decoder(new ResponseHeadersDecoder(objectMapper))
+                {{/exposeResponseHeaders}}
+                {{^exposeResponseHeaders}}
                 .decoder(new JacksonDecoder(objectMapper))
+                {{/exposeResponseHeaders}}
                 {{#hasOAuthMethods}}
                 .errorDecoder(new ApiErrorDecoder())
                 .retryer(new Retryer.Default(0, 0, 2))
