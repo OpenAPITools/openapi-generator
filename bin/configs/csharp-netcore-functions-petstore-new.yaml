@@ -1,0 +1,6 @@
+generatorName: csharp-netcore-functions
+outputDir: samples/server/petstore/csharp/netcore/functions
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp-netcore-functions
+additionalProperties:
+  hideGenerationTimestamp: "true"
