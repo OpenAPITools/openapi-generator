@@ -1328,6 +1328,45 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     return input_value
 
 
+def _model_to_dict_core(value, serialize):
+    """Core aux function for returning the model properties as a dict
+    Args:
+        value : _data_store of the model instance that
+            will be converted to a dict.
+
+    Keyword Args:
+        serialize (bool): if True, the keys in the dict will be values from
+            attribute_map
+    """
+    if hasattr(value, '_data_store'):
+        return model_to_dict(value, serialize=serialize)
+    elif isinstance(value, list):
+        if not value:
+            # empty list or None
+            return value
+        else:
+            res = []
+            for v in value:
+                if isinstance(v, PRIMITIVE_TYPES) or v is None:
+                    res.append(v)
+                elif isinstance(v, ModelSimple):
+                    res.append(v.value)
+                else:
+                    res.append(_model_to_dict_core(v, serialize=serialize))
+            return res
+    elif isinstance(value, dict):
+        return dict(map(
+            lambda item: (item[0],
+                          _model_to_dict_core(item[1], serialize=serialize))
+            if hasattr(item[1], '_data_store') else item,
+            value.items()
+        ))
+    elif isinstance(value, ModelSimple):
+        return value.value
+    else:
+        return value
+
+
 def model_to_dict(model_instance, serialize=True):
     """Returns the model properties as a dict
 
@@ -1358,33 +1397,7 @@ def model_to_dict(model_instance, serialize=True):
                     seen_json_attribute_names.add(attr)
                 except KeyError:
                     used_fallback_python_attribute_names.add(attr)
-            if isinstance(value, list):
-               if not value:
-                   # empty list or None
-                   result[attr] = value
-               else:
-                   res = []
-                   for v in value:
-                       if isinstance(v, PRIMITIVE_TYPES) or v is None:
-                           res.append(v)
-                       elif isinstance(v, ModelSimple):
-                           res.append(v.value)
-                       else:
-                           res.append(model_to_dict(v, serialize=serialize))
-                   result[attr] = res
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0],
-                                  model_to_dict(item[1], serialize=serialize))
-                    if hasattr(item[1], '_data_store') else item,
-                    value.items()
-                ))
-            elif isinstance(value, ModelSimple):
-                result[attr] = value.value
-            elif hasattr(value, '_data_store'):
-                result[attr] = model_to_dict(value, serialize=serialize)
-            else:
-                result[attr] = value
+            result[attr] = _model_to_dict_core(value, serialize)
     if serialize:
         for python_key in used_fallback_python_attribute_names:
             json_key = py_to_json_map.get(python_key)
