@@ -3,7 +3,7 @@ import { RequestContext, HttpMethod, Headers } from "./http/http{{extensionForDe
 export interface BaseServerConfiguration {
     getHeaders(): Headers
     makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
-    setHeaders(headers: Headers): any;
+    addHeaders(headers: Headers): any;
     setHeaderParam(key: string, value: string): void
 }
 
@@ -29,7 +29,7 @@ export class ServerConfiguration<T extends { [key: string]: string }> implements
         return this.variableConfiguration
     }
 
-    public setHeaders(headers: Headers): void {
+    public addHeaders(headers: Headers): void {
         Object.assign(this.headers, headers);
     }
 
