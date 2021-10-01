@@ -2381,7 +2381,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
 
-    private void updateModelForComposedSchema(CodegenModel m, Schema schema, Map<String, Schema> allDefinitions) {
+    protected void updateModelForComposedSchema(CodegenModel m, Schema schema, Map<String, Schema> allDefinitions) {
         final ComposedSchema composed = (ComposedSchema) schema;
         Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
         List<String> required = new ArrayList<String>();
