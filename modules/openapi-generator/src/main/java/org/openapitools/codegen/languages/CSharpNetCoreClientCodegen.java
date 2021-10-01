@@ -1152,5 +1152,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
         }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
     }
 }
