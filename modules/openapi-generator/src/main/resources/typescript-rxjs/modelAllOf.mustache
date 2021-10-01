@@ -8,7 +8,7 @@ import type {
 {{/hasImports}}
 /**
  * @type {{classname}}{{#description}}
- * {{{description}}}{{/description}}
+ * {{{.}}}{{/description}}
  * @export
  */
 export type {{classname}} = {{#allOf}}{{{.}}}{{^-last}} & {{/-last}}{{/allOf}};

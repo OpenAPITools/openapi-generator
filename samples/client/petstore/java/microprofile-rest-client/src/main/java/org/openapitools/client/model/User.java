@@ -30,30 +30,37 @@ import javax.json.bind.annotation.JsonbProperty;
 
 public class User  {
   
+  @JsonbProperty("id")
   private Long id;
 
+  @JsonbProperty("username")
   private String username;
 
+  @JsonbProperty("firstName")
   private String firstName;
 
+  @JsonbProperty("lastName")
   private String lastName;
 
+  @JsonbProperty("email")
   private String email;
 
+  @JsonbProperty("password")
   private String password;
 
+  @JsonbProperty("phone")
   private String phone;
 
  /**
    * User Status
   **/
+  @JsonbProperty("userStatus")
   private Integer userStatus;
-  
+
  /**
    * Get id
    * @return id
   **/
-  @JsonbProperty("id")
   public Long getId() {
     return id;
   }
@@ -74,7 +81,6 @@ public class User  {
    * Get username
    * @return username
   **/
-  @JsonbProperty("username")
   public String getUsername() {
     return username;
   }
@@ -95,7 +101,6 @@ public class User  {
    * Get firstName
    * @return firstName
   **/
-  @JsonbProperty("firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -116,7 +121,6 @@ public class User  {
    * Get lastName
    * @return lastName
   **/
-  @JsonbProperty("lastName")
   public String getLastName() {
     return lastName;
   }
@@ -137,7 +141,6 @@ public class User  {
    * Get email
    * @return email
   **/
-  @JsonbProperty("email")
   public String getEmail() {
     return email;
   }
@@ -158,7 +161,6 @@ public class User  {
    * Get password
    * @return password
   **/
-  @JsonbProperty("password")
   public String getPassword() {
     return password;
   }
@@ -179,7 +181,6 @@ public class User  {
    * Get phone
    * @return phone
   **/
-  @JsonbProperty("phone")
   public String getPhone() {
     return phone;
   }
@@ -200,7 +201,6 @@ public class User  {
    * User Status
    * @return userStatus
   **/
-  @JsonbProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }

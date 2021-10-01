@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.EnumTest")
-public typealias EnumTest = PetstoreClient.EnumTest
+@available(*, deprecated, renamed: "PetstoreClientAPI.EnumTest")
+public typealias EnumTest = PetstoreClientAPI.EnumTest
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class EnumTest: Codable, Hashable {
 

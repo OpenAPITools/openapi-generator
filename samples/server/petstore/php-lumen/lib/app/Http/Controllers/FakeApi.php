@@ -550,6 +550,13 @@ class FakeApi extends Controller
         }
         $context = $input['context'];
 
+        if (!isset($input['allow_empty'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $allow_empty when calling testQueryParameterCollectionFormat');
+        }
+        $allow_empty = $input['allow_empty'];
+
+        $language = $input['language'];
+
 
         return response('How about implementing testQueryParameterCollectionFormat as a put method ?');
     }

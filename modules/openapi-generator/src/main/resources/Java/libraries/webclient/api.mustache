@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -55,15 +54,21 @@ public class {{classname}} {
     /**
      * {{summary}}
      * {{notes}}
-{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{message}}{{/message}}
+{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
 {{/responses}}{{#allParams}}     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}
-{{/allParams}}{{#returnType}}     * @return {{returnType}}
+{{/allParams}}{{#returnType}}     * @return {{.}}
 {{/returnType}}     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
 {{#externalDocs}}
-    * {{description}}
-    * @see <a href="{{url}}">{{summary}} Documentation</a>
+     * {{description}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
+{{#isDeprecated}}
+     * @deprecated
+{{/isDeprecated}}
      */
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     private ResponseSpec {{operationId}}RequestCreation({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws WebClientResponseException {
         Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
         {{#allParams}}
@@ -90,7 +95,7 @@ public class {{classname}} {
         {{#hasQueryParams}}
 
         {{#queryParams}}
-        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
         {{/queryParams}}
         {{/hasQueryParams}}
         {{#hasHeaderParams}}
@@ -104,7 +109,7 @@ public class {{classname}} {
         {{#hasCookieParams}}
 
         {{#cookieParams}}
-        cookieParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{collectionFormat}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
+        cookieParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}));
         {{/cookieParams}}
         {{/hasCookieParams}}
         {{#hasFormParams}}
@@ -133,9 +138,9 @@ public class {{classname}} {
     /**
      * {{summary}}
      * {{notes}}
-{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{message}}{{/message}}
+{{#responses}}     * <p><b>{{code}}</b>{{#message}} - {{.}}{{/message}}
 {{/responses}}{{#allParams}}     * @param {{paramName}} {{description}}{{^description}}The {{paramName}} parameter{{/description}}
-{{/allParams}}{{#returnType}}     * @return {{returnType}}
+{{/allParams}}{{#returnType}}     * @return {{.}}
 {{/returnType}}     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
 {{#externalDocs}}
     * {{description}}

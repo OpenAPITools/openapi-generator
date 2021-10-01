@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -90,7 +91,7 @@ public class FileSchemaTestClass {
 
   public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<java.io.File>();
+      this.files = new ArrayList<>();
     }
     this.files.add(filesItem);
     return this;

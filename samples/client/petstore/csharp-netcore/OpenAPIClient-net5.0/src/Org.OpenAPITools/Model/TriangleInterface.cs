@@ -47,7 +47,10 @@ namespace Org.OpenAPITools.Model
         public TriangleInterface(string triangleType = default(string))
         {
             // to ensure "triangleType" is required (not null)
-            this.TriangleType = triangleType ?? throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
+            if (triangleType == null) {
+                throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
+            }
+            this.TriangleType = triangleType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -128,7 +131,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

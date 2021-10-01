@@ -105,7 +105,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Pig`. If the actual instanct is not `Pig`,
+        /// Get the actual instance of `Pig`. If the actual instance is not `Pig`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Pig</returns>
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Whale`. If the actual instanct is not `Whale`,
+        /// Get the actual instance of `Whale`. If the actual instance is not `Whale`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Whale</returns>
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Zebra`. If the actual instanct is not `Zebra`,
+        /// Get the actual instance of `Zebra`. If the actual instance is not `Zebra`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Zebra</returns>
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
         {
             Mammal newMammal = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newMammal;
             }

@@ -57,13 +57,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "smallCamel", EmitDefaultValue = false)]
         public string SmallCamel
-        { 
+        {
             get{ return _SmallCamel;}
             set
             {
                 _SmallCamel = value;
                 _flagSmallCamel = true;
-            } 
+            }
         }
         private string _SmallCamel;
         private bool _flagSmallCamel;
@@ -81,13 +81,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "CapitalCamel", EmitDefaultValue = false)]
         public string CapitalCamel
-        { 
+        {
             get{ return _CapitalCamel;}
             set
             {
                 _CapitalCamel = value;
                 _flagCapitalCamel = true;
-            } 
+            }
         }
         private string _CapitalCamel;
         private bool _flagCapitalCamel;
@@ -105,13 +105,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "small_Snake", EmitDefaultValue = false)]
         public string SmallSnake
-        { 
+        {
             get{ return _SmallSnake;}
             set
             {
                 _SmallSnake = value;
                 _flagSmallSnake = true;
-            } 
+            }
         }
         private string _SmallSnake;
         private bool _flagSmallSnake;
@@ -129,13 +129,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "Capital_Snake", EmitDefaultValue = false)]
         public string CapitalSnake
-        { 
+        {
             get{ return _CapitalSnake;}
             set
             {
                 _CapitalSnake = value;
                 _flagCapitalSnake = true;
-            } 
+            }
         }
         private string _CapitalSnake;
         private bool _flagCapitalSnake;
@@ -153,13 +153,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "SCA_ETH_Flow_Points", EmitDefaultValue = false)]
         public string SCAETHFlowPoints
-        { 
+        {
             get{ return _SCAETHFlowPoints;}
             set
             {
                 _SCAETHFlowPoints = value;
                 _flagSCAETHFlowPoints = true;
-            } 
+            }
         }
         private string _SCAETHFlowPoints;
         private bool _flagSCAETHFlowPoints;
@@ -178,13 +178,13 @@ namespace Org.OpenAPITools.Model
         /// <value>Name of the pet </value>
         [DataMember(Name = "ATT_NAME", EmitDefaultValue = false)]
         public string ATT_NAME
-        { 
+        {
             get{ return _ATT_NAME;}
             set
             {
                 _ATT_NAME = value;
                 _flagATT_NAME = true;
-            } 
+            }
         }
         private string _ATT_NAME;
         private bool _flagATT_NAME;
@@ -283,7 +283,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

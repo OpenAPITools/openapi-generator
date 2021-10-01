@@ -49,7 +49,7 @@ Produced file(`mysql_schema.sql`) contains every table definition. Current imple
 
 ### Prepared SQL queries
 
-[Model folder](./Model) contains SQL queries(`SELECT *`,  `SELECT`, `INSERT`, `UPDATE`,  `DELETE`) usually suggested by `PHPMyAdmin` when you hit `SQL` tab. They are absolutely useless without adaptation to your needs. Copypaste them then edit.
+[Model folder](./Model) contains SQL queries(`SELECT *`,  `SELECT`, `INSERT`, `UPDATE`,  `DELETE`) usually suggested by `PHPMyAdmin` when you hit `SQL` tab. They are absolutely useless without adaptation to your needs. Copy-paste them then edit.
 
 Important! Some of SQLs(`INSERT`/`UPDATE`) contains question marks(`?`) which are parameter placeholders. You need to bind values to these params to execute query.
 

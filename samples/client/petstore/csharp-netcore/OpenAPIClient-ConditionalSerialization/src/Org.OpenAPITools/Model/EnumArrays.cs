@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         public enum JustSymbolEnum
         {
             /// <summary>
-            /// Enum GreaterThanOrEqualTo for value: >=
+            /// Enum GreaterThanOrEqualTo for value: &gt;&#x3D;
             /// </summary>
             [EnumMember(Value = ">=")]
             GreaterThanOrEqualTo = 1,
@@ -56,10 +56,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets JustSymbol
         /// </summary>
-        
+
         [DataMember(Name = "just_symbol", EmitDefaultValue = false)]
-        public JustSymbolEnum? JustSymbol 
-        { 
+        public JustSymbolEnum? JustSymbol
+        {
             get{ return _JustSymbol;}
             set
             {
@@ -103,10 +103,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
-        
+
         [DataMember(Name = "array_enum", EmitDefaultValue = false)]
-        public List<ArrayEnumEnum> ArrayEnum 
-        { 
+        public List<ArrayEnumEnum> ArrayEnum
+        {
             get{ return _ArrayEnum;}
             set
             {
@@ -209,7 +209,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

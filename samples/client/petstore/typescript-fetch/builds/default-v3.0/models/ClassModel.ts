@@ -54,4 +54,3 @@ export function ClassModelToJSON(value?: ClassModel | null): any {
     };
 }
 
-

@@ -22,7 +22,7 @@ package WWW::OpenAPIClient::DefaultApi;
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -52,11 +52,11 @@ sub new {
 # foo_get
 #
 # 
-# 
+#
 {
     my $params = {
     };
-    __PACKAGE__->method_documentation->{ 'foo_get' } = { 
+    __PACKAGE__->method_documentation->{ 'foo_get' } = {
         summary => '',
         params => $params,
         returns => 'InlineResponseDefault',

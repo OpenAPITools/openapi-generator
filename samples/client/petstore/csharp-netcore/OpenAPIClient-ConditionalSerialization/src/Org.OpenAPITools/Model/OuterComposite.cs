@@ -51,13 +51,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "my_number", EmitDefaultValue = false)]
         public decimal MyNumber
-        { 
+        {
             get{ return _MyNumber;}
             set
             {
                 _MyNumber = value;
                 _flagMyNumber = true;
-            } 
+            }
         }
         private decimal _MyNumber;
         private bool _flagMyNumber;
@@ -75,13 +75,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "my_string", EmitDefaultValue = false)]
         public string MyString
-        { 
+        {
             get{ return _MyString;}
             set
             {
                 _MyString = value;
                 _flagMyString = true;
-            } 
+            }
         }
         private string _MyString;
         private bool _flagMyString;
@@ -99,13 +99,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "my_boolean", EmitDefaultValue = true)]
         public bool MyBoolean
-        { 
+        {
             get{ return _MyBoolean;}
             set
             {
                 _MyBoolean = value;
                 _flagMyBoolean = true;
-            } 
+            }
         }
         private bool _MyBoolean;
         private bool _flagMyBoolean;
@@ -193,7 +193,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -211,7 +211,7 @@
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
-        
+
         <!-- Vertx -->
         <dependency>
             <groupId>io.vertx</groupId>
@@ -248,7 +248,7 @@
             <dependency>
                 <groupId>com.github.joschi.jackson</groupId>
                 <artifactId>jackson-datatype-threetenbp</artifactId>
-                <version>${jackson-version}</version>
+                <version>2.9.10</version>
             </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>

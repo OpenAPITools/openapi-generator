@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -51,15 +50,15 @@ public class AnotherFakeApi {
      * To test special tags
      * To test special tags and operation ID starting with number
      * <p><b>200</b> - successful operation
-     * @param body client model
+     * @param client client model
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec call123testSpecialTagsRequestCreation(Client body) throws WebClientResponseException {
-        Object postBody = body;
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new WebClientResponseException("Missing the required parameter 'body' when calling call123testSpecialTags", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+    private ResponseSpec call123testSpecialTagsRequestCreation(Client client) throws WebClientResponseException {
+        Object postBody = client;
+        // verify the required parameter 'client' is set
+        if (client == null) {
+            throw new WebClientResponseException("Missing the required parameter 'client' when calling call123testSpecialTags", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -88,17 +87,17 @@ public class AnotherFakeApi {
      * To test special tags
      * To test special tags and operation ID starting with number
      * <p><b>200</b> - successful operation
-     * @param body client model
+     * @param client client model
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> call123testSpecialTags(Client body) throws WebClientResponseException {
+    public Mono<Client> call123testSpecialTags(Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
-        return call123testSpecialTagsRequestCreation(body).bodyToMono(localVarReturnType);
+        return call123testSpecialTagsRequestCreation(client).bodyToMono(localVarReturnType);
     }
 
-    public Mono<ResponseEntity<Client>> call123testSpecialTagsWithHttpInfo(Client body) throws WebClientResponseException {
+    public Mono<ResponseEntity<Client>> call123testSpecialTagsWithHttpInfo(Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
-        return call123testSpecialTagsRequestCreation(body).toEntity(localVarReturnType);
+        return call123testSpecialTagsRequestCreation(client).toEntity(localVarReturnType);
     }
 }

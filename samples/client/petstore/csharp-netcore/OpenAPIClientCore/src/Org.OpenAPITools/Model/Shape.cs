@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Quadrilateral`. If the actual instanct is not `Quadrilateral`,
+        /// Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Quadrilateral</returns>
@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Triangle`. If the actual instanct is not `Triangle`,
+        /// Get the actual instance of `Triangle`. If the actual instance is not `Triangle`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Triangle</returns>
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
         {
             Shape newShape = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newShape;
             }

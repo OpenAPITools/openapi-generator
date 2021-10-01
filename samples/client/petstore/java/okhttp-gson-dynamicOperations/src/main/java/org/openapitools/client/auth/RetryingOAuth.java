@@ -155,14 +155,12 @@ public class RetryingOAuth extends OAuth implements Interceptor {
                         oAuthClient.accessToken(tokenRequestBuilder.buildBodyMessage());
                 if (accessTokenResponse != null && accessTokenResponse.getAccessToken() != null) {
                     setAccessToken(accessTokenResponse.getAccessToken());
-                    return !getAccessToken().equals(requestAccessToken);
                 }
             } catch (OAuthSystemException | OAuthProblemException e) {
                 throw new IOException(e);
             }
         }
-
-        return false;
+        return getAccessToken() == null || !getAccessToken().equals(requestAccessToken);
     }
 
     public TokenRequestBuilder getTokenRequestBuilder() {

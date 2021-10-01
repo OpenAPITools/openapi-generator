@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
         public string Bar { get; private set; }
-        
+
         /// <summary>
         /// Returns false as Bar should not be serialized given that it's read-only.
         /// </summary>
@@ -61,13 +61,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "baz", EmitDefaultValue = false)]
         public string Baz
-        { 
+        {
             get{ return _Baz;}
             set
             {
                 _Baz = value;
                 _flagBaz = true;
-            } 
+            }
         }
         private string _Baz;
         private bool _flagBaz;
@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

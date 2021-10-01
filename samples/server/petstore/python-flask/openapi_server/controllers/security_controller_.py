@@ -45,4 +45,3 @@ def validate_scope_petstore_auth(required_scopes, token_scopes):
     """
     return set(required_scopes).issubset(set(token_scopes))
 
-

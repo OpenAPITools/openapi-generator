@@ -17,7 +17,7 @@
 
 #include "OpenAPIUser.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 /* Create user
@@ -30,7 +30,7 @@ public:
     virtual ~CreateUserRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 	/* Created user object */
 	OpenAPIUser Body;
 };
@@ -41,7 +41,7 @@ public:
     virtual ~CreateUserResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     
 };
 
@@ -54,7 +54,7 @@ public:
     virtual ~CreateUsersWithArrayInputRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 	/* List of user object */
 	TArray<OpenAPIUser> Body;
 };
@@ -65,7 +65,7 @@ public:
     virtual ~CreateUsersWithArrayInputResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     
 };
 
@@ -78,7 +78,7 @@ public:
     virtual ~CreateUsersWithListInputRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 	/* List of user object */
 	TArray<OpenAPIUser> Body;
 };
@@ -89,7 +89,7 @@ public:
     virtual ~CreateUsersWithListInputResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     
 };
 
@@ -103,7 +103,7 @@ public:
     virtual ~DeleteUserRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 	/* The name that needs to be deleted */
 	FString Username;
 };
@@ -114,7 +114,7 @@ public:
     virtual ~DeleteUserResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     
 };
 
@@ -127,7 +127,7 @@ public:
     virtual ~GetUserByNameRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 	/* The name that needs to be fetched. Use user1 for testing. */
 	FString Username;
 };
@@ -138,7 +138,7 @@ public:
     virtual ~GetUserByNameResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     OpenAPIUser Content;
 };
 
@@ -151,7 +151,7 @@ public:
     virtual ~LoginUserRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 	/* The user name for login */
 	FString Username;
 	/* The password for login in clear text */
@@ -164,7 +164,7 @@ public:
     virtual ~LoginUserResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     FString Content;
 };
 
@@ -177,7 +177,7 @@ public:
     virtual ~LogoutUserRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 };
 
 class OPENAPI_API OpenAPIUserApi::LogoutUserResponse : public Response
@@ -186,7 +186,7 @@ public:
     virtual ~LogoutUserResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     
 };
 
@@ -200,7 +200,7 @@ public:
     virtual ~UpdateUserRequest() {}
 	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 	/* name that need to be deleted */
 	FString Username;
 	/* Updated user object */
@@ -213,7 +213,7 @@ public:
     virtual ~UpdateUserResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     
 };
 

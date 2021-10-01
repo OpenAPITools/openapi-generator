@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 library openapi.api;
@@ -45,6 +46,7 @@ part 'model/cat.dart';
 part 'model/cat_all_of.dart';
 part 'model/category.dart';
 part 'model/class_model.dart';
+part 'model/deprecated_object.dart';
 part 'model/dog.dart';
 part 'model/dog_all_of.dart';
 part 'model/enum_arrays.dart';
@@ -66,6 +68,7 @@ part 'model/model_return.dart';
 part 'model/name.dart';
 part 'model/nullable_class.dart';
 part 'model/number_only.dart';
+part 'model/object_with_deprecated_fields.dart';
 part 'model/order.dart';
 part 'model/outer_composite.dart';
 part 'model/outer_enum.dart';

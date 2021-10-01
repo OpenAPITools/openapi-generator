@@ -45,7 +45,10 @@ namespace Org.OpenAPITools.Model
         public AppleReq(string cultivar = default(string), bool mealy = default(bool))
         {
             // to ensure "cultivar" is required (not null)
-            this._Cultivar = cultivar ?? throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null");
+            if (cultivar == null) {
+                throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null");
+            }
+            this._Cultivar = cultivar;
             this._Mealy = mealy;
         }
 
@@ -54,13 +57,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "cultivar", IsRequired = true, EmitDefaultValue = false)]
         public string Cultivar
-        { 
+        {
             get{ return _Cultivar;}
             set
             {
                 _Cultivar = value;
                 _flagCultivar = true;
-            } 
+            }
         }
         private string _Cultivar;
         private bool _flagCultivar;
@@ -78,13 +81,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "mealy", EmitDefaultValue = true)]
         public bool Mealy
-        { 
+        {
             get{ return _Mealy;}
             set
             {
                 _Mealy = value;
                 _flagMealy = true;
-            } 
+            }
         }
         private bool _Mealy;
         private bool _flagMealy;
@@ -161,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

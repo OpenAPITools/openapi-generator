@@ -15,12 +15,12 @@ namespace {{packageName}}.{{packageContext}}.Models
     {{#items}}{{>innerModelEnum}}{{/items}}{{/items.isEnum}}{{/vars}}
 
 /// <summary>
-    /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+    /// {{description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
-    public {{^hasChildren}}sealed {{/hasChildren}}class {{classname}}: {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>
+    public {{^hasChildren}}sealed {{/hasChildren}}class {{classname}}: {{#parent}}{{{.}}}, {{/parent}} IEquatable<{{classname}}>
     { {{#vars}}{{^isInherited}}
         /// <summary>
-        /// {{^description}}{{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// {{description}}{{^description}}{{{name}}}{{/description}}
         /// </summary>
         public {{>nullableDataType}} {{name}} { get; set; }
 {{/isInherited}}{{/vars}}

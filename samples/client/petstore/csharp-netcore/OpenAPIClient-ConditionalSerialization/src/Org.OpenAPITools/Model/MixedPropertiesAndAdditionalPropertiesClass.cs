@@ -51,13 +51,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
         public Guid Uuid
-        { 
+        {
             get{ return _Uuid;}
             set
             {
                 _Uuid = value;
                 _flagUuid = true;
-            } 
+            }
         }
         private Guid _Uuid;
         private bool _flagUuid;
@@ -75,13 +75,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
         public DateTime DateTime
-        { 
+        {
             get{ return _DateTime;}
             set
             {
                 _DateTime = value;
                 _flagDateTime = true;
-            } 
+            }
         }
         private DateTime _DateTime;
         private bool _flagDateTime;
@@ -99,13 +99,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "map", EmitDefaultValue = false)]
         public Dictionary<string, Animal> Map
-        { 
+        {
             get{ return _Map;}
             set
             {
                 _Map = value;
                 _flagMap = true;
-            } 
+            }
         }
         private Dictionary<string, Animal> _Map;
         private bool _flagMap;
@@ -195,7 +195,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

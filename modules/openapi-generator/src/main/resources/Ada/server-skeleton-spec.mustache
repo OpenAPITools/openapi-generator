@@ -27,7 +27,7 @@ package {{package}}.Skeletons is
       (Server : in out Server_Type{{#hasParams}};{{/hasParams}}
        {{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
        {{/-last}}{{/allParams}}{{#returnType}};
-       Result  : out {{returnType}}{{/returnType}};
+       Result  : out {{.}}{{/returnType}};
        Context : in out Swagger.Servers.Context_Type) is abstract;
 {{/operation}}
 {{/operations}}
@@ -95,7 +95,7 @@ package {{package}}.Skeletons is
          procedure {{operationId}}
             ({{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
              {{/-last}}{{/allParams}}{{#returnType}};
-             Result  : out {{returnType}}{{/returnType}};
+             Result  : out {{.}}{{/returnType}};
              Context : in out Swagger.Servers.Context_Type);
          {{/hasParams}}
          {{^hasParams}}

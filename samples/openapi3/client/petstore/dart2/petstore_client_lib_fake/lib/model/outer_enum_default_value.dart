@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -18,7 +19,7 @@ class OuterEnumDefaultValue {
   final String value;
 
   @override
-  String toString() => value;
+  String toString() => value ?? '';
 
   String toJson() => value;
 
@@ -36,20 +37,18 @@ class OuterEnumDefaultValue {
   static OuterEnumDefaultValue fromJson(dynamic value) =>
     OuterEnumDefaultValueTypeTransformer().decode(value);
 
-  static List<OuterEnumDefaultValue> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <OuterEnumDefaultValue>[]
-      : json
-          .map((value) => OuterEnumDefaultValue.fromJson(value))
-          .toList(growable: true == growable);
+  static List<OuterEnumDefaultValue> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(OuterEnumDefaultValue.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <OuterEnumDefaultValue>[];
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumDefaultValue] to String,
 /// and [decode] dynamic data back to [OuterEnumDefaultValue].
 class OuterEnumDefaultValueTypeTransformer {
-  const OuterEnumDefaultValueTypeTransformer._();
+  factory OuterEnumDefaultValueTypeTransformer() => _instance ??= const OuterEnumDefaultValueTypeTransformer._();
 
-  factory OuterEnumDefaultValueTypeTransformer() => _instance ??= OuterEnumDefaultValueTypeTransformer._();
+  const OuterEnumDefaultValueTypeTransformer._();
 
   String encode(OuterEnumDefaultValue data) => data.value;
 
@@ -62,14 +61,16 @@ class OuterEnumDefaultValueTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OuterEnumDefaultValue decode(dynamic data, {bool allowNull}) {
-    switch (data) {
-      case r'placed': return OuterEnumDefaultValue.placed;
-      case r'approved': return OuterEnumDefaultValue.approved;
-      case r'delivered': return OuterEnumDefaultValue.delivered;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case r'placed': return OuterEnumDefaultValue.placed;
+        case r'approved': return OuterEnumDefaultValue.approved;
+        case r'delivered': return OuterEnumDefaultValue.delivered;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }
@@ -77,3 +78,4 @@ class OuterEnumDefaultValueTypeTransformer {
   /// Singleton [OuterEnumDefaultValueTypeTransformer] instance.
   static OuterEnumDefaultValueTypeTransformer _instance;
 }
+

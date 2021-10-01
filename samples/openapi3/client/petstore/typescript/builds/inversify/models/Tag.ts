@@ -38,7 +38,7 @@ export class Tag {
     static getAttributeTypeMap() {
         return Tag.attributeTypeMap;
     }
-    
+
     public constructor() {
     }
 }

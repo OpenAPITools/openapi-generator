@@ -36,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return declawed;
   }
 
+  @JsonProperty("declawed")
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }

@@ -36,7 +36,7 @@ $Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "MyPho
 try {
     $Result = Add-PSPet -Pet $Pet
 } catch {
-    Write-Host ("Exception occured when calling Add-PSPet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Add-PSPet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -84,7 +84,7 @@ $ApiKey = "MyApiKey" # String |  (optional)
 try {
     $Result = Remove-Pet -PetId $PetId -ApiKey $ApiKey
 } catch {
-    Write-Host ("Exception occured when calling Remove-Pet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Remove-Pet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -133,7 +133,7 @@ $Status = "available" # String[] | Status values that need to be considered for 
 try {
     $Result = Find-PSPetsByStatus -Status $Status
 } catch {
-    Write-Host ("Exception occured when calling Find-PSPetsByStatus: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Find-PSPetsByStatus: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -181,7 +181,7 @@ $Tags = "MyTags" # String[] | Tags to filter by
 try {
     $Result = Find-PSPetsByTags -Tags $Tags
 } catch {
-    Write-Host ("Exception occured when calling Find-PSPetsByTags: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Find-PSPetsByTags: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -231,7 +231,7 @@ $PetId = 789 # Int64 | ID of pet to return
 try {
     $Result = Get-PSPetById -PetId $PetId
 } catch {
-    Write-Host ("Exception occured when calling Get-PSPetById: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Get-PSPetById: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -279,7 +279,7 @@ $Pet = Initialize-Pet -Id 0 -Category $Category -Name "doggie" -PhotoUrls "MyPho
 try {
     $Result = Update-PSPet -Pet $Pet
 } catch {
-    Write-Host ("Exception occured when calling Update-PSPet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Update-PSPet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -329,7 +329,7 @@ $Status = "MyStatus" # String | Updated status of the pet (optional)
 try {
     $Result = Update-PSPetWithForm -PetId $PetId -Name $Name -Status $Status
 } catch {
-    Write-Host ("Exception occured when calling Update-PSPetWithForm: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Update-PSPetWithForm: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -381,7 +381,7 @@ $File =  # System.IO.FileInfo | file to upload (optional)
 try {
     $Result = Invoke-PSUploadFile -PetId $PetId -AdditionalMetadata $AdditionalMetadata -File $File
 } catch {
-    Write-Host ("Exception occured when calling Invoke-PSUploadFile: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Invoke-PSUploadFile: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```

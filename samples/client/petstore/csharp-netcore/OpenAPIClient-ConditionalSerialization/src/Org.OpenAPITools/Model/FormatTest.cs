@@ -63,10 +63,16 @@ namespace Org.OpenAPITools.Model
         {
             this._Number = number;
             // to ensure "_byte" is required (not null)
-            this._Byte = _byte ?? throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
+            if (_byte == null) {
+                throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
+            }
+            this._Byte = _byte;
             this._Date = date;
             // to ensure "password" is required (not null)
-            this._Password = password ?? throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
+            if (password == null) {
+                throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
+            }
+            this._Password = password;
             this._Integer = integer;
             this._Int32 = int32;
             this._Int64 = int64;
@@ -87,13 +93,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "integer", EmitDefaultValue = false)]
         public int Integer
-        { 
+        {
             get{ return _Integer;}
             set
             {
                 _Integer = value;
                 _flagInteger = true;
-            } 
+            }
         }
         private int _Integer;
         private bool _flagInteger;
@@ -111,13 +117,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "int32", EmitDefaultValue = false)]
         public int Int32
-        { 
+        {
             get{ return _Int32;}
             set
             {
                 _Int32 = value;
                 _flagInt32 = true;
-            } 
+            }
         }
         private int _Int32;
         private bool _flagInt32;
@@ -135,13 +141,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
         public long Int64
-        { 
+        {
             get{ return _Int64;}
             set
             {
                 _Int64 = value;
                 _flagInt64 = true;
-            } 
+            }
         }
         private long _Int64;
         private bool _flagInt64;
@@ -159,13 +165,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "number", IsRequired = true, EmitDefaultValue = false)]
         public decimal Number
-        { 
+        {
             get{ return _Number;}
             set
             {
                 _Number = value;
                 _flagNumber = true;
-            } 
+            }
         }
         private decimal _Number;
         private bool _flagNumber;
@@ -183,13 +189,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
         public float Float
-        { 
+        {
             get{ return _Float;}
             set
             {
                 _Float = value;
                 _flagFloat = true;
-            } 
+            }
         }
         private float _Float;
         private bool _flagFloat;
@@ -207,13 +213,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
         public double Double
-        { 
+        {
             get{ return _Double;}
             set
             {
                 _Double = value;
                 _flagDouble = true;
-            } 
+            }
         }
         private double _Double;
         private bool _flagDouble;
@@ -231,13 +237,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
         public decimal Decimal
-        { 
+        {
             get{ return _Decimal;}
             set
             {
                 _Decimal = value;
                 _flagDecimal = true;
-            } 
+            }
         }
         private decimal _Decimal;
         private bool _flagDecimal;
@@ -255,13 +261,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
         public string String
-        { 
+        {
             get{ return _String;}
             set
             {
                 _String = value;
                 _flagString = true;
-            } 
+            }
         }
         private string _String;
         private bool _flagString;
@@ -279,13 +285,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
         public byte[] Byte
-        { 
+        {
             get{ return _Byte;}
             set
             {
                 _Byte = value;
                 _flagByte = true;
-            } 
+            }
         }
         private byte[] _Byte;
         private bool _flagByte;
@@ -303,13 +309,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "binary", EmitDefaultValue = false)]
         public System.IO.Stream Binary
-        { 
+        {
             get{ return _Binary;}
             set
             {
                 _Binary = value;
                 _flagBinary = true;
-            } 
+            }
         }
         private System.IO.Stream _Binary;
         private bool _flagBinary;
@@ -328,13 +334,13 @@ namespace Org.OpenAPITools.Model
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = false)]
         public DateTime Date
-        { 
+        {
             get{ return _Date;}
             set
             {
                 _Date = value;
                 _flagDate = true;
-            } 
+            }
         }
         private DateTime _Date;
         private bool _flagDate;
@@ -352,13 +358,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
         public DateTime DateTime
-        { 
+        {
             get{ return _DateTime;}
             set
             {
                 _DateTime = value;
                 _flagDateTime = true;
-            } 
+            }
         }
         private DateTime _DateTime;
         private bool _flagDateTime;
@@ -376,13 +382,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
         public Guid Uuid
-        { 
+        {
             get{ return _Uuid;}
             set
             {
                 _Uuid = value;
                 _flagUuid = true;
-            } 
+            }
         }
         private Guid _Uuid;
         private bool _flagUuid;
@@ -400,13 +406,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = false)]
         public string Password
-        { 
+        {
             get{ return _Password;}
             set
             {
                 _Password = value;
                 _flagPassword = true;
-            } 
+            }
         }
         private string _Password;
         private bool _flagPassword;
@@ -425,13 +431,13 @@ namespace Org.OpenAPITools.Model
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [DataMember(Name = "pattern_with_digits", EmitDefaultValue = false)]
         public string PatternWithDigits
-        { 
+        {
             get{ return _PatternWithDigits;}
             set
             {
                 _PatternWithDigits = value;
                 _flagPatternWithDigits = true;
-            } 
+            }
         }
         private string _PatternWithDigits;
         private bool _flagPatternWithDigits;
@@ -450,13 +456,13 @@ namespace Org.OpenAPITools.Model
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [DataMember(Name = "pattern_with_digits_and_delimiter", EmitDefaultValue = false)]
         public string PatternWithDigitsAndDelimiter
-        { 
+        {
             get{ return _PatternWithDigitsAndDelimiter;}
             set
             {
                 _PatternWithDigitsAndDelimiter = value;
                 _flagPatternWithDigitsAndDelimiter = true;
-            } 
+            }
         }
         private string _PatternWithDigitsAndDelimiter;
         private bool _flagPatternWithDigitsAndDelimiter;
@@ -578,7 +584,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             // Integer (int) maximum
             if(this.Integer > (int)100)
