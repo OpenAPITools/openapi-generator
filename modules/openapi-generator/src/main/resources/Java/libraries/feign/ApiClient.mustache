@@ -37,7 +37,7 @@ import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
 
 {{#exposeResponseHeaders}}
-import {{invokerPackage}}.ResponseHeadersDecoder;
+import {{invokerPackage}}.JacksonResponseDecoder;
 {{/exposeResponseHeaders}}
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.ApiErrorDecoder;
@@ -67,7 +67,7 @@ public class ApiClient {
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
                 {{#exposeResponseHeaders}}
-                .decoder(new ResponseHeadersDecoder(objectMapper))
+                .decoder(new JacksonResponseDecoder(objectMapper))
                 {{/exposeResponseHeaders}}
                 {{^exposeResponseHeaders}}
                 .decoder(new JacksonDecoder(objectMapper))

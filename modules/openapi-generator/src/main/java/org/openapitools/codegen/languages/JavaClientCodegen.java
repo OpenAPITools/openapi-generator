@@ -386,8 +386,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         if (FEIGN.equals(getLibrary()) && additionalProperties.containsKey(EXPOSE_RESPONSE_HEADERS)) {
-            supportingFiles.add(new SupportingFile("model/HeaderAwareResponse.mustache", modelsFolder, "HeaderAwareResponse.java"));
-            supportingFiles.add(new SupportingFile("ResponseHeadersDecoder.mustache", invokerFolder, "ResponseHeadersDecoder.java"));
+            supportingFiles.add(new SupportingFile("model/HttpResponse.mustache", modelsFolder, "HttpResponse.java"));
+            supportingFiles.add(new SupportingFile("JacksonResponseDecoder.mustache", invokerFolder, "JacksonResponseDecoder.java"));
         }
 
         if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || RETROFIT_2.equals(getLibrary()) || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || WEBCLIENT.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
@@ -670,12 +670,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 String path = op.path;
                 String method = "";
 
-                //If the client must exposes the headers we wrap the response type in the HeaderAwareResponse type
+                //If the client must exposes the headers we wrap the response type in the HttpResponse type
                 if(additionalProperties.containsKey(EXPOSE_RESPONSE_HEADERS)){
                     if(op.returnType != null){
-                        op.returnType= "HeaderAwareResponse<"+ op.returnType+">";
+                        op.returnType= "HttpResponse<"+ op.returnType+">";
                     }else{
-                        op.returnType= "HeaderAwareResponse<Void>";
+                        op.returnType= "HttpResponse<Void>";
                     }
                 }
 
