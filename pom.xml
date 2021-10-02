@@ -1193,9 +1193,8 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/typescript-axios/builds/with-npm-version</module>
-                <module>samples/client/petstore/typescript-axios/tests/default</module>
-                <module>samples/client/petstore/crystal</module>
+                <!-- TODO: move to github action or circleci
+                <module>samples/client/petstore/crystal</module>-->
                 <!-- servers -->
                 <module>samples/server/petstore/python-aiohttp</module>
                 <module>samples/server/petstore/python-aiohttp-srclayout</module>
@@ -1221,7 +1220,6 @@
                 <!-- commented out due to php ^7.3 || ^8.0 not in travis
                 <module>samples/client/petstore/php/OpenAPIClient-php</module> -->
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
-                <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
@@ -1358,6 +1356,7 @@
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
                 <module>samples/openapi3/client/petstore/go</module>
+                <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/server/petstore/go-api-server</module>
@@ -1385,6 +1384,8 @@
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-axios/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-axios/tests/default</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
