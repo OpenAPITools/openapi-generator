@@ -45,7 +45,7 @@ lazy val root = (project in file(".")).
 {{/threetenbp}}
       "com.squareup.okio" % "okio" % "1.17.5" % "compile",
 {{#useBeanValidation}}
-      "javax.validation" % "validation-api" % "2.0.1.Final" % "compile",
+      "jakarta.validation" % "jakarta.validation-api" % "2.0.2" % "compile",
 {{/useBeanValidation}}
 {{#performBeanValidation}}
       "org.hibernate" % "hibernate-validator" % "6.0.19.Final" % "compile",
