@@ -25,9 +25,9 @@ if [ "$NODE_INDEX" = "1" ]; then
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test haskell"
   # install haskell
-  curl -sSLk https://get.haskellstack.org/ | sh
-  stack upgrade
-  stack --version
+  #curl -sSLk https://get.haskellstack.org/ | sh
+  #stack upgrade
+  #stack --version
   # prepare r
   sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
   gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
