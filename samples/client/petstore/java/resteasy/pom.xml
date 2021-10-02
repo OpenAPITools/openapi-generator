@@ -184,10 +184,6 @@
                 <groupId>net.jcip</groupId>
                 <artifactId>jcip-annotations</artifactId>
                 </exclusion>
-                <exclusion>
-                  <groupId>javax.activation</groupId>
-                  <artifactId>activation</artifactId>
-                </exclusion>
               </exclusions>
         </dependency>
         <dependency>
@@ -202,10 +198,6 @@
               <exclusion>
                 <groupId>com.sun.mail</groupId>
                 <artifactId>javax.mail</artifactId>
-              </exclusion>
-              <exclusion>
-                <groupId>javax.activation</groupId>
-                <artifactId>activation</artifactId>
               </exclusion>
             </exclusions>
         </dependency>
