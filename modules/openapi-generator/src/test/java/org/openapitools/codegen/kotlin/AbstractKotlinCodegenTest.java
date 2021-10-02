@@ -113,21 +113,13 @@ public class AbstractKotlinCodegenTest {
 
     @Test
     public void convertModelName() {
-        Assert.assertEquals(codegen.toModelName("name"), "Name");
-        Assert.assertEquals(codegen.toModelName("$name"), "Name");
-        Assert.assertEquals(codegen.toModelName("nam#e"), "Name");
-        Assert.assertEquals(codegen.toModelName("$another-fake?"), "AnotherFake");
-        Assert.assertEquals(codegen.toModelName("1a"), "Model1a");
-        Assert.assertEquals(codegen.toModelName("1A"), "Model1A");
-        Assert.assertEquals(codegen.toModelName("AAAb"), "AAAb");
-        Assert.assertEquals(codegen.toModelName("aBB"), "ABB");
-        Assert.assertEquals(codegen.toModelName("AaBBa"), "AaBBa");
-        Assert.assertEquals(codegen.toModelName("A_B"), "AB");
-        Assert.assertEquals(codegen.toModelName("A-B"), "AB");
-        Assert.assertEquals(codegen.toModelName("Aa_Bb"), "AaBb");
-        Assert.assertEquals(codegen.toModelName("Aa-Bb"), "AaBb");
-        Assert.assertEquals(codegen.toModelName("Aa_bb"), "AaBb");
-        Assert.assertEquals(codegen.toModelName("Aa-bb"), "AaBb");
+        assertEquals(codegen.toModelName("$"), "Dollar");
+        assertEquals(codegen.toModelName("$$"), "DollarDollar");
+        assertEquals(codegen.toModelName("Pony?"), "PonyQuestionMark");
+        assertEquals(codegen.toModelName("$name"), "DollarName");
+        assertEquals(codegen.toModelName("nam#e"), "NamHashE");
+        assertEquals(codegen.toModelName("$another-fake?"), "DollarAnotherFakeQuestionMark");
+        assertEquals(codegen.toModelName("Pony>=>="), "PonyGreaterThanEqualGreaterThanEqual");
     }
 
     @Test
