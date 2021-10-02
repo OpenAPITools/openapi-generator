@@ -103,9 +103,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.2</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -170,6 +170,7 @@
     </repositories>
     <properties>
         <swagger-core-version>1.5.18</swagger-core-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <jetty-version>9.2.9.v20150224</jetty-version>
         <resteasy-version>3.0.11.Final</resteasy-version>
         <slf4j-version>1.6.3</slf4j-version>

@@ -96,9 +96,9 @@
             <version>${spring-version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -167,6 +167,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <jetty-version>9.2.15.v20160210</jetty-version>
         <slf4j-version>1.7.21</slf4j-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <junit-version>4.13.1</junit-version>
         <servlet-api-version>2.5</servlet-api-version>
         <springfox-version>2.8.0</springfox-version>
