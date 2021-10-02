@@ -65,9 +65,9 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.1.1</version>
+      <groupId>jakarta.ws.rs</groupId>
+      <artifactId>jakarta.ws.rs-api</artifactId>
+      <version>${jakarta.ws.rs-version}</version>
       <scope>provided</scope>
     </dependency>
   {{#java8}}
@@ -145,5 +145,6 @@
 {{#useBeanValidation}}
 	<beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
+    <jakarta.ws.rs-version>2.1.6</jakarta.ws.rs-version>
   </properties>
 </project>
