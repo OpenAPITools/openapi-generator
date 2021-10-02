@@ -39,6 +39,42 @@ export interface AdditionalPropertiesClass {
      * @memberof AdditionalPropertiesClass
      */
     'map_of_map_property'?: { [key: string]: { [key: string]: string; }; };
+    /**
+     * 
+     * @type {any}
+     * @memberof AdditionalPropertiesClass
+     */
+    'anytype_1'?: any;
+    /**
+     * 
+     * @type {object}
+     * @memberof AdditionalPropertiesClass
+     */
+    'map_with_undeclared_properties_anytype_1'?: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof AdditionalPropertiesClass
+     */
+    'map_with_undeclared_properties_anytype_2'?: object;
+    /**
+     * 
+     * @type {{ [key: string]: object; }}
+     * @memberof AdditionalPropertiesClass
+     */
+    'map_with_undeclared_properties_anytype_3'?: { [key: string]: object; };
+    /**
+     * an object with no declared properties and no undeclared properties, hence it\'s an empty map.
+     * @type {object}
+     * @memberof AdditionalPropertiesClass
+     */
+    'empty_map'?: object;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof AdditionalPropertiesClass
+     */
+    'map_with_undeclared_properties_string'?: { [key: string]: string; };
 }
 /**
  * 
@@ -96,6 +132,12 @@ export interface Apple {
      * @memberof Apple
      */
     'cultivar'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Apple
+     */
+    'origin'?: string;
 }
 /**
  * 
@@ -173,8 +215,6 @@ export interface ArrayTest {
  * @interface Banana
  */
 export interface Banana {
-    [key: string]: object | any;
-
     /**
      * 
      * @type {number}
@@ -200,6 +240,19 @@ export interface BananaReq {
      * @memberof BananaReq
      */
     'sweet'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface BasquePig
+ */
+export interface BasquePig {
+    /**
+     * 
+     * @type {string}
+     * @memberof BasquePig
+     */
+    'className': string;
 }
 /**
  * 
@@ -290,6 +343,62 @@ export interface Category {
     'name': string;
 }
 /**
+ * 
+ * @export
+ * @interface ChildCat
+ */
+export interface ChildCat extends ParentPet {
+    /**
+     * 
+     * @type {string}
+     * @memberof ChildCat
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ChildCat
+     */
+    'pet_type': ChildCatPetTypeEnum;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ChildCatPetTypeEnum {
+    ChildCat = 'ChildCat'
+}
+
+/**
+ * 
+ * @export
+ * @interface ChildCatAllOf
+ */
+export interface ChildCatAllOf {
+    /**
+     * 
+     * @type {string}
+     * @memberof ChildCatAllOf
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ChildCatAllOf
+     */
+    'pet_type'?: ChildCatAllOfPetTypeEnum;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ChildCatAllOfPetTypeEnum {
+    ChildCat = 'ChildCat'
+}
+
+/**
  * Model for testing model with \"_class\" property
  * @export
  * @interface ClassModel
@@ -318,6 +427,51 @@ export interface Client {
 /**
  * 
  * @export
+ * @interface ComplexQuadrilateral
+ */
+export interface ComplexQuadrilateral {
+    /**
+     * 
+     * @type {string}
+     * @memberof ComplexQuadrilateral
+     */
+    'shapeType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ComplexQuadrilateral
+     */
+    'quadrilateralType': string;
+}
+/**
+ * 
+ * @export
+ * @interface DanishPig
+ */
+export interface DanishPig {
+    /**
+     * 
+     * @type {string}
+     * @memberof DanishPig
+     */
+    'className': string;
+}
+/**
+ * 
+ * @export
+ * @interface DeprecatedObject
+ */
+export interface DeprecatedObject {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeprecatedObject
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
  * @interface Dog
  */
 export interface Dog extends Animal {
@@ -340,6 +494,39 @@ export interface DogAllOf {
      * @memberof DogAllOf
      */
     'breed'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface Drawing
+ */
+export interface Drawing {
+    [key: string]: Fruit | any;
+
+    /**
+     * 
+     * @type {Shape}
+     * @memberof Drawing
+     */
+    'mainShape'?: Shape;
+    /**
+     * 
+     * @type {ShapeOrNull}
+     * @memberof Drawing
+     */
+    'shapeOrNull'?: ShapeOrNull;
+    /**
+     * 
+     * @type {NullableShape}
+     * @memberof Drawing
+     */
+    'nullableShape'?: NullableShape | null;
+    /**
+     * 
+     * @type {Array<Shape>}
+     * @memberof Drawing
+     */
+    'shapes'?: Array<Shape>;
 }
 /**
  * 
@@ -419,6 +606,12 @@ export interface EnumTest {
      * @type {number}
      * @memberof EnumTest
      */
+    'enum_integer_only'?: EnumTestEnumIntegerOnlyEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof EnumTest
+     */
     'enum_number'?: EnumTestEnumNumberEnum;
     /**
      * 
@@ -476,11 +669,38 @@ export enum EnumTestEnumIntegerEnum {
     * @export
     * @enum {string}
     */
+export enum EnumTestEnumIntegerOnlyEnum {
+    NUMBER_2 = 2,
+    NUMBER_MINUS_2 = -2
+}
+/**
+    * @export
+    * @enum {string}
+    */
 export enum EnumTestEnumNumberEnum {
     NUMBER_1_DOT_1 = 1.1,
     NUMBER_MINUS_1_DOT_2 = -1.2
 }
 
+/**
+ * 
+ * @export
+ * @interface EquilateralTriangle
+ */
+export interface EquilateralTriangle {
+    /**
+     * 
+     * @type {string}
+     * @memberof EquilateralTriangle
+     */
+    'shapeType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof EquilateralTriangle
+     */
+    'triangleType': string;
+}
 /**
  * 
  * @export
@@ -557,6 +777,12 @@ export interface FormatTest {
     'double'?: number;
     /**
      * 
+     * @type {Decimal}
+     * @memberof FormatTest
+     */
+    'decimal'?: Decimal;
+    /**
+     * 
      * @type {string}
      * @memberof FormatTest
      */
@@ -620,7 +846,7 @@ export type Fruit = Apple | Banana;
  * @type FruitReq
  * @export
  */
-export type FruitReq = AppleReq | BananaReq;
+export type FruitReq = AppleReq | BananaReq | Null;
 
 /**
  * 
@@ -642,10 +868,29 @@ export interface GmFruit {
     'cultivar'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof GmFruit
+     */
+    'origin'?: string;
+    /**
+     * 
      * @type {number}
      * @memberof GmFruit
      */
     'lengthCm'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface GrandparentAnimal
+ */
+export interface GrandparentAnimal {
+    /**
+     * 
+     * @type {string}
+     * @memberof GrandparentAnimal
+     */
+    'pet_type': string;
 }
 /**
  * 
@@ -695,6 +940,25 @@ export interface InlineResponseDefault {
 /**
  * 
  * @export
+ * @interface IsoscelesTriangle
+ */
+export interface IsoscelesTriangle {
+    /**
+     * 
+     * @type {string}
+     * @memberof IsoscelesTriangle
+     */
+    'shapeType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof IsoscelesTriangle
+     */
+    'triangleType': string;
+}
+/**
+ * 
+ * @export
  * @interface List
  */
 export interface List {
@@ -709,7 +973,7 @@ export interface List {
  * @type Mammal
  * @export
  */
-export type Mammal = Whale | Zebra;
+export type Mammal = Pig | Whale | Zebra;
 
 /**
  * 
@@ -922,6 +1186,13 @@ export interface NullableClass {
     'object_items_nullable'?: { [key: string]: object; };
 }
 /**
+ * @type NullableShape
+ * The value may be a shape or the \'null\' value. The \'nullable\' attribute was introduced in OAS schema >= 3.0 and has been deprecated in OAS schema >= 3.1.
+ * @export
+ */
+export type NullableShape = Quadrilateral | Triangle;
+
+/**
  * 
  * @export
  * @interface NumberOnly
@@ -933,6 +1204,40 @@ export interface NumberOnly {
      * @memberof NumberOnly
      */
     'JustNumber'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface ObjectWithDeprecatedFields
+ */
+export interface ObjectWithDeprecatedFields {
+    /**
+     * 
+     * @type {string}
+     * @memberof ObjectWithDeprecatedFields
+     */
+    'uuid'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ObjectWithDeprecatedFields
+     * @deprecated
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {DeprecatedObject}
+     * @memberof ObjectWithDeprecatedFields
+     * @deprecated
+     */
+    'deprecatedRef'?: DeprecatedObject;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ObjectWithDeprecatedFields
+     * @deprecated
+     */
+    'bars'?: Array<string>;
 }
 /**
  * 
@@ -1064,6 +1369,13 @@ export enum OuterEnumIntegerDefaultValue {
 /**
  * 
  * @export
+ * @interface ParentPet
+ */
+export interface ParentPet extends GrandparentAnimal {
+}
+/**
+ * 
+ * @export
  * @interface Pet
  */
 export interface Pet {
@@ -1101,7 +1413,6 @@ export interface Pet {
      * pet status in the store
      * @type {string}
      * @memberof Pet
-     * @deprecated
      */
     'status'?: PetStatusEnum;
 }
@@ -1116,6 +1427,31 @@ export enum PetStatusEnum {
     Sold = 'sold'
 }
 
+/**
+ * @type Pig
+ * @export
+ */
+export type Pig = BasquePig | DanishPig;
+
+/**
+ * @type Quadrilateral
+ * @export
+ */
+export type Quadrilateral = ComplexQuadrilateral | SimpleQuadrilateral;
+
+/**
+ * 
+ * @export
+ * @interface QuadrilateralInterface
+ */
+export interface QuadrilateralInterface {
+    /**
+     * 
+     * @type {string}
+     * @memberof QuadrilateralInterface
+     */
+    'quadrilateralType': string;
+}
 /**
  * 
  * @export
@@ -1136,55 +1472,6 @@ export interface ReadOnlyFirst {
     'baz'?: string;
 }
 /**
- * 
- * @export
- * @interface ReadOnlyWithDefault
- */
-export interface ReadOnlyWithDefault {
-    /**
-     * 
-     * @type {string}
-     * @memberof ReadOnlyWithDefault
-     */
-    'prop1'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReadOnlyWithDefault
-     */
-    'prop2'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReadOnlyWithDefault
-     */
-    'prop3'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ReadOnlyWithDefault
-     */
-    'boolProp1'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ReadOnlyWithDefault
-     */
-    'boolProp2'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof ReadOnlyWithDefault
-     */
-    'intProp1'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ReadOnlyWithDefault
-     */
-    'intProp2'?: number;
-}
-/**
  * Model for testing reserved words
  * @export
  * @interface Return
@@ -1200,6 +1487,70 @@ export interface Return {
 /**
  * 
  * @export
+ * @interface ScaleneTriangle
+ */
+export interface ScaleneTriangle {
+    /**
+     * 
+     * @type {string}
+     * @memberof ScaleneTriangle
+     */
+    'shapeType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ScaleneTriangle
+     */
+    'triangleType': string;
+}
+/**
+ * @type Shape
+ * @export
+ */
+export type Shape = Quadrilateral | Triangle;
+
+/**
+ * 
+ * @export
+ * @interface ShapeInterface
+ */
+export interface ShapeInterface {
+    /**
+     * 
+     * @type {string}
+     * @memberof ShapeInterface
+     */
+    'shapeType': string;
+}
+/**
+ * @type ShapeOrNull
+ * The value may be a shape or the \'null\' value. This is introduced in OAS schema >= 3.1.
+ * @export
+ */
+export type ShapeOrNull = Null | Quadrilateral | Triangle;
+
+/**
+ * 
+ * @export
+ * @interface SimpleQuadrilateral
+ */
+export interface SimpleQuadrilateral {
+    /**
+     * 
+     * @type {string}
+     * @memberof SimpleQuadrilateral
+     */
+    'shapeType': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SimpleQuadrilateral
+     */
+    'quadrilateralType': string;
+}
+/**
+ * 
+ * @export
  * @interface SpecialModelName
  */
 export interface SpecialModelName {
@@ -1209,6 +1560,12 @@ export interface SpecialModelName {
      * @memberof SpecialModelName
      */
     '$special[property.name]'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SpecialModelName
+     */
+    '_special_model.name_'?: string;
 }
 /**
  * 
@@ -1228,6 +1585,25 @@ export interface Tag {
      * @memberof Tag
      */
     'name'?: string;
+}
+/**
+ * @type Triangle
+ * @export
+ */
+export type Triangle = EquilateralTriangle | IsoscelesTriangle | ScaleneTriangle;
+
+/**
+ * 
+ * @export
+ * @interface TriangleInterface
+ */
+export interface TriangleInterface {
+    /**
+     * 
+     * @type {string}
+     * @memberof TriangleInterface
+     */
+    'triangleType': string;
 }
 /**
  * 
@@ -1288,25 +1664,25 @@ export interface User {
      * @type {object}
      * @memberof User
      */
-    'arbitraryObject'?: object;
+    'objectWithNoDeclaredProps'?: object;
     /**
      * test code generation for nullable objects. Value must be a map of strings to values or the \'null\' value.
      * @type {object}
      * @memberof User
      */
-    'arbitraryNullableObject'?: object | null;
+    'objectWithNoDeclaredPropsNullable'?: object | null;
     /**
-     * test code generation for any type Value can be any type - string, number, boolean, array or object.
+     * test code generation for any type Here the \'type\' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
      * @type {any}
      * @memberof User
      */
-    'arbitraryTypeValue'?: any;
+    'anyTypeProp'?: any;
     /**
-     * test code generation for any type Value can be any type - string, number, boolean, array, object or the \'null\' value.
+     * test code generation for any type Here the \'type\' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The \'nullable\' attribute does not change the allowed values.
      * @type {any}
      * @memberof User
      */
-    'arbitraryNullableTypeValue'?: any | null;
+    'anyTypePropNullable'?: any | null;
 }
 /**
  * 
@@ -1339,6 +1715,8 @@ export interface Whale {
  * @interface Zebra
  */
 export interface Zebra {
+    [key: string]: object | any;
+
     /**
      * 
      * @type {string}
@@ -1727,6 +2105,36 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Array of Enums
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getArrayOfEnums: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fake/array-of-enums`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2255,50 +2663,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * To test unique items in header and query parameters
-         * @param {Set<string>} queryUnique 
-         * @param {Set<string>} headerUnique 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        testUniqueItemsHeaderAndQueryParameterCollectionFormat: async (queryUnique: Set<string>, headerUnique: Set<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'queryUnique' is not null or undefined
-            assertParamExists('testUniqueItemsHeaderAndQueryParameterCollectionFormat', 'queryUnique', queryUnique)
-            // verify required parameter 'headerUnique' is not null or undefined
-            assertParamExists('testUniqueItemsHeaderAndQueryParameterCollectionFormat', 'headerUnique', headerUnique)
-            const localVarPath = `/fake/test-unique-parameters`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (queryUnique) {
-                localVarQueryParameter['queryUnique'] = Array.from(queryUnique);
-            }
-
-            if (headerUnique) {
-                let mapped = Array.from(headerUnique).map(value => (<any>"Set<string>" !== "Set<string>") ? JSON.stringify(value) : (value || ""));
-                localVarHeaderParameter['headerUnique'] = mapped.join(COLLECTION_FORMATS["csv"]);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -2357,6 +2721,16 @@ export const FakeApiFp = function(configuration?: Configuration) {
          */
         async fakeOuterStringSerialize(body?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fakeOuterStringSerialize(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Array of Enums
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getArrayOfEnums(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<OuterEnum>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getArrayOfEnums(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2486,17 +2860,6 @@ export const FakeApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
-        /**
-         * To test unique items in header and query parameters
-         * @param {Set<string>} queryUnique 
-         * @param {Set<string>} headerUnique 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async testUniqueItemsHeaderAndQueryParameterCollectionFormat(queryUnique: Set<string>, headerUnique: Set<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Set<Pet>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testUniqueItemsHeaderAndQueryParameterCollectionFormat(queryUnique, headerUnique, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
     }
 };
 
@@ -2551,6 +2914,15 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          */
         fakeOuterStringSerialize(body?: string, options?: any): AxiosPromise<string> {
             return localVarFp.fakeOuterStringSerialize(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Array of Enums
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getArrayOfEnums(options?: any): AxiosPromise<Array<OuterEnum>> {
+            return localVarFp.getArrayOfEnums(options).then((request) => request(axios, basePath));
         },
         /**
          * For this test, the body for this request much reference a schema named `File`.
@@ -2670,16 +3042,6 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
         testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, options?: any): AxiosPromise<void> {
             return localVarFp.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options).then((request) => request(axios, basePath));
         },
-        /**
-         * To test unique items in header and query parameters
-         * @param {Set<string>} queryUnique 
-         * @param {Set<string>} headerUnique 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        testUniqueItemsHeaderAndQueryParameterCollectionFormat(queryUnique: Set<string>, headerUnique: Set<string>, options?: any): AxiosPromise<Set<Pet>> {
-            return localVarFp.testUniqueItemsHeaderAndQueryParameterCollectionFormat(queryUnique, headerUnique, options).then((request) => request(axios, basePath));
-        },
     };
 };
 
@@ -2743,6 +3105,17 @@ export class FakeApi extends BaseAPI {
      */
     public fakeOuterStringSerialize(body?: string, options?: AxiosRequestConfig) {
         return FakeApiFp(this.configuration).fakeOuterStringSerialize(body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Array of Enums
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FakeApi
+     */
+    public getArrayOfEnums(options?: AxiosRequestConfig) {
+        return FakeApiFp(this.configuration).getArrayOfEnums(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2879,18 +3252,6 @@ export class FakeApi extends BaseAPI {
      */
     public testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, options?: AxiosRequestConfig) {
         return FakeApiFp(this.configuration).testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * To test unique items in header and query parameters
-     * @param {Set<string>} queryUnique 
-     * @param {Set<string>} headerUnique 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FakeApi
-     */
-    public testUniqueItemsHeaderAndQueryParameterCollectionFormat(queryUnique: Set<string>, headerUnique: Set<string>, options?: AxiosRequestConfig) {
-        return FakeApiFp(this.configuration).testUniqueItemsHeaderAndQueryParameterCollectionFormat(queryUnique, headerUnique, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
