@@ -298,9 +298,9 @@
             <version>5.4.1.Final</version>
         </dependency>
         <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>el-api</artifactId>
-            <version>2.2</version>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+            <version>${jakarta.el-version}</version>
         </dependency>
         {{/performBeanValidation}}
         {{#parcelableModel}}
@@ -358,6 +358,9 @@
         <threetenbp-version>1.5.0</threetenbp-version>
         {{/threetenbp}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+{{#performBeanValidation}}
+        <jakarta.el-version>3.0.3</jakarta.el-version>
+{{/performBeanValidation}}
 {{#useBeanValidation}}
 		<beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
