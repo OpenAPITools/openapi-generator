@@ -21,28 +21,11 @@ cache:
   - $HOME/samples/client/petstore/php/OpenAPIToolsClient-php/vendor
   - $HOME/samples/client/petstore/ruby/vendor/bundle
   - $HOME/samples/client/petstore/python/.venv/
-  - $HOME/samples/openapi3/client/petstore/typescript/tests/default/node_modules
-  - $HOME/samples/openapi3/client/petstore/typescript/tests/jquery/node_modules
-  - $HOME/samples/openapi3/client/petstore/typescript/tests/object_params/node_modules
-  - $HOME/samples/openapi3/client/petstore/typescript/tests/inversify/node_modules
-  - $HOME/samples/client/petstore/typescript-node/npm/node_modules
-  - $HOME/samples/client/petstore/typescript-node/npm/typings/
-  - $HOME/samples/client/petstore/typescript-fetch/tests/default/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/tests/default/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/default/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/builds/default/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/with-npm-version/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
-  - $HOME/samples/client/petstore/typescript-angular/node_modules
-  - $HOME/samples/client/petstore/typescript-angular/typings
   - $HOME/samples/server/petstore/rust-server/target
   - $HOME/perl5
   - $HOME/.cargo
   - $HOME/.pub-cache
   - $HOME/samples/server/petstore/cpp-pistache/pistache
-  - $HOME/.npm  
   - $HOME/.rvm/gems/ruby-2.4.1
   - $HOME/website/node_modules/
   - $HOME/.cache/deno
@@ -88,11 +71,6 @@ before_install:
   - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests
   - gem install bundler
-  - nvm install 12.20.0
-  - nvm use 12.20.0
-  - npm install -g typescript
-  - npm install -g npm
-  - npm config set registry http://registry.npmjs.org/
   # set python 3.6.3 as default
   - source ~/virtualenv/python3.6/bin/activate
   # -- skip bash test to shorten build time
