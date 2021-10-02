@@ -25,7 +25,7 @@ if [ "$NODE_INDEX" = "1" ]; then
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test haskell"
   # install haskell
-  curl -sSL https://get.haskellstack.org/ | sh
+  curl -sSLk https://get.haskellstack.org/ | sh
   stack upgrade
   stack --version
   # prepare r
