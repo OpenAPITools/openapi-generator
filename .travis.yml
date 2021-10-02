@@ -58,12 +58,13 @@ before_install:
   - docker pull swaggerapi/petstore
   - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
   - docker ps -a
+  # comment out crystal installation as the tests will run on circleci or github action instead
   # install crystal
-  - echo 'deb http://download.opensuse.org/repositories/devel:/languages:/crystal/xUbuntu_16.04/ /' | sudo tee /etc/apt/sources.list.d/devel:languages:crystal.list
-  - curl -fsSL https://download.opensuse.org/repositories/devel:languages:crystal/xUbuntu_16.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/devel_languages_crystal.gpg > /dev/null
-  - sudo apt update
-  - sudo apt install crystal
-  - crystal --version
+  #- echo 'deb http://download.opensuse.org/repositories/devel:/languages:/crystal/xUbuntu_16.04/ /' | sudo tee /etc/apt/sources.list.d/devel:languages:crystal.list
+  #- curl -fsSL https://download.opensuse.org/repositories/devel:languages:crystal/xUbuntu_16.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/devel_languages_crystal.gpg > /dev/null
+  #- sudo apt update
+  #- sudo apt install crystal
+  #- crystal --version
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.22.0
   - export PATH="$HOME/.yarn/bin:$PATH"
   # install rust
