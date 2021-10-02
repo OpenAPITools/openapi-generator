@@ -112,7 +112,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:$gson_version'
     implementation "org.threeten:threetenbp:$threetenbp_version"
     implementation "com.squareup.okio:okio:$okio_version"
-    implementation "javax.validation:validation-api:2.0.1.Final"
+    implementation "jakarta.validation:jakarta.validation-api:2.0.2"
     implementation "org.hibernate:hibernate-validator:6.0.19.Final"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"

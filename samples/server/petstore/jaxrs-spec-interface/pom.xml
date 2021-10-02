@@ -73,14 +73,15 @@
     </dependency>
     <!-- Bean Validation API support -->
     <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
-        <version>1.1.0.Final</version>
+        <groupId>jakarta.validation</groupId>
+        <artifactId>jakarta.validation-api</artifactId>
+        <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
   </dependencies>
   <properties>
     <jackson-version>2.9.9</jackson-version>
     <junit-version>4.13.1</junit-version>
+	<beanvalidation-version>2.0.2</beanvalidation-version>
   </properties>
 </project>

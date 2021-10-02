@@ -12,7 +12,7 @@ lazy val root = (project in file(".")).
       "com.squareup.retrofit2" % "retrofit" % "2.3.0" % "compile",
       "com.squareup.retrofit2" % "converter-scalars" % "2.3.0" % "compile",
       "com.typesafe.play" % "play-ahc-ws_2.12" % "2.6.7" % "compile",
-      "javax.validation" % "validation-api" % "1.1.0.Final" % "compile",
+      "jakarta.validation" % "jakarta.validation-api" % "2.0.2" % "compile",
       "com.squareup.retrofit2" % "converter-jackson" % "2.3.0" % "compile",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.5" % "compile",

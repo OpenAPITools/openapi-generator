@@ -120,7 +120,7 @@ dependencies {
     implementation "io.gsonfire:gson-fire:$json_fire_version"
     implementation "org.threeten:threetenbp:$threetenbp_version"
     implementation "com.typesafe.play:play-ahc-ws_2.12:$play_version"
-    implementation "javax.validation:validation-api:1.1.0.Final"
+    implementation "jakarta.validation:jakarta.validation-api:2.0.2"
     implementation "com.squareup.retrofit2:converter-jackson:$retrofit_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"

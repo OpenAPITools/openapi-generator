@@ -44,8 +44,8 @@
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>javax.validation</groupId>
-                        <artifactId>validation-api</artifactId>
+                        <groupId>jakarta.validation</groupId>
+                        <artifactId>jakarta.validation-api</artifactId>
                         <version>${beanvalidation-version}</version>
                     </dependency>
                 </dependencies>
@@ -140,8 +140,8 @@
         </dependency>
         <!-- Bean Validation API support -->
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
             <version>${beanvalidation-version}</version>
             <scope>provided</scope>
         </dependency>
@@ -168,7 +168,7 @@
         <springfox-version>2.8.0</springfox-version>
         <jackson-version>2.9.9</jackson-version>
         <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
-        <beanvalidation-version>1.1.0.Final</beanvalidation-version>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
         <spring-version>4.3.20.RELEASE</spring-version>
         <jackson-databind-version>2.9.8</jackson-databind-version>
     </properties>

@@ -79,12 +79,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [PSPetstore/Model.ApiResponse](docs/ApiResponse.md)
- - [PSPetstore/Model.Category](docs/Category.md)
- - [PSPetstore/Model.Order](docs/Order.md)
- - [PSPetstore/Model.Pet](docs/Pet.md)
- - [PSPetstore/Model.Tag](docs/Tag.md)
- - [PSPetstore/Model.User](docs/User.md)
+ - [PSPetstore\Model.ApiResponse](docs/ApiResponse.md)
+ - [PSPetstore\Model.Category](docs/Category.md)
+ - [PSPetstore\Model.Order](docs/Order.md)
+ - [PSPetstore\Model.Pet](docs/Pet.md)
+ - [PSPetstore\Model.Tag](docs/Tag.md)
+ - [PSPetstore\Model.User](docs/User.md)
 
 
 ## Documentation for Authorization
