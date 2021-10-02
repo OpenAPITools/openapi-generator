@@ -62,8 +62,8 @@
 {{#useBeanValidation}}
         <dependencies>
           <dependency>
-              <groupId>javax.validation</groupId>
-              <artifactId>validation-api</artifactId>
+              <groupId>jakarta.validation</groupId>
+              <artifactId>jakarta.validation-api</artifactId>
               <version>${beanvalidation-version}</version>
           </dependency>
         </dependencies>
@@ -193,8 +193,8 @@
 {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
+        <groupId>jakarta.validation</groupId>
+        <artifactId>jakarta.validation-api</artifactId>
         <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
@@ -216,7 +216,7 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.18</swagger-core-version>
 {{#useBeanValidation}}
-    <beanvalidation-version>1.1.0.Final</beanvalidation-version>
+    <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
     <jetty-version>9.2.9.v20150224</jetty-version>
     <jersey2-version>2.22.2</jersey2-version>
