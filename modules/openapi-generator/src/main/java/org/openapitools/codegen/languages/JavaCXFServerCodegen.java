@@ -354,5 +354,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
         }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
     }
 }

@@ -142,7 +142,6 @@ module Petstore
       @server_operation_variables = {}
       @api_key = {}
       @api_key_prefix = {}
-      @timeout = 0
       @client_side_validation = true
       @ssl_verify = true
       @ssl_verify_mode = nil
@@ -152,6 +151,7 @@ module Petstore
       @middlewares = []
       @request_middlewares = []
       @response_middlewares = []
+      @timeout = 60
       @debugging = false
       @inject_format = false
       @force_ending_format = false

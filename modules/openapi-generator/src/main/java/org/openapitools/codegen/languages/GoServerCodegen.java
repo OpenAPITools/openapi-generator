@@ -385,5 +385,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
         }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
     }
 }
