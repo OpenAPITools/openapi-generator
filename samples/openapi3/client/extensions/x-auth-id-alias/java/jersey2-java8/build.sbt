@@ -20,7 +20,7 @@ lazy val root = (project in file(".")).
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.5.1" % "compile",
       "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.9.10" % "compile",
       "com.brsanthu" % "migbase64" % "2.2",
-      "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5" % "compile",
+      "javax.annotation" % "javax.annotation-api" % "1.3.2" % "compile",
       "junit" % "junit" % "4.13.1" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
