@@ -1,0 +1,37 @@
+package org.openapitools.client;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.Response;
+import feign.jackson.JacksonDecoder;
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+
+import org.openapitools.client.model.HttpResponse;
+
+public class JacksonResponseDecoder extends JacksonDecoder {
+
+    public JacksonResponseDecoder(ObjectMapper mapper) {
+        super(mapper);
+    }
+
+    @Override
+    public Object decode(Response response, Type type) throws IOException {
+        Map<String, Collection<String>> responseHeaders = Collections.unmodifiableMap(response.headers());
+
+        //To correctly use this type the type must be a parameterized Response
+        Type responseBodyType;
+        if (Response.class.getName().equals(((ParameterizedTypeImpl) type).getRawType().getName())) {
+            responseBodyType = ((ParameterizedTypeImpl) type).getActualTypeArguments()[0];
+        } else {
+            responseBodyType = type;
+        }
+
+        Object body = super.decode(response, responseBodyType);
+        return new HttpResponse(responseHeaders, body);
+    }
+}
