@@ -323,7 +323,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
             ArrayList<String> pathTemplateNames = new ArrayList<String>();
             Matcher matcher = pattern.matcher(o.path);
-            StringBuilder buffer = new StringBuilder();
+            StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
                 String pathTemplateName = matcher.group(1);
                 matcher.appendReplacement(buffer, "\", " + camelize(pathTemplateName) + ", \"");
