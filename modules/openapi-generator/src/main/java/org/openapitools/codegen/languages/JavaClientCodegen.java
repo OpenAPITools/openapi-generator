@@ -63,7 +63,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
-    public static final String EXPOSE_RESPONSE_HEADERS = "exposeResponseHeaders";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -114,7 +113,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean dynamicOperations = false;
     protected String authFolder;
     protected String serializationLibrary = null;
-    protected boolean exposeResponseHeaders = false;
 
     public JavaClientCodegen() {
         super();
@@ -156,7 +154,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
-        cliOptions.add(CliOption.newBoolean(EXPOSE_RESPONSE_HEADERS, "Property used by feign client to expose the response headers on the API. It wraps the response type on a class that contains both the headers and the deserialized body.", this.exposeResponseHeaders));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -383,9 +380,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (FEIGN.equals(getLibrary())) {
             modelDocTemplateFiles.remove("model_doc.mustache");
             apiDocTemplateFiles.remove("api_doc.mustache");
-        }
-
-        if (FEIGN.equals(getLibrary()) && additionalProperties.containsKey(EXPOSE_RESPONSE_HEADERS)) {
+            //Templates to decode response headers
             supportingFiles.add(new SupportingFile("model/HttpResponse.mustache", modelsFolder, "HttpResponse.java"));
             supportingFiles.add(new SupportingFile("JacksonResponseDecoder.mustache", invokerFolder, "JacksonResponseDecoder.java"));
         }
@@ -669,15 +664,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             for (CodegenOperation op : operationList) {
                 String path = op.path;
                 String method = "";
-
-                //If the client must exposes the headers we wrap the response type in the HttpResponse type
-                if(additionalProperties.containsKey(EXPOSE_RESPONSE_HEADERS)){
-                    if(op.returnType != null){
-                        op.returnType= "HttpResponse<"+ op.returnType+">";
-                    }else{
-                        op.returnType= "HttpResponse<Void>";
-                    }
-                }
 
                 // if a custom method is found at the end of the path, cut it off for later
                 Matcher m = methodPattern.matcher(path);
