@@ -142,13 +142,13 @@ module Petstore
       @server_operation_variables = {}
       @api_key = {}
       @api_key_prefix = {}
-      @timeout = 0
       @client_side_validation = true
       @ssl_verify = true
       @ssl_verify_mode = nil
       @ssl_ca_file = nil
       @ssl_client_cert = nil
       @ssl_client_key = nil
+      @timeout = 60
       @debugging = false
       @inject_format = false
       @force_ending_format = false
