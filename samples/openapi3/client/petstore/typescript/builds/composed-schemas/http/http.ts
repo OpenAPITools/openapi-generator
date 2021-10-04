@@ -35,7 +35,7 @@ export class HttpException extends Error {
 /**
  * Represents the body of an outgoing HTTP request.
  */
-export type RequestBody = undefined | string | FormData;
+export type RequestBody = undefined | string | FormData | URLSearchParams;
 
 /**
  * Represents an HTTP request context
@@ -200,6 +200,22 @@ export class ResponseContext {
                 type: contentType
             });
         }
+    }
+
+    /**
+     * Use a heuristic to get a body of unknown data structure.
+     * Return as string if possible, otherwise as binary.
+     */
+    public getBodyAsAny(): Promise<string | Blob | undefined> {
+        try {
+            return this.body.text();
+        } catch {}
+
+        try {
+            return this.body.binary();
+        } catch {}
+
+        return Promise.resolve(undefined);
     }
 }
 

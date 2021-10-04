@@ -17,7 +17,7 @@ Feature | HTTP request | Description
 [**test_group_parameters**](FAKE_API.md#test_group_parameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FAKE_API.md#test_inline_additional_properties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FAKE_API.md#test_json_form_data) | **Get** /fake/jsonFormData | test json serialization of form data
-[**test_query_parameter_collection_format**](FAKE_API.md#test_query_parameter_collection_format) | **Put** /fake/test-query-paramters | 
+[**test_query_parameter_collection_format**](FAKE_API.md#test_query_parameter_collection_format) | **Put** /fake/test-query-parameters | 
 
 
 # **create_xml_item**

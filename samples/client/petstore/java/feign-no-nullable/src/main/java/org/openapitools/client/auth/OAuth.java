@@ -2,10 +2,10 @@ package org.openapitools.client.auth;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import feign.Request.HttpMethod;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import feign.RetryableException;
+
+import java.util.Collection;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public abstract class OAuth implements RequestInterceptor {
@@ -34,25 +34,27 @@ public abstract class OAuth implements RequestInterceptor {
   @Override
   public void apply(RequestTemplate template) {
     // If the request already have an authorization (eg. Basic auth), do nothing
-    if (template.headers().containsKey("Authorization")) {
+    if (requestContainsNonOauthAuthorization(template)) {
       return;
     }
-    // If first time, get the token
-    if (expirationTimeMillis == null || System.currentTimeMillis() >= expirationTimeMillis) {
-      updateAccessToken(template);
-    }
-    if (getAccessToken() != null) {
-      template.header("Authorization", "Bearer " + getAccessToken());
+    String accessToken = getAccessToken();
+    if (accessToken != null) {
+      template.header("Authorization", "Bearer " + accessToken);
     }
   }
 
-  private synchronized void updateAccessToken(RequestTemplate template) {
-    OAuth2AccessToken accessTokenResponse;
-    try {
-      accessTokenResponse = getOAuth2AccessToken();
-    } catch (Exception e) {
-      throw new RetryableException(0, e.getMessage(), HttpMethod.POST, e, null, template.request());
+  private boolean requestContainsNonOauthAuthorization(RequestTemplate template) {
+    Collection<String> authorizations = template.headers().get("Authorization");
+    if (authorizations == null) {
+        return false;
     }
+    return !authorizations.stream()
+            .anyMatch(authHeader -> !authHeader.equalsIgnoreCase("Bearer"));
+  }
+
+  private synchronized void updateAccessToken() {
+    OAuth2AccessToken accessTokenResponse;
+    accessTokenResponse = getOAuth2AccessToken();
     if (accessTokenResponse != null && accessTokenResponse.getAccessToken() != null) {
       setAccessToken(accessTokenResponse.getAccessToken(), accessTokenResponse.getExpiresIn());
       if (accessTokenListener != null) {
@@ -70,9 +72,18 @@ public abstract class OAuth implements RequestInterceptor {
   }
 
   public synchronized String getAccessToken() {
+    // If first time, get the token
+    if (expirationTimeMillis == null || System.currentTimeMillis() >= expirationTimeMillis) {
+      updateAccessToken();
+    }
     return accessToken;
   }
 
+  /**
+   * Manually sets the access token
+   * @param accessToken The access token
+   * @param expiresIn Seconds until the token expires
+   */
   public synchronized void setAccessToken(String accessToken, Integer expiresIn) {
     this.accessToken = accessToken;
     this.expirationTimeMillis = expiresIn == null ? null : System.currentTimeMillis() + expiresIn * MILLIS_PER_SECOND;

@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.FileSchemaTestClass")
-public typealias FileSchemaTestClass = PetstoreClient.FileSchemaTestClass
+@available(*, deprecated, renamed: "PetstoreClientAPI.FileSchemaTestClass")
+public typealias FileSchemaTestClass = PetstoreClientAPI.FileSchemaTestClass
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 public final class FileSchemaTestClass: Codable, Hashable {
 

@@ -36,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return code;
   }
 
+  @JsonProperty("code")
   public void setCode(Integer code) {
     this.code = code;
   }
@@ -56,6 +57,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(String type) {
     this.type = type;
   }
@@ -76,6 +78,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return message;
   }
 
+  @JsonProperty("message")
   public void setMessage(String message) {
     this.message = message;
   }
