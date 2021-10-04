@@ -266,5 +266,6 @@ module Petstore
 
       url
     end
+
   end
 end
