@@ -164,7 +164,7 @@ public interface {{classname}} extends ApiClient.Api {
           "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
       })
-   HttpResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) Map<String, Object> queryParams);
+   HttpResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isBodyParam}}{{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**

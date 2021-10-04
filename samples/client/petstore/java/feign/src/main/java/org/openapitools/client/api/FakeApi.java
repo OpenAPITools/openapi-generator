@@ -126,7 +126,7 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: application/json",
           "header_1: {header1}"
       })
-   HttpResponse<void> fakeHttpSignatureTestWithHttpInfo(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   HttpResponse<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -406,7 +406,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
       })
-   HttpResponse<void> testBodyWithQueryParamsWithHttpInfo(User user, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   HttpResponse<Void> testBodyWithQueryParamsWithHttpInfo(User user, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -605,7 +605,7 @@ public interface FakeApi extends ApiClient.Api {
       
           "enum_header_string: {enumHeaderString}"
       })
-   HttpResponse<void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   HttpResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -722,7 +722,7 @@ public interface FakeApi extends ApiClient.Api {
       
           "boolean_group: {booleanGroup}"
       })
-   HttpResponse<void> testGroupParametersWithHttpInfo(@Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("booleanGroup") Boolean booleanGroup, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   HttpResponse<Void> testGroupParametersWithHttpInfo(@Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("booleanGroup") Boolean booleanGroup, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -887,7 +887,7 @@ public interface FakeApi extends ApiClient.Api {
       @Headers({
     "Accept: application/json",
       })
-   HttpResponse<void> testQueryParameterCollectionFormatWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
+   HttpResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
