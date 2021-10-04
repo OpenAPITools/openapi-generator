@@ -86,7 +86,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun createUserWithHttpInfo(body: User) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = createUserRequestConfig(body = body)
 
-        return request<User, Unit>(
+        return@withContext request<User, Unit>(
             localVariableConfig
         )
     }
@@ -152,7 +152,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun createUsersWithArrayInputWithHttpInfo(body: kotlin.collections.List<User>) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = createUsersWithArrayInputRequestConfig(body = body)
 
-        return request<kotlin.collections.List<User>, Unit>(
+        return@withContext request<kotlin.collections.List<User>, Unit>(
             localVariableConfig
         )
     }
@@ -218,7 +218,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun createUsersWithListInputWithHttpInfo(body: kotlin.collections.List<User>) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = createUsersWithListInputRequestConfig(body = body)
 
-        return request<kotlin.collections.List<User>, Unit>(
+        return@withContext request<kotlin.collections.List<User>, Unit>(
             localVariableConfig
         )
     }
@@ -284,7 +284,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun deleteUserWithHttpInfo(username: kotlin.String) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = deleteUserRequestConfig(username = username)
 
-        return request<Unit, Unit>(
+        return@withContext request<Unit, Unit>(
             localVariableConfig
         )
     }
@@ -352,7 +352,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun getUserByNameWithHttpInfo(username: kotlin.String) : ApiInfrastructureResponse<User?> = withContext(Dispatchers.IO) {
         val localVariableConfig = getUserByNameRequestConfig(username = username)
 
-        return request<Unit, User>(
+        return@withContext request<Unit, User>(
             localVariableConfig
         )
     }
@@ -422,7 +422,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun loginUserWithHttpInfo(username: kotlin.String, password: kotlin.String) : ApiInfrastructureResponse<kotlin.String?> = withContext(Dispatchers.IO) {
         val localVariableConfig = loginUserRequestConfig(username = username, password = password)
 
-        return request<Unit, kotlin.String>(
+        return@withContext request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
@@ -491,7 +491,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun logoutUserWithHttpInfo() : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = logoutUserRequestConfig()
 
-        return request<Unit, Unit>(
+        return@withContext request<Unit, Unit>(
             localVariableConfig
         )
     }
@@ -558,7 +558,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun updateUserWithHttpInfo(username: kotlin.String, body: User) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = updateUserRequestConfig(username = username, body = body)
 
-        return request<User, Unit>(
+        return@withContext request<User, Unit>(
             localVariableConfig
         )
     }

@@ -86,7 +86,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     suspend fun deleteOrderWithHttpInfo(orderId: kotlin.String) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
 
-        return request<Unit, Unit>(
+        return@withContext request<Unit, Unit>(
             localVariableConfig
         )
     }
@@ -152,7 +152,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     suspend fun getInventoryWithHttpInfo() : ApiInfrastructureResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> = withContext(Dispatchers.IO) {
         val localVariableConfig = getInventoryRequestConfig()
 
-        return request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
+        return@withContext request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
             localVariableConfig
         )
     }
@@ -219,7 +219,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     suspend fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : ApiInfrastructureResponse<Order?> = withContext(Dispatchers.IO) {
         val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
 
-        return request<Unit, Order>(
+        return@withContext request<Unit, Order>(
             localVariableConfig
         )
     }
@@ -287,7 +287,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     suspend fun placeOrderWithHttpInfo(body: Order) : ApiInfrastructureResponse<Order?> = withContext(Dispatchers.IO) {
         val localVariableConfig = placeOrderRequestConfig(body = body)
 
-        return request<Order, Order>(
+        return@withContext request<Order, Order>(
             localVariableConfig
         )
     }

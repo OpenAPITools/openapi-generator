@@ -87,7 +87,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun addPetWithHttpInfo(body: Pet) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = addPetRequestConfig(body = body)
 
-        return request<Pet, Unit>(
+        return@withContext request<Pet, Unit>(
             localVariableConfig
         )
     }
@@ -155,7 +155,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String?) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = deletePetRequestConfig(petId = petId, apiKey = apiKey)
 
-        return request<Unit, Unit>(
+        return@withContext request<Unit, Unit>(
             localVariableConfig
         )
     }
@@ -225,7 +225,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<kotlin.String>) : ApiInfrastructureResponse<kotlin.collections.List<Pet>?> = withContext(Dispatchers.IO) {
         val localVariableConfig = findPetsByStatusRequestConfig(status = status)
 
-        return request<Unit, kotlin.collections.List<Pet>>(
+        return@withContext request<Unit, kotlin.collections.List<Pet>>(
             localVariableConfig
         )
     }
@@ -300,7 +300,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         @Suppress("DEPRECATION")
         val localVariableConfig = findPetsByTagsRequestConfig(tags = tags)
 
-        return request<Unit, kotlin.collections.List<Pet>>(
+        return@withContext request<Unit, kotlin.collections.List<Pet>>(
             localVariableConfig
         )
     }
@@ -372,7 +372,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun getPetByIdWithHttpInfo(petId: kotlin.Long) : ApiInfrastructureResponse<Pet?> = withContext(Dispatchers.IO) {
         val localVariableConfig = getPetByIdRequestConfig(petId = petId)
 
-        return request<Unit, Pet>(
+        return@withContext request<Unit, Pet>(
             localVariableConfig
         )
     }
@@ -438,7 +438,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun updatePetWithHttpInfo(body: Pet) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = updatePetRequestConfig(body = body)
 
-        return request<Pet, Unit>(
+        return@withContext request<Pet, Unit>(
             localVariableConfig
         )
     }
@@ -508,7 +508,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = updatePetWithFormRequestConfig(petId = petId, name = name, status = status)
 
-        return request<Map<String, Any?>, Unit>(
+        return@withContext request<Map<String, Any?>, Unit>(
             localVariableConfig
         )
     }
@@ -582,7 +582,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     suspend fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiInfrastructureResponse<ApiResponse?> = withContext(Dispatchers.IO) {
         val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
 
-        return request<Map<String, Any?>, ApiResponse>(
+        return@withContext request<Map<String, Any?>, ApiResponse>(
             localVariableConfig
         )
     }
