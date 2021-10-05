@@ -12,7 +12,7 @@ part of openapi.api;
 
 
 class FakeClassnameTags123Api {
-  FakeClassnameTags123Api(ApiClient apiClient) : apiClient = apiClient ?? defaultApiClient;
+  FakeClassnameTags123Api(ApiClient? apiClient) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
@@ -70,7 +70,7 @@ class FakeClassnameTags123Api {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
         }
     return Future<ModelClient>.value();

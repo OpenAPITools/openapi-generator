@@ -12,7 +12,7 @@ part of openapi.api;
 
 
 class FakeApi {
-  FakeApi(ApiClient apiClient) : apiClient = apiClient ?? defaultApiClient;
+  FakeApi(ApiClient? apiClient) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
@@ -55,7 +55,7 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
 
       return HealthCheckResult.fromJson(json.decode(response.body));
     }
@@ -76,7 +76,7 @@ class FakeApi {
   ///
   /// * [String] header1:
   ///   header parameter
-  Future<Response> fakeHttpSignatureTestWithHttpInfo(Pet pet, { String query1, String header1, }) async {
+  Future<Response> fakeHttpSignatureTestWithHttpInfo(Pet pet, { String? query1, String? header1, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/fake/http-signature-test';
@@ -139,7 +139,7 @@ class FakeApi {
   ///
   /// * [bool] body:
   ///   Input boolean as post body
-  Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool body, }) async {
+  Future<Response> fakeOuterBooleanSerializeWithHttpInfo({ bool? body, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/fake/outer/boolean';
@@ -181,7 +181,7 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
 
       return response.body as bool;
     }
@@ -196,7 +196,7 @@ class FakeApi {
   ///
   /// * [OuterComposite] outerComposite:
   ///   Input composite as post body
-  Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite outerComposite, }) async {
+  Future<Response> fakeOuterCompositeSerializeWithHttpInfo({ OuterComposite? outerComposite, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/fake/outer/composite';
@@ -238,7 +238,7 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
 
       return OuterComposite.fromJson(json.decode(response.body));
     }
@@ -253,7 +253,7 @@ class FakeApi {
   ///
   /// * [num] body:
   ///   Input number as post body
-  Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num body, }) async {
+  Future<Response> fakeOuterNumberSerializeWithHttpInfo({ num? body, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/fake/outer/number';
@@ -295,7 +295,7 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
 
       return response.body as num;
     }
@@ -310,7 +310,7 @@ class FakeApi {
   ///
   /// * [String] body:
   ///   Input string as post body
-  Future<Response> fakeOuterStringSerializeWithHttpInfo({ String body, }) async {
+  Future<Response> fakeOuterStringSerializeWithHttpInfo({ String? body, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/fake/outer/string';
@@ -352,7 +352,7 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
 
       return response.body as String;
     }
@@ -409,7 +409,7 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
 
       return OuterObjectWithEnumProperty.fromJson(json.decode(response.body));
     }
@@ -614,7 +614,7 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
 
       return ModelClient.fromJson(json.decode(response.body));
     }
@@ -670,7 +670,7 @@ class FakeApi {
   ///
   /// * [String] callback:
   ///   None
-  Future<Response> testEndpointParametersWithHttpInfo(num number, double double_, String patternWithoutDelimiter, String byte, { int integer, int int32, int int64, double float, String string, MultipartFile binary, DateTime date, DateTime dateTime, String password, String callback, }) async {
+  Future<Response> testEndpointParametersWithHttpInfo(num number, double double_, String patternWithoutDelimiter, String byte, { int? integer, int? int32, int? int64, double? float, String? string, MultipartFile? binary, DateTime? date, DateTime? dateTime, String? password, String? callback, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/fake';
@@ -822,7 +822,7 @@ class FakeApi {
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<Response> testEnumParametersWithHttpInfo({ List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, int enumQueryInteger, double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, }) async {
+  Future<Response> testEnumParametersWithHttpInfo({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<String>? enumFormStringArray, String? enumFormString, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/fake';
@@ -937,7 +937,7 @@ class FakeApi {
   ///
   /// * [int] int64Group:
   ///   Integer in group parameters
-  Future<Response> testGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int stringGroup, bool booleanGroup, int int64Group, }) async {
+  Future<Response> testGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, int requiredInt64Group, { int? stringGroup, bool? booleanGroup, int? int64Group, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/fake';
@@ -1138,7 +1138,7 @@ class FakeApi {
   /// * [String] allowEmpty (required):
   ///
   /// * [Map<String, String>] language:
-  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String> language, }) async {
+  Future<Response> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/fake/test-query-parameters';

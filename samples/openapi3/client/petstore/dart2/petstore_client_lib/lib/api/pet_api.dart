@@ -12,7 +12,7 @@ part of openapi.api;
 
 
 class PetApi {
-  PetApi(ApiClient apiClient) : apiClient = apiClient ?? defaultApiClient;
+  PetApi(ApiClient? apiClient) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
@@ -66,7 +66,7 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
         }
     return Future<Pet>.value();
@@ -82,7 +82,7 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<Response> deletePetWithHttpInfo(int petId, { String apiKey, }) async {
+  Future<Response> deletePetWithHttpInfo(int petId, { String? apiKey, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
@@ -186,7 +186,7 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
@@ -251,7 +251,7 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
@@ -315,7 +315,7 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
         }
     return Future<Pet>.value();
@@ -371,7 +371,7 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
         }
     return Future<Pet>.value();
@@ -391,7 +391,7 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String name, String status, }) async {
+  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String? name, String? status, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
@@ -459,7 +459,7 @@ class PetApi {
   ///
   /// * [MultipartFile] file:
   ///   file to upload
-  Future<Response> uploadFileWithHttpInfo(int petId, { String additionalMetadata, MultipartFile file, }) async {
+  Future<Response> uploadFileWithHttpInfo(int petId, { String? additionalMetadata, MultipartFile? file, }) async {
 
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}/uploadImage'
@@ -522,7 +522,7 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
         }
     return Future<ApiResponse>.value();

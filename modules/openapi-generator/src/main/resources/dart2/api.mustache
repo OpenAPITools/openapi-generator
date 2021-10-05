@@ -3,7 +3,7 @@
 {{#operations}}
 
 class {{{classname}}} {
-  {{{classname}}}(ApiClient apiClient) : apiClient = apiClient ?? defaultApiClient;
+  {{{classname}}}(ApiClient? apiClient) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
   {{#operation}}
@@ -49,7 +49,7 @@ class {{{classname}}} {
   ///
     {{/-last}}
   {{/allParams}}
-  Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}}? {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
   {{#hasParams}}
 
   {{/hasParams}}
@@ -175,7 +175,7 @@ class {{{classname}}} {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
     {{#native_serialization}}
     {{#isArray}}
       final responseBody = await _decodeBodyBytes(response);

@@ -10,10 +10,9 @@
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
 
-
 /// tests for AnotherFakeApi
 void main() {
-  final instance = AnotherFakeApi();
+  final instance = AnotherFakeApi(null);
 
   group('tests for AnotherFakeApi', () {
     // To test special tags
@@ -24,6 +23,5 @@ void main() {
     test('test call123testSpecialTags', () async {
       // TODO
     });
-
   });
 }
