@@ -2287,9 +2287,9 @@ call_testEndpointParameters() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2323,9 +2323,9 @@ call_testEnumParameters() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2359,9 +2359,9 @@ call_testGroupParameters() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2473,9 +2473,9 @@ call_testJsonFormData() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2509,9 +2509,9 @@ call_testQueryParameterCollectionFormat() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2699,9 +2699,9 @@ call_deletePet() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2735,9 +2735,9 @@ call_findPetsByStatus() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2771,9 +2771,9 @@ call_findPetsByTags() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2807,9 +2807,9 @@ call_getPetById() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2919,9 +2919,9 @@ call_updatePetWithForm() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2955,9 +2955,9 @@ call_uploadFile() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -2991,9 +2991,9 @@ call_uploadFileWithRequiredFile() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3027,9 +3027,9 @@ call_deleteOrder() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3063,9 +3063,9 @@ call_getInventory() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3099,9 +3099,9 @@ call_getOrderById() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3411,9 +3411,9 @@ call_deleteUser() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3447,9 +3447,9 @@ call_getUserByName() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3483,9 +3483,9 @@ call_loginUser() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 
@@ -3519,9 +3519,9 @@ call_logoutUser() {
         basic_auth_option="-u ${basic_auth_credential}"
     fi
     if [[ "$print_curl" = true ]]; then
-        echo "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
-        eval "curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+        eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
 }
 

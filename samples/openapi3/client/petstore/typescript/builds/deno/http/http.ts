@@ -222,6 +222,22 @@ export class ResponseContext {
             });
         }
     }
+
+    /**
+     * Use a heuristic to get a body of unknown data structure.
+     * Return as string if possible, otherwise as binary.
+     */
+    public getBodyAsAny(): Promise<string | Blob | undefined> {
+        try {
+            return this.body.text();
+        } catch {}
+
+        try {
+            return this.body.binary();
+        } catch {}
+
+        return Promise.resolve(undefined);
+    }
 }
 
 export interface HttpLibrary {

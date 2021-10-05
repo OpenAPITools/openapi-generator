@@ -14,6 +14,7 @@ import okhttp3.MultipartBody
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
+import okhttp3.internal.EMPTY_REQUEST
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -106,9 +107,16 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> Serializer.gson.toJson(content, T::class.java).toRequestBody(
-                mediaType.toMediaTypeOrNull()
-            )
+            mediaType == JsonMediaType -> {
+                if (content == null) {
+                    EMPTY_REQUEST
+                } else {
+                    Serializer.gson.toJson(content, T::class.java)
+                        .toRequestBody(
+                            mediaType.toMediaTypeOrNull()
+                        )
+                }
+            }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
@@ -206,10 +214,10 @@ open class ApiClient(val baseUrl: String) {
             val call = client.newCall(request)
             continuation.invokeOnCancellation { call.cancel() }
             call.enqueue(object : Callback {
-                override fun onFailure(c: Call, e: IOException) {
+                override fun onFailure(call: Call, e: IOException) {
                     continuation.resumeWithException(e)
                 }
-                override fun onResponse(c: Call, response: Response) {
+                override fun onResponse(call: Call, response: Response) {
                     continuation.resume(response)
                 }
             })

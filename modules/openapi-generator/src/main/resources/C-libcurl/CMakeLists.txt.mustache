@@ -103,9 +103,7 @@ if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in)
     install(TARGETS ${pkgName} DESTINATION ${CMAKE_INSTALL_PREFIX})
 else()
     include(GNUInstallDirs)
-    install(TARGETS ${pkgName}
-            EXPORT ${pkgName}Targets
-            )
+    install(TARGETS ${pkgName} DESTINATION ${CMAKE_INSTALL_PREFIX} EXPORT ${pkgName}Targets)
 
     foreach(HDR_FILE ${HDRS})
         get_filename_component(HDR_DIRECTORY ${HDR_FILE} DIRECTORY)

@@ -750,7 +750,7 @@ $enum_query_string_array = array('enum_query_string_array_example'); // string[]
 $enum_query_string = '-efg'; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
 $enum_query_double = 3.4; // double | Query parameter enum test (double)
-$enum_form_string_array = '$'; // string[] | Form parameter enum test (string array)
+$enum_form_string_array = array('$'); // string[] | Form parameter enum test (string array)
 $enum_form_string = '-efg'; // string | Form parameter enum test (string)
 
 try {

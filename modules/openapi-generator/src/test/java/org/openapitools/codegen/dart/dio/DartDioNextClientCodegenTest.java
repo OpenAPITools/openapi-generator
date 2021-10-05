@@ -83,4 +83,24 @@ public class DartDioNextClientCodegenTest {
         }
     }
 
+
+    @Test
+    public void testInitialDioLibraryValues() throws Exception {
+        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(DartDioNextClientCodegen.DIO_LIBRARY), DartDioNextClientCodegen.DIO_LIBRARY_DEFAULT);
+        Assert.assertEquals(codegen.getDioLibrary(), DartDioNextClientCodegen.DIO_LIBRARY_DEFAULT);
+    }
+
+    @Test
+    public void testAdditionalPropertiesPutForDioLibraryValues() throws Exception {
+        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
+        codegen.additionalProperties().put(DartDioNextClientCodegen.DIO_LIBRARY, DartDioNextClientCodegen.DIO_HTTP);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(DartDioNextClientCodegen.DIO_LIBRARY), DartDioNextClientCodegen.DIO_HTTP);
+        Assert.assertEquals(codegen.getDioLibrary(), DartDioNextClientCodegen.DIO_HTTP);
+    }
+
 }
