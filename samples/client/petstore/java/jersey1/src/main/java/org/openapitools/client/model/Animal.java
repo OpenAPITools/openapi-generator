@@ -28,6 +28,7 @@ import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.Dog;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Animal
@@ -63,6 +64,7 @@ public class Animal {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -72,6 +74,8 @@ public class Animal {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(String className) {
     this.className = className;
   }
@@ -97,6 +101,8 @@ public class Animal {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_COLOR)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setColor(String color) {
     this.color = color;
   }

@@ -16,7 +16,7 @@ module {{moduleName}}
     # Initializes the ApiClient
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(@config = Configuration.default)
-      @user_agent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/crystal{{/httpUserAgent}}"
+      @user_agent = "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/crystal{{/httpUserAgent}}"
       @default_headers = {
         "User-Agent" => @user_agent
       }
@@ -157,13 +157,13 @@ module {{moduleName}}
       @config.base_url(operation) + path
     end
 
-    # Update hearder and query params based on authentication settings.
+    # Update header and query params based on authentication settings.
     #
     # @param [Hash] header_params Header parameters
     # @param [Hash] query_params Query parameters
     # @param [String] auth_names Authentication scheme name
     def update_params_for_auth!(header_params, query_params, auth_names)
-      Array{auth_names}.each do |auth_name|
+      auth_names.each do |auth_name|
         auth_setting = @config.auth_settings[auth_name]
         next unless auth_setting
         case auth_setting[:in]
@@ -256,7 +256,7 @@ module {{moduleName}}
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
-    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of Symbol => String, form_params = {} of Symbol => String)
+    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, form_params = {} of Symbol => String)
       #ssl_options = {
       #  :ca_file => @config.ssl_ca_file,
       #  :verify => @config.ssl_verify,
@@ -274,12 +274,14 @@ module {{moduleName}}
       #  conn.adapter(Faraday.default_adapter)
       #end
 
+      update_params_for_auth! header_params, query_params, auth_names
+
       if !post_body.nil? && !post_body.empty?
         # use JSON string in the payload
         form_or_body = post_body
       else
         # use HTTP forms in the payload
-        # TDOD use HTTP form encoding
+        # TODO use HTTP form encoding
         form_or_body = form_params
       end
 

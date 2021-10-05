@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.GmFruit
+
 ## Properties
 
 Name | Type | Description | Notes

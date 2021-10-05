@@ -94,7 +94,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
             // Collect models to be imported
             for (CodegenParameter param : op.allParams) {
-                if (!param.isPrimitiveType && !param.isArray && !param.dataType.equals("any")) {
+                if (!param.isPrimitiveType && !param.isArray && !"any".equals(param.dataType)) {
                     modelImports.add(param.dataType);
                 }
             }
@@ -117,7 +117,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
             CodegenModel cm = (CodegenModel) mo.get("model");
             cm.imports = new TreeSet(cm.imports);
             for (CodegenProperty var : cm.vars) {
-                // name enum with model name, e.g. StatuEnum => PetStatusEnum
+                // name enum with model name, e.g. StatusEnum => PetStatusEnum
                 if (Boolean.TRUE.equals(var.isEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                     var.enumName = cm.classname + var.enumName;

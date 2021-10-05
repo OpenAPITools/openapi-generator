@@ -96,7 +96,7 @@ public class RuleConfiguration {
     /**
      * Enable or Disable the recommendation check for schemas containing type definitions, specifically
      * for changes between OpenAPI 3.0.x and 3.1.
-     * 
+     *
      * <p>
      * For more details, see {@link RuleConfiguration#isEnableSchemaTypeRecommendation()}
      *
@@ -120,10 +120,10 @@ public class RuleConfiguration {
     public boolean isEnableSchemaTypeRecommendation() {
         return enableSchemaTypeRecommendation;
     }
-    
+
     /**
      * Enable or Disable the recommendation check for the 'nullable' attribute.
-     * 
+     *
      * <p>
      * For more details, see {@link RuleConfiguration#isEnableNullableAttributeRecommendation()}
      *
@@ -149,7 +149,7 @@ public class RuleConfiguration {
 
     /**
      * Enable or Disable the recommendation check for the 'type' attribute.
-     * 
+     *
      * <p>
      * For more details, see {@link RuleConfiguration#isEnableInvalidTypeRecommendation()}
      *

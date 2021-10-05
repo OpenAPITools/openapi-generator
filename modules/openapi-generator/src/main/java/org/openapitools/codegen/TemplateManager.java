@@ -25,7 +25,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     private final TemplatingEngineAdapter engineAdapter;
     private final TemplatePathLocator[] templateLoaders;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TemplateManager.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TemplateManager.class);
 
     /**
      * Constructs a new instance of a {@link TemplateManager}
@@ -206,6 +206,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      * @return File representing the written file.
      * @throws IOException If file cannot be written.
      */
+    @Override
     public File writeToFile(String filename, byte[] contents) throws IOException {
         // Use Paths.get here to normalize path (for Windows file separator, space escaping on Linux/Mac, etc)
         File outputFile = Paths.get(filename).toFile();

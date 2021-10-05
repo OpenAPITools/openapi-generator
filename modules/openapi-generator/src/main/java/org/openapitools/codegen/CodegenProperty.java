@@ -118,7 +118,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isString;
     public boolean isNumeric;
     public boolean isInteger;
+    public boolean isShort;
     public boolean isLong;
+    public boolean isUnboundedInteger;
     public boolean isNumber;
     public boolean isFloat;
     public boolean isDouble;
@@ -157,7 +159,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public Map<String, Object> allowableValues;
     // If 'additionalProperties' is not set, items is null.
     // If 'additionalProperties' is set to a type or refers to a type, 'items' provides the type information for
-    // the undeclared properties. 
+    // the undeclared properties.
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
@@ -185,6 +187,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String xmlName;
     public String xmlNamespace;
     public boolean isXmlWrapped = false;
+    private boolean additionalPropertiesIsAnyType;
+    private boolean hasVars;
+    private boolean hasRequired;
+    private boolean hasDiscriminatorWithNonEmptyMapping;
 
     public String getBaseName() {
         return baseName;
@@ -504,6 +510,30 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isArray = isArray;
     }
 
+    @Override
+    public boolean getIsShort() { return isShort; }
+
+    @Override
+    public void setIsShort(boolean isShort)  {
+        this.isShort = isShort;
+    }
+
+    @Override
+    public boolean getIsBoolean() { return isBoolean; }
+
+    @Override
+    public void setIsBoolean(boolean isBoolean)  {
+        this.isBoolean = isBoolean;
+    }
+
+    @Override
+    public boolean getIsUnboundedInteger() { return isUnboundedInteger; }
+
+    @Override
+    public void setIsUnboundedInteger(boolean isUnboundedInteger)  {
+        this.isUnboundedInteger = isUnboundedInteger;
+    }
+
     public Map<String, Object> getVendorExtensions() {
         return vendorExtensions;
     }
@@ -649,10 +679,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.maxProperties = maxProperties;
     }
 
+    @Override
     public Number getMultipleOf() {
         return multipleOf;
     }
 
+    @Override
     public void setMultipleOf(Number multipleOf) {
         this.multipleOf = multipleOf;
     }
@@ -694,6 +726,68 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public void setHasValidation(boolean hasValidation) { this.hasValidation = hasValidation; }
 
     @Override
+    public boolean getAdditionalPropertiesIsAnyType() {
+        return additionalPropertiesIsAnyType;
+    }
+
+    @Override
+    public void setAdditionalPropertiesIsAnyType(boolean additionalPropertiesIsAnyType) {
+        this.additionalPropertiesIsAnyType = additionalPropertiesIsAnyType;
+    }
+
+    @Override
+    public boolean getHasVars() {
+        return this.hasVars;
+    }
+
+    @Override
+    public void setHasVars(boolean hasVars) {
+        this.hasVars = hasVars;
+    }
+
+    @Override
+    public boolean getHasRequired() {
+        return this.hasRequired;
+    }
+
+    @Override
+    public void setHasRequired(boolean hasRequired) {
+        this.hasRequired = hasRequired;
+    }
+
+    @Override
+    public boolean getHasDiscriminatorWithNonEmptyMapping() { return hasDiscriminatorWithNonEmptyMapping; };
+
+    @Override
+    public void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping) {
+        this.hasDiscriminatorWithNonEmptyMapping = hasDiscriminatorWithNonEmptyMapping;
+    }
+
+    @Override
+    public boolean getIsString() { return isString; }
+
+    @Override
+    public void setIsString(boolean isString)  {
+        this.isString = isString;
+    }
+
+    @Override
+    public boolean getIsNumber() { return isNumber; }
+
+    @Override
+    public void setIsNumber(boolean isNumber)  {
+        this.isNumber = isNumber;
+    }
+
+    @Override
+    public boolean getIsAnyType() { return isAnyType; }
+
+    @Override
+    public void setIsAnyType(boolean isAnyType)  {
+        this.isAnyType = isAnyType;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
         sb.append("openApiType='").append(openApiType).append('\'');
@@ -732,7 +826,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isString=").append(isString);
         sb.append(", isNumeric=").append(isNumeric);
         sb.append(", isInteger=").append(isInteger);
+        sb.append(", isShort=").append(isShort);
         sb.append(", isLong=").append(isLong);
+        sb.append(", isUnboundedInteger=").append(isUnboundedInteger);
         sb.append(", isNumber=").append(isNumber);
         sb.append(", isFloat=").append(isFloat);
         sb.append(", isDouble=").append(isDouble);
@@ -782,6 +878,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", xmlNamespace='").append(xmlNamespace).append('\'');
         sb.append(", isXmlWrapped=").append(isXmlWrapped);
         sb.append(", isNull=").append(isNull);
+        sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
+        sb.append(", getHasVars=").append(getHasVars());
+        sb.append(", getHasRequired=").append(getHasRequired());
+        sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
         sb.append('}');
         return sb.toString();
     }
@@ -802,7 +902,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isString == that.isString &&
                 isNumeric == that.isNumeric &&
                 isInteger == that.isInteger &&
+                isShort == that.isShort &&
                 isLong == that.isLong &&
+                isUnboundedInteger == that.isUnboundedInteger &&
                 isNumber == that.isNumber &&
                 isFloat == that.isFloat &&
                 isDouble == that.isDouble &&
@@ -831,6 +933,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isXmlAttribute == that.isXmlAttribute &&
                 isXmlWrapped == that.isXmlWrapped &&
                 isNull == that.isNull &&
+                hasDiscriminatorWithNonEmptyMapping == that.hasDiscriminatorWithNonEmptyMapping &&
+                getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
+                getHasVars() == that.getHasVars() &&
+                getHasRequired() ==that.getHasRequired() &&
                 Objects.equals(openApiType, that.openApiType) &&
                 Objects.equals(baseName, that.baseName) &&
                 Objects.equals(complexType, that.complexType) &&
@@ -887,11 +993,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject,
-                isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable,
+                isArray, isMap, isEnum, isReadOnly, isWriteOnly, isNullable, isShort, isUnboundedInteger,
                 isSelfReference, isCircularReference, isDiscriminator, _enum, allowableValues,
                 items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
-                xmlNamespace, isXmlWrapped, isNull);
+                xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired,
+                hasDiscriminatorWithNonEmptyMapping);
     }
 }

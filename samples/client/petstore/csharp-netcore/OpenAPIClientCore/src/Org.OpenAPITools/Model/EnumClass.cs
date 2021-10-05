@@ -29,9 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Defines EnumClass
     /// </summary>
-    
     [JsonConverter(typeof(StringEnumConverter))]
-    
     public enum EnumClass
     {
         /// <summary>

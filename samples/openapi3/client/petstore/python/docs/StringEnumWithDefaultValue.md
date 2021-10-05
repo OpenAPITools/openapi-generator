@@ -1,5 +1,6 @@
 # StringEnumWithDefaultValue
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

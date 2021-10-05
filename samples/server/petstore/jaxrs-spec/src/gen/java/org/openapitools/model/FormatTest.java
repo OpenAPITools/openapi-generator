@@ -16,9 +16,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("format_test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FormatTest  implements Serializable {
   
   private @Valid Integer integer;
@@ -54,9 +56,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return integer;
   }
 
+  @JsonProperty("integer")
   public void setInteger(Integer integer) {
     this.integer = integer;
-  }/**
+  }
+
+/**
    * minimum: 20
    * maximum: 200
    **/
@@ -74,9 +79,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return int32;
   }
 
+  @JsonProperty("int32")
   public void setInt32(Integer int32) {
     this.int32 = int32;
-  }/**
+  }
+
+/**
    **/
   public FormatTest int64(Long int64) {
     this.int64 = int64;
@@ -92,9 +100,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return int64;
   }
 
+  @JsonProperty("int64")
   public void setInt64(Long int64) {
     this.int64 = int64;
-  }/**
+  }
+
+/**
    * minimum: 32.1
    * maximum: 543.2
    **/
@@ -113,9 +124,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return number;
   }
 
+  @JsonProperty("number")
   public void setNumber(BigDecimal number) {
     this.number = number;
-  }/**
+  }
+
+/**
    * minimum: 54.3
    * maximum: 987.6
    **/
@@ -133,9 +147,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return _float;
   }
 
+  @JsonProperty("float")
   public void setFloat(Float _float) {
     this._float = _float;
-  }/**
+  }
+
+/**
    * minimum: 67.8
    * maximum: 123.4
    **/
@@ -153,9 +170,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return _double;
   }
 
+  @JsonProperty("double")
   public void setDouble(Double _double) {
     this._double = _double;
-  }/**
+  }
+
+/**
    **/
   public FormatTest string(String string) {
     this.string = string;
@@ -171,9 +191,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return string;
   }
 
+  @JsonProperty("string")
   public void setString(String string) {
     this.string = string;
-  }/**
+  }
+
+/**
    **/
   public FormatTest _byte(byte[] _byte) {
     this._byte = _byte;
@@ -190,9 +213,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return _byte;
   }
 
+  @JsonProperty("byte")
   public void setByte(byte[] _byte) {
     this._byte = _byte;
-  }/**
+  }
+
+/**
    **/
   public FormatTest binary(File binary) {
     this.binary = binary;
@@ -208,9 +234,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return binary;
   }
 
+  @JsonProperty("binary")
   public void setBinary(File binary) {
     this.binary = binary;
-  }/**
+  }
+
+/**
    **/
   public FormatTest date(LocalDate date) {
     this.date = date;
@@ -227,9 +256,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return date;
   }
 
+  @JsonProperty("date")
   public void setDate(LocalDate date) {
     this.date = date;
-  }/**
+  }
+
+/**
    **/
   public FormatTest dateTime(Date dateTime) {
     this.dateTime = dateTime;
@@ -245,9 +277,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return dateTime;
   }
 
+  @JsonProperty("dateTime")
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
-  }/**
+  }
+
+/**
    **/
   public FormatTest uuid(UUID uuid) {
     this.uuid = uuid;
@@ -263,9 +298,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return uuid;
   }
 
+  @JsonProperty("uuid")
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
-  }/**
+  }
+
+/**
    **/
   public FormatTest password(String password) {
     this.password = password;
@@ -282,9 +320,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return password;
   }
 
+  @JsonProperty("password")
   public void setPassword(String password) {
     this.password = password;
-  }/**
+  }
+
+/**
    **/
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
@@ -300,9 +341,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return bigDecimal;
   }
 
+  @JsonProperty("BigDecimal")
   public void setBigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
+
 
   @Override
   public boolean equals(Object o) {

@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -75,6 +76,9 @@ public class OuterComposite {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_number")
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
@@ -101,6 +105,9 @@ public class OuterComposite {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_string")
   public void setMyString(String myString) {
     this.myString = myString;
   }
@@ -127,6 +134,9 @@ public class OuterComposite {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "my_boolean")
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }

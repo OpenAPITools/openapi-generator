@@ -33,6 +33,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
 import java.util.logging.Level;
@@ -441,7 +442,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @return API client
    */
   public ApiClient setUserAgent(String userAgent) {
-    userAgent = userAgent;
+    this.userAgent = userAgent;
     addDefaultHeader("User-Agent", userAgent);
     return this;
   }
@@ -523,7 +524,7 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * The path of temporary folder used to store downloaded files from endpoints
    * with file response. The default value is <code>null</code>, i.e. using
-   * the system's default tempopary folder.
+   * the system's default temporary folder.
    *
    * @return Temp folder path
    */
@@ -943,15 +944,15 @@ public class ApiClient extends JavaTimeFormatter {
         prefix = filename.substring(0, pos) + "-";
         suffix = filename.substring(pos);
       }
-      // File.createTempFile requires the prefix to be at least three characters long
+      // Files.createTempFile requires the prefix to be at least three characters long
       if (prefix.length() < 3)
         prefix = "download-";
     }
 
     if (tempFolderPath == null)
-      return File.createTempFile(prefix, suffix);
+      return Files.createTempFile(prefix, suffix).toFile();
     else
-      return File.createTempFile(prefix, suffix, new File(tempFolderPath));
+      return Files.createTempFile(Paths.get(tempFolderPath), prefix, suffix).toFile();
   }
 
   /**
@@ -1142,10 +1143,8 @@ public class ApiClient extends JavaTimeFormatter {
    * @return Client
    */
   protected Client buildHttpClient() {
-    // use the default client config if not yet initialized
-    if (clientConfig == null) {
-        clientConfig = getDefaultClientConfig();
-    }
+    // recreate the client config to pickup changes
+    clientConfig = getDefaultClientConfig();
 
     ClientBuilder clientBuilder = ClientBuilder.newBuilder();
     customizeClientBuilder(clientBuilder);
@@ -1181,7 +1180,7 @@ public class ApiClient extends JavaTimeFormatter {
   /**
    * Customize the client builder.
    *
-   * This method can be overriden to customize the API client. For example, this can be used to:
+   * This method can be overridden to customize the API client. For example, this can be used to:
    * 1. Set the hostname verifier to be used by the client to verify the endpoint's hostname
    *    against its identification information.
    * 2. Set the client-side key store.

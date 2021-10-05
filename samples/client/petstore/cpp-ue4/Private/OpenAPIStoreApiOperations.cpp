@@ -20,7 +20,7 @@
 #include "HttpModule.h"
 #include "PlatformHttp.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 FString OpenAPIStoreApi::DeleteOrderRequest::ComputePath() const
@@ -29,11 +29,11 @@ FString OpenAPIStoreApi::DeleteOrderRequest::ComputePath() const
 	{ TEXT("orderId"), ToStringFormatArg(OrderId) } };
 
 	FString Path = FString::Format(TEXT("/store/order/{orderId}"), PathParams);
-	
+
 	return Path;
 }
 
-void OpenAPIStoreApi::DeleteOrderRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIStoreApi::DeleteOrderRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = {  };
@@ -43,6 +43,14 @@ void OpenAPIStoreApi::DeleteOrderRequest::SetupHttpRequest(const TSharedRef<IHtt
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
+		// Form parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
@@ -81,7 +89,7 @@ FString OpenAPIStoreApi::GetInventoryRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIStoreApi::GetInventoryRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIStoreApi::GetInventoryRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/json") };
@@ -91,6 +99,14 @@ void OpenAPIStoreApi::GetInventoryRequest::SetupHttpRequest(const TSharedRef<IHt
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
+		// Form parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
@@ -126,11 +142,11 @@ FString OpenAPIStoreApi::GetOrderByIdRequest::ComputePath() const
 	{ TEXT("orderId"), ToStringFormatArg(OrderId) } };
 
 	FString Path = FString::Format(TEXT("/store/order/{orderId}"), PathParams);
-	
+
 	return Path;
 }
 
-void OpenAPIStoreApi::GetOrderByIdRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIStoreApi::GetOrderByIdRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };
@@ -140,6 +156,14 @@ void OpenAPIStoreApi::GetOrderByIdRequest::SetupHttpRequest(const TSharedRef<IHt
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
+		// Form parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
@@ -181,7 +205,7 @@ FString OpenAPIStoreApi::PlaceOrderRequest::ComputePath() const
 	return Path;
 }
 
-void OpenAPIStoreApi::PlaceOrderRequest::SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const
+void OpenAPIStoreApi::PlaceOrderRequest::SetupHttpRequest(const FHttpRequestRef& HttpRequest) const
 {
 	static const TArray<FString> Consumes = {  };
 	//static const TArray<FString> Produces = { TEXT("application/xml"), TEXT("application/json") };

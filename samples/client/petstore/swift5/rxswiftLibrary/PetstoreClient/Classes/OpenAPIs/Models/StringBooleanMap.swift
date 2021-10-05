@@ -6,40 +6,20 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-public struct StringBooleanMap: Codable {
+public struct StringBooleanMap: Codable, Hashable {
 
-    public var additionalProperties: [String: Bool] = [:]
 
-    public subscript(key: String) -> Bool? {
-        get {
-            if let value = additionalProperties[key] {
-                return value
-            }
-            return nil
-        }
-
-        set {
-            additionalProperties[key] = newValue
-        }
+    public enum CodingKeys: CodingKey, CaseIterable {
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-
-        var container = encoder.container(keyedBy: String.self)
-
-        try container.encodeMap(additionalProperties)
+        var container = encoder.container(keyedBy: CodingKeys.self)
     }
-
-    // Decodable protocol methods
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: String.self)
-
-        var nonAdditionalPropertyKeys = Set<String>()
-        additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
-    }
-
 }
+

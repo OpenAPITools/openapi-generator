@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class PlantumlDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String ALL_OF_SUFFIX = "AllOf";
 
-    static final Logger LOGGER = LoggerFactory.getLogger(PlantumlDocumentationCodegen.class);
+     final Logger LOGGER = LoggerFactory.getLogger(PlantumlDocumentationCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
@@ -206,13 +206,13 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
 
     @Override
     public String escapeQuotationMark(String input) {
-        // to surpress the warning message
+        // to suppress the warning message
         return input;
     }
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        // to surpress the warning message
+        // to suppress the warning message
         return input;
     }
 }

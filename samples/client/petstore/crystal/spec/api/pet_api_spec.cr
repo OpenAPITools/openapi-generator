@@ -79,7 +79,16 @@ describe "PetApi" do
   describe "get_pet_by_id test" do
     it "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
-      api_instance = Petstore::PetApi.new
+
+      config = Petstore::Configuration.new
+      config.access_token = "yyy"
+      config.api_key[:api_key] = "xxx"
+      config.api_key_prefix[:api_key] = "Token"
+
+      api_client = Petstore::ApiClient.new(config)
+
+      api_instance = Petstore::PetApi.new(api_client)
+
       # create a pet to start with
       pet_id = Int64.new(91829)
       pet = Petstore::Pet.new(id: pet_id, category: Petstore::Category.new(id: pet_id + 10, name: "crystal category"), name: "crystal", photo_urls: ["https://crystal-lang.org"], tags: [Petstore::Tag.new(id: pet_id + 100, name: "crystal tag")], status: "available")

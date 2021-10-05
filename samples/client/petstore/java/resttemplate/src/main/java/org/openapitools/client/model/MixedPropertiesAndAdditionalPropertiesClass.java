@@ -29,6 +29,7 @@ import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import org.threeten.bp.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
@@ -71,6 +72,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
@@ -96,6 +99,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -109,7 +114,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
     if (this.map == null) {
-      this.map = new HashMap<String, Animal>();
+      this.map = new HashMap<>();
     }
     this.map.put(key, mapItem);
     return this;
@@ -129,6 +134,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }

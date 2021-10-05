@@ -11,7 +11,17 @@ require '{{gemName}}/configuration'
 # Models
 {{#models}}
 {{#model}}
-require '{{gemName}}/{{modelPackage}}/{{classFilename}}'{{/model}}
+{{^parent}}
+require '{{gemName}}/{{modelPackage}}/{{classFilename}}'
+{{/parent}}
+{{/model}}
+{{/models}}
+{{#models}}
+{{#model}}
+{{#parent}}
+require '{{gemName}}/{{modelPackage}}/{{classFilename}}'
+{{/parent}}
+{{/model}}
 {{/models}}
 
 # APIs

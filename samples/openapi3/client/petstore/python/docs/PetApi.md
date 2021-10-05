@@ -21,6 +21,7 @@ Add a new pet to the store
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -135,6 +136,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -154,7 +156,9 @@ void (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **405** | Invalid input |  -  |
@@ -169,6 +173,7 @@ Deletes a pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -214,6 +219,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->delete_pet: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -234,7 +240,9 @@ void (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid pet value |  -  |
@@ -251,6 +259,7 @@ Multiple status values can be provided with comma separated strings
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -351,6 +360,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->find_pets_by_status: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -370,7 +380,9 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -388,6 +400,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -486,6 +499,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->find_pets_by_tags: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -505,7 +519,9 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -523,6 +539,7 @@ Returns a single pet
 ### Example
 
 * Api Key Authentication (api_key):
+
 ```python
 import time
 import petstore_api
@@ -561,6 +578,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->get_pet_by_id: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -580,7 +598,9 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -597,6 +617,7 @@ Update an existing pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -711,6 +732,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -730,7 +752,9 @@ void (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid ID supplied |  -  |
@@ -747,6 +771,7 @@ Updates a pet in the store with form data
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 import time
 import petstore_api
@@ -793,6 +818,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -814,7 +840,9 @@ void (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **405** | Invalid input |  -  |

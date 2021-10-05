@@ -59,6 +59,8 @@ public class Banana {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setLengthCm(BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }

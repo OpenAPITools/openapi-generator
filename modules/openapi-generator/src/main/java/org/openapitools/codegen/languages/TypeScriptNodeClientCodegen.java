@@ -33,7 +33,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
     private static final String DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX = "./";
@@ -82,7 +82,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals("RequestFile");
+        return "RequestFile".equals(dataType);
     }
 
     @Override
@@ -309,7 +309,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         return toApiFilename(name);
     }
 
-@Override
+    @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
         Schema additionalProperties = getAdditionalProperties(schema);
@@ -318,5 +318,14 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             codegenModel.additionalPropertiesType += '<' + getSchemaType(((ArraySchema) additionalProperties).getItems()) + '>';
         }
         addImport(codegenModel, codegenModel.additionalPropertiesType);
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        String def = super.toDefaultValue(p);
+        if ("undefined".equals(def)) {
+            return null;
+        }
+        return def;
     }
 }

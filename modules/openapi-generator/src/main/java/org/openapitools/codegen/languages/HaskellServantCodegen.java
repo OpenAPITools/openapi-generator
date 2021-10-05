@@ -31,14 +31,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HaskellServantCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(HaskellServantCodegen.class);
 
     // source folder where to write the files
     protected String sourceFolder = "src";
@@ -201,6 +201,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("number", "Double");
         typeMapping.put("BigDecimal", "Double");
         typeMapping.put("any", "Value");
+        typeMapping.put("AnyType", "Value");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "Text");
         typeMapping.put("ByteArray", "Text");
@@ -313,8 +314,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         List<Map<String, Object>> replacements = new ArrayList<>();
         Object[] replacementChars = specialCharReplacements.keySet().toArray();
-        for (int i = 0; i < replacementChars.length; i++) {
-            String c = (String) replacementChars[i];
+        for (Object replacementChar : replacementChars) {
+            String c = (String) replacementChar;
             Map<String, Object> o = new HashMap<>();
             o.put("char", c);
             o.put("replacement", "'" + specialCharReplacements.get(c));
@@ -388,7 +389,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        LOGGER.debug("debugging OpenAPI type: " + p.getType() + ", " + p.getFormat() + " => " + schemaType);
+        LOGGER.debug("debugging OpenAPI type: {}, {} => {}", p.getType(), p.getFormat(), schemaType);
         String type = null;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
@@ -411,8 +412,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             Schema additionalProperties2 = getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
-                LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //
-                        + "\tIn Property: " + p);
+                LOGGER.error("No Type defined for Additional Property {}\n\tIn Property: {}", additionalProperties2, p);
             }
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
@@ -450,7 +450,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         for (CodegenParameter param : pathParams) {
             captureTypes.put(param.baseName, param.dataType);
         }
-        
+
         // Properly handle root-only routes (#3256)
         if (path.contentEquals("/")) {
             return new ArrayList<>();
@@ -564,7 +564,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // Add the HTTP method and return type
         String returnType = op.returnType;
         if (returnType == null || returnType.equals("null")) {
-            returnType = "()";
+            returnType = "NoContent";
         }
         if (returnType.indexOf(" ") >= 0) {
             returnType = "(" + returnType + ")";
@@ -692,10 +692,12 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

@@ -2,7 +2,6 @@ package org.openapitools.api;
 
 import org.openapitools.model.Client;
 import io.swagger.annotations.*;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +42,7 @@ public interface AnotherFakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"client\" : \"client\" }";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
         }

@@ -1,6 +1,8 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
@@ -16,7 +18,7 @@ import static org.openapitools.codegen.utils.StringUtils.escape;
 public class MarkdownDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MarkdownDocumentationCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(MarkdownDocumentationCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
@@ -44,6 +46,27 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
         apiPackage = File.separator + "Apis";
         modelPackage = "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        languageSpecificPrimitives.clear();
+        languageSpecificPrimitives.add("ByteArray");
+        languageSpecificPrimitives.add("DateTime");
+        languageSpecificPrimitives.add("URI");
+        languageSpecificPrimitives.add("UUID");
+        languageSpecificPrimitives.add("boolean");
+        languageSpecificPrimitives.add("char");
+        languageSpecificPrimitives.add("date");
+        languageSpecificPrimitives.add("decimal");
+        languageSpecificPrimitives.add("double");
+        languageSpecificPrimitives.add("file");
+        languageSpecificPrimitives.add("float");
+        languageSpecificPrimitives.add("int");
+        languageSpecificPrimitives.add("integer");
+        languageSpecificPrimitives.add("long");
+        languageSpecificPrimitives.add("number");
+        languageSpecificPrimitives.add("object");
+        languageSpecificPrimitives.add("short");
+        languageSpecificPrimitives.add("string");
+
         // TODO: Fill this out.
     }
 
@@ -77,6 +100,16 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
             return escape(name, specialCharReplacements, null, null);
         }
+        return name;
+    }
+
+    @Override
+    public String toModelName(final String name) {
+        return name;
+    }
+
+    @Override
+    public String toModelFilename(String name) {
         return name;
     }
 }

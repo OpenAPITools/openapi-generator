@@ -1,0 +1,9 @@
+version: '3.6'
+services:
+  service:
+    build:
+      context: .
+      target: service
+    ports:
+      - "{{serverPort}}:{{serverPort}}"
+    command: uvicorn {{packageName}}.main:app --host 0.0.0.0 --port {{serverPort}}

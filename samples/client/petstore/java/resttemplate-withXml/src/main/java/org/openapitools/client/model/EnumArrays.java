@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -44,9 +45,13 @@ public class EnumArrays {
   /**
    * Gets or Sets justSymbol
    */
+  @XmlType(name="JustSymbolEnum")
+  @XmlEnum(String.class)
   public enum JustSymbolEnum {
+    @XmlEnumValue(">=")
     GREATER_THAN_OR_EQUAL_TO(">="),
     
+    @XmlEnumValue("$")
     DOLLAR("$");
 
     private String value;
@@ -83,9 +88,13 @@ public class EnumArrays {
   /**
    * Gets or Sets arrayEnum
    */
+  @XmlType(name="ArrayEnumEnum")
+  @XmlEnum(String.class)
   public enum ArrayEnumEnum {
+    @XmlEnumValue("fish")
     FISH("fish"),
     
+    @XmlEnumValue("crab")
     CRAB("crab");
 
     private String value;
@@ -144,6 +153,9 @@ public class EnumArrays {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "just_symbol")
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
@@ -157,7 +169,7 @@ public class EnumArrays {
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<ArrayEnumEnum>();
+      this.arrayEnum = new ArrayList<>();
     }
     this.arrayEnum.add(arrayEnumItem);
     return this;
@@ -177,6 +189,8 @@ public class EnumArrays {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }

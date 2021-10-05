@@ -12,9 +12,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("Enum_Test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class EnumTest  implements Serializable {
   
 
@@ -171,9 +173,12 @@ public enum EnumNumberEnum {
     return enumString;
   }
 
+  @JsonProperty("enum_string")
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
-  }/**
+  }
+
+/**
    **/
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
@@ -190,9 +195,12 @@ public enum EnumNumberEnum {
     return enumStringRequired;
   }
 
+  @JsonProperty("enum_string_required")
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
-  }/**
+  }
+
+/**
    **/
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
@@ -208,9 +216,12 @@ public enum EnumNumberEnum {
     return enumInteger;
   }
 
+  @JsonProperty("enum_integer")
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
-  }/**
+  }
+
+/**
    **/
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
@@ -226,9 +237,12 @@ public enum EnumNumberEnum {
     return enumNumber;
   }
 
+  @JsonProperty("enum_number")
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
-  }/**
+  }
+
+/**
    **/
   public EnumTest outerEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
@@ -244,9 +258,11 @@ public enum EnumNumberEnum {
     return outerEnum;
   }
 
+  @JsonProperty("outerEnum")
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
+
 
   @Override
   public boolean equals(Object o) {

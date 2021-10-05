@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.NumberOnly
+
 ## Properties
 
 Name | Type | Description | Notes

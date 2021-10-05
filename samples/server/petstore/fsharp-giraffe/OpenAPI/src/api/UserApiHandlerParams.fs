@@ -84,7 +84,7 @@ module UserApiHandlerParams =
     //#endregion
 
     
-    type GetUserByNameDefaultStatusCodeResponse = {
+    type GetUserByNameStatusCode200Response = {
       content:User;
       
     }
@@ -98,7 +98,7 @@ module UserApiHandlerParams =
       content:string;
       
     }
-    type GetUserByNameResult = GetUserByNameDefaultStatusCode of GetUserByNameDefaultStatusCodeResponse|GetUserByNameStatusCode400 of GetUserByNameStatusCode400Response|GetUserByNameStatusCode404 of GetUserByNameStatusCode404Response
+    type GetUserByNameResult = GetUserByNameStatusCode200 of GetUserByNameStatusCode200Response|GetUserByNameStatusCode400 of GetUserByNameStatusCode400Response|GetUserByNameStatusCode404 of GetUserByNameStatusCode404Response
 
     type GetUserByNameArgs = {
       pathParams:GetUserByNamePathParams;
@@ -116,7 +116,7 @@ module UserApiHandlerParams =
     //#endregion
 
     
-    type LoginUserDefaultStatusCodeResponse = {
+    type LoginUserStatusCode200Response = {
       content:string;
       
     }
@@ -125,7 +125,7 @@ module UserApiHandlerParams =
       content:string;
       
     }
-    type LoginUserResult = LoginUserDefaultStatusCode of LoginUserDefaultStatusCodeResponse|LoginUserStatusCode400 of LoginUserStatusCode400Response
+    type LoginUserResult = LoginUserStatusCode200 of LoginUserStatusCode200Response|LoginUserStatusCode400 of LoginUserStatusCode400Response
 
     type LoginUserArgs = {
       queryParams:Result<LoginUserQueryParams,string>;

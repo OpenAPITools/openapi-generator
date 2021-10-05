@@ -25,7 +25,7 @@ import java.io.File;
 import java.util.EnumSet;
 
 public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServerCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
 
     protected String modelDocPath = "";
     protected String modelTestPath = "";

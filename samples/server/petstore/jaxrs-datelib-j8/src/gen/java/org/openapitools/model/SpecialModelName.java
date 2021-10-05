@@ -44,7 +44,7 @@ public class SpecialModelName  implements Serializable {
    * Get $specialPropertyName
    * @return $specialPropertyName
    **/
-  @JsonProperty("$special[property.name]")
+  @JsonProperty(value = "$special[property.name]")
   @ApiModelProperty(value = "")
   
   public Long get$SpecialPropertyName() {

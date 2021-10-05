@@ -14,9 +14,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("ArrayOfNumberOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayOfNumberOnly  implements Serializable {
   
   private @Valid List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
@@ -37,9 +39,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return arrayNumber;
   }
 
+  @JsonProperty("ArrayNumber")
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
+
 
   @Override
   public boolean equals(Object o) {

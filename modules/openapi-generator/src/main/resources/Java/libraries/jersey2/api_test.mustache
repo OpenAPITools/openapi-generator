@@ -41,10 +41,10 @@ public class {{classname}}Test {
         //{{{dataType}}} {{paramName}} = null;
         {{/allParams}}
         {{^vendorExtensions.x-group-parameters}}
-        //{{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        //{{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         {{/vendorExtensions.x-group-parameters}}
         {{#vendorExtensions.x-group-parameters}}
-        //{{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#pathParams}}{{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}){{#allParams}}{{^isPathParam}}
+        //{{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#pathParams}}{{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}){{#allParams}}{{^isPathParam}}
         //        .{{paramName}}({{paramName}}){{/isPathParam}}{{/allParams}}
         //        .execute();
         {{/vendorExtensions.x-group-parameters}}

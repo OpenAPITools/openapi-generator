@@ -1,0 +1,70 @@
+{{>licenseInfo}}
+package {{package}};
+
+import io.micronaut.http.annotation.*;
+import io.micronaut.core.annotation.*;
+import io.micronaut.http.client.annotation.Client;
+{{#configureAuth}}
+import {{invokerPackage}}.auth.Authorization;
+{{/configureAuth}}
+import {{invokerPackage}}.query.QueryParam;
+import io.micronaut.core.convert.format.Format;
+import reactor.core.publisher.Mono;
+{{#imports}}import {{import}};
+{{/imports}}
+import javax.annotation.Generated;
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}{{#useBeanValidation}}
+import javax.validation.Valid;
+import javax.validation.constraints.*;
+{{/useBeanValidation}}
+
+{{>generatedAnnotation}}
+@Client("${base-path}")
+public interface {{classname}} {
+{{#operations}}{{#operation}}
+  /**
+    {{#summary}}
+   * {{summary}}
+    {{/summary}}
+    {{#notes}}
+   * {{notes}}
+    {{/notes}}
+    {{^summary}}
+        {{^notes}}
+   * {{nickname}}
+        {{/notes}}
+    {{/summary}}
+   *
+{{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+{{/allParams}}
+{{#returnType}}
+   * @return {{returnType}}
+{{/returnType}}
+{{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+{{/externalDocs}}
+   */
+  @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
+  {{#vendorExtensions.x-contentType}}
+  @Produces(value={"{{vendorExtensions.x-contentType}}"})
+  {{/vendorExtensions.x-contentType}}
+  @Consumes(value={"{{vendorExtensions.x-accepts}}"})
+  {{!auth methods}}
+  {{#configureAuth}}
+      {{#authMethods}}
+  @Authorization(name="{{{name}}}"{{!scopes}}{{#isOAuth}}, scopes={{=< >=}}{<={{ }}=>{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}{{=< >=}}}<={{ }}=>{{/isOAuth}})
+      {{/authMethods}}
+  {{/configureAuth}}
+  {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}{{#allParams}}
+        {{>params/queryParams}}{{>params/pathParams}}{{>params/headerParams}}{{>params/bodyParams}}{{>params/formParams}}{{>params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
+  );{{/-last}}{{/allParams}}
+  {{/operation}}
+{{/operations}}
+}

@@ -69,6 +69,8 @@ public class Parent {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_OBJECT_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setObjectType(String objectType) {
     this.objectType = objectType;
   }

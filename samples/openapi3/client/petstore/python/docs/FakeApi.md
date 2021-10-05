@@ -15,6 +15,8 @@ Method | HTTP request | Description
 [**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 [**number_with_validations**](FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 [**object_model_with_ref_props**](FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
+[**post_inline_additional_properties_payload**](FakeApi.md#post_inline_additional_properties_payload) | **POST** /fake/postInlineAdditionalPropertiesPayload | 
+[**post_inline_additional_properties_ref_payload**](FakeApi.md#post_inline_additional_properties_ref_payload) | **POST** /fake/postInlineAdditionalPropertiesRefPayload | 
 [**string**](FakeApi.md#string) | **POST** /fake/refs/string | 
 [**string_enum**](FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
@@ -25,7 +27,7 @@ Method | HTTP request | Description
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+[**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 [**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
 [**upload_file**](FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
 [**upload_files**](FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
@@ -37,6 +39,7 @@ Method | HTTP request | Description
 Additional Properties with Array of Enums
 
 ### Example
+
 
 ```python
 import time
@@ -71,6 +74,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->additional_properties_with_array_of_enums: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -90,7 +94,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Got object with additional properties with array of enums |  -  |
@@ -105,6 +111,7 @@ No authorization required
 Test serialization of ArrayModel
 
 ### Example
+
 
 ```python
 import time
@@ -136,6 +143,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->array_model: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -155,7 +163,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output model |  -  |
@@ -168,6 +178,7 @@ No authorization required
 Array of Enums
 
 ### Example
+
 
 ```python
 import time
@@ -200,6 +211,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->array_of_enums: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -219,7 +231,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Got named array of enums |  -  |
@@ -234,6 +248,7 @@ No authorization required
 Test serialization of outer boolean types
 
 ### Example
+
 
 ```python
 import time
@@ -262,6 +277,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->boolean: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -281,7 +297,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output boolean |  -  |
@@ -296,6 +314,7 @@ No authorization required
 Test serialization of object with $refed properties
 
 ### Example
+
 
 ```python
 import time
@@ -314,7 +333,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    composed_one_of_number_with_validations = ComposedOneOfNumberWithValidations() # ComposedOneOfNumberWithValidations | Input model (optional)
+    composed_one_of_number_with_validations = ComposedOneOfNumberWithValidations(None) # ComposedOneOfNumberWithValidations | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -324,6 +343,7 @@ with petstore_api.ApiClient() as api_client:
     except petstore_api.ApiException as e:
         print("Exception when calling FakeApi->composed_one_of_number_with_validations: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -344,7 +364,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output model |  -  |
@@ -357,6 +379,7 @@ No authorization required
 downloads a file using Content-Disposition
 
 ### Example
+
 
 ```python
 import time
@@ -385,6 +408,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->download_attachment: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -404,7 +428,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: text/plain
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  * Content-Disposition - describes the received file. Looks like: &#39;attachment; filename&#x3D;fileName.txt&#39; <br>  |
@@ -417,6 +443,7 @@ No authorization required
 Object contains enum properties and array properties containing enums
 
 ### Example
+
 
 ```python
 import time
@@ -440,6 +467,8 @@ with petstore_api.ApiClient() as api_client:
         enum_string_required="UPPER",
         enum_integer=1,
         enum_number=1.1,
+        enum_bool=False,
+        bool_enum=BooleanEnum(True),
         string_enum=StringEnum("placed"),
         integer_enum=IntegerEnum(0),
         string_enum_with_default_value=StringEnumWithDefaultValue("placed"),
@@ -463,6 +492,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->enum_test: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -482,7 +512,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Got object containing enums |  -  |
@@ -495,6 +527,7 @@ No authorization required
 Health check endpoint
 
 ### Example
+
 
 ```python
 import time
@@ -523,6 +556,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->fake_health_get: %s\n" % e)
 ```
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -539,7 +573,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | The instance started successfully |  -  |
@@ -554,6 +590,7 @@ No authorization required
 Test serialization of mammals
 
 ### Example
+
 
 ```python
 import time
@@ -572,11 +609,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    mammal = Mammal(
-        has_baleen=True,
-        has_teeth=True,
-        class_name="whale",
-    ) # Mammal | Input mammal
+    mammal = Mammal(None) # Mammal | Input mammal
 
     # example passing only required values which don't have defaults set
     try:
@@ -585,6 +618,7 @@ with petstore_api.ApiClient() as api_client:
     except petstore_api.ApiException as e:
         print("Exception when calling FakeApi->mammal: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -605,7 +639,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output mammal |  -  |
@@ -620,6 +656,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 
 ```python
 import time
@@ -649,6 +686,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->number_with_validations: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -668,7 +706,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output number |  -  |
@@ -683,6 +723,7 @@ No authorization required
 Test serialization of object with $refed properties
 
 ### Example
+
 
 ```python
 import time
@@ -716,6 +757,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->object_model_with_ref_props: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -735,10 +777,158 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output model |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **post_inline_additional_properties_payload**
+> InlineObject6 post_inline_additional_properties_payload()
+
+
+
+### Example
+
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model.inline_object6 import InlineObject6
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    inline_object6 = InlineObject6(
+        array_data=[
+            FakePostInlineAdditionalPropertiesPayloadArrayData(
+                labels=[
+                    "labels_example",
+                ],
+            ),
+        ],
+    ) # InlineObject6 |  (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        api_response = api_instance.post_inline_additional_properties_payload(inline_object6=inline_object6)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->post_inline_additional_properties_payload: %s\n" % e)
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **inline_object6** | [**InlineObject6**](InlineObject6.md)|  | [optional]
+
+### Return type
+
+[**InlineObject6**](InlineObject6.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | InlineAdditionalPropertiesPayload |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **post_inline_additional_properties_ref_payload**
+> InlineAdditionalPropertiesRefPayload post_inline_additional_properties_ref_payload()
+
+
+
+### Example
+
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model.inline_additional_properties_ref_payload import InlineAdditionalPropertiesRefPayload
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    inline_additional_properties_ref_payload = InlineAdditionalPropertiesRefPayload(
+        array_data=[
+            FakePostInlineAdditionalPropertiesPayloadArrayData(
+                labels=[
+                    "labels_example",
+                ],
+            ),
+        ],
+    ) # InlineAdditionalPropertiesRefPayload |  (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        api_response = api_instance.post_inline_additional_properties_ref_payload(inline_additional_properties_ref_payload=inline_additional_properties_ref_payload)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->post_inline_additional_properties_ref_payload: %s\n" % e)
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **inline_additional_properties_ref_payload** | [**InlineAdditionalPropertiesRefPayload**](InlineAdditionalPropertiesRefPayload.md)|  | [optional]
+
+### Return type
+
+[**InlineAdditionalPropertiesRefPayload**](InlineAdditionalPropertiesRefPayload.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | InlineAdditionalPropertiesRefPayload |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -750,6 +940,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 
 ```python
 import time
@@ -778,6 +969,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->string: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -797,7 +989,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output string |  -  |
@@ -812,6 +1006,7 @@ No authorization required
 Test serialization of outer enum
 
 ### Example
+
 
 ```python
 import time
@@ -841,6 +1036,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->string_enum: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -860,7 +1056,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output enum |  -  |
@@ -875,6 +1073,7 @@ No authorization required
 For this test, the body for this request much reference a schema named `File`.
 
 ### Example
+
 
 ```python
 import time
@@ -911,6 +1110,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_body_with_file_schema: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -930,7 +1130,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -943,6 +1145,7 @@ No authorization required
 
 
 ### Example
+
 
 ```python
 import time
@@ -984,6 +1187,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_body_with_query_params: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1004,7 +1208,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -1019,6 +1225,7 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 
 ```python
 import time
@@ -1050,6 +1257,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_client_model: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1069,7 +1277,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1086,6 +1296,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example
 
 * Basic Authentication (http_basic_test):
+
 ```python
 import time
 import petstore_api
@@ -1114,13 +1325,13 @@ with petstore_api.ApiClient(configuration) as api_client:
     api_instance = fake_api.FakeApi(api_client)
     number = 32.1 # float | None
     double = 67.8 # float | None
-    pattern_without_delimiter = "AUR,rZ#UM/?R,Fp^l6$ARjbhJk C" # str | None
+    pattern_without_delimiter = "Aj" # str | None
     byte = 'YQ==' # str | None
     integer = 10 # int | None (optional)
     int32 = 20 # int | None (optional)
     int64 = 1 # int | None (optional)
     float = 3.14 # float | None (optional)
-    string = "a" # str | None (optional)
+    string = "A" # str | None (optional)
     binary = open('/path/to/file', 'rb') # file_type | None (optional)
     date = dateutil_parser('1970-01-01').date() # date | None (optional)
     date_time = dateutil_parser('2020-02-02T20:20:20.22222Z') # datetime | None (optional) if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')
@@ -1142,6 +1353,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except petstore_api.ApiException as e:
         print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -1175,7 +1387,9 @@ void (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid username supplied |  -  |
@@ -1191,6 +1405,7 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 
 ```python
 import time
@@ -1218,7 +1433,9 @@ with petstore_api.ApiClient() as api_client:
     enum_query_string = "-efg" # str | Query parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
     enum_query_integer = 1 # int | Query parameter enum test (double) (optional)
     enum_query_double = 1.1 # float | Query parameter enum test (double) (optional)
-    enum_form_string_array = "$" # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of "$"
+    enum_form_string_array = [
+        "$",
+    ] # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of "$"
     enum_form_string = "-efg" # str | Form parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
 
     # example passing only required values which don't have defaults set
@@ -1229,6 +1446,7 @@ with petstore_api.ApiClient() as api_client:
     except petstore_api.ApiException as e:
         print("Exception when calling FakeApi->test_enum_parameters: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -1256,7 +1474,9 @@ No authorization required
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid request |  -  |
@@ -1274,6 +1494,7 @@ Fake endpoint to test group parameters (optional)
 ### Example
 
 * Bearer (JWT) Authentication (bearer_test):
+
 ```python
 import time
 import petstore_api
@@ -1322,6 +1543,7 @@ with petstore_api.ApiClient(configuration) as api_client:
         print("Exception when calling FakeApi->test_group_parameters: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1346,7 +1568,9 @@ void (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Someting wrong |  -  |
@@ -1359,6 +1583,7 @@ void (empty response body)
 test inline additionalProperties
 
 ### Example
+
 
 ```python
 import time
@@ -1388,6 +1613,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_inline_additional_properties: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1407,7 +1633,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1420,6 +1648,7 @@ No authorization required
 test json serialization of form data
 
 ### Example
+
 
 ```python
 import time
@@ -1448,6 +1677,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_json_form_data: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1468,7 +1698,9 @@ No authorization required
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1483,6 +1715,7 @@ No authorization required
 To test the collection format in query parameters
 
 ### Example
+
 
 ```python
 import time
@@ -1523,6 +1756,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1546,7 +1780,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -1559,6 +1795,7 @@ No authorization required
 uploads a file and downloads a file using application/octet-stream
 
 ### Example
+
 
 ```python
 import time
@@ -1587,6 +1824,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->upload_download_file: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1606,7 +1844,9 @@ No authorization required
  - **Content-Type**: application/octet-stream
  - **Accept**: application/octet-stream
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1619,6 +1859,7 @@ No authorization required
 uploads a file using multipart/form-data
 
 ### Example
+
 
 ```python
 import time
@@ -1658,6 +1899,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling FakeApi->upload_file: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1678,7 +1920,9 @@ No authorization required
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1691,6 +1935,7 @@ No authorization required
 uploads files using multipart/form-data
 
 ### Example
+
 
 ```python
 import time
@@ -1709,7 +1954,9 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    files = open('/path/to/file', 'rb') # [file_type] |  (optional)
+    files = [
+        open('/path/to/file', 'rb'),
+    ] # [file_type] |  (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -1720,6 +1967,7 @@ with petstore_api.ApiClient() as api_client:
     except petstore_api.ApiException as e:
         print("Exception when calling FakeApi->upload_files: %s\n" % e)
 ```
+
 
 ### Parameters
 
@@ -1740,7 +1988,9 @@ No authorization required
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

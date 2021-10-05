@@ -2,6 +2,7 @@
 
 # MySchemaNameCharactersAllOf
 
+
 ## Properties
 
 Name | Type | Description | Notes

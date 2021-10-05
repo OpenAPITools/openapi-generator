@@ -32,10 +32,7 @@ isa_ok($api, 'WWW::OpenAPIClient::AnotherFakeApi');
 #
 # call_123_test_special_tags test
 #
-{
-    my $body = undef; # replace NULL with a proper value
-    my $result = $api->call_123_test_special_tags(body => $body);
-}
+# uncomment below and update the test
+#my $call_123_test_special_tags_client = undef; # replace NULL with a proper value
+#my $call_123_test_special_tags_result = $api->call_123_test_special_tags(client => $call_123_test_special_tags_client);
 
-
-1;

@@ -1,9 +1,17 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.7
+
+// ignore_for_file: unused_import
+
 import 'package:openapi/model/pet.dart';
 import 'package:test/test.dart';
 
 // tests for Pet
 void main() {
-  final instance = Pet();
+  final instance = PetBuilder();
+  // TODO add properties to the builder and call build()
 
   group(Pet, () {
     // int id

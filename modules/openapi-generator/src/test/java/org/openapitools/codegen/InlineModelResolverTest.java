@@ -268,7 +268,7 @@ public class InlineModelResolverTest {
     public void testInlineResponseModelType() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/6150_model_json_inline.yaml");
         new InlineModelResolver().flatten(openAPI);
-        
+
         Schema InlineResponse200 = openAPI.getComponents().getSchemas().get("inline_response_200");
         assertEquals("object", InlineResponse200.getType());
         assertEquals("unknown", InlineResponse200.getFormat());
@@ -708,8 +708,8 @@ public class InlineModelResolverTest {
         Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, schema.getItems());
         assertTrue(referencedSchema.getProperties().get("arbitrary_object_response_array_inline") instanceof ObjectSchema);
 
-        ObjectSchema arbitaryObject = (ObjectSchema) referencedSchema.getProperties().get("arbitrary_object_response_array_inline");
-        assertNull(arbitaryObject.getProperties());
+        ObjectSchema arbitraryObject = (ObjectSchema) referencedSchema.getProperties().get("arbitrary_object_response_array_inline");
+        assertNull(arbitraryObject.getProperties());
     }
 
     @Test
@@ -994,7 +994,7 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void regresssion_6905() {
+    public void regression_6905() {
 
     }
 }

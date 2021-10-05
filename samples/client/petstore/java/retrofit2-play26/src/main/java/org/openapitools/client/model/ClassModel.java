@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -60,6 +61,8 @@ public class ClassModel {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }

@@ -1,0 +1,89 @@
+{{>licenseInfo}}
+
+#include <QCommandLineOption>
+#include <QCommandLineParser>
+#include <QCoreApplication>
+#include <QHostAddress>
+#include <QRegExp>
+#include <QStringList>
+#include <QSharedPointer>
+#include <QObject>
+#ifdef __linux__
+#include <signal.h>
+#include <unistd.h>
+#endif
+#include <qhttpengine/server.h>
+#include "{{prefix}}ApiRouter.h"
+
+#ifdef __linux__
+void catchUnixSignals(QList<int> quitSignals) {
+    auto handler = [](int sig) -> void {
+        // blocking and not async-signal-safe func are valid
+        qDebug() << "\nquit the application by signal " << sig;
+        QCoreApplication::quit();
+    };
+
+    sigset_t blocking_mask;
+    sigemptyset(&blocking_mask);
+    for (auto sig : quitSignals)
+        sigaddset(&blocking_mask, sig);
+
+    struct sigaction sa;
+    sa.sa_handler = handler;
+    sa.sa_mask    = blocking_mask;
+    sa.sa_flags   = 0;
+
+    for (auto sig : quitSignals)
+        sigaction(sig, &sa, nullptr);
+}
+#endif
+
+int main(int argc, char * argv[])
+{
+    QCoreApplication a(argc, argv);
+#ifdef __linux__
+    QList<int> sigs({SIGQUIT, SIGINT, SIGTERM, SIGHUP});
+    catchUnixSignals(sigs);
+#endif
+    // Build the command-line options
+    QCommandLineParser parser;
+    QCommandLineOption addressOption(
+        QStringList() << "a" << "address",
+        "address to bind to",
+        "address",
+        "0.0.0.0"
+    );
+    parser.addOption(addressOption);
+    QCommandLineOption portOption(
+        QStringList() << "p" << "port",
+        "port to listen on",
+        "port",
+        "{{serverPort}}{{^serverPort}}8080{{/serverPort}}"
+    );
+    parser.addOption(portOption);
+    parser.addHelpOption();
+
+    // Parse the options that were provided
+    parser.process(a);
+
+    // Obtain the values
+    QHostAddress address = QHostAddress(parser.value(addressOption));
+    quint16 port = static_cast<quint16>(parser.value(portOption).toInt());
+
+    QSharedPointer<{{cppNamespace}}::{{prefix}}ApiRequestHandler> handler(new {{cppNamespace}}::{{prefix}}ApiRequestHandler());
+    auto router = QSharedPointer<{{cppNamespace}}::{{prefix}}ApiRouter>::create();
+    router->setUpRoutes();
+    QObject::connect(handler.data(), &{{cppNamespace}}::{{prefix}}ApiRequestHandler::requestReceived, [&](QHttpEngine::Socket *socket) {
+        router->processRequest(socket);
+    });
+
+    QHttpEngine::Server server(handler.data());
+    qDebug() << "Serving on " << address.toString() << ":" << port;
+    // Attempt to listen on the specified port
+    if (!server.listen(address, port)) {
+        qCritical("Unable to listen on the specified port.");
+        return 1;
+    }
+
+    return a.exec();
+}

@@ -249,13 +249,13 @@ bool ModelBase::fromJson( const web::json::value& val, bool & outVal )
 }
 bool ModelBase::fromJson( const web::json::value& val, float & outVal )
 {
-    outVal = !val.is_double() ? std::numeric_limits<float>::quiet_NaN(): static_cast<float>(val.as_double());
-    return val.is_double();
+    outVal = (!val.is_double() && !val.is_integer()) ? std::numeric_limits<float>::quiet_NaN(): static_cast<float>(val.as_double());
+    return val.is_double() || val.is_integer();
 }
 bool ModelBase::fromJson( const web::json::value& val, double & outVal )
 {
-    outVal = !val.is_double() ? std::numeric_limits<double>::quiet_NaN(): val.as_double();
-    return val.is_double() ;
+    outVal = (!val.is_double() && !val.is_integer()) ? std::numeric_limits<double>::quiet_NaN(): val.as_double();
+    return val.is_double() || val.is_integer();
 }
 bool ModelBase::fromJson( const web::json::value& val, int32_t & outVal )
 {
@@ -264,7 +264,7 @@ bool ModelBase::fromJson( const web::json::value& val, int32_t & outVal )
 }
 bool ModelBase::fromJson( const web::json::value& val, int64_t & outVal )
 {
-    outVal = !val.is_null() ? std::numeric_limits<int64_t>::quiet_NaN() : val.as_number().to_int64();
+    outVal = !val.is_number() ? std::numeric_limits<int64_t>::quiet_NaN() : val.as_number().to_int64();
     return val.is_number();
 }
 bool ModelBase::fromJson( const web::json::value& val, utility::string_t & outVal )

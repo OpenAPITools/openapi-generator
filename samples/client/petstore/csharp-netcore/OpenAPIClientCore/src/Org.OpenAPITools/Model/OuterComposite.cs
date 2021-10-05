@@ -60,7 +60,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
-        [DataMember(Name = "my_boolean", EmitDefaultValue = false)]
+        [DataMember(Name = "my_boolean", EmitDefaultValue = true)]
         public bool MyBoolean { get; set; }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

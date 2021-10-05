@@ -145,4 +145,3 @@ export function NullableClassToJSON(value?: NullableClass | null): any {
     };
 }
 
-

@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -25,44 +26,34 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Created user object
-  Future<Response> createUserWithHttpInfo(User user) async {
+  Future<Response> createUserWithHttpInfo(User user,) async {
     // Verify required params are set.
     if (user == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user'.replaceAll('{format}', 'json');
+    // ignore: prefer_const_declarations
+    final path = r'/user';
 
+    // ignore: prefer_final_locals
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['api_key'];
+    const authNames = <String>['api_key'];
+    const contentTypes = <String>['application/json'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -75,10 +66,10 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Created user object
-  Future<void> createUser(User user) async {
-    final response = await createUserWithHttpInfo(user);
+  Future<void> createUser(User user,) async {
+    final response = await createUserWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -90,44 +81,34 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<Response> createUsersWithArrayInputWithHttpInfo(List<User> user) async {
+  Future<Response> createUsersWithArrayInputWithHttpInfo(List<User> user,) async {
     // Verify required params are set.
     if (user == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user/createWithArray'.replaceAll('{format}', 'json');
+    // ignore: prefer_const_declarations
+    final path = r'/user/createWithArray';
 
+    // ignore: prefer_final_locals
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['api_key'];
+    const authNames = <String>['api_key'];
+    const contentTypes = <String>['application/json'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -138,10 +119,10 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<void> createUsersWithArrayInput(List<User> user) async {
-    final response = await createUsersWithArrayInputWithHttpInfo(user);
+  Future<void> createUsersWithArrayInput(List<User> user,) async {
+    final response = await createUsersWithArrayInputWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -153,44 +134,34 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<Response> createUsersWithListInputWithHttpInfo(List<User> user) async {
+  Future<Response> createUsersWithListInputWithHttpInfo(List<User> user,) async {
     // Verify required params are set.
     if (user == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user/createWithList'.replaceAll('{format}', 'json');
+    // ignore: prefer_const_declarations
+    final path = r'/user/createWithList';
 
+    // ignore: prefer_final_locals
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['api_key'];
+    const authNames = <String>['api_key'];
+    const contentTypes = <String>['application/json'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -201,10 +172,10 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<void> createUsersWithListInput(List<User> user) async {
-    final response = await createUsersWithListInputWithHttpInfo(user);
+  Future<void> createUsersWithListInput(List<User> user,) async {
+    final response = await createUsersWithListInputWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -218,45 +189,35 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future<Response> deleteUserWithHttpInfo(String username) async {
+  Future<Response> deleteUserWithHttpInfo(String username,) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
-    final path = '/user/{username}'.replaceAll('{format}', 'json')
-      .replaceAll('{' + 'username' + '}', username.toString());
+    // ignore: prefer_const_declarations
+    final path = r'/user/{username}'
+      .replaceAll('{username}', username);
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['api_key'];
+    const authNames = <String>['api_key'];
+    const contentTypes = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'DELETE',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -269,10 +230,10 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future<void> deleteUser(String username) async {
-    final response = await deleteUserWithHttpInfo(username);
+  Future<void> deleteUser(String username,) async {
+    final response = await deleteUserWithHttpInfo(username,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -284,45 +245,35 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be fetched. Use user1 for testing.
-  Future<Response> getUserByNameWithHttpInfo(String username) async {
+  Future<Response> getUserByNameWithHttpInfo(String username,) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
     }
 
-    final path = '/user/{username}'.replaceAll('{format}', 'json')
-      .replaceAll('{' + 'username' + '}', username.toString());
+    // ignore: prefer_const_declarations
+    final path = r'/user/{username}'
+      .replaceAll('{username}', username);
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -333,18 +284,18 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be fetched. Use user1 for testing.
-  Future<User> getUserByName(String username) async {
-    final response = await getUserByNameWithHttpInfo(username);
+  Future<User> getUserByName(String username,) async {
+    final response = await getUserByNameWithHttpInfo(username,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
-    }
-    return null;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
+        }
+    return Future<User>.value();
   }
 
   /// Logs user into the system
@@ -358,7 +309,7 @@ class UserApi {
   ///
   /// * [String] password (required):
   ///   The password for login in clear text
-  Future<Response> loginUserWithHttpInfo(String username, String password) async {
+  Future<Response> loginUserWithHttpInfo(String username, String password,) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -367,8 +318,10 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: password');
     }
 
-    final path = '/user/login'.replaceAll('{format}', 'json');
+    // ignore: prefer_const_declarations
+    final path = r'/user/login';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
@@ -378,30 +331,18 @@ class UserApi {
       queryParams.addAll(_convertParametersForCollectionFormat('', 'username', username));
       queryParams.addAll(_convertParametersForCollectionFormat('', 'password', password));
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>[];
+    const authNames = <String>[];
+    const contentTypes = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -415,56 +356,46 @@ class UserApi {
   ///
   /// * [String] password (required):
   ///   The password for login in clear text
-  Future<String> loginUser(String username, String password) async {
-    final response = await loginUserWithHttpInfo(username, password);
+  Future<String> loginUser(String username, String password,) async {
+    final response = await loginUserWithHttpInfo(username, password,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
-    }
-    return null;
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
+        }
+    return Future<String>.value();
   }
 
   /// Logs out current logged in user session
   ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> logoutUserWithHttpInfo() async {
-    final path = '/user/logout'.replaceAll('{format}', 'json');
+    // ignore: prefer_const_declarations
+    final path = r'/user/logout';
 
+    // ignore: prefer_final_locals
     Object postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>[];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['api_key'];
+    const authNames = <String>['api_key'];
+    const contentTypes = <String>[];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'GET',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -473,7 +404,7 @@ class UserApi {
   Future<void> logoutUser() async {
     final response = await logoutUserWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
@@ -490,7 +421,7 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Updated user object
-  Future<Response> updateUserWithHttpInfo(String username, User user) async {
+  Future<Response> updateUserWithHttpInfo(String username, User user,) async {
     // Verify required params are set.
     if (username == null) {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: username');
@@ -499,39 +430,29 @@ class UserApi {
      throw ApiException(HttpStatus.badRequest, 'Missing required param: user');
     }
 
-    final path = '/user/{username}'.replaceAll('{format}', 'json')
-      .replaceAll('{' + 'username' + '}', username.toString());
+    // ignore: prefer_const_declarations
+    final path = r'/user/{username}'
+      .replaceAll('{username}', username);
 
+    // ignore: prefer_final_locals
     Object postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    final contentTypes = <String>['application/json'];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    final authNames = <String>['api_key'];
+    const authNames = <String>['api_key'];
+    const contentTypes = <String>['application/json'];
 
-    if (
-      nullableContentType != null &&
-      nullableContentType.toLowerCase().startsWith('multipart/form-data')
-    ) {
-      bool hasFields = false;
-      final mp = MultipartRequest(null, null);
-      if (hasFields) {
-        postBody = mp;
-      }
-    } else {
-    }
 
-    return await apiClient.invokeAPI(
+    return apiClient.invokeAPI(
       path,
       'PUT',
       queryParams,
       postBody,
       headerParams,
       formParams,
-      nullableContentType,
+      contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
   }
@@ -547,10 +468,10 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Updated user object
-  Future<void> updateUser(String username, User user) async {
-    final response = await updateUserWithHttpInfo(username, user);
+  Future<void> updateUser(String username, User user,) async {
+    final response = await updateUserWithHttpInfo(username, user,);
     if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 }

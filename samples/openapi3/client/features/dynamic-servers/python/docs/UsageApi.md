@@ -17,6 +17,7 @@ Use custom server
 
 ### Example
 
+
 ```python
 import time
 import dynamic_servers
@@ -43,6 +44,7 @@ with dynamic_servers.ApiClient() as api_client:
         print("Exception when calling UsageApi->custom_server: %s\n" % e)
 ```
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -59,7 +61,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -74,6 +78,7 @@ Use default server
 Use default server
 
 ### Example
+
 
 ```python
 import time
@@ -101,6 +106,7 @@ with dynamic_servers.ApiClient() as api_client:
         print("Exception when calling UsageApi->default_server: %s\n" % e)
 ```
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -117,7 +123,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

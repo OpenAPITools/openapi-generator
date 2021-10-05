@@ -62,6 +62,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -335,8 +336,9 @@ public class DefaultGenerator implements Generator {
 
     private void generateModelTests(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         // to generate model test files
-        for (String templateName : config.modelTestTemplateFiles().keySet()) {
-            String suffix = config.modelTestTemplateFiles().get(templateName);
+        for (Map.Entry<String, String> configModelTestTemplateFilesEntry : config.modelTestTemplateFiles().entrySet()) {
+            String templateName = configModelTestTemplateFilesEntry.getKey();
+            String suffix = configModelTestTemplateFilesEntry.getValue();
             String filename = config.modelTestFileFolder() + File.separator + config.toModelTestFilename(modelName) + suffix;
 
             if (generateModelTests) {
@@ -458,7 +460,7 @@ public class DefaultGenerator implements Generator {
 
                 Schema schema = schemas.get(name);
 
-                if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it'a a free-form object
+                if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it's a free-form object
                     // there are 3 free form use cases
                     // 1. free form with no validation that is not allOf included in any composed schemas
                     // 2. free form with validation
@@ -630,6 +632,8 @@ public class DefaultGenerator implements Generator {
 
                 allOperations.add(new HashMap<>(operation));
 
+                addAuthenticationSwitches(operation);
+
                 for (String templateName : config.apiTemplateFiles().keySet()) {
                     String filename = config.apiFilename(templateName, tag);
                     File written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
@@ -779,30 +783,10 @@ public class DefaultGenerator implements Generator {
         bundle.put("models", allModels);
         bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
         bundle.put("modelPackage", config.modelPackage());
+        bundle.put("library", config.getLibrary());
+        // todo verify support and operation bundles have access to the common variables
 
-        Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
-        List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
-        if (authMethods != null && !authMethods.isEmpty()) {
-            bundle.put("authMethods", authMethods);
-            bundle.put("hasAuthMethods", true);
-
-            if (ProcessUtils.hasOAuthMethods(authMethods)) {
-                bundle.put("hasOAuthMethods", true);
-                bundle.put("oauthMethods", ProcessUtils.getOAuthMethods(authMethods));
-            }
-            if (ProcessUtils.hasHttpBearerMethods(authMethods)) {
-                bundle.put("hasHttpBearerMethods", true);
-            }
-            if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
-                bundle.put("hasHttpSignatureMethods", true);
-            }
-            if (ProcessUtils.hasHttpBasicMethods(authMethods)) {
-                bundle.put("hasHttpBasicMethods", true);
-            }
-            if (ProcessUtils.hasApiKeyMethods(authMethods)) {
-                bundle.put("hasApiKeyMethods", true);
-            }
-        }
+        addAuthenticationSwitches(bundle);
 
         List<CodegenServer> servers = config.fromServers(openAPI.getServers());
         if (servers != null && !servers.isEmpty()) {
@@ -830,11 +814,52 @@ public class DefaultGenerator implements Generator {
         return bundle;
     }
 
+    /**
+     * Add authentication methods to the given map
+     * This adds a boolean and a collection for each authentication type to the map.
+     * <p>
+     * Examples:
+     * <p> 
+     *   boolean hasOAuthMethods
+     * <p>
+     *   List&lt;CodegenSecurity&gt; oauthMethods
+     *
+     * @param bundle the map which the booleans and collections will be added
+     */
+    void addAuthenticationSwitches(Map<String, Object> bundle){
+        Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
+        if (authMethods != null && !authMethods.isEmpty()) {
+            bundle.put("authMethods", authMethods);
+            bundle.put("hasAuthMethods", true);
+
+            if (ProcessUtils.hasOAuthMethods(authMethods)) {
+                bundle.put("hasOAuthMethods", true);
+                bundle.put("oauthMethods", ProcessUtils.getOAuthMethods(authMethods));
+            }
+            if (ProcessUtils.hasHttpBearerMethods(authMethods)) {
+                bundle.put("hasHttpBearerMethods", true);
+                bundle.put("httpBearerMethods", ProcessUtils.getHttpBearerMethods(authMethods));
+            }
+            if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
+                bundle.put("hasHttpSignatureMethods", true);
+                bundle.put("httpSignatureMethods", ProcessUtils.getHttpSignatureMethods(authMethods));
+            }
+            if (ProcessUtils.hasHttpBasicMethods(authMethods)) {
+                bundle.put("hasHttpBasicMethods", true);
+                bundle.put("httpBasicMethods", ProcessUtils.getHttpBasicMethods(authMethods));
+            }
+            if (ProcessUtils.hasApiKeyMethods(authMethods)) {
+                bundle.put("hasApiKeyMethods", true);
+                bundle.put("apiKeyMethods", ProcessUtils.getApiKeyMethods(authMethods));
+            }
+        }
+    }
+
     @Override
     public List<File> generate() {
-
         if (openAPI == null) {
-            throw new RuntimeException("missing OpenAPI input!");
+            throw new RuntimeException("Issues with the OpenAPI input. Possible causes: invalid/missing spec, malformed JSON/YAML files, etc.");
         }
 
         if (config == null) {
@@ -939,7 +964,7 @@ public class DefaultGenerator implements Generator {
         // TODO: initial behavior is "merge" user defined with built-in templates. consider offering user a "replace" option.
         if (userDefinedTemplates != null && !userDefinedTemplates.isEmpty()) {
             Map<String, SupportingFile> supportingFilesMap = config.supportingFiles().stream()
-                    .collect(Collectors.toMap(TemplateDefinition::getTemplateFile, Function.identity()));
+                    .collect(Collectors.toMap(TemplateDefinition::getTemplateFile, Function.identity(), (oldValue, newValue) -> oldValue));
 
             // TemplateFileType.SupportingFiles
             userDefinedTemplates.stream()
@@ -1032,8 +1057,9 @@ public class DefaultGenerator implements Generator {
         if(paths == null) {
             return ops;
         }
-        for (String resourcePath : paths.keySet()) {
-            PathItem path = paths.get(resourcePath);
+        for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+            String resourcePath = pathsEntry.getKey();
+            PathItem path = pathsEntry.getValue();
             processOperation(resourcePath, "get", path.getGet(), ops, path);
             processOperation(resourcePath, "head", path.getHead(), ops, path);
             processOperation(resourcePath, "put", path.getPut(), ops, path);
@@ -1176,7 +1202,7 @@ public class DefaultGenerator implements Generator {
         operations.put("operations", objs);
         operations.put("package", config.apiPackage());
 
-        Set<String> allImports = new TreeSet<>();
+        Set<String> allImports = new ConcurrentSkipListSet<>();
         for (CodegenOperation op : ops) {
             allImports.addAll(op.imports);
         }
@@ -1244,8 +1270,9 @@ public class DefaultGenerator implements Generator {
         objs.put("package", config.modelPackage());
         List<Object> models = new ArrayList<>();
         Set<String> allImports = new LinkedHashSet<>();
-        for (String key : definitions.keySet()) {
-            Schema schema = definitions.get(key);
+        for (Map.Entry<String, Schema> definitionsEntry : definitions.entrySet()) {
+            String key = definitionsEntry.getKey();
+            Schema schema = definitionsEntry.getValue();
             if (schema == null)
                 throw new RuntimeException("schema cannot be null in processModels");
             CodegenModel cm = config.fromModel(key, schema);
@@ -1259,7 +1286,7 @@ public class DefaultGenerator implements Generator {
             allImports.addAll(cm.imports);
         }
         objs.put("models", models);
-        Set<String> importSet = new TreeSet<>();
+        Set<String> importSet = new ConcurrentSkipListSet<>();
         for (String nextImport : allImports) {
             String mapping = config.importMapping().get(nextImport);
             if (mapping == null) {
@@ -1297,8 +1324,8 @@ public class DefaultGenerator implements Generator {
                 if (securityScheme != null) {
 
                     if (securityScheme.getType().equals(SecurityScheme.Type.OAUTH2)) {
-                        OAuthFlows oautUpdatedFlows = new OAuthFlows();
-                        oautUpdatedFlows.extensions(securityScheme.getFlows().getExtensions());
+                        OAuthFlows oauthUpdatedFlows = new OAuthFlows();
+                        oauthUpdatedFlows.extensions(securityScheme.getFlows().getExtensions());
 
                         SecurityScheme oauthUpdatedScheme = new SecurityScheme()
                                 .type(securityScheme.getType())
@@ -1310,7 +1337,7 @@ public class DefaultGenerator implements Generator {
                                 .bearerFormat(securityScheme.getBearerFormat())
                                 .openIdConnectUrl(securityScheme.getOpenIdConnectUrl())
                                 .extensions(securityScheme.getExtensions())
-                                .flows(oautUpdatedFlows);
+                                .flows(oauthUpdatedFlows);
 
                         // Ensure inserted AuthMethod only contains scopes of actual operation, and not all of them defined in the Security Component
                         // have to iterate through and create new SecurityScheme objects with the scopes 'fixed/updated'
@@ -1320,22 +1347,22 @@ public class DefaultGenerator implements Generator {
                         if (securitySchemeFlows.getAuthorizationCode() != null) {
                             OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getAuthorizationCode(), entry.getValue());
 
-                            oautUpdatedFlows.setAuthorizationCode(updatedFlow);
+                            oauthUpdatedFlows.setAuthorizationCode(updatedFlow);
                         }
                         if (securitySchemeFlows.getImplicit() != null) {
                             OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getImplicit(), entry.getValue());
 
-                            oautUpdatedFlows.setImplicit(updatedFlow);
+                            oauthUpdatedFlows.setImplicit(updatedFlow);
                         }
                         if (securitySchemeFlows.getPassword() != null) {
                             OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getPassword(), entry.getValue());
 
-                            oautUpdatedFlows.setPassword(updatedFlow);
+                            oauthUpdatedFlows.setPassword(updatedFlow);
                         }
                         if (securitySchemeFlows.getClientCredentials() != null) {
                             OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getClientCredentials(), entry.getValue());
 
-                            oautUpdatedFlows.setClientCredentials(updatedFlow);
+                            oauthUpdatedFlows.setClientCredentials(updatedFlow);
                         }
 
                         authMethods.put(key, oauthUpdatedScheme);
@@ -1404,7 +1431,7 @@ public class DefaultGenerator implements Generator {
      * @param files The list tracking generated files
      */
     private void generateVersionMetadata(List<File> files) {
-        String versionMetadata = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "VERSION";
+        String versionMetadata = config.outputFolder() + File.separator + METADATA_DIR + File.separator + config.getVersionMetadataFilename();
         if (generateMetadata) {
             File versionMetadataFile = new File(versionMetadata);
             try {
@@ -1472,7 +1499,7 @@ public class DefaultGenerator implements Generator {
                     }
                 });
 
-                String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + "FILES";
+                String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + config.getFilesMetadataFilename();
 
                 File filesFile = this.templateProcessor.writeToFile(targetFile, sb.toString().getBytes(StandardCharsets.UTF_8));
                 if (filesFile != null) {

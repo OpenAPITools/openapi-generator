@@ -1,3 +1,4 @@
+{{>header}}
 import 'package:{{pubName}}/api.dart';
 import 'package:{{pubName}}/api/{{classFilename}}.dart';
 import 'package:test/test.dart';
@@ -18,7 +19,7 @@ void main() {
     // {{{.}}}
     //
     {{/notes}}
-    //{{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{operationId}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async
+    //{{#returnType}}Future<{{{.}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{operationId}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async
     test('test {{{operationId}}}', () async {
       // TODO
     });

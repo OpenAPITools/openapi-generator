@@ -32,7 +32,7 @@ import java.util.EnumSet;
 public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
     public static final String OUTPUT_NAME = "outputFileName";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OpenAPIGenerator.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OpenAPIGenerator.class);
 
     protected String outputFileName = "openapi.json";
 
@@ -89,7 +89,7 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
         try {
             String outputFile = outputFolder + File.separator + outputFileName;
             FileUtils.writeStringToFile(new File(outputFile), jsonOpenAPI, StandardCharsets.UTF_8);
-            LOGGER.info("wrote file to " + outputFile);
+            LOGGER.info("wrote file to {}", outputFile);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }

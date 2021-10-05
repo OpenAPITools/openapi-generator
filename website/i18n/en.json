@@ -399,6 +399,10 @@
         "title": "Config Options for php-mezzio-ph",
         "sidebar_label": "php-mezzio-ph"
       },
+      "generators/php-dt": {
+        "title": "Config Options for php-dt",
+        "sidebar_label": "php-dt"
+      },
       "generators/php": {
         "title": "Config Options for php",
         "sidebar_label": "php"

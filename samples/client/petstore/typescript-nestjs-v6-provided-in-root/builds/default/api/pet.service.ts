@@ -11,13 +11,12 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { HttpService, Inject, Injectable }                      from '@nestjs/common';
+import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
-import { Observable }                                        from 'rxjs';
+import { Observable } from 'rxjs';
 import { ApiResponse } from '../model/apiResponse';
 import { Pet } from '../model/pet';
-import { Configuration }                                     from '../configuration';
-import { COLLECTION_FORMATS }                     from '../variables';
+import { Configuration } from '../configuration';
 
 
 @Injectable()
@@ -27,9 +26,9 @@ export class PetService {
     public defaultHeaders = new Map()
     public configuration = new Configuration();
 
-    constructor(protected httpClient: HttpService, configuration: Configuration) {
-        this.configuration = configuration;
-        this.basePath = basePath || configuration.basePath || this.basePath;
+    constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
+        this.configuration = configuration || this.configuration;
+        this.basePath = configuration?.basePath || this.basePath;
     }
 
     /**
@@ -153,9 +152,9 @@ export class PetService {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
 
-        let queryParameters = {};   
+        let queryParameters = {};
         if (status !== undefined && status !== null) {
-            queryParameters['status'] <any>status;
+            queryParameters['status'] = <any>status;
         }
 
         let headers = this.defaultHeaders;
@@ -203,9 +202,9 @@ export class PetService {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
 
-        let queryParameters = {};   
+        let queryParameters = {};
         if (tags !== undefined && tags !== null) {
-            queryParameters['tags'] <any>tags;
+            queryParameters['tags'] = <any>tags;
         }
 
         let headers = this.defaultHeaders;

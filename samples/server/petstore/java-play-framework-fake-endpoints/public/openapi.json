@@ -1507,7 +1507,7 @@
         "x-accepts" : "application/json"
       }
     },
-    "/fake/test-query-paramters" : {
+    "/fake/test-query-parameters" : {
       "put" : {
         "description" : "To test the collection format in query parameters",
         "operationId" : "testQueryParameterCollectionFormat",

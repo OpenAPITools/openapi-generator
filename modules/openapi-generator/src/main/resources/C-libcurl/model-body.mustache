@@ -8,13 +8,13 @@
 
 {{#isEnum}}
 char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}) {
-    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     return {{classname}}Array[{{classname}}];
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}}) {
     int stringToReturn = 0;
-    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{classname}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{classname}}Array) / sizeof({{classname}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{classname}}, {{classname}}Array[stringToReturn]) == 0) {
@@ -78,13 +78,13 @@ end:
     {{^isModel}}
     {{#isEnum}}
 char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-    char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
 	return {{name}}Array[{{name}}];
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
     int stringToReturn = 0;
-    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {
@@ -102,13 +102,13 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{^isModel}}
     {{#isEnum}}
 char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-	char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+	char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
 	return {{name}}Array[{{name}} - 1];
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}) {
     int stringToReturn = 0;
-    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#enumVars}}, "{{{value}}}"{{/enumVars}}{{/allowableValues}} };
+    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
     while(stringToReturn < sizeofArray) {
         if(strcmp({{name}}, {{name}}Array[stringToReturn]) == 0) {
@@ -164,7 +164,7 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isByteArray}}
     {{#isBinary}}
     {{datatype}} {{name}}{{^-last}},{{/-last}}
@@ -248,6 +248,12 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     }
     {{/isString}}
     {{/isEnum}}
+    {{#isByteArray}}
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
+    {{/isByteArray}}
     {{#isBinary}}
     if ({{{classname}}}->{{{name}}}) {
         free({{{classname}}}->{{{name}}}->data);
@@ -347,8 +353,8 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
-    goto fail; //Byte
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    goto fail; //ByteArray
     }
     {{/isByteArray}}
     {{#isBinary}}
@@ -481,6 +487,12 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
             goto fail;
         }
         {{/isString}}
+        {{#isByteArray}}
+        if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, (char*)localKeyValue->value) == NULL)
+        {
+            goto fail;
+        }
+        {{/isByteArray}}
         {{#isNumeric}}
         if(cJSON_AddNumberToObject(localMapObject, localKeyValue->key, *(double *)localKeyValue->value) == NULL)
         {
@@ -562,9 +574,9 @@ fail:
     {{/isEnum}}
     {{#isByteArray}}
     {{^required}}if ({{{name}}}) { {{/required}}
-    if(!cJSON_IsNumber({{{name}}}))
+    if(!cJSON_IsString({{{name}}}))
     {
-    goto end; //Byte
+    goto end; //ByteArray
     }
     {{/isByteArray}}
     {{#isBinary}}
@@ -654,7 +666,13 @@ fail:
         {
             goto end;
         }
-        list_addElement({{{name}}}List , &{{{name}}}_local->valuedouble);
+        double *{{{name}}}_local_value = (double *)calloc(1, sizeof(double));
+        if(!{{{name}}}_local_value)
+        {
+            goto end;
+        }
+        *{{{name}}}_local_value = {{{name}}}_local->valuedouble;
+        list_addElement({{{name}}}List , {{{name}}}_local_value);
         {{/isNumeric}}
         {{#isBoolean}}
         if(!cJSON_IsBool({{{name}}}_local))
@@ -707,6 +725,13 @@ fail:
         }
         localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
         {{/isString}}
+        {{#isByteArray}}
+        if(!cJSON_IsString(localMapObject))
+        {
+            goto end;
+        }
+        localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
+        {{/isByteArray}}
         {{#isBoolean}}
         if(!cJSON_IsBool(localMapObject))
         {
@@ -772,7 +797,7 @@ fail:
         {{/isString}}
         {{/isEnum}}
         {{#isByteArray}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isByteArray}}
         {{#isBinary}}
         {{^required}}{{{name}}} ? {{/required}}decoded_str_{{{name}}}{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}

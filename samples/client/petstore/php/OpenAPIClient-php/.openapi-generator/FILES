@@ -22,6 +22,7 @@ docs/Model/CatAllOf.md
 docs/Model/Category.md
 docs/Model/ClassModel.md
 docs/Model/Client.md
+docs/Model/DeprecatedObject.md
 docs/Model/Dog.md
 docs/Model/DogAllOf.md
 docs/Model/EnumArrays.md
@@ -42,12 +43,14 @@ docs/Model/ModelReturn.md
 docs/Model/Name.md
 docs/Model/NullableClass.md
 docs/Model/NumberOnly.md
+docs/Model/ObjectWithDeprecatedFields.md
 docs/Model/Order.md
 docs/Model/OuterComposite.md
 docs/Model/OuterEnum.md
 docs/Model/OuterEnumDefaultValue.md
 docs/Model/OuterEnumInteger.md
 docs/Model/OuterEnumIntegerDefaultValue.md
+docs/Model/OuterObjectWithEnumProperty.md
 docs/Model/Pet.md
 docs/Model/ReadOnlyFirst.md
 docs/Model/SpecialModelName.md
@@ -76,6 +79,7 @@ lib/Model/CatAllOf.php
 lib/Model/Category.php
 lib/Model/ClassModel.php
 lib/Model/Client.php
+lib/Model/DeprecatedObject.php
 lib/Model/Dog.php
 lib/Model/DogAllOf.php
 lib/Model/EnumArrays.php
@@ -97,12 +101,14 @@ lib/Model/ModelReturn.php
 lib/Model/Name.php
 lib/Model/NullableClass.php
 lib/Model/NumberOnly.php
+lib/Model/ObjectWithDeprecatedFields.php
 lib/Model/Order.php
 lib/Model/OuterComposite.php
 lib/Model/OuterEnum.php
 lib/Model/OuterEnumDefaultValue.php
 lib/Model/OuterEnumInteger.php
 lib/Model/OuterEnumIntegerDefaultValue.php
+lib/Model/OuterObjectWithEnumProperty.php
 lib/Model/Pet.php
 lib/Model/ReadOnlyFirst.php
 lib/Model/SpecialModelName.php

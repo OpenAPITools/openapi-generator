@@ -23,6 +23,7 @@ This can only be done by the logged in user.
 
 ### Example
 
+
 ```python
 import time
 import petstore_api
@@ -63,6 +64,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->create_user: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -82,7 +84,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -95,6 +99,7 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
+
 
 ```python
 import time
@@ -138,6 +143,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->create_users_with_array_input: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -157,7 +163,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -170,6 +178,7 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
+
 
 ```python
 import time
@@ -213,6 +222,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->create_users_with_list_input: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -232,7 +242,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -247,6 +259,7 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 
 ```python
 import time
@@ -274,6 +287,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->delete_user: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -293,7 +307,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid username supplied |  -  |
@@ -307,6 +323,7 @@ No authorization required
 Get user by user name
 
 ### Example
+
 
 ```python
 import time
@@ -336,6 +353,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->get_user_by_name: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -355,7 +373,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -370,6 +390,7 @@ No authorization required
 Logs user into the system
 
 ### Example
+
 
 ```python
 import time
@@ -399,6 +420,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->login_user: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -419,7 +441,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
@@ -433,6 +457,7 @@ No authorization required
 Logs out current logged in user session
 
 ### Example
+
 
 ```python
 import time
@@ -459,6 +484,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->logout_user: %s\n" % e)
 ```
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -475,7 +501,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -490,6 +518,7 @@ Updated user
 This can only be done by the logged in user.
 
 ### Example
+
 
 ```python
 import time
@@ -532,6 +561,7 @@ with petstore_api.ApiClient() as api_client:
         print("Exception when calling UserApi->update_user: %s\n" % e)
 ```
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -552,7 +582,9 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid user supplied |  -  |

@@ -53,7 +53,7 @@ function Invoke-PSApiClient {
         }
     }
     if ($CookieParameters -and $CookieParameters.Count -gt 1) {
-        Write-Warning "Multipe cookie parameters found. Curently only the first one is supported/used"
+        Write-Warning "Multiple cookie parameters found. Currently only the first one is supported/used"
     }
 
     # accept, content-type headers
@@ -73,7 +73,7 @@ function Invoke-PSApiClient {
     }
 
 
-    # constrcut URL query string
+    # construct URL query string
     $HttpValues = [System.Web.HttpUtility]::ParseQueryString([String]::Empty)
     foreach ($Parameter in $QueryParameters.GetEnumerator()) {
         if ($Parameter.Value.Count -gt 1) { // array
@@ -197,6 +197,10 @@ function DeserializeResponse {
         [AllowEmptyCollection()]
         [string[]]$ContentTypes
     )
+
+    If ($ContentTypes -eq $null) {
+        $ContentTypes = [string[]]@()
+    }
 
     If ([string]::IsNullOrEmpty($ReturnType) -and $ContentTypes.Count -eq 0) { # void response
         return $Response

@@ -1,8 +1,13 @@
 dependencies:
   factories:
-    Mezzio\Router\RouterInterface: Articus\PathHandler\RouteInjection\Factory
+    Mezzio\Router\RouterInterface: Articus\PathHandler\RouteInjectionFactory
+    Articus\PathHandler\MetadataProviderInterface: Articus\PathHandler\MetadataProvider\Factory\Annotation
+    Articus\PathHandler\Handler\PluginManager: Articus\PathHandler\Handler\Factory\PluginManager
+    Articus\PathHandler\Consumer\PluginManager: Articus\PathHandler\Consumer\Factory\PluginManager
+    Articus\PathHandler\Attribute\PluginManager: Articus\PathHandler\Attribute\Factory\PluginManager
+    Articus\PathHandler\Producer\PluginManager: Articus\PathHandler\Producer\Factory\PluginManager
 
-Articus\PathHandler\RouteInjection\Factory:
+Articus\PathHandler\RouteInjectionFactory:
   paths:
     '{{basePathWithoutHost}}':
 {{#apiInfo}}
@@ -12,18 +17,22 @@ Articus\PathHandler\RouteInjection\Factory:
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
-  handlers:
-    abstract_factories:
-    - Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory
-#  consumers:
-#    factories:
-#    invokables:
-#  attributes:
-#    factories:
-#    invokables:
-#  producers:
-#    factories:
-#    invokables:
+
+Articus\PathHandler\Handler\PluginManager:
+  abstract_factories:
+  - Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory
+
+#Articus\PathHandler\Consumer\PluginManager:
+#  factories:
+#  invokables:
+
+#Articus\PathHandler\Attribute\PluginManager:
+#  factories:
+#  invokables:
+
+#Articus\PathHandler\Producer\PluginManager:
+#  factories:
+#  invokables:
 
 Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory:
 {{#apiInfo}}

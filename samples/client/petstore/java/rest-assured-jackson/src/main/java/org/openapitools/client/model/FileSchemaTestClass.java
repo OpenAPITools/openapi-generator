@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -67,6 +68,8 @@ public class FileSchemaTestClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFile(java.io.File file) {
     this.file = file;
   }
@@ -101,6 +104,8 @@ public class FileSchemaTestClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFiles(List<java.io.File> files) {
     this.files = files;
   }

@@ -11,8 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.openapitools.vertxweb.server.api.PetApiHandler;
+import org.openapitools.vertxweb.server.api.PetApiImpl;
 import org.openapitools.vertxweb.server.api.StoreApiHandler;
+import org.openapitools.vertxweb.server.api.StoreApiImpl;
 import org.openapitools.vertxweb.server.api.UserApiHandler;
+import org.openapitools.vertxweb.server.api.UserApiImpl;
 
 public class HttpServerVerticle extends AbstractVerticle {
 
@@ -20,9 +23,9 @@ public class HttpServerVerticle extends AbstractVerticle {
     private static final String specFile = "src/main/resources/openapi.yaml";
 
     
-    private final PetApiHandler petHandler = new PetApiHandler();
-    private final StoreApiHandler storeHandler = new StoreApiHandler();
-    private final UserApiHandler userHandler = new UserApiHandler();
+    private final PetApiHandler petHandler = new PetApiHandler(new PetApiImpl());
+    private final StoreApiHandler storeHandler = new StoreApiHandler(new StoreApiImpl());
+    private final UserApiHandler userHandler = new UserApiHandler(new UserApiImpl());
 
     @Override
     public void start(Promise<Void> startPromise) {

@@ -30,7 +30,7 @@ import java.util.EnumSet;
 
 public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLNodeJSExpressServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GraphQLNodeJSExpressServerCodegen.class);
 
     @Override
     public CodegenType getTag() {
@@ -127,7 +127,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
 
-            // IMPORTANT NOTE we add the braces within template because there we have the possibility to differenciate
+            // IMPORTANT NOTE we add the braces within template because there we have the possibility to differentiate
             // between some specific types for GraphQL:
             // return "[" + getTypeDeclaration(inner) + "]";
             return getTypeDeclaration(inner);
@@ -137,7 +137,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
             return getTypeDeclaration(inner);
         }
 
-        // IMPORANT NOTE Not using the supertype invocation, because we want to UpperCamelize the type:
+        // IMPORTANT NOTE Not using the supertype invocation, because we want to UpperCamelize the type:
         String schemaType = getSchemaType(p);
         String nullable = ModelUtils.isNullable(p) ? "" : "!";
 

@@ -24,7 +24,7 @@ import com.samskivert.mustache.Template;
  * </pre>
  */
 public class OnChangeLambda implements Mustache.Lambda {
-    private static final Logger LOGGER = LoggerFactory.getLogger(OnChangeLambda.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OnChangeLambda.class);
 
     private String lastVal = null;
 

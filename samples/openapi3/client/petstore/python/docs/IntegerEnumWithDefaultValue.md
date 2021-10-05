@@ -1,5 +1,6 @@
 # IntegerEnumWithDefaultValue
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

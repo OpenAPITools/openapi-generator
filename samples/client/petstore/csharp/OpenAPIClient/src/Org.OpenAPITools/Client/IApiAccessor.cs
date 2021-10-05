@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <value>The base path</value>
         String GetBasePath();
-        
+
         /// <summary>
         /// Provides a factory method hook for the creation of exceptions.
         /// </summary>

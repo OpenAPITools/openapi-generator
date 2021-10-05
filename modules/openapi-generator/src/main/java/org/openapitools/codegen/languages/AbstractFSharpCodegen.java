@@ -30,9 +30,8 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.Exception;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -77,7 +76,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     protected Set<String> nullableType = new HashSet<String>();
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractFSharpCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractFSharpCodegen.class);
 
     public AbstractFSharpCodegen() {
         super();
@@ -347,7 +346,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     /*
      * F# does not allow forward declarations, so files must be imported in the correct order.
-     * Output of CodeGen models must therefore bein dependency order (rather than alphabetical order, which seems to be the default).
+     * Output of CodeGen models must therefore be in dependency order (rather than alphabetical order, which seems to be the default).
      * This could probably be made more efficient if absolutely needed.
      */
     @SuppressWarnings({"unchecked"})
@@ -453,7 +452,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                         model.vendorExtensions.put("x-enum-string", true);
                     }
 
-                    // Since we iterate enumVars for modelnnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
+                    // Since we iterate enumVars for modelInnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
                     // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
                     List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
                     List<Map<String, Object>> newEnumVars = new ArrayList<Map<String, Object>>();
@@ -629,13 +628,13 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -680,7 +679,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         // sanitize name
         name = sanitizeName(name);
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -702,7 +701,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -901,13 +900,14 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -1122,10 +1122,12 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

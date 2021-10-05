@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Sweet
         /// </summary>
-        [DataMember(Name = "sweet", EmitDefaultValue = false)]
+        [DataMember(Name = "sweet", EmitDefaultValue = true)]
         public bool Sweet { get; set; }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

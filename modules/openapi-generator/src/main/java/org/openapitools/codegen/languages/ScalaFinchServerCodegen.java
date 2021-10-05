@@ -28,10 +28,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
-
 public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "finch-server";
@@ -318,7 +316,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
     //All path parameters are String initially, for primitives these need to be converted
     private String toPathParameter(CodegenParameter p, String paramType, Boolean canBeOptional) {
 
-        Boolean isNotAString = !p.dataType.equals("String");
+        Boolean isNotAString = !"String".equals(p.dataType);
 
         return paramType + (canBeOptional && !p.required ? "Option" : "") + "(\"" + p.baseName + "\")" + (isNotAString ? toPrimitive(p.dataType, p.required, canBeOptional) : "");
     }
@@ -455,7 +453,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                 }
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));
             } else {
-                //Path paremeters are handled in generateScalaPath()
+                //Path parameters are handled in generateScalaPath()
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
             }
             if (p.vendorExtensions.get("x-codegen-normalized-path-type") != null) {

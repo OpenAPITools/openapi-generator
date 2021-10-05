@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.NullableClass
+
 ## Properties
 
 Name | Type | Description | Notes

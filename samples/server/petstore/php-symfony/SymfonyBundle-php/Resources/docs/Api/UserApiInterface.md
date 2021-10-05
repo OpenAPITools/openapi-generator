@@ -27,7 +27,7 @@ services:
 ```
 
 ## **createUser**
-> createUser($body)
+> createUser($user)
 
 Create user
 
@@ -45,12 +45,20 @@ use OpenAPI\Server\Api\UserApiInterface;
 class UserApi implements UserApiInterface
 {
 
+    /**
+     * Configure API key authorization: api_key
+     */
+    public function setapi_key($apiKey)
+    {
+        // Retrieve logged in user from $apiKey ...
+    }
+
     // ...
 
     /**
      * Implementation of UserApiInterface#createUser
      */
-    public function createUser(User $body)
+    public function createUser(User $user)
     {
         // Implement the operation ...
     }
@@ -63,7 +71,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Created user object |
+ **user** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Created user object |
 
 ### Return type
 
@@ -71,17 +79,17 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[api_key](../../README.md#api_key)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **createUsersWithArrayInput**
-> createUsersWithArrayInput($body)
+> createUsersWithArrayInput($user)
 
 Creates list of users with given input array
 
@@ -96,13 +104,21 @@ use OpenAPI\Server\Api\UserApiInterface;
 
 class UserApi implements UserApiInterface
 {
+
+    /**
+     * Configure API key authorization: api_key
+     */
+    public function setapi_key($apiKey)
+    {
+        // Retrieve logged in user from $apiKey ...
+    }
 
     // ...
 
     /**
      * Implementation of UserApiInterface#createUsersWithArrayInput
      */
-    public function createUsersWithArrayInput(array $body)
+    public function createUsersWithArrayInput(array $user)
     {
         // Implement the operation ...
     }
@@ -115,7 +131,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OpenAPI\Server\Model\User**](../Model/User.md)| List of user object |
+ **user** | [**OpenAPI\Server\Model\User**](../Model/User.md)| List of user object |
 
 ### Return type
 
@@ -123,17 +139,17 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[api_key](../../README.md#api_key)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **createUsersWithListInput**
-> createUsersWithListInput($body)
+> createUsersWithListInput($user)
 
 Creates list of users with given input array
 
@@ -149,12 +165,20 @@ use OpenAPI\Server\Api\UserApiInterface;
 class UserApi implements UserApiInterface
 {
 
+    /**
+     * Configure API key authorization: api_key
+     */
+    public function setapi_key($apiKey)
+    {
+        // Retrieve logged in user from $apiKey ...
+    }
+
     // ...
 
     /**
      * Implementation of UserApiInterface#createUsersWithListInput
      */
-    public function createUsersWithListInput(array $body)
+    public function createUsersWithListInput(array $user)
     {
         // Implement the operation ...
     }
@@ -167,7 +191,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OpenAPI\Server\Model\User**](../Model/User.md)| List of user object |
+ **user** | [**OpenAPI\Server\Model\User**](../Model/User.md)| List of user object |
 
 ### Return type
 
@@ -175,11 +199,11 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[api_key](../../README.md#api_key)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -202,6 +226,14 @@ use OpenAPI\Server\Api\UserApiInterface;
 
 class UserApi implements UserApiInterface
 {
+
+    /**
+     * Configure API key authorization: api_key
+     */
+    public function setapi_key($apiKey)
+    {
+        // Retrieve logged in user from $apiKey ...
+    }
 
     // ...
 
@@ -229,7 +261,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[api_key](../../README.md#api_key)
 
 ### HTTP request headers
 
@@ -360,6 +392,14 @@ use OpenAPI\Server\Api\UserApiInterface;
 class UserApi implements UserApiInterface
 {
 
+    /**
+     * Configure API key authorization: api_key
+     */
+    public function setapi_key($apiKey)
+    {
+        // Retrieve logged in user from $apiKey ...
+    }
+
     // ...
 
     /**
@@ -383,7 +423,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[api_key](../../README.md#api_key)
 
 ### HTTP request headers
 
@@ -393,7 +433,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **updateUser**
-> updateUser($username, $body)
+> updateUser($username, $user)
 
 Updated user
 
@@ -411,12 +451,20 @@ use OpenAPI\Server\Api\UserApiInterface;
 class UserApi implements UserApiInterface
 {
 
+    /**
+     * Configure API key authorization: api_key
+     */
+    public function setapi_key($apiKey)
+    {
+        // Retrieve logged in user from $apiKey ...
+    }
+
     // ...
 
     /**
      * Implementation of UserApiInterface#updateUser
      */
-    public function updateUser($username, User $body)
+    public function updateUser($username, User $user)
     {
         // Implement the operation ...
     }
@@ -430,7 +478,7 @@ class UserApi implements UserApiInterface
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted |
- **body** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Updated user object |
+ **user** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Updated user object |
 
 ### Return type
 
@@ -438,11 +486,11 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[api_key](../../README.md#api_key)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)

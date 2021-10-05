@@ -37,7 +37,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
 
     public static final String USER_CLASSNAME_KEY = "userClassname";
 
@@ -92,7 +92,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
         // override cliOptions from AbstractPhpCodegen
         for (CliOption co : cliOptions) {
-            if (co.getOpt().equals(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION)) {
+            if (AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION.equals(co.getOpt())) {
                 co.setDescription("naming convention of variable name, e.g. camelCase.");
                 co.setDefault("camelCase");
                 break;
@@ -233,7 +233,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         // remove \t, \n, \r
         // replace \ with \\
         // replace " with \"
-        // outter unescape to retain the original multi-byte characters
+        // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         input = super.escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(

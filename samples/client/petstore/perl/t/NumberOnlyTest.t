@@ -27,7 +27,8 @@ use warnings;
 
 use_ok('WWW::OpenAPIClient::Object::NumberOnly');
 
-my $instance = WWW::OpenAPIClient::Object::NumberOnly->new();
-
-isa_ok($instance, 'WWW::OpenAPIClient::Object::NumberOnly');
+# uncomment below and update the test
+#my $instance = WWW::OpenAPIClient::Object::NumberOnly->new();
+#
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::NumberOnly');
 

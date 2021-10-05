@@ -5,11 +5,10 @@
 //
 
 import Foundation
-
 open class PetstoreClientAPI {
     public static var basePath = "http://petstore.swagger.io:80/v2"
-    public static var credential: URLCredential?
     public static var customHeaders: [String: String] = [:]
+    public static var credential: URLCredential?
     public static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
     public static var apiResponseQueue: DispatchQueue = .main
 }
@@ -41,7 +40,7 @@ open class RequestBuilder<T> {
         }
     }
 
-    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) { }
+    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) { }
 
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {

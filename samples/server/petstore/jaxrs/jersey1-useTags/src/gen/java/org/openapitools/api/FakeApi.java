@@ -184,7 +184,7 @@ public class FakeApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Not found", response = Void.class) })
     public Response testEnumParameters(
-        @ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $", defaultValue="new ArrayList<String>()")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,
+        @ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,
         @ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")@HeaderParam("enum_header_string") String enumHeaderString,
         @ApiParam(value = "Query parameter enum test (string array)") @QueryParam("enum_query_string_array") @Valid  List<String> enumQueryStringArray,
         @ApiParam(value = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue = "-efg") @DefaultValue("-efg") @QueryParam("enum_query_string")  String enumQueryString,
@@ -242,7 +242,7 @@ public class FakeApi  {
         return delegate.testJsonFormData(param,param2,securityContext);
     }
     @PUT
-    @Path("/test-query-paramters")
+    @Path("/test-query-parameters")
     
     
     @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake" })

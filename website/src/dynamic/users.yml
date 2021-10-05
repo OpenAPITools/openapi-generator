@@ -1,4 +1,9 @@
 -
+  caption: "Aalborg University"
+  image: "img/companies/aalborg_university.png"
+  infoLink: "https://www.aau.dk/"
+  pinned: false
+-
   caption: "Adaptant Solutions AG"
   image: "img/companies/adaptant.png"
   infoLink: "https://www.adaptant.io/"
@@ -299,11 +304,6 @@
   infoLink: "https://www.nokia.com/"
   pinned: false
 -
-  caption: "PLAID, Inc."
-  image: "img/companies/plaidcojp.jpg"
-  infoLink: "https://plaid.co.jp/"
-  pinned: false
--
   caption: Options Clearing Corporation (OCC)
   image: "img/companies/occ.jpg"
   infoLink: "https://www.theocc.com/"
@@ -327,6 +327,16 @@
   caption: Paxos
   image: "img/companies/paxos.png"
   infoLink: "https://www.paxos.com/"
+  pinned: false
+-
+  caption: "PLAID, Inc."
+  image: "img/companies/plaidcojp.jpg"
+  infoLink: "https://plaid.co.jp/"
+  pinned: false
+-
+  caption: Plaid
+  image: "img/companies/plaid.png"
+  infoLink: "https://www.plaid.com/"
   pinned: false
 -
   caption: Ponicode
@@ -374,6 +384,11 @@
   infoLink: "https://restunited.com/"
   pinned: false
 -
+  caption: "Shotstack"
+  image: "img/companies/shotstack.svg"
+  infoLink: "https://shotstack.io"
+  pinned: false
+-
   caption: "SmartHR"
   image: "img/companies/smarthr.png"
   infoLink: "https://smarthr.co.jp/"
@@ -403,6 +418,11 @@
   image: "img/companies/telstra.svg"
   infoLink: "https://dev.telstra.com/"
   pinned: true
+-
+  caption: The University of Aizu
+  image: "img/companies/uoa.png"
+  infoLink: "https://www.u-aizu.ac.jp/en/"
+  pinned: false
 -
   caption: "TravelTime platform"
   image: "img/companies/traveltime.jpg"
@@ -437,6 +457,11 @@
   caption: "viadee"
   image: "img/companies/viadee.jpg"
   infoLink: "https://www.viadee.de"
+  pinned: false
+-
+  caption: "VMware"
+  image: "img/companies/vmware.png"
+  infoLink: "https://www.vmware.com/"
   pinned: false
 -
   caption: Vonage

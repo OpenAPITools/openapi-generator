@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -75,6 +76,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
@@ -101,6 +104,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -135,6 +140,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }

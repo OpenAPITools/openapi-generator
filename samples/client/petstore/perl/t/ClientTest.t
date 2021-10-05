@@ -27,7 +27,8 @@ use warnings;
 
 use_ok('WWW::OpenAPIClient::Object::Client');
 
-my $instance = WWW::OpenAPIClient::Object::Client->new();
-
-isa_ok($instance, 'WWW::OpenAPIClient::Object::Client');
+# uncomment below and update the test
+#my $instance = WWW::OpenAPIClient::Object::Client->new();
+#
+#isa_ok($instance, 'WWW::OpenAPIClient::Object::Client');
 

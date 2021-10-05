@@ -18,7 +18,6 @@ package org.openapitools.codegen.ktorm;
 
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.KtormSchemaCodegen;
 import org.testng.Assert;
@@ -55,19 +54,19 @@ public class KtormSchemaCodegenTest {
         codegen.postProcessModels(toObjs(cm));
         return cm;
     }
-    
+
     private Map<String, Object> getExtension(CodegenProperty property) {
-        return (Map<String, Object>) 
+        return (Map<String, Object>)
             property.vendorExtensions.get(KtormSchemaCodegen.VENDOR_EXTENSION_SCHEMA);
     }
-    
+
     private Map<String, Object> getColumnDefinition(Map<String, Object> schema) {
-        return (Map<String, Object>) 
+        return (Map<String, Object>)
             schema.get("columnDefinition");
     }
 
     private Map<String, Object> getRelationDefinition(Map<String, Object> schema) {
-        return (Map<String, Object>) 
+        return (Map<String, Object>)
             schema.get("relationDefinition");
     }
 
@@ -278,7 +277,7 @@ public class KtormSchemaCodegenTest {
     }
 
     @Test
-    public void testDontAddSorrogateKey() {
+    public void testDontAddSurrogateKey() {
         final Schema schema = new Schema()
             .description("a sample model")
             .addProperties("key" , new IntegerSchema())
@@ -292,7 +291,7 @@ public class KtormSchemaCodegenTest {
     }
 
     @Test
-    public void testAddSorrogateKey() {
+    public void testAddSurrogateKey() {
         final Schema schema = new Schema()
             .description("a sample model")
             .addProperties("key", new IntegerSchema());

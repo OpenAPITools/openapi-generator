@@ -17,14 +17,22 @@
 
 package org.openapitools.codegen.php;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
+
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractPhpCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class AbstractPhpCodegenTest {
@@ -98,6 +106,65 @@ public class AbstractPhpCodegenTest {
 
         Assert.assertEquals(codegenOperation.produces.get(0).get("mediaType"), "*_/_*");
         Assert.assertEquals(codegenOperation.produces.get(1).get("mediaType"), "application/json");
+    }
+
+    @Test(dataProvider = "composerNames", description = "Issue #9998")
+    public void testGetComposerPackageName(String gitUserId, String gitRepoId, String result) {
+        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
+        codegen.processOpts();
+
+        codegen.setGitUserId(gitUserId);
+        codegen.setGitRepoId(gitRepoId);
+        Assert.assertEquals(codegen.getComposerPackageName(), result);
+    }
+
+    @DataProvider(name = "composerNames")
+    public static Object[][] composerNames() {
+        return new Object[][] {
+            {"", "", ""},
+            {"null", "null", ""},
+            {"GIT_REPO_ID", "GIT_USER_ID", ""},
+            {"git_repo_id", "git_user_id", "git_repo_id/git_user_id"},
+            {"foo", "bar", "foo/bar"},
+        };
+    }
+
+    @Test(description = "Issue #8945")
+    public void testArrayOfArrays() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8945.yaml");
+        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("MyResponse");
+        CodegenModel cm1 = codegen.fromModel("MyResponse", test1);
+
+        // Make sure we got the container object.
+        Assert.assertEquals(cm1.getDataType(), "object");
+        Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "\\php\\Model\\MyResponse");
+
+        // Assert the array type is properly detected.
+        CodegenProperty cp1 = cm1.vars.get(0);
+        cp1 = codegen.fromProperty("ArrayProp", test1);
+        Assert.assertTrue(cp1.isPrimitiveType);
+    }
+
+    @Test(description = "Issue #10244")
+    public void testEnumPropertyWithDefaultValue() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/php/issue_10244.yaml");
+        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
+        CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
+
+        // Make sure we got the container object.
+        Assert.assertEquals(cm1.getDataType(), "object");
+        Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "\\php\\Model\\MyResponse");
+
+        // We need to postProcess the model for enums to be processed
+        codegen.postProcessModels(Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm1))));
+
+        // Assert the enum default value is properly generated
+        CodegenProperty cp1 = cm1.vars.get(0);
+        Assert.assertEquals(cp1.getDefaultValue(), "'VALUE'");
     }
 
     private static class P_AbstractPhpCodegen extends AbstractPhpCodegen {

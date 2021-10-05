@@ -28,13 +28,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     protected String moduleName;
@@ -50,9 +51,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public CLibcurlClientCodegen() {
         super();
 
-        // TODO: c maintainer review
-        // Assumes that C community considers api/model header files as documentation.
-        // Generator supports Basic, OAuth, and API key explicitly. Bearer is excluded although clients are able to set headers directly.
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(
                         DocumentationFeature.Readme
@@ -82,8 +80,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         modelTemplateFiles.put("model-body.mustache", ".c");
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-body.mustache", ".c");
-        //modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        //apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "C-libcurl";
 
         // TODO add auto-generated test files
@@ -247,7 +245,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         "final",
                         "override",
                         "transaction_safe",
-                        "transaction_safe_dynamic")
+                        "transaction_safe_dynamic",
+
+                        // VC++ reserved keywords
+                        "stdin",
+                        "stdout",
+                        "stderr")
         );
 
         instantiationTypes.clear();
@@ -521,7 +524,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         } else if (ModelUtils.isObjectSchema(schema)) {
             return null; // models are managed at moustache level
         } else {
-            LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
+            LOGGER.warn("Type {} not handled properly in toExampleValue", schema.getType());
         }
 
         if (ModelUtils.isStringSchema(schema)) {
@@ -555,7 +558,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public String toVarName(String name) {
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }
@@ -595,13 +598,14 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = camelize("Model" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -721,21 +725,21 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
             operationId = camelize("empty_method_name_" + emptyMethodNameCounter++);
-            LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
+            LOGGER.warn("Empty method name (operationId) found. Renamed to {}", operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize(sanitizeName("call_" + operationId), true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             String newOperationId = camelize(sanitizeName("call_" + operationId), true);
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
@@ -869,7 +873,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             return; // skip if C_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only procees the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
+        // only process the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
         Set<String> supportedFileType = new HashSet<String>(
                 Arrays.asList(
                         "supporting-mustache",
@@ -891,10 +895,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

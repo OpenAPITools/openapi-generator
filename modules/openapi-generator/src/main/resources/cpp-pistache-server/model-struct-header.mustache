@@ -14,9 +14,8 @@
 #include <nlohmann/json.hpp>
 {{#hasOptional}}#include <pistache/optional.h>{{/hasOptional}}
 
-{{#modelNamespaceDeclarations}}
-namespace {{this}} {
-{{/modelNamespaceDeclarations}}
+namespace {{modelNamespace}}
+{
 
 struct {{classname}}
 {
@@ -34,9 +33,9 @@ struct {{classname}}
 void to_json(nlohmann::json& j, const {{classname}}& o);
 void from_json(const nlohmann::json& j, {{classname}}& o);
 
-{{#modelNamespaceDeclarations}}
-} // {{this}}
-{{/modelNamespaceDeclarations}}
+
+} // namespace {{modelNamespace}}
+
 
 #endif /* {{classname}}_H_ */
 {{/model}}

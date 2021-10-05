@@ -3,7 +3,7 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
+import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Configuration } from '{{apiRelativeToRoot}}configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -34,10 +34,11 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
          {{#allParams}}
          * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
          {{/allParams}}
-         * @param {*} [options] Override http request option.
+         * @param {*} [options] Override http request option.{{#isDeprecated}}
+         * @deprecated{{/isDeprecated}}
          * @throws {RequiredError}
          */
-        {{nickname}}: async ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: any = {}): Promise<RequestArgs> => {
+        {{nickname}}: async ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
     {{#allParams}}
     {{#required}}
             // verify required parameter '{{paramName}}' is not null or undefined
@@ -86,10 +87,20 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{#isArray}}
             if ({{paramName}}) {
             {{#isCollectionFormatMulti}}
+                {{#uniqueItems}}
+                localVarQueryParameter['{{baseName}}'] = Array.from({{paramName}});
+                {{/uniqueItems}}
+                {{^uniqueItems}}
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
+                {{/uniqueItems}}
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
+                {{#uniqueItems}}
+                localVarQueryParameter['{{baseName}}'] = Array.from({{paramName}}).join(COLLECTION_FORMATS.{{collectionFormat}});
+                {{/uniqueItems}}
+                {{^uniqueItems}}
                 localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
+                {{/uniqueItems}}
             {{/isCollectionFormatMulti}}
             }
             {{/isArray}}
@@ -117,7 +128,12 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{#headerParams}}
             {{#isArray}}
             if ({{paramName}}) {
+                {{#uniqueItems}}
+                let mapped = Array.from({{paramName}}).map(value => (<any>"{{{dataType}}}" !== "Set<string>") ? JSON.stringify(value) : (value || ""));
+                {{/uniqueItems}}
+                {{^uniqueItems}}
                 let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
+                {{/uniqueItems}}
                 localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             }
             {{/isArray}}
@@ -143,7 +159,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-                localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}({{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));
+                localVarFormParams.{{#multipartFormData}}append{{/multipartFormData}}{{^multipartFormData}}set{{/multipartFormData}}('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));
             {{/isCollectionFormatMulti}}
             }{{/isArray}}
             {{^isArray}}
@@ -166,7 +182,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{/consumes.0}}
 
     {{/bodyParam}}
-            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
     {{#hasFormParams}}
@@ -187,7 +203,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
 
 /**
  * {{classname}} - functional programming interface{{#description}}
- * {{{description}}}{{/description}}
+ * {{{.}}}{{/description}}
  * @export
  */
 export const {{classname}}Fp = function(configuration?: Configuration) {
@@ -202,10 +218,11 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
          {{#allParams}}
          * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
          {{/allParams}}
-         * @param {*} [options] Override http request option.
+         * @param {*} [options] Override http request option.{{#isDeprecated}}
+         * @deprecated{{/isDeprecated}}
          * @throws {RequiredError}
          */
-        async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>> {
+        async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -230,10 +247,11 @@ export const {{classname}}Factory = function (configuration?: Configuration, bas
          {{#allParams}}
          * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
          {{/allParams}}
-         * @param {*} [options] Override http request option.
+         * @param {*} [options] Override http request option.{{#isDeprecated}}
+         * @deprecated{{/isDeprecated}}
          * @throws {RequiredError}
          */
-        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
             return localVarFp.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(axios, basePath));
         },
     {{/operation}}
@@ -257,11 +275,12 @@ export interface {{classname}}Interface {
      {{#allParams}}
      * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
      {{/allParams}}
-     * @param {*} [options] Override http request option.
+     * @param {*} [options] Override http request option.{{#isDeprecated}}
+     * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
      * @memberof {{classname}}Interface
      */
-    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AxiosRequestConfig): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
 
 {{/operation}}
 }
@@ -294,7 +313,7 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
 {{/useSingleRequestParameter}}
 /**
  * {{classname}} - object-oriented interface{{#description}}
- * {{{description}}}{{/description}}
+ * {{{.}}}{{/description}}
  * @export
  * @class {{classname}}
  * @extends {BaseAPI}
@@ -321,17 +340,18 @@ export class {{classname}} extends BaseAPI {
      * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
      {{/allParams}}
      {{/useSingleRequestParameter}}
-     * @param {*} [options] Override http request option.
+     * @param {*} [options] Override http request option.{{#isDeprecated}}
+     * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
      * @memberof {{classname}}
      */
     {{#useSingleRequestParameter}}
-    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options?: any) {
+    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options?: AxiosRequestConfig) {
         return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams.0}}{{#allParams}}requestParameters.{{paramName}}, {{/allParams}}{{/allParams.0}}options).then((request) => request(this.axios, this.basePath));
     }
     {{/useSingleRequestParameter}}
     {{^useSingleRequestParameter}}
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any) {
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: AxiosRequestConfig) {
         return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(this.axios, this.basePath));
     }
     {{/useSingleRequestParameter}}

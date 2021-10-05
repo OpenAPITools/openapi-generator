@@ -12,11 +12,12 @@
 
 
 #include "User.h"
+#include "Helpers.h"
 
-namespace org {
-namespace openapitools {
-namespace server {
-namespace model {
+#include <sstream>
+
+namespace org::openapitools::server::model
+{
 
 User::User()
 {
@@ -39,13 +40,64 @@ User::User()
     
 }
 
-User::~User()
+void User::validate() const
 {
+    std::stringstream msg;
+    if (!validate(msg))
+    {
+        throw org::openapitools::server::helpers::ValidationException(msg.str());
+    }
 }
 
-void User::validate()
+bool User::validate(std::stringstream& msg) const
 {
-    // TODO: implement validation
+    return validate(msg, "");
+}
+
+bool User::validate(std::stringstream& msg, const std::string& pathPrefix) const
+{
+    bool success = true;
+    const std::string _pathPrefix = pathPrefix.empty() ? "User" : pathPrefix;
+
+                                    
+    return success;
+}
+
+bool User::operator==(const User& rhs) const
+{
+    return
+    
+    
+    
+    ((!idIsSet() && !rhs.idIsSet()) || (idIsSet() && rhs.idIsSet() && getId() == rhs.getId())) &&
+    
+    
+    ((!usernameIsSet() && !rhs.usernameIsSet()) || (usernameIsSet() && rhs.usernameIsSet() && getUsername() == rhs.getUsername())) &&
+    
+    
+    ((!firstNameIsSet() && !rhs.firstNameIsSet()) || (firstNameIsSet() && rhs.firstNameIsSet() && getFirstName() == rhs.getFirstName())) &&
+    
+    
+    ((!lastNameIsSet() && !rhs.lastNameIsSet()) || (lastNameIsSet() && rhs.lastNameIsSet() && getLastName() == rhs.getLastName())) &&
+    
+    
+    ((!emailIsSet() && !rhs.emailIsSet()) || (emailIsSet() && rhs.emailIsSet() && getEmail() == rhs.getEmail())) &&
+    
+    
+    ((!passwordIsSet() && !rhs.passwordIsSet()) || (passwordIsSet() && rhs.passwordIsSet() && getPassword() == rhs.getPassword())) &&
+    
+    
+    ((!phoneIsSet() && !rhs.phoneIsSet()) || (phoneIsSet() && rhs.phoneIsSet() && getPhone() == rhs.getPhone())) &&
+    
+    
+    ((!userStatusIsSet() && !rhs.userStatusIsSet()) || (userStatusIsSet() && rhs.userStatusIsSet() && getUserStatus() == rhs.getUserStatus()))
+    
+    ;
+}
+
+bool User::operator!=(const User& rhs) const
+{
+    return !(*this == rhs);
 }
 
 void to_json(nlohmann::json& j, const User& o)
@@ -67,6 +119,7 @@ void to_json(nlohmann::json& j, const User& o)
         j["phone"] = o.m_Phone;
     if(o.userStatusIsSet())
         j["userStatus"] = o.m_UserStatus;
+    
 }
 
 void from_json(const nlohmann::json& j, User& o)
@@ -111,6 +164,7 @@ void from_json(const nlohmann::json& j, User& o)
         j.at("userStatus").get_to(o.m_UserStatus);
         o.m_UserStatusIsSet = true;
     } 
+    
 }
 
 int64_t User::getId() const
@@ -250,8 +304,6 @@ void User::unsetUserStatus()
     m_UserStatusIsSet = false;
 }
 
-}
-}
-}
-}
+
+} // namespace org::openapitools::server::model
 

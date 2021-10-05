@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -69,6 +70,8 @@ public class OuterComposite {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
@@ -94,6 +97,8 @@ public class OuterComposite {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyString(String myString) {
     this.myString = myString;
   }
@@ -119,6 +124,8 @@ public class OuterComposite {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }

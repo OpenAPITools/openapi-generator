@@ -12,6 +12,8 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class SharedTypeScriptTest {
     @Test
@@ -68,5 +70,26 @@ public class SharedTypeScriptTest {
         Assert.assertTrue(apiFileContent.contains("import { Tag }"));
 
         FileUtils.deleteDirectory(new File("src/test/resources/oldImportsStillPresentTest/"));
+    }
+
+    /*
+        #8000
+        Test that primitives are not returned by toModelImportMap
+    */
+    @Test
+    public void toModelImportMapTest() {
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+        Map<String, String[]> types = new HashMap<String, String[]>() {{
+            put("Schema & AnotherSchema", new String[]{ "Schema", "AnotherSchema" });
+            put("Schema | AnotherSchema", new String[]{ "Schema", "AnotherSchema" });
+            put("Schema & object", new String[]{ "Schema" });
+            put("Schema | object", new String[]{ "Schema" });
+        }};
+
+        for (Map.Entry<String, String[]> entry : types.entrySet()) {
+            String[] mapped = codegen.toModelImportMap(entry.getKey()).values().toArray(new String[0]);
+            Assert.assertEquals(mapped, entry.getValue());
+        }
     }
 }

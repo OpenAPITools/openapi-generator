@@ -119,7 +119,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Sets additional properties that can be referenced by the mustache templates.
      */
-    val additionalProperties = project.objects.mapProperty<String, String>()
+    val additionalProperties = project.objects.mapProperty<String, Any>()
 
     /**
      * Sets server variable for server URL template substitution, in the format of name=value,name=value.
@@ -200,6 +200,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * Remove prefix of operationId, e.g. config_getId => getId
      */
     val removeOperationIdPrefix = project.objects.property<Boolean?>()
+
+    /**
+     * Skip examples defined in the operation
+     */
+    val skipOperationExample = project.objects.property<Boolean?>()
 
     /**
      * Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all).

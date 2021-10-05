@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * AdditionalPropertiesClass
@@ -109,6 +110,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
@@ -142,6 +145,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
@@ -175,6 +180,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
@@ -208,6 +215,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
@@ -241,6 +250,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
@@ -274,6 +285,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
@@ -307,6 +320,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
@@ -340,6 +355,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
@@ -365,6 +382,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
   }
@@ -390,6 +409,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ANYTYPE2)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
   }
@@ -415,6 +436,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ANYTYPE3)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
   }

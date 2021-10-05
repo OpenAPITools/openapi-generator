@@ -31,7 +31,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class EiffelClientCodegen extends AbstractEiffelCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EiffelClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(EiffelClientCodegen.class);
 
     protected String libraryTarget = "openapi_eiffel_client";
     protected String packageName = "Eiffel";

@@ -43,7 +43,7 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
 
     protected String packageName = "defaultPackage";
     protected String projectName = "defaultProject";
@@ -220,7 +220,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     protected String toAdaIdentifier(String name, String prefix) {
         // We cannot use reserved keywords for identifiers
         if (isReservedWord(name)) {
-            LOGGER.warn("Identifier '" + name + "' is a reserved word, renamed to " + prefix + name);
+            LOGGER.warn("Identifier '{}' is a reserved word, renamed to {}{}", name, prefix, name);
             name = prefix + name;
         }
         StringBuilder result = new StringBuilder();
@@ -277,6 +277,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
      * @param name the name of the model
      * @return capitalized model name
      */
+    @Override
     public String toModelName(final String name) {
         String result = camelize(sanitizeName(name));
 
@@ -287,20 +288,22 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = "Model_" + result;
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (result.matches("^\\d.*")) {
             String modelName = "Model_" + result; // e.g. 200Response => Model_200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(result)) {
             String modelName = "Model_" + result;
-            LOGGER.warn(name + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
+                    name, modelName);
             return modelName;
         }
 

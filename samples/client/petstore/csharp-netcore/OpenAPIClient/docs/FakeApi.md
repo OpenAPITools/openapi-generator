@@ -18,7 +18,7 @@ Method | HTTP request | Description
 [**TestGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-[**TestQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+[**TestQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 
 
 <a name="fakehealthget"></a>
@@ -77,6 +77,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -147,6 +148,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: */*
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -215,6 +217,7 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -285,6 +288,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: */*
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -354,6 +358,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: */*
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -417,6 +422,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -486,6 +492,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -553,6 +560,7 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -623,6 +631,7 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -723,6 +732,7 @@ void (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -756,9 +766,9 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var enumHeaderStringArray = enumHeaderStringArray_example;  // List<string> | Header parameter enum test (string array) (optional) 
+            var enumHeaderStringArray = new List<string>(); // List<string> | Header parameter enum test (string array) (optional) 
             var enumHeaderString = enumHeaderString_example;  // string | Header parameter enum test (string) (optional)  (default to -efg)
-            var enumQueryStringArray = enumQueryStringArray_example;  // List<string> | Query parameter enum test (string array) (optional) 
+            var enumQueryStringArray = new List<string>(); // List<string> | Query parameter enum test (string array) (optional) 
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.2D;  // double? | Query parameter enum test (double) (optional) 
@@ -785,9 +795,9 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | **List&lt;string&gt;**| Header parameter enum test (string array) | [optional] 
+ **enumHeaderStringArray** | [**List&lt;string&gt;**](string.md)| Header parameter enum test (string array) | [optional] 
  **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
- **enumQueryStringArray** | **List&lt;string&gt;**| Query parameter enum test (string array) | [optional] 
+ **enumQueryStringArray** | [**List&lt;string&gt;**](string.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
@@ -806,6 +816,7 @@ No authorization required
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -890,6 +901,7 @@ void (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -956,6 +968,7 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -1025,6 +1038,7 @@ No authorization required
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -1101,6 +1115,7 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

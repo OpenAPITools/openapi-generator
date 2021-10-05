@@ -11,11 +11,13 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Model for testing model name same as property name
  **/
 @ApiModel(description = "Model for testing model name same as property name")
+@JsonTypeName("Name")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Name  implements Serializable {
   
   private @Valid Integer name;
@@ -40,9 +42,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
-  }/**
+  }
+
+/**
    **/
   public Name snakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
@@ -58,9 +63,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return snakeCase;
   }
 
+  @JsonProperty("snake_case")
   public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
-  }/**
+  }
+
+/**
    **/
   public Name property(String property) {
     this.property = property;
@@ -76,9 +84,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return property;
   }
 
+  @JsonProperty("property")
   public void setProperty(String property) {
     this.property = property;
-  }/**
+  }
+
+/**
    **/
   public Name _123number(Integer _123number) {
     this._123number = _123number;
@@ -94,9 +105,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return _123number;
   }
 
+  @JsonProperty("123Number")
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }
+
 
   @Override
   public boolean equals(Object o) {

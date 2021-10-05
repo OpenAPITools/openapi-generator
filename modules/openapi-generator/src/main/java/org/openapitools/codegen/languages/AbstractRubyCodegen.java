@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -40,7 +41,7 @@ import java.util.Locale;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 abstract public class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
 
     public AbstractRubyCodegen() {
         super();
@@ -77,6 +78,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Float");
         typeMapping.put("number", "Float");
+        typeMapping.put("decimal", "Float");
         typeMapping.put("date", "Date");
         typeMapping.put("DateTime", "Time");
         typeMapping.put("array", "Array");
@@ -84,6 +86,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         typeMapping.put("List", "Array");
         typeMapping.put("map", "Hash");
         typeMapping.put("object", "Object");
+        typeMapping.put("AnyType", "Object");
         typeMapping.put("file", "File");
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
@@ -173,7 +176,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     @Override
     public String toVarName(final String name) {
         String varName = sanitizeName(name);
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             varName = varName.toLowerCase(Locale.ROOT);
         }
@@ -190,6 +193,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         return varName;
     }
 
+    @Override
     public String toRegularExpression(String pattern) {
         return addRegularExpressionDelimiter(pattern);
     }
@@ -250,8 +254,10 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
                 } else {
                     LOGGER.info("Successfully executed: `{}`", command);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

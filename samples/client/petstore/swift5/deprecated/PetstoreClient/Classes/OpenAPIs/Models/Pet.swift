@@ -6,9 +6,12 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
 /** A pet for sale in the pet store */
-public struct Pet: Codable {
+public struct Pet: Codable, Hashable {
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"
@@ -33,4 +36,25 @@ public struct Pet: Codable {
         self.status = status
     }
 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case id
+        case category
+        case name
+        case photoUrls
+        case tags
+        case status
+    }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encode(name, forKey: .name)
+        try container.encode(photoUrls, forKey: .photoUrls)
+        try container.encodeIfPresent(tags, forKey: .tags)
+        try container.encodeIfPresent(status, forKey: .status)
+    }
 }
+

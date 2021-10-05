@@ -34,6 +34,10 @@ import java.util.Map;
 import java.util.Set;
 
 public interface CodegenConfig {
+    String getFilesMetadataFilename();
+
+    String getVersionMetadataFilename();
+
     GeneratorMetadata getGeneratorMetadata();
 
     CodegenType getTag();
@@ -123,9 +127,9 @@ public interface CodegenConfig {
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 
     List<CodegenServer> fromServers(List<Server> servers);
-  
+
     List<CodegenServerVariable> fromServerVariables(Map<String, ServerVariable> variables);
-    
+
     Set<String> defaultIncludes();
 
     Map<String, String> typeMapping();
@@ -214,6 +218,10 @@ public interface CodegenConfig {
 
     void setRemoveOperationIdPrefix(boolean removeOperationIdPrefix);
 
+    boolean isSkipOperationExample();
+
+    void setSkipOperationExample(boolean skipOperationExample);
+
     public boolean isHideGenerationTimestamp();
 
     public void setHideGenerationTimestamp(boolean hideGenerationTimestamp);
@@ -225,7 +233,7 @@ public interface CodegenConfig {
     /**
      * Library template (sub-template).
      *
-     * @return libray template
+     * @return library template
      */
     String getLibrary();
 

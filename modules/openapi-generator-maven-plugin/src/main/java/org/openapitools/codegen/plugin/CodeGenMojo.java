@@ -43,6 +43,7 @@ import com.google.common.io.CharSource;
 import io.swagger.v3.parser.util.ClasspathHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -73,7 +74,7 @@ import com.google.common.io.Files;
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class CodeGenMojo extends AbstractMojo {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
 
     /**
      * The build context is only avail when running from within eclipse.
@@ -236,6 +237,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "removeOperationIdPrefix", property = "openapi.generator.maven.plugin.removeOperationIdPrefix")
     private Boolean removeOperationIdPrefix;
+
+    /**
+     * To skip examples defined in the operation
+     */
+    @Parameter(name = "skipOperationExample", property = "openapi.generator.maven.plugin.skipOperationExample")
+    private Boolean skipOperationExample;
 
     /**
      * To write all log messages (not just errors) to STDOUT
@@ -417,6 +424,9 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(property = "codegen.configHelp")
     private boolean configHelp = false;
 
+    @Parameter(defaultValue = "${mojoExecution}", readonly = true)
+    private MojoExecution mojo;
+
     /**
      * The project being built.
      */
@@ -448,7 +458,7 @@ public class CodeGenMojo extends AbstractMojo {
                 }
             }
 
-            if (Boolean.TRUE.equals(skipIfSpecIsUnchanged) && inputSpecFile.exists()) {
+            if (Boolean.TRUE.equals(skipIfSpecIsUnchanged)) {
                 File storedInputSpecHashFile = getHashFile(inputSpecFile);
                 if (storedInputSpecHashFile.exists()) {
                     String inputSpecHash = null;
@@ -483,6 +493,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (removeOperationIdPrefix != null) {
                 configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
+            }
+
+            if (skipOperationExample != null) {
+                configurator.setSkipOperationExample(skipOperationExample);
             }
 
             if (isNotEmpty(inputSpec)) {
@@ -623,7 +637,7 @@ public class CodeGenMojo extends AbstractMojo {
             GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.toString());
 
             if (configOptions != null) {
-                // Retained for backwards-compataibility with configOptions -> instantiation-types
+                // Retained for backwards-compatibility with configOptions -> instantiation-types
                 if (instantiationTypes == null && configOptions.containsKey("instantiation-types")) {
                     applyInstantiationTypesKvp(configOptions.get("instantiation-types").toString(),
                             configurator);
@@ -635,18 +649,18 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
-                // Retained for backwards-compataibility with configOptions -> type-mappings
+                // Retained for backwards-compatibility with configOptions -> type-mappings
                 if (typeMappings == null && configOptions.containsKey("type-mappings")) {
                     applyTypeMappingsKvp(configOptions.get("type-mappings").toString(), configurator);
                 }
 
-                // Retained for backwards-compataibility with configOptions -> language-specific-primitives
+                // Retained for backwards-compatibility with configOptions -> language-specific-primitives
                 if (languageSpecificPrimitives == null && configOptions.containsKey("language-specific-primitives")) {
                     applyLanguageSpecificPrimitivesCsv(configOptions
                             .get("language-specific-primitives").toString(), configurator);
                 }
 
-                // Retained for backwards-compataibility with configOptions -> additional-properties
+                // Retained for backwards-compatibility with configOptions -> additional-properties
                 if (additionalProperties == null && configOptions.containsKey("additional-properties")) {
                     applyAdditionalPropertiesKvp(configOptions.get("additional-properties").toString(),
                             configurator);
@@ -656,7 +670,7 @@ public class CodeGenMojo extends AbstractMojo {
                     applyServerVariablesKvp(configOptions.get("server-variables").toString(), configurator);
                 }
 
-                // Retained for backwards-compataibility with configOptions -> reserved-words-mappings
+                // Retained for backwards-compatibility with configOptions -> reserved-words-mappings
                 if (reservedWordsMappings == null && configOptions.containsKey("reserved-words-mappings")) {
                     applyReservedWordsMappingsKvp(configOptions.get("reserved-words-mappings")
                             .toString(), configurator);
@@ -707,8 +721,9 @@ public class CodeGenMojo extends AbstractMojo {
                 getLog().warn("environmentVariables is deprecated and will be removed in version 5.1. Use globalProperties instead.");
             }
 
-            for (String key : globalProperties.keySet()) {
-                String value = globalProperties.get(key);
+            for (Map.Entry<String, String> globalPropertiesEntry : globalProperties.entrySet()) {
+                String key = globalPropertiesEntry.getKey();
+                String value = globalPropertiesEntry.getValue();
                 if (value != null) {
                     configurator.addGlobalProperty(key, value);
                 }
@@ -748,7 +763,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {
                 File parent = new File(storedInputSpecHashFile.getParent());
-                parent.mkdirs();
+                if (!parent.mkdirs()) {
+                    throw new RuntimeException("Failed to create the folder " + parent.getAbsolutePath() +
+                                               " to store the checksum of the input spec.");
+                }
             }
             Files.asCharSink(storedInputSpecHashFile, StandardCharsets.UTF_8).write(inputSpecHash);
 
@@ -780,7 +798,7 @@ public class CodeGenMojo extends AbstractMojo {
         File inputSpecTempFile = inputSpecFile;
 
         if (inputSpecRemoteUrl != null) {
-            inputSpecTempFile = File.createTempFile("openapi-spec", ".tmp");
+            inputSpecTempFile = java.nio.file.Files.createTempFile("openapi-spec", ".tmp").toFile();
 
             URLConnection conn = inputSpecRemoteUrl.openConnection();
             if (isNotEmpty(auth)) {
@@ -834,7 +852,7 @@ public class CodeGenMojo extends AbstractMojo {
             name = Files.getNameWithoutExtension(segments[segments.length - 1]);
         }
 
-        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + name + ".sha256");
+        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + name + "-" + mojo.getExecutionId() + ".sha256");
     }
 
     private String getCompileSourceRoot() {

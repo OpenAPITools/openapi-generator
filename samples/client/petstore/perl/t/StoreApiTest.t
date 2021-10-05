@@ -32,33 +32,27 @@ isa_ok($api, 'WWW::OpenAPIClient::StoreApi');
 #
 # delete_order test
 #
-{
-    my $order_id = undef; # replace NULL with a proper value
-    my $result = $api->delete_order(order_id => $order_id);
-}
+# uncomment below and update the test
+#my $delete_order_order_id = undef; # replace NULL with a proper value
+#my $delete_order_result = $api->delete_order(order_id => $delete_order_order_id);
 
 #
 # get_inventory test
 #
-{
-    my $result = $api->get_inventory();
-}
+# uncomment below and update the test
+#my $get_inventory_result = $api->get_inventory();
 
 #
 # get_order_by_id test
 #
-{
-    my $order_id = undef; # replace NULL with a proper value
-    my $result = $api->get_order_by_id(order_id => $order_id);
-}
+# uncomment below and update the test
+#my $get_order_by_id_order_id = undef; # replace NULL with a proper value
+#my $get_order_by_id_result = $api->get_order_by_id(order_id => $get_order_by_id_order_id);
 
 #
 # place_order test
 #
-{
-    my $order = undef; # replace NULL with a proper value
-    my $result = $api->place_order(order => $order);
-}
+# uncomment below and update the test
+#my $place_order_order = undef; # replace NULL with a proper value
+#my $place_order_result = $api->place_order(order => $place_order_order);
 
-
-1;

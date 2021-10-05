@@ -14,9 +14,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("TypeHolderDefault")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TypeHolderDefault  implements Serializable {
   
   private @Valid String stringItem = "what";
@@ -42,9 +44,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return stringItem;
   }
 
+  @JsonProperty("string_item")
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
@@ -61,9 +66,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return numberItem;
   }
 
+  @JsonProperty("number_item")
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault integerItem(Integer integerItem) {
     this.integerItem = integerItem;
@@ -80,9 +88,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return integerItem;
   }
 
+  @JsonProperty("integer_item")
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault boolItem(Boolean boolItem) {
     this.boolItem = boolItem;
@@ -99,9 +110,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return boolItem;
   }
 
+  @JsonProperty("bool_item")
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
@@ -118,9 +132,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return arrayItem;
   }
 
+  @JsonProperty("array_item")
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
+
 
   @Override
   public boolean equals(Object o) {

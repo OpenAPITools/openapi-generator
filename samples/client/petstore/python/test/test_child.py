@@ -73,14 +73,6 @@ class TestChild(unittest.TestCase):
             }
         )
 
-        # setting a value that doesn't exist raises an exception
-        # with a key
-        with self.assertRaises(petstore_api.ApiAttributeError):
-            child['invalid_variable'] = 'some value'
-        # with setattr
-        with self.assertRaises(petstore_api.ApiAttributeError):
-            setattr(child, 'invalid_variable', 'some value')
-
         # with hasattr
         self.assertFalse(hasattr(child, 'invalid_variable'))
 
@@ -123,16 +115,25 @@ class TestChild(unittest.TestCase):
         self.assertEqual(
             child._var_name_to_model_instances,
             {
-                'radio_waves': [child, parent_instance],
-                'tele_vision': [child, parent_instance],
-                'inter_net': [child, child_allof_instance]
+                'radio_waves': [child, child_allof_instance, parent_instance],
+                'tele_vision': [child, child_allof_instance, parent_instance],
+                'inter_net': [child, child_allof_instance, parent_instance]
             }
         )
         # model._additional_properties_model_instances stores a list of
         # models which have the property additional_properties_type != None
         self.assertEqual(
-            child._additional_properties_model_instances, []
+            child._additional_properties_model_instances, [child]
         )
+
+        # setting a value that doesn't exist works
+        # with a key
+        child['invalid_variable'] = 'a'
+        assert child.invalid_variable == 'a'
+        # with setattr
+        setattr(child, 'invalid_variable', 'b')
+        assert child.invalid_variable == 'b'
+
 
         # if we modify one of the properties owned by multiple
         # model_instances we get an exception when we try to access that
@@ -141,13 +142,13 @@ class TestChild(unittest.TestCase):
         with self.assertRaises(petstore_api.ApiValueError):
             inter_net = child.inter_net
 
-        # including extra parameters raises an exception
-        with self.assertRaises(petstore_api.ApiValueError):
-            child = Child(
-                radio_waves=radio_waves,
-                tele_vision=tele_vision,
-                inter_net=inter_net,
-                unknown_property='some value')
+        # including extra parameters works
+        child = Child(
+            radio_waves=radio_waves,
+            tele_vision=tele_vision,
+            inter_net=inter_net,
+            unknown_property='some value')
+        assert child.unknown_property == 'some value'
 
 if __name__ == '__main__':
     unittest.main()

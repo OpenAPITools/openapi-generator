@@ -62,7 +62,7 @@ class PetAPITests: XCTestCase {
             expectation.fulfill()
             }, onError: { _ in
                 XCTFail("error getting pet")
-        }).disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 

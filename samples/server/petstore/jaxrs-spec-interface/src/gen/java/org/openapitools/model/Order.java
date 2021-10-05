@@ -12,9 +12,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("Order")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Order  implements Serializable {
   
   private @Valid Long id;
@@ -73,9 +75,12 @@ public enum StatusEnum {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
-  }/**
+  }
+
+/**
    **/
   public Order petId(Long petId) {
     this.petId = petId;
@@ -91,9 +96,12 @@ public enum StatusEnum {
     return petId;
   }
 
+  @JsonProperty("petId")
   public void setPetId(Long petId) {
     this.petId = petId;
-  }/**
+  }
+
+/**
    **/
   public Order quantity(Integer quantity) {
     this.quantity = quantity;
@@ -109,9 +117,12 @@ public enum StatusEnum {
     return quantity;
   }
 
+  @JsonProperty("quantity")
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
-  }/**
+  }
+
+/**
    **/
   public Order shipDate(Date shipDate) {
     this.shipDate = shipDate;
@@ -127,9 +138,12 @@ public enum StatusEnum {
     return shipDate;
   }
 
+  @JsonProperty("shipDate")
   public void setShipDate(Date shipDate) {
     this.shipDate = shipDate;
-  }/**
+  }
+
+/**
    * Order Status
    **/
   public Order status(StatusEnum status) {
@@ -146,9 +160,12 @@ public enum StatusEnum {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(StatusEnum status) {
     this.status = status;
-  }/**
+  }
+
+/**
    **/
   public Order complete(Boolean complete) {
     this.complete = complete;
@@ -164,9 +181,11 @@ public enum StatusEnum {
     return complete;
   }
 
+  @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
+
 
   @Override
   public boolean equals(Object o) {

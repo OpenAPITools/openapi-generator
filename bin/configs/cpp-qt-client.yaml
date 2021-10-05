@@ -1,0 +1,7 @@
+generatorName: cpp-qt-client
+outputDir: samples/client/petstore/cpp-qt
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-qt-client
+additionalProperties:
+  cppNamespace: test_namespace
+  modelNamePrefix: PFX

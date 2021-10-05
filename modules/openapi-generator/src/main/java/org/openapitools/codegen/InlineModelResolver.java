@@ -29,7 +29,6 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +51,7 @@ public class InlineModelResolver {
         structureMapper.writer(new DefaultPrettyPrinter());
     }
 
-    static final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
+     final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     void flatten(OpenAPI openapi) {
         this.openapi = openapi;
@@ -80,8 +79,9 @@ public class InlineModelResolver {
             return;
         }
 
-        for (String pathname : paths.keySet()) {
-            PathItem path = paths.get(pathname);
+        for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+            String pathname = pathsEntry.getKey();
+            PathItem path = pathsEntry.getValue();
             List<Operation> operations = new ArrayList<>(path.readOperations());
 
             // Include callback operation as well
@@ -118,7 +118,7 @@ public class InlineModelResolver {
 
         Schema model = ModelUtils.getSchemaFromRequestBody(requestBody);
         if (model instanceof ObjectSchema) {
-            Schema obj = (Schema) model;
+            Schema obj = model;
             if (obj.getType() == null || "object".equals(obj.getType())) {
                 if (obj.getProperties() != null && obj.getProperties().size() > 0) {
                     flattenProperties(openAPI, obj.getProperties(), pathname);
@@ -213,7 +213,7 @@ public class InlineModelResolver {
 
             Schema model = parameter.getSchema();
             if (model instanceof ObjectSchema) {
-                Schema obj = (Schema) model;
+                Schema obj = model;
                 if (obj.getType() == null || "object".equals(obj.getType())) {
                     if (obj.getProperties() != null && obj.getProperties().size() > 0) {
                         flattenProperties(openAPI, obj.getProperties(), pathname);
@@ -264,8 +264,9 @@ public class InlineModelResolver {
             return;
         }
 
-        for (String key : responses.keySet()) {
-            ApiResponse response = responses.get(key);
+        for (Map.Entry<String, ApiResponse> responsesEntry : responses.entrySet()) {
+            String key = responsesEntry.getKey();
+            ApiResponse response = responsesEntry.getValue();
             if (ModelUtils.getSchemaFromResponse(response) == null) {
                 continue;
             }
@@ -431,7 +432,7 @@ public class InlineModelResolver {
                 flattenComposedChildren(openAPI, modelName + "_anyOf", m.getAnyOf());
                 flattenComposedChildren(openAPI, modelName + "_oneOf", m.getOneOf());
             } else if (model instanceof Schema) {
-                Schema m = (Schema) model;
+                Schema m = model;
                 Map<String, Schema> properties = m.getProperties();
                 flattenProperties(openAPI, properties, modelName);
                 fixStringModel(m);
@@ -562,8 +563,9 @@ public class InlineModelResolver {
         }
         Map<String, Schema> propsToUpdate = new HashMap<String, Schema>();
         Map<String, Schema> modelsToAdd = new HashMap<String, Schema>();
-        for (String key : properties.keySet()) {
-            Schema property = properties.get(key);
+        for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
+            String key = propertiesEntry.getKey();
+            Schema property = propertiesEntry.getValue();
             if (property instanceof ObjectSchema && ((ObjectSchema) property).getProperties() != null
                     && ((ObjectSchema) property).getProperties().size() > 0) {
                 ObjectSchema op = (ObjectSchema) property;

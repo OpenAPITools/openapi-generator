@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Iterables;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +37,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class GoClientCodegen extends AbstractGoCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -47,6 +48,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+
+    // A cache to efficiently lookup schema `toModelName()` based on the schema Key
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public GoClientCodegen() {
         super();
@@ -237,7 +241,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
@@ -311,8 +315,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     @Override
     public String toModelName(String name) {
+        if (schemaKeyToModelNameCache.containsKey(name)) {
+            return schemaKeyToModelNameCache.get(name);
+        }
+
         // underscoring would also lowercase the whole name, thus losing acronyms which are in capitals
-        return camelize(toModel(name, false));
+        String camelizedName = camelize(toModel(name, false));
+        schemaKeyToModelNameCache.put(name, camelizedName);
+        return camelizedName;
     }
 
     public String escapeReservedWord(String name) {
@@ -348,8 +358,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "\"" + escapeText((String) p.getDefault()) + "\"";
+            Object defaultObj = p.getDefault();
+            if (defaultObj != null) {
+                if (defaultObj instanceof java.lang.String) {
+                    return "\"" + escapeText((String) defaultObj) + "\"";
+                }
+                return "\"" + escapeText(defaultObj.toString()) + "\"";
             }
             return null;
         }
@@ -387,7 +401,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     continue;
                 }
 
-                for (CodegenProperty param : model.vars) {
+                for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
                     param.vendorExtensions.put("x-go-base-type", param.dataType);
                     if (!param.isNullable || param.isMap || param.isArray ||
                             param.isFreeFormObject || param.isAnyType) {
@@ -530,6 +544,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (modelMaps.containsKey(dataType)) {
                 prefix = "[]" + goImportAlias + "." + dataType;
             }
+            if (codegenProperty.items.isNullable) {
+                // We can't easily generate a pointer inline, so just use nil in that case
+                return prefix + "{nil}";
+            }
             return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
         } else if (codegenProperty.isMap) { // map
             String prefix = codegenProperty.dataType;
@@ -601,7 +619,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else if (codegenModel.isEnum) {
             Map<String, Object> allowableValues = codegenModel.allowableValues;
             List<Object> values = (List<Object>) allowableValues.get("values");
-            return goImportAlias + "." + model + "(\"" + String.valueOf(values.get(0)) + "\")";
+            String example = String.valueOf(values.get(0));
+            if (codegenModel.isString) {
+                example = "\"" + example + "\"";
+            }
+            return goImportAlias + "." + model + "(" + example + ")";
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
             String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap).substring(1);

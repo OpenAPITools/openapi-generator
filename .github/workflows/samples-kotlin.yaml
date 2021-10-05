@@ -1,0 +1,66 @@
+name: Samples Kotlin
+
+on:
+  push:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
+  pull_request:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
+    paths:
+      - 'samples/client/petstore/kotlin*/**'
+
+env:
+  GRADLE_VERSION: 6.9
+
+jobs:
+  build:
+    name: Build Kotlin
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/kotlin
+          - samples/client/petstore/kotlin-gson
+          - samples/client/petstore/kotlin-jackson
+          # needs Android configured
+          #- samples/client/petstore/kotlin-json-request-string
+          - samples/client/petstore/kotlin-jvm-okhttp4-coroutines
+          - samples/client/petstore/kotlin-moshi-codegen
+          # need some special setup
+          #- samples/client/petstore/kotlin-multiplatform
+          - samples/client/petstore/kotlin-nonpublic
+          - samples/client/petstore/kotlin-nullable
+          - samples/client/petstore/kotlin-okhttp3
+          - samples/client/petstore/kotlin-retrofit2
+          - samples/client/petstore/kotlin-retrofit2-kotlinx_serialization
+          - samples/client/petstore/kotlin-retrofit2-rx3
+          - samples/client/petstore/kotlin-string
+          - samples/client/petstore/kotlin-threetenbp
+          - samples/client/petstore/kotlin-uppercase-enum
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 8
+      - name: Cache maven dependencies
+        uses: actions/cache@v2.1.6
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.gradle
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+      - name: Install Gradle wrapper
+        uses: eskatos/gradle-command-action@v2
+        with:
+          gradle-version: ${{ env.GRADLE_VERSION }}
+          build-root-directory: ${{ matrix.sample }}
+          arguments: wrapper
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: ./gradlew build -x test

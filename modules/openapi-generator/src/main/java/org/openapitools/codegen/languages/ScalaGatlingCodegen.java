@@ -39,7 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ScalaGatlingCodegen extends AbstractScalaCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaGatlingCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaGatlingCodegen.class);
 
     // source folder where to write the files
     protected String resourceFolder = "src" + File.separator + "gatling" + File.separator + "resources";
@@ -251,8 +251,9 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      */
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        for (String pathname : openAPI.getPaths().keySet()) {
-            PathItem path = openAPI.getPaths().get(pathname);
+        for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+            String pathname = openAPIGetPathsEntry.getKey();
+            PathItem path = openAPIGetPathsEntry.getValue();
             if (path.readOperations() == null) {
                 continue;
             }
@@ -279,7 +280,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                 if (operation.getParameters() != null) {
 
                     for (Parameter parameter : operation.getParameters()) {
-                        if (parameter.getIn().equalsIgnoreCase("header")) {
+                        if ("header".equalsIgnoreCase(parameter.getIn())) {
                             headerParameters.add(parameter);
                         }
                     /* need to revise below as form parameter is no longer in the parameter list
@@ -287,10 +288,10 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                         formParameters.add(parameter);
                     }
                     */
-                        if (parameter.getIn().equalsIgnoreCase("query")) {
+                        if ("query".equalsIgnoreCase(parameter.getIn())) {
                             queryParameters.add(parameter);
                         }
-                        if (parameter.getIn().equalsIgnoreCase("path")) {
+                        if ("path".equalsIgnoreCase(parameter.getIn())) {
                             pathParameters.add(parameter);
                         }
                     /* TODO need to revise below as body is no longer in the parameter
@@ -345,7 +346,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     /**
      * Creates all the necessary openapi vendor extensions and feeder files for gatling
      *
-     * @param operation     OpoenAPI Operation
+     * @param operation     OpenAPI Operation
      * @param parameters    OpenAPI Parameters
      * @param parameterType OpenAPI Parameter Type
      */

@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Quadrilateral`. If the actual instanct is not `Quadrilateral`,
+        /// Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Quadrilateral</returns>
@@ -108,7 +108,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `Triangle`. If the actual instanct is not `Triangle`,
+        /// Get the actual instance of `Triangle`. If the actual instance is not `Triangle`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of Triangle</returns>
@@ -148,33 +148,31 @@ namespace Org.OpenAPITools.Model
         {
             ShapeOrNull newShapeOrNull = null;
 
-            if (jsonString == null)
+            if (string.IsNullOrEmpty(jsonString))
             {
                 return newShapeOrNull;
             }
 
-            string discriminatorValue = JObject.Parse(jsonString)["shapeType"].ToString();
-            switch (discriminatorValue)
+            try
             {
-                case "Quadrilateral":
-                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newShapeOrNull.GetType().GetProperty("AdditionalProperties") == null)
-                    {
-                        newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.SerializerSettings));
-                    }
-                    return newShapeOrNull;
-                case "Triangle":
-                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
-                    // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                    if (newShapeOrNull.GetType().GetProperty("AdditionalProperties") == null)
-                    {
-                        newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.SerializerSettings));
-                    }
-                    return newShapeOrNull;
-                default:
-                    System.Diagnostics.Debug.WriteLine(String.Format("Failed to lookup discriminator value `{0}` for ShapeOrNull. Possible values: Quadrilateral Triangle", discriminatorValue));
-                    break;
+                var discriminatorObj = JObject.Parse(jsonString)["shapeType"];
+                string discriminatorValue =  discriminatorObj == null ?string.Empty :discriminatorObj.ToString();
+                switch (discriminatorValue)
+                {
+                    case "Quadrilateral":
+                        newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
+                        return newShapeOrNull;
+                    case "Triangle":
+                        newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
+                        return newShapeOrNull;
+                    default:
+                        System.Diagnostics.Debug.WriteLine(string.Format("Failed to lookup discriminator value `{0}` for ShapeOrNull. Possible values: Quadrilateral Triangle", discriminatorValue));
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to parse the json data : `{0}` {1}", jsonString, ex.ToString()));
             }
 
             int match = 0;
@@ -182,11 +180,14 @@ namespace Org.OpenAPITools.Model
 
             try
             {
-                newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newShapeOrNull.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Quadrilateral).GetProperty("AdditionalProperties") == null)
                 {
                     newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.SerializerSettings));
+                }
+                else
+                {
+                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Quadrilateral>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Quadrilateral");
                 match++;
@@ -194,16 +195,19 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Quadrilateral: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Quadrilateral: {1}", jsonString, exception.ToString()));
             }
 
             try
             {
-                newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
                 // if it does not contains "AdditionalProperties", use SerializerSettings to deserialize
-                if (newShapeOrNull.GetType().GetProperty("AdditionalProperties") == null)
+                if (typeof(Triangle).GetProperty("AdditionalProperties") == null)
                 {
                     newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.SerializerSettings));
+                }
+                else
+                {
+                    newShapeOrNull = new ShapeOrNull(JsonConvert.DeserializeObject<Triangle>(jsonString, ShapeOrNull.AdditionalPropertiesSerializerSettings));
                 }
                 matchedTypes.Add("Triangle");
                 match++;
@@ -211,7 +215,7 @@ namespace Org.OpenAPITools.Model
             catch (Exception exception)
             {
                 // deserialization failed, try the next one
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to deserialize `{0}` into Triangle: {1}", jsonString, exception.ToString()));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into Triangle: {1}", jsonString, exception.ToString()));
             }
 
             if (match == 0)
@@ -222,7 +226,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
             }
-            
+
             // deserialization is considered successful at this point if no exception has been thrown.
             return newShapeOrNull;
         }
@@ -286,7 +290,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="serializer">JSON Serializer</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteRawValue((String)(typeof(ShapeOrNull).GetMethod("ToJson").Invoke(value, null)));
+            writer.WriteRawValue((string)(typeof(ShapeOrNull).GetMethod("ToJson").Invoke(value, null)));
         }
 
         /// <summary>

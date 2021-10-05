@@ -32,7 +32,7 @@ public class Markdown {
     private final Parser parser = Parser.builder().build();
     private final HtmlRenderer renderer = HtmlRenderer.builder().build();
 
-    /** 
+    /**
      * Convert input markdown text to HTML.
      * Simple text is not wrapped in <p>...</p>.
      * @param markdown text with Markdown styles. If <code>null</code>, <code>""</code> is returned.
@@ -46,7 +46,7 @@ public class Markdown {
         html = unwrapped(html);
         return html;
     }
-    
+
     // The CommonMark library wraps the HTML with
     //  <p> ... html ... </p>\n
     // This method removes that markup wrapper if there are no other <p> elements,

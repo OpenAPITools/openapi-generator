@@ -1,0 +1,9 @@
+{{>header}}
+{{#models}}
+    {{#model}}
+        {{#imports}}
+import '{{.}}';
+        {{/imports}}
+{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
+    {{/model}}
+{{/models}}

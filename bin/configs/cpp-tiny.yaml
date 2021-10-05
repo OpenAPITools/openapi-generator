@@ -1,0 +1,7 @@
+generatorName: cpp-tiny
+outputDir: samples/client/petstore/cpp-tiny
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-tiny
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  controller: "esp32"

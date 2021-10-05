@@ -1,5 +1,6 @@
 # IntegerEnum
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

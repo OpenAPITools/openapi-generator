@@ -17,7 +17,7 @@
 
 #include "OpenAPIOrder.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 /* Delete purchase order by ID
@@ -28,9 +28,9 @@ class OPENAPI_API OpenAPIStoreApi::DeleteOrderRequest : public Request
 {
 public:
     virtual ~DeleteOrderRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 	/* ID of the order that needs to be deleted */
 	FString OrderId;
 };
@@ -41,7 +41,7 @@ public:
     virtual ~DeleteOrderResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     
 };
 
@@ -53,9 +53,9 @@ class OPENAPI_API OpenAPIStoreApi::GetInventoryRequest : public Request
 {
 public:
     virtual ~GetInventoryRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 };
 
 class OPENAPI_API OpenAPIStoreApi::GetInventoryResponse : public Response
@@ -64,7 +64,7 @@ public:
     virtual ~GetInventoryResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     TMap<FString, int32> Content;
 };
 
@@ -76,9 +76,9 @@ class OPENAPI_API OpenAPIStoreApi::GetOrderByIdRequest : public Request
 {
 public:
     virtual ~GetOrderByIdRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 	/* ID of pet that needs to be fetched */
 	int64 OrderId = 0;
 };
@@ -89,7 +89,7 @@ public:
     virtual ~GetOrderByIdResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     OpenAPIOrder Content;
 };
 
@@ -100,9 +100,9 @@ class OPENAPI_API OpenAPIStoreApi::PlaceOrderRequest : public Request
 {
 public:
     virtual ~PlaceOrderRequest() {}
-	void SetupHttpRequest(const TSharedRef<IHttpRequest>& HttpRequest) const final;
+	void SetupHttpRequest(const FHttpRequestRef& HttpRequest) const final;
 	FString ComputePath() const final;
-    
+
 	/* order placed for purchasing the pet */
 	OpenAPIOrder Body;
 };
@@ -113,7 +113,7 @@ public:
     virtual ~PlaceOrderResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
-    
+
     OpenAPIOrder Content;
 };
 

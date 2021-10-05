@@ -1,0 +1,12 @@
+{{#models}}{{#model}}# {{classname}}_t
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+{{#vars}}
+**{{name}}** | {{^isContainer}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}**{{projectName}}_{{classVarName}}_{{enumName}}_e**{{/isEnum}}{{^isEnum}}[**{{datatype}}_t**]({{complexType}}.md) \*{{/isEnum}}{{/isModel}}{{#isUuid}}**{{datatype}} \***{{/isUuid}}{{#isEmail}}**{{datatype}} \***{{/isEmail}}{{#isFreeFormObject}}[**{{datatype}}_t**]({{complexType}}.md) \*{{/isFreeFormObject}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isNumeric}}**{{datatype}}**{{/isNumeric}}{{#isBoolean}}**{{datatype}}**{{/isBoolean}}{{#isEnum}}{{#isString}}**{{projectName}}_{{classVarName}}_{{enumName}}_e**{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}**{{datatype}} \***{{/isString}}{{/isEnum}}{{#isByteArray}}**{{datatype}} \***{{/isByteArray}}{{#isBinary}}**{{datatype}}**{{/isBinary}}{{#isDate}}**{{datatype}} \***{{/isDate}}{{#isDateTime}}**{{datatype}} \***{{/isDateTime}}{{/isPrimitiveType}}{{/isContainer}}{{#isContainer}}{{#isArray}}{{#isPrimitiveType}}**{{datatype}}_t \***{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{datatype}}_t**]({{complexType}}.md) \*{{/isPrimitiveType}}{{/isArray}}{{#isMap}}**{{datatype}}**{{/isMap}}{{/isContainer}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{/vars}}
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+{{/model}}{{/models}}

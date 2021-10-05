@@ -32,7 +32,7 @@ import java.util.EnumSet;
 
 public class GoDeprecatedClientCodegen extends AbstractGoCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoDeprecatedClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GoDeprecatedClientCodegen.class);
 
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";

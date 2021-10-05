@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.Apple
+
 ## Properties
 
 Name | Type | Description | Notes
