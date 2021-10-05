@@ -45,8 +45,8 @@ public class MarkdownSampleGeneratorTest {
 
             Assert.assertTrue(expected.exists(), "Could not find " + expected.toString());
 
-            Assert.assertEquals(FileUtils.readFileToString(generated, StandardCharsets.UTF_8),
-                    FileUtils.readFileToString(expected, StandardCharsets.UTF_8));
+            Assert.assertEquals(FileUtils.readFileToString(generated, "UTF-8"),
+                    FileUtils.readFileToString(expected, "UTF-8"));
         }
     }
 
