@@ -226,10 +226,14 @@
                 <version>${surefire-version}</version>
                 <configuration>
                     <printSummary>true</printSummary>
+                    <forkedProcessExitTimeoutInSeconds>120</forkedProcessExitTimeoutInSeconds>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
                     <argLine>@{argLine} -XX:+StartAttachListener</argLine>
+                    <forkCount>3</forkCount>
+                    <reuseForks>true</reuseForks>
+                    <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
                     <systemPropertyVariables>
                         <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
                         <org.openapitools.codegen.utils.oncelogger.cachesize>5000</org.openapitools.codegen.utils.oncelogger.cachesize>
@@ -1618,7 +1622,7 @@
         <jmustache-version>1.14</jmustache-version>
         <handlebars.java-version>4.2.1</handlebars.java-version>
         <testng-version>7.1.0</testng-version>
-        <surefire-version>3.0.0-M3</surefire-version>
+        <surefire-version>3.0.0-M5</surefire-version>
         <reflections-version>0.9.10</reflections-version>
         <mockito-version>3.6.28</mockito-version>
         <jacoco.version>0.8.5</jacoco.version>
