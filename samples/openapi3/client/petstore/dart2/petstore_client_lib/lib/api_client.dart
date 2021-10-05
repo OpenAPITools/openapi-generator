@@ -30,9 +30,6 @@ class ApiClient {
   ///
   /// If the [newClient] is null, an [ArgumentError] is thrown.
   set client(Client newClient) {
-    if (newClient == null) {
-      throw ArgumentError('New client instance cannot be null.');
-    }
     _client = newClient;
   }
 
@@ -175,7 +172,9 @@ class ApiClient {
         if (auth == null) {
           throw ArgumentError('Authentication undefined: $authName');
         }
-        auth.applyToParams(queryParams, headerParams);
+        // intentional late initialization of containers in case `authNames` is null
+        // and to keep lists as non-null
+        auth.applyToParams(queryParams ?? [], headerParams ?? {});
       }
     }
   }

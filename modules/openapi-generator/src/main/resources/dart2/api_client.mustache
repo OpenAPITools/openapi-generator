@@ -36,9 +36,6 @@ class ApiClient {
   ///
   /// If the [newClient] is null, an [ArgumentError] is thrown.
   set client(Client newClient) {
-    if (newClient == null) {
-      throw ArgumentError('New client instance cannot be null.');
-    }
     _client = newClient;
   }
 
