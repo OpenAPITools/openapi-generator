@@ -24,7 +24,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
-            throw new RequiredError('Required parameter orderId was null or undefined when calling deleteOrder.');
+            throw new RequiredError("StoreApi", "deleteOrder", "orderId");
         }
 
 
@@ -76,7 +76,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
-            throw new RequiredError('Required parameter orderId was null or undefined when calling getOrderById.');
+            throw new RequiredError("StoreApi", "getOrderById", "orderId");
         }
 
 
@@ -102,7 +102,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'order' is not null or undefined
         if (order === null || order === undefined) {
-            throw new RequiredError('Required parameter order was null or undefined when calling placeOrder.');
+            throw new RequiredError("StoreApi", "placeOrder", "order");
         }
 
 
