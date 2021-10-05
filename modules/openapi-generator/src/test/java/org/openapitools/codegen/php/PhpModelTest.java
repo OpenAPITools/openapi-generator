@@ -314,11 +314,11 @@ public class PhpModelTest {
         HashMap<String, Object> fish= new HashMap<String, Object>();
         fish.put("name", "FISH");
         fish.put("value", "\'fish\'");
-        fish.put("isString", false);
+        fish.put("isString", true);
         HashMap<String, Object> crab= new HashMap<String, Object>();
         crab.put("name", "CRAB");
         crab.put("value", "\'crab\'");
-        crab.put("isString", false);
+        crab.put("isString", true);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
         // assert inner items

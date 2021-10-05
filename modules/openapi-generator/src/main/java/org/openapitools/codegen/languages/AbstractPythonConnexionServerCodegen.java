@@ -332,7 +332,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 PathItem path = paths.get(pathname);
                 // Fix path parameters to be in snake_case
                 if (pathname.contains("{")) {
-                    String fixedPath = new String();
+                    String fixedPath = "";
                     for (String token : pathname.substring(1).split("/")) {
                         if (token.startsWith("{")) {
                             String snake_case_token = "{" + this.toParamName(token.substring(1, token.length() - 1)) + "}";
@@ -353,8 +353,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (HttpMethod method : operationMap.keySet()) {
-                        Operation operation = operationMap.get(method);
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                        HttpMethod method = operationMapEntry.getKey();
+                        Operation operation = operationMapEntry.getValue();
                         String tag = "default";
                         if (operation.getTags() != null && operation.getTags().size() > 0) {
                             tag = operation.getTags().get(0);
@@ -424,8 +425,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         Components components = openAPI.getComponents();
         if (components != null && components.getSecuritySchemes() != null) {
             Map<String, SecurityScheme> securitySchemes = components.getSecuritySchemes();
-            for (String securityName : securitySchemes.keySet()) {
-                SecurityScheme securityScheme = securitySchemes.get(securityName);
+            for (Map.Entry<String, SecurityScheme> securitySchemesEntry : securitySchemes.entrySet()) {
+                String securityName = securitySchemesEntry.getKey();
+                SecurityScheme securityScheme = securitySchemesEntry.getValue();
                 String baseFunctionName = controllerPackage + ".security_controller_.";
                 switch (securityScheme.getType()) {
                     case APIKEY:
@@ -512,8 +514,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (HttpMethod method : operationMap.keySet()) {
-                        Operation operation = operationMap.get(method);
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                        HttpMethod method = operationMapEntry.getKey();
+                        Operation operation = operationMapEntry.getValue();
                         if (operation.getParameters() != null) {
                             for (Parameter parameter : operation.getParameters()) {
                                 Map<String, Object> parameterExtensions = parameter.getExtensions();

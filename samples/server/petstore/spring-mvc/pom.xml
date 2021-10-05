@@ -44,8 +44,8 @@
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>javax.validation</groupId>
-                        <artifactId>validation-api</artifactId>
+                        <groupId>jakarta.validation</groupId>
+                        <artifactId>jakarta.validation-api</artifactId>
                         <version>${beanvalidation-version}</version>
                     </dependency>
                 </dependencies>
@@ -96,14 +96,14 @@
             <version>${spring-version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.2.11</version>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>${jakarta.xml.bind-version}</version>
         </dependency>
         <!--SpringFox dependencies-->
         <dependency>
@@ -139,14 +139,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
             <version>${servlet-api-version}</version>
         </dependency>
         <!-- Bean Validation API support -->
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
             <version>${beanvalidation-version}</version>
             <scope>provided</scope>
         </dependency>
@@ -165,14 +165,16 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+    	<jakarta.xml.bind-version>2.3.3</jakarta.xml.bind-version>
         <jetty-version>9.2.15.v20160210</jetty-version>
         <slf4j-version>1.7.21</slf4j-version>
         <junit-version>4.13.1</junit-version>
-        <servlet-api-version>2.5</servlet-api-version>
+        <servlet-api-version>4.0.4</servlet-api-version>
         <springfox-version>2.8.0</springfox-version>
         <jackson-version>2.9.9</jackson-version>
         <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
-        <beanvalidation-version>1.1.0.Final</beanvalidation-version>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
         <spring-version>4.3.20.RELEASE</spring-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <jackson-databind-version>2.9.8</jackson-databind-version>

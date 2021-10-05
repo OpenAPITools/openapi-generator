@@ -582,7 +582,7 @@ final enumQueryStringArray = []; // List<String> | Query parameter enum test (st
 final enumQueryString = enumQueryString_example; // String | Query parameter enum test (string)
 final enumQueryInteger = 56; // int | Query parameter enum test (double)
 final enumQueryDouble = 1.2; // double | Query parameter enum test (double)
-final enumFormStringArray = [enumFormStringArray_example]; // List<String> | Form parameter enum test (string array)
+final enumFormStringArray = []; // List<String> | Form parameter enum test (string array)
 final enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
 try {

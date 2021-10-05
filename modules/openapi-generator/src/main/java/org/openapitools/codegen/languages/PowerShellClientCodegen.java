@@ -515,6 +515,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("long", "Int64");
         typeMapping.put("double", "Double");
         typeMapping.put("number", "Decimal");
+        typeMapping.put("decimal", "Decimal");
         typeMapping.put("object", "System.Collections.Hashtable");
         typeMapping.put("file", "System.IO.FileInfo");
         typeMapping.put("ByteArray", "System.Byte[]");
