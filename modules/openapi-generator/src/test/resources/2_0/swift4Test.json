@@ -278,7 +278,7 @@
       "type": "object",
       "properties": {
         "example_name": {
-          "description": "This snake-case examle_name property name should be converted to a camelCase variable name like exampleName",
+          "description": "This snake-case example_name property name should be converted to a camelCase variable name like exampleName",
           "type": "string"
         },
         "for": {
@@ -389,7 +389,7 @@
       }
     },
     "SampleSubClass": {
-      "description": "This is a subclass defived from the SampleBase class.",
+      "description": "This is a subclass derived from the SampleBase class.",
       "allOf": [
         {
           "$ref": "#/definitions/SampleBase"

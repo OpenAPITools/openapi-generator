@@ -488,6 +488,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         // add lambda for mustache templates
+        additionalProperties.put("lambdaRemoveDoubleQuote",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement(""))));
         additionalProperties.put("lambdaEscapeDoubleQuote",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
@@ -554,8 +556,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (openAPI.getPaths() != null) {
-            for (String pathname : openAPI.getPaths().keySet()) {
-                PathItem path = openAPI.getPaths().get(pathname);
+            for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+                String pathname = openAPIGetPathsEntry.getKey();
+                PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {
                         if (operation.getTags() != null) {
@@ -836,6 +839,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         // Add imports for java.util.Arrays
         if (property.isByteArray) {
+            model.imports.add("Arrays");
+        }
+
+        if (model.getVendorExtensions().containsKey("x-jackson-optional-nullable-helpers")) {
             model.imports.add("Arrays");
         }
     }

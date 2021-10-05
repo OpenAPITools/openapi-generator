@@ -2159,7 +2159,7 @@ class FakeApi(object):
         response_types_map = {}
 
         return self.api_client.call_api(
-            '/fake/test-query-paramters', 'PUT',
+            '/fake/test-query-parameters', 'PUT',
             path_params,
             query_params,
             header_params,

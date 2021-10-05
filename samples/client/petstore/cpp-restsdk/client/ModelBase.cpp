@@ -275,7 +275,7 @@ bool ModelBase::fromJson( const web::json::value& val, int32_t & outVal )
 }
 bool ModelBase::fromJson( const web::json::value& val, int64_t & outVal )
 {
-    outVal = !val.is_null() ? std::numeric_limits<int64_t>::quiet_NaN() : val.as_number().to_int64();
+    outVal = !val.is_number() ? std::numeric_limits<int64_t>::quiet_NaN() : val.as_number().to_int64();
     return val.is_number();
 }
 bool ModelBase::fromJson( const web::json::value& val, utility::string_t & outVal )

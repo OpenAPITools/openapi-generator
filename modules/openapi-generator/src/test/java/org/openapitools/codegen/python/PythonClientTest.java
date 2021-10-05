@@ -360,7 +360,7 @@ public class PythonClientTest {
         final PythonClientCodegen codegen = new PythonClientCodegen();
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        final Schema noDefault = new ArraySchema()
+        final Schema noDefault = new Schema()
                 .type("number")
                 .minimum(new BigDecimal("10"));
         final Schema hasDefault = new Schema()

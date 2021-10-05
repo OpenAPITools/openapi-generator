@@ -78,6 +78,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Float");
         typeMapping.put("number", "Float");
+        typeMapping.put("decimal", "Float");
         typeMapping.put("date", "Date");
         typeMapping.put("DateTime", "Time");
         typeMapping.put("array", "Array");
@@ -175,7 +176,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     @Override
     public String toVarName(final String name) {
         String varName = sanitizeName(name);
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             varName = varName.toLowerCase(Locale.ROOT);
         }

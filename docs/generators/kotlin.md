@@ -20,7 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |moshiCodeGen|Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info.| |false|
 |packageName|Generated artifact package name.| |org.openapitools.client|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
-|requestDateConverter|JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)|<dl><dt>**toJson**</dt><dd>[DEFAULT] Date formater option using a json converter.</dd><dt>**toString**</dt><dd>Use the 'toString'-method of the date-time object to retrieve the related string representation.</dd></dl>|toJson|
+|requestDateConverter|JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)|<dl><dt>**toJson**</dt><dd>[DEFAULT] Date formatter option using a json converter.</dd><dt>**toString**</dt><dd>Use the 'toString'-method of the date-time object to retrieve the related string representation.</dd></dl>|toJson|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
 |serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'| |moshi|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|

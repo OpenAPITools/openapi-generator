@@ -38,6 +38,6 @@ stack test --flag open-api-petstore:library-only --flag open-api-petstore:dev
 
 * Ask questions on [Stack Overflow, using the Yesod or Haskell tags](https://stackoverflow.com/questions/tagged/yesod+haskell)
 * Ask the [Yesod Google Group](https://groups.google.com/forum/#!forum/yesodweb)
-* There are several chatrooms you can ask for help:
+* There are several chat rooms you can ask for help:
 	* For IRC, try Freenode#yesod and Freenode#haskell
 	* [Functional Programming Slack](https://fpchat-invite.herokuapp.com/), in the #haskell, #haskell-beginners, or #yesod channels.

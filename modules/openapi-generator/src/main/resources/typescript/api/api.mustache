@@ -111,14 +111,16 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
              localVarFormParams.append('{{baseName}}', {{paramName}} as any);
              {{/isFile}}
              {{#isFile}}
-             {{#platforms}}
-             {{#node}}
-             localVarFormParams.append('{{baseName}}', {{paramName}}.data, {{paramName}}.name);
-             {{/node}}
-             {{^node}}
-             localVarFormParams.append('{{baseName}}', {{paramName}}, {{paramName}}.name);
-             {{/node}}
-             {{/platforms}}
+             if (localVarFormParams instanceof FormData) {
+                 {{#platforms}}
+                 {{#node}}
+                 localVarFormParams.append('{{baseName}}', {{paramName}}.data, {{paramName}}.name);
+                 {{/node}}
+                 {{^node}}
+                 localVarFormParams.append('{{baseName}}', {{paramName}}, {{paramName}}.name);
+                 {{/node}}
+                 {{/platforms}}
+             }
              {{/isFile}}
         }
         {{/isArray}}
@@ -198,7 +200,7 @@ export class {{classname}}ResponseProcessor {
             return body;
             {{/is2xx}}
             {{^is2xx}}
-            throw new ApiException<{{{dataType}}}>({{code}}, body);
+            throw new ApiException<{{{dataType}}}>({{code}}, "{{message}}", body);
             {{/is2xx}}
             {{/dataType}}
             {{^dataType}}
@@ -206,7 +208,7 @@ export class {{classname}}ResponseProcessor {
             return;
             {{/is2xx}}
             {{^is2xx}}
-            throw new ApiException<string>(response.httpStatusCode, "{{message}}");
+            throw new ApiException<undefined>(response.httpStatusCode, "{{message}}", undefined);
             {{/is2xx}}
             {{/dataType}}
         }
@@ -231,8 +233,7 @@ export class {{classname}}ResponseProcessor {
             {{/returnType}}
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | {{{fileContentDataType}}} | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     {{/operation}}

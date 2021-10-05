@@ -182,7 +182,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         /**
          * Allow the user to force the script to always include certain cURL
-         * comamnds
+         * commands
          */
         cliOptions.add(CliOption.newString(CURL_OPTIONS, "Default cURL options"));
         cliOptions.add(CliOption.newBoolean(PROCESS_MARKDOWN,
@@ -529,7 +529,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
          * remove standalone '\'
          *
          * replace " with \"
-         * outter unescape to retain the original multi-byte characters
+         * outer unescape to retain the original multi-byte characters
          */
         result = escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(

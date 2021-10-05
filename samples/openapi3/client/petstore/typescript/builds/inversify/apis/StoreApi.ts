@@ -148,10 +148,10 @@ export class StoreApiResponseProcessor {
      public async deleteOrder(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Order not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "Order not found", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -159,8 +159,7 @@ export class StoreApiResponseProcessor {
             return;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -189,8 +188,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -210,10 +208,10 @@ export class StoreApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid ID supplied", undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Order not found");
+            throw new ApiException<undefined>(response.httpStatusCode, "Order not found", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -225,8 +223,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
     /**
@@ -246,7 +243,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<string>(response.httpStatusCode, "Invalid Order");
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid Order", undefined);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -258,8 +255,7 @@ export class StoreApiResponseProcessor {
             return body;
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
     }
 
 }

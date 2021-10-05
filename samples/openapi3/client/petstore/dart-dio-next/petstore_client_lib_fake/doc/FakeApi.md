@@ -25,7 +25,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 
 
 # **fakeHealthGet**
@@ -585,7 +585,7 @@ final BuiltList<String> enumQueryStringArray = ; // BuiltList<String> | Query pa
 final String enumQueryString = enumQueryString_example; // String | Query parameter enum test (string)
 final int enumQueryInteger = 56; // int | Query parameter enum test (double)
 final double enumQueryDouble = 1.2; // double | Query parameter enum test (double)
-final BuiltList<String> enumFormStringArray = enumFormStringArray_example; // BuiltList<String> | Form parameter enum test (string array)
+final BuiltList<String> enumFormStringArray = ; // BuiltList<String> | Form parameter enum test (string array)
 final String enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
 try {
@@ -761,7 +761,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testQueryParameterCollectionFormat**
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
 
 
 
@@ -777,10 +777,11 @@ final BuiltList<String> ioutil = ; // BuiltList<String> |
 final BuiltList<String> http = ; // BuiltList<String> | 
 final BuiltList<String> url = ; // BuiltList<String> | 
 final BuiltList<String> context = ; // BuiltList<String> | 
+final String allowEmpty = allowEmpty_example; // String | 
 final BuiltMap<String, String> language = ; // BuiltMap<String, String> | 
 
 try {
-    api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language);
+    api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
 } catch on DioError (e) {
     print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
@@ -795,6 +796,7 @@ Name | Type | Description  | Notes
  **http** | [**BuiltList&lt;String&gt;**](String.md)|  | 
  **url** | [**BuiltList&lt;String&gt;**](String.md)|  | 
  **context** | [**BuiltList&lt;String&gt;**](String.md)|  | 
+ **allowEmpty** | **String**|  | 
  **language** | [**BuiltMap&lt;String, String&gt;**](String.md)|  | [optional] 
 
 ### Return type

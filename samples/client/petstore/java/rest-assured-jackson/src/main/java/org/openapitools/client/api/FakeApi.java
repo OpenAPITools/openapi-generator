@@ -1427,7 +1427,7 @@ public class FakeApi {
     public static class TestQueryParameterCollectionFormatOper implements Oper {
 
         public static final Method REQ_METHOD = PUT;
-        public static final String REQ_URI = "/fake/test-query-paramters";
+        public static final String REQ_URI = "/fake/test-query-parameters";
 
         private RequestSpecBuilder reqSpec;
         private ResponseSpecBuilder respSpec;
@@ -1439,7 +1439,7 @@ public class FakeApi {
         }
 
         /**
-         * PUT /fake/test-query-paramters
+         * PUT /fake/test-query-parameters
          * @param handler handler
          * @param <T> type
          * @return type
