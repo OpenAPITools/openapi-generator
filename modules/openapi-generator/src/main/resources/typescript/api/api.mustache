@@ -48,7 +48,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{#required}}
         // verify required parameter '{{paramName}}' is not null or undefined
         if ({{paramName}} === null || {{paramName}} === undefined) {
-            throw new RequiredError('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+            throw new RequiredError("{{classname}}", "{{nickname}}", "{{paramName}}");
         }
 
         {{/required}}
