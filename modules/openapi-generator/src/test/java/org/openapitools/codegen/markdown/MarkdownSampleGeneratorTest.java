@@ -1,12 +1,4 @@
-package org.openapitools.codegen.markdown;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-
+package org.openapitools.codegen.markdown; import java.io.File; import java.io.IOException; import java.nio.charset.StandardCharsets; import java.nio.file.Files; import java.nio.file.Path; import java.util.List;
 import org.apache.commons.io.FileUtils;
 
 import org.openapitools.codegen.DefaultGenerator;
@@ -21,6 +13,8 @@ public class MarkdownSampleGeneratorTest {
 
     @BeforeClass
     public void beforeClassGenerateTestMarkup() throws Exception {
+        // set line break to \n across all platforms
+        System.setProperty("line.separator", "\n");
 
         this.outputTempDirectory = Files.createTempDirectory("test-markdown-sample-generator.").toFile();
 
