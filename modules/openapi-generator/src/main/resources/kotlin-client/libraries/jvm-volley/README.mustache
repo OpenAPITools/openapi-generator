@@ -72,7 +72,7 @@ The above constructor for each api allows the following to be customized
 https://developer.android.com/training/volley/requestqueue#singleton
 - An overrideable request queue - which in turn can have a custom http url stack passed to it
 - An overrideable request factory constructor call, or a request factory that can be overridden by a custom template, with
-custom header factory and post processor factorys injected.
+custom header factory, request post processors and custom gson adapters injected.
 
 #### Overriding request generation
 Request generation can be overridden by
@@ -120,6 +120,32 @@ Finally a post processor example
             )
         }
     }
+```
+
+### Serialization
+#### Gson and Polymorphic types
+The GsonRequest object can be passed custom type adapters
+```
+class GsonRequest<T>(
+    method: Int,
+    url: String,
+    private val body: Any?,
+    private val headers: Map<String, String>?,
+    private val params: MutableMap<String, String>?,
+    private val contentTypeForBody: String?,
+    private val encodingForParams: String?,
+    private val gsonAdapters: Map<Type, Object>?,
+    private val type: Type,
+    private val listener: Response.Listener<T>,
+    errorListener: Response.ErrorListener
+) : Request<T>(method, url, errorListener) {
+
+    val gsonBuilder: GsonBuilder = GsonBuilder()
+        .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
+        .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
+        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
+        .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
+
 ```
 ## Requires
 
