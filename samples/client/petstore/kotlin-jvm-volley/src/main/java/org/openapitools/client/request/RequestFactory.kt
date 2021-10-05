@@ -10,7 +10,7 @@ import java.lang.reflect.Type
 import java.util.Locale
 import java.util.UUID
 
-class RequestFactory(private val headerFactories : List<() -> Map<String, String>> = listOf(), private val postProcessors :List <(Request<*>) -> Unit> = listOf()): IRequestFactory {
+class RequestFactory(private val headerFactories : List<() -> Map<String, String>> = listOf(), private val postProcessors :List <(Request<*>) -> Unit> = listOf(), private val gsonAdapters: Map<Type, Any> = mapOf()): IRequestFactory {
 
    companion object Authentication {
     // Where a header factory requires parameters a client will need to bind these
@@ -75,6 +75,7 @@ class RequestFactory(private val headerFactories : List<() -> Map<String, String
                 formParams?.toMutableMap(),
                 contentTypeForBody,
                 null,
+                gsonAdapters,
                 type,
                 responseListener,
                 errorListener)
