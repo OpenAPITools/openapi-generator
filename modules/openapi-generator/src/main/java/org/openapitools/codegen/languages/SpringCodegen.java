@@ -473,9 +473,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 case "DeferredResult":
                     additionalProperties.put(RESPONSE_WRAPPER, "org.springframework.web.context.request.async.DeferredResult");
                     break;
-                case "HystrixCommand":
-                    additionalProperties.put(RESPONSE_WRAPPER, "com.netflix.hystrix.HystrixCommand");
-                    break;
                 case "RxObservable":
                     additionalProperties.put(RESPONSE_WRAPPER, "rx.Observable");
                     break;

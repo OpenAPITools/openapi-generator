@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.4</version>
+        <version>2.5.5</version>
     </parent>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -25,7 +25,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>2020.0.2</version>
+                <version>2020.0.4</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -51,18 +51,8 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
-            <version>2.2.4.RELEASE</version>
+            <version>2.2.5.RELEASE</version>
         </dependency>
-        <!--Note this is deprecated. resilience4j should be used. To do this, the templates must be adapted.-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-            <version>2.2.7.RELEASE</version>
-        </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
@@ -70,7 +60,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.1.0</version>
+            <version>0.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
