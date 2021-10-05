@@ -1,0 +1,11 @@
+generatorName: dart-dio-next
+outputDir: samples/openapi3/client/petstore/dart-dio-next/dio_http_petstore_client_lib_fake
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart/libraries/dio
+typeMappings:
+  Client: "ModelClient"
+  File: "ModelFile"
+  EnumClass: "ModelEnumClass"
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  dioLibrary: "dio_http"
