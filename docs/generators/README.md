@@ -21,7 +21,6 @@ The following generators are available:
 * [elm](elm.md)  
 * [erlang-client](erlang-client.md)  
 * [erlang-proper](erlang-proper.md)  
-* [flash](flash.md)  
 * [go](go.md)  
 * [go-experimental (experimental)](go-experimental.md)  
 * [groovy](groovy.md)  
