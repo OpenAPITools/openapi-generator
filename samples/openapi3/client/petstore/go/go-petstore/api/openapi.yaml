@@ -1078,7 +1078,7 @@ paths:
           description: Success
       tags:
       - fake
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat
@@ -1133,7 +1133,7 @@ paths:
           description: Success
       tags:
       - fake
-  /fake/test-unique-paramters:
+  /fake/test-unique-parameters:
     put:
       description: To test unique items in header and query parameters
       operationId: testUniqueItemsHeaderAndQueryParameterCollectionFormat

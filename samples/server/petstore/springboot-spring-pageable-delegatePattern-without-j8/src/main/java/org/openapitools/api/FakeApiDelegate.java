@@ -208,7 +208,7 @@ public interface FakeApiDelegate {
         String param2);
 
     /**
-     * PUT /fake/test-query-paramters
+     * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
      *
      * @param pipe  (required)

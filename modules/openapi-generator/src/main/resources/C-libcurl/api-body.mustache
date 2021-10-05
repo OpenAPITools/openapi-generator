@@ -333,12 +333,12 @@ end:
     {{#returnType}}
     {{#returnTypeIsPrimitive}}
     {{#returnSimpleType}}
-    //primitive reutrn type simple
+    //primitive return type simple
     {{returnType}}* elementToReturn =  strdup(({{returnType}}*)apiClient->dataReceived);
 
     {{/returnSimpleType}}
     {{^returnSimpleType}}
-    //primitive reutrn type not simple
+    //primitive return type not simple
     cJSON *{{paramName}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
     cJSON *{{{paramName}}}VarJSON;
     list_t *elementToReturn = list_create();

@@ -74,7 +74,7 @@ public class SharedTypeScriptTest {
 
     /*
         #8000
-        Test that primatives are not returned by toModelImportMap
+        Test that primitives are not returned by toModelImportMap
     */
     @Test
     public void toModelImportMapTest() {

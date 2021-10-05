@@ -38,7 +38,7 @@ class TestFakeApi(unittest.TestCase):
         """Test case for boolean
 
         """
-        endpoint = self.api.boolean
+        endpoint = self.api.boolean_endpoint
         assert endpoint.openapi_types['body'] == (bool,)
         assert endpoint.settings['response_type'] == (bool,)
 
@@ -46,7 +46,7 @@ class TestFakeApi(unittest.TestCase):
         """Test case for string
 
         """
-        endpoint = self.api.string
+        endpoint = self.api.string_endpoint
         assert endpoint.openapi_types['body'] == (str,)
         assert endpoint.settings['response_type'] == (str,)
 
@@ -55,7 +55,7 @@ class TestFakeApi(unittest.TestCase):
 
         """
         from petstore_api.model import object_model_with_ref_props
-        endpoint = self.api.object_model_with_ref_props
+        endpoint = self.api.object_model_with_ref_props_endpoint
         assert endpoint.openapi_types['body'] == (object_model_with_ref_props.ObjectModelWithRefProps,)
         assert endpoint.settings['response_type'] == (object_model_with_ref_props.ObjectModelWithRefProps,)
 
@@ -64,7 +64,7 @@ class TestFakeApi(unittest.TestCase):
 
         """
         from petstore_api.model import string_enum
-        endpoint = self.api.string_enum
+        endpoint = self.api.string_enum_endpoint
         assert endpoint.openapi_types['body'] == (string_enum.StringEnum,)
         assert endpoint.settings['response_type'] == (string_enum.StringEnum,)
 
@@ -73,7 +73,7 @@ class TestFakeApi(unittest.TestCase):
 
         """
         from petstore_api.model import animal_farm
-        endpoint = self.api.array_model
+        endpoint = self.api.array_model_endpoint
         assert endpoint.openapi_types['body'] == (animal_farm.AnimalFarm,)
         assert endpoint.settings['response_type'] == (animal_farm.AnimalFarm,)
 
@@ -82,7 +82,7 @@ class TestFakeApi(unittest.TestCase):
 
         """
         from petstore_api.model import number_with_validations
-        endpoint = self.api.number_with_validations
+        endpoint = self.api.number_with_validations_endpoint
         assert endpoint.openapi_types['body'] == (number_with_validations.NumberWithValidations,)
         assert endpoint.settings['response_type'] == (number_with_validations.NumberWithValidations,)
 
@@ -110,14 +110,14 @@ class TestFakeApi(unittest.TestCase):
 
         """
         # when we omit the required enums of length one, they are still set
-        endpoint = self.api.test_endpoint_enums_length_one
+        endpoint = self.api.test_endpoint_enums_length_one_endpoint
         import six
         if six.PY3:
             from unittest.mock import patch
         else:
             from mock import patch
         with patch.object(endpoint, 'call_with_http_info') as call_with_http_info:
-            endpoint()
+            self.api.test_endpoint_enums_length_one()
             call_with_http_info.assert_called_with(
                 _check_input_type=True,
                 _check_return_type=True,
@@ -139,7 +139,7 @@ class TestFakeApi(unittest.TestCase):
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
         """
         # check that we can access the endpoint's validations
-        endpoint = self.api.test_endpoint_parameters
+        endpoint = self.api.test_endpoint_parameters_endpoint
         assert endpoint.validations[('number',)] == {
             'inclusive_maximum': 543.2,
             'inclusive_minimum': 32.1,
@@ -160,7 +160,7 @@ class TestFakeApi(unittest.TestCase):
         To test enum parameters  # noqa: E501
         """
         # check that we can access the endpoint's allowed_values
-        endpoint = self.api.test_enum_parameters
+        endpoint = self.api.test_enum_parameters_endpoint
         assert endpoint.allowed_values[('enum_query_string',)] == {
             "_ABC": "_abc",
             "-EFG": "-efg",

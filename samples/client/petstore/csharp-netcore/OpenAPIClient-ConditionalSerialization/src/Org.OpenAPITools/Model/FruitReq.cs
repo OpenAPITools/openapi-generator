@@ -97,7 +97,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `AppleReq`. If the actual instanct is not `AppleReq`,
+        /// Get the actual instance of `AppleReq`. If the actual instance is not `AppleReq`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of AppleReq</returns>
@@ -107,7 +107,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Get the actual instance of `BananaReq`. If the actual instanct is not `BananaReq`,
+        /// Get the actual instance of `BananaReq`. If the actual instance is not `BananaReq`,
         /// the InvalidClassException will be thrown
         /// </summary>
         /// <returns>An instance of BananaReq</returns>

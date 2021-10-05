@@ -161,6 +161,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private boolean isModel;
     private boolean hasRequiredVars;
     private boolean hasDiscriminatorWithNonEmptyMapping;
+    private boolean isAnyType;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -786,6 +787,30 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsString() { return isString; }
+
+    @Override
+    public void setIsString(boolean isString)  {
+        this.isString = isString;
+    }
+
+    @Override
+    public boolean getIsNumber() { return isNumber; }
+
+    @Override
+    public void setIsNumber(boolean isNumber)  {
+        this.isNumber = isNumber;
+    }
+
+    @Override
+    public boolean getIsAnyType() { return isAnyType; }
+
+    @Override
+    public void setIsAnyType(boolean isAnyType)  {
+        this.isAnyType = isAnyType;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CodegenModel)) return false;
@@ -819,6 +844,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isNull == that.isNull &&
                 hasValidation == that.hasValidation &&
                 hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
+                getIsAnyType() == that.getIsAnyType() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
@@ -895,7 +921,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
-                getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping, anyOfProps, oneOfProps, allOfProps);
+                getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping, anyOfProps, oneOfProps, allOfProps,
+                isAnyType);
     }
 
     @Override
@@ -989,6 +1016,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", hasValidation='").append(hasValidation);
         sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
         sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", getIsAnyType=").append(getIsAnyType());
         sb.append('}');
         return sb.toString();
     }

@@ -1193,9 +1193,8 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/typescript-axios/builds/with-npm-version</module>
-                <module>samples/client/petstore/typescript-axios/tests/default</module>
-                <module>samples/client/petstore/crystal</module>
+                <!-- TODO: move to github action or circleci
+                <module>samples/client/petstore/crystal</module>-->
                 <!-- servers -->
                 <module>samples/server/petstore/python-aiohttp</module>
                 <module>samples/server/petstore/python-aiohttp-srclayout</module>
@@ -1211,7 +1210,7 @@
                 <module>samples/client/petstore/bash</module>-->
                 <module>samples/client/petstore/ruby-faraday</module>
                 <module>samples/client/petstore/ruby</module>
-                <!-- comment out as it's not working as the momment
+                <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
                 <module>samples/client/petstore/cpp-qt</module>
@@ -1221,13 +1220,9 @@
                 <!-- commented out due to php ^7.3 || ^8.0 not in travis
                 <module>samples/client/petstore/php/OpenAPIClient-php</module> -->
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
-                <module>samples/client/petstore/javascript-flowtyped</module>
-                <module>samples/client/petstore/python</module>
-                <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
                 <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
-                <module>samples/openapi3/client/petstore/python</module>
                 <module>samples/openapi3/client/petstore/python-legacy</module>
             </modules>
         </profile>
@@ -1287,6 +1282,7 @@
                 <module>samples/server/petstore/springboot</module>
                 <module>samples/server/petstore/springboot-beanvalidation</module>
                 <module>samples/server/petstore/springboot-useoptional</module>
+                <module>samples/server/petstore/springboot-reactive</module>
                 <module>samples/server/petstore/jaxrs-cxf</module>
                 <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
@@ -1299,6 +1295,22 @@
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/scala-finch</module>
                 <!--<module>samples/server/petstore/kotlin/vertx</module>-->
+            </modules>
+        </profile>
+        <!-- node 3 tests in CircleCI -->
+        <profile>
+            <id>samples.circleci.node3</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.circleci.node3</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
+                <module>samples/openapi3/client/petstore/python</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
@@ -1344,6 +1356,7 @@
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
                 <module>samples/openapi3/client/petstore/go</module>
+                <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/server/petstore/go-api-server</module>
@@ -1371,6 +1384,8 @@
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-axios/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-axios/tests/default</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
@@ -1488,7 +1503,7 @@
                 <module>samples/client/petstore/swift5/rxswiftLibrary</module>
                 <module>samples/client/petstore/swift5/urlsessionLibrary</module>
                 <!-- swift 5 tests -->
-                <!-- temporarily commment them because they are flaky
+                <!-- temporarily comment them because they are flaky
                 <module>samples/client/petstore/swift5/alamofireLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/combineLibrary/SwaggerClientTests</module>
                 <module>samples/client/petstore/swift5/default/SwaggerClientTests</module>
@@ -1600,7 +1615,7 @@
         <slf4j-version>1.7.29</slf4j-version>
         <scala-maven-plugin-version>4.3.1</scala-maven-plugin-version>
         <jmustache-version>1.14</jmustache-version>
-        <handlebars.java-version>4.1.2</handlebars.java-version>
+        <handlebars.java-version>4.2.1</handlebars.java-version>
         <testng-version>7.1.0</testng-version>
         <surefire-version>3.0.0-M3</surefire-version>
         <reflections-version>0.9.10</reflections-version>

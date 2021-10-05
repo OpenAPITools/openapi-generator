@@ -99,7 +99,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         languageSpecificPrimitives.add("none_type");
 
         // this generator does not use SORT_PARAMS_BY_REQUIRED_FLAG
-        // this generator uses the following order for endpoint paramters and model properties
+        // this generator uses the following order for endpoint parameters and model properties
         // required params/props with no enum of length one
         // required params/props with enum of length one (which is used to set a default value as a python named arg value)
         // optional params/props with **kwargs in python
@@ -384,7 +384,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      *      because they are not used we do not write them
      * - fix the model imports, go from model name to the full import string with toModelImport + globalImportFixer
      *
-     * @param objs a map going from the model name to a object hoding the model info
+     * @param objs a map going from the model name to an object holding the model info
      * @return the updated objs
      */
     @Override
@@ -494,7 +494,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      * We have a custom version of this method to produce links to models when they are
      * primitive type (not map, not array, not object) and include validations or are enums
      *
-     * @param body requesst body
+     * @param body request body
      * @param imports import collection
      * @param bodyParameterName body parameter name
      * @return the resultant CodegenParameter
@@ -849,7 +849,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 return prefix + modelName + fullSuffix;
             }
         }
-        if (isAnyTypeSchema(p)) {
+        if (ModelUtils.isAnyType(p)) {
             // for v2 specs only, swagger-parser never generates an AnyType schemas even though it should generate them
             // https://github.com/swagger-api/swagger-parser/issues/1378
             // switch to v3 if you need AnyType to work
@@ -919,7 +919,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     public String getTypeDeclaration(Schema p) {
         // this is used to set dataType, which defines a python tuple of classes
         // in Python we will wrap this in () to make it a tuple but here we
-        // will omit the parens so the generated documentaion will not include
+        // will omit the parens so the generated documentation will not include
         // them
         return getTypeString(p, "", "", null);
     }
@@ -1042,12 +1042,12 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
      * @param schema the schema that we need an example for
      * @param objExample the example that applies to this schema, for now only string example are used
      * @param indentationLevel integer indentation level that we are currently at
-     *                         we assume the indentaion amount is 4 spaces times this integer
+     *                         we assume the indentation amount is 4 spaces times this integer
      * @param prefix the string prefix that we will use when assigning an example for this line
      *               this is used when setting key: value, pairs "key: " is the prefix
      *               and this is used when setting properties like some_property='some_property_example'
-     * @param exampleLine this is the current line that we are generatign an example for, starts at 0
-     *                    we don't indentin the 0th line because using the example value looks like:
+     * @param exampleLine this is the current line that we are generating an example for, starts at 0
+     *                    we don't indent the 0th line because using the example value looks like:
      *                    prop = ModelName( line 0
      *                        some_property='some_property_example' line 1
      *                    ) line 2
@@ -1115,7 +1115,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             }
             String refModelName = getModelName(schema);
             return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, seenSchemas);
-        } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
+        } else if (ModelUtils.isNullType(schema) || ModelUtils.isAnyType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
             return fullPrefix + "None" + closeChars;
@@ -1195,7 +1195,11 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
                     // this seed makes it so if we have [a-z] we pick a
                     Random random = new Random(18);
-                    example = rgxGen.generate(random);
+                    if (rgxGen != null) {
+                        example = rgxGen.generate(random);
+                    } else {
+                        throw new RuntimeException("rgxGen cannot be null. Please open an issue in the openapi-generator github repo.");
+                    }
                 } else if (schema.getMinLength() != null) {
                     example = "";
                     int len = schema.getMinLength().intValue();
@@ -1299,8 +1303,8 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                     CodegenProperty cp = new CodegenProperty();
                     cp.setName(disc.getPropertyName());
                     cp.setExample(discPropNameValue);
-                    // Adds schema to seenSchemas before running example model function. romoves schema after running
-                    // the function. It also doesnt keep track of any schemas within the ObjectModel.
+                    // Adds schema to seenSchemas before running example model function. removes schema after running
+                    // the function. It also doesn't keep track of any schemas within the ObjectModel.
                     Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
                     newSeenSchemas.add(schema);
                     String exampleForObjectModel = exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation, newSeenSchemas);

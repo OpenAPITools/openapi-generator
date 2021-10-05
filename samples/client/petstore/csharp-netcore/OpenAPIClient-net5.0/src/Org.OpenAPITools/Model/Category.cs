@@ -48,7 +48,10 @@ namespace Org.OpenAPITools.Model
         public Category(long id = default(long), string name = "default-name")
         {
             // to ensure "name" is required (not null)
-            this.Name = name ?? throw new ArgumentNullException("name is a required property for Category and cannot be null");
+            if (name == null) {
+                throw new ArgumentNullException("name is a required property for Category and cannot be null");
+            }
+            this.Name = name;
             this.Id = id;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -138,7 +141,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

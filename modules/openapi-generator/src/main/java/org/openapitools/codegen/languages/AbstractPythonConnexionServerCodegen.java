@@ -332,7 +332,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 PathItem path = paths.get(pathname);
                 // Fix path parameters to be in snake_case
                 if (pathname.contains("{")) {
-                    String fixedPath = new String();
+                    String fixedPath = "";
                     for (String token : pathname.substring(1).split("/")) {
                         if (token.startsWith("{")) {
                             String snake_case_token = "{" + this.toParamName(token.substring(1, token.length() - 1)) + "}";
@@ -344,7 +344,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     }
                     if (!fixedPath.equals(pathname)) {
                         LOGGER.warn(
-                                "Path '{}' is not consistant with Python variable names. It will be replaced by '{}'",
+                                "Path '{}' is not consistent with Python variable names. It will be replaced by '{}'",
                                 pathname, fixedPath);
                         paths.remove(pathname);
                         path.addExtension("x-python-connexion-openapi-name", pathname);
@@ -353,8 +353,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (HttpMethod method : operationMap.keySet()) {
-                        Operation operation = operationMap.get(method);
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                        HttpMethod method = operationMapEntry.getKey();
+                        Operation operation = operationMapEntry.getValue();
                         String tag = "default";
                         if (operation.getTags() != null && operation.getTags().size() > 0) {
                             tag = operation.getTags().get(0);
@@ -376,7 +377,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                                 String pythonParameterName = this.toParamName(swaggerParameterName);
                                 if (!swaggerParameterName.equals(pythonParameterName)) {
                                     LOGGER.warn(
-                                            "Parameter name '{}' is not consistant with Python variable names. It will be replaced by '{}'",
+                                            "Parameter name '{}' is not consistent with Python variable names. It will be replaced by '{}'",
                                             swaggerParameterName, pythonParameterName);
                                     parameter.addExtension("x-python-connexion-openapi-name", swaggerParameterName);
                                     parameter.setName(pythonParameterName);
@@ -424,8 +425,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         Components components = openAPI.getComponents();
         if (components != null && components.getSecuritySchemes() != null) {
             Map<String, SecurityScheme> securitySchemes = components.getSecuritySchemes();
-            for (String securityName : securitySchemes.keySet()) {
-                SecurityScheme securityScheme = securitySchemes.get(securityName);
+            for (Map.Entry<String, SecurityScheme> securitySchemesEntry : securitySchemes.entrySet()) {
+                String securityName = securitySchemesEntry.getKey();
+                SecurityScheme securityScheme = securitySchemesEntry.getValue();
                 String baseFunctionName = controllerPackage + ".security_controller_.";
                 switch (securityScheme.getType()) {
                     case APIKEY:
@@ -439,7 +441,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         }
                         break;
                     case OPENIDCONNECT:
-                        LOGGER.warn("Security type {} is not supported by connextion yet", securityScheme.getType().toString());
+                        LOGGER.warn("Security type {} is not supported by connexion yet", securityScheme.getType().toString());
                     case OAUTH2:
                         addSecurityExtension(securityScheme, "x-tokenInfoFunc", baseFunctionName + "info_from_" + securityName);
                         addSecurityExtension(securityScheme, "x-scopeValidateFunc", baseFunctionName + "validate_scope_" + securityName);
@@ -503,7 +505,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     String openapiPathname = (String) pathExtensions.remove("x-python-connexion-openapi-name");
                     if (openapiPathname != null && !openapiPathname.equals(pythonPathname)) {
                         LOGGER.info(
-                                "Path '{}' is not consistant with the original OpenAPI definition. It will be replaced back by '{}'",
+                                "Path '{}' is not consistent with the original OpenAPI definition. It will be replaced back by '{}'",
                                 pythonPathname, openapiPathname);
                         paths.remove(pythonPathname);
                         paths.put(openapiPathname, path);
@@ -512,8 +514,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (HttpMethod method : operationMap.keySet()) {
-                        Operation operation = operationMap.get(method);
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                        HttpMethod method = operationMapEntry.getKey();
+                        Operation operation = operationMapEntry.getValue();
                         if (operation.getParameters() != null) {
                             for (Parameter parameter : operation.getParameters()) {
                                 Map<String, Object> parameterExtensions = parameter.getExtensions();
@@ -652,7 +655,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     operation.vendorExtensions.put("x-prefered-consume", consume);
                 } else if (operation.consumes.size() > 1) {
                     Map<String, String> consume = operation.consumes.get(0);
-                    skipTests.put("reason", "Connexion does not support multiple consummes. See https://github.com/zalando/connexion/pull/760");
+                    skipTests.put("reason", "Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760");
                     operation.vendorExtensions.put("x-prefered-consume", consume);
                     if ("multipart/form-data".equals(consume.get(MEDIA_TYPE))) {
                         operation.isMultipart = Boolean.TRUE;
