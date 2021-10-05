@@ -28,7 +28,7 @@ web::json::value {{classname}}::toJson() const
     web::json::value val = web::json::value::object();
 
     {{#allowableValues}}{{#enumVars}}
-    if (m_value == e{{classname}}::{{classname}}_{{name}}) val = web::json::value::string(U({{{value}}}));{{/enumVars}}{{/allowableValues}}
+    if (m_value == e{{classname}}::{{classname}}_{{name}}) val = web::json::value::string(U("{{{value}}}"));{{/enumVars}}{{/allowableValues}}
 
     return val;
 }
@@ -38,22 +38,22 @@ bool {{classname}}::fromJson(const web::json::value& val)
     auto s = val.as_string();
 
     {{#allowableValues}}{{#enumVars}}
-    if (s == utility::conversions::to_string_t({{{value}}})) m_value = e{{classname}}::{{classname}}_{{name}};{{/enumVars}}{{/allowableValues}}
+    if (s == utility::conversions::to_string_t(U("{{{value}}}"))) m_value = e{{classname}}::{{classname}}_{{name}};{{/enumVars}}{{/allowableValues}}
     return true;
 }
 
 void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += utility::conversions::to_string_t(U("."));
     }
 
     utility::string_t s;
 
     {{#allowableValues}}{{#enumVars}}
-    if (m_value == e{{classname}}::{{classname}}_{{name}}) s = utility::conversions::to_string_t({{{value}}});{{/enumVars}}{{/allowableValues}}
+    if (m_value == e{{classname}}::{{classname}}_{{name}}) s = utility::conversions::to_string_t(U("{{{value}}}"));{{/enumVars}}{{/allowableValues}}
 
     multipart->add(ModelBase::toHttpContent(namePrefix, s));
 }
@@ -62,9 +62,9 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += utility::conversions::to_string_t(U("."));
     }
     {
         utility::string_t s;
@@ -72,7 +72,7 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         e{{classname}} v;
 
         {{#allowableValues}}{{#enumVars}}
-        if (s == utility::conversions::to_string_t({{{value}}})) v = e{{classname}}::{{classname}}_{{name}};{{/enumVars}}{{/allowableValues}}
+        if (s == utility::conversions::to_string_t(U("{{{value}}}"))) v = e{{classname}}::{{classname}}_{{name}};{{/enumVars}}{{/allowableValues}}
 
         setValue(v);
     }
@@ -134,7 +134,7 @@ web::json::value {{classname}}::toJson() const
     {{#vars}}{{^isInherited}}
     if(m_{{name}}IsSet)
     {
-        val[utility::conversions::to_string_t("{{baseName}}")] = ModelBase::toJson(m_{{name}});
+        val[utility::conversions::to_string_t(U("{{baseName}}"))] = ModelBase::toJson(m_{{name}});
     }{{/isInherited}}{{/vars}}
 
     return val;
@@ -147,9 +147,9 @@ bool {{classname}}::fromJson(const web::json::value& val)
     ok &= this->{{{.}}}::fromJson(val);
     {{/parent}}
     {{#vars}}{{^isInherited}}
-    if(val.has_field(utility::conversions::to_string_t("{{baseName}}")))
+    if(val.has_field(utility::conversions::to_string_t(U("{{baseName}}"))))
     {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t("{{baseName}}"));
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("{{baseName}}")));
         if(!fieldValue.is_null())
         {
             {{{dataType}}} refVal_{{baseName}};
@@ -163,14 +163,14 @@ bool {{classname}}::fromJson(const web::json::value& val)
 void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += utility::conversions::to_string_t(U("."));
     }
     {{#vars}}
     if(m_{{name}}IsSet)
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("{{baseName}}")), m_{{name}}));
     }
     {{/vars}}
 }
@@ -179,16 +179,16 @@ bool {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
     {
-        namePrefix += utility::conversions::to_string_t(".");
+        namePrefix += utility::conversions::to_string_t(U("."));
     }
 
     {{#vars}}
-    if(multipart->hasContent(utility::conversions::to_string_t("{{baseName}}")))
+    if(multipart->hasContent(utility::conversions::to_string_t(U("{{baseName}}"))))
     {
         {{{dataType}}} refVal_{{baseName}};
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}")), refVal_{{baseName}} );
+        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("{{baseName}}"))), refVal_{{baseName}} );
         {{setter}}(refVal_{{baseName}});
     }
     {{/vars}}
