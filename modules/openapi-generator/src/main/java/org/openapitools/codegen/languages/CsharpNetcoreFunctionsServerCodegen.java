@@ -24,7 +24,7 @@ public class CsharpNetcoreFunctionsServerCodegen extends DefaultCodegen implemen
     }
 
     public String getName() {
-        return "ceesharp";
+        return "csharp-netcore-functions";
     }
 
     public String getHelp() {
