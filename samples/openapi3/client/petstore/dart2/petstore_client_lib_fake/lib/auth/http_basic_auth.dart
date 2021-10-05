@@ -11,7 +11,7 @@
 part of openapi.api;
 
 class HttpBasicAuth implements Authentication {
-  HttpBasicAuth(this.username, this.password);
+  HttpBasicAuth({this.username, this.password});
 
   String? username;
   String? password;
