@@ -26,7 +26,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'pet' is not null or undefined
         if (pet === null || pet === undefined) {
-            throw new RequiredError('Required parameter pet was null or undefined when calling addPet.');
+            throw new RequiredError("PetApi", "addPet", "pet");
         }
 
 
@@ -71,7 +71,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
-            throw new RequiredError('Required parameter petId was null or undefined when calling deletePet.');
+            throw new RequiredError("PetApi", "deletePet", "petId");
         }
 
 
@@ -108,7 +108,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'status' is not null or undefined
         if (status === null || status === undefined) {
-            throw new RequiredError('Required parameter status was null or undefined when calling findPetsByStatus.');
+            throw new RequiredError("PetApi", "findPetsByStatus", "status");
         }
 
 
@@ -145,7 +145,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'tags' is not null or undefined
         if (tags === null || tags === undefined) {
-            throw new RequiredError('Required parameter tags was null or undefined when calling findPetsByTags.');
+            throw new RequiredError("PetApi", "findPetsByTags", "tags");
         }
 
 
@@ -182,7 +182,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
-            throw new RequiredError('Required parameter petId was null or undefined when calling getPetById.');
+            throw new RequiredError("PetApi", "getPetById", "petId");
         }
 
 
@@ -214,7 +214,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'pet' is not null or undefined
         if (pet === null || pet === undefined) {
-            throw new RequiredError('Required parameter pet was null or undefined when calling updatePet.');
+            throw new RequiredError("PetApi", "updatePet", "pet");
         }
 
 
@@ -260,7 +260,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
-            throw new RequiredError('Required parameter petId was null or undefined when calling updatePetWithForm.');
+            throw new RequiredError("PetApi", "updatePetWithForm", "petId");
         }
 
 
@@ -325,7 +325,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
-            throw new RequiredError('Required parameter petId was null or undefined when calling uploadFile.');
+            throw new RequiredError("PetApi", "uploadFile", "petId");
         }
 
 

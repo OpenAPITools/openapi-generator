@@ -28,7 +28,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUser.');
+            throw new RequiredError("UserApi", "createUser", "user");
         }
 
 
@@ -70,7 +70,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
+            throw new RequiredError("UserApi", "createUsersWithArrayInput", "user");
         }
 
 
@@ -112,7 +112,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithListInput.');
+            throw new RequiredError("UserApi", "createUsersWithListInput", "user");
         }
 
 
@@ -155,7 +155,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling deleteUser.');
+            throw new RequiredError("UserApi", "deleteUser", "username");
         }
 
 
@@ -187,7 +187,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling getUserByName.');
+            throw new RequiredError("UserApi", "getUserByName", "username");
         }
 
 
@@ -214,13 +214,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling loginUser.');
+            throw new RequiredError("UserApi", "loginUser", "username");
         }
 
 
         // verify required parameter 'password' is not null or undefined
         if (password === null || password === undefined) {
-            throw new RequiredError('Required parameter password was null or undefined when calling loginUser.');
+            throw new RequiredError("UserApi", "loginUser", "password");
         }
 
 
@@ -281,13 +281,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling updateUser.');
+            throw new RequiredError("UserApi", "updateUser", "username");
         }
 
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling updateUser.');
+            throw new RequiredError("UserApi", "updateUser", "user");
         }
 
 

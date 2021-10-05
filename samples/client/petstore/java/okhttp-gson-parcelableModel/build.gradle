@@ -52,7 +52,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:javax.annotation-api:1.3.2'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -97,6 +97,10 @@ if(hasProperty('target') && target == 'android') {
     }
 }
 
+ext {
+    jakarta_annotation_version = "1.3.5"
+}
+
 dependencies {
     implementation 'io.swagger:swagger-annotations:1.5.24'
     implementation "com.google.code.findbugs:jsr305:3.0.2"
@@ -108,7 +112,7 @@ dependencies {
     implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.1'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
     implementation 'org.threeten:threetenbp:1.4.3'
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation 'junit:junit:4.13.1'
 }
 

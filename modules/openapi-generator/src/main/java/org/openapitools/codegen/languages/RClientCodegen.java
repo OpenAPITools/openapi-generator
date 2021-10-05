@@ -133,6 +133,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("number", "numeric");
         typeMapping.put("float", "numeric");
         typeMapping.put("double", "numeric");
+        typeMapping.put("decimal", "numeric");
         typeMapping.put("boolean", "character");
         typeMapping.put("string", "character");
         typeMapping.put("UUID", "character");

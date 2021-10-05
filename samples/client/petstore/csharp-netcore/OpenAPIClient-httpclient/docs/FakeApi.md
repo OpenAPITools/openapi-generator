@@ -810,9 +810,9 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
-            var enumHeaderStringArray = enumHeaderStringArray_example;  // List<string> | Header parameter enum test (string array) (optional) 
+            var enumHeaderStringArray = new List<string>(); // List<string> | Header parameter enum test (string array) (optional) 
             var enumHeaderString = enumHeaderString_example;  // string | Header parameter enum test (string) (optional)  (default to -efg)
-            var enumQueryStringArray = enumQueryStringArray_example;  // List<string> | Query parameter enum test (string array) (optional) 
+            var enumQueryStringArray = new List<string>(); // List<string> | Query parameter enum test (string array) (optional) 
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.2D;  // double? | Query parameter enum test (double) (optional) 
@@ -839,9 +839,9 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | **List&lt;string&gt;**| Header parameter enum test (string array) | [optional] 
+ **enumHeaderStringArray** | [**List&lt;string&gt;**](string.md)| Header parameter enum test (string array) | [optional] 
  **enumHeaderString** | **string**| Header parameter enum test (string) | [optional] [default to -efg]
- **enumQueryStringArray** | **List&lt;string&gt;**| Query parameter enum test (string array) | [optional] 
+ **enumQueryStringArray** | [**List&lt;string&gt;**](string.md)| Query parameter enum test (string array) | [optional] 
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 

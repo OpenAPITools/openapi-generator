@@ -110,7 +110,6 @@ module {{moduleName}}
       @server_operation_variables = {}
       @api_key = {}
       @api_key_prefix = {}
-      @timeout = 0
       @client_side_validation = true
       {{#isFaraday}}
       @ssl_verify = true
@@ -118,6 +117,10 @@ module {{moduleName}}
       @ssl_ca_file = nil
       @ssl_client_cert = nil
       @ssl_client_key = nil
+      @middlewares = []
+      @request_middlewares = []
+      @response_middlewares = []
+      @timeout = 60
       {{/isFaraday}}
       {{^isFaraday}}
       @verify_ssl = true
@@ -125,6 +128,7 @@ module {{moduleName}}
       @params_encoding = nil
       @cert_file = nil
       @key_file = nil
+      @timeout = 0
       {{/isFaraday}}
       @debugging = false
       @inject_format = false
@@ -345,5 +349,37 @@ module {{moduleName}}
 
       url
     end
+
+    {{#isFaraday}}
+    # Adds middleware to the stack
+    def use(*middleware)
+      @middlewares << middleware
+    end
+
+    # Adds request middleware to the stack
+    def request(*middleware)
+      @request_middlewares << middleware
+    end
+
+    # Adds response middleware to the stack
+    def response(*middleware)
+      @response_middlewares << middleware
+    end
+
+    # Set up middleware on the connection
+    def configure_middleware(connection)
+      @middlewares.each do |middleware|
+        connection.use(*middleware)
+      end
+
+      @request_middlewares.each do |middleware|
+        connection.request(*middleware)
+      end
+
+      @response_middlewares.each do |middleware|
+        connection.response(*middleware)
+      end
+    end
+    {{/isFaraday}}
   end
 end

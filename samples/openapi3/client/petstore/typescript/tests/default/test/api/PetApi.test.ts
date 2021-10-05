@@ -62,6 +62,21 @@ describe("PetApi", () => {
         throw new Error("Deleted non-existant pet with id " + nonExistantId + "!");
     })
 
+    it("failRunTimeRequiredParameterCheck", async () => {
+        try {
+            await petApi.deletePet(null)
+        } catch (err) {
+            expect(err.api).to.equal("PetApi");
+            expect(err.message).to.include("PetApi");
+            expect(err.method).to.equal("deletePet");
+            expect(err.message).to.include("deletePet");
+            expect(err.field).to.equal("petId");
+            expect(err.message).to.include("petId");
+            return;
+        }
+        throw new Error("Accepted missing parameter!");
+    })
+
     it("findPetsByStatus", async () => {
         const pets = await petApi.findPetsByStatus(["available"]);
         expect(pets.length).to.be.at.least(1);

@@ -55,7 +55,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -112,6 +112,7 @@ ext {
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
     {{/openApiNullable}}
+    jakarta_annotation_version = "1.3.5"
     jersey_version = "2.27"
     junit_version = "4.13.1"
     {{#threetenbp}}
@@ -157,7 +158,7 @@ dependencies {
     {{^java8}}
     implementation "com.brsanthu:migbase64:2.2"
     {{/java8}}
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }
 
