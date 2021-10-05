@@ -49,6 +49,9 @@ public class ProtobufSchemaCodegenTest {
 
     @Test
     public void testCodeGenWithAllOf() throws IOException {
+        // set line break to \n across all platforms
+        System.setProperty("line.separator", "\n");
+
         File output = Files.createTempDirectory("test").toFile();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
