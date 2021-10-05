@@ -13,7 +13,7 @@ part of openapi.api;
 class OAuth implements Authentication {
   OAuth({this.accessToken});
 
-  String accessToken;
+  String? accessToken;
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
