@@ -17,6 +17,7 @@ class FileSchemaTestClass {
     this.files = const [],
   });
 
+
   ModelFile file;
 
   List<ModelFile> files;

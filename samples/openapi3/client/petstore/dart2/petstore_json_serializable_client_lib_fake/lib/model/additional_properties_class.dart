@@ -23,6 +23,7 @@ class AdditionalPropertiesClass {
     this.mapOfMapProperty = const {},
   });
 
+
   @JsonKey(
     defaultValue: const {},
     name: r'map_property',

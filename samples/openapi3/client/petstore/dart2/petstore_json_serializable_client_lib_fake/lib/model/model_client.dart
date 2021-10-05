@@ -22,6 +22,7 @@ class ModelClient {
     this.client,
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'client',

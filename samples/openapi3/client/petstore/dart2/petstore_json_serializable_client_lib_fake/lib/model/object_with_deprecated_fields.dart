@@ -25,6 +25,7 @@ class ObjectWithDeprecatedFields {
     this.bars = const [],
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'uuid',

@@ -22,6 +22,7 @@ class Foo {
     this.bar = 'bar',
   });
 
+
   @JsonKey(
     defaultValue: 'bar',
     name: r'bar',

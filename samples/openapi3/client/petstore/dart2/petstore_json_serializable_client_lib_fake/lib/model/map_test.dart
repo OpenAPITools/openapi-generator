@@ -25,6 +25,7 @@ class MapTest {
     this.indirectMap = const {},
   });
 
+
   @JsonKey(
     defaultValue: const {},
     name: r'map_map_of_string',

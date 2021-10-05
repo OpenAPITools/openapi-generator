@@ -22,6 +22,7 @@ class NumberOnly {
     this.justNumber,
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'JustNumber',

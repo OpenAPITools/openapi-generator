@@ -19,6 +19,7 @@ class MapTest {
     this.indirectMap = const {},
   });
 
+
   Map<String, Map<String, String>> mapMapOfString;
 
   Map<String, MapTestMapOfEnumStringEnum> mapOfEnumString;

@@ -17,6 +17,7 @@ class Model200Response {
     this.class_,
   });
 
+
   int name;
 
   String class_;

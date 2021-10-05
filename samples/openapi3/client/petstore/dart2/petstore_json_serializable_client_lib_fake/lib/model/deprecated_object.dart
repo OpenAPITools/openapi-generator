@@ -22,6 +22,7 @@ class DeprecatedObject {
     this.name,
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'name',

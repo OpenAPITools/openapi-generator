@@ -27,6 +27,7 @@ class NullableClass {
     this.objectItemsNullable = const {},
   });
 
+
       int? integerProp;
 
       num? numberProp;

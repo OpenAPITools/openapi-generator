@@ -22,6 +22,7 @@ class ModelFile {
     this.sourceURI,
   });
 
+
       /// Test capitalization
   @JsonKey(
     nullable: false,

@@ -17,6 +17,7 @@ class HasOnlyReadOnly {
     this.foo,
   });
 
+
   String bar;
 
   String foo;

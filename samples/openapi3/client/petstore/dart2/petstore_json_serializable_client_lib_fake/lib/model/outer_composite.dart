@@ -24,6 +24,7 @@ class OuterComposite {
     this.myBoolean,
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'my_number',

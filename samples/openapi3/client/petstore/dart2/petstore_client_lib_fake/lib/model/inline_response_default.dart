@@ -16,6 +16,7 @@ class InlineResponseDefault {
     this.string,
   });
 
+
   Foo string;
 
   @override

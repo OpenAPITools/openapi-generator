@@ -18,6 +18,7 @@ class ArrayTest {
     this.arrayArrayOfModel = const [],
   });
 
+
   List<String> arrayOfString;
 
   List<List<int>> arrayArrayOfInteger;

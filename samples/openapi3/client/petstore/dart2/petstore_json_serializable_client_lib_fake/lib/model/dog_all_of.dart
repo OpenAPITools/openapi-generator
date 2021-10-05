@@ -22,6 +22,7 @@ class DogAllOf {
     this.breed,
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'breed',

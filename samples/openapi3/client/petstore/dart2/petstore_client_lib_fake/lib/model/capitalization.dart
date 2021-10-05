@@ -21,6 +21,7 @@ class Capitalization {
     this.ATT_NAME,
   });
 
+
   String smallCamel;
 
   String capitalCamel;

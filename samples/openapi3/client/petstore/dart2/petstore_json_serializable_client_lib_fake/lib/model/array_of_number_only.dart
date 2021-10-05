@@ -22,6 +22,7 @@ class ArrayOfNumberOnly {
     this.arrayNumber = const [],
   });
 
+
   @JsonKey(
     defaultValue: const [],
     name: r'ArrayNumber',

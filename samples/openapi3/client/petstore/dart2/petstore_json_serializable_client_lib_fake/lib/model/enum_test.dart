@@ -20,7 +20,7 @@ class EnumTest {
   /// Returns a new [EnumTest] instance.
   EnumTest({
     this.enumString,
-    @required this.enumStringRequired,
+    required this.enumStringRequired,
     this.enumInteger,
     this.enumNumber,
     this.outerEnum,
@@ -28,6 +28,7 @@ class EnumTest {
     this.outerEnumDefaultValue,
     this.outerEnumIntegerDefaultValue,
   });
+
 
   @JsonKey(
     nullable: false,

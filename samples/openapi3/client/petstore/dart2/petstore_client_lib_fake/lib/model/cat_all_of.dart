@@ -16,6 +16,7 @@ class CatAllOf {
     this.declawed,
   });
 
+
   bool declawed;
 
   @override

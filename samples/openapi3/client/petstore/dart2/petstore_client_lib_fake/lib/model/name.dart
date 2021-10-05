@@ -13,11 +13,12 @@ part of openapi.api;
 class Name {
   /// Returns a new [Name] instance.
   Name({
-    @required this.name,
+    required this.name,
     this.snakeCase,
     this.property,
     this.n123number,
   });
+
 
   int name;
 

@@ -24,6 +24,7 @@ class ArrayTest {
     this.arrayArrayOfModel = const [],
   });
 
+
   @JsonKey(
     defaultValue: const [],
     name: r'array_of_string',

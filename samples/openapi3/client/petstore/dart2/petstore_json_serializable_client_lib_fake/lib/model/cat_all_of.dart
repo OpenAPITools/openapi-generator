@@ -22,6 +22,7 @@ class CatAllOf {
     this.declawed,
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'declawed',

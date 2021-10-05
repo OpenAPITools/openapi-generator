@@ -22,6 +22,7 @@ class InlineResponseDefault {
     this.string,
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'string',

@@ -17,6 +17,7 @@ class AdditionalPropertiesClass {
     this.mapOfMapProperty = const {},
   });
 
+
   Map<String, String> mapProperty;
 
   Map<String, Map<String, String>> mapOfMapProperty;

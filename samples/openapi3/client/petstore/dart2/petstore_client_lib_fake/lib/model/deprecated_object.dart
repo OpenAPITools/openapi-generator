@@ -16,6 +16,7 @@ class DeprecatedObject {
     this.name,
   });
 
+
   String name;
 
   @override

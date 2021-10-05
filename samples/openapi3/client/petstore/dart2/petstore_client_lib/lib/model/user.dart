@@ -23,6 +23,7 @@ class User {
     this.userStatus,
   });
 
+
   int id;
 
   String username;

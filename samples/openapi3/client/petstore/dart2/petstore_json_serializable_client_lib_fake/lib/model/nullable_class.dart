@@ -33,6 +33,7 @@ class NullableClass {
     this.objectItemsNullable = const {},
   });
 
+
   @JsonKey(
     nullable: true,
     name: r'integer_prop',

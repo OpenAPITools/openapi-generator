@@ -22,6 +22,7 @@ class ClassModel {
     this.class_,
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'_class',

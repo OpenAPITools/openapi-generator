@@ -16,6 +16,7 @@ class ModelClient {
     this.client,
   });
 
+
   String client;
 
   @override

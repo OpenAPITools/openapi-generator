@@ -22,20 +22,21 @@ class FormatTest {
     this.integer,
     this.int32,
     this.int64,
-    @required this.number,
+    required this.number,
     this.float,
     this.double_,
     this.decimal,
     this.string,
-    @required this.byte,
+    required this.byte,
     this.binary,
-    @required this.date,
+    required this.date,
     this.dateTime,
     this.uuid,
-    @required this.password,
+    required this.password,
     this.patternWithDigits,
     this.patternWithDigitsAndDelimiter,
   });
+
 
           // minimum: 10
           // maximum: 100

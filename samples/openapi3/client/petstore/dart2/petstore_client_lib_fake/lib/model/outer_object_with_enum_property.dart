@@ -13,8 +13,9 @@ part of openapi.api;
 class OuterObjectWithEnumProperty {
   /// Returns a new [OuterObjectWithEnumProperty] instance.
   OuterObjectWithEnumProperty({
-    @required this.value,
+    required this.value,
   });
+
 
   OuterEnumInteger value;
 

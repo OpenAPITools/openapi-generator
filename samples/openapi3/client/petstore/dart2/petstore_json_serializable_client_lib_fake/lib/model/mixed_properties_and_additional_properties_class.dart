@@ -24,6 +24,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = const {},
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'uuid',

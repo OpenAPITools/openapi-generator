@@ -18,6 +18,7 @@ class OuterComposite {
     this.myBoolean,
   });
 
+
   num myNumber;
 
   String myString;

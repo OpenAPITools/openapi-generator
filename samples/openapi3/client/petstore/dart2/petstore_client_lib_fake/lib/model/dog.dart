@@ -13,10 +13,11 @@ part of openapi.api;
 class Dog {
   /// Returns a new [Dog] instance.
   Dog({
-    @required this.className,
+    required this.className,
     this.color = 'red',
     this.breed,
   });
+
 
   String className;
 

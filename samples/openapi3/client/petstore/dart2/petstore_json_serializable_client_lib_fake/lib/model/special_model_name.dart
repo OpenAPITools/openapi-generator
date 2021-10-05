@@ -22,6 +22,7 @@ class SpecialModelName {
     this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'$special[property.name]',

@@ -17,6 +17,7 @@ class EnumArrays {
     this.arrayEnum = const [],
   });
 
+
   EnumArraysJustSymbolEnum justSymbol;
 
   List<EnumArraysArrayEnumEnum> arrayEnum;

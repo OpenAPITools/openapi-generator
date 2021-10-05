@@ -23,6 +23,7 @@ class FileSchemaTestClass {
     this.files = const [],
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'file',

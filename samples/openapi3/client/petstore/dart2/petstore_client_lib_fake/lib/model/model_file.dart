@@ -16,6 +16,7 @@ class ModelFile {
     this.sourceURI,
   });
 
+
   /// Test capitalization
   String sourceURI;
 

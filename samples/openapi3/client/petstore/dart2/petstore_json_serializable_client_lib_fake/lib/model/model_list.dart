@@ -22,6 +22,7 @@ class ModelList {
     this.n123list,
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'123-list',

@@ -18,6 +18,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = const {},
   });
 
+
   String uuid;
 
   DateTime dateTime;

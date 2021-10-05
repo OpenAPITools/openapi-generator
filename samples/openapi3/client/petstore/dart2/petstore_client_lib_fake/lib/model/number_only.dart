@@ -16,6 +16,7 @@ class NumberOnly {
     this.justNumber,
   });
 
+
   num justNumber;
 
   @override

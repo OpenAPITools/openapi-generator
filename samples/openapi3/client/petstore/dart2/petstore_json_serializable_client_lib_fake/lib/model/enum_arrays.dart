@@ -23,6 +23,7 @@ class EnumArrays {
     this.arrayEnum = const [],
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'just_symbol',

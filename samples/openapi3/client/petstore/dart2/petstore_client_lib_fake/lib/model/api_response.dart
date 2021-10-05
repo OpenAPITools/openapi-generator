@@ -18,6 +18,7 @@ class ApiResponse {
     this.message,
   });
 
+
   int code;
 
   String type;

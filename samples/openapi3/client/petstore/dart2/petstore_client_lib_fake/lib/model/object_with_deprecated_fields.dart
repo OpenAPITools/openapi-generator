@@ -19,6 +19,7 @@ class ObjectWithDeprecatedFields {
     this.bars = const [],
   });
 
+
   String uuid;
 
   num id;

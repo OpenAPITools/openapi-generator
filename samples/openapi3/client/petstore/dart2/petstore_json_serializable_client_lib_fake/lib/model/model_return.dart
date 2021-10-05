@@ -22,6 +22,7 @@ class ModelReturn {
     this.return_,
   });
 
+
   @JsonKey(
     nullable: false,
     name: r'return',
