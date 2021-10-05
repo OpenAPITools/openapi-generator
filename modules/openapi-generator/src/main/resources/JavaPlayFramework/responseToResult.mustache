@@ -7,7 +7,7 @@
 {{/returnType}}
 {{#authMethods.0}}
 {{#isOAuth}}
-if (!securityAPIUtils.isRequestTokenValid(request, "{{name}}")) {
+        if (!securityAPIUtils.isRequestTokenValid(request, "{{name}}")) {
             return unauthorized();
         }
 
@@ -39,8 +39,8 @@ if (!securityAPIUtils.isRequestTokenValid(request, "{{name}}")) {
 {{/returnTypeIsPrimitive}}
 {{/isResponseFile}}
 {{#supportAsync}}
-    return obj;
-});
+        return obj;
+    });
 {{/supportAsync}}
 {{/returnType}}
 {{#returnType}}
@@ -72,7 +72,7 @@ return stage.thenApply(obj -> {
 {{/returnType}}
 {{#returnType}}
 {{#supportAsync}}
-});
+    });
 {{/supportAsync}}
 {{/returnType}}
 {{/controllerOnly}}

@@ -39,10 +39,6 @@ public abstract class PetApiControllerImpInterface {
     public abstract void addPet(Http.Request request, Pet body) throws Exception;
 
     public Result findPetsByStatusHttp(Http.Request request, @NotNull List<String> status) throws Exception {
-        if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
-        }
-
         List<Pet> obj = findPetsByStatus(request, status);
 
         if (configuration.getBoolean("useOutputBeanValidation")) {
@@ -60,10 +56,6 @@ public abstract class PetApiControllerImpInterface {
     public abstract List<Pet> findPetsByStatus(Http.Request request, @NotNull List<String> status) throws Exception;
 
     public Result updatePetHttp(Http.Request request, Pet body) throws Exception {
-        if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
-        }
-
         updatePet(request, body);
         return ok();
 

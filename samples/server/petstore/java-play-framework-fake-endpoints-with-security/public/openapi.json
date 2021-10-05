@@ -146,9 +146,6 @@
             "description" : "Invalid status value"
           }
         },
-        "security" : [ {
-          "petstore_auth" : [ "write:pets", "read:pets" ]
-        } ],
         "summary" : "Finds Pets by status",
         "tags" : [ "pet" ],
         "x-accepts" : "application/json"
@@ -368,18 +365,6 @@
         "type" : "oauth2",
         "x-jwksUrl" : "https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/certs",
         "x-tokenIntrospectUrl" : "https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/token/introspect"
-      },
-      "petstore_auth" : {
-        "flows" : {
-          "implicit" : {
-            "authorizationUrl" : "http://petstore.swagger.io/api/oauth/dialog",
-            "scopes" : {
-              "write:pets" : "modify pets in your account",
-              "read:pets" : "read your pets"
-            }
-          }
-        },
-        "type" : "oauth2"
       },
       "api_key" : {
         "in" : "header",
