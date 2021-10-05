@@ -22,7 +22,7 @@ class Pet {
     this.id,
     this.category,
     required this.name,
-    required this.photoUrls = const {},
+    this.photoUrls = const {},
     this.tags = const [],
     this.status,
   });

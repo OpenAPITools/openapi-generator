@@ -17,7 +17,7 @@ class HealthCheckResult {
   });
 
 
-      String? nullableMessage;
+  String? nullableMessage;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&

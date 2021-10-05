@@ -20,7 +20,7 @@ class Category {
   /// Returns a new [Category] instance.
   Category({
     this.id,
-    required this.name = 'default-name',
+    this.name = 'default-name',
   });
 
 

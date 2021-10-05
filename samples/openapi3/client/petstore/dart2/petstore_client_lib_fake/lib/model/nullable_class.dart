@@ -28,27 +28,27 @@ class NullableClass {
   });
 
 
-      int? integerProp;
+  int? integerProp;
 
-      num? numberProp;
+  num? numberProp;
 
-      bool? booleanProp;
+  bool? booleanProp;
 
-      String? stringProp;
+  String? stringProp;
 
-      DateTime? dateProp;
+  DateTime? dateProp;
 
-      DateTime? datetimeProp;
+  DateTime? datetimeProp;
 
-      List<Object>? arrayNullableProp;
+  List<Object>? arrayNullableProp;
 
-      List<Object>? arrayAndItemsNullableProp;
+  List<Object>? arrayAndItemsNullableProp;
 
   List<Object> arrayItemsNullable;
 
-      Map<String, Object>? objectNullableProp;
+  Map<String, Object>? objectNullableProp;
 
-      Map<String, Object>? objectAndItemsNullableProp;
+  Map<String, Object>? objectAndItemsNullableProp;
 
   Map<String, Object> objectItemsNullable;
 

@@ -32,7 +32,7 @@ class EnumTest {
 
   EnumTestEnumNumberEnum enumNumber;
 
-      OuterEnum? outerEnum;
+  OuterEnum? outerEnum;
 
   OuterEnumInteger outerEnumInteger;
 
