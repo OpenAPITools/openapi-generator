@@ -17,7 +17,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.exclusions>**/src/main/java/org/openapitools/codegen/plugin/**/*</sonar.exclusions>
         <!-- used for integration tests verification scripts, managed by the test harness plugin -->
-        <groovy.version>3.0.5</groovy.version>
     </properties>
     <dependencies>
         <dependency>
