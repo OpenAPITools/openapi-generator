@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -22,12 +22,12 @@ class ModelList {
     this.n123list,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'123-list',
     required: false,
   )
-  String n123list;
+  String? n123list;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelList &&
@@ -35,7 +35,7 @@ class ModelList {
 
   @override
   int get hashCode =>
-    (n123list == null ? 0 : n123list.hashCode);
+    n123list.hashCode;
 
   factory ModelList.fromJson(Map<String, dynamic> json) => _$ModelListFromJson(json);
 

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -22,12 +22,13 @@ class Foo {
     this.bar = 'bar',
   });
 
+
   @JsonKey(
     defaultValue: 'bar',
     name: r'bar',
     required: false,
   )
-  String bar;
+  String? bar;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Foo &&
@@ -35,7 +36,7 @@ class Foo {
 
   @override
   int get hashCode =>
-    (bar == null ? 0 : bar.hashCode);
+    bar.hashCode;
 
   factory Foo.fromJson(Map<String, dynamic> json) => _$FooFromJson(json);
 

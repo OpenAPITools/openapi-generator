@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -33,89 +33,84 @@ class NullableClass {
     this.objectItemsNullable = const {},
   });
 
+
   @JsonKey(
-    nullable: true,
     name: r'integer_prop',
     required: false,
   )
-  int integerProp;
+  int? integerProp;
 
   @JsonKey(
-    nullable: true,
     name: r'number_prop',
     required: false,
   )
-  num numberProp;
+  num? numberProp;
 
   @JsonKey(
-    nullable: true,
     name: r'boolean_prop',
     required: false,
   )
-  bool booleanProp;
+  bool? booleanProp;
 
   @JsonKey(
-    nullable: true,
     name: r'string_prop',
     required: false,
   )
-  String stringProp;
+  String? stringProp;
 
   @JsonKey(
-    nullable: true,
     name: r'date_prop',
     required: false,
   )
-  DateTime dateProp;
+  DateTime? dateProp;
 
   @JsonKey(
-    nullable: true,
     name: r'datetime_prop',
     required: false,
   )
-  DateTime datetimeProp;
+  DateTime? datetimeProp;
 
   @JsonKey(
     defaultValue: const [],
     name: r'array_nullable_prop',
     required: false,
   )
-  List<Object> arrayNullableProp;
+  List<Map<String, dynamic>>? arrayNullableProp;
 
   @JsonKey(
     defaultValue: const [],
     name: r'array_and_items_nullable_prop',
     required: false,
   )
-  List<Object> arrayAndItemsNullableProp;
+  List<Map<String, dynamic>>? arrayAndItemsNullableProp;
 
   @JsonKey(
     defaultValue: const [],
     name: r'array_items_nullable',
     required: false,
   )
-  List<Object> arrayItemsNullable;
+  List<Map<String, dynamic>>? arrayItemsNullable;
 
   @JsonKey(
     defaultValue: const {},
     name: r'object_nullable_prop',
     required: false,
   )
-  Map<String, Object> objectNullableProp;
+  Map<String, dynamic>? objectNullableProp;
 
   @JsonKey(
     defaultValue: const {},
     name: r'object_and_items_nullable_prop',
     required: false,
   )
-  Map<String, Object> objectAndItemsNullableProp;
+  Map<String, dynamic>? objectAndItemsNullableProp;
 
   @JsonKey(
     defaultValue: const {},
     name: r'object_items_nullable',
     required: false,
   )
-  Map<String, Object> objectItemsNullable;
+  Map<String, dynamic>? objectItemsNullable;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
@@ -134,18 +129,18 @@ class NullableClass {
 
   @override
   int get hashCode =>
-    (integerProp == null ? 0 : integerProp.hashCode) +
-    (numberProp == null ? 0 : numberProp.hashCode) +
-    (booleanProp == null ? 0 : booleanProp.hashCode) +
-    (stringProp == null ? 0 : stringProp.hashCode) +
-    (dateProp == null ? 0 : dateProp.hashCode) +
-    (datetimeProp == null ? 0 : datetimeProp.hashCode) +
-    (arrayNullableProp == null ? 0 : arrayNullableProp.hashCode) +
-    (arrayAndItemsNullableProp == null ? 0 : arrayAndItemsNullableProp.hashCode) +
-    (arrayItemsNullable == null ? 0 : arrayItemsNullable.hashCode) +
-    (objectNullableProp == null ? 0 : objectNullableProp.hashCode) +
-    (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp.hashCode) +
-    (objectItemsNullable == null ? 0 : objectItemsNullable.hashCode);
+    integerProp.hashCode +
+    numberProp.hashCode +
+    booleanProp.hashCode +
+    stringProp.hashCode +
+    dateProp.hashCode +
+    datetimeProp.hashCode +
+    arrayNullableProp.hashCode +
+    arrayAndItemsNullableProp.hashCode +
+    arrayItemsNullable.hashCode +
+    objectNullableProp.hashCode +
+    objectAndItemsNullableProp.hashCode +
+    objectItemsNullable.hashCode;
 
   factory NullableClass.fromJson(Map<String, dynamic> json) => _$NullableClassFromJson(json);
 

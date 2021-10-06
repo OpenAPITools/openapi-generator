@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -18,11 +18,12 @@ class ArrayTest {
     this.arrayArrayOfModel = const [],
   });
 
-  List<String> arrayOfString;
 
-  List<List<int>> arrayArrayOfInteger;
+  List<String>? arrayOfString;
 
-  List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  List<List<int>>? arrayArrayOfInteger;
+
+  List<List<ReadOnlyFirst>>? arrayArrayOfModel;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
@@ -32,10 +33,9 @@ class ArrayTest {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (arrayOfString == null ? 0 : arrayOfString.hashCode) +
-    (arrayArrayOfInteger == null ? 0 : arrayArrayOfInteger.hashCode) +
-    (arrayArrayOfModel == null ? 0 : arrayArrayOfModel.hashCode);
+    arrayOfString.hashCode +
+    arrayArrayOfInteger.hashCode +
+    arrayArrayOfModel.hashCode;
 
   @override
   String toString() => 'ArrayTest[arrayOfString=$arrayOfString, arrayArrayOfInteger=$arrayArrayOfInteger, arrayArrayOfModel=$arrayArrayOfModel]';
@@ -57,32 +57,26 @@ class ArrayTest {
   /// Returns a new [ArrayTest] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ArrayTest fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return ArrayTest(
+  static ArrayTest fromJson(Map<String, dynamic> json) => ArrayTest(
         arrayOfString: json[r'array_of_string'] is List
           ? (json[r'array_of_string'] as List).cast<String>()
-          : null,
+          : [],
         arrayArrayOfInteger: json[r'array_array_of_integer'] is List
           ? (json[r'array_array_of_integer'] as List).map(
-              (e) => e == null ? null : (e as List).cast<int>()
+              (e) => e == null ? <int>[] : (e as List).cast<int>()
             ).toList(growable: false)
-          : null,
+          : [],
         arrayArrayOfModel: json[r'array_array_of_model'] is List
-          ? (json[r'array_array_of_model'] as List).map(
-              ReadOnlyFirst.listFromJson(json[r'array_array_of_model'])
+          ? (json[r'array_array_of_model'] as List).map<List<ReadOnlyFirst>>(
+              (final j) => ReadOnlyFirst.listFromJson(j)
             ).toList(growable: false)
-          : null,
-      );
-    }
-    return null;
-  }
+          : [],
+    );
 
-  static List<ArrayTest> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(ArrayTest.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <ArrayTest>[];
+  static List<ArrayTest> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<ArrayTest>((i) => ArrayTest.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <ArrayTest>[];
 
   static Map<String, ArrayTest> mapFromJson(dynamic json) {
     final map = <String, ArrayTest>{};
@@ -95,7 +89,7 @@ class ArrayTest {
   }
 
   // maps a json object with a list of ArrayTest-objects as value to a dart map
-  static Map<String, List<ArrayTest>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<ArrayTest>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<ArrayTest>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -103,7 +97,6 @@ class ArrayTest {
         .forEach((key, dynamic value) {
           map[key] = ArrayTest.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

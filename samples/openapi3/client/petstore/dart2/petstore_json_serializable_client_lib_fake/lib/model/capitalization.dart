@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -27,48 +27,43 @@ class Capitalization {
     this.ATT_NAME,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'smallCamel',
     required: false,
   )
-  String smallCamel;
+  String? smallCamel;
 
   @JsonKey(
-    nullable: false,
     name: r'CapitalCamel',
     required: false,
   )
-  String capitalCamel;
+  String? capitalCamel;
 
   @JsonKey(
-    nullable: false,
     name: r'small_Snake',
     required: false,
   )
-  String smallSnake;
+  String? smallSnake;
 
   @JsonKey(
-    nullable: false,
     name: r'Capital_Snake',
     required: false,
   )
-  String capitalSnake;
+  String? capitalSnake;
 
   @JsonKey(
-    nullable: false,
     name: r'SCA_ETH_Flow_Points',
     required: false,
   )
-  String sCAETHFlowPoints;
+  String? sCAETHFlowPoints;
 
-      /// Name of the pet 
+  /// Name of the pet 
   @JsonKey(
-    nullable: false,
     name: r'ATT_NAME',
     required: false,
   )
-  String ATT_NAME;
+  String? ATT_NAME;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
@@ -81,12 +76,12 @@ class Capitalization {
 
   @override
   int get hashCode =>
-    (smallCamel == null ? 0 : smallCamel.hashCode) +
-    (capitalCamel == null ? 0 : capitalCamel.hashCode) +
-    (smallSnake == null ? 0 : smallSnake.hashCode) +
-    (capitalSnake == null ? 0 : capitalSnake.hashCode) +
-    (sCAETHFlowPoints == null ? 0 : sCAETHFlowPoints.hashCode) +
-    (ATT_NAME == null ? 0 : ATT_NAME.hashCode);
+    smallCamel.hashCode +
+    capitalCamel.hashCode +
+    smallSnake.hashCode +
+    capitalSnake.hashCode +
+    sCAETHFlowPoints.hashCode +
+    ATT_NAME.hashCode;
 
   factory Capitalization.fromJson(Map<String, dynamic> json) => _$CapitalizationFromJson(json);
 

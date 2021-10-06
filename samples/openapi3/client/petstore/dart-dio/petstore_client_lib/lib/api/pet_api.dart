@@ -89,7 +89,7 @@ class PetApi {
   /// Deletes a pet
   ///
   /// 
-  Future<Response<void>> deletePet(
+  Future<Response<Map<String, dynamic>>> deletePet(
     int petId, { 
     String apiKey,
     CancelToken cancelToken,
@@ -130,7 +130,22 @@ class PetApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// Finds Pets by status
@@ -387,7 +402,7 @@ class PetApi {
   /// Updates a pet in the store with form data
   ///
   /// 
-  Future<Response<void>> updatePetWithForm(
+  Future<Response<Map<String, dynamic>>> updatePetWithForm(
     int petId, { 
     String name,
     String status,
@@ -433,7 +448,22 @@ class PetApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// uploads an image

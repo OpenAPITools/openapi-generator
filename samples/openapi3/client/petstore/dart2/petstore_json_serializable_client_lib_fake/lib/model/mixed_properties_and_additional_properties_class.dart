@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -24,26 +24,25 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = const {},
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'uuid',
     required: false,
   )
-  String uuid;
+  String? uuid;
 
   @JsonKey(
-    nullable: false,
     name: r'dateTime',
     required: false,
   )
-  DateTime dateTime;
+  DateTime? dateTime;
 
   @JsonKey(
     defaultValue: const {},
     name: r'map',
     required: false,
   )
-  Map<String, Animal> map;
+  Map<String, Animal>? map;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
@@ -53,9 +52,9 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
   @override
   int get hashCode =>
-    (uuid == null ? 0 : uuid.hashCode) +
-    (dateTime == null ? 0 : dateTime.hashCode) +
-    (map == null ? 0 : map.hashCode);
+    uuid.hashCode +
+    dateTime.hashCode +
+    map.hashCode;
 
   factory MixedPropertiesAndAdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$MixedPropertiesAndAdditionalPropertiesClassFromJson(json);
 

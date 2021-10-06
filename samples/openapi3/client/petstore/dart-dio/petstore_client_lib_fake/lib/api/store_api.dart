@@ -23,7 +23,7 @@ class StoreApi {
   /// Delete purchase order by ID
   ///
   /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-  Future<Response<void>> deleteOrder(
+  Future<Response<Map<String, dynamic>>> deleteOrder(
     String orderId, { 
     CancelToken cancelToken,
     Map<String, dynamic> headers,
@@ -57,7 +57,22 @@ class StoreApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// Returns pet inventories by status

@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **createUser**
-> createUser(user)
+> Map<String, dynamic> createUser(user)
 
 Create user
 
@@ -34,7 +34,8 @@ final api = Openapi().getUserApi();
 final User user = ; // User | Created user object
 
 try {
-    api.createUser(user);
+    final response = api.createUser(user);
+    print(response);
 } catch on DioError (e) {
     print('Exception when calling UserApi->createUser: $e\n');
 }
@@ -48,7 +49,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**Map&lt;String, dynamic&gt;**
 
 ### Authorization
 
@@ -62,7 +63,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(user)
+> Map<String, dynamic> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
@@ -74,7 +75,8 @@ final api = Openapi().getUserApi();
 final BuiltList<User> user = ; // BuiltList<User> | List of user object
 
 try {
-    api.createUsersWithArrayInput(user);
+    final response = api.createUsersWithArrayInput(user);
+    print(response);
 } catch on DioError (e) {
     print('Exception when calling UserApi->createUsersWithArrayInput: $e\n');
 }
@@ -88,7 +90,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**Map&lt;String, dynamic&gt;**
 
 ### Authorization
 
@@ -102,7 +104,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithListInput**
-> createUsersWithListInput(user)
+> Map<String, dynamic> createUsersWithListInput(user)
 
 Creates list of users with given input array
 
@@ -114,7 +116,8 @@ final api = Openapi().getUserApi();
 final BuiltList<User> user = ; // BuiltList<User> | List of user object
 
 try {
-    api.createUsersWithListInput(user);
+    final response = api.createUsersWithListInput(user);
+    print(response);
 } catch on DioError (e) {
     print('Exception when calling UserApi->createUsersWithListInput: $e\n');
 }
@@ -128,7 +131,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**Map&lt;String, dynamic&gt;**
 
 ### Authorization
 
@@ -142,7 +145,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **deleteUser**
-> deleteUser(username)
+> Map<String, dynamic> deleteUser(username)
 
 Delete user
 
@@ -156,7 +159,8 @@ final api = Openapi().getUserApi();
 final String username = username_example; // String | The name that needs to be deleted
 
 try {
-    api.deleteUser(username);
+    final response = api.deleteUser(username);
+    print(response);
 } catch on DioError (e) {
     print('Exception when calling UserApi->deleteUser: $e\n');
 }
@@ -170,7 +174,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**Map&lt;String, dynamic&gt;**
 
 ### Authorization
 
@@ -268,7 +272,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **logoutUser**
-> logoutUser()
+> Map<String, dynamic> logoutUser()
 
 Logs out current logged in user session
 
@@ -279,7 +283,8 @@ import 'package:openapi/api.dart';
 final api = Openapi().getUserApi();
 
 try {
-    api.logoutUser();
+    final response = api.logoutUser();
+    print(response);
 } catch on DioError (e) {
     print('Exception when calling UserApi->logoutUser: $e\n');
 }
@@ -290,7 +295,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-void (empty response body)
+**Map&lt;String, dynamic&gt;**
 
 ### Authorization
 
@@ -304,7 +309,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateUser**
-> updateUser(username, user)
+> Map<String, dynamic> updateUser(username, user)
 
 Updated user
 
@@ -319,7 +324,8 @@ final String username = username_example; // String | name that need to be delet
 final User user = ; // User | Updated user object
 
 try {
-    api.updateUser(username, user);
+    final response = api.updateUser(username, user);
+    print(response);
 } catch on DioError (e) {
     print('Exception when calling UserApi->updateUser: $e\n');
 }
@@ -334,7 +340,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**Map&lt;String, dynamic&gt;**
 
 ### Authorization
 

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -23,22 +23,23 @@ class User {
     this.userStatus,
   });
 
-  int id;
 
-  String username;
+  int? id;
 
-  String firstName;
+  String? username;
 
-  String lastName;
+  String? firstName;
 
-  String email;
+  String? lastName;
 
-  String password;
+  String? email;
 
-  String phone;
+  String? password;
+
+  String? phone;
 
   /// User Status
-  int userStatus;
+  int? userStatus;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
@@ -53,15 +54,14 @@ class User {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (id == null ? 0 : id.hashCode) +
-    (username == null ? 0 : username.hashCode) +
-    (firstName == null ? 0 : firstName.hashCode) +
-    (lastName == null ? 0 : lastName.hashCode) +
-    (email == null ? 0 : email.hashCode) +
-    (password == null ? 0 : password.hashCode) +
-    (phone == null ? 0 : phone.hashCode) +
-    (userStatus == null ? 0 : userStatus.hashCode);
+    id.hashCode +
+    username.hashCode +
+    firstName.hashCode +
+    lastName.hashCode +
+    email.hashCode +
+    password.hashCode +
+    phone.hashCode +
+    userStatus.hashCode;
 
   @override
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
@@ -98,27 +98,21 @@ class User {
   /// Returns a new [User] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static User fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return User(
-        id: mapValueOfType<int>(json, r'id'),
-        username: mapValueOfType<String>(json, r'username'),
-        firstName: mapValueOfType<String>(json, r'firstName'),
-        lastName: mapValueOfType<String>(json, r'lastName'),
-        email: mapValueOfType<String>(json, r'email'),
-        password: mapValueOfType<String>(json, r'password'),
-        phone: mapValueOfType<String>(json, r'phone'),
-        userStatus: mapValueOfType<int>(json, r'userStatus'),
-      );
-    }
-    return null;
-  }
+  static User fromJson(Map<String, dynamic> json) => User(
+        id: json[r'id'] as int,
+        username: json[r'username'] as String,
+        firstName: json[r'firstName'] as String,
+        lastName: json[r'lastName'] as String,
+        email: json[r'email'] as String,
+        password: json[r'password'] as String,
+        phone: json[r'phone'] as String,
+        userStatus: json[r'userStatus'] as int,
+    );
 
-  static List<User> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(User.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <User>[];
+  static List<User> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<User>((i) => User.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <User>[];
 
   static Map<String, User> mapFromJson(dynamic json) {
     final map = <String, User>{};
@@ -131,7 +125,7 @@ class User {
   }
 
   // maps a json object with a list of User-objects as value to a dart map
-  static Map<String, List<User>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<User>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<User>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -139,7 +133,6 @@ class User {
         .forEach((key, dynamic value) {
           map[key] = User.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

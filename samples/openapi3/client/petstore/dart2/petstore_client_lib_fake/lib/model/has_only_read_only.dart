@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -17,9 +17,10 @@ class HasOnlyReadOnly {
     this.foo,
   });
 
-  String bar;
 
-  String foo;
+  String? bar;
+
+  String? foo;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is HasOnlyReadOnly &&
@@ -28,9 +29,8 @@ class HasOnlyReadOnly {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (bar == null ? 0 : bar.hashCode) +
-    (foo == null ? 0 : foo.hashCode);
+    bar.hashCode +
+    foo.hashCode;
 
   @override
   String toString() => 'HasOnlyReadOnly[bar=$bar, foo=$foo]';
@@ -49,21 +49,15 @@ class HasOnlyReadOnly {
   /// Returns a new [HasOnlyReadOnly] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static HasOnlyReadOnly fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return HasOnlyReadOnly(
-        bar: mapValueOfType<String>(json, r'bar'),
-        foo: mapValueOfType<String>(json, r'foo'),
-      );
-    }
-    return null;
-  }
+  static HasOnlyReadOnly fromJson(Map<String, dynamic> json) => HasOnlyReadOnly(
+        bar: json[r'bar'] as String,
+        foo: json[r'foo'] as String,
+    );
 
-  static List<HasOnlyReadOnly> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(HasOnlyReadOnly.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <HasOnlyReadOnly>[];
+  static List<HasOnlyReadOnly> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<HasOnlyReadOnly>((i) => HasOnlyReadOnly.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <HasOnlyReadOnly>[];
 
   static Map<String, HasOnlyReadOnly> mapFromJson(dynamic json) {
     final map = <String, HasOnlyReadOnly>{};
@@ -76,7 +70,7 @@ class HasOnlyReadOnly {
   }
 
   // maps a json object with a list of HasOnlyReadOnly-objects as value to a dart map
-  static Map<String, List<HasOnlyReadOnly>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<HasOnlyReadOnly>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<HasOnlyReadOnly>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -84,7 +78,6 @@ class HasOnlyReadOnly {
         .forEach((key, dynamic value) {
           map[key] = HasOnlyReadOnly.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

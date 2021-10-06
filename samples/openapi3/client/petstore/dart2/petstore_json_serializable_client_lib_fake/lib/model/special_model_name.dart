@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -22,12 +22,12 @@ class SpecialModelName {
     this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'$special[property.name]',
     required: false,
   )
-  int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+  int? dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is SpecialModelName &&
@@ -35,7 +35,7 @@ class SpecialModelName {
 
   @override
   int get hashCode =>
-    (dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == null ? 0 : dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode);
+    dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode;
 
   factory SpecialModelName.fromJson(Map<String, dynamic> json) => _$SpecialModelNameFromJson(json);
 

@@ -226,9 +226,9 @@ class EnumTestEnumIntegerEnum extends EnumClass {
 
 class EnumTestEnumNumberEnum extends EnumClass {
 
-  @BuiltValueEnumConst(wireName: r'1.1')
+  @BuiltValueEnumConst(wireName: r1.1)
   static const EnumTestEnumNumberEnum number1Period1 = _$enumTestEnumNumberEnum_number1Period1;
-  @BuiltValueEnumConst(wireName: r'-1.2')
+  @BuiltValueEnumConst(wireName: r-1.2)
   static const EnumTestEnumNumberEnum numberNegative1Period2 = _$enumTestEnumNumberEnum_numberNegative1Period2;
 
   static Serializer<EnumTestEnumNumberEnum> get serializer => _$enumTestEnumNumberEnumSerializer;

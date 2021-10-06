@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -16,7 +16,8 @@ class ClassModel {
     this.class_,
   });
 
-  String class_;
+
+  String? class_;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ClassModel &&
@@ -24,8 +25,7 @@ class ClassModel {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (class_ == null ? 0 : class_.hashCode);
+    class_.hashCode;
 
   @override
   String toString() => 'ClassModel[class_=$class_]';
@@ -41,20 +41,14 @@ class ClassModel {
   /// Returns a new [ClassModel] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ClassModel fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return ClassModel(
-        class_: mapValueOfType<String>(json, r'_class'),
-      );
-    }
-    return null;
-  }
+  static ClassModel fromJson(Map<String, dynamic> json) => ClassModel(
+        class_: json[r'_class'] as String,
+    );
 
-  static List<ClassModel> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(ClassModel.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <ClassModel>[];
+  static List<ClassModel> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<ClassModel>((i) => ClassModel.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <ClassModel>[];
 
   static Map<String, ClassModel> mapFromJson(dynamic json) {
     final map = <String, ClassModel>{};
@@ -67,7 +61,7 @@ class ClassModel {
   }
 
   // maps a json object with a list of ClassModel-objects as value to a dart map
-  static Map<String, List<ClassModel>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<ClassModel>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<ClassModel>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -75,7 +69,6 @@ class ClassModel {
         .forEach((key, dynamic value) {
           map[key] = ClassModel.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

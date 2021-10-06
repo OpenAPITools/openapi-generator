@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -12,7 +12,7 @@ part of openapi.api;
 
 
 class StoreApi {
-  StoreApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+  StoreApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
@@ -27,17 +27,12 @@ class StoreApi {
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
   Future<Response> deleteOrderWithHttpInfo(String orderId,) async {
-    // Verify required params are set.
-    if (orderId == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
-    }
-
     // ignore: prefer_const_declarations
     final path = r'/store/order/{order_id}'
       .replaceAll('{order_id}', orderId);
 
     // ignore: prefer_final_locals
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -67,10 +62,17 @@ class StoreApi {
   ///
   /// * [String] orderId (required):
   ///   ID of the order that needs to be deleted
-  Future<void> deleteOrder(String orderId,) async {
+  Future<Map<String, dynamic>?> deleteOrder(String orderId,) async {
     final response = await deleteOrderWithHttpInfo(orderId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.statusCode != HttpStatus.noContent) {
+
+      return response.body as Map<String, dynamic>;
     }
   }
 
@@ -84,7 +86,7 @@ class StoreApi {
     final path = r'/store/inventory';
 
     // ignore: prefer_final_locals
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -109,7 +111,7 @@ class StoreApi {
   /// Returns pet inventories by status
   ///
   /// Returns a map of status codes to quantities
-  Future<Map<String, int>> getInventory() async {
+  Future<Map<String, int>?> getInventory() async {
     final response = await getInventoryWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -117,11 +119,10 @@ class StoreApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
 
       return Map<String, int>.from(json.decode(response.body));
     }
-    return Future<Map<String, int>>.value();
   }
 
   /// Find purchase order by ID
@@ -135,17 +136,12 @@ class StoreApi {
   /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
   Future<Response> getOrderByIdWithHttpInfo(int orderId,) async {
-    // Verify required params are set.
-    if (orderId == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: orderId');
-    }
-
     // ignore: prefer_const_declarations
     final path = r'/store/order/{order_id}'
       .replaceAll('{order_id}', orderId.toString());
 
     // ignore: prefer_final_locals
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -175,7 +171,7 @@ class StoreApi {
   ///
   /// * [int] orderId (required):
   ///   ID of pet that needs to be fetched
-  Future<Order> getOrderById(int orderId,) async {
+  Future<Order?> getOrderById(int orderId,) async {
     final response = await getOrderByIdWithHttpInfo(orderId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -183,11 +179,10 @@ class StoreApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
 
       return Order.fromJson(json.decode(response.body));
     }
-    return Future<Order>.value();
   }
 
   /// Place an order for a pet
@@ -199,16 +194,11 @@ class StoreApi {
   /// * [Order] order (required):
   ///   order placed for purchasing the pet
   Future<Response> placeOrderWithHttpInfo(Order order,) async {
-    // Verify required params are set.
-    if (order == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: order');
-    }
-
     // ignore: prefer_const_declarations
     final path = r'/store/order';
 
     // ignore: prefer_final_locals
-    Object postBody = order;
+    Object? postBody = order;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -236,7 +226,7 @@ class StoreApi {
   ///
   /// * [Order] order (required):
   ///   order placed for purchasing the pet
-  Future<Order> placeOrder(Order order,) async {
+  Future<Order?> placeOrder(Order order,) async {
     final response = await placeOrderWithHttpInfo(order,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -244,10 +234,9 @@ class StoreApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.statusCode != HttpStatus.noContent) {
 
       return Order.fromJson(json.decode(response.body));
     }
-    return Future<Order>.value();
   }
 }

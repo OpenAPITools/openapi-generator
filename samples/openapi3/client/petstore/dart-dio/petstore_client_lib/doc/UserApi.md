@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **createUser**
-> createUser(user)
+> Map<String, dynamic> createUser(user)
 
 Create user
 
@@ -38,7 +38,8 @@ var api_instance = new UserApi();
 var user = new User(); // User | Created user object
 
 try {
-    api_instance.createUser(user);
+    var result = api_instance.createUser(user);
+    print(result);
 } catch (e) {
     print('Exception when calling UserApi->createUser: $e\n');
 }
@@ -52,7 +53,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**Map<String, dynamic>**
 
 ### Authorization
 
@@ -66,7 +67,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(user)
+> Map<String, dynamic> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
@@ -82,7 +83,8 @@ var api_instance = new UserApi();
 var user = [new BuiltList<User>()]; // BuiltList<User> | List of user object
 
 try {
-    api_instance.createUsersWithArrayInput(user);
+    var result = api_instance.createUsersWithArrayInput(user);
+    print(result);
 } catch (e) {
     print('Exception when calling UserApi->createUsersWithArrayInput: $e\n');
 }
@@ -96,7 +98,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**Map<String, dynamic>**
 
 ### Authorization
 
@@ -110,7 +112,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithListInput**
-> createUsersWithListInput(user)
+> Map<String, dynamic> createUsersWithListInput(user)
 
 Creates list of users with given input array
 
@@ -126,7 +128,8 @@ var api_instance = new UserApi();
 var user = [new BuiltList<User>()]; // BuiltList<User> | List of user object
 
 try {
-    api_instance.createUsersWithListInput(user);
+    var result = api_instance.createUsersWithListInput(user);
+    print(result);
 } catch (e) {
     print('Exception when calling UserApi->createUsersWithListInput: $e\n');
 }
@@ -140,7 +143,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**Map<String, dynamic>**
 
 ### Authorization
 
@@ -154,7 +157,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **deleteUser**
-> deleteUser(username)
+> Map<String, dynamic> deleteUser(username)
 
 Delete user
 
@@ -172,7 +175,8 @@ var api_instance = new UserApi();
 var username = username_example; // String | The name that needs to be deleted
 
 try {
-    api_instance.deleteUser(username);
+    var result = api_instance.deleteUser(username);
+    print(result);
 } catch (e) {
     print('Exception when calling UserApi->deleteUser: $e\n');
 }
@@ -186,7 +190,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**Map<String, dynamic>**
 
 ### Authorization
 
@@ -284,7 +288,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **logoutUser**
-> logoutUser()
+> Map<String, dynamic> logoutUser()
 
 Logs out current logged in user session
 
@@ -299,7 +303,8 @@ import 'package:openapi/api.dart';
 var api_instance = new UserApi();
 
 try {
-    api_instance.logoutUser();
+    var result = api_instance.logoutUser();
+    print(result);
 } catch (e) {
     print('Exception when calling UserApi->logoutUser: $e\n');
 }
@@ -310,7 +315,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-void (empty response body)
+**Map<String, dynamic>**
 
 ### Authorization
 
@@ -324,7 +329,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateUser**
-> updateUser(username, user)
+> Map<String, dynamic> updateUser(username, user)
 
 Updated user
 
@@ -343,7 +348,8 @@ var username = username_example; // String | name that need to be deleted
 var user = new User(); // User | Updated user object
 
 try {
-    api_instance.updateUser(username, user);
+    var result = api_instance.updateUser(username, user);
+    print(result);
 } catch (e) {
     print('Exception when calling UserApi->updateUser: $e\n');
 }
@@ -358,7 +364,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**Map<String, dynamic>**
 
 ### Authorization
 

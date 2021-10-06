@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -22,12 +22,12 @@ class InlineResponseDefault {
     this.string,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'string',
     required: false,
   )
-  Foo string;
+  Foo? string;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is InlineResponseDefault &&
@@ -35,7 +35,7 @@ class InlineResponseDefault {
 
   @override
   int get hashCode =>
-    (string == null ? 0 : string.hashCode);
+    string.hashCode;
 
   factory InlineResponseDefault.fromJson(Map<String, dynamic> json) => _$InlineResponseDefaultFromJson(json);
 

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -23,19 +23,19 @@ class FileSchemaTestClass {
     this.files = const [],
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'file',
     required: false,
   )
-  ModelFile file;
+  ModelFile? file;
 
   @JsonKey(
     defaultValue: const [],
     name: r'files',
     required: false,
   )
-  List<ModelFile> files;
+  List<ModelFile>? files;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&
@@ -44,8 +44,8 @@ class FileSchemaTestClass {
 
   @override
   int get hashCode =>
-    (file == null ? 0 : file.hashCode) +
-    (files == null ? 0 : files.hashCode);
+    file.hashCode +
+    files.hashCode;
 
   factory FileSchemaTestClass.fromJson(Map<String, dynamic> json) => _$FileSchemaTestClassFromJson(json);
 

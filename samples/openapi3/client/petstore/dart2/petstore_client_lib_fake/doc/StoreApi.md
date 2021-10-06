@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 
 # **deleteOrder**
-> deleteOrder(orderId)
+> Map<String, dynamic> deleteOrder(orderId)
 
 Delete purchase order by ID
 
@@ -30,7 +30,8 @@ final api_instance = StoreApi();
 final orderId = orderId_example; // String | ID of the order that needs to be deleted
 
 try {
-    api_instance.deleteOrder(orderId);
+    final result = api_instance.deleteOrder(orderId);
+    print(result);
 } catch (e) {
     print('Exception when calling StoreApi->deleteOrder: $e\n');
 }
@@ -44,7 +45,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**Map<String, dynamic>**
 
 ### Authorization
 

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -19,13 +19,14 @@ class ObjectWithDeprecatedFields {
     this.bars = const [],
   });
 
-  String uuid;
 
-  num id;
+  String? uuid;
 
-  DeprecatedObject deprecatedRef;
+  num? id;
 
-  List<String> bars;
+  DeprecatedObject? deprecatedRef;
+
+  List<String>? bars;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ObjectWithDeprecatedFields &&
@@ -36,11 +37,10 @@ class ObjectWithDeprecatedFields {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (uuid == null ? 0 : uuid.hashCode) +
-    (id == null ? 0 : id.hashCode) +
-    (deprecatedRef == null ? 0 : deprecatedRef.hashCode) +
-    (bars == null ? 0 : bars.hashCode);
+    uuid.hashCode +
+    id.hashCode +
+    deprecatedRef.hashCode +
+    bars.hashCode;
 
   @override
   String toString() => 'ObjectWithDeprecatedFields[uuid=$uuid, id=$id, deprecatedRef=$deprecatedRef, bars=$bars]';
@@ -65,27 +65,19 @@ class ObjectWithDeprecatedFields {
   /// Returns a new [ObjectWithDeprecatedFields] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ObjectWithDeprecatedFields fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return ObjectWithDeprecatedFields(
-        uuid: mapValueOfType<String>(json, r'uuid'),
-        id: json[r'id'] == null
-          ? null
-          : num.parse(json[r'id'].toString()),
+  static ObjectWithDeprecatedFields fromJson(Map<String, dynamic> json) => ObjectWithDeprecatedFields(
+        uuid: json[r'uuid'] as String,
+        id: json[r'id'] as num,
         deprecatedRef: DeprecatedObject.fromJson(json[r'deprecatedRef']),
         bars: json[r'bars'] is List
           ? (json[r'bars'] as List).cast<String>()
-          : null,
-      );
-    }
-    return null;
-  }
+          : [],
+    );
 
-  static List<ObjectWithDeprecatedFields> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(ObjectWithDeprecatedFields.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <ObjectWithDeprecatedFields>[];
+  static List<ObjectWithDeprecatedFields> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<ObjectWithDeprecatedFields>((i) => ObjectWithDeprecatedFields.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <ObjectWithDeprecatedFields>[];
 
   static Map<String, ObjectWithDeprecatedFields> mapFromJson(dynamic json) {
     final map = <String, ObjectWithDeprecatedFields>{};
@@ -98,7 +90,7 @@ class ObjectWithDeprecatedFields {
   }
 
   // maps a json object with a list of ObjectWithDeprecatedFields-objects as value to a dart map
-  static Map<String, List<ObjectWithDeprecatedFields>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<ObjectWithDeprecatedFields>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<ObjectWithDeprecatedFields>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -106,7 +98,6 @@ class ObjectWithDeprecatedFields {
         .forEach((key, dynamic value) {
           map[key] = ObjectWithDeprecatedFields.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

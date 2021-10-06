@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -19,39 +19,36 @@ part of openapi.api;
 class Name {
   /// Returns a new [Name] instance.
   Name({
-    @required this.name,
+    required this.name,
     this.snakeCase,
     this.property,
     this.n123number,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'name',
     required: true,
   )
   int name;
 
   @JsonKey(
-    nullable: false,
     name: r'snake_case',
     required: false,
   )
-  int snakeCase;
+  int? snakeCase;
 
   @JsonKey(
-    nullable: false,
     name: r'property',
     required: false,
   )
-  String property;
+  String? property;
 
   @JsonKey(
-    nullable: false,
     name: r'123Number',
     required: false,
   )
-  int n123number;
+  int? n123number;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Name &&
@@ -62,10 +59,10 @@ class Name {
 
   @override
   int get hashCode =>
-    (name == null ? 0 : name.hashCode) +
-    (snakeCase == null ? 0 : snakeCase.hashCode) +
-    (property == null ? 0 : property.hashCode) +
-    (n123number == null ? 0 : n123number.hashCode);
+    name.hashCode +
+    snakeCase.hashCode +
+    property.hashCode +
+    n123number.hashCode;
 
   factory Name.fromJson(Map<String, dynamic> json) => _$NameFromJson(json);
 

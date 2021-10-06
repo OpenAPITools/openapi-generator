@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -21,18 +21,19 @@ class Capitalization {
     this.ATT_NAME,
   });
 
-  String smallCamel;
 
-  String capitalCamel;
+  String? smallCamel;
 
-  String smallSnake;
+  String? capitalCamel;
 
-  String capitalSnake;
+  String? smallSnake;
 
-  String sCAETHFlowPoints;
+  String? capitalSnake;
+
+  String? sCAETHFlowPoints;
 
   /// Name of the pet 
-  String ATT_NAME;
+  String? ATT_NAME;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
@@ -45,13 +46,12 @@ class Capitalization {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (smallCamel == null ? 0 : smallCamel.hashCode) +
-    (capitalCamel == null ? 0 : capitalCamel.hashCode) +
-    (smallSnake == null ? 0 : smallSnake.hashCode) +
-    (capitalSnake == null ? 0 : capitalSnake.hashCode) +
-    (sCAETHFlowPoints == null ? 0 : sCAETHFlowPoints.hashCode) +
-    (ATT_NAME == null ? 0 : ATT_NAME.hashCode);
+    smallCamel.hashCode +
+    capitalCamel.hashCode +
+    smallSnake.hashCode +
+    capitalSnake.hashCode +
+    sCAETHFlowPoints.hashCode +
+    ATT_NAME.hashCode;
 
   @override
   String toString() => 'Capitalization[smallCamel=$smallCamel, capitalCamel=$capitalCamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, sCAETHFlowPoints=$sCAETHFlowPoints, ATT_NAME=$ATT_NAME]';
@@ -82,25 +82,19 @@ class Capitalization {
   /// Returns a new [Capitalization] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static Capitalization fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return Capitalization(
-        smallCamel: mapValueOfType<String>(json, r'smallCamel'),
-        capitalCamel: mapValueOfType<String>(json, r'CapitalCamel'),
-        smallSnake: mapValueOfType<String>(json, r'small_Snake'),
-        capitalSnake: mapValueOfType<String>(json, r'Capital_Snake'),
-        sCAETHFlowPoints: mapValueOfType<String>(json, r'SCA_ETH_Flow_Points'),
-        ATT_NAME: mapValueOfType<String>(json, r'ATT_NAME'),
-      );
-    }
-    return null;
-  }
+  static Capitalization fromJson(Map<String, dynamic> json) => Capitalization(
+        smallCamel: json[r'smallCamel'] as String,
+        capitalCamel: json[r'CapitalCamel'] as String,
+        smallSnake: json[r'small_Snake'] as String,
+        capitalSnake: json[r'Capital_Snake'] as String,
+        sCAETHFlowPoints: json[r'SCA_ETH_Flow_Points'] as String,
+        ATT_NAME: json[r'ATT_NAME'] as String,
+    );
 
-  static List<Capitalization> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(Capitalization.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <Capitalization>[];
+  static List<Capitalization> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<Capitalization>((i) => Capitalization.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <Capitalization>[];
 
   static Map<String, Capitalization> mapFromJson(dynamic json) {
     final map = <String, Capitalization>{};
@@ -113,7 +107,7 @@ class Capitalization {
   }
 
   // maps a json object with a list of Capitalization-objects as value to a dart map
-  static Map<String, List<Capitalization>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<Capitalization>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<Capitalization>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -121,7 +115,6 @@ class Capitalization {
         .forEach((key, dynamic value) {
           map[key] = Capitalization.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

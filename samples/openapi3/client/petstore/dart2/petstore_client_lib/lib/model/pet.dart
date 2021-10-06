@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -15,24 +15,25 @@ class Pet {
   Pet({
     this.id,
     this.category,
-    @required this.name,
+    required this.name,
     this.photoUrls = const [],
     this.tags = const [],
     this.status,
   });
 
-  int id;
 
-  Category category;
+  int? id;
+
+  Category? category;
 
   String name;
 
   List<String> photoUrls;
 
-  List<Tag> tags;
+  List<Tag>? tags;
 
   /// pet status in the store
-  PetStatusEnum status;
+  PetStatusEnum? status;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Pet &&
@@ -45,13 +46,12 @@ class Pet {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (id == null ? 0 : id.hashCode) +
-    (category == null ? 0 : category.hashCode) +
-    (name == null ? 0 : name.hashCode) +
-    (photoUrls == null ? 0 : photoUrls.hashCode) +
-    (tags == null ? 0 : tags.hashCode) +
-    (status == null ? 0 : status.hashCode);
+    id.hashCode +
+    category.hashCode +
+    name.hashCode +
+    photoUrls.hashCode +
+    tags.hashCode +
+    status.hashCode;
 
   @override
   String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
@@ -78,27 +78,21 @@ class Pet {
   /// Returns a new [Pet] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static Pet fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return Pet(
-        id: mapValueOfType<int>(json, r'id'),
+  static Pet fromJson(Map<String, dynamic> json) => Pet(
+        id: json[r'id'] as int,
         category: Category.fromJson(json[r'category']),
-        name: mapValueOfType<String>(json, r'name'),
+        name: json[r'name'] as String,
         photoUrls: json[r'photoUrls'] is List
           ? (json[r'photoUrls'] as List).cast<String>()
-          : null,
+          : [],
         tags: Tag.listFromJson(json[r'tags']),
         status: PetStatusEnum.fromJson(json[r'status']),
-      );
-    }
-    return null;
-  }
+    );
 
-  static List<Pet> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(Pet.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <Pet>[];
+  static List<Pet> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<Pet>((i) => Pet.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <Pet>[];
 
   static Map<String, Pet> mapFromJson(dynamic json) {
     final map = <String, Pet>{};
@@ -111,7 +105,7 @@ class Pet {
   }
 
   // maps a json object with a list of Pet-objects as value to a dart map
-  static Map<String, List<Pet>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<Pet>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<Pet>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -119,7 +113,6 @@ class Pet {
         .forEach((key, dynamic value) {
           map[key] = Pet.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });
@@ -134,12 +127,12 @@ class PetStatusEnum {
   const PetStatusEnum._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final String? value;
 
   @override
   String toString() => value ?? '';
 
-  String toJson() => value;
+  String? toJson() => value;
 
   static const available = PetStatusEnum._(r'available');
   static const pending = PetStatusEnum._(r'pending');
@@ -155,10 +148,10 @@ class PetStatusEnum {
   static PetStatusEnum fromJson(dynamic value) =>
     PetStatusEnumTypeTransformer().decode(value);
 
-  static List<PetStatusEnum> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(PetStatusEnum.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <PetStatusEnum>[];
+  static List<PetStatusEnum> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<PetStatusEnum>((i) => PetStatusEnum.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <PetStatusEnum>[];
 }
 
 /// Transformation class that can [encode] an instance of [PetStatusEnum] to String,
@@ -168,33 +161,26 @@ class PetStatusEnumTypeTransformer {
 
   const PetStatusEnumTypeTransformer._();
 
-  String encode(PetStatusEnum data) => data.value;
+  String? encode(PetStatusEnum data) => data.value;
 
   /// Decodes a [dynamic value][data] to a PetStatusEnum.
   ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  PetStatusEnum decode(dynamic data, {bool allowNull}) {
-    if (data != null) {
-      switch (data.toString()) {
-        case r'available': return PetStatusEnum.available;
-        case r'pending': return PetStatusEnum.pending;
-        case r'sold': return PetStatusEnum.sold;
-        default:
-          if (allowNull == false) {
-            throw ArgumentError('Unknown enum value to decode: $data');
-          }
-      }
+  /// If the [dynamic value][data] cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  PetStatusEnum decode(dynamic data) {
+    if (data == r'available') {
+      return PetStatusEnum.available;
     }
-    return null;
+    if (data == r'pending') {
+      return PetStatusEnum.pending;
+    }
+    if (data == r'sold') {
+      return PetStatusEnum.sold;
+    }
+    throw ArgumentError('Unknown enum value to decode: $data');
   }
 
   /// Singleton [PetStatusEnumTypeTransformer] instance.
-  static PetStatusEnumTypeTransformer _instance;
+  static PetStatusEnumTypeTransformer? _instance;
 }
 
 

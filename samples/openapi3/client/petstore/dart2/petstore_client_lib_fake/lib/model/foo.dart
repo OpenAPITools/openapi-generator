@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -16,7 +16,8 @@ class Foo {
     this.bar = 'bar',
   });
 
-  String bar;
+
+  String? bar;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Foo &&
@@ -24,8 +25,7 @@ class Foo {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (bar == null ? 0 : bar.hashCode);
+    bar.hashCode;
 
   @override
   String toString() => 'Foo[bar=$bar]';
@@ -41,20 +41,14 @@ class Foo {
   /// Returns a new [Foo] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static Foo fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return Foo(
-        bar: mapValueOfType<String>(json, r'bar'),
-      );
-    }
-    return null;
-  }
+  static Foo fromJson(Map<String, dynamic> json) => Foo(
+        bar: json[r'bar'] as String,
+    );
 
-  static List<Foo> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(Foo.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <Foo>[];
+  static List<Foo> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<Foo>((i) => Foo.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <Foo>[];
 
   static Map<String, Foo> mapFromJson(dynamic json) {
     final map = <String, Foo>{};
@@ -67,7 +61,7 @@ class Foo {
   }
 
   // maps a json object with a list of Foo-objects as value to a dart map
-  static Map<String, List<Foo>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<Foo>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<Foo>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -75,7 +69,6 @@ class Foo {
         .forEach((key, dynamic value) {
           map[key] = Foo.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

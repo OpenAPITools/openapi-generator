@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -24,26 +24,27 @@ class ArrayTest {
     this.arrayArrayOfModel = const [],
   });
 
+
   @JsonKey(
     defaultValue: const [],
     name: r'array_of_string',
     required: false,
   )
-  List<String> arrayOfString;
+  List<String>? arrayOfString;
 
   @JsonKey(
     defaultValue: const [],
     name: r'array_array_of_integer',
     required: false,
   )
-  List<List<int>> arrayArrayOfInteger;
+  List<List<int>>? arrayArrayOfInteger;
 
   @JsonKey(
     defaultValue: const [],
     name: r'array_array_of_model',
     required: false,
   )
-  List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  List<List<ReadOnlyFirst>>? arrayArrayOfModel;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
@@ -53,9 +54,9 @@ class ArrayTest {
 
   @override
   int get hashCode =>
-    (arrayOfString == null ? 0 : arrayOfString.hashCode) +
-    (arrayArrayOfInteger == null ? 0 : arrayArrayOfInteger.hashCode) +
-    (arrayArrayOfModel == null ? 0 : arrayArrayOfModel.hashCode);
+    arrayOfString.hashCode +
+    arrayArrayOfInteger.hashCode +
+    arrayArrayOfModel.hashCode;
 
   factory ArrayTest.fromJson(Map<String, dynamic> json) => _$ArrayTestFromJson(json);
 

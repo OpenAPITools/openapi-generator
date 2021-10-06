@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -24,26 +24,24 @@ class ApiResponse {
     this.message,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'code',
     required: false,
   )
-  int code;
+  int? code;
 
   @JsonKey(
-    nullable: false,
     name: r'type',
     required: false,
   )
-  String type;
+  String? type;
 
   @JsonKey(
-    nullable: false,
     name: r'message',
     required: false,
   )
-  String message;
+  String? message;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ApiResponse &&
@@ -53,9 +51,9 @@ class ApiResponse {
 
   @override
   int get hashCode =>
-    (code == null ? 0 : code.hashCode) +
-    (type == null ? 0 : type.hashCode) +
-    (message == null ? 0 : message.hashCode);
+    code.hashCode +
+    type.hashCode +
+    message.hashCode;
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) => _$ApiResponseFromJson(json);
 

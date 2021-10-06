@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -16,7 +16,8 @@ class DogAllOf {
     this.breed,
   });
 
-  String breed;
+
+  String? breed;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is DogAllOf &&
@@ -24,8 +25,7 @@ class DogAllOf {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (breed == null ? 0 : breed.hashCode);
+    breed.hashCode;
 
   @override
   String toString() => 'DogAllOf[breed=$breed]';
@@ -41,20 +41,14 @@ class DogAllOf {
   /// Returns a new [DogAllOf] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static DogAllOf fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return DogAllOf(
-        breed: mapValueOfType<String>(json, r'breed'),
-      );
-    }
-    return null;
-  }
+  static DogAllOf fromJson(Map<String, dynamic> json) => DogAllOf(
+        breed: json[r'breed'] as String,
+    );
 
-  static List<DogAllOf> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(DogAllOf.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <DogAllOf>[];
+  static List<DogAllOf> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<DogAllOf>((i) => DogAllOf.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <DogAllOf>[];
 
   static Map<String, DogAllOf> mapFromJson(dynamic json) {
     final map = <String, DogAllOf>{};
@@ -67,7 +61,7 @@ class DogAllOf {
   }
 
   // maps a json object with a list of DogAllOf-objects as value to a dart map
-  static Map<String, List<DogAllOf>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<DogAllOf>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<DogAllOf>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -75,7 +69,6 @@ class DogAllOf {
         .forEach((key, dynamic value) {
           map[key] = DogAllOf.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

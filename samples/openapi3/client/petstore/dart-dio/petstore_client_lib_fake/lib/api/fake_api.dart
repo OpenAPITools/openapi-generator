@@ -85,7 +85,7 @@ class FakeApi {
   /// test http signature authentication
   ///
   /// 
-  Future<Response<void>> fakeHttpSignatureTest(
+  Future<Response<Map<String, dynamic>>> fakeHttpSignatureTest(
     Pet pet, { 
     String query1,
     String header1,
@@ -133,7 +133,22 @@ class FakeApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// 
@@ -414,7 +429,7 @@ class FakeApi {
   /// 
   ///
   /// For this test, the body has to be a binary file.
-  Future<Response<void>> testBodyWithBinary(
+  Future<Response<Map<String, dynamic>>> testBodyWithBinary(
     Uint8List body, { 
     CancelToken cancelToken,
     Map<String, dynamic> headers,
@@ -450,13 +465,28 @@ class FakeApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// 
   ///
   /// For this test, the body for this request must reference a schema named `File`.
-  Future<Response<void>> testBodyWithFileSchema(
+  Future<Response<Map<String, dynamic>>> testBodyWithFileSchema(
     FileSchemaTestClass fileSchemaTestClass, { 
     CancelToken cancelToken,
     Map<String, dynamic> headers,
@@ -493,13 +523,28 @@ class FakeApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// 
   ///
   /// 
-  Future<Response<void>> testBodyWithQueryParams(
+  Future<Response<Map<String, dynamic>>> testBodyWithQueryParams(
     String query,
     User user, { 
     CancelToken cancelToken,
@@ -540,7 +585,22 @@ class FakeApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// To test \"client\" model
@@ -604,7 +664,7 @@ class FakeApi {
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
   ///
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-  Future<Response<void>> testEndpointParameters(
+  Future<Response<Map<String, dynamic>>> testEndpointParameters(
     num number,
     double double_,
     String patternWithoutDelimiter,
@@ -673,13 +733,28 @@ class FakeApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// To test enum parameters
   ///
   /// To test enum parameters
-  Future<Response<void>> testEnumParameters({ 
+  Future<Response<Map<String, dynamic>>> testEnumParameters({ 
     BuiltList<String> enumHeaderStringArray,
     String enumHeaderString,
     BuiltList<String> enumQueryStringArray,
@@ -733,13 +808,28 @@ class FakeApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// Fake endpoint to test group parameters (optional)
   ///
   /// Fake endpoint to test group parameters (optional)
-  Future<Response<void>> testGroupParameters(
+  Future<Response<Map<String, dynamic>>> testGroupParameters(
     int requiredStringGroup,
     bool requiredBooleanGroup,
     int requiredInt64Group, { 
@@ -791,13 +881,28 @@ class FakeApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// test inline additionalProperties
   ///
   /// 
-  Future<Response<void>> testInlineAdditionalProperties(
+  Future<Response<Map<String, dynamic>>> testInlineAdditionalProperties(
     BuiltMap<String, String> requestBody, { 
     CancelToken cancelToken,
     Map<String, dynamic> headers,
@@ -834,13 +939,28 @@ class FakeApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// test json serialization of form data
   ///
   /// 
-  Future<Response<void>> testJsonFormData(
+  Future<Response<Map<String, dynamic>>> testJsonFormData(
     String param,
     String param2, { 
     CancelToken cancelToken,
@@ -880,13 +1000,28 @@ class FakeApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// 
   ///
   /// To test the collection format in query parameters
-  Future<Response<void>> testQueryParameterCollectionFormat(
+  Future<Response<Map<String, dynamic>>> testQueryParameterCollectionFormat(
     BuiltList<String> pipe,
     BuiltList<String> ioutil,
     BuiltList<String> http,
@@ -935,7 +1070,22 @@ class FakeApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
 }

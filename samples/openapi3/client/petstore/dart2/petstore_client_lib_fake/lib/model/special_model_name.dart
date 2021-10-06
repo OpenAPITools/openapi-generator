@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -16,7 +16,8 @@ class SpecialModelName {
     this.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
   });
 
-  int dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+
+  int? dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is SpecialModelName &&
@@ -24,8 +25,7 @@ class SpecialModelName {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == null ? 0 : dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode);
+    dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket.hashCode;
 
   @override
   String toString() => 'SpecialModelName[dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket=$dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket]';
@@ -41,20 +41,14 @@ class SpecialModelName {
   /// Returns a new [SpecialModelName] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static SpecialModelName fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return SpecialModelName(
-        dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: mapValueOfType<int>(json, r'$special[property.name]'),
-      );
-    }
-    return null;
-  }
+  static SpecialModelName fromJson(Map<String, dynamic> json) => SpecialModelName(
+        dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: json[r'$special[property.name]'] as int,
+    );
 
-  static List<SpecialModelName> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(SpecialModelName.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <SpecialModelName>[];
+  static List<SpecialModelName> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<SpecialModelName>((i) => SpecialModelName.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <SpecialModelName>[];
 
   static Map<String, SpecialModelName> mapFromJson(dynamic json) {
     final map = <String, SpecialModelName>{};
@@ -67,7 +61,7 @@ class SpecialModelName {
   }
 
   // maps a json object with a list of SpecialModelName-objects as value to a dart map
-  static Map<String, List<SpecialModelName>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<SpecialModelName>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<SpecialModelName>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -75,7 +69,6 @@ class SpecialModelName {
         .forEach((key, dynamic value) {
           map[key] = SpecialModelName.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

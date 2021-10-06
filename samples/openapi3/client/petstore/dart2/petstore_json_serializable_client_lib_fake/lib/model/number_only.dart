@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -22,12 +22,12 @@ class NumberOnly {
     this.justNumber,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'JustNumber',
     required: false,
   )
-  num justNumber;
+  num? justNumber;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is NumberOnly &&
@@ -35,7 +35,7 @@ class NumberOnly {
 
   @override
   int get hashCode =>
-    (justNumber == null ? 0 : justNumber.hashCode);
+    justNumber.hashCode;
 
   factory NumberOnly.fromJson(Map<String, dynamic> json) => _$NumberOnlyFromJson(json);
 

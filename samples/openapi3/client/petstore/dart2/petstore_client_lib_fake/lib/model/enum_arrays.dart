@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -17,9 +17,10 @@ class EnumArrays {
     this.arrayEnum = const [],
   });
 
-  EnumArraysJustSymbolEnum justSymbol;
 
-  List<EnumArraysArrayEnumEnum> arrayEnum;
+  EnumArraysJustSymbolEnum? justSymbol;
+
+  List<EnumArraysArrayEnumEnum>? arrayEnum;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
@@ -28,9 +29,8 @@ class EnumArrays {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (justSymbol == null ? 0 : justSymbol.hashCode) +
-    (arrayEnum == null ? 0 : arrayEnum.hashCode);
+    justSymbol.hashCode +
+    arrayEnum.hashCode;
 
   @override
   String toString() => 'EnumArrays[justSymbol=$justSymbol, arrayEnum=$arrayEnum]';
@@ -49,21 +49,15 @@ class EnumArrays {
   /// Returns a new [EnumArrays] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static EnumArrays fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return EnumArrays(
+  static EnumArrays fromJson(Map<String, dynamic> json) => EnumArrays(
         justSymbol: EnumArraysJustSymbolEnum.fromJson(json[r'just_symbol']),
         arrayEnum: EnumArraysArrayEnumEnum.listFromJson(json[r'array_enum']),
-      );
-    }
-    return null;
-  }
+    );
 
-  static List<EnumArrays> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(EnumArrays.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <EnumArrays>[];
+  static List<EnumArrays> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<EnumArrays>((i) => EnumArrays.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <EnumArrays>[];
 
   static Map<String, EnumArrays> mapFromJson(dynamic json) {
     final map = <String, EnumArrays>{};
@@ -76,7 +70,7 @@ class EnumArrays {
   }
 
   // maps a json object with a list of EnumArrays-objects as value to a dart map
-  static Map<String, List<EnumArrays>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<EnumArrays>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<EnumArrays>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -84,7 +78,6 @@ class EnumArrays {
         .forEach((key, dynamic value) {
           map[key] = EnumArrays.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });
@@ -99,12 +92,12 @@ class EnumArraysJustSymbolEnum {
   const EnumArraysJustSymbolEnum._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final String? value;
 
   @override
   String toString() => value ?? '';
 
-  String toJson() => value;
+  String? toJson() => value;
 
   static const greaterThanEqual = EnumArraysJustSymbolEnum._(r'>=');
   static const dollar = EnumArraysJustSymbolEnum._(r'$');
@@ -118,10 +111,10 @@ class EnumArraysJustSymbolEnum {
   static EnumArraysJustSymbolEnum fromJson(dynamic value) =>
     EnumArraysJustSymbolEnumTypeTransformer().decode(value);
 
-  static List<EnumArraysJustSymbolEnum> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(EnumArraysJustSymbolEnum.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <EnumArraysJustSymbolEnum>[];
+  static List<EnumArraysJustSymbolEnum> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<EnumArraysJustSymbolEnum>((i) => EnumArraysJustSymbolEnum.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <EnumArraysJustSymbolEnum>[];
 }
 
 /// Transformation class that can [encode] an instance of [EnumArraysJustSymbolEnum] to String,
@@ -131,32 +124,23 @@ class EnumArraysJustSymbolEnumTypeTransformer {
 
   const EnumArraysJustSymbolEnumTypeTransformer._();
 
-  String encode(EnumArraysJustSymbolEnum data) => data.value;
+  String? encode(EnumArraysJustSymbolEnum data) => data.value;
 
   /// Decodes a [dynamic value][data] to a EnumArraysJustSymbolEnum.
   ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  EnumArraysJustSymbolEnum decode(dynamic data, {bool allowNull}) {
-    if (data != null) {
-      switch (data.toString()) {
-        case r'>=': return EnumArraysJustSymbolEnum.greaterThanEqual;
-        case r'$': return EnumArraysJustSymbolEnum.dollar;
-        default:
-          if (allowNull == false) {
-            throw ArgumentError('Unknown enum value to decode: $data');
-          }
-      }
+  /// If the [dynamic value][data] cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  EnumArraysJustSymbolEnum decode(dynamic data) {
+    if (data == r'>=') {
+      return EnumArraysJustSymbolEnum.greaterThanEqual;
     }
-    return null;
+    if (data == r'$') {
+      return EnumArraysJustSymbolEnum.dollar;
+    }
+    throw ArgumentError('Unknown enum value to decode: $data');
   }
 
   /// Singleton [EnumArraysJustSymbolEnumTypeTransformer] instance.
-  static EnumArraysJustSymbolEnumTypeTransformer _instance;
+  static EnumArraysJustSymbolEnumTypeTransformer? _instance;
 }
 
 
@@ -166,12 +150,12 @@ class EnumArraysArrayEnumEnum {
   const EnumArraysArrayEnumEnum._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final String? value;
 
   @override
   String toString() => value ?? '';
 
-  String toJson() => value;
+  String? toJson() => value;
 
   static const fish = EnumArraysArrayEnumEnum._(r'fish');
   static const crab = EnumArraysArrayEnumEnum._(r'crab');
@@ -185,10 +169,10 @@ class EnumArraysArrayEnumEnum {
   static EnumArraysArrayEnumEnum fromJson(dynamic value) =>
     EnumArraysArrayEnumEnumTypeTransformer().decode(value);
 
-  static List<EnumArraysArrayEnumEnum> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(EnumArraysArrayEnumEnum.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <EnumArraysArrayEnumEnum>[];
+  static List<EnumArraysArrayEnumEnum> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<EnumArraysArrayEnumEnum>((i) => EnumArraysArrayEnumEnum.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <EnumArraysArrayEnumEnum>[];
 }
 
 /// Transformation class that can [encode] an instance of [EnumArraysArrayEnumEnum] to String,
@@ -198,32 +182,23 @@ class EnumArraysArrayEnumEnumTypeTransformer {
 
   const EnumArraysArrayEnumEnumTypeTransformer._();
 
-  String encode(EnumArraysArrayEnumEnum data) => data.value;
+  String? encode(EnumArraysArrayEnumEnum data) => data.value;
 
   /// Decodes a [dynamic value][data] to a EnumArraysArrayEnumEnum.
   ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  EnumArraysArrayEnumEnum decode(dynamic data, {bool allowNull}) {
-    if (data != null) {
-      switch (data.toString()) {
-        case r'fish': return EnumArraysArrayEnumEnum.fish;
-        case r'crab': return EnumArraysArrayEnumEnum.crab;
-        default:
-          if (allowNull == false) {
-            throw ArgumentError('Unknown enum value to decode: $data');
-          }
-      }
+  /// If the [dynamic value][data] cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  EnumArraysArrayEnumEnum decode(dynamic data) {
+    if (data == r'fish') {
+      return EnumArraysArrayEnumEnum.fish;
     }
-    return null;
+    if (data == r'crab') {
+      return EnumArraysArrayEnumEnum.crab;
+    }
+    throw ArgumentError('Unknown enum value to decode: $data');
   }
 
   /// Singleton [EnumArraysArrayEnumEnumTypeTransformer] instance.
-  static EnumArraysArrayEnumEnumTypeTransformer _instance;
+  static EnumArraysArrayEnumEnumTypeTransformer? _instance;
 }
 
 

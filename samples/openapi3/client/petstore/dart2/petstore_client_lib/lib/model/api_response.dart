@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -18,11 +18,12 @@ class ApiResponse {
     this.message,
   });
 
-  int code;
 
-  String type;
+  int? code;
 
-  String message;
+  String? type;
+
+  String? message;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ApiResponse &&
@@ -32,10 +33,9 @@ class ApiResponse {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (code == null ? 0 : code.hashCode) +
-    (type == null ? 0 : type.hashCode) +
-    (message == null ? 0 : message.hashCode);
+    code.hashCode +
+    type.hashCode +
+    message.hashCode;
 
   @override
   String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
@@ -57,22 +57,16 @@ class ApiResponse {
   /// Returns a new [ApiResponse] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ApiResponse fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return ApiResponse(
-        code: mapValueOfType<int>(json, r'code'),
-        type: mapValueOfType<String>(json, r'type'),
-        message: mapValueOfType<String>(json, r'message'),
-      );
-    }
-    return null;
-  }
+  static ApiResponse fromJson(Map<String, dynamic> json) => ApiResponse(
+        code: json[r'code'] as int,
+        type: json[r'type'] as String,
+        message: json[r'message'] as String,
+    );
 
-  static List<ApiResponse> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(ApiResponse.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <ApiResponse>[];
+  static List<ApiResponse> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<ApiResponse>((i) => ApiResponse.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <ApiResponse>[];
 
   static Map<String, ApiResponse> mapFromJson(dynamic json) {
     final map = <String, ApiResponse>{};
@@ -85,7 +79,7 @@ class ApiResponse {
   }
 
   // maps a json object with a list of ApiResponse-objects as value to a dart map
-  static Map<String, List<ApiResponse>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<ApiResponse>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<ApiResponse>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -93,7 +87,6 @@ class ApiResponse {
         .forEach((key, dynamic value) {
           map[key] = ApiResponse.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -20,7 +20,7 @@ class EnumTest {
   /// Returns a new [EnumTest] instance.
   EnumTest({
     this.enumString,
-    @required this.enumStringRequired,
+    required this.enumStringRequired,
     this.enumInteger,
     this.enumNumber,
     this.outerEnum,
@@ -29,61 +29,54 @@ class EnumTest {
     this.outerEnumIntegerDefaultValue,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'enum_string',
     required: false,
   )
-  EnumTestEnumStringEnum enumString;
+  EnumTestEnumStringEnum? enumString;
 
   @JsonKey(
-    nullable: false,
     name: r'enum_string_required',
     required: true,
   )
   EnumTestEnumStringRequiredEnum enumStringRequired;
 
   @JsonKey(
-    nullable: false,
     name: r'enum_integer',
     required: false,
   )
-  EnumTestEnumIntegerEnum enumInteger;
+  EnumTestEnumIntegerEnum? enumInteger;
 
   @JsonKey(
-    nullable: false,
     name: r'enum_number',
     required: false,
   )
-  EnumTestEnumNumberEnum enumNumber;
+  EnumTestEnumNumberEnum? enumNumber;
 
   @JsonKey(
-    nullable: true,
     name: r'outerEnum',
     required: false,
   )
-  OuterEnum outerEnum;
+  OuterEnum? outerEnum;
 
   @JsonKey(
-    nullable: false,
     name: r'outerEnumInteger',
     required: false,
   )
-  OuterEnumInteger outerEnumInteger;
+  OuterEnumInteger? outerEnumInteger;
 
   @JsonKey(
-    nullable: false,
     name: r'outerEnumDefaultValue',
     required: false,
   )
-  OuterEnumDefaultValue outerEnumDefaultValue;
+  OuterEnumDefaultValue? outerEnumDefaultValue;
 
   @JsonKey(
-    nullable: false,
     name: r'outerEnumIntegerDefaultValue',
     required: false,
   )
-  OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue;
+  OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
@@ -98,14 +91,14 @@ class EnumTest {
 
   @override
   int get hashCode =>
-    (enumString == null ? 0 : enumString.hashCode) +
-    (enumStringRequired == null ? 0 : enumStringRequired.hashCode) +
-    (enumInteger == null ? 0 : enumInteger.hashCode) +
-    (enumNumber == null ? 0 : enumNumber.hashCode) +
-    (outerEnum == null ? 0 : outerEnum.hashCode) +
-    (outerEnumInteger == null ? 0 : outerEnumInteger.hashCode) +
-    (outerEnumDefaultValue == null ? 0 : outerEnumDefaultValue.hashCode) +
-    (outerEnumIntegerDefaultValue == null ? 0 : outerEnumIntegerDefaultValue.hashCode);
+    enumString.hashCode +
+    enumStringRequired.hashCode +
+    enumInteger.hashCode +
+    enumNumber.hashCode +
+    outerEnum.hashCode +
+    outerEnumInteger.hashCode +
+    outerEnumDefaultValue.hashCode +
+    outerEnumIntegerDefaultValue.hashCode;
 
   factory EnumTest.fromJson(Map<String, dynamic> json) => _$EnumTestFromJson(json);
 

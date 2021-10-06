@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -19,13 +19,13 @@ part of openapi.api;
 class Dog {
   /// Returns a new [Dog] instance.
   Dog({
-    @required this.className,
+    required this.className,
     this.color = 'red',
     this.breed,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'className',
     required: true,
   )
@@ -36,14 +36,13 @@ class Dog {
     name: r'color',
     required: false,
   )
-  String color;
+  String? color;
 
   @JsonKey(
-    nullable: false,
     name: r'breed',
     required: false,
   )
-  String breed;
+  String? breed;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Dog &&
@@ -53,9 +52,9 @@ class Dog {
 
   @override
   int get hashCode =>
-    (className == null ? 0 : className.hashCode) +
-    (color == null ? 0 : color.hashCode) +
-    (breed == null ? 0 : breed.hashCode);
+    className.hashCode +
+    color.hashCode +
+    breed.hashCode;
 
   factory Dog.fromJson(Map<String, dynamic> json) => _$DogFromJson(json);
 

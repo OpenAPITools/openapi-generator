@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -29,62 +29,55 @@ class User {
     this.userStatus,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'id',
     required: false,
   )
-  int id;
+  int? id;
 
   @JsonKey(
-    nullable: false,
     name: r'username',
     required: false,
   )
-  String username;
+  String? username;
 
   @JsonKey(
-    nullable: false,
     name: r'firstName',
     required: false,
   )
-  String firstName;
+  String? firstName;
 
   @JsonKey(
-    nullable: false,
     name: r'lastName',
     required: false,
   )
-  String lastName;
+  String? lastName;
 
   @JsonKey(
-    nullable: false,
     name: r'email',
     required: false,
   )
-  String email;
+  String? email;
 
   @JsonKey(
-    nullable: false,
     name: r'password',
     required: false,
   )
-  String password;
+  String? password;
 
   @JsonKey(
-    nullable: false,
     name: r'phone',
     required: false,
   )
-  String phone;
+  String? phone;
 
-      /// User Status
+  /// User Status
   @JsonKey(
-    nullable: false,
     name: r'userStatus',
     required: false,
   )
-  int userStatus;
+  int? userStatus;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
@@ -99,14 +92,14 @@ class User {
 
   @override
   int get hashCode =>
-    (id == null ? 0 : id.hashCode) +
-    (username == null ? 0 : username.hashCode) +
-    (firstName == null ? 0 : firstName.hashCode) +
-    (lastName == null ? 0 : lastName.hashCode) +
-    (email == null ? 0 : email.hashCode) +
-    (password == null ? 0 : password.hashCode) +
-    (phone == null ? 0 : phone.hashCode) +
-    (userStatus == null ? 0 : userStatus.hashCode);
+    id.hashCode +
+    username.hashCode +
+    firstName.hashCode +
+    lastName.hashCode +
+    email.hashCode +
+    password.hashCode +
+    phone.hashCode +
+    userStatus.hashCode;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

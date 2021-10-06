@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -23,19 +23,18 @@ class ReadOnlyFirst {
     this.baz,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'bar',
     required: false,
   )
-  String bar;
+  String? bar;
 
   @JsonKey(
-    nullable: false,
     name: r'baz',
     required: false,
   )
-  String baz;
+  String? baz;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ReadOnlyFirst &&
@@ -44,8 +43,8 @@ class ReadOnlyFirst {
 
   @override
   int get hashCode =>
-    (bar == null ? 0 : bar.hashCode) +
-    (baz == null ? 0 : baz.hashCode);
+    bar.hashCode +
+    baz.hashCode;
 
   factory ReadOnlyFirst.fromJson(Map<String, dynamic> json) => _$ReadOnlyFirstFromJson(json);
 

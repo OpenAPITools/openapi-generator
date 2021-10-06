@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -22,12 +22,12 @@ class DogAllOf {
     this.breed,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'breed',
     required: false,
   )
-  String breed;
+  String? breed;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is DogAllOf &&
@@ -35,7 +35,7 @@ class DogAllOf {
 
   @override
   int get hashCode =>
-    (breed == null ? 0 : breed.hashCode);
+    breed.hashCode;
 
   factory DogAllOf.fromJson(Map<String, dynamic> json) => _$DogAllOfFromJson(json);
 

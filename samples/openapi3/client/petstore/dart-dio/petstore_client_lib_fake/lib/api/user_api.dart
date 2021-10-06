@@ -23,7 +23,7 @@ class UserApi {
   /// Create user
   ///
   /// This can only be done by the logged in user.
-  Future<Response<void>> createUser(
+  Future<Response<Map<String, dynamic>>> createUser(
     User user, { 
     CancelToken cancelToken,
     Map<String, dynamic> headers,
@@ -60,13 +60,28 @@ class UserApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// Creates list of users with given input array
   ///
   /// 
-  Future<Response<void>> createUsersWithArrayInput(
+  Future<Response<Map<String, dynamic>>> createUsersWithArrayInput(
     BuiltList<User> user, { 
     CancelToken cancelToken,
     Map<String, dynamic> headers,
@@ -103,13 +118,28 @@ class UserApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// Creates list of users with given input array
   ///
   /// 
-  Future<Response<void>> createUsersWithListInput(
+  Future<Response<Map<String, dynamic>>> createUsersWithListInput(
     BuiltList<User> user, { 
     CancelToken cancelToken,
     Map<String, dynamic> headers,
@@ -146,13 +176,28 @@ class UserApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// Delete user
   ///
   /// This can only be done by the logged in user.
-  Future<Response<void>> deleteUser(
+  Future<Response<Map<String, dynamic>>> deleteUser(
     String username, { 
     CancelToken cancelToken,
     Map<String, dynamic> headers,
@@ -186,7 +231,22 @@ class UserApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// Get user by user name
@@ -303,7 +363,7 @@ class UserApi {
   /// Logs out current logged in user session
   ///
   /// 
-  Future<Response<void>> logoutUser({ 
+  Future<Response<Map<String, dynamic>>> logoutUser({ 
     CancelToken cancelToken,
     Map<String, dynamic> headers,
     Map<String, dynamic> extra,
@@ -336,13 +396,28 @@ class UserApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
   /// Updated user
   ///
   /// This can only be done by the logged in user.
-  Future<Response<void>> updateUser(
+  Future<Response<Map<String, dynamic>>> updateUser(
     String username,
     User user, { 
     CancelToken cancelToken,
@@ -380,7 +455,22 @@ class UserApi {
       options: _request,
     );
 
-    return _response;
+    const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
+    final Map<String, dynamic> _responseData = _serializers.deserialize(
+      _response.data,
+      specifiedType: _responseType,
+    ) as Map<String, dynamic>;
+
+    return Response<Map<String, dynamic>>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      request: _response.request,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
   }
 
 }

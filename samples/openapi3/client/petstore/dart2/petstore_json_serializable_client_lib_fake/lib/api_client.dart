@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -30,12 +30,7 @@ class ApiClient {
   Client get client => _client;
 
   /// Requests to use a new HTTP [Client] in this class.
-  ///
-  /// If the [newClient] is null, an [ArgumentError] is thrown.
   set client(Client newClient) {
-    if (newClient == null) {
-      throw ArgumentError('New client instance cannot be null.');
-    }
     _client = newClient;
   }
 
@@ -52,7 +47,7 @@ class ApiClient {
   /// or deleted.
   Map<String, Authentication> get authentications => Map.unmodifiable(_authentications);
 
-  T getAuthentication<T extends Authentication>(String name) {
+  T? getAuthentication<T extends Authentication>(String name) {
     final authentication = _authentications[name];
     return authentication is T ? authentication : null;
   }
@@ -63,10 +58,10 @@ class ApiClient {
     String path,
     String method,
     List<QueryParam> queryParams,
-    Object body,
+    Object? body,
     Map<String, String> headerParams,
     Map<String, String> formParams,
-    String nullableContentType,
+    String? nullableContentType,
     List<String> authNames,
   ) async {
     _updateParamsForAuth(authNames, queryParams, headerParams);
@@ -146,10 +141,10 @@ class ApiClient {
   }
 
   // ignore: deprecated_member_use_from_same_package
-  Future<String> serializeAsync(Object value) async => serialize(value);
+  Future<String> serializeAsync(Object? value) async => serialize(value);
 
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use serializeAsync() instead.')
-  String serialize(Object value) => value == null ? '' : json.encode(value);
+  String serialize(Object? value) => value == null ? '' : json.encode(value);
 
   /// Update query and header parameters based on authentication settings.
   /// @param authNames The authentications to apply
@@ -170,4 +165,4 @@ class ApiClient {
 }
 
 /// Primarily intended for use in an isolate.
-Future<String> serializeAsync(Object value) async => value == null ? '' : json.encode(value);
+Future<String> serializeAsync(Object? value) async => value == null ? '' : json.encode(value);

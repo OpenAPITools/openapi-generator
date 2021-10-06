@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -17,9 +17,10 @@ class Category {
     this.name,
   });
 
-  int id;
 
-  String name;
+  int? id;
+
+  String? name;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Category &&
@@ -28,9 +29,8 @@ class Category {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (id == null ? 0 : id.hashCode) +
-    (name == null ? 0 : name.hashCode);
+    id.hashCode +
+    name.hashCode;
 
   @override
   String toString() => 'Category[id=$id, name=$name]';
@@ -49,21 +49,15 @@ class Category {
   /// Returns a new [Category] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static Category fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return Category(
-        id: mapValueOfType<int>(json, r'id'),
-        name: mapValueOfType<String>(json, r'name'),
-      );
-    }
-    return null;
-  }
+  static Category fromJson(Map<String, dynamic> json) => Category(
+        id: json[r'id'] as int,
+        name: json[r'name'] as String,
+    );
 
-  static List<Category> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(Category.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <Category>[];
+  static List<Category> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<Category>((i) => Category.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <Category>[];
 
   static Map<String, Category> mapFromJson(dynamic json) {
     final map = <String, Category>{};
@@ -76,7 +70,7 @@ class Category {
   }
 
   // maps a json object with a list of Category-objects as value to a dart map
-  static Map<String, List<Category>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<Category>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<Category>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -84,7 +78,6 @@ class Category {
         .forEach((key, dynamic value) {
           map[key] = Category.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

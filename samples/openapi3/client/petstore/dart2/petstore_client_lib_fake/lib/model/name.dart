@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -13,19 +13,20 @@ part of openapi.api;
 class Name {
   /// Returns a new [Name] instance.
   Name({
-    @required this.name,
+    required this.name,
     this.snakeCase,
     this.property,
     this.n123number,
   });
 
+
   int name;
 
-  int snakeCase;
+  int? snakeCase;
 
-  String property;
+  String? property;
 
-  int n123number;
+  int? n123number;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Name &&
@@ -36,11 +37,10 @@ class Name {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (name == null ? 0 : name.hashCode) +
-    (snakeCase == null ? 0 : snakeCase.hashCode) +
-    (property == null ? 0 : property.hashCode) +
-    (n123number == null ? 0 : n123number.hashCode);
+    name.hashCode +
+    snakeCase.hashCode +
+    property.hashCode +
+    n123number.hashCode;
 
   @override
   String toString() => 'Name[name=$name, snakeCase=$snakeCase, property=$property, n123number=$n123number]';
@@ -63,23 +63,17 @@ class Name {
   /// Returns a new [Name] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static Name fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return Name(
-        name: mapValueOfType<int>(json, r'name'),
-        snakeCase: mapValueOfType<int>(json, r'snake_case'),
-        property: mapValueOfType<String>(json, r'property'),
-        n123number: mapValueOfType<int>(json, r'123Number'),
-      );
-    }
-    return null;
-  }
+  static Name fromJson(Map<String, dynamic> json) => Name(
+        name: json[r'name'] as int,
+        snakeCase: json[r'snake_case'] as int,
+        property: json[r'property'] as String,
+        n123number: json[r'123Number'] as int,
+    );
 
-  static List<Name> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(Name.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <Name>[];
+  static List<Name> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<Name>((i) => Name.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <Name>[];
 
   static Map<String, Name> mapFromJson(dynamic json) {
     final map = <String, Name>{};
@@ -92,7 +86,7 @@ class Name {
   }
 
   // maps a json object with a list of Name-objects as value to a dart map
-  static Map<String, List<Name>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<Name>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<Name>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -100,7 +94,6 @@ class Name {
         .forEach((key, dynamic value) {
           map[key] = Name.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

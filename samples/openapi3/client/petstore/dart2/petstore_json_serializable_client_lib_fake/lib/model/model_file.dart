@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -22,13 +22,13 @@ class ModelFile {
     this.sourceURI,
   });
 
-      /// Test capitalization
+
+  /// Test capitalization
   @JsonKey(
-    nullable: false,
     name: r'sourceURI',
     required: false,
   )
-  String sourceURI;
+  String? sourceURI;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
@@ -36,7 +36,7 @@ class ModelFile {
 
   @override
   int get hashCode =>
-    (sourceURI == null ? 0 : sourceURI.hashCode);
+    sourceURI.hashCode;
 
   factory ModelFile.fromJson(Map<String, dynamic> json) => _$ModelFileFromJson(json);
 

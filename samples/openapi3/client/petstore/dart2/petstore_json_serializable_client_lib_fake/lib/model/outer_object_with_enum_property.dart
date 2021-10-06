@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -19,11 +19,11 @@ part of openapi.api;
 class OuterObjectWithEnumProperty {
   /// Returns a new [OuterObjectWithEnumProperty] instance.
   OuterObjectWithEnumProperty({
-    @required this.value,
+    required this.value,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'value',
     required: true,
   )
@@ -35,7 +35,7 @@ class OuterObjectWithEnumProperty {
 
   @override
   int get hashCode =>
-    (value == null ? 0 : value.hashCode);
+    value.hashCode;
 
   factory OuterObjectWithEnumProperty.fromJson(Map<String, dynamic> json) => _$OuterObjectWithEnumPropertyFromJson(json);
 

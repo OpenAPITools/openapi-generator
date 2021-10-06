@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -16,7 +16,8 @@ class CatAllOf {
     this.declawed,
   });
 
-  bool declawed;
+
+  bool? declawed;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CatAllOf &&
@@ -24,8 +25,7 @@ class CatAllOf {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (declawed == null ? 0 : declawed.hashCode);
+    declawed.hashCode;
 
   @override
   String toString() => 'CatAllOf[declawed=$declawed]';
@@ -41,20 +41,14 @@ class CatAllOf {
   /// Returns a new [CatAllOf] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static CatAllOf fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return CatAllOf(
-        declawed: mapValueOfType<bool>(json, r'declawed'),
-      );
-    }
-    return null;
-  }
+  static CatAllOf fromJson(Map<String, dynamic> json) => CatAllOf(
+        declawed: json[r'declawed'] as bool,
+    );
 
-  static List<CatAllOf> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(CatAllOf.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <CatAllOf>[];
+  static List<CatAllOf> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<CatAllOf>((i) => CatAllOf.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <CatAllOf>[];
 
   static Map<String, CatAllOf> mapFromJson(dynamic json) {
     final map = <String, CatAllOf>{};
@@ -67,7 +61,7 @@ class CatAllOf {
   }
 
   // maps a json object with a list of CatAllOf-objects as value to a dart map
-  static Map<String, List<CatAllOf>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<CatAllOf>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<CatAllOf>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -75,7 +69,6 @@ class CatAllOf {
         .forEach((key, dynamic value) {
           map[key] = CatAllOf.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

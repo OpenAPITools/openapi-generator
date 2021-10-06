@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -23,19 +23,19 @@ class EnumArrays {
     this.arrayEnum = const [],
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'just_symbol',
     required: false,
   )
-  EnumArraysJustSymbolEnum justSymbol;
+  EnumArraysJustSymbolEnum? justSymbol;
 
   @JsonKey(
     defaultValue: const [],
     name: r'array_enum',
     required: false,
   )
-  List<EnumArraysArrayEnumEnum> arrayEnum;
+  List<EnumArraysArrayEnumEnum>? arrayEnum;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumArrays &&
@@ -44,8 +44,8 @@ class EnumArrays {
 
   @override
   int get hashCode =>
-    (justSymbol == null ? 0 : justSymbol.hashCode) +
-    (arrayEnum == null ? 0 : arrayEnum.hashCode);
+    justSymbol.hashCode +
+    arrayEnum.hashCode;
 
   factory EnumArrays.fromJson(Map<String, dynamic> json) => _$EnumArraysFromJson(json);
 

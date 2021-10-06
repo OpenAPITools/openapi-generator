@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -14,16 +14,16 @@ class QueryParam {
   const QueryParam(this.name, this.value);
 
   final String name;
-  final String value;
+  final String? value;
 
   @override
-  String toString() => '${Uri.encodeQueryComponent(name)}=${Uri.encodeQueryComponent(value)}';
+  String toString() => '${Uri.encodeQueryComponent(name)}=${Uri.encodeQueryComponent(value ?? 'null')}';
 }
 
 // Ported from the Java version.
 Iterable<QueryParam> _convertParametersForCollectionFormat(
-  String collectionFormat,
-  String name,
+  String? collectionFormat,
+  String? name,
   dynamic value,
 ) {
   final params = <QueryParam>[];
@@ -83,39 +83,27 @@ String parameterToString(dynamic value) {
 Future<String> _decodeBodyBytes(Response response) async {
   final contentType = response.headers['content-type'];
   return contentType != null && contentType.toLowerCase().startsWith('application/json')
-    ? response.bodyBytes == null ? null : utf8.decode(response.bodyBytes)
+    ? utf8.decode(response.bodyBytes)
     : response.body;
 }
 
-/// Returns a valid [T] value found at the specified Map [key], null otherwise.
-T mapValueOfType<T>(dynamic map, String key) {
-  final dynamic value = map is Map ? map[key] : null;
-  return value is T ? value : null;
-}
-
-/// Returns a valid Map<K, V> found at the specified Map [key], null otherwise.
-Map<K, V> mapCastOfType<K, V>(dynamic map, String key) {
-  final dynamic value = map is Map ? map[key] : null;
-  return value is Map ? value.cast<K, V>() : null;
-}
-
 /// Returns a valid [DateTime] found at the specified Map [key], null otherwise.
-DateTime mapDateTime(dynamic map, String key, [String pattern]) {
+DateTime mapDateTime(dynamic map, String key, [String? pattern]) {
   final dynamic value = map is Map ? map[key] : null;
   if (value != null) {
-    int millis;
+    int? millis;
     if (value is int) {
       millis = value;
     } else if (value is String) {
       if (pattern == _dateEpochMarker) {
         millis = int.tryParse(value);
       } else {
-        return DateTime.tryParse(value);
+        return DateTime.parse(value);
       }
     }
     if (millis != null) {
       return DateTime.fromMillisecondsSinceEpoch(millis, isUtc: true);
     }
   }
-  return null;
+  return DateTime(1970);
 }

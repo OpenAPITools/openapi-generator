@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -25,33 +25,34 @@ class MapTest {
     this.indirectMap = const {},
   });
 
+
   @JsonKey(
     defaultValue: const {},
     name: r'map_map_of_string',
     required: false,
   )
-  Map<String, Map<String, String>> mapMapOfString;
+  Map<String, Map<String, String>>? mapMapOfString;
 
   @JsonKey(
     defaultValue: const {},
     name: r'map_of_enum_string',
     required: false,
   )
-  Map<String, MapTestMapOfEnumStringEnum> mapOfEnumString;
+  Map<String, MapTestMapOfEnumStringEnum>? mapOfEnumString;
 
   @JsonKey(
     defaultValue: const {},
     name: r'direct_map',
     required: false,
   )
-  Map<String, bool> directMap;
+  Map<String, bool>? directMap;
 
   @JsonKey(
     defaultValue: const {},
     name: r'indirect_map',
     required: false,
   )
-  Map<String, bool> indirectMap;
+  Map<String, bool>? indirectMap;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MapTest &&
@@ -62,10 +63,10 @@ class MapTest {
 
   @override
   int get hashCode =>
-    (mapMapOfString == null ? 0 : mapMapOfString.hashCode) +
-    (mapOfEnumString == null ? 0 : mapOfEnumString.hashCode) +
-    (directMap == null ? 0 : directMap.hashCode) +
-    (indirectMap == null ? 0 : indirectMap.hashCode);
+    mapMapOfString.hashCode +
+    mapOfEnumString.hashCode +
+    directMap.hashCode +
+    indirectMap.hashCode;
 
   factory MapTest.fromJson(Map<String, dynamic> json) => _$MapTestFromJson(json);
 

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -13,16 +13,17 @@ part of openapi.api;
 class Cat {
   /// Returns a new [Cat] instance.
   Cat({
-    @required this.className,
+    required this.className,
     this.color = 'red',
     this.declawed,
   });
 
+
   String className;
 
-  String color;
+  String? color;
 
-  bool declawed;
+  bool? declawed;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Cat &&
@@ -32,10 +33,9 @@ class Cat {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (className == null ? 0 : className.hashCode) +
-    (color == null ? 0 : color.hashCode) +
-    (declawed == null ? 0 : declawed.hashCode);
+    className.hashCode +
+    color.hashCode +
+    declawed.hashCode;
 
   @override
   String toString() => 'Cat[className=$className, color=$color, declawed=$declawed]';
@@ -55,22 +55,16 @@ class Cat {
   /// Returns a new [Cat] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static Cat fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return Cat(
-        className: mapValueOfType<String>(json, r'className'),
-        color: mapValueOfType<String>(json, r'color'),
-        declawed: mapValueOfType<bool>(json, r'declawed'),
-      );
-    }
-    return null;
-  }
+  static Cat fromJson(Map<String, dynamic> json) => Cat(
+        className: json[r'className'] as String,
+        color: json[r'color'] as String,
+        declawed: json[r'declawed'] as bool,
+    );
 
-  static List<Cat> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(Cat.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <Cat>[];
+  static List<Cat> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<Cat>((i) => Cat.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <Cat>[];
 
   static Map<String, Cat> mapFromJson(dynamic json) {
     final map = <String, Cat>{};
@@ -83,7 +77,7 @@ class Cat {
   }
 
   // maps a json object with a list of Cat-objects as value to a dart map
-  static Map<String, List<Cat>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<Cat>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<Cat>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -91,7 +85,6 @@ class Cat {
         .forEach((key, dynamic value) {
           map[key] = Cat.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

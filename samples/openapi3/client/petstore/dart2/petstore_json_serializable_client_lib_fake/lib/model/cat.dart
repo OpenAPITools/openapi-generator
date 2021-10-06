@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -19,13 +19,13 @@ part of openapi.api;
 class Cat {
   /// Returns a new [Cat] instance.
   Cat({
-    @required this.className,
+    required this.className,
     this.color = 'red',
     this.declawed,
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'className',
     required: true,
   )
@@ -36,14 +36,13 @@ class Cat {
     name: r'color',
     required: false,
   )
-  String color;
+  String? color;
 
   @JsonKey(
-    nullable: false,
     name: r'declawed',
     required: false,
   )
-  bool declawed;
+  bool? declawed;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Cat &&
@@ -53,9 +52,9 @@ class Cat {
 
   @override
   int get hashCode =>
-    (className == null ? 0 : className.hashCode) +
-    (color == null ? 0 : color.hashCode) +
-    (declawed == null ? 0 : declawed.hashCode);
+    className.hashCode +
+    color.hashCode +
+    declawed.hashCode;
 
   factory Cat.fromJson(Map<String, dynamic> json) => _$CatFromJson(json);
 

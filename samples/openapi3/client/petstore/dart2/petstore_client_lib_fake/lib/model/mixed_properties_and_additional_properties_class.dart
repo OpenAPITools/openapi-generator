@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -18,11 +18,12 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = const {},
   });
 
-  String uuid;
 
-  DateTime dateTime;
+  String? uuid;
 
-  Map<String, Animal> map;
+  DateTime? dateTime;
+
+  Map<String, Animal>? map;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
@@ -32,10 +33,9 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (uuid == null ? 0 : uuid.hashCode) +
-    (dateTime == null ? 0 : dateTime.hashCode) +
-    (map == null ? 0 : map.hashCode);
+    uuid.hashCode +
+    dateTime.hashCode +
+    map.hashCode;
 
   @override
   String toString() => 'MixedPropertiesAndAdditionalPropertiesClass[uuid=$uuid, dateTime=$dateTime, map=$map]';
@@ -46,7 +46,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
       json[r'uuid'] = uuid;
     }
     if (dateTime != null) {
-      json[r'dateTime'] = dateTime.toUtc().toIso8601String();
+      json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
     }
     if (map != null) {
       json[r'map'] = map;
@@ -57,22 +57,16 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static MixedPropertiesAndAdditionalPropertiesClass fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return MixedPropertiesAndAdditionalPropertiesClass(
-        uuid: mapValueOfType<String>(json, r'uuid'),
+  static MixedPropertiesAndAdditionalPropertiesClass fromJson(Map<String, dynamic> json) => MixedPropertiesAndAdditionalPropertiesClass(
+        uuid: json[r'uuid'] as String,
         dateTime: mapDateTime(json, r'dateTime', ''),
-        map: mapValueOfType<Map<String, Animal>>(json, r'map'),
-      );
-    }
-    return null;
-  }
+        map: json[r'map'] as Map<String, Animal>,
+    );
 
-  static List<MixedPropertiesAndAdditionalPropertiesClass> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(MixedPropertiesAndAdditionalPropertiesClass.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <MixedPropertiesAndAdditionalPropertiesClass>[];
+  static List<MixedPropertiesAndAdditionalPropertiesClass> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<MixedPropertiesAndAdditionalPropertiesClass>((i) => MixedPropertiesAndAdditionalPropertiesClass.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <MixedPropertiesAndAdditionalPropertiesClass>[];
 
   static Map<String, MixedPropertiesAndAdditionalPropertiesClass> mapFromJson(dynamic json) {
     final map = <String, MixedPropertiesAndAdditionalPropertiesClass>{};
@@ -85,7 +79,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
   // maps a json object with a list of MixedPropertiesAndAdditionalPropertiesClass-objects as value to a dart map
-  static Map<String, List<MixedPropertiesAndAdditionalPropertiesClass>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<MixedPropertiesAndAdditionalPropertiesClass>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<MixedPropertiesAndAdditionalPropertiesClass>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -93,7 +87,6 @@ class MixedPropertiesAndAdditionalPropertiesClass {
         .forEach((key, dynamic value) {
           map[key] = MixedPropertiesAndAdditionalPropertiesClass.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

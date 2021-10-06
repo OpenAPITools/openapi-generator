@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -16,7 +16,8 @@ class HealthCheckResult {
     this.nullableMessage,
   });
 
-  String nullableMessage;
+
+  String? nullableMessage;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is HealthCheckResult &&
@@ -24,8 +25,7 @@ class HealthCheckResult {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (nullableMessage == null ? 0 : nullableMessage.hashCode);
+    nullableMessage.hashCode;
 
   @override
   String toString() => 'HealthCheckResult[nullableMessage=$nullableMessage]';
@@ -41,20 +41,14 @@ class HealthCheckResult {
   /// Returns a new [HealthCheckResult] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static HealthCheckResult fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return HealthCheckResult(
-        nullableMessage: mapValueOfType<String>(json, r'NullableMessage'),
-      );
-    }
-    return null;
-  }
+  static HealthCheckResult fromJson(Map<String, dynamic> json) => HealthCheckResult(
+        nullableMessage: json[r'NullableMessage'] as String,
+    );
 
-  static List<HealthCheckResult> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(HealthCheckResult.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <HealthCheckResult>[];
+  static List<HealthCheckResult> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<HealthCheckResult>((i) => HealthCheckResult.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <HealthCheckResult>[];
 
   static Map<String, HealthCheckResult> mapFromJson(dynamic json) {
     final map = <String, HealthCheckResult>{};
@@ -67,7 +61,7 @@ class HealthCheckResult {
   }
 
   // maps a json object with a list of HealthCheckResult-objects as value to a dart map
-  static Map<String, List<HealthCheckResult>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<HealthCheckResult>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<HealthCheckResult>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -75,7 +69,6 @@ class HealthCheckResult {
         .forEach((key, dynamic value) {
           map[key] = HealthCheckResult.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

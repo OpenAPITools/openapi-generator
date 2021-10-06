@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -23,12 +23,12 @@ class Category {
     this.name = 'default-name',
   });
 
+
   @JsonKey(
-    nullable: false,
     name: r'id',
     required: false,
   )
-  int id;
+  int? id;
 
   @JsonKey(
     defaultValue: 'default-name',
@@ -44,8 +44,8 @@ class Category {
 
   @override
   int get hashCode =>
-    (id == null ? 0 : id.hashCode) +
-    (name == null ? 0 : name.hashCode);
+    id.hashCode +
+    name.hashCode;
 
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 

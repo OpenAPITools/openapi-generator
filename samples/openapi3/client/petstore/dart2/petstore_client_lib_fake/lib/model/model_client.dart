@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -16,7 +16,8 @@ class ModelClient {
     this.client,
   });
 
-  String client;
+
+  String? client;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelClient &&
@@ -24,8 +25,7 @@ class ModelClient {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (client == null ? 0 : client.hashCode);
+    client.hashCode;
 
   @override
   String toString() => 'ModelClient[client=$client]';
@@ -41,20 +41,14 @@ class ModelClient {
   /// Returns a new [ModelClient] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ModelClient fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return ModelClient(
-        client: mapValueOfType<String>(json, r'client'),
-      );
-    }
-    return null;
-  }
+  static ModelClient fromJson(Map<String, dynamic> json) => ModelClient(
+        client: json[r'client'] as String,
+    );
 
-  static List<ModelClient> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(ModelClient.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <ModelClient>[];
+  static List<ModelClient> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<ModelClient>((i) => ModelClient.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <ModelClient>[];
 
   static Map<String, ModelClient> mapFromJson(dynamic json) {
     final map = <String, ModelClient>{};
@@ -67,7 +61,7 @@ class ModelClient {
   }
 
   // maps a json object with a list of ModelClient-objects as value to a dart map
-  static Map<String, List<ModelClient>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<ModelClient>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<ModelClient>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -75,7 +69,6 @@ class ModelClient {
         .forEach((key, dynamic value) {
           map[key] = ModelClient.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });

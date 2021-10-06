@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -22,12 +22,13 @@ class ArrayOfNumberOnly {
     this.arrayNumber = const [],
   });
 
+
   @JsonKey(
     defaultValue: const [],
     name: r'ArrayNumber',
     required: false,
   )
-  List<num> arrayNumber;
+  List<num>? arrayNumber;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayOfNumberOnly &&
@@ -35,7 +36,7 @@ class ArrayOfNumberOnly {
 
   @override
   int get hashCode =>
-    (arrayNumber == null ? 0 : arrayNumber.hashCode);
+    arrayNumber.hashCode;
 
   factory ArrayOfNumberOnly.fromJson(Map<String, dynamic> json) => _$ArrayOfNumberOnlyFromJson(json);
 

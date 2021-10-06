@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -19,13 +19,14 @@ class MapTest {
     this.indirectMap = const {},
   });
 
-  Map<String, Map<String, String>> mapMapOfString;
 
-  Map<String, MapTestMapOfEnumStringEnum> mapOfEnumString;
+  Map<String, Map<String, String>>? mapMapOfString;
 
-  Map<String, bool> directMap;
+  Map<String, MapTestMapOfEnumStringEnum>? mapOfEnumString;
 
-  Map<String, bool> indirectMap;
+  Map<String, bool>? directMap;
+
+  Map<String, bool>? indirectMap;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MapTest &&
@@ -36,11 +37,10 @@ class MapTest {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (mapMapOfString == null ? 0 : mapMapOfString.hashCode) +
-    (mapOfEnumString == null ? 0 : mapOfEnumString.hashCode) +
-    (directMap == null ? 0 : directMap.hashCode) +
-    (indirectMap == null ? 0 : indirectMap.hashCode);
+    mapMapOfString.hashCode +
+    mapOfEnumString.hashCode +
+    directMap.hashCode +
+    indirectMap.hashCode;
 
   @override
   String toString() => 'MapTest[mapMapOfString=$mapMapOfString, mapOfEnumString=$mapOfEnumString, directMap=$directMap, indirectMap=$indirectMap]';
@@ -65,23 +65,17 @@ class MapTest {
   /// Returns a new [MapTest] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static MapTest fromJson(dynamic value) {
-    if (value is Map) {
-      final json = value.cast<String, dynamic>();
-      return MapTest(
-        mapMapOfString: mapCastOfType<String, dynamic>(json, r'map_map_of_string'),
-        mapOfEnumString: mapCastOfType<String, String>(json, r'map_of_enum_string'),
-        directMap: mapCastOfType<String, bool>(json, r'direct_map'),
-        indirectMap: mapCastOfType<String, bool>(json, r'indirect_map'),
-      );
-    }
-    return null;
-  }
+  static MapTest fromJson(Map<String, dynamic> json) => MapTest(
+        mapMapOfString: json[r'map_map_of_string'] as Map<String, Map<String, String>>,
+        mapOfEnumString: json[r'map_of_enum_string'] as Map<String, MapTestMapOfEnumStringEnum>,
+        directMap: json[r'direct_map'] as Map<String, bool>,
+        indirectMap: json[r'indirect_map'] as Map<String, bool>,
+    );
 
-  static List<MapTest> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(MapTest.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <MapTest>[];
+  static List<MapTest> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<MapTest>((i) => MapTest.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <MapTest>[];
 
   static Map<String, MapTest> mapFromJson(dynamic json) {
     final map = <String, MapTest>{};
@@ -94,7 +88,7 @@ class MapTest {
   }
 
   // maps a json object with a list of MapTest-objects as value to a dart map
-  static Map<String, List<MapTest>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<MapTest>> mapListFromJson(dynamic json, {bool? growable,}) {
     final map = <String, List<MapTest>>{};
     if (json is Map && json.isNotEmpty) {
       json
@@ -102,7 +96,6 @@ class MapTest {
         .forEach((key, dynamic value) {
           map[key] = MapTest.listFromJson(
             value,
-            emptyIsNull: emptyIsNull,
             growable: growable,
           );
         });
@@ -117,12 +110,12 @@ class MapTestMapOfEnumStringEnum {
   const MapTestMapOfEnumStringEnum._(this.value);
 
   /// The underlying value of this enum member.
-  final String value;
+  final String? value;
 
   @override
   String toString() => value ?? '';
 
-  String toJson() => value;
+  String? toJson() => value;
 
   static const UPPER = MapTestMapOfEnumStringEnum._(r'UPPER');
   static const lower = MapTestMapOfEnumStringEnum._(r'lower');
@@ -136,10 +129,10 @@ class MapTestMapOfEnumStringEnum {
   static MapTestMapOfEnumStringEnum fromJson(dynamic value) =>
     MapTestMapOfEnumStringEnumTypeTransformer().decode(value);
 
-  static List<MapTestMapOfEnumStringEnum> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(MapTestMapOfEnumStringEnum.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <MapTestMapOfEnumStringEnum>[];
+  static List<MapTestMapOfEnumStringEnum> listFromJson(List json, {bool? growable,}) =>
+    json.isNotEmpty
+      ? json.map<MapTestMapOfEnumStringEnum>((i) => MapTestMapOfEnumStringEnum.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
+      : <MapTestMapOfEnumStringEnum>[];
 }
 
 /// Transformation class that can [encode] an instance of [MapTestMapOfEnumStringEnum] to String,
@@ -149,32 +142,23 @@ class MapTestMapOfEnumStringEnumTypeTransformer {
 
   const MapTestMapOfEnumStringEnumTypeTransformer._();
 
-  String encode(MapTestMapOfEnumStringEnum data) => data.value;
+  String? encode(MapTestMapOfEnumStringEnum data) => data.value;
 
   /// Decodes a [dynamic value][data] to a MapTestMapOfEnumStringEnum.
   ///
-  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
-  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
-  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  ///
-  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
-  /// and users are still using an old app with the old code.
-  MapTestMapOfEnumStringEnum decode(dynamic data, {bool allowNull}) {
-    if (data != null) {
-      switch (data.toString()) {
-        case r'UPPER': return MapTestMapOfEnumStringEnum.UPPER;
-        case r'lower': return MapTestMapOfEnumStringEnum.lower;
-        default:
-          if (allowNull == false) {
-            throw ArgumentError('Unknown enum value to decode: $data');
-          }
-      }
+  /// If the [dynamic value][data] cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  MapTestMapOfEnumStringEnum decode(dynamic data) {
+    if (data == r'UPPER') {
+      return MapTestMapOfEnumStringEnum.UPPER;
     }
-    return null;
+    if (data == r'lower') {
+      return MapTestMapOfEnumStringEnum.lower;
+    }
+    throw ArgumentError('Unknown enum value to decode: $data');
   }
 
   /// Singleton [MapTestMapOfEnumStringEnumTypeTransformer] instance.
-  static MapTestMapOfEnumStringEnumTypeTransformer _instance;
+  static MapTestMapOfEnumStringEnumTypeTransformer? _instance;
 }
 
 

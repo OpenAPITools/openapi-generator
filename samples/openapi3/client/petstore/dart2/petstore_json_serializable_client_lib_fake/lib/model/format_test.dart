@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -22,140 +22,126 @@ class FormatTest {
     this.integer,
     this.int32,
     this.int64,
-    @required this.number,
+    required this.number,
     this.float,
     this.double_,
     this.decimal,
     this.string,
-    @required this.byte,
+    required this.byte,
     this.binary,
-    @required this.date,
+    required this.date,
     this.dateTime,
     this.uuid,
-    @required this.password,
+    required this.password,
     this.patternWithDigits,
     this.patternWithDigitsAndDelimiter,
   });
 
-          // minimum: 10
-          // maximum: 100
+
+  // minimum: 10
+  // maximum: 100
   @JsonKey(
-    nullable: false,
     name: r'integer',
     required: false,
   )
-  int integer;
+  int? integer;
 
-          // minimum: 20
-          // maximum: 200
+  // minimum: 20
+  // maximum: 200
   @JsonKey(
-    nullable: false,
     name: r'int32',
     required: false,
   )
-  int int32;
+  int? int32;
 
   @JsonKey(
-    nullable: false,
     name: r'int64',
     required: false,
   )
-  int int64;
+  int? int64;
 
-          // minimum: 32.1
-          // maximum: 543.2
+  // minimum: 32.1
+  // maximum: 543.2
   @JsonKey(
-    nullable: false,
     name: r'number',
     required: true,
   )
   num number;
 
-          // minimum: 54.3
-          // maximum: 987.6
+  // minimum: 54.3
+  // maximum: 987.6
   @JsonKey(
-    nullable: false,
     name: r'float',
     required: false,
   )
-  double float;
+  double? float;
 
-          // minimum: 67.8
-          // maximum: 123.4
+  // minimum: 67.8
+  // maximum: 123.4
   @JsonKey(
-    nullable: false,
     name: r'double',
     required: false,
   )
-  double double_;
+  double? double_;
 
   @JsonKey(
-    nullable: false,
     name: r'decimal',
     required: false,
   )
-  double decimal;
+  double? decimal;
 
   @JsonKey(
-    nullable: false,
     name: r'string',
     required: false,
   )
-  String string;
+  String? string;
 
   @JsonKey(
-    nullable: false,
     name: r'byte',
     required: true,
   )
   String byte;
 
   @JsonKey(ignore: true)
-  MultipartFile binary;
+  MultipartFile? binary;
 
   @JsonKey(
-    nullable: false,
     name: r'date',
     required: true,
   )
   DateTime date;
 
   @JsonKey(
-    nullable: false,
     name: r'dateTime',
     required: false,
   )
-  DateTime dateTime;
+  DateTime? dateTime;
 
   @JsonKey(
-    nullable: false,
     name: r'uuid',
     required: false,
   )
-  String uuid;
+  String? uuid;
 
   @JsonKey(
-    nullable: false,
     name: r'password',
     required: true,
   )
   String password;
 
-      /// A string that is a 10 digit number. Can have leading zeros.
+  /// A string that is a 10 digit number. Can have leading zeros.
   @JsonKey(
-    nullable: false,
     name: r'pattern_with_digits',
     required: false,
   )
-  String patternWithDigits;
+  String? patternWithDigits;
 
-      /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+  /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
   @JsonKey(
-    nullable: false,
     name: r'pattern_with_digits_and_delimiter',
     required: false,
   )
-  String patternWithDigitsAndDelimiter;
+  String? patternWithDigitsAndDelimiter;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
@@ -178,22 +164,22 @@ class FormatTest {
 
   @override
   int get hashCode =>
-    (integer == null ? 0 : integer.hashCode) +
-    (int32 == null ? 0 : int32.hashCode) +
-    (int64 == null ? 0 : int64.hashCode) +
-    (number == null ? 0 : number.hashCode) +
-    (float == null ? 0 : float.hashCode) +
-    (double_ == null ? 0 : double_.hashCode) +
-    (decimal == null ? 0 : decimal.hashCode) +
-    (string == null ? 0 : string.hashCode) +
-    (byte == null ? 0 : byte.hashCode) +
-    (binary == null ? 0 : binary.hashCode) +
-    (date == null ? 0 : date.hashCode) +
-    (dateTime == null ? 0 : dateTime.hashCode) +
-    (uuid == null ? 0 : uuid.hashCode) +
-    (password == null ? 0 : password.hashCode) +
-    (patternWithDigits == null ? 0 : patternWithDigits.hashCode) +
-    (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter.hashCode);
+    integer.hashCode +
+    int32.hashCode +
+    int64.hashCode +
+    number.hashCode +
+    float.hashCode +
+    double_.hashCode +
+    decimal.hashCode +
+    string.hashCode +
+    byte.hashCode +
+    binary.hashCode +
+    date.hashCode +
+    dateTime.hashCode +
+    uuid.hashCode +
+    password.hashCode +
+    patternWithDigits.hashCode +
+    patternWithDigitsAndDelimiter.hashCode;
 
   factory FormatTest.fromJson(Map<String, dynamic> json) => _$FormatTestFromJson(json);
 

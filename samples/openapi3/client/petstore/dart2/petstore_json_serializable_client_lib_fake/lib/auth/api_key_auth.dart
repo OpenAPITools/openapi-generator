@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.14
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -16,8 +16,8 @@ class ApiKeyAuth implements Authentication {
   final String location;
   final String paramName;
 
-  String apiKeyPrefix;
-  String apiKey;
+  String? apiKeyPrefix;
+  String? apiKey;
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
