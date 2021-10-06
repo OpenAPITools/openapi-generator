@@ -1632,10 +1632,10 @@
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <mockito.version>3.12.4</mockito.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
-        <reflections.version>0.9.10</reflections.version>
+        <reflections.version>0.10</reflections.version>
         <rxgen.version>1.3</rxgen.version>
         <scala-maven-plugin.version>4.3.1</scala-maven-plugin.version>
-        <slf4j.version>1.7.29</slf4j.version>
+        <slf4j.version>1.7.32</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <swagger-core.version>2.1.2</swagger-core.version>
