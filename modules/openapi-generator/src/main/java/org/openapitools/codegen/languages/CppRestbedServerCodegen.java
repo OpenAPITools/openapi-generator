@@ -315,13 +315,14 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 if (!foundInNewList) {
                     if (op1.path.equals(op.path)) {
                         foundInNewList = true;
-                        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get("x-codegen-otherMethods");
+                        final String X_CODEGEN_OTHER_METHODS = "x-codegen-other-methods";
+                        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get(X_CODEGEN_OTHER_METHODS);
                         if (currentOtherMethodList == null) {
                             currentOtherMethodList = new ArrayList<CodegenOperation>();
                         }
                         op.operationIdCamelCase = op1.operationIdCamelCase;
                         currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put("x-codegen-other-methods", currentOtherMethodList);
+                        op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
                     }
                 }
             }
