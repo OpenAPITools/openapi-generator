@@ -9,27 +9,27 @@ class {{{classname}}} {
 
 {{#vars}}
   {{#description}}
-      /// {{{.}}}
+  /// {{{.}}}
   {{/description}}
   {{^isEnum}}
       {{#minimum}}
-          // minimum: {{{.}}}
+  // minimum: {{{.}}}
       {{/minimum}}
       {{#maximum}}
-          // maximum: {{{.}}}
+  // maximum: {{{.}}}
       {{/maximum}}
   {{/isEnum}}
   {{^isBinary}}
   @JsonKey(
-    {{#defaultValue}}defaultValue: {{{.}}},{{/defaultValue}}{{^defaultValue}}nullable: {{isNullable}},{{/defaultValue}}
-    name: r'{{{baseName}}}',
+    {{#defaultValue}}defaultValue: {{{.}}},
+    {{/defaultValue}}name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
   )
   {{/isBinary}}
   {{#isBinary}}
   @JsonKey(ignore: true)
   {{/isBinary}}
-  {{{datatypeWithEnum}}} {{{name}}};
+  {{{datatypeWithEnum}}}{{^required}}?{{/required}} {{{name}}};
 
 {{/vars}}
   @override
@@ -41,7 +41,7 @@ class {{{classname}}} {
   @override
   int get hashCode =>
   {{#vars}}
-    ({{{name}}} == null ? 0 : {{{name}}}.hashCode){{^-last}} +{{/-last}}{{#-last}};{{/-last}}
+    {{{name}}}.hashCode{{^-last}} +{{/-last}}{{#-last}};{{/-last}}
   {{/vars}}
 
   factory {{{classname}}}.fromJson(Map<String, dynamic> json) => _${{{classname}}}FromJson(json);

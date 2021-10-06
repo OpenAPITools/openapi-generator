@@ -6,8 +6,8 @@ class ApiKeyAuth implements Authentication {
   final String location;
   final String paramName;
 
-  String apiKeyPrefix;
-  String apiKey;
+  String? apiKeyPrefix;
+  String? apiKey;
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {

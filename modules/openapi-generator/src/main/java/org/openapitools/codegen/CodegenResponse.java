@@ -348,6 +348,14 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsPrimitiveType() { return primitiveType; }
+
+    @Override
+    public void setIsPrimitiveType(boolean isPrimitiveType)  {
+        this.primitiveType = isPrimitiveType;
+    }
+
+    @Override
     public void setIsModel(boolean isModel)  {
         this.isModel = isModel;
     }

@@ -1,8 +1,8 @@
 {{>header}}
 {{>part_of}}
 class HttpBasicAuth implements Authentication {
-  String username;
-  String password;
+  String? username;
+  String? password;
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
