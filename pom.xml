@@ -1645,8 +1645,8 @@
         <swagger-parser-version>2.0.26</swagger-parser-version>
         <testng-version>7.1.0</testng-version>
         <violations-maven.plugin.version>1.34</violations-maven.plugin.version>
-        <wagon-svn.version>1.12</wagon-svn.version>
         <wagon-ssh-external.version>2.10</wagon-ssh-external.version>
+        <wagon-svn.version>1.12</wagon-svn.version>
         <wagon-webdav.version>1.0-beta-2</wagon-webdav.version>
     </properties>
 </project>
