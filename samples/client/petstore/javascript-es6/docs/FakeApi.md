@@ -625,7 +625,7 @@ let opts = {
   'enumQueryString': "'-efg'", // String | Query parameter enum test (string)
   'enumQueryInteger': 56, // Number | Query parameter enum test (double)
   'enumQueryDouble': 3.4, // Number | Query parameter enum test (double)
-  'enumFormStringArray': "'$'", // [String] | Form parameter enum test (string array)
+  'enumFormStringArray': ["'$'"], // [String] | Form parameter enum test (string array)
   'enumFormString': "'-efg'" // String | Form parameter enum test (string)
 };
 apiInstance.testEnumParameters(opts, (error, data, response) => {

@@ -849,7 +849,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
                 return prefix + modelName + fullSuffix;
             }
         }
-        if (isAnyTypeSchema(p)) {
+        if (ModelUtils.isAnyType(p)) {
             // for v2 specs only, swagger-parser never generates an AnyType schemas even though it should generate them
             // https://github.com/swagger-api/swagger-parser/issues/1378
             // switch to v3 if you need AnyType to work
@@ -1115,7 +1115,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             }
             String refModelName = getModelName(schema);
             return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, seenSchemas);
-        } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
+        } else if (ModelUtils.isNullType(schema) || ModelUtils.isAnyType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
             return fullPrefix + "None" + closeChars;
@@ -1195,7 +1195,11 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
 
                     // this seed makes it so if we have [a-z] we pick a
                     Random random = new Random(18);
-                    example = rgxGen.generate(random);
+                    if (rgxGen != null) {
+                        example = rgxGen.generate(random);
+                    } else {
+                        throw new RuntimeException("rgxGen cannot be null. Please open an issue in the openapi-generator github repo.");
+                    }
                 } else if (schema.getMinLength() != null) {
                     example = "";
                     int len = schema.getMinLength().intValue();

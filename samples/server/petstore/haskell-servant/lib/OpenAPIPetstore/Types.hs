@@ -184,6 +184,7 @@ removeFieldLabelPrefix forParsing prefix =
       , (".", "'Period")
       , ("/", "'Slash")
       , (":", "'Colon")
+      , (";", "'Semicolon")
       , ("{", "'Left_Curly_Bracket")
       , ("|", "'Pipe")
       , ("<", "'LessThan")

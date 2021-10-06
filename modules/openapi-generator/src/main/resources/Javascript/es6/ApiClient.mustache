@@ -16,13 +16,18 @@ import querystring from "querystring";
 * @class
 */{{/emitJSDoc}}
 class ApiClient {
-    constructor() {
+    /**
+     * The base URL against which to resolve every API call's (relative) path.
+     * Overrides the default value set in spec file if present
+     * @param {String} basePath
+     */
+    constructor(basePath = '{{{basePath}}}') {
         {{#emitJSDoc}}/**
          * The base URL against which to resolve every API call's (relative) path.
          * @type {String}
          * @default {{{basePath}}}
          */{{/emitJSDoc}}
-        this.basePath = '{{{basePath}}}'.replace(/\/+$/, '');
+        this.basePath = basePath.replace(/\/+$/, '');
 
         {{#emitJSDoc}}/**
          * The authentication methods to be included for all API calls.
