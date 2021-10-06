@@ -223,7 +223,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.version}</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <printSummary>true</printSummary>
                     <forkedProcessExitTimeoutInSeconds>120</forkedProcessExitTimeoutInSeconds>
@@ -1637,7 +1637,7 @@
         <scala-maven-plugin.version>4.3.1</scala-maven-plugin.version>
         <slf4j.version>1.7.29</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
-        <surefire.version>2.22.2</surefire.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <swagger-core.version>2.1.2</swagger-core.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
         <swagger-parser.version>2.0.26</swagger-parser.version>
