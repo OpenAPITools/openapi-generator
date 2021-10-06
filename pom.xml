@@ -93,12 +93,12 @@
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ssh-external</artifactId>
-                <version>1.0-alpha-6</version>
+                <version>${wagon-ssh-external.version}</version>
             </extension>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-webdav</artifactId>
-                <version>1.0-beta-1</version>
+                <version>${wagon-webdav.version}</version>
             </extension>
         </extensions>
         <defaultGoal>install</defaultGoal>
@@ -1646,5 +1646,7 @@
         <testng-version>7.1.0</testng-version>
         <violations-maven.plugin.version>1.34</violations-maven.plugin.version>
         <wagon-svn.version>1.12</wagon-svn.version>
+        <wagon-ssh-external.version>2.10</wagon-ssh-external.version>
+        <wagon-webdav.version>1.0-beta-2</wagon-webdav.version>
     </properties>
 </project>

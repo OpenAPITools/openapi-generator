@@ -32,12 +32,12 @@
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ssh-external</artifactId>
-                <version>2.10</version>
+                <version>${wagon-ssh-external.version}</version>
             </extension>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-webdav</artifactId>
-                <version>1.0-beta-2</version>
+                <version>${wagon-webdav.version}</version>
             </extension>
         </extensions>
         <directory>target</directory>
