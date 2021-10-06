@@ -1616,7 +1616,7 @@
         <generex.version>1.0.2</generex.version>
         <git-commit-id-plugin.version>4.0.0</git-commit-id-plugin.version>
         <groovy.version>3.0.5</groovy.version>
-        <guava.version>26.0-jre</guava.version>
+        <guava.version>30.1.1-jre</guava.version>
         <handlebars-java.version>4.2.1</handlebars-java.version>
         <jackson-threetenbp.version>2.10.0</jackson-threetenbp.version>
         <jackson.version>2.10.2</jackson.version>
