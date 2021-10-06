@@ -17,7 +17,6 @@
 
     <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <gradleVersion>5.6.4</gradleVersion>
     </properties>
 
     <pluginRepositories>
@@ -106,7 +105,7 @@
                     <dependency>
                         <groupId>org.gradle</groupId>
                         <artifactId>gradle-tooling-api</artifactId>
-                        <version>${gradleVersion}</version>
+                        <version>5.6.4</version>
                     </dependency>
                 </dependencies>
             </plugin>
