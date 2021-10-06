@@ -63,6 +63,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
+    public static final String GRADLE_PROPERTIES= "gradleProperties";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -111,6 +112,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean caseInsensitiveResponseHeaders = false;
     protected boolean useAbstractionForFiles = false;
     protected boolean dynamicOperations = false;
+    protected String gradleProperties;
     protected String authFolder;
     protected String serializationLibrary = null;
 
@@ -154,6 +156,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
+        cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle proeprties to the gradle.properties file"));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -317,6 +320,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setDynamicOperations(Boolean.parseBoolean(additionalProperties.get(DYNAMIC_OPERATIONS).toString()));
         }
         additionalProperties.put(DYNAMIC_OPERATIONS, dynamicOperations);
+
+        if (additionalProperties.containsKey(GRADLE_PROPERTIES)) {
+            this.setGradleProperties(additionalProperties.get(GRADLE_PROPERTIES).toString());
+        }
+        additionalProperties.put(GRADLE_PROPERTIES, gradleProperties);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
@@ -978,6 +986,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setDynamicOperations(final boolean dynamicOperations) {
         this.dynamicOperations = dynamicOperations;
+    }
+
+    public void setGradleProperties(final String gradleProperties) {
+        this.gradleProperties= gradleProperties;
     }
 
     /**
