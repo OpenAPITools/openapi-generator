@@ -721,8 +721,9 @@ public class CodeGenMojo extends AbstractMojo {
                 getLog().warn("environmentVariables is deprecated and will be removed in version 5.1. Use globalProperties instead.");
             }
 
-            for (String key : globalProperties.keySet()) {
-                String value = globalProperties.get(key);
+            for (Map.Entry<String, String> globalPropertiesEntry : globalProperties.entrySet()) {
+                String key = globalPropertiesEntry.getKey();
+                String value = globalPropertiesEntry.getValue();
                 if (value != null) {
                     configurator.addGlobalProperty(key, value);
                 }
