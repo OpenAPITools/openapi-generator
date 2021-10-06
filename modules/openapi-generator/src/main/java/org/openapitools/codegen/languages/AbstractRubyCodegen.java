@@ -78,6 +78,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Float");
         typeMapping.put("number", "Float");
+        typeMapping.put("decimal", "Float");
         typeMapping.put("date", "Date");
         typeMapping.put("DateTime", "Time");
         typeMapping.put("array", "Array");

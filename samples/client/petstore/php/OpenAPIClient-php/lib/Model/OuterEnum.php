@@ -43,9 +43,11 @@ class OuterEnum
      * Possible values of this enum
      */
     const PLACED = 'placed';
+
     const APPROVED = 'approved';
+
     const DELIVERED = 'delivered';
-    
+
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -55,7 +57,7 @@ class OuterEnum
         return [
             self::PLACED,
             self::APPROVED,
-            self::DELIVERED,
+            self::DELIVERED
         ];
     }
 }

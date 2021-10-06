@@ -43,9 +43,11 @@ class EnumClass
      * Possible values of this enum
      */
     const ABC = '_abc';
+
     const EFG = '-efg';
+
     const XYZ = '(xyz)';
-    
+
     /**
      * Gets allowable values of the enum
      * @return string[]
@@ -55,7 +57,7 @@ class EnumClass
         return [
             self::ABC,
             self::EFG,
-            self::XYZ,
+            self::XYZ
         ];
     }
 }

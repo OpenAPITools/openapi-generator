@@ -571,6 +571,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Agoda](https://www.agoda.com/)
 - [Allianz](https://www.allianz.com)
 - [Angular.Schule](https://angular.schule/)
+- [Aqovia](https://aqovia.com/)
 - [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [ASKUL](https://www.askul.co.jp)
 - [Arduino](https://www.arduino.cc/)
@@ -611,6 +612,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Here](https://developer.here.com/)
 - [IBM](https://www.ibm.com/)
 - [Instana](https://www.instana.com)
+- [Interxion](https://www.interxion.com)
 - [Inquisico](https://inquisico.com)
 - [JustStar](https://www.juststarinfo.com)
 - [k6.io](https://k6.io/)
@@ -628,6 +630,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Myworkout](https://myworkout.com)
 - [NamSor](https://www.namsor.com/)
 - [Neverfail](https://www.neverfail.com/)
+- [NeuerEnergy](https://neuerenergy.com)
 - [Nokia](https://www.nokia.com/)
 - [Options Clearing Corporation (OCC)](https://www.theocc.com/)
 - [Openet](https://www.openet.com/)
@@ -825,6 +828,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2021-07-29 - [How To Rewrite a Huge Codebase](https://dzone.com/articles/how-to-rewrite-a-huge-code-base) by [Curtis Poe](https://dzone.com/users/4565446/publiusovidius.html)
 - 2021-08-21 - [Generating Client APIs using Swagger Part 1](https://medium.com/@flowsquad/generating-client-apis-using-swagger-part-1-2d46f13f5e92) by [FlowSquad.io](https://medium.com/@flowsquad)
 - 2021-09-11 - [Invoking AWS ParallelCluster API](https://docs.aws.amazon.com/parallelcluster/latest/ug/api-reference-v3.html) at [AWS ParallelCluster API official documentation](https://docs.aws.amazon.com/parallelcluster/latest/ug/api-reference-v3.html)
+- 2021-10-02 - [How to Write Fewer Lines of Code with the OpenAPI Generator](https://hackernoon.com/how-to-write-fewer-lines-of-code-with-the-openapi-generator) by [Mikhail Alfa](https://hackernoon.com/u/alphamikle)
 
 ## [6 - About Us](#table-of-contents)
 

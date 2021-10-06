@@ -15,7 +15,7 @@ use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 
-/// struct for typed errors of method `delete_order`
+/// struct for typed errors of method [`delete_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteOrderError {
@@ -24,14 +24,14 @@ pub enum DeleteOrderError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `get_inventory`
+/// struct for typed errors of method [`get_inventory`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventoryError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `get_order_by_id`
+/// struct for typed errors of method [`get_order_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOrderByIdError {
@@ -40,7 +40,7 @@ pub enum GetOrderByIdError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `place_order`
+/// struct for typed errors of method [`place_order`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PlaceOrderError {

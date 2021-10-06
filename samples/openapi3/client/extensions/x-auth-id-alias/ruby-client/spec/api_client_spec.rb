@@ -197,8 +197,8 @@ describe XAuthIDAlias::ApiClient do
     let(:api_client) { XAuthIDAlias::ApiClient.new }
 
     it 'works' do
-      expect(api_client.select_header_content_type(nil)).to eq('application/json')
-      expect(api_client.select_header_content_type([])).to eq('application/json')
+      expect(api_client.select_header_content_type(nil)).to be_nil
+      expect(api_client.select_header_content_type([])).to be_nil
 
       expect(api_client.select_header_content_type(['application/json'])).to eq('application/json')
       expect(api_client.select_header_content_type(['application/xml', 'application/json; charset=UTF8'])).to eq('application/json; charset=UTF8')

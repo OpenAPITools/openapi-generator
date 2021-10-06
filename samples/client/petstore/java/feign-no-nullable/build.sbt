@@ -23,7 +23,7 @@ lazy val root = (project in file(".")).
       "com.github.joschi.jackson" % "jackson-datatype-threetenbp" % "2.9.10" % "compile",
       "com.github.scribejava" % "scribejava-core" % "8.0.0" % "compile",
       "com.brsanthu" % "migbase64" % "2.2" % "compile",
-      "javax.annotation" % "javax.annotation-api" % "1.3.2" % "compile",
+      "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5" % "compile",
       "org.junit.jupiter" % "junit-jupiter" % "5.7.0" % "test",
       "org.junit.jupiter" % "junit-jupiter-params" % "5.7.0" % "test",
       "com.github.tomakehurst" % "wiremock-jre8" % "2.27.2" % "test",

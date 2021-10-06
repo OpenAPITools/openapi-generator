@@ -764,6 +764,30 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
+    public boolean getIsString() { return isString; }
+
+    @Override
+    public void setIsString(boolean isString)  {
+        this.isString = isString;
+    }
+
+    @Override
+    public boolean getIsNumber() { return isNumber; }
+
+    @Override
+    public void setIsNumber(boolean isNumber)  {
+        this.isNumber = isNumber;
+    }
+
+    @Override
+    public boolean getIsAnyType() { return isAnyType; }
+
+    @Override
+    public void setIsAnyType(boolean isAnyType)  {
+        this.isAnyType = isAnyType;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
         sb.append("openApiType='").append(openApiType).append('\'');

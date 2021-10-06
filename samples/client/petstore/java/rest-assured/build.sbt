@@ -17,9 +17,9 @@ lazy val root = (project in file(".")).
       "io.gsonfire" % "gson-fire" % "1.8.4" % "compile",
       "org.threeten" % "threetenbp" % "1.4.3" % "compile",
       "com.squareup.okio" % "okio" % "1.17.5" % "compile",
-      "javax.validation" % "validation-api" % "2.0.1.Final" % "compile",
+      "jakarta.validation" % "jakarta.validation-api" % "2.0.2" % "compile",
       "org.hibernate" % "hibernate-validator" % "6.0.19.Final" % "compile",
-    "javax.annotation" % "javax.annotation-api" % "1.3.2" % "compile",
+    "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5" % "compile",
       "junit" % "junit" % "4.13.1" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
