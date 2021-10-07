@@ -187,6 +187,9 @@ public class CodegenConstants {
     public static final String OPTIONAL_CONDITIONAL_SERIALIZATION = "conditionalSerialization";
     public static final String OPTIONAL_CONDITIONAL_SERIALIZATION_DESC = "Serialize only those properties which are initialized by user, accepted values are true or false, default value is false.";
 
+    public static final String OPTIONAL_AllOW_DEFAULTVALUE = "allowDefaultValue";
+    public static final String OPTIONAL_AllOW_DEFAULTVALUE_DESC = "This flag works with conditionalSerialization, when it is set to false it does not initialize the property with default value specified in openAPIDoc, default value is true.";
+    
     public static final String NETCORE_PROJECT_FILE = "netCoreProjectFile";
     public static final String NETCORE_PROJECT_FILE_DESC = "Use the new format (.NET Core) for .NET project files (.csproj).";
 

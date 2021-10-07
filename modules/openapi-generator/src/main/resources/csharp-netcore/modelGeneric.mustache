@@ -162,6 +162,7 @@
             {{^isReadOnly}}
             {{^required}}
             {{#defaultValue}}
+            {{^conditionalSerialization}}
             {{^vendorExtensions.x-csharp-value-type}}
             // use default value if no "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" provided
             this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} ?? {{{defaultValue}}};
@@ -169,6 +170,18 @@
             {{#vendorExtensions.x-csharp-value-type}}
             this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/vendorExtensions.x-csharp-value-type}}
+            {{/conditionalSerialization}}
+            {{#conditionalSerialization}}
+            {{#allowDefaultValue}}
+            {{^vendorExtensions.x-csharp-value-type}}
+            // use default value if no "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" provided
+            this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} ?? {{{defaultValue}}};
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{#vendorExtensions.x-csharp-value-type}}
+            this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/vendorExtensions.x-csharp-value-type}}
+            {{/allowDefaultValue}}
+            {{/conditionalSerialization}}
             {{/defaultValue}}
             {{^defaultValue}}
             {{^conditionalSerialization}}
