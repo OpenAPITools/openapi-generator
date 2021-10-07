@@ -1,0 +1,41 @@
+openapi: 3.0.1
+info:
+  title: Test for Issue 7125
+  description: desc
+  version: 1.0.0
+tags:
+  - name: verify-headers-validation
+    description: verify headers validation
+paths:
+  /test-headers-validation:
+    get:
+      tags:
+        - verify-headers-validation
+      summary: test headers validation
+      description: desc
+      operationId: headersValidationTest
+      parameters:
+        - name: stringWithMinLength
+          in: header
+          schema:
+            type: string
+            minLength: 32
+        - name: stringWithMaxLength
+          in: header
+          schema:
+            type: string
+            maxLength: 32
+        - name: stringWithLength
+          in: header
+          schema:
+            type: string
+            minLength: 32
+            maxLength: 32
+        - name: stringWithPattern
+          in: header
+          schema:
+            type: string
+            pattern: ^([0-9a-fA-F]{32})$
+      responses:
+        200:
+          description: default response
