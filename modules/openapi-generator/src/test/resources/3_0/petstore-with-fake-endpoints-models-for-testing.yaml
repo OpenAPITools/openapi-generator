@@ -1097,6 +1097,12 @@ paths:
             additionalProperties:
               type: string
               format: string
+        - name: allowEmpty
+          in: query
+          required: true
+          allowEmptyValue: true
+          schema:
+            type: string
       responses:
         "200":
           description: Success

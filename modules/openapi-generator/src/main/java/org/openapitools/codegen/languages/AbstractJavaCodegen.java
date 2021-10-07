@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -1001,7 +1002,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultParameterValue(final Schema<?> schema) {
-        Object defaultValue = schema.getDefault();
+        Object defaultValue = schema.get$ref() != null ? ModelUtils.getReferencedSchema(openAPI, schema).getDefault() : schema.getDefault();
         if (defaultValue == null) {
             return null;
         }
@@ -1087,7 +1088,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void setParameterExampleValue(CodegenParameter p) {
         String example;
 
-        if (p.defaultValue == null) {
+        boolean hasAllowableValues = p.allowableValues != null && !p.allowableValues.isEmpty();
+        if (hasAllowableValues) {
+            //support examples for inline enums
+            final List<Object> values = (List<Object>) p.allowableValues.get("values");
+            example = String.valueOf(values.get(0));
+        } else if (p.defaultValue == null) {
             example = p.example;
         } else {
             example = p.defaultValue;
@@ -1133,14 +1139,33 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             example = "new File(\"" + escapeText(example) + "\")";
         } else if ("Date".equals(type)) {
             example = "new Date()";
+        } else if ("LocalDate".equals(type)) {
+            if (example == null) {
+                example = "LocalDate.now()";
+            } else {
+                example = "LocalDate.parse(\"" + example + "\")";
+            }
         } else if ("OffsetDateTime".equals(type)) {
-            example = "OffsetDateTime.now()";
+            if (example == null) {
+                example = "OffsetDateTime.now()";
+            } else {
+                example = "OffsetDateTime.parse(\"" + example + "\")";
+            }
         } else if ("BigDecimal".equals(type)) {
-            example = "new BigDecimal(78)";
-        } else if (p.allowableValues != null && !p.allowableValues.isEmpty()) {
-            Map<String, Object> allowableValues = p.allowableValues;
-            List<Object> values = (List<Object>) allowableValues.get("values");
-            example = type + ".fromValue(\"" + String.valueOf(values.get(0)) + "\")";
+            if (example == null) {
+                example = "new BigDecimal(78)";
+            } else {
+                example = "new BigDecimal(\"" + example + "\")";
+            }
+        } else if ("UUID".equals(type)) {
+            if (example == null) {
+                example = "UUID.randomUUID()";
+            } else {
+                example = "UUID.fromString(\"" + example + "\")";
+            }
+        } else if (hasAllowableValues) {
+            //parameter is enum defined as a schema component
+            example = type + ".fromValue(\"" + example + "\")";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = "new " + type + "()";
@@ -1314,7 +1339,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
-            Collection<String> operationImports = new TreeSet<String>();
+            Collection<String> operationImports = new ConcurrentSkipListSet<String>();
             for (CodegenParameter p : op.allParams) {
                 if (importMapping.containsKey(p.dataType)) {
                     operationImports.add(importMapping.get(p.dataType));
@@ -1332,8 +1357,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return;
         }
         if (openAPI.getPaths() != null) {
-            for (String pathname : openAPI.getPaths().keySet()) {
-                PathItem path = openAPI.getPaths().get(pathname);
+            for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+                String pathname = openAPIGetPathsEntry.getKey();
+                PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() == null) {
                     continue;
                 }

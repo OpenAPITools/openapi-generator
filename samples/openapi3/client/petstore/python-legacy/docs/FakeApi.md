@@ -1130,7 +1130,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_query_parameter_collection_format**
-> test_query_parameter_collection_format(pipe, ioutil, http, url, context, language=language)
+> test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
 
 
 
@@ -1160,10 +1160,11 @@ ioutil = ['ioutil_example'] # list[str] |
 http = ['http_example'] # list[str] | 
 url = ['url_example'] # list[str] | 
 context = ['context_example'] # list[str] | 
+allow_empty = 'allow_empty_example' # str | 
 language = {'key': 'language_example'} # dict(str, str) |  (optional)
 
     try:
-        api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, language=language)
+        api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
     except ApiException as e:
         print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
 ```
@@ -1177,6 +1178,7 @@ Name | Type | Description  | Notes
  **http** | [**list[str]**](str.md)|  | 
  **url** | [**list[str]**](str.md)|  | 
  **context** | [**list[str]**](str.md)|  | 
+ **allow_empty** | **str**|  | 
  **language** | [**dict(str, str)**](str.md)|  | [optional] 
 
 ### Return type

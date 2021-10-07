@@ -7,6 +7,8 @@ NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
 
 set -e
 
+export NODE_ENV=test
+
 function cleanup {
   # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
   docker logs petstore.swagger # container name specified in circle.yml
@@ -20,15 +22,12 @@ if [ "$NODE_INDEX" = "1" ]; then
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
-  echo "show ivy2 cache"
-  ls -l /home/circleci/.ivy2/cache
-
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test haskell"
   # install haskell
-  curl -sSL https://get.haskellstack.org/ | sh
-  stack upgrade
-  stack --version
+  #curl -sSLk https://get.haskellstack.org/ | sh
+  #stack upgrade
+  #stack --version
   # prepare r
   sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
   gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
@@ -43,6 +42,21 @@ elif [ "$NODE_INDEX" = "2" ]; then
 
   # run integration tests
   mvn --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+elif [ "$NODE_INDEX" = "3" ]; then
+
+  echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
+  #wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
+  #tar -xf Python-3.8.9.tgz
+  #cd Python-3.8.9
+  #./configure --enable-optimizations
+  #sudo make altinstall
+  pyenv install --list 
+  pyenv install 3.6.3
+  pyenv global 3.6.3
+  python3 --version
+
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
   #sudo update-java-alternatives -s java-1.7.0-openjdk-amd64

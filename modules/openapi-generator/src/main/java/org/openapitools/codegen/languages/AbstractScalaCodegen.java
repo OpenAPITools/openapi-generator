@@ -73,13 +73,15 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "List",
                 "Seq",
                 "Map",
-                "Array"));
+                "Array",
+                "Byte"));
 
         reservedWords.addAll(Arrays.asList(
                 "abstract",
                 "case",
                 "catch",
                 "class",
+                "clone",
                 "def",
                 "do",
                 "else",
@@ -116,6 +118,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 "with",
                 "yield"
         ));
+
+        // Scala specific openApi types mapping
+        typeMapping.put("ByteArray", "Array[Byte]");
+
 
         importMapping = new HashMap<String, String>();
         importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
@@ -343,17 +349,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (ModelUtils.isSet(p)) {
             openAPIType = "set";
         }
-
-        String type;
+        // don't apply renaming on types from the typeMapping
         if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return toModelName(type);
-            }
-        } else {
-            type = openAPIType;
+            return typeMapping.get(openAPIType);
         }
-        return toModelName(type);
+        return toModelName(openAPIType);
     }
 
     @Override

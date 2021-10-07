@@ -1,0 +1,17 @@
+name: openapi
+version: 1.0.0
+description: OpenAPI API client
+homepage: homepage
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  dio_http: '>=5.0.0 <6.0.0'
+  built_value: '>=8.1.0 <9.0.0'
+  built_collection: '>=5.1.0 <6.0.0'
+
+dev_dependencies:
+  built_value_generator: '>=8.1.0 <9.0.0'
+  build_runner: any
+  test: '>=1.16.0 <1.17.0'
