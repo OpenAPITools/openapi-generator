@@ -17,13 +17,12 @@ This is a sample server Petstore server. For this sample, you can use the api ke
 Building the API client library requires:
 
 1. CMake 3.2+
-2. QT
+2. Qt
 3. C++ Compiler
 
 ## Getting Started
 
 example.h:
-
 ```c++
 
 #include <iostream>
@@ -39,8 +38,8 @@ public slots:
 };
 
 ```
-example.cpp:
 
+example.cpp:
 ```c++
 
 #include "../client/PFXPetApi.h"
@@ -117,7 +116,7 @@ Class | Method | HTTP request | Description
 
 Parameterized Servers are supported. Define a server in the API for each endpoint with arbitrary numbers of variables:
 
-```
+```yaml
 servers:
 - url: http://{server}:{port}/{basePath}
   description: Description of the Server
@@ -137,20 +136,20 @@ servers:
       default: v1
 ```
 To change the default variable, use this function in each Api:
-```
-    int setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);
+```c++
+int setDefaultServerValue(int serverIndex,const QString &operation, const QString &variable,const QString &val);
 ```
 The parameter "serverIndex" will choose a server from the server list for each endpoint. There is always at least one server with index 0. The Parameter "operation" should be the desired endpoint operationid.
 Variable is the name of the variable you wish to change and the value is the new default Value.
 The function will return -1 when the variable does not exists, -2 if value is not defined in the variable enum and -3 if the operation is not found.
 
 If your endpoint has multiple server objects in the servers array, you can set the server that will be used with this function:
-```
-    void setServerIndex(const QString &operation, int serverIndex);
+```c++
+void setServerIndex(const QString &operation, int serverIndex);
 ```
 Parameter "operation" should be your operationid. "serverIndex" is the index you want to set as your default server. The function will check if there is a server with your index.
 Here is an example of multiple servers in the servers array. The first server will have index 0 and the second will have index 1.
-```
+```yaml
 servers:
 - url: http://{server}:8080/
   description: Description of the Server
