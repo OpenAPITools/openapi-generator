@@ -1,4 +1,4 @@
-name: Samples Kotlin
+name: Gradle tests
 
 on:
   push:
@@ -11,11 +11,11 @@ on:
       - master
       - '[5-9]+.[0-9]+.x'
 env:
-  GRADLE_VERSION: 6.9
+  GRADLE_VERSION: 7.2
 
 jobs:
   build:
-    name: Build Kotlin
+    name: Gradle tests
     runs-on: ubuntu-latest
     container: gradle:jdk8
     strategy:
@@ -49,4 +49,4 @@ jobs:
 
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: ./gradlew build -x test
+        run: /bin/sh gradlew build -x test
