@@ -1,0 +1,52 @@
+name: Samples Kotlin
+
+on:
+  push:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
+      - gradle-test
+  pull_request:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
+env:
+  GRADLE_VERSION: 6.9
+
+jobs:
+  build:
+    name: Build Kotlin
+    runs-on: ubuntu-latest
+    container: gradle:jdk8
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/java/jersey2-java8-localdatetime
+          - samples/client/petstore/java/jersey2-java8
+          - samples/openapi3/client/extensions/x-auth-id-alias/java/jersey2-java8
+          - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
+          - samples/openapi3/client/petstore/java/jersey2-java8
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 8
+      # Cache Gradle Dependencies
+      - name: Setup Gradle Dependencies Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
+
+      # Cache Gradle Wrapper
+      - name: Setup Gradle Wrapper Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: ./gradlew build -x test
