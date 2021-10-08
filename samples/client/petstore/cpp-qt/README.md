@@ -74,44 +74,6 @@ void Example::exampleFunction1(){
 
 ```
 
-## Documentation for API Endpoints
-
-All URIs are relative to *http://petstore.swagger.io/v2*
-
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------
-*PFXPetApi* | [**addPet**](PFXPetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-*PFXPetApi* | [**deletePet**](PFXPetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-*PFXPetApi* | [**findPetsByStatus**](PFXPetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-*PFXPetApi* | [**findPetsByTags**](PFXPetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-*PFXPetApi* | [**getPetById**](PFXPetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-*PFXPetApi* | [**updatePet**](PFXPetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-*PFXPetApi* | [**updatePetWithForm**](PFXPetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-*PFXPetApi* | [**uploadFile**](PFXPetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-*PFXStoreApi* | [**deleteOrder**](PFXStoreApi.md#deleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
-*PFXStoreApi* | [**getInventory**](PFXStoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-*PFXStoreApi* | [**getOrderById**](PFXStoreApi.md#getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
-*PFXStoreApi* | [**placeOrder**](PFXStoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
-*PFXUserApi* | [**createUser**](PFXUserApi.md#createUser) | **POST** /user | Create user
-*PFXUserApi* | [**createUsersWithArrayInput**](PFXUserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-*PFXUserApi* | [**createUsersWithListInput**](PFXUserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-*PFXUserApi* | [**deleteUser**](PFXUserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user
-*PFXUserApi* | [**getUserByName**](PFXUserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name
-*PFXUserApi* | [**loginUser**](PFXUserApi.md#loginUser) | **GET** /user/login | Logs user into the system
-*PFXUserApi* | [**logoutUser**](PFXUserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
-*PFXUserApi* | [**updateUser**](PFXUserApi.md#updateUser) | **PUT** /user/{username} | Updated user
-
-
-## Documentation for Models
-
- - [PFXApiResponse](PFXApiResponse.md)
- - [PFXCategory](PFXCategory.md)
- - [PFXOrder](PFXOrder.md)
- - [PFXPet](PFXPet.md)
- - [PFXTag](PFXTag.md)
- - [PFXUser](PFXUser.md)
-
-
 ## Documentation for Servers
 
 Parameterized Servers are supported. Define a server in the API for each endpoint with arbitrary numbers of variables:
@@ -162,7 +124,6 @@ servers:
         default: 'petstore'
 - url: https://localhost:8080/v1
 ```
-
 
 ## Documentation for Authorization
 
