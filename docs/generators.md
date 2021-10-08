@@ -24,7 +24,6 @@ The following generators are available:
 * [dart](generators/dart.md)  
 * [dart-dio](generators/dart-dio.md)  
 * [dart-dio-next (experimental)](generators/dart-dio-next.md)  
-* [dart-jaguar (deprecated)](generators/dart-jaguar.md)  
 * [eiffel](generators/eiffel.md)  
 * [elixir](generators/elixir.md)  
 * [elm](generators/elm.md)  
