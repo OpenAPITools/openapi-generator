@@ -1,14 +1,19 @@
-name: Gradle tests
+name: Gradle tests (Java samples)
 
 on:
   push:
     branches:
       - master
       - '[5-9]+.[0-9]+.x'
+      - "java*"
+    paths:
+      - 'samples/client/petstore/java/**'
   pull_request:
     branches:
       - master
       - '[5-9]+.[0-9]+.x'
+    paths:
+      - 'samples/openapi3/client/petstore/java/**'
 env:
   GRADLE_VERSION: 7.2
 
@@ -18,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     container: gradle:jdk8
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         sample:
           - samples/client/petstore/java/jersey2-java8-localdatetime
