@@ -6,8 +6,6 @@ on:
       - master
       - '[5-9]+.[0-9]+.x'
       - "java*"
-    paths:
-      - 'samples/client/petstore/java/**'
   pull_request:
     branches:
       - master
