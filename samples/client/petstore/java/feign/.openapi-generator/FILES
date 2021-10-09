@@ -16,6 +16,7 @@ src/main/AndroidManifest.xml
 src/main/java/org/openapitools/client/ApiClient.java
 src/main/java/org/openapitools/client/CustomInstantDeserializer.java
 src/main/java/org/openapitools/client/EncodingUtils.java
+src/main/java/org/openapitools/client/JacksonResponseDecoder.java
 src/main/java/org/openapitools/client/ParamExpander.java
 src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
@@ -59,6 +60,7 @@ src/main/java/org/openapitools/client/model/Foo.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
 src/main/java/org/openapitools/client/model/HealthCheckResult.java
+src/main/java/org/openapitools/client/model/HttpResponse.java
 src/main/java/org/openapitools/client/model/InlineResponseDefault.java
 src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java

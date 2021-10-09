@@ -2,7 +2,7 @@
 id: integrations
 title: Workflow Integrations
 ---
-## Workflow Integration (Maven, GitHub, CI/CD)
+## Workflow Integration (Gradle, Maven, GitHub, CI/CD)
 
 ### Gradle Integration
 
