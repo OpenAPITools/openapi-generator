@@ -218,12 +218,6 @@
       ]
     },
     {
-      "input": "flash-petstore.sh",
-      "matches": [
-        "Client: Flash/ActionScript"
-      ]
-    },
-    {
       "input": "go-gin-petstore-server.sh",
       "matches": [
         "Server: Go"
