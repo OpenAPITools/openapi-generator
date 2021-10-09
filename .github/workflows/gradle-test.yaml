@@ -31,6 +31,10 @@ jobs:
           - samples/openapi3/client/extensions/x-auth-id-alias/java/jersey2-java8
           - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
           - samples/openapi3/client/petstore/java/jersey2-java8
+          - samples/client/petstore/java/okhttp-gson
+          - samples/client/petstore/java/rest-assured
+          - samples/client/petstore/java/resteasy
+          - samples/client/petstore/java/resttemplate
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
