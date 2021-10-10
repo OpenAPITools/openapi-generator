@@ -51,9 +51,6 @@ import java.util.concurrent.Callable;
 {{/jdk8}}
 {{>generatedAnnotation}}
 @Controller
-{{=<% %>=}}
-@RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
-<%={{ }}=%>
 {{#operations}}
 public class {{classname}}Controller implements {{classname}} {
 {{#isDelegate}}
