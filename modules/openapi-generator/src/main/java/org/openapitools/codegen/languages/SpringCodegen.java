@@ -21,6 +21,8 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -38,6 +40,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
+import java.util.Map.Entry;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -234,6 +237,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         super.processOpts();
 
+        useOneOfInterfaces = true;
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
         //TODO: add doc templates
@@ -581,6 +585,27 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
+    protected void addOneOfForComposedSchema(Entry<String, Schema> stringSchemaEntry, String modelName, ComposedSchema composedSchema,
+                                             String nOneOf, OpenAPI openAPI) {
+        addOneOfNameExtension(composedSchema, modelName);
+        addOneOfInterfaceModel(composedSchema, modelName, openAPI);
+    }
+    @Override
+    protected void addOneOfForComposedSchemaArray(String nOneOf, String modelName,
+                                                  ComposedSchema composedSchema, OpenAPI openAPI) {
+        addOneOfNameExtension(composedSchema, modelName);
+        addOneOfInterfaceModel(composedSchema, modelName, openAPI);
+    }
+
+    @Override
+    protected String getCodegenModelName(CodegenProperty codegenProperty) {
+        return codegenProperty.getComplexType();
+    }
+
+    @Override
+    protected void addAdditionalImports(Set<String> imports, String complexType) { }
+
+    @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
@@ -881,4 +906,18 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
     }
+
+    @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+            Map<String, String> oneImport = new HashMap<String, String>() {{
+                put("import", importMapping.get(i));
+            }};
+            if (!imports.contains(oneImport)) {
+                imports.add(oneImport);
+            }
+        }
+    }
+
 }
+
