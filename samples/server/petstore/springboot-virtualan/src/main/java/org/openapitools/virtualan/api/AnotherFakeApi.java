@@ -26,6 +26,7 @@ import java.util.Optional;
 @Validated
 @Api(value = "another-fake", description = "the another-fake API")
 @VirtualService
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface AnotherFakeApi {
 
     default Optional<NativeWebRequest> getRequest() {

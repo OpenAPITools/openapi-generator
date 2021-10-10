@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
-@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class UserApiController implements UserApi {
 
     private final NativeWebRequest request;

@@ -25,6 +25,7 @@ import java.util.concurrent.CompletableFuture;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "store", description = "the store API")
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface StoreApi {
 
     default Optional<NativeWebRequest> getRequest() {

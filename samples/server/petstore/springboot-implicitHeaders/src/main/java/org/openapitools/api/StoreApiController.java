@@ -6,7 +6,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import java.util.Optional;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
-@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class StoreApiController implements StoreApi {
 
     private final NativeWebRequest request;

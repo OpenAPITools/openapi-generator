@@ -24,6 +24,7 @@ import java.util.Optional;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "test-headers", description = "the test-headers API")
+@RequestMapping("${openapi.toto.base-path:}")
 public interface TestHeadersApi {
 
     default Optional<NativeWebRequest> getRequest() {

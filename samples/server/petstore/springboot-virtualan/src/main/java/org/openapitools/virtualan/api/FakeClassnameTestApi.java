@@ -26,6 +26,7 @@ import java.util.Optional;
 @Validated
 @Api(value = "fake_classname_test", description = "the fake_classname_test API")
 @VirtualService
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface FakeClassnameTestApi {
 
     default Optional<NativeWebRequest> getRequest() {

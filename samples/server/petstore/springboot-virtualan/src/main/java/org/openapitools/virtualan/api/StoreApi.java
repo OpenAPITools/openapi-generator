@@ -27,6 +27,7 @@ import java.util.Optional;
 @Validated
 @Api(value = "store", description = "the store API")
 @VirtualService
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface StoreApi {
 
     default Optional<NativeWebRequest> getRequest() {

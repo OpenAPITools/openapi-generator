@@ -24,6 +24,7 @@ import java.util.Optional;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "test-query-params", description = "the test-query-params API")
+@RequestMapping("${openapi.toto.base-path:}")
 public interface TestQueryParamsApi {
 
     default Optional<NativeWebRequest> getRequest() {
