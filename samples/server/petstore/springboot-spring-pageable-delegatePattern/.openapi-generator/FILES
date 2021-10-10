@@ -1,4 +1,5 @@
 README.md
+build.gradle
 pom.xml
 src/main/java/org/openapitools/OpenAPI2SpringBoot.java
 src/main/java/org/openapitools/RFC3339DateFormat.java
