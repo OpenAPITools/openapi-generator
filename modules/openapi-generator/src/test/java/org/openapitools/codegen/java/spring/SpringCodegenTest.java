@@ -544,6 +544,22 @@ public class SpringCodegenTest {
                 "List<MultipartFile> files",
                 "MultipartFile file");
     }
+    
+    @Test
+    public void testRequestMappingAnnotation() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-boot");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/2_0/petstore.yaml");
+
+        // Check that the @RequestMapping annotation is generated in the Api file
+        final File petApiFile = files.get("PetApi.java");
+        assertFileContains(petApiFile.toPath(), "@RequestMapping(\"${openapi.openAPIPetstore.base-path:/v2}\")");
+
+        // Check that the @RequestMapping annotation is not generated in the Controller file
+        final File petApiControllerFile = files.get("PetApiController.java");
+        assertFileNotContains(petApiControllerFile.toPath(), "@RequestMapping(\"${openapi.openAPIPetstore.base-path:/v2}\")");
+    }
 
     @Test
     public void testSettersForConfigValues() throws Exception {
