@@ -271,10 +271,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION_DESC,
         this.conditionalSerialization);     
         
-        addSwitch(CodegenConstants.OPTIONAL_AllOW_DEFAULTVALUE,
-        CodegenConstants.OPTIONAL_AllOW_DEFAULTVALUE_DESC,
-        this.allowDefaultValue);
-
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
                 this.optionalProjectFileFlag);
@@ -558,12 +554,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION, conditionalSerialization);
         }
         
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_AllOW_DEFAULTVALUE)) {
-            setConditionalSerialization(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_AllOW_DEFAULTVALUE));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_AllOW_DEFAULTVALUE, allowDefaultValue);
-        }
-
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
