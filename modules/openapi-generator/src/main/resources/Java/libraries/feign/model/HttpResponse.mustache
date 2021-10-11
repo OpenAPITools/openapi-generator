@@ -9,9 +9,12 @@ public class HttpResponse<T>{
 
   private T body;
 
-  public HttpResponse(Map<String, Collection<String>> headers, T body) {
+  private int status;
+
+  public HttpResponse(Map<String, Collection<String>> headers, T body, int status) {
     this.headers = headers;
     this.body = body;
+    this.status = status;
   }
 
   public T getBody(){
@@ -20,5 +23,9 @@ public class HttpResponse<T>{
 
   public Map<String, Collection<String>> getHeaders(){
     return headers;
+  }
+
+  public int getStatus(){
+    return status;
   }
 }
