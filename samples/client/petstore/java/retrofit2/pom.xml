@@ -247,9 +247,9 @@
                 <version>${threetenbp-version}</version>
             </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- test dependencies -->
@@ -269,7 +269,7 @@
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
         <retrofit-version>2.5.0</retrofit-version>
         <threetenbp-version>1.4.0</threetenbp-version>
-        <javax-annotation-version>1.3.2</javax-annotation-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <oltu-version>1.0.1</oltu-version>
         <junit-version>4.13.1</junit-version>
     </properties>

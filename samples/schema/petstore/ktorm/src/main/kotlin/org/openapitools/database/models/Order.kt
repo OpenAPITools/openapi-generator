@@ -44,7 +44,7 @@ object Orders : BaseTable<Order>("Order") {
         quantity = row[quantity]  /* kotlin.Int? */,
         shipDate = row[shipDate]  /* java.time.LocalDateTime? */,
         status = row[status]  /* kotlin.String? */ /* Order Status */,
-        complete = row[complete]  /* kotlin.Boolean? */
+        complete = row[complete] ?: false /* kotlin.Boolean? */
     )
 
     /**
