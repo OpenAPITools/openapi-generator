@@ -11,9 +11,14 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import okhttp3.internal.EMPTY_REQUEST
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.io.IOException
 import java.net.URLConnection
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -99,9 +104,16 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> Serializer.moshi.adapter(T::class.java).toJson(content).toRequestBody(
-                mediaType.toMediaTypeOrNull()
-            )
+            mediaType == JsonMediaType -> {
+                if (content == null) {
+                    EMPTY_REQUEST
+                } else {
+                    Serializer.moshi.adapter(T::class.java).toJson(content)
+                        .toRequestBody(
+                            mediaType.toMediaTypeOrNull()
+                        )
+                }
+            }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
@@ -178,6 +190,7 @@ open class ApiClient(val baseUrl: String) {
         }.build()
 
         val response = client.newCall(request).execute()
+
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>

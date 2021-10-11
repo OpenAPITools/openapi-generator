@@ -208,7 +208,7 @@ func (h *HttpSignatureAuth) parsePrivateKey(priv []byte) error {
 		privKey, err = x509.DecryptPEMBlock(pemBlock, []byte(h.Passphrase))
 		if err != nil {
 			// Failed to decrypt PEM block. Because of deficiencies in the encrypted-PEM format,
-			// it's not always possibleto detect an incorrect password.
+			// it's not always possible to detect an incorrect password.
 			return err
 		}
 	} else {

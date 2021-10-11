@@ -4,7 +4,7 @@ This is a generated client based on [Micronaut](https://micronaut.io/) framework
 
 ## Configuration
 
-A Micronaut's application can be created by defyning a main class and running:
+A Micronaut's application can be created by defining a main class and running:
 ```java
 import io.micronaut.runtime.Micronaut;
 import io.micronaut.context.ApplicationContext;

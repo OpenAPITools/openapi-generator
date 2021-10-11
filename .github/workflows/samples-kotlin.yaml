@@ -56,7 +56,7 @@ jobs:
             ~/.gradle
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Install Gradle wrapper
-        uses: eskatos/gradle-command-action@v1
+        uses: eskatos/gradle-command-action@v2
         with:
           gradle-version: ${{ env.GRADLE_VERSION }}
           build-root-directory: ${{ matrix.sample }}

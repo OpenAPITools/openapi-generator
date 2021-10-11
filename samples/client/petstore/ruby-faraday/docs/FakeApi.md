@@ -20,7 +20,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
 | [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
 | [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data |
-| [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters |  |
+| [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters |  |
 
 
 ## fake_health_get
@@ -1115,7 +1115,7 @@ No authorization required
 
 ## test_query_parameter_collection_format
 
-> test_query_parameter_collection_format(pipe, ioutil, http, url, context, opts)
+> test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, opts)
 
 
 
@@ -1133,13 +1133,14 @@ ioutil = ['inner_example'] # Array<String> |
 http = ['inner_example'] # Array<String> | 
 url = ['inner_example'] # Array<String> | 
 context = ['inner_example'] # Array<String> | 
+allow_empty = 'allow_empty_example' # String | 
 opts = {
   language: { key: 'inner_example'} # Hash<String, String> | 
 }
 
 begin
   
-  api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, opts)
+  api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, opts)
 rescue Petstore::ApiError => e
   puts "Error when calling FakeApi->test_query_parameter_collection_format: #{e}"
 end
@@ -1149,12 +1150,12 @@ end
 
 This returns an Array which contains the response data (`nil` in this case), status code and headers.
 
-> <Array(nil, Integer, Hash)> test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, opts)
+> <Array(nil, Integer, Hash)> test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, opts)
 
 ```ruby
 begin
   
-  data, status_code, headers = api_instance.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, opts)
+  data, status_code, headers = api_instance.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, opts)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => nil
@@ -1172,6 +1173,7 @@ end
 | **http** | [**Array&lt;String&gt;**](String.md) |  |  |
 | **url** | [**Array&lt;String&gt;**](String.md) |  |  |
 | **context** | [**Array&lt;String&gt;**](String.md) |  |  |
+| **allow_empty** | **String** |  |  |
 | **language** | [**Hash&lt;String, String&gt;**](String.md) |  | [optional] |
 
 ### Return type

@@ -95,7 +95,7 @@ test_script:
   # generate all petstore clients (openapi3)
   # - .\bin\openapi3\windows\run-all-petstore.cmd
 
-  # test ps pestore
+  # test ps petstore
   - ps: |
       $ErrorActionPreference = "Stop"
       cd samples\client\petstore\powershell\

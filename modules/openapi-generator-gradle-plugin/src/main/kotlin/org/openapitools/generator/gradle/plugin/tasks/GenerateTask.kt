@@ -644,6 +644,8 @@ open class GenerateTask : DefaultTask() {
             engine.ifNotEmpty { value ->
                 if ("handlebars".equals(value, ignoreCase = true)) {
                     configurator.setTemplatingEngineName("handlebars")
+                } else {
+                    configurator.setTemplatingEngineName(value)
                 }
             }
 

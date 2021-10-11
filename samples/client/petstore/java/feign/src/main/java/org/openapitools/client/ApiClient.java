@@ -23,6 +23,7 @@ import feign.slf4j.Slf4jLogger;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
+import org.openapitools.client.JacksonResponseDecoder;
 
 import org.openapitools.client.auth.ApiErrorDecoder;
 import org.openapitools.client.auth.OAuth;
@@ -49,7 +50,7 @@ public class ApiClient {
     feignBuilder = Feign.builder()
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
-                .decoder(new JacksonDecoder(objectMapper))
+                .decoder(new JacksonResponseDecoder(objectMapper))
                 .errorDecoder(new ApiErrorDecoder())
                 .retryer(new Retryer.Default(0, 0, 2))
                 .logger(new Slf4jLogger());
@@ -285,7 +286,7 @@ public class ApiClient {
 
   /**
    * Gets request interceptor based on authentication name
-   * @param authName Authentiation name
+   * @param authName Authentication name
    * @return Request Interceptor
    */
   public RequestInterceptor getAuthorization(String authName) {
