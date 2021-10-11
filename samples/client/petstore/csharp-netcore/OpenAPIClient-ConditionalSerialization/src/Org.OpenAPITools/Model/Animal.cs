@@ -56,8 +56,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("className is a required property for Animal and cannot be null");
             }
             this._ClassName = className;
-            // use default value if no "color" provided
-            this.Color = color ?? "red";
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

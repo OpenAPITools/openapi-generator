@@ -7,7 +7,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|allowDefaultValue|This flag works with conditionalSerialization, when it is set to false it does not initialize the property with default value specified in openAPIDoc, default value is true.| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |caseInsensitiveResponseHeaders|Make API response's headers case-insensitive| |false|
 |conditionalSerialization|Serialize only those properties which are initialized by user, accepted values are true or false, default value is false.| |false|
