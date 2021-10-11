@@ -211,11 +211,13 @@
     </profiles>
 
     <dependencies>
+        {{#swaggerAnnotations}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        {{/swaggerAnnotations}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -305,7 +307,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vertx-version>3.4.2</vertx-version>
+        {{#swaggerAnnotations}}
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        {{/swaggerAnnotations}}
         <jackson-version>2.10.5</jackson-version>
         <jackson-databind>2.10.5.1</jackson-databind>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>

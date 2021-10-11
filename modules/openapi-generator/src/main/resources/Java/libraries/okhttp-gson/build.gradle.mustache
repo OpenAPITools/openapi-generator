@@ -106,7 +106,9 @@ ext {
 }
 
 dependencies {
+    {{#swaggerAnnotations}}
     implementation 'io.swagger:swagger-annotations:1.5.24'
+    {{/swaggerAnnotations}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'

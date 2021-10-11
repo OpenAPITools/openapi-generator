@@ -99,7 +99,9 @@ test {
 }
 
 ext {
+    {{#swaggerAnnotations}}
     swagger_annotations_version = "1.5.24"
+    {{/swaggerAnnotations}}
     jackson_version = "2.10.3"
     jackson_databind_version = "2.10.3"
     {{#openApiNullable}}
@@ -116,7 +118,9 @@ ext {
 }
 
 dependencies {
+    {{#swaggerAnnotations}}
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    {{/swaggerAnnotations}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "io.github.openfeign:feign-core:$feign_version"
     implementation "io.github.openfeign:feign-jackson:$feign_version"

@@ -42,7 +42,9 @@ lazy val root = (project in file(".")).
       "com.github.akarnokd" % "rxjava3-retrofit-adapter" % "3.0.0" % "compile",
       "io.reactivex.rxjava3" % "rxjava" % "3.0.4" % "compile",
       {{/useRxJava3}}
+      {{#swaggerAnnotations}}
       "io.swagger" % "swagger-annotations" % "1.5.21" % "compile",
+      {{/swaggerAnnotations}}
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1" % "compile",
       {{#joda}}
       "joda-time" % "joda-time" % "2.9.9" % "compile",

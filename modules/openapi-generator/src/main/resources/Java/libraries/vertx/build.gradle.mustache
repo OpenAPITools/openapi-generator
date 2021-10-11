@@ -27,7 +27,9 @@ task execute(type:JavaExec) {
 }
 
 ext {
+    {{#swaggerAnnotations}}
     swagger_annotations_version = "1.5.21"
+    {{/swaggerAnnotations}}
     jackson_version = "2.10.5"
     jackson_databind_version = "2.10.5.1"
     vertx_version = "3.4.2"
@@ -42,7 +44,9 @@ ext {
 }
 
 dependencies {
+    {{#swaggerAnnotations}}
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    {{/swaggerAnnotations}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "io.vertx:vertx-web-client:$vertx_version"
     implementation "io.vertx:vertx-rx-java:$vertx_version"

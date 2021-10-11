@@ -126,7 +126,9 @@ ext {
     play_version = "2.6.7"
     {{/play26}}
     {{/usePlayWS}}
+    {{#swaggerAnnotations}}
     swagger_annotations_version = "1.5.22"
+    {{/swaggerAnnotations}}
     junit_version = "4.13.1"
     {{#useRxJava}}
     rx_java_version = "1.3.0"
@@ -162,7 +164,9 @@ dependencies {
     implementation 'com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0'
     implementation "io.reactivex.rxjava3:rxjava:$rx_java_version"
     {{/useRxJava3}}
+    {{#swaggerAnnotations}}
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    {{/swaggerAnnotations}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation ("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"){
         exclude group:'org.apache.oltu.oauth2' , module: 'org.apache.oltu.oauth2.common'

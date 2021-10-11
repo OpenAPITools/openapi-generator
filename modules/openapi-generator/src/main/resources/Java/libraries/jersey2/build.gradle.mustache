@@ -108,7 +108,9 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
+    {{#swaggerAnnotations}}
     swagger_annotations_version = "1.5.22"
+    {{/swaggerAnnotations}}
     jackson_version = "2.10.5"
     jackson_databind_version = "2.10.5.1"
     {{#openApiNullable}}
@@ -129,7 +131,9 @@ ext {
 }
 
 dependencies {
+    {{#swaggerAnnotations}}
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    {{/swaggerAnnotations}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "org.glassfish.jersey.core:jersey-client:$jersey_version"
     implementation "org.glassfish.jersey.inject:jersey-hk2:$jersey_version"

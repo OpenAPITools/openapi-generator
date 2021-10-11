@@ -161,11 +161,13 @@
     </profiles>
 
     <dependencies>
+        {{#swaggerAnnotations}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        {{/swaggerAnnotations}}
 
         <!-- JSON processing: jackson -->
         <dependency>
@@ -225,7 +227,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        {{#swaggerAnnotations}}
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        {{/swaggerAnnotations}}
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <jackson-version>2.10.4</jackson-version>

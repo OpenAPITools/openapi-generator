@@ -9,7 +9,9 @@ lazy val root = (project in file(".")).
     publishArtifact in (Compile, packageDoc) := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
+      {{#swaggerAnnotations}}
       "io.swagger" % "swagger-annotations" % "1.5.22",
+      {{/swaggerAnnotations}}
       "org.glassfish.jersey.core" % "jersey-client" % "2.27",
       "org.glassfish.jersey.inject" % "jersey-hk2" % "2.27",
       "org.glassfish.jersey.media" % "jersey-media-multipart" % "2.27",

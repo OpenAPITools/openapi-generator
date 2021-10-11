@@ -217,11 +217,13 @@
     </profiles>
 
     <dependencies>
+        {{#swaggerAnnotations}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-core-version}</version>
         </dependency>
+        {{/swaggerAnnotations}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>

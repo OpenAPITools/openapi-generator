@@ -211,11 +211,13 @@
     </profiles>
 
     <dependencies>
+        {{#swaggerAnnotations}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        {{/swaggerAnnotations}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -315,7 +317,9 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        {{#swaggerAnnotations}}
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
+        {{/swaggerAnnotations}}
         <spring-web-version>5.2.5.RELEASE</spring-web-version>
         <jackson-version>2.10.5</jackson-version>
         <jackson-databind-version>2.10.5.1</jackson-databind-version>
