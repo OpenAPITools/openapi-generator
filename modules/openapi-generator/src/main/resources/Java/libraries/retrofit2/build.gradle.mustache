@@ -55,7 +55,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -115,6 +115,7 @@ ext {
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
     {{/openApiNullable}}
+    jakarta_annotation_version = "1.3.5"
     {{#play24}}
     play_version = "2.4.11"
     {{/play24}}
@@ -176,7 +177,7 @@ dependencies {
     {{#usePlayWS}}
     {{#play26}}
     implementation "com.typesafe.play:play-ahc-ws_2.12:$play_version"
-    implementation "javax.validation:validation-api:1.1.0.Final"
+    implementation "jakarta.validation:jakarta.validation-api:2.0.2"
     {{/play26}}
     {{^play26}}
     implementation "com.typesafe.play:play-java-ws_2.11:$play_version"
@@ -190,6 +191,6 @@ dependencies {
     {{/openApiNullable}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}:$jackson_version"
     {{/usePlayWS}}
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }

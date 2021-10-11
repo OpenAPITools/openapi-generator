@@ -197,12 +197,14 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     protected void generateParameterSchemas(OpenAPI openAPI) {
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
-            for (String pathname : paths.keySet()) {
-                PathItem path = paths.get(pathname);
+            for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+                String pathname = pathsEntry.getKey();
+                PathItem path = pathsEntry.getValue();
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (HttpMethod method : operationMap.keySet()) {
-                        Operation operation = operationMap.get(method);
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                        HttpMethod method = operationMapEntry.getKey();
+                        Operation operation = operationMapEntry.getValue();
                         Map<String, Schema> propertySchemas = new HashMap<>();
                         if (operation == null || operation.getParameters() == null) {
                             continue;

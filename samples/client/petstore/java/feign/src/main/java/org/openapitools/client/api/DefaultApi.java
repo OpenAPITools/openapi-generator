@@ -2,6 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
+import org.openapitools.client.model.HttpResponse;
 
 import org.openapitools.client.model.InlineResponseDefault;
 
@@ -25,4 +26,18 @@ public interface DefaultApi extends ApiClient.Api {
     "Accept: application/json",
   })
   InlineResponseDefault fooGet();
+
+  /**
+   * 
+   * Similar to <code>fooGet</code> but it also returns the http response headers .
+   * 
+   * @return A HttpResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /foo")
+  @Headers({
+    "Accept: application/json",
+  })
+  HttpResponse<InlineResponseDefault> fooGetWithHttpInfo();
+
+
 }

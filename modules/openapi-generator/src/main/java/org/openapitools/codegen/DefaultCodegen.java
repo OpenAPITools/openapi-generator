@@ -49,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -541,8 +542,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // Let parent know about all its children
-        for (String name : allModels.keySet()) {
-            CodegenModel cm = allModels.get(name);
+        for (Map.Entry<String, CodegenModel> allModelsEntry : allModels.entrySet()) {
+            String name = allModelsEntry.getKey();
+            CodegenModel cm = allModelsEntry.getValue();
             CodegenModel parent = allModels.get(cm.getParent());
             // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy
             // TODO Determine what to do if the parent discriminator name == the grandparent discriminator name
@@ -2381,7 +2383,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
 
-    private void updateModelForComposedSchema(CodegenModel m, Schema schema, Map<String, Schema> allDefinitions) {
+    protected void updateModelForComposedSchema(CodegenModel m, Schema schema, Map<String, Schema> allDefinitions) {
         final ComposedSchema composed = (ComposedSchema) schema;
         Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
         List<String> required = new ArrayList<String>();
@@ -2596,6 +2598,8 @@ public class DefaultCodegen implements CodegenConfig {
             // additionalProperties must be null, ObjectSchema, or empty Schema
             addAdditionPropertiesToCodeGenModel(m, schema);
         }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
     }
 
     protected void updateModelForAnyType(CodegenModel m, Schema schema) {
@@ -2614,6 +2618,8 @@ public class DefaultCodegen implements CodegenConfig {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
     }
 
 
@@ -2776,9 +2782,6 @@ public class DefaultCodegen implements CodegenConfig {
             Collections.sort(m.allVars, comparator);
         }
 
-        // process 'additionalProperties'
-        setAddProps(schema, m);
-
         // post process model properties
         if (m.vars != null) {
             for (CodegenProperty prop : m.vars) {
@@ -2794,7 +2797,7 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
+    protected void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
         if (schema.equals(new Schema())) {
             // if we are trying to set additionalProperties on an empty schema stop recursing
             return;
@@ -3949,8 +3952,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
-            for (String key : operation.getResponses().keySet()) {
-                ApiResponse response = operation.getResponses().get(key);
+            for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
+                String key = operationGetResponsesEntry.getKey();
+                ApiResponse response = operationGetResponsesEntry.getValue();
                 addProducesInfo(response, op);
                 CodegenResponse r = fromResponse(key, response);
                 if (r.baseType != null &&
@@ -5109,14 +5113,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // loop through list to update property name with toVarName
-        Set<String> renamedMandatory = new TreeSet<String>();
+        Set<String> renamedMandatory = new ConcurrentSkipListSet<String>();
         Iterator<String> mandatoryIterator = m.mandatory.iterator();
         while (mandatoryIterator.hasNext()) {
             renamedMandatory.add(toVarName(mandatoryIterator.next()));
         }
         m.mandatory = renamedMandatory;
 
-        Set<String> renamedAllMandatory = new TreeSet<String>();
+        Set<String> renamedAllMandatory = new ConcurrentSkipListSet<String>();
         Iterator<String> allMandatoryIterator = m.allMandatory.iterator();
         while (allMandatoryIterator.hasNext()) {
             renamedAllMandatory.add(toVarName(allMandatoryIterator.next()));
@@ -6058,7 +6062,7 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
 
-        Set<String> produces = new TreeSet<String>();
+        Set<String> produces = new ConcurrentSkipListSet<String>();
 
         for (ApiResponse r : operation.getResponses().values()) {
             ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, r);
