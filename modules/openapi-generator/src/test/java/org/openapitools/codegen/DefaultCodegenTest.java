@@ -1137,10 +1137,15 @@ public class DefaultCodegenTest {
         Assert.assertNull(reptile.discriminator);
 
         // the MyPets discriminator contains Cat and Lizard
+        List<String> myPetsModelNames = Arrays.asList("Cat", "Lizard");
         CodegenDiscriminator myPetDisc = new CodegenDiscriminator();
         myPetDisc.setPropertyName(propertyName);
         myPetDisc.setPropertyBaseName(propertyBaseName);
         hs.clear();
+        for (String myPetsModelName: myPetsModelNames) {
+            hs.add(new CodegenDiscriminator.MappedModel(myPetsModelName, codegen.toModelName(myPetsModelName)));
+        }
+        myPetDisc.setMappedModels(hs);
         modelName = "MyPets";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel myPets = codegen.fromModel(modelName, sc);

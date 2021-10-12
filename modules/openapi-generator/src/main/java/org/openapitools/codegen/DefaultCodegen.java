@@ -820,7 +820,7 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        if (useOneOfInterfaces) {
+        if (useOneOfInterfaces && openAPI.getComponents() != null) {
             // we process the openapi schema here to find oneOf schemas and create interface models for them
             Map<String, Schema> schemas = new HashMap<String, Schema>(openAPI.getComponents().getSchemas());
             if (schemas == null) {
@@ -2661,14 +2661,33 @@ public class DefaultCodegen implements CodegenConfig {
         m.classFilename = toModelFilename(name);
         m.modelJson = Json.pretty(schema);
         m.externalDocumentation = schema.getExternalDocs();
-        if (schema.getExtensions() != null && !schema.getExtensions().isEmpty()) {
-            m.getVendorExtensions().putAll(schema.getExtensions());
-        }
         m.isAlias = (typeAliases.containsKey(name)
                 || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
         m.setDiscriminator(createDiscriminator(name, schema, this.openAPI));
         if (!this.getLegacyDiscriminatorBehavior()) {
             m.addDiscriminatorMappedModelsImports();
+        }
+
+        if (schema.getExtensions() != null && !schema.getExtensions().isEmpty()) {
+            m.getVendorExtensions().putAll(schema.getExtensions());
+            if (ModelUtils.isComposedSchema(schema)
+                    && m.discriminator == null
+                    && schema.getExtensions().containsKey("x-one-of-name")) {
+                boolean isDeductionCase = true;
+                List<String> deductionModelNames = new ArrayList<>();
+                for (Schema modelSchema : ((ComposedSchema) schema).getOneOf()) {
+                    if (modelSchema.get$ref() == null) {
+                        isDeductionCase = false;
+                        break;
+                    }
+                    String modelName = ModelUtils.getSimpleRef(modelSchema.get$ref());
+                    deductionModelNames.add(toModelName(modelName));
+                }
+                if (isDeductionCase) {
+                    m.vendorExtensions.put("x-deduction", true);
+                    m.vendorExtensions.put("x-deduction-model-names", deductionModelNames);
+                }
+            }
         }
 
         if (schema.getDeprecated() != null) {
@@ -3197,7 +3216,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
-        if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
+        if (ModelUtils.isComposedSchema(schema)) {
             List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discPropName, (ComposedSchema) schema, openAPI);
             for (MappedModel otherDescendant : otherDescendants) {
                 if (!uniqueDescendants.contains(otherDescendant)) {
@@ -4223,6 +4242,11 @@ public class DefaultCodegen implements CodegenConfig {
         } else { // no model/alias defined
             responseSchema = ModelUtils.getSchemaFromResponse(response);
         }
+
+        if (!ModelUtils.isSchemaOneOfConsistsOfCustomTypes(this.openAPI, responseSchema)) {
+            responseSchema = new Schema();
+        }
+
         r.schema = responseSchema;
 
         r.message = escapeText(response.getDescription());

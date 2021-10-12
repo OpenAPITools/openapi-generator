@@ -135,6 +135,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         modelPackage = "org.openapitools.model";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-spring";
+        useOneOfInterfaces = true;
+        addOneOfInterfaceImports = true;
 
         // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
@@ -867,6 +869,19 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         return objs;
+    }
+
+    @Override
+    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
+        if (additionalProperties.containsKey(JACKSON)) {
+            for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
+                Map<String, String> oneImport = new HashMap<>();
+                oneImport.put("import", importMapping.get(i));
+                if (!imports.contains(oneImport)) {
+                    imports.add(oneImport);
+                }
+            }
+        }
     }
 
     public void setUseBeanValidation(boolean useBeanValidation) {

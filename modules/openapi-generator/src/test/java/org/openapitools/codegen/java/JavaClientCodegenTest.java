@@ -17,8 +17,10 @@
 
 package org.openapitools.codegen.java;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.io.File;
@@ -43,6 +45,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -55,7 +58,9 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.ImmutableMap;
@@ -1227,5 +1232,131 @@ public class JavaClientCodegenTest {
 
         final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
         TestUtils.assertFileContains(defaultApi, "value instanceof Map");
+    }
+
+    @Test(dataProvider = "librariesToSpecificationsCartesianProduct")
+    public void oneOfModelsGeneration(String library, String specificationFile) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/" + specificationFile);
+        final CodegenConfig codegen = new JavaClientCodegen();
+        ((JavaClientCodegen)codegen).setSerializationLibrary(JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
+        codegen.setLibrary(library);
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        final String responseCode = "200";
+        final String extension = "x-one-of-name";
+        final Operation operation = openAPI.getPaths().get("/addFruits").getPost();
+        List<String> oneOfModels = new ArrayList<>();
+
+        // If response body contains oneOf definition - add OneOf model
+        final ApiResponse apiResponse = operation.getResponses().get(responseCode);
+        final Schema responseSchema = ModelUtils.getSchemaFromResponse(apiResponse);
+        if (ModelUtils.isArraySchema(responseSchema)) {
+            Schema responseItems = ((ArraySchema) responseSchema).getItems();
+            if (responseItems.get$ref() == null) {
+                oneOfModels.add((String) (responseItems.getExtensions().get(extension)));
+            }
+        }
+
+        // If request body contains oneOf definition - add OneOf model
+        final RequestBody requestBody = operation.getRequestBody();
+        final Schema requestSchema = ModelUtils.getSchemaFromRequestBody(requestBody);
+        if (ModelUtils.isArraySchema(requestSchema)) {
+            Schema requestItems = ((ArraySchema) requestSchema).getItems();
+            if (requestItems.get$ref() == null) {
+                oneOfModels.add((String) (requestItems.getExtensions().get(extension)));
+            }
+        }
+
+        List<String> models = new ArrayList<>();
+        // If model contains discriminator - add to OneOf models, otherwise - generic models
+        openAPI.getComponents().getSchemas().forEach((modelName, modelSchema) -> {
+            if (modelSchema.getDiscriminator() != null || (modelSchema.getExtensions() != null && modelSchema.getExtensions().containsKey("x-one-of-name"))) {
+                oneOfModels.add(modelName);
+            } else {
+                // exclude allOf models
+                if (!modelName.contains("_")) {
+                    models.add(modelName);
+                }
+            }
+        });
+        assertFalse(oneOfModels.isEmpty());
+
+        final String pathFormat = "%s/%s/%s.java";
+        final String relativePath = "/src/main/java/org/openapitools/client/model";
+        final String jacksonSubTypeFormat = "@JsonSubTypes.Type(value = %s.class, name = \"%s\"),";
+
+        models.forEach(modelName -> {
+            final String modelPath = String.format(Locale.ROOT, pathFormat, outputPath, relativePath, modelName);
+
+            oneOfModels.forEach(oneOfModelName -> {
+                // Models should implement all linked OneOf interfaces
+                assertFileContains(Paths.get(modelPath), oneOfModelName);
+
+                // OneOf model should contain relevant jackson annotations
+                final String oneOfPath = String.format(Locale.ROOT, pathFormat, outputPath, relativePath, oneOfModelName);
+                assertFileContains(Paths.get(oneOfPath), String.format(Locale.ROOT, jacksonSubTypeFormat, modelName, modelName));
+            });
+        });
+    }
+
+    // Currently, not for NATIVE, JERSEY2, OKHTTP_GSON, MICROPROFILE or RETROFIT2
+    public static Object[][] librariesProviderMethod() {
+        return new Object[][] {
+                { JavaClientCodegen.FEIGN },
+                { JavaClientCodegen.GOOGLE_API_CLIENT },
+                { JavaClientCodegen.JERSEY1 },
+                { JavaClientCodegen.RESTEASY },
+                { JavaClientCodegen.RESTTEMPLATE },
+                { JavaClientCodegen.WEBCLIENT },
+                { JavaClientCodegen.REST_ASSURED },
+                { JavaClientCodegen.VERTX },
+                { JavaClientCodegen.APACHE },
+        };
+    }
+
+    public static Object[][] specificationsProviderMethod() {
+        return new Object[][] {
+                { "oneOf_inherited_class.yaml" },
+                { "oneOf_inherited_class_array.yaml" },
+                { "oneOf_interface.yaml" },
+                { "oneOf_interface_array.yaml" },
+                { "oneOf_with_allOf_inherited_class.yaml" },
+                { "oneOf_with_allOf_inherited_class_array.yaml" },
+        };
+    }
+
+    // Combines each library to each specification case
+    @DataProvider(name = "librariesToSpecificationsCartesianProduct")
+    public static Object[][] librariesToSpecificationsCartesianProduct() {
+        Object[][] librariesProvider = librariesProviderMethod();
+        Object[][] specProvider = specificationsProviderMethod();
+        Object[][] cartesianProduct = new Object[librariesProvider.length * specProvider.length][2];
+        int i = 0;
+        for (Object[] library : librariesProvider) {
+            for (Object[] spec : specProvider) {
+                cartesianProduct[i][0] = library[0];
+                cartesianProduct[i++][1] = spec[0];
+            }
+        }
+        return cartesianProduct;
     }
 }
