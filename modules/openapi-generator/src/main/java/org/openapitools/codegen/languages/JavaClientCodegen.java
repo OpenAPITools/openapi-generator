@@ -330,8 +330,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         additionalProperties.put(GRADLE_PROPERTIES, gradleProperties);
 
         if (additionalProperties.containsKey(SWAGGER_ANNOTATIONS)) {
-            this.setSwaggerAnnotations(convertPropertyToBooleanAndWriteBack(SWAGGER_ANNOTATIONS));
+            this.setSwaggerAnnotations(convertPropertyToBoolean(SWAGGER_ANNOTATIONS));
         }
+        additionalProperties.put(SWAGGER_ANNOTATIONS, swaggerAnnotations);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
