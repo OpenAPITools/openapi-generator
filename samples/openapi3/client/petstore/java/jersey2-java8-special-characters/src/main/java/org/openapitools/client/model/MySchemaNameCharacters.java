@@ -33,7 +33,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.MySchemaNameCharactersAllOf;
 import org.openapitools.client.model.Parent;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 
 /**
