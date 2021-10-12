@@ -67,7 +67,8 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
-        }
+    
+    }
   }
 
   /// Deletes a pet
@@ -130,7 +131,8 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// Finds Pets by status
@@ -193,6 +195,7 @@ class PetApi {
       return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
         .toList(growable: false);
+
     }
   }
 
@@ -256,6 +259,7 @@ class PetApi {
       return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
         .toList(growable: false);
+
     }
   }
 
@@ -315,7 +319,8 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
-        }
+    
+    }
   }
 
   /// Update an existing pet
@@ -369,7 +374,8 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
-        }
+    
+    }
   }
 
   /// Updates a pet in the store with form data
@@ -442,7 +448,8 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// uploads an image
@@ -523,6 +530,7 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
-        }
+    
+    }
   }
 }

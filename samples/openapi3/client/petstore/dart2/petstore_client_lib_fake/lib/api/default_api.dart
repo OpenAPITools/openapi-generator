@@ -54,6 +54,7 @@ class DefaultApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponseDefault',) as InlineResponseDefault;
-        }
+    
+    }
   }
 }

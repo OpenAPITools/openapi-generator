@@ -7,9 +7,6 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
-{{#json_serializable}}
-import 'package:json_annotation/json_annotation.dart';
-{{/json_serializable}}
 import 'package:meta/meta.dart';
 
 part 'api_client.dart';
@@ -26,9 +23,6 @@ part 'auth/http_bearer_auth.dart';
 {{#models}}{{#model}}part 'model/{{{classFilename}}}.dart';
 {{/model}}{{/models}}
 
-{{#json_serializable}}
-part 'api.g.dart';
-{{/json_serializable}}
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 const _dateEpochMarker = 'epoch';
 final _dateFormatter = DateFormat('yyyy-MM-dd');

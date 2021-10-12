@@ -57,7 +57,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'HealthCheckResult',) as HealthCheckResult;
-        }
+    
+    }
   }
 
   /// test http signature authentication
@@ -131,7 +132,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// Test serialization of outer boolean types
@@ -185,7 +187,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'bool',) as bool;
-        }
+    
+    }
   }
 
   /// Test serialization of object with outer number type
@@ -239,7 +242,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterComposite',) as OuterComposite;
-        }
+    
+    }
   }
 
   /// Test serialization of outer number types
@@ -293,7 +297,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'num',) as num;
-        }
+    
+    }
   }
 
   /// Test serialization of outer string types
@@ -347,7 +352,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
-        }
+    
+    }
   }
 
   /// Test serialization of enum (int) properties with examples
@@ -401,7 +407,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterObjectWithEnumProperty',) as OuterObjectWithEnumProperty;
-        }
+    
+    }
   }
 
   /// For this test, the body has to be a binary file.
@@ -455,7 +462,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// For this test, the body for this request must reference a schema named `File`.
@@ -507,7 +515,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// Performs an HTTP 'PUT /fake/body-with-query-params' operation and returns the [Response].
@@ -560,7 +569,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// To test \"client\" model
@@ -618,7 +628,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
-        }
+    
+    }
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -793,7 +804,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// To test enum parameters
@@ -919,7 +931,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// Fake endpoint to test group parameters (optional)
@@ -1021,7 +1034,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// test inline additionalProperties
@@ -1075,7 +1089,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// test json serialization of form data
@@ -1141,7 +1156,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// To test the collection format in query parameters
@@ -1227,6 +1243,7 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 }

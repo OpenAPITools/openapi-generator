@@ -71,7 +71,8 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// Creates list of users with given input array
@@ -125,7 +126,8 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// Creates list of users with given input array
@@ -179,7 +181,8 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// Delete user
@@ -238,7 +241,8 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// Get user by user name
@@ -293,7 +297,8 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
-        }
+    
+    }
   }
 
   /// Logs user into the system
@@ -356,7 +361,8 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
-        }
+    
+    }
   }
 
   /// Logs out current logged in user session
@@ -400,7 +406,8 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// Updated user
@@ -465,6 +472,7 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 }

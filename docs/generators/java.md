@@ -30,6 +30,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |dynamicOperations|Generate operations dynamically at runtime from an OAS| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
+|gradleProperties|Append additional Gradle proeprties to the gradle.properties file| |null|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|

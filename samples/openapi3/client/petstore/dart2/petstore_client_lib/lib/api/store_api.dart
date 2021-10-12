@@ -72,7 +72,8 @@ class StoreApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-        }
+    
+    }
   }
 
   /// Returns pet inventories by status
@@ -120,6 +121,7 @@ class StoreApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return Map<String, int>.from(await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, int>'),);
+
     }
   }
 
@@ -179,7 +181,8 @@ class StoreApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
-        }
+    
+    }
   }
 
   /// Place an order for a pet
@@ -233,6 +236,7 @@ class StoreApi {
     // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
-        }
+    
+    }
   }
 }
