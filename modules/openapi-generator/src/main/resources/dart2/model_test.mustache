@@ -1,0 +1,29 @@
+{{>header}}
+{{#models}}
+{{#model}}
+import 'package:{{{pubName}}}/api.dart';
+import 'package:test/test.dart';
+
+// tests for {{{classname}}}
+void main() {
+  {{^isEnum}}
+  final instance = {{{classname}}}();
+  {{/isEnum}}
+
+  group('test {{{classname}}}', () {
+    {{#vars}}
+    {{#description}}
+    // {{{.}}}
+    {{/description}}
+    // {{{dataType}}} {{{name}}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
+    test('to test the property `{{{name}}}`', () async {
+      // TODO
+    });
+
+    {{/vars}}
+
+  });
+
+}
+{{/model}}
+{{/models}}

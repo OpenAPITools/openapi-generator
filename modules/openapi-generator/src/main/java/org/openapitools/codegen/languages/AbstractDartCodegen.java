@@ -98,6 +98,9 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         modelDocTemplateFiles.put("object_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
+        modelTestTemplateFiles.put("model_test.mustache", ".dart");
+        apiTestTemplateFiles.put("api_test.mustache", ".dart");
+
         final List<String> reservedWordsList = new ArrayList<>();
         try(BufferedReader reader = new BufferedReader(
                 new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"),

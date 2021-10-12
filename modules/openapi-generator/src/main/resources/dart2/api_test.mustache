@@ -1,0 +1,29 @@
+{{>header}}
+import 'package:{{{pubName}}}/api.dart';
+import 'package:test/test.dart';
+
+{{#operations}}
+
+/// tests for {{{classname}}}
+void main() {
+  final instance = {{{classname}}}();
+
+  group('tests for {{{classname}}}', () {
+    {{#operation}}
+    {{#summary}}
+    // {{{.}}}
+    //
+    {{/summary}}
+    {{#notes}}
+    // {{{.}}}
+    //
+    {{/notes}}
+    //{{#returnType}}Future<{{{.}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{operationId}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async
+    test('test {{{operationId}}}', () async {
+      // TODO
+    });
+
+    {{/operation}}
+  });
+}
+{{/operations}}
