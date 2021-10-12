@@ -119,6 +119,7 @@ class StoreApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return Map<String, int>.from(await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, int>'),);
+
     }
     return Future<Map<String, int>>.value();
   }
@@ -184,7 +185,8 @@ class StoreApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
-        }
+    
+    }
     return Future<Order>.value();
   }
 
@@ -244,7 +246,8 @@ class StoreApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
-        }
+    
+    }
     return Future<Order>.value();
   }
 }
