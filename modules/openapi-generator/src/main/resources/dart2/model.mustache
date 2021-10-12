@@ -6,17 +6,11 @@
 {{#native_serialization}}
 {{>serialization/native/native_enum}}
 {{/native_serialization}}
-{{#json_serializable}}
-{{>serialization/json_serializable/json_serializable_enum}}
-{{/json_serializable}}
 {{/isEnum}}
 {{^isEnum}}
 {{#native_serialization}}
 {{>serialization/native/native_class}}
 {{/native_serialization}}
-{{#json_serializable}}
-{{>serialization/json_serializable/json_serializable_class}}
-{{/json_serializable}}
 {{/isEnum}}
 {{/model}}
 {{/models}}
