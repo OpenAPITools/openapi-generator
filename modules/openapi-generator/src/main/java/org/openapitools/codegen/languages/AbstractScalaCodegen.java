@@ -159,6 +159,13 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
 
+        specialCharReplacements.put("&#x3D;", "Equal");
+        specialCharReplacements.put("!&#x3D;", "Not_Equal");
+        specialCharReplacements.put("&gt;", "Greater_Than");
+        specialCharReplacements.put("&lt;", "Less_Than");
+        specialCharReplacements.put("&gt;&#x3D;", "Greater_Than_Or_Equal_To");
+        specialCharReplacements.put("&lt;&#x3D;", "Less_Than_Or_Equal_To");
+
     }
 
     @Override
@@ -438,6 +445,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 prop.containerType = "set";
             }
         }
+
         return prop;
     }
 
@@ -492,6 +500,9 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     }
 
     protected String formatIdentifier(String name, boolean capitalized) {
+        if (specialCharReplacements.containsKey(name)) {
+            name = specialCharReplacements.get(name);
+        }
         String identifier = camelize(sanitizeName(name), true);
         if (capitalized) {
             identifier = StringUtils.capitalize(identifier);
