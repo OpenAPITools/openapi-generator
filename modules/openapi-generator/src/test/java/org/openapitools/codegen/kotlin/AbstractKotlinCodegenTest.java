@@ -272,22 +272,4 @@ public class AbstractKotlinCodegenTest {
         Assert.assertEquals(cp1.getEnumName(), "PropertyName");
         Assert.assertEquals(cp1.getDefaultValue(), "PropertyName.vALUE");
     }
-
-    @Test
-    public void testNullableObjectProperty() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/nullable-object-property.yaml");
-        final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
-
-        codegen.preprocessOpenAPI(openAPI);
-
-        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithNullableObjectProperty");
-        CodegenModel cm1 = codegen.fromModel("ModelWithNullableObjectProperty", test1);
-
-
-        // codegen.processm()
-        Map<String, Object> models = Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm1)));
-        codegen.postProcessAllModels(models);
-        // We need to postProcess the model for enums to be processed
-        codegen.postProcessModels(models);
-    }
 }
