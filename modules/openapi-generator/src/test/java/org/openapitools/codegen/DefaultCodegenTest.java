@@ -4205,4 +4205,33 @@ public class DefaultCodegenTest {
         Assert.assertEquals(codegenParameter.defaultValue, "1971-12-19T03:39:57-08:00");
         Assert.assertEquals(codegenParameter.getSchema(), null);
     }
+
+    @Test
+    public void testNullabelObjectProperties() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10593.yaml");
+        codegen.setOpenAPI(openAPI);
+        Schema schema = openAPI.getComponents().getSchemas().get("ModelWithNullableObjectProperty");
+
+        String propertyName;
+        CodegenProperty property;
+
+        // openapi 3.0 nullable
+        propertyName = "propertyName30";
+        property = codegen.fromProperty(propertyName, (Schema) schema.getProperties().get(propertyName));
+        assertEquals(property.openApiType, "PropertyType");
+        assertTrue(property.isNullable);
+
+        // openapi 3.1 'null'
+        propertyName = "propertyName31";
+        property = codegen.fromProperty(propertyName, (Schema) schema.getProperties().get(propertyName));
+        assertEquals(property.openApiType, "PropertyType");
+        assertTrue(property.isNullable);
+
+        // Non regression on regular oneOf construct
+        propertyName = "nonNullableProperty";
+        property = codegen.fromProperty(propertyName, (Schema) schema.getProperties().get(propertyName));
+        assertEquals(property.openApiType, "oneOf<string,number>");
+        // oneOf property resolve to any type and is set to nullable
+    }
 }

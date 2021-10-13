@@ -1,0 +1,7 @@
+apis/DefaultApi.ts
+apis/index.ts
+index.ts
+models/ModelWithNullableObjectProperty.ts
+models/PropertyType.ts
+models/index.ts
+runtime.ts

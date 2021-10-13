@@ -1,0 +1,35 @@
+openapi: 3.0.2 # This should be 3.1, but the parser does not accept that version yet.
+info:
+  title: 'Title'
+  version: latest
+paths:
+  '/':
+    get:
+      operationId: operation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelWithNullableObjectProperty'
+components:
+  schemas:
+    ModelWithNullableObjectProperty:
+      properties:
+        propertyName30:
+          nullable: true
+          oneOf:
+            - $ref: '#/components/schemas/PropertyType'
+        propertyName31:
+          oneOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/PropertyType'
+        nonNullableProperty:
+          oneOf:
+            - type: string
+            - type: number
+    PropertyType:
+      properties:
+        foo:
+          type: string

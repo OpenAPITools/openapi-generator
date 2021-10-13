@@ -1,0 +1,8 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-nullable-object-propery
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_10593.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: nullable-object-property
+  serializableModel: "true"
+  nullableReturnType: "true"

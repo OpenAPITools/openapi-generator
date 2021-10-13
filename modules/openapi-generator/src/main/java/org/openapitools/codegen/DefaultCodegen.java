@@ -2177,6 +2177,10 @@ public class DefaultCodegen implements CodegenConfig {
      * Otherwise, a name is constructed by creating a comma-separated list of all the names
      * of the oneOf schemas.
      *
+     * If the oneOf schema contains only one element and have the openapi 3.0 nullable flag,
+     * or one element and the openapi 3.1 'null' type, only this element is returned.
+     *
+     *
      * @param names          List of names
      * @param composedSchema composed schema
      * @return name of the oneOf schema
@@ -2186,6 +2190,12 @@ public class DefaultCodegen implements CodegenConfig {
         Map<String, Object> exts = composedSchema.getExtensions();
         if (exts != null && exts.containsKey("x-one-of-name")) {
             return (String) exts.get("x-one-of-name");
+        }
+        if (Boolean.TRUE.equals(composedSchema.getNullable()) || ModelUtils.isNullableComposedSchema(composedSchema)) {
+            String singleType = names.stream().filter(p -> !p.equals("null")).findFirst().orElse(null);
+            if(singleType != null) {
+                return singleType;
+            }
         }
         return "oneOf<" + String.join(",", names) + ">";
     }
