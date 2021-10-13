@@ -1,5 +1,8 @@
-import { DynamicModule, HttpService, HttpModule, Module, Global } from '@nestjs/common';
+import { DynamicModule, Module, Global } from '@nestjs/common';
+import { HttpService, HttpModule, HttpModuleOptions } from '@nestjs/axios';
 import { Configuration } from './configuration';
+import { Agent } from "https";
+import * as fs from 'fs';
 
 {{#apiInfo}}
 {{#apis}}
@@ -9,7 +12,7 @@ import { {{classname}} } from './{{importPath}}';
 
 @Global()
 @Module({
-  imports:      [ HttpModule ],
+  imports:      [ ],
   exports:      [
     {{#apiInfo}}{{#apis}}{{classname}}{{^-last}},
     {{/-last}}{{/apis}}{{/apiInfo}}
@@ -23,9 +26,43 @@ export class ApiModule {
     public static forRoot(configurationFactory: () => Configuration): DynamicModule {
         return {
             module: ApiModule,
-            providers: [ { provide: Configuration, useFactory: configurationFactory } ]
+            providers: [ { provide: Configuration, useFactory: configurationFactory } ],
+            imports: [
+              HttpModule.registerAsync({
+              useFactory: () =>
+                createHttpOptions(
+                  configurationFactory().certPath,
+                  configurationFactory().certKeyPath,
+                  configurationFactory().caPath
+                ),
+            }),
+      ],
+      exports: [HttpModule]
         };
     }
 
     constructor( httpService: HttpService) { }
 }
+
+const createHttpOptions = (
+  certPath?: string,
+  certKeyPath?: string,
+  caPath?: string
+): HttpModuleOptions => {
+  return {
+    timeout: 5001,
+    httpsAgent: certKeyPath && certPath && caPath ? getAgent(certPath, certKeyPath, caPath) : undefined,
+  };
+};
+
+const getAgent = (
+  certPath: string,
+  certKeyPath: string,
+  caPath: string
+): Agent | undefined => {
+  return new Agent({
+    cert: fs.readFileSync(certPath),
+    key: fs.readFileSync(certKeyPath),
+    ca: fs.readFileSync(caPath),
+  });
+};
