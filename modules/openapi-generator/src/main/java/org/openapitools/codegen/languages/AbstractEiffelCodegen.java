@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -268,13 +267,13 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        if (!isNullOrEmpty(model.parent)) {
+        if (StringUtils.isNotBlank(model.parent)) {
             parentModels.add(model.parent);
             if (!childrenByParent.containsEntry(model.parent, model)) {
                 childrenByParent.put(model.parent, model);
             }
         }
-        if (!isNullOrEmpty(model.parentSchema)) {
+        if (StringUtils.isNotBlank(model.parentSchema)) {
             model.parentSchema = model.parentSchema.toLowerCase(Locale.ROOT);
         }
     }

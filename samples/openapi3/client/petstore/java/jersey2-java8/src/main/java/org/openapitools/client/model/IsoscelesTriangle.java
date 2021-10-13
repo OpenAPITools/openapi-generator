@@ -27,7 +27,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.ShapeInterface;
 import org.openapitools.client.model.TriangleInterface;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.openapitools.client.JSON;
 
 
 /**

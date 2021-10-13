@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.testng.Assert;
@@ -21,6 +20,8 @@ public class MarkdownSampleGeneratorTest {
 
     @BeforeClass
     public void beforeClassGenerateTestMarkup() throws Exception {
+        // set line break to \n across all platforms
+        System.setProperty("line.separator", "\n");
 
         this.outputTempDirectory = Files.createTempDirectory("test-markdown-sample-generator.").toFile();
 
@@ -44,8 +45,8 @@ public class MarkdownSampleGeneratorTest {
 
             Assert.assertTrue(expected.exists(), "Could not find " + expected.toString());
 
-            Assert.assertEquals(FileUtils.readFileToString(generated),
-                    FileUtils.readFileToString(expected, StandardCharsets.UTF_8));
+            Assert.assertEquals(FileUtils.readFileToString(generated, StandardCharsets.UTF_8).replace("\n", "").replace("\r", ""),
+                    FileUtils.readFileToString(expected, StandardCharsets.UTF_8).replace("\n", "").replace("\r", ""));
         }
     }
 

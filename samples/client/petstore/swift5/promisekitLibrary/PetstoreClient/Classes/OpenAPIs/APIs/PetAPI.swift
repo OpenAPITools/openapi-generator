@@ -22,7 +22,7 @@ open class PetAPI {
      */
     open class func addPet( body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+        addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -70,7 +70,7 @@ open class PetAPI {
      */
     open class func deletePet( petId: Int64,  apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result -> Void in
+        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -130,7 +130,7 @@ open class PetAPI {
      */
     open class func findPetsByStatus( status: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
-        findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result -> Void in
+        findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -182,7 +182,7 @@ open class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     open class func findPetsByTags( tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
-        findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result -> Void in
+        findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -234,7 +234,7 @@ open class PetAPI {
      */
     open class func getPetById( petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Pet> {
         let deferred = Promise<Pet>.pending()
-        getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result -> Void in
+        getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -285,7 +285,7 @@ open class PetAPI {
      */
     open class func updatePet( body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+        updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -334,7 +334,7 @@ open class PetAPI {
      */
     open class func updatePetWithForm( petId: Int64,  name: String? = nil,  status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result -> Void in
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -394,7 +394,7 @@ open class PetAPI {
      */
     open class func uploadFile( petId: Int64,  additionalMetadata: String? = nil,  file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
-        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result -> Void in
+        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
@@ -454,7 +454,7 @@ open class PetAPI {
      */
     open class func uploadFileWithRequiredFile( petId: Int64,  requiredFile: URL,  additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
-        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result -> Void in
+        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)
