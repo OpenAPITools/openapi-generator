@@ -235,7 +235,7 @@ public class Mammal extends AbstractOpenApiSchema {
         schemas.put("Zebra", Zebra.class);
         JSON.registerDescendants(Mammal.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("Pig", Pig.class);
         mappings.put("whale", Whale.class);
         mappings.put("zebra", Zebra.class);
@@ -258,17 +258,17 @@ public class Mammal extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Whale.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Whale.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Zebra.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Zebra.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

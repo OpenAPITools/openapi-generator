@@ -51,9 +51,9 @@ public class HaskellYesodServerCodegenTest {
     }
 
     private List<Map<String, Object>> toRoutes(String... paths) {
-        List<Map<String, Object>> routes = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> routes = new ArrayList<>();
         for (String path : paths) {
-            Map<String, Object> route = new HashMap<String, Object>();
+            Map<String, Object> route = new HashMap<>();
             route.put("path", path);
             routes.add(route);
         }

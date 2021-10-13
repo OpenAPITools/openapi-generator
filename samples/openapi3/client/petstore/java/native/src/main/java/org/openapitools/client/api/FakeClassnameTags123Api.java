@@ -102,7 +102,7 @@ public class FakeClassnameTags123Api {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("testClassname", localVarResponse);
       }
-      return new ApiResponse<Client>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})

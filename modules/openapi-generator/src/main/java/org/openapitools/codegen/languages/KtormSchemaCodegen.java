@@ -58,7 +58,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     protected String primaryKeyConvention = "id";
     protected boolean addSurrogateKey = false;
 
-    protected Map<String, String> sqlTypeMapping = new HashMap<String, String>();
+    protected Map<String, String> sqlTypeMapping = new HashMap<>();
 
     // https://ktorm.liuwj.me/api-docs/me.liuwj.ktorm.schema/index.html
     protected static class SqlType {
@@ -136,7 +136,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 )
         );
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "kotlin.String");
         typeMapping.put("boolean", "kotlin.Boolean");
         typeMapping.put("integer", "kotlin.Int");
@@ -290,8 +290,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             String tableName = toTableName(modelName);
             String modelDescription = model.getDescription();
             Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
-            Map<String, Object> ktormSchema = new HashMap<String, Object>();
-            Map<String, Object> tableDefinition = new HashMap<String, Object>();
+            Map<String, Object> ktormSchema = new HashMap<>();
+            Map<String, Object> tableDefinition = new HashMap<>();
 
             if (getIdentifierNamingConvention().equals("snake_case") && !modelName.equals(tableName)) {
                 // add original name in table comment
@@ -347,7 +347,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      */
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        Map<String, Object> relationDefinition = new HashMap<String, Object>();
+        Map<String, Object> relationDefinition = new HashMap<>();
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         KtormSchema ktormSchema = new KtormSchema();
         String baseName = property.getBaseName();
@@ -416,7 +416,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param ktormSchema schema
      */
     public void processIntegerTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
@@ -464,7 +464,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param ktormSchema schema
      */
     public void processRealTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
@@ -505,7 +505,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param ktormSchema schema
      */
     public void processBooleanTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
@@ -530,7 +530,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param ktormSchema schema
      */
     public void processStringTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
@@ -569,7 +569,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param ktormSchema schema
      */
     public void processDateTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
@@ -594,7 +594,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param ktormSchema schema
      */
     public void processJsonTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
@@ -621,7 +621,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param ktormSchema schema
      */
     public void processUnknownTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
@@ -647,7 +647,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param columnDefinition resulting column definition dictionary
      */
     public void processTypeArgs(String dataType, String dataFormat, Object min, Object max, Map<String, Object> columnDefinition) {
-        HashMap<String, Object> a = new HashMap<String, Object>();
+        HashMap<String, Object> a = new HashMap<>();
         SqlTypeArgs args = new SqlTypeArgs();
         toColumnTypeArgs(dataType, dataFormat, min, max, args);
         a.put("isPrimitive", args.isPrimitive);
@@ -970,7 +970,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             default:
                 sqlDefault = "NULL";
         }
-        Map<String, Object> args = new HashMap<String, Object>();
+        Map<String, Object> args = new HashMap<>();
         processTypeArgs(sqlType, null, null, null, args);
         args.put("defaultValue", sqlDefault);
         return args;

@@ -34,7 +34,7 @@ public abstract class LambdaTest {
     }
 
     protected static Map<String, Object> context(Object... data) {
-        Map<String, Object> ctx = new HashMap<String, Object>();
+        Map<String, Object> ctx = new HashMap<>();
         for (int ii = 0; ii < data.length; ii += 2) {
             ctx.put(data[ii].toString(), data[ii + 1]);
         }

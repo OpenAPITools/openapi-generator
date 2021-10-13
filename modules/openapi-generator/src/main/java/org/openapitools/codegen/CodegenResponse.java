@@ -20,7 +20,7 @@ package org.openapitools.codegen;
 import java.util.*;
 
 public class CodegenResponse implements IJsonSchemaValidationProperties {
-    public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
+    public final List<CodegenProperty> headers = new ArrayList<>();
     public String code;
     public boolean is1xx;
     public boolean is2xx;
@@ -62,7 +62,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isNull;
     public Object schema;
     public String jsonSchema;
-    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    public Map<String, Object> vendorExtensions = new HashMap<>();
     private Integer maxProperties;
     private Integer minProperties;
     private boolean uniqueItems;
@@ -78,8 +78,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public Number multipleOf;
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
-    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
-    public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>();
+    public List<CodegenProperty> vars = new ArrayList<>(); // all properties (without parent's properties)
+    public List<CodegenProperty> requiredVars = new ArrayList<>();
     private boolean hasValidation;
     private boolean additionalPropertiesIsAnyType;
     private boolean hasVars;

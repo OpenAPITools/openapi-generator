@@ -146,13 +146,13 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "Map"
         ));
 
-        languageGenericTypes = new HashSet<String>(Arrays.asList(
+        languageGenericTypes = new HashSet<>(Arrays.asList(
                 "Array"
         ));
 
         instantiationTypes.put("array", "Array");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
         typeMapping.put("List", "Array");
@@ -339,7 +339,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
      * @return TypeScript return type
      */
     private String getReturnType(List<CodegenResponse> responses) {
-        Set<String> returnTypes = new HashSet<String>();
+        Set<String> returnTypes = new HashSet<>();
         for (CodegenResponse response: responses) {
             if (response.is2xx) {
                 if (response.dataType != null) {
@@ -424,7 +424,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     protected String toTypescriptTypeName(final String name, String safePrefix) {
-        ArrayList<String> exceptions = new ArrayList<String>(Arrays.asList("\\|", " "));
+        ArrayList<String> exceptions = new ArrayList<>(Arrays.asList("\\|", " "));
         String sanName = sanitizeName(name, "(?![| ])\\W", exceptions);
 
         sanName = camelize(sanName);
@@ -481,12 +481,12 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         } else if (ModelUtils.isIntegerSchema(p)) {
             // Handle integer enums
             if (p.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
+                return numericEnumValuesToEnumTypeUnion(new ArrayList<>(p.getEnum()));
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             // Handle double enums
             if (p.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
+                return numericEnumValuesToEnumTypeUnion(new ArrayList<>(p.getEnum()));
             }
         }
         return this.getTypeDeclaration(p);

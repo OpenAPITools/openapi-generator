@@ -90,7 +90,7 @@ public class DeleteRequest extends Request<String> {
   public Map<String, String> getHeaders() throws AuthFailureError {
     Map<String, String> headers = super.getHeaders();
     if (headers == null || headers.equals(Collections.emptyMap())) {
-      headers = new HashMap<String, String>();
+      headers = new HashMap<>();
     }
     if (apiHeaders != null && !apiHeaders.equals(Collections.emptyMap())) {
       headers.putAll(apiHeaders);

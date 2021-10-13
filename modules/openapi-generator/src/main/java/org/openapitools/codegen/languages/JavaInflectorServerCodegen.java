@@ -128,7 +128,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         }
         List<CodegenOperation> opList = operations.get(basePath);
         if (opList == null) {
-            opList = new ArrayList<CodegenOperation>();
+            opList = new ArrayList<>();
             operations.put(basePath, opList);
         }
         opList.add(co);
@@ -197,7 +197,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
             // for enum model
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
-                Map<String, String> item = new HashMap<String, String>();
+                Map<String, String> item = new HashMap<>();
                 item.put("import", importMapping.get("JsonValue"));
                 imports.add(item);
             }

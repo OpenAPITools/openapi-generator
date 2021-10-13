@@ -132,10 +132,10 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
                         "prototype", "String", "toString", "undefined", "valueOf")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File", "Blob")
         );
-        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
+        defaultIncludes = new HashSet<>(languageSpecificPrimitives);
 
         instantiationTypes.put("array", "Array");
         instantiationTypes.put("list", "Array");

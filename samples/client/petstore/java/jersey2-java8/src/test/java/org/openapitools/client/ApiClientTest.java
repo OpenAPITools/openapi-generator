@@ -190,7 +190,7 @@ public class ApiClientTest {
         assertEquals(1, pairs.size());
 
         // list of empty strings
-        List<String> strs = new ArrayList<String>();
+        List<String> strs = new ArrayList<>();
         strs.add(" ");
         strs.add(" ");
         strs.add(" ");
@@ -214,7 +214,7 @@ public class ApiClientTest {
 
     @Test
     public void testParameterToPairsWhenValueIsCollection() throws Exception {
-        Map<String, String> collectionFormatMap = new HashMap<String, String>();
+        Map<String, String> collectionFormatMap = new HashMap<>();
         collectionFormatMap.put("csv", ",");
         collectionFormatMap.put("tsv", "\t");
         collectionFormatMap.put("ssv", " ");
@@ -224,7 +224,7 @@ public class ApiClientTest {
 
         String name = "param-a";
 
-        List<Object> values = new ArrayList<Object>();
+        List<Object> values = new ArrayList<>();
         values.add("value-a");
         values.add(123);
         values.add(new Date());

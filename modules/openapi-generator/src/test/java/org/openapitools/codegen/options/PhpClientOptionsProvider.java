@@ -44,7 +44,7 @@ public class PhpClientOptionsProvider implements OptionsProvider {
 
     @Override
     public Map<String, String> createOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
+        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<>();
         return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)

@@ -149,7 +149,7 @@ public class Animal {
 
 static {
   // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+  Map<String, Class<?>> mappings = new HashMap<>();
   mappings.put("Cat", Cat.class);
   mappings.put("Dog", Dog.class);
   mappings.put("Animal", Animal.class);

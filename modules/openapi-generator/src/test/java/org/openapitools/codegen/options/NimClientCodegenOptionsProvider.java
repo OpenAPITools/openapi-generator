@@ -16,7 +16,7 @@ public class NimClientCodegenOptionsProvider implements OptionsProvider {
 
     @Override
     public Map<String, String> createOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
+        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<>();
         return builder
                 .put(NimClientCodegen.PROJECT_NAME, PROJECT_NAME_VALUE)
                 .build();

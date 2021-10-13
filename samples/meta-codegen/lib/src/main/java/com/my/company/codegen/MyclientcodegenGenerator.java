@@ -111,7 +111,7 @@ public class MyclientcodegenGenerator extends DefaultCodegen implements CodegenC
     /**
      * Reserved words.  Override this with reserved words specific to your language
      */
-    reservedWords = new HashSet<String> (
+    reservedWords = new HashSet<> (
       Arrays.asList(
         "sample1",  // replace with static values
         "sample2")
@@ -137,7 +137,7 @@ public class MyclientcodegenGenerator extends DefaultCodegen implements CodegenC
      * Language Specific Primitives.  These types will not trigger imports by
      * the client generator
      */
-    languageSpecificPrimitives = new HashSet<String>(
+    languageSpecificPrimitives = new HashSet<>(
       Arrays.asList(
         "Type1",      // replace these with your types
         "Type2")

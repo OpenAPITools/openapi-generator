@@ -51,7 +51,7 @@ public class CodegenConfigLoader {
 
     public static List<CodegenConfig> getAll() {
         ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
-        List<CodegenConfig> output = new ArrayList<CodegenConfig>();
+        List<CodegenConfig> output = new ArrayList<>();
         for (CodegenConfig aLoader : loader) {
             output.add(aLoader);
         }

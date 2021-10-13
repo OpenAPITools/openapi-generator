@@ -34,7 +34,7 @@ public class CodegenSecurity {
     // https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
     public Boolean isBasicBasic, isBasicBearer, isHttpSignature;
     public String bearerFormat;
-    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    public Map<String, Object> vendorExtensions = new HashMap<>();
     // ApiKey specific
     public String keyParamName;
     public Boolean isKeyInQuery, isKeyInHeader, isKeyInCookie;
@@ -69,8 +69,8 @@ public class CodegenSecurity {
         filteredSecurity.refreshUrl = refreshUrl;
         // It is not possible to deep copy the extensions, as we have no idea what types they are.
         // So the filtered method *will* refer to the original extensions, if any.
-        filteredSecurity.vendorExtensions = new HashMap<String, Object>(vendorExtensions);
-        List<Map<String, Object>> returnedScopes = new ArrayList<Map<String, Object>>();
+        filteredSecurity.vendorExtensions = new HashMap<>(vendorExtensions);
+        List<Map<String, Object>> returnedScopes = new ArrayList<>();
         Map<String, Object> lastScope = null;
         for (String filterScopeName : filterScopes) {
             for (Map<String, Object> scope : scopes) {

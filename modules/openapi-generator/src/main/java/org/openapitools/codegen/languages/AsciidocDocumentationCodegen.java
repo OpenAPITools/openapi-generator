@@ -217,7 +217,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         outputFolder = "generated-code" + File.separator + "asciidoc";
         embeddedTemplateDir = templateDir = "asciidoc-documentation";
 
-        defaultIncludes = new HashSet<String>();
+        defaultIncludes = new HashSet<>();
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
         cliOptions.add(new CliOption("appDescription", "description of the application"));
@@ -264,10 +264,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.adoc"));
-        reservedWords = new HashSet<String>();
+        reservedWords = new HashSet<>();
 
-        languageSpecificPrimitives = new HashSet<String>();
-        importMapping = new HashMap<String, String>();
+        languageSpecificPrimitives = new HashSet<>();
+        importMapping = new HashMap<>();
 
     }
 

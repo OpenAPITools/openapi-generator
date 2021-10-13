@@ -1408,7 +1408,7 @@ class JsonCacheImpl implements JsonCache.Root {
             switch (node.getNodeType()) {
                 case ARRAY:
                 case OBJECT:
-                    result = new ArrayList<T>(node.size());
+                    result = new ArrayList<>(node.size());
                     Iterator<JsonNode> elements = node.elements();
                     while (elements.hasNext())
                         result.add(mapper.convertValue(elements.next(), type));

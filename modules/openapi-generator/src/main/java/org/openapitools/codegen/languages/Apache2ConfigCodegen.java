@@ -92,13 +92,13 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
+        List<CodegenOperation> newOpList = new ArrayList<>();
 
         for (CodegenOperation op : operationList) {
             String path = op.path;
 
             String[] items = path.split("/", -1);
-            List<String> splitPath = new ArrayList<String>();
+            List<String> splitPath = new ArrayList<>();
             for (String item : items) {
                 if (item.matches("^\\{(.*)\\}$")) {
                     item = "*";
@@ -114,7 +114,7 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
                         foundInNewList = true;
                         List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get("x-codegen-otherMethods");
                         if (currentOtherMethodList == null) {
-                            currentOtherMethodList = new ArrayList<CodegenOperation>();
+                            currentOtherMethodList = new ArrayList<>();
                         }
                         op.operationIdCamelCase = op1.operationIdCamelCase;
                         currentOtherMethodList.add(op);

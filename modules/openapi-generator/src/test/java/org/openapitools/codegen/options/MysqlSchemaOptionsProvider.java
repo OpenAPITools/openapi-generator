@@ -34,7 +34,7 @@ public class MysqlSchemaOptionsProvider implements OptionsProvider {
 
     @Override
     public Map<String, String> createOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
+        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<>();
         return builder.put(MysqlSchemaCodegen.DEFAULT_DATABASE_NAME, DEFAULT_DATABASE_NAME_VALUE)
             .put(MysqlSchemaCodegen.JSON_DATA_TYPE_ENABLED, JSON_DATA_TYPE_ENABLED_VALUE)
             .put(MysqlSchemaCodegen.IDENTIFIER_NAMING_CONVENTION, IDENTIFIER_NAMING_CONVENTION_VALUE)

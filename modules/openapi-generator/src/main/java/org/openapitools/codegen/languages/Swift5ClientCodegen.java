@@ -323,7 +323,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         // Get the properties for the parent and child models
         final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
         List<CodegenProperty> codegenProperties = codegenModel.vars;
-        codegenModel.allVars = new ArrayList<CodegenProperty>(codegenProperties);
+        codegenModel.allVars = new ArrayList<>(codegenProperties);
         codegenModel.parentVars = parentCodegenModel.allVars;
 
         // Iterate over all of the parent model properties
@@ -1136,7 +1136,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
 
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
         for (Object o : allModels) {
             HashMap<String, Object> h = (HashMap<String, Object>) o;
             CodegenModel m = (CodegenModel) h.get("model");
@@ -1146,7 +1146,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             for (CodegenParameter cp : operation.allParams) {
-                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<String>()));
+                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<>()));
             }
         }
         return objs;

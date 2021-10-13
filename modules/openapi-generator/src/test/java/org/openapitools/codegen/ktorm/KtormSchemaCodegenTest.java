@@ -35,8 +35,8 @@ import java.util.Map;
 public class KtormSchemaCodegenTest {
 
     private Map<String, Object> toObjs(CodegenModel cm) {
-        Map<String, Object> objs = new HashMap<String, Object>();
-        List<Object> models = new ArrayList<Object>();
+        Map<String, Object> objs = new HashMap<>();
+        List<Object> models = new ArrayList<>();
         Map<String, Object> model = new HashMap<>();
         model.put("model", cm);
         models.add(model);

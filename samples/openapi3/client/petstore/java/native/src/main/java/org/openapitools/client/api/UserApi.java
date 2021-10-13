@@ -100,7 +100,7 @@ public class UserApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("createUser", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -172,7 +172,7 @@ public class UserApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("createUsersWithArrayInput", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -244,7 +244,7 @@ public class UserApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("createUsersWithListInput", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -316,7 +316,7 @@ public class UserApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("deleteUser", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -385,7 +385,7 @@ public class UserApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("getUserByName", localVarResponse);
       }
-      return new ApiResponse<User>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<User>() {})
@@ -456,7 +456,7 @@ public class UserApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("loginUser", localVarResponse);
       }
-      return new ApiResponse<String>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {})
@@ -534,7 +534,7 @@ public class UserApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("logoutUser", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -598,7 +598,7 @@ public class UserApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("updateUser", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null

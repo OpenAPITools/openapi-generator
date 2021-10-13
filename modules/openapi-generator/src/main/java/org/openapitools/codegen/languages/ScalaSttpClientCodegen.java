@@ -249,7 +249,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     @SuppressWarnings({"unchecked"})
     private void postProcessUpdateImports(final Map<String, Object> models) {
         final String prefix = modelPackage() + ".";
-        Map<String, Object> enumRefs = new HashMap<String, Object>();
+        Map<String, Object> enumRefs = new HashMap<>();
         for (Map.Entry<String, Object> entry : models.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
             if (model.isEnum) {
@@ -322,7 +322,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             try {
                 @SuppressWarnings("unchecked")
                 Map<String, ArrayList<CodegenOperation>> opsMap = (Map<String, ArrayList<CodegenOperation>>) objs.get("operations");
-                HashSet<Integer> unknownCodes = new HashSet<Integer>();
+                HashSet<Integer> unknownCodes = new HashSet<>();
                 for (CodegenOperation operation : opsMap.get("operation")) {
                     for (CodegenResponse response : operation.responses) {
                         if ("default".equals(response.code)) {

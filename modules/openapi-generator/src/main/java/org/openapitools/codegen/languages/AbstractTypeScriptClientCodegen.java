@@ -143,7 +143,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         instantiationTypes.put("array", "Array");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("Set", "Set");
         typeMapping.put("set", "Set");
         typeMapping.put("Array", "Array");
@@ -387,7 +387,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     protected String toTypescriptTypeName(final String name, String safePrefix) {
-        ArrayList<String> exceptions = new ArrayList<String>(Arrays.asList("\\|", " "));
+        ArrayList<String> exceptions = new ArrayList<>(Arrays.asList("\\|", " "));
         String sanName = sanitizeName(name, "(?![| ])\\W", exceptions);
 
         sanName = camelize(sanName);
@@ -460,12 +460,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         } else if (ModelUtils.isIntegerSchema(p)) {
             // Handle integer enums
             if (p.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
+                return numericEnumValuesToEnumTypeUnion(new ArrayList<>(p.getEnum()));
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             // Handle double enums
             if (p.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
+                return numericEnumValuesToEnumTypeUnion(new ArrayList<>(p.getEnum()));
             }
         }
         /* TODO revise the logic below

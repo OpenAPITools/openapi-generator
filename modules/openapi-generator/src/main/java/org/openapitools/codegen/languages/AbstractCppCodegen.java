@@ -344,7 +344,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         List<Server> serverList = openAPI.getServers();
-        List<CodegenServer> CodegenServerList = new ArrayList<CodegenServer>();
+        List<CodegenServer> CodegenServerList = new ArrayList<>();
         URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String port = URLPathUtils.getPort(url, "");
         String host = url.getHost();
@@ -364,7 +364,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 CodegenServer s = new CodegenServer();
                 s.description = server.getDescription();
                 s.url = server.getUrl();
-                s.variables = new ArrayList<CodegenServerVariable>();
+                s.variables = new ArrayList<>();
                 ServerVariables serverVars = server.getVariables();
                 if(serverVars != null){
                 serverVars.forEach((key,value) -> {
@@ -409,7 +409,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     private void addForwardDeclarations(CodegenModel parentModel, Map<String, Object> objs) {
-        List<String> forwardDeclarations = new ArrayList<String>();
+        List<String> forwardDeclarations = new ArrayList<>();
         if(!parentModel.hasVars) {
             return;
         }

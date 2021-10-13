@@ -116,7 +116,7 @@ public class PetApiTest {
         Pet pet = createPet();
         api.addPet(pet);
         // to store returned Pet or error message/exception
-        final Map<String, Object> result = new HashMap<String, Object>();
+        final Map<String, Object> result = new HashMap<>();
 
         api.getPetByIdAsync(pet.getId(), new ApiCallback<Pet>() {
             @Override
@@ -163,7 +163,7 @@ public class PetApiTest {
         Pet pet = createPet();
         api.addPet(pet);
         // to store returned Pet or error message/exception
-        final Map<String, Object> result = new HashMap<String, Object>();
+        final Map<String, Object> result = new HashMap<>();
 
         // test getting a nonexistent pet
         result.clear();
@@ -218,8 +218,8 @@ public class PetApiTest {
         Pet pet2 = createPet();
 
         final CountDownLatch addLatch = new CountDownLatch(2);
-        final TestApiCallback<Void> addCallback1 = new TestApiCallback<Void>(addLatch);
-        final TestApiCallback<Void> addCallback2 = new TestApiCallback<Void>(addLatch);
+        final TestApiCallback<Void> addCallback1 = new TestApiCallback<>(addLatch);
+        final TestApiCallback<Void> addCallback2 = new TestApiCallback<>(addLatch);
 
         // Make 2 simultaneous calls
         api.addPetAsync(pet1, addCallback1);
@@ -238,9 +238,9 @@ public class PetApiTest {
         assertValidProgress(addCallback2.getUploadProgress());
 
         final CountDownLatch getLatch = new CountDownLatch(3);
-        final TestApiCallback<Pet> getCallback1 = new TestApiCallback<Pet>(getLatch);
-        final TestApiCallback<Pet> getCallback2 = new TestApiCallback<Pet>(getLatch);
-        final TestApiCallback<Pet> getCallback3 = new TestApiCallback<Pet>(getLatch);
+        final TestApiCallback<Pet> getCallback1 = new TestApiCallback<>(getLatch);
+        final TestApiCallback<Pet> getCallback2 = new TestApiCallback<>(getLatch);
+        final TestApiCallback<Pet> getCallback3 = new TestApiCallback<>(getLatch);
 
         api.getPetByIdAsync(pet1.getId(), getCallback1);
         api.getPetByIdAsync(pet2.getId(), getCallback2);
@@ -318,7 +318,7 @@ public class PetApiTest {
         pet.setName("monster");
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
 
-        List<Tag> tags = new ArrayList<Tag>();
+        List<Tag> tags = new ArrayList<>();
         Tag tag1 = new Tag();
         tag1.setName("friendly");
         tags.add(tag1);
@@ -480,9 +480,9 @@ public class PetApiTest {
 
         private final CountDownLatch latch;
         private final ConcurrentLinkedQueue<Progress> uploadProgress =
-                new ConcurrentLinkedQueue<Progress>();
+                new ConcurrentLinkedQueue<>();
         private final ConcurrentLinkedQueue<Progress> downloadProgress =
-                new ConcurrentLinkedQueue<Progress>();
+                new ConcurrentLinkedQueue<>();
 
         private boolean done;
         private boolean success;
@@ -537,11 +537,11 @@ public class PetApiTest {
         }
 
         public List<Progress> getUploadProgress() {
-            return new ArrayList<Progress>(uploadProgress);
+            return new ArrayList<>(uploadProgress);
         }
 
         public List<Progress> getDownloadProgress() {
-            return new ArrayList<Progress>(downloadProgress);
+            return new ArrayList<>(downloadProgress);
         }
     }
 

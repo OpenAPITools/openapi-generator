@@ -50,20 +50,20 @@ public class ArrayOfArrayOfNumberOnlyTest {
     public void arrayArrayNumberTest() {
         BigDecimal b1 = new BigDecimal("12.3");
         BigDecimal b2 = new BigDecimal("5.6");
-        List<BigDecimal> arrayArrayNumber = new ArrayList<BigDecimal>();
+        List<BigDecimal> arrayArrayNumber = new ArrayList<>();
         arrayArrayNumber.add(b1);
         arrayArrayNumber.add(b2);
-        model.setArrayArrayNumber(new ArrayList<List<BigDecimal>>());
+        model.setArrayArrayNumber(new ArrayList<>());
         model.getArrayArrayNumber().add(arrayArrayNumber);
 
         // create another instance for comparison
         BigDecimal b3 = new BigDecimal("12.3");
         BigDecimal b4 = new BigDecimal("5.6");
         ArrayOfArrayOfNumberOnly model2 = new ArrayOfArrayOfNumberOnly();
-        List<BigDecimal> arrayArrayNumber2 = new ArrayList<BigDecimal>();
+        List<BigDecimal> arrayArrayNumber2 = new ArrayList<>();
         arrayArrayNumber2.add(b1);
         arrayArrayNumber2.add(b2);
-        model2.setArrayArrayNumber(new ArrayList<List<BigDecimal>>());
+        model2.setArrayArrayNumber(new ArrayList<>());
         model2.getArrayArrayNumber().add(arrayArrayNumber2);
 
         Assert.assertTrue(model2.equals(model));

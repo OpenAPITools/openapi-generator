@@ -148,13 +148,13 @@ public final class CodegenConfiguratorUtils {
 
     private static Set<String> createSetFromCsvList(String csvProperty) {
         final List<String> values = OptionUtils.splitCommaSeparatedList(csvProperty);
-        return new HashSet<String>(values);
+        return new HashSet<>(values);
     }
 
     private static Map<String, String> createMapFromKeyValuePairs(String commaSeparatedKVPairs) {
         final List<Pair<String, String>> pairs = OptionUtils.parseCommaSeparatedTuples(commaSeparatedKVPairs);
 
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
 
         for (Pair<String, String> pair : pairs) {
             result.put(pair.getLeft(), pair.getRight());

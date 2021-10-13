@@ -198,7 +198,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         schemas.put("SimpleQuadrilateral", SimpleQuadrilateral.class);
         JSON.registerDescendants(Quadrilateral.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("ComplexQuadrilateral", ComplexQuadrilateral.class);
         mappings.put("SimpleQuadrilateral", SimpleQuadrilateral.class);
         mappings.put("Quadrilateral", Quadrilateral.class);
@@ -220,12 +220,12 @@ public class Quadrilateral extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(ComplexQuadrilateral.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(ComplexQuadrilateral.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(SimpleQuadrilateral.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(SimpleQuadrilateral.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

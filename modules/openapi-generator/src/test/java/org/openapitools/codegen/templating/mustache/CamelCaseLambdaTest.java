@@ -39,7 +39,7 @@ public class CamelCaseLambdaTest extends LambdaTest {
         Map<String, Object> ctx = context("camelcase", new CamelCaseLambda().generator(generator));
 
         when(generator.sanitizeName(anyString())).then(returnsFirstArg());
-        when(generator.reservedWords()).thenReturn(new HashSet<String>(Arrays.asList("reservedWord")));
+        when(generator.reservedWords()).thenReturn(new HashSet<>(Arrays.asList("reservedWord")));
         when(generator.escapeReservedWord("reservedWord")).thenReturn("escapedReservedWord");
 
         // When & Then
@@ -53,7 +53,7 @@ public class CamelCaseLambdaTest extends LambdaTest {
                 .generator(generator).escapeAsParamName(true));
 
         when(generator.sanitizeName(anyString())).then(returnsFirstArg());
-        when(generator.reservedWords()).thenReturn(new HashSet<String>());
+        when(generator.reservedWords()).thenReturn(new HashSet<>());
         when(generator.toParamName("inputText")).thenReturn("inputTextAsParam");
 
         // When & Then

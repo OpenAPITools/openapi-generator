@@ -1247,7 +1247,7 @@ public class DefaultGenerator implements Generator {
      * @return The set of unique imports
      */
     private Set<Map<String,String>> toImportsObjects(Map<String,String> mappedImports){
-        Set<Map<String, String>> result = new TreeSet<Map<String,String>>(
+        Set<Map<String, String>> result = new TreeSet<>(
             (Comparator<Map<String, String>>) (o1, o2) -> {
                 String s1 = o1.get("classname");
                 String s2 = o2.get("classname");

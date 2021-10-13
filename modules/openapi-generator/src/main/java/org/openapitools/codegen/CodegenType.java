@@ -27,7 +27,7 @@ import java.util.Map;
 public enum CodegenType {
     CLIENT, SERVER, DOCUMENTATION, SCHEMA, CONFIG, OTHER;
 
-    private static Map<String, CodegenType> names = new HashMap<String, CodegenType>();
+    private static Map<String, CodegenType> names = new HashMap<>();
 
     @JsonCreator
     public static CodegenType forValue(String value) {

@@ -28,7 +28,7 @@ public class OptionUtils {
 
     public static List<Pair<String, String>> parseCommaSeparatedTuples(final String input) {
 
-        final List<Pair<String, String>> results = new ArrayList<Pair<String, String>>();
+        final List<Pair<String, String>> results = new ArrayList<>();
 
         final List<String> tuples = splitCommaSeparatedList(input);
 
@@ -48,7 +48,7 @@ public class OptionUtils {
 
     public static List<String> splitCommaSeparatedList(String input) {
 
-        List<String> results = new ArrayList<String>();
+        List<String> results = new ArrayList<>();
 
         if(input != null && !input.isEmpty()) {
             for (String value : input.split(",")) {

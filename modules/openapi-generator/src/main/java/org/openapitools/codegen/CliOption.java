@@ -88,7 +88,7 @@ public class CliOption {
 
     public CliOption addEnum(String value, String description) {
         if (this.enumValues == null) {
-            this.enumValues = new LinkedHashMap<String, String>();
+            this.enumValues = new LinkedHashMap<>();
         }
         if (!enumValues.containsKey(value)) {
             enumValues.put(value, description);

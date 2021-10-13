@@ -161,10 +161,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("cmake-lists.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("date", "utility::datetime");
         typeMapping.put("DateTime", "utility::datetime");
         typeMapping.put("string", "utility::string_t");
@@ -181,7 +181,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("URI", "utility::string_t");
         typeMapping.put("ByteArray", "utility::string_t");
 
-        super.importMapping = new HashMap<String, String>();
+        super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
         importMapping.put("std::string", "#include <string>");
@@ -255,7 +255,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         CodegenModel codegenModel = super.fromModel(name, model);
 
         Set<String> oldImports = codegenModel.imports;
-        codegenModel.imports = new HashSet<String>();
+        codegenModel.imports = new HashSet<>();
         for (String imp : oldImports) {
             String newImp = toModelImport(imp);
             if (!newImp.isEmpty()) {

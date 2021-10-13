@@ -75,11 +75,11 @@ public class PetApi {
     String path = "/pet";
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
       "application/json",
       "application/xml"
@@ -139,11 +139,11 @@ public class PetApi {
     String path = "/pet".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -201,11 +201,11 @@ public class PetApi {
     String path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     headerParams.put("api_key", ApiInvoker.parameterToString(apiKey));
     String[] contentTypes = {
     };
@@ -264,11 +264,11 @@ public class PetApi {
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
     headerParams.put("api_key", ApiInvoker.parameterToString(apiKey));
@@ -326,11 +326,11 @@ public class PetApi {
     String path = "/pet/findByStatus";
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     queryParams.addAll(ApiInvoker.parameterToPairs("csv", "status", status));
     String[] contentTypes = {
     };
@@ -389,11 +389,11 @@ public class PetApi {
     String path = "/pet/findByStatus".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
     queryParams.addAll(ApiInvoker.parameterToPairs("csv", "status", status));
 
@@ -455,11 +455,11 @@ public class PetApi {
     String path = "/pet/findByTags";
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     queryParams.addAll(ApiInvoker.parameterToPairs("csv", "tags", tags));
     String[] contentTypes = {
     };
@@ -518,11 +518,11 @@ public class PetApi {
     String path = "/pet/findByTags".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
     queryParams.addAll(ApiInvoker.parameterToPairs("csv", "tags", tags));
 
@@ -584,11 +584,11 @@ public class PetApi {
     String path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -646,11 +646,11 @@ public class PetApi {
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -711,11 +711,11 @@ public class PetApi {
     String path = "/pet";
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
       "application/json",
       "application/xml"
@@ -775,11 +775,11 @@ public class PetApi {
     String path = "/pet".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -838,11 +838,11 @@ public class PetApi {
     String path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
       "application/x-www-form-urlencoded"
     };
@@ -909,11 +909,11 @@ public class PetApi {
     String path = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -982,11 +982,11 @@ formParams.put("status", ApiInvoker.parameterToString(status));
     String path = "/pet/{petId}/uploadImage".replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
       "multipart/form-data"
     };
@@ -1052,11 +1052,11 @@ formParams.put("status", ApiInvoker.parameterToString(status));
     String path = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 

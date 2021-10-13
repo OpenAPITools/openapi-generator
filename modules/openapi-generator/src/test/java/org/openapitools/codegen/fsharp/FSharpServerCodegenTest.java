@@ -35,26 +35,26 @@ public class FSharpServerCodegenTest {
         final AbstractFSharpCodegen codegen = new P_AbstractFSharpCodegen();
 
         final CodegenModel wheel = new CodegenModel();
-        wheel.setImports(new HashSet<String>(Arrays.asList()));
+        wheel.setImports(new HashSet<>(Arrays.asList()));
         wheel.setClassname("wheel");
 
         final CodegenModel bike = new CodegenModel();
-        bike.setImports(new HashSet<String>(Arrays.asList("wheel")));
+        bike.setImports(new HashSet<>(Arrays.asList("wheel")));
         bike.setClassname("bike");
 
         final CodegenModel parent = new CodegenModel();
-        parent.setImports(new HashSet<String>(Arrays.asList("bike", "car")));
+        parent.setImports(new HashSet<>(Arrays.asList("bike", "car")));
         parent.setClassname("parent");
 
         final CodegenModel car = new CodegenModel();
-        car.setImports(new HashSet<String>(Arrays.asList("wheel")));
+        car.setImports(new HashSet<>(Arrays.asList("wheel")));
         car.setClassname("car");
 
         final CodegenModel child = new CodegenModel();
-        child.setImports(new HashSet<String>(Arrays.asList("car", "bike", "parent")));
+        child.setImports(new HashSet<>(Arrays.asList("car", "bike", "parent")));
         child.setClassname("child");
 
-        Map<String, Object> models = new HashMap<String,Object>();
+        Map<String, Object> models = new HashMap<>();
         models.put("parent", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", parent))));
         models.put("child", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", child))));
         models.put("car", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", car))));

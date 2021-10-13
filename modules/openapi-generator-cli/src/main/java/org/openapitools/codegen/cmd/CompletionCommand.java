@@ -86,7 +86,7 @@ public class CompletionCommand extends OpenApiGeneratorCommand
                         null,
                         suggesterMetadata.getMetadataInjections(),
                         bindings.build(),
-                        new DefaultCommandFactory<Suggester>());
+                        new DefaultCommandFactory<>());
 
                 return suggester.suggest();
             }

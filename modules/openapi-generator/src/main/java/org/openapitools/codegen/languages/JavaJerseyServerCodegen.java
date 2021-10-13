@@ -145,7 +145,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             // for enum model
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
-                Map<String, String> item = new HashMap<String, String>();
+                Map<String, String> item = new HashMap<>();
                 item.put("import", importMapping.get("JsonValue"));
                 imports.add(item);
             }

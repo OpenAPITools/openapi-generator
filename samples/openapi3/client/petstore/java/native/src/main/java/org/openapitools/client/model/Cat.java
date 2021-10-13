@@ -116,7 +116,7 @@ public class Cat extends Animal {
 
 static {
   // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+  Map<String, Class<?>> mappings = new HashMap<>();
   mappings.put("Cat", Cat.class);
   JSON.registerDiscriminator(Cat.class, "className", mappings);
 }

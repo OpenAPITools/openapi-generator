@@ -66,11 +66,11 @@ public class UserApi {
     String localVarPath = "/user".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -118,11 +118,11 @@ public class UserApi {
     String localVarPath = "/user/createWithArray".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -170,11 +170,11 @@ public class UserApi {
     String localVarPath = "/user/createWithList".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -222,11 +222,11 @@ public class UserApi {
     String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -274,11 +274,11 @@ public class UserApi {
     String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -331,11 +331,11 @@ public class UserApi {
     String localVarPath = "/user/login".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
     localVarQueryParams.addAll(ApiInvoker.parameterToPairs("", "username", username));
     localVarQueryParams.addAll(ApiInvoker.parameterToPairs("", "password", password));
@@ -380,11 +380,11 @@ public class UserApi {
     String localVarPath = "/user/logout".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -437,11 +437,11 @@ public class UserApi {
     String localVarPath = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 

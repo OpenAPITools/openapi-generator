@@ -219,7 +219,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                     String schemaNamesString =
                             var.items.dataType.substring(6, var.items.dataType.length() - 1);
                     List<String> oneofSchemas =
-                            new ArrayList<String>(Arrays.asList(schemaNamesString.split("\\s*,\\s*")));
+                            new ArrayList<>(Arrays.asList(schemaNamesString.split("\\s*,\\s*")));
 
                     for (int i = 0; i < oneofSchemas.size(); i++) {
                         oneofSchemas.set(i, lowerCaseStringExceptFirstLetter(oneofSchemas.get(i)));

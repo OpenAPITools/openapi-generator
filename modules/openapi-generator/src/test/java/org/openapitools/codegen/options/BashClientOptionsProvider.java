@@ -49,7 +49,7 @@ public class BashClientOptionsProvider implements OptionsProvider {
     public Map<String, String> createOptions() {
 
         ImmutableMap.Builder<String, String> builder
-            = new ImmutableMap.Builder<String, String>();
+            = new ImmutableMap.Builder<>();
 
         return builder
                 .put(BashClientCodegen.CURL_OPTIONS, CURL_OPTIONS)

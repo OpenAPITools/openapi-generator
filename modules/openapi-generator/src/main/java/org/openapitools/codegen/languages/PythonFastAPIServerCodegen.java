@@ -229,7 +229,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
             }
         }
 
-        objs.put("securityImports", new ArrayList<String>(securityImports));
+        objs.put("securityImports", new ArrayList<>(securityImports));
 
         return objs;
     }

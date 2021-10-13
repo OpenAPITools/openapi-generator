@@ -74,11 +74,11 @@ public class UserApi {
     String path = "/user";
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -136,11 +136,11 @@ public class UserApi {
     String path = "/user".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -197,11 +197,11 @@ public class UserApi {
     String path = "/user/createWithArray";
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -259,11 +259,11 @@ public class UserApi {
     String path = "/user/createWithArray".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -320,11 +320,11 @@ public class UserApi {
     String path = "/user/createWithList";
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -382,11 +382,11 @@ public class UserApi {
     String path = "/user/createWithList".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -443,11 +443,11 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -505,11 +505,11 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -566,11 +566,11 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -628,11 +628,11 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -699,11 +699,11 @@ public class UserApi {
     String path = "/user/login";
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     queryParams.addAll(ApiInvoker.parameterToPairs("", "username", username));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "password", password));
     String[] contentTypes = {
@@ -768,11 +768,11 @@ public class UserApi {
     String path = "/user/login".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
     queryParams.addAll(ApiInvoker.parameterToPairs("", "username", username));
     queryParams.addAll(ApiInvoker.parameterToPairs("", "password", password));
@@ -829,11 +829,11 @@ public class UserApi {
     String path = "/user/logout";
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -886,11 +886,11 @@ public class UserApi {
     String path = "/user/logout".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -953,11 +953,11 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -1020,11 +1020,11 @@ public class UserApi {
     String path = "/user/{username}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "username" + "\\}", apiInvoker.escapeString(username.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 

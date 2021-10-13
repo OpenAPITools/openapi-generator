@@ -130,7 +130,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         hideGenerationTimestamp = Boolean.TRUE;
 
         // reserved word. Ref: https://github.com/crystal-lang/crystal/wiki/Crystal-for-Rubyists#available-keywords
-        reservedWords = new HashSet<String>(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "abstract", "do", "if", "nil?", "select", "union",
                         "alias", "else", "in", "of", "self", "unless",
@@ -557,8 +557,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
         for (Object o : allModels) {
             HashMap<String, Object> h = (HashMap<String, Object>) o;

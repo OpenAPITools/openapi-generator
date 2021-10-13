@@ -87,7 +87,7 @@ public class AsciidocGeneratorTest {
 
         LOGGER.info("test: generating sample markup {}", output.getAbsolutePath());
 
-        Map<String, Object> props = new TreeMap<String, Object>();
+        Map<String, Object> props = new TreeMap<>();
         props.put("specDir", "spec");
 
         final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("asciidoc")
@@ -119,7 +119,7 @@ public class AsciidocGeneratorTest {
 
         LOGGER.info("test: generating sample markup {}", output.getAbsolutePath());
 
-        Map<String, Object> props = new TreeMap<String, Object>();
+        Map<String, Object> props = new TreeMap<>();
         props.put("specDir", "spec");
 
         final CodegenConfigurator configurator = new CodegenConfigurator()

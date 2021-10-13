@@ -66,7 +66,7 @@ import com.google.gson.JsonParseException;
 
 public class ApiInvoker {
   private static ApiInvoker INSTANCE = new ApiInvoker();
-  private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+  private Map<String, String> defaultHeaderMap = new HashMap<>();
 
   private HttpClient client = null;
 
@@ -149,7 +149,7 @@ public class ApiInvoker {
     Format to {@code Pair} objects.
   */
   public static List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
-    List<Pair> params = new ArrayList<Pair>();
+    List<Pair> params = new ArrayList<>();
 
     // preconditions
     if (name == null || name.isEmpty() || value == null) return params;
@@ -276,7 +276,7 @@ public class ApiInvoker {
     String querystring = b.substring(0, b.length() - 1);
     String url = host + path + querystring;
 
-    HashMap<String, String> headers = new HashMap<String, String>();
+    HashMap<String, String> headers = new HashMap<>();
 
     for(String key : headerParams.keySet()) {
       headers.put(key, headerParams.get(key));

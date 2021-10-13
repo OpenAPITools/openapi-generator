@@ -198,7 +198,7 @@ public class Drawing {
   @JsonAnySetter
   public Drawing putAdditionalProperty(String key, Fruit value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Fruit>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;

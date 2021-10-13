@@ -34,7 +34,7 @@ public class ApiClient {
 
   public ApiClient() {
     objectMapper = createObjectMapper();
-    apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
+    apiAuthorizations = new LinkedHashMap<>();
     feignBuilder = Feign.builder()
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
                 .decoder(new JacksonDecoder(objectMapper))

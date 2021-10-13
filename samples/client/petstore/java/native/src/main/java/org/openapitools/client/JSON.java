@@ -56,7 +56,7 @@ public class JSON {
   public static Class<?> getClassForElement(JsonNode node, Class<?> modelClass) {
     ClassDiscriminatorMapping cdm = modelDiscriminators.get(modelClass);
     if (cdm != null) {
-      return cdm.getClassForElement(node, new HashSet<Class<?>>());
+      return cdm.getClassForElement(node, new HashSet<>());
     }
     return null;
   }
@@ -76,7 +76,7 @@ public class JSON {
     ClassDiscriminatorMapping(Class<?> cls, String propertyName, Map<String, Class<?>> mappings) {
       modelClass = cls;
       discriminatorName = propertyName;
-      discriminatorMappings = new HashMap<String, Class<?>>();
+      discriminatorMappings = new HashMap<>();
       if (mappings != null) {
         discriminatorMappings.putAll(mappings);
       }

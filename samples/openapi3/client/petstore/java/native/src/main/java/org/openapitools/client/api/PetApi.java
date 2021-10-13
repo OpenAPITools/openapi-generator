@@ -102,7 +102,7 @@ public class PetApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("addPet", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -176,7 +176,7 @@ public class PetApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("deletePet", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -248,7 +248,7 @@ public class PetApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("findPetsByStatus", localVarResponse);
       }
-      return new ApiResponse<List<Pet>>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {})
@@ -329,7 +329,7 @@ public class PetApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("findPetsByTags", localVarResponse);
       }
-      return new ApiResponse<List<Pet>>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {})
@@ -406,7 +406,7 @@ public class PetApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("getPetById", localVarResponse);
       }
-      return new ApiResponse<Pet>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {})
@@ -473,7 +473,7 @@ public class PetApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("updatePet", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -549,7 +549,7 @@ public class PetApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("updatePetWithForm", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -622,7 +622,7 @@ public class PetApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("uploadFile", localVarResponse);
       }
-      return new ApiResponse<ModelApiResponse>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
@@ -695,7 +695,7 @@ public class PetApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("uploadFileWithRequiredFile", localVarResponse);
       }
-      return new ApiResponse<ModelApiResponse>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})

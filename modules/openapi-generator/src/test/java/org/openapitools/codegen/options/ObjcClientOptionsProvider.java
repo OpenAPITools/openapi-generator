@@ -39,7 +39,7 @@ public class ObjcClientOptionsProvider implements OptionsProvider {
 
     @Override
     public Map<String, String> createOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
+        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<>();
         return builder.put(ObjcClientCodegen.CLASS_PREFIX, CLASS_PREFIX_VALUE)
                 .put(ObjcClientCodegen.POD_NAME, POD_NAME_VALUE)
                 .put(CodegenConstants.POD_VERSION, POD_VERSION_VALUE)

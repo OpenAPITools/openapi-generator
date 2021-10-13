@@ -46,7 +46,7 @@ public class PhpSlim4ServerOptionsProvider implements OptionsProvider {
 
     @Override
     public Map<String, String> createOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
+        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<>();
         return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION, VARIABLE_NAMING_CONVENTION_VALUE)
                 .put(AbstractPhpCodegen.PACKAGE_NAME, PACKAGE_NAME_VALUE)

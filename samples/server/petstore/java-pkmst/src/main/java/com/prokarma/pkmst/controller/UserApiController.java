@@ -36,25 +36,25 @@ public class UserApiController implements UserApi {
     public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )   @RequestBody User body,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )   @RequestBody List<User> body,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )   @RequestBody List<User> body,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true ) @PathVariable("username") String username,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true ) @PathVariable("username") String username,
@@ -62,34 +62,34 @@ public class UserApiController implements UserApi {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<User>(objectMapper.readValue("", User.class), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.readValue("", User.class), HttpStatus.OK);
         }
 
 
         if (accept != null && accept.contains("application/xml")) {
-            return new ResponseEntity<User>(objectMapper.readValue("", User.class), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.readValue("", User.class), HttpStatus.OK);
         }
 
-        return new ResponseEntity<User>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<String> loginUser(@ApiParam(value = "The user name for login", required = true)  @RequestParam(value = "username", required = true) String username,
         @ApiParam(value = "The password for login in clear text", required = true)  @RequestParam(value = "password", required = true) String password,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
-        return new ResponseEntity<String>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<Void> logoutUser(@RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true ) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object" ,required=true )   @RequestBody User body,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

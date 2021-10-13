@@ -104,7 +104,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
         importMapping.put("LocalTime", "org.joda.time.LocalTime");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("enum", "NSString");
         typeMapping.put("array", "List");
         typeMapping.put("set", "Set");

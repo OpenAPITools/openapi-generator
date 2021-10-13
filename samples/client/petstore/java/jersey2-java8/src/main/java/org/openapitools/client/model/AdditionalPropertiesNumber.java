@@ -83,7 +83,7 @@ public class AdditionalPropertiesNumber {
   @JsonAnySetter
   public AdditionalPropertiesNumber putAdditionalProperty(String key, BigDecimal value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, BigDecimal>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;

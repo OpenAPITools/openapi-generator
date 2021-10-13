@@ -45,9 +45,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public List<CodegenModel> children;
 
     // anyOf, oneOf, allOf
-    public Set<String> anyOf = new TreeSet<String>();
-    public Set<String> oneOf = new TreeSet<String>();
-    public Set<String> allOf = new TreeSet<String>();
+    public Set<String> anyOf = new TreeSet<>();
+    public Set<String> oneOf = new TreeSet<>();
+    public Set<String> allOf = new TreeSet<>();
 
     // anyOf, oneOf, allOf with full properties/tags (e.g. isString, etc)
     public List<CodegenProperty> anyOfProps = new ArrayList<>();
@@ -71,20 +71,20 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean isAlias; // Is this effectively an alias of another simple type
     public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime, isShort, isUnboundedInteger, isBoolean;
     private boolean additionalPropertiesIsAnyType;
-    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
-    public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>(); // all properties (with parent's properties)
-    public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
-    public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
-    public List<CodegenProperty> readOnlyVars = new ArrayList<CodegenProperty>(); // a list of read-only properties
-    public List<CodegenProperty> readWriteVars = new ArrayList<CodegenProperty>(); // a list of properties for read, write
-    public List<CodegenProperty> parentVars = new ArrayList<CodegenProperty>();
+    public List<CodegenProperty> vars = new ArrayList<>(); // all properties (without parent's properties)
+    public List<CodegenProperty> allVars = new ArrayList<>(); // all properties (with parent's properties)
+    public List<CodegenProperty> requiredVars = new ArrayList<>(); // a list of required properties
+    public List<CodegenProperty> optionalVars = new ArrayList<>(); // a list of optional properties
+    public List<CodegenProperty> readOnlyVars = new ArrayList<>(); // a list of read-only properties
+    public List<CodegenProperty> readWriteVars = new ArrayList<>(); // a list of properties for read, write
+    public List<CodegenProperty> parentVars = new ArrayList<>();
     public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
-    public Set<String> mandatory = new TreeSet<String>(); // without parent's required properties
-    public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
+    public Set<String> mandatory = new TreeSet<>(); // without parent's required properties
+    public Set<String> allMandatory = new TreeSet<>(); // with parent's required properties
 
-    public Set<String> imports = new TreeSet<String>();
+    public Set<String> imports = new TreeSet<>();
     public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasValidation;
     /**
      * Indicates the OAS schema specifies "nullable: true".
@@ -109,7 +109,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
-    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    public Map<String, Object> vendorExtensions = new HashMap<>();
 
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
@@ -1056,13 +1056,13 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     private List<CodegenProperty> removeDuplicatedProperty(List<CodegenProperty> vars) {
         // clone the list first
-        List<CodegenProperty> newList = new ArrayList<CodegenProperty>();
+        List<CodegenProperty> newList = new ArrayList<>();
         for (CodegenProperty cp : vars) {
             newList.add(cp.clone());
         }
 
-        Set<String> propertyNames = new TreeSet<String>();
-        Set<String> duplicatedNames = new TreeSet<String>();
+        Set<String> propertyNames = new TreeSet<>();
+        Set<String> duplicatedNames = new TreeSet<>();
 
         ListIterator<CodegenProperty> iterator = newList.listIterator();
         while (iterator.hasNext()) {

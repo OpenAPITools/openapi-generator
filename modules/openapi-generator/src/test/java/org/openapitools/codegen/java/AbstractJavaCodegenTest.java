@@ -213,7 +213,7 @@ public class AbstractJavaCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
+        final List<String> additionalModelTypeAnnotations = new ArrayList<>();
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
 
@@ -235,7 +235,7 @@ public class AbstractJavaCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
+        final List<String> additionalModelTypeAnnotations = new ArrayList<>();
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
 
@@ -257,7 +257,7 @@ public class AbstractJavaCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
+        final List<String> additionalModelTypeAnnotations = new ArrayList<>();
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
 
@@ -279,7 +279,7 @@ public class AbstractJavaCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
         
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
+        final List<String> additionalModelTypeAnnotations = new ArrayList<>();
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
         additionalModelTypeAnnotations.add("@Foobar");
@@ -302,7 +302,7 @@ public class AbstractJavaCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
         
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
+        final List<String> additionalModelTypeAnnotations = new ArrayList<>();
         additionalModelTypeAnnotations.add("@Foo");
         additionalModelTypeAnnotations.add("@Bar");
 

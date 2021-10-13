@@ -219,7 +219,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
-        CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
+        CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
     }
@@ -601,7 +601,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel fruit = codegen.fromModel("Fruit", schema);
 
-        Set<String> oneOf = new TreeSet<String>();
+        Set<String> oneOf = new TreeSet<>();
         oneOf.add("Apple");
         oneOf.add("Banana");
         Assert.assertEquals(fruit.oneOf, oneOf);

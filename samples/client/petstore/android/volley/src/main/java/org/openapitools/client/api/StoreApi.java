@@ -74,11 +74,11 @@ public class StoreApi {
     String path = "/store/order/{orderId}".replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -136,11 +136,11 @@ public class StoreApi {
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -191,11 +191,11 @@ public class StoreApi {
     String path = "/store/inventory";
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -248,11 +248,11 @@ public class StoreApi {
     String path = "/store/inventory".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -313,11 +313,11 @@ public class StoreApi {
     String path = "/store/order/{orderId}".replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -375,11 +375,11 @@ public class StoreApi {
     String path = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 
@@ -440,11 +440,11 @@ public class StoreApi {
     String path = "/store/order";
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
     String[] contentTypes = {
     };
     String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
@@ -502,11 +502,11 @@ public class StoreApi {
     String path = "/store/order".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
+    List<Pair> queryParams = new ArrayList<>();
     // header params
-    Map<String, String> headerParams = new HashMap<String, String>();
+    Map<String, String> headerParams = new HashMap<>();
     // form params
-    Map<String, String> formParams = new HashMap<String, String>();
+    Map<String, String> formParams = new HashMap<>();
 
 
 

@@ -39,7 +39,7 @@ public class LowercaseLambdaTest extends LambdaTest {
         Map<String, Object> ctx = context("lowercase", new LowercaseLambda().generator(generator));
 
         when(generator.sanitizeName(anyString())).then(returnsFirstArg());
-        when(generator.reservedWords()).thenReturn(new HashSet<String>(Arrays.asList("reserved")));
+        when(generator.reservedWords()).thenReturn(new HashSet<>(Arrays.asList("reserved")));
         when(generator.escapeReservedWord("reserved")).thenReturn("escaped-reserved");
 
         // When & Then

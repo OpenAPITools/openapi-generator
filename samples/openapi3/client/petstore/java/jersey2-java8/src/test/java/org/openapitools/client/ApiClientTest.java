@@ -61,7 +61,7 @@ public class ApiClientTest {
 
     @Test
     public void testUpdateParamsForAuth() throws Exception {
-        Map<String, String> headerParams = new HashMap<String, String>();
+        Map<String, String> headerParams = new HashMap<>();
         List<Pair> queryParams = new ArrayList<>();
 
         URI uri = new URI("/api/v1/telemetry/TimeSeries");
@@ -69,7 +69,7 @@ public class ApiClientTest {
         // auth name
         String[] authNames = {"http_signature_test"};
 
-        HashMap<String, Authentication> authMap = new HashMap<String, Authentication>();
+        HashMap<String, Authentication> authMap = new HashMap<>();
 
         HttpSignatureAuth signatureAuth = new HttpSignatureAuth("some-key-1", SigningAlgorithm.HS2019, Algorithm.RSA_SHA512, null,
                 null, Arrays.asList(new String[] { "(request-target)" }), 128L);

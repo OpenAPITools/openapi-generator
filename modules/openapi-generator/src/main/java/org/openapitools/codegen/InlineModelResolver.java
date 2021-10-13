@@ -38,8 +38,8 @@ import java.util.stream.Collectors;
 
 public class InlineModelResolver {
     private OpenAPI openapi;
-    private Map<String, Schema> addedModels = new HashMap<String, Schema>();
-    private Map<String, String> generatedSignature = new HashMap<String, String>();
+    private Map<String, Schema> addedModels = new HashMap<>();
+    private Map<String, String> generatedSignature = new HashMap<>();
 
     // structure mapper sorts properties alphabetically on write to ensure models are
     // serialized consistently for lookup of existing models
@@ -61,7 +61,7 @@ public class InlineModelResolver {
         }
 
         if (openapi.getComponents().getSchemas() == null) {
-            openapi.getComponents().setSchemas(new HashMap<String, Schema>());
+            openapi.getComponents().setSchemas(new HashMap<>());
         }
 
         flattenPaths(openapi);
@@ -154,7 +154,7 @@ public class InlineModelResolver {
 
                     // add to openapi "components"
                     if (openAPI.getComponents().getRequestBodies() == null) {
-                        Map<String, RequestBody> requestBodies = new HashMap<String, RequestBody>();
+                        Map<String, RequestBody> requestBodies = new HashMap<>();
                         requestBodies.put(modelName, rb);
                         openAPI.getComponents().setRequestBodies(requestBodies);
                     } else {
@@ -422,7 +422,7 @@ public class InlineModelResolver {
             return;
         }
 
-        List<String> modelNames = new ArrayList<String>(models.keySet());
+        List<String> modelNames = new ArrayList<>(models.keySet());
         for (String modelName : modelNames) {
             Schema model = models.get(modelName);
             if (ModelUtils.isComposedSchema(model)) {
@@ -561,8 +561,8 @@ public class InlineModelResolver {
         if (properties == null) {
             return;
         }
-        Map<String, Schema> propsToUpdate = new HashMap<String, Schema>();
-        Map<String, Schema> modelsToAdd = new HashMap<String, Schema>();
+        Map<String, Schema> propsToUpdate = new HashMap<>();
+        Map<String, Schema> modelsToAdd = new HashMap<>();
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             String key = propertiesEntry.getKey();
             Schema property = propertiesEntry.getValue();

@@ -57,7 +57,7 @@ import org.openapitools.client.request.PatchRequest;
 
 public class ApiInvoker {
   private static ApiInvoker INSTANCE;
-  private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
+  private Map<String, String> defaultHeaderMap = new HashMap<>();
 
   private RequestQueue mRequestQueue;
 
@@ -137,7 +137,7 @@ public class ApiInvoker {
     Format to {@code Pair} objects.
   */
   public static List<Pair> parameterToPairs(String collectionFormat, String name, Object value){
-    List<Pair> params = new ArrayList<Pair>();
+    List<Pair> params = new ArrayList<>();
 
     // preconditions
     if (name == null || name.isEmpty() || value == null) return params;
@@ -202,7 +202,7 @@ public class ApiInvoker {
     setUserAgent("OpenAPI-Generator/1.0.0/android");
 
     // Setup authentications (key: authentication name, value: authentication).
-    INSTANCE.authentications = new HashMap<String, Authentication>();
+    INSTANCE.authentications = new HashMap<>();
     INSTANCE.authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     // TODO: comment out below as OAuth does not exist
     //INSTANCE.authentications.put("petstore_auth", new OAuth());
@@ -410,7 +410,7 @@ public class ApiInvoker {
     String querystring = b.substring(0, b.length() - 1);
     String url = host + path + querystring;
 
-    HashMap<String, String> headers = new HashMap<String, String>();
+    HashMap<String, String> headers = new HashMap<>();
 
     for(String key : headerParams.keySet()) {
       headers.put(key, headerParams.get(key));

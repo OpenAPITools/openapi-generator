@@ -40,7 +40,7 @@ public class PythonClientOptionsProvider implements OptionsProvider {
 
     @Override
     public Map<String, String> createOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
+        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<>();
         return builder.put(PythonClientCodegen.PACKAGE_URL, PACKAGE_URL_VALUE)
                 .put(CodegenConstants.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(CodegenConstants.PROJECT_NAME, PROJECT_NAME_VALUE)

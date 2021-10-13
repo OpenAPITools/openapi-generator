@@ -20,9 +20,9 @@ public class HttpBasicAuthTest {
 
     @Test
     public void testApplyToParams() {
-        List<Pair> queryParams = new ArrayList<Pair>();
-        Map<String, String> headerParams = new HashMap<String, String>();
-        Map<String, String> cookieParams = new HashMap<String, String>();
+        List<Pair> queryParams = new ArrayList<>();
+        Map<String, String> headerParams = new HashMap<>();
+        Map<String, String> cookieParams = new HashMap<>();
 
         auth.setUsername("my-username");
         auth.setPassword("my-password");
@@ -52,8 +52,8 @@ public class HttpBasicAuthTest {
         assertEquals(expected, headerParams.get("Authorization"));
 
         // null username and password should be ignored
-        queryParams = new ArrayList<Pair>();
-        headerParams = new HashMap<String, String>();
+        queryParams = new ArrayList<>();
+        headerParams = new HashMap<>();
         auth.setUsername(null);
         auth.setPassword(null);
         auth.applyToParams(queryParams, headerParams, cookieParams);

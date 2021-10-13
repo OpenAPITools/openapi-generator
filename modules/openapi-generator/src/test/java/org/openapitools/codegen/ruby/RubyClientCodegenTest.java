@@ -164,7 +164,7 @@ public class RubyClientCodegenTest {
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
         Map<String, Object> operations = ImmutableMap.<String, Object>of("operation", Collections.singletonList(op));
-        Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
+        Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<>());
         objs = codegen.postProcessOperationsWithModels(objs, Collections.singletonList(modelMap));
         CodegenOperation postProcessedOp = ((List<CodegenOperation>) ((Map<String, Object>) objs.get("operations")).get("operation")).get(0);
         Assert.assertEquals(postProcessedOp.bodyParams.size(), 1);
@@ -276,13 +276,13 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(cp1.name, "photo_urls");
 
         // test mandatory
-        Set<String> mandatory = new TreeSet<String>();
+        Set<String> mandatory = new TreeSet<>();
         mandatory.add("name");
         mandatory.add("photo_urls");
         Assert.assertEquals(nullablePet.getMandatory(), mandatory);
 
         // test allMandatory
-        Set<String> allMandatory = new TreeSet<String>();
+        Set<String> allMandatory = new TreeSet<>();
         allMandatory.add("name");
         allMandatory.add("photo_urls");
         Assert.assertEquals(nullablePet.getAllMandatory(), allMandatory);
@@ -344,7 +344,7 @@ public class RubyClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel fruit = codegen.fromModel("Fruit", schema);
 
-        Set<String> anyOf = new TreeSet<String>();
+        Set<String> anyOf = new TreeSet<>();
         anyOf.add("Apple");
         anyOf.add("Banana");
         Assert.assertEquals(fruit.anyOf, anyOf);
@@ -360,7 +360,7 @@ public class RubyClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel fruit = codegen.fromModel("Fruit", schema);
 
-        Set<String> oneOf = new TreeSet<String>();
+        Set<String> oneOf = new TreeSet<>();
         oneOf.add("Apple");
         oneOf.add("Banana");
         Assert.assertEquals(fruit.oneOf, oneOf);
@@ -379,7 +379,7 @@ public class RubyClientCodegenTest {
         Assert.assertNotNull(person);
 
         CodegenDiscriminator codegenDiscriminator = person.getDiscriminator();
-        Set<CodegenDiscriminator.MappedModel> mappedModels = new LinkedHashSet<CodegenDiscriminator.MappedModel>();
+        Set<CodegenDiscriminator.MappedModel> mappedModels = new LinkedHashSet<>();
         mappedModels.add(new CodegenDiscriminator.MappedModel("a", "Adult"));
         mappedModels.add(new CodegenDiscriminator.MappedModel("c", "Child"));
         mappedModels.add(new CodegenDiscriminator.MappedModel("Adult", "Adult"));
@@ -400,7 +400,7 @@ public class RubyClientCodegenTest {
         Assert.assertNotNull(person);
 
         CodegenDiscriminator codegenDiscriminator = person.getDiscriminator();
-        Set<CodegenDiscriminator.MappedModel> mappedModels = new LinkedHashSet<CodegenDiscriminator.MappedModel>();
+        Set<CodegenDiscriminator.MappedModel> mappedModels = new LinkedHashSet<>();
         mappedModels.add(new CodegenDiscriminator.MappedModel("a", "Adult"));
         mappedModels.add(new CodegenDiscriminator.MappedModel("c", "Child"));
         Assert.assertEquals(codegenDiscriminator.getMappedModels(), mappedModels);
@@ -628,7 +628,7 @@ public class RubyClientCodegenTest {
         final CodegenOperation op = codegen.fromOperation(path, "delete", p, null);
 
         Map<String, Object> operations = ImmutableMap.<String, Object>of("operation", Collections.singletonList(op));
-        Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
+        Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<>());
         objs = codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
         CodegenOperation postProcessedOp = ((List<CodegenOperation>) ((Map<String, Object>) objs.get("operations")).get("operation")).get(0);
 
@@ -648,7 +648,7 @@ public class RubyClientCodegenTest {
         final CodegenOperation op = codegen.fromOperation(path, "delete", p, null);
 
         Map<String, Object> operations = ImmutableMap.<String, Object>of("operation", Collections.singletonList(op));
-        Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
+        Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<>());
         objs = codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
         CodegenOperation postProcessedOp = ((List<CodegenOperation>) ((Map<String, Object>) objs.get("operations")).get("operation")).get(0);
 

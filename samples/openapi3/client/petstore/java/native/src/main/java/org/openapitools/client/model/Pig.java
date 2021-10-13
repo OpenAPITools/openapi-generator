@@ -198,7 +198,7 @@ public class Pig extends AbstractOpenApiSchema {
         schemas.put("DanishPig", DanishPig.class);
         JSON.registerDescendants(Pig.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("BasquePig", BasquePig.class);
         mappings.put("DanishPig", DanishPig.class);
         mappings.put("Pig", Pig.class);
@@ -220,12 +220,12 @@ public class Pig extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(BasquePig.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(BasquePig.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(DanishPig.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(DanishPig.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

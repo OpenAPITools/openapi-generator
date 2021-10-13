@@ -311,7 +311,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> os = (List<CodegenOperation>) operations.get("operation");
-        List<ExtendedCodegenOperation> newOs = new ArrayList<ExtendedCodegenOperation>();
+        List<ExtendedCodegenOperation> newOs = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
         for (CodegenOperation o : os) {
             // force http method to lower case
@@ -321,7 +321,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
                 o.returnType = "[" + o.returnBaseType + "]";
             }
 
-            ArrayList<String> pathTemplateNames = new ArrayList<String>();
+            ArrayList<String> pathTemplateNames = new ArrayList<>();
             Matcher matcher = pattern.matcher(o.path);
             StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
@@ -394,7 +394,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
-        private List<String> pathTemplateNames = new ArrayList<String>();
+        private List<String> pathTemplateNames = new ArrayList<>();
         private String replacedPathName;
         String arityRequired;
         String arityOptional;

@@ -67,11 +67,11 @@ public class PetApi {
     String localVarPath = "/pet".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -120,11 +120,11 @@ public class PetApi {
     String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
     localVarHeaderParams.put("api_key", ApiInvoker.parameterToString(apiKey));
@@ -173,11 +173,11 @@ public class PetApi {
     String localVarPath = "/pet/findByStatus".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
     localVarQueryParams.addAll(ApiInvoker.parameterToPairs("csv", "status", status));
 
@@ -226,11 +226,11 @@ public class PetApi {
     String localVarPath = "/pet/findByTags".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
     localVarQueryParams.addAll(ApiInvoker.parameterToPairs("csv", "tags", tags));
 
@@ -279,11 +279,11 @@ public class PetApi {
     String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -331,11 +331,11 @@ public class PetApi {
     String localVarPath = "/pet".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -385,11 +385,11 @@ public class PetApi {
     String localVarPath = "/pet/{petId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -449,11 +449,11 @@ localVarFormParams.put("status", ApiInvoker.parameterToString(status));
     String localVarPath = "/pet/{petId}/uploadImage".replaceAll("\\{format\\}","json").replaceAll("\\{" + "petId" + "\\}", apiInvoker.escapeString(petId.toString()));
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 

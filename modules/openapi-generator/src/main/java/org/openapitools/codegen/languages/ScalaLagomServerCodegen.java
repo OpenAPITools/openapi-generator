@@ -192,7 +192,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
                 // for enum model
                 if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                     cm.imports.add(importMapping.get("SerializedName"));
-                    Map<String, String> item = new HashMap<String, String>();
+                    Map<String, String> item = new HashMap<>();
                     item.put("import", importMapping.get("SerializedName"));
                     imports.add(item);
                 }

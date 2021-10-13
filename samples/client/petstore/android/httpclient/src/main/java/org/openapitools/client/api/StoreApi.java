@@ -66,11 +66,11 @@ public class StoreApi {
     String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -113,11 +113,11 @@ public class StoreApi {
     String localVarPath = "/store/inventory".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -165,11 +165,11 @@ public class StoreApi {
     String localVarPath = "/store/order/{orderId}".replaceAll("\\{format\\}","json").replaceAll("\\{" + "orderId" + "\\}", apiInvoker.escapeString(orderId.toString()));
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 
@@ -217,11 +217,11 @@ public class StoreApi {
     String localVarPath = "/store/order".replaceAll("\\{format\\}","json");
 
     // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarQueryParams = new ArrayList<>();
     // header params
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarHeaderParams = new HashMap<>();
     // form params
-    Map<String, String> localVarFormParams = new HashMap<String, String>();
+    Map<String, String> localVarFormParams = new HashMap<>();
 
 
 

@@ -56,12 +56,12 @@ public abstract class AbstractOptionsTest {
     public void checkOptionsHelp() {
         final List<String> cliOptions = getCodegenConfig().cliOptions().stream().map(getCliOptionTransformer()).collect(Collectors.toList());
         final Set<String> testOptions = optionsProvider.createOptions().keySet();
-        final Set<String> skipped = new HashSet<String>(cliOptions);
+        final Set<String> skipped = new HashSet<>(cliOptions);
         skipped.removeAll(testOptions);
         if (!skipped.isEmpty()) {
             Assert.fail(String.format(Locale.ROOT, "These options weren't checked: %s.", StringUtils.join(skipped, ", ")));
         }
-        final Set<String> undocumented = new HashSet<String>(testOptions);
+        final Set<String> undocumented = new HashSet<>(testOptions);
         undocumented.removeAll(cliOptions);
         if (!undocumented.isEmpty()) {
             Assert.fail(String.format(Locale.ROOT,"These options weren't documented: %s. Are you expecting base options and calling cliOptions.clear()?", StringUtils.join(undocumented, ", ")));

@@ -45,10 +45,10 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
-    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
-    public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>();
+    public List<CodegenProperty> vars = new ArrayList<>(); // all properties (without parent's properties)
+    public List<CodegenProperty> requiredVars = new ArrayList<>();
     public CodegenProperty mostInnerItems;
-    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    public Map<String, Object> vendorExtensions = new HashMap<>();
     public boolean hasValidation;
     public boolean isNullable;
     public boolean isDeprecated;
@@ -160,10 +160,10 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.setHasDiscriminatorWithNonEmptyMapping(this.hasDiscriminatorWithNonEmptyMapping);
 
         if (this._enum != null) {
-            output._enum = new ArrayList<String>(this._enum);
+            output._enum = new ArrayList<>(this._enum);
         }
         if (this.allowableValues != null) {
-            output.allowableValues = new HashMap<String, Object>(this.allowableValues);
+            output.allowableValues = new HashMap<>(this.allowableValues);
         }
         if (this.items != null) {
             output.items = this.items;
@@ -178,7 +178,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
             output.mostInnerItems = this.mostInnerItems;
         }
         if (this.vendorExtensions != null) {
-            output.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
+            output.vendorExtensions = new HashMap<>(this.vendorExtensions);
         }
         output.hasValidation = this.hasValidation;
         output.isNullable = this.isNullable;

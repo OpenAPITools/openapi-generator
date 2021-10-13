@@ -36,12 +36,12 @@ public class StoreApiController implements StoreApi {
     public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true ) @PathVariable("orderId") String orderId,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<Map<String, Integer>> getInventory(@RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
-        return new ResponseEntity<Map<String, Integer>>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId,
@@ -49,15 +49,15 @@ public class StoreApiController implements StoreApi {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("", Order.class), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.readValue("", Order.class), HttpStatus.OK);
         }
 
 
         if (accept != null && accept.contains("application/xml")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("", Order.class), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.readValue("", Order.class), HttpStatus.OK);
         }
 
-        return new ResponseEntity<Order>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )   @RequestBody Order body,
@@ -65,15 +65,15 @@ public class StoreApiController implements StoreApi {
         // do some magic!
 
         if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("", Order.class), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.readValue("", Order.class), HttpStatus.OK);
         }
 
 
         if (accept != null && accept.contains("application/xml")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("", Order.class), HttpStatus.OK);
+            return new ResponseEntity<>(objectMapper.readValue("", Order.class), HttpStatus.OK);
         }
 
-        return new ResponseEntity<Order>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

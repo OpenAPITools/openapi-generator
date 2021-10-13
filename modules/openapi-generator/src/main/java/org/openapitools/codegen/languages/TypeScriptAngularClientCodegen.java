@@ -569,7 +569,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * Parse imports
      */
     private Set<String> parseImports(CodegenModel cm) {
-        Set<String> newImports = new HashSet<String>();
+        Set<String> newImports = new HashSet<>();
         if (cm.imports.size() > 0) {
             for (String name : cm.imports) {
                 if (name.indexOf(" | ") >= 0) {

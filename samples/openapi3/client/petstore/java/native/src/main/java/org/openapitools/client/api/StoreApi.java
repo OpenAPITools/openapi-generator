@@ -100,7 +100,7 @@ public class StoreApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("deleteOrder", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -167,7 +167,7 @@ public class StoreApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("getInventory", localVarResponse);
       }
-      return new ApiResponse<Map<String, Integer>>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {})
@@ -231,7 +231,7 @@ public class StoreApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("getOrderById", localVarResponse);
       }
-      return new ApiResponse<Order>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})
@@ -300,7 +300,7 @@ public class StoreApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("placeOrder", localVarResponse);
       }
-      return new ApiResponse<Order>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})

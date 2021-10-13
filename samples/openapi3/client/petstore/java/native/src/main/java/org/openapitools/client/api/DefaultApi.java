@@ -100,7 +100,7 @@ public class DefaultApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("fooGet", localVarResponse);
       }
-      return new ApiResponse<InlineResponseDefault>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<InlineResponseDefault>() {})

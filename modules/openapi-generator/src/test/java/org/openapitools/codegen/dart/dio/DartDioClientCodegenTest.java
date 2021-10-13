@@ -64,7 +64,7 @@ public class DartDioClientCodegenTest {
     public void testKeywords() throws Exception {
         final DartDioClientCodegen codegen = new DartDioClientCodegen();
 
-        List<String> reservedWordsList = new ArrayList<String>();
+        List<String> reservedWordsList = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), Charset.forName("UTF-8")));
             while(reader.ready()) { reservedWordsList.add(reader.readLine()); }

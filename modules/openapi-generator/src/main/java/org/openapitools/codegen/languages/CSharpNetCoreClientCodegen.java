@@ -133,7 +133,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         );
 
         // mapped non-nullable type without ?
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "string");
         typeMapping.put("binary", "byte[]");
         typeMapping.put("ByteArray", "byte[]");
@@ -493,7 +493,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             }
 
             String regex = pattern.substring(1, i).replace("'", "\'").replace("\"", "\"\"");
-            List<String> modifiers = new ArrayList<String>();
+            List<String> modifiers = new ArrayList<>();
 
             // perl requires an explicit modifier to be culture specific and .NET is the reverse.
             modifiers.add("CultureInvariant");

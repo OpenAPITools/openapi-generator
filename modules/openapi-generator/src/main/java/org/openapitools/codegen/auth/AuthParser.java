@@ -34,7 +34,7 @@ public class AuthParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthParser.class);
 
     public static List<AuthorizationValue> parse(String urlEncodedAuthStr) {
-        List<AuthorizationValue> auths = new ArrayList<AuthorizationValue>();
+        List<AuthorizationValue> auths = new ArrayList<>();
         if (isNotEmpty(urlEncodedAuthStr)) {
             String[] parts = urlEncodedAuthStr.split(",");
             for (String part : parts) {

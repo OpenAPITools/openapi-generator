@@ -331,8 +331,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        List<ExtendedCodegenModel> allModels = new ArrayList<ExtendedCodegenModel>();
-        List<String> entityModelClassnames = new ArrayList<String>();
+        List<ExtendedCodegenModel> allModels = new ArrayList<>();
+        List<String> entityModelClassnames = new ArrayList<>();
 
         Map<String, Object> result = super.postProcessAllModels(objs);
         for (Map.Entry<String, Object> entry : result.entrySet()) {
@@ -413,7 +413,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports) {
         List<CodegenParameter> superParams = super.fromRequestBodyToFormParameters(body, imports);
-        List<CodegenParameter> extendedParams = new ArrayList<CodegenParameter>();
+        List<CodegenParameter> extendedParams = new ArrayList<>();
         for (CodegenParameter cp : superParams) {
             extendedParams.add(new ExtendedCodegenParameter(cp));
         }
@@ -751,8 +751,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // The api template uses this information to import all the required
         // models for a given operation.
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
-        List<String> existingRecordClassNames = new ArrayList<String>();
-        List<String> existingClassNames = new ArrayList<String>();
+        List<String> existingRecordClassNames = new ArrayList<>();
+        List<String> existingClassNames = new ArrayList<>();
         for (Map<String, Object> im : imports) {
             String className = im.get("import").toString().replace(modelPackage() + ".", "");
             existingClassNames.add(className);
@@ -763,7 +763,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (this.getSagasAndRecords()) {
             Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
             List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
-            Set<String> additionalPassthroughImports = new TreeSet<String>();
+            Set<String> additionalPassthroughImports = new TreeSet<>();
             for (ExtendedCodegenOperation op : operationList) {
                 if (op.returnPassthrough != null && op.returnBaseTypeAlternate instanceof String) {
                     if (op.returnTypeSupportsEntities && !existingRecordClassNames.contains(op.returnBaseTypeAlternate)) {
@@ -1269,7 +1269,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     class ExtendedCodegenModel extends CodegenModel {
-        public Set<String> modelImports = new TreeSet<String>();
+        public Set<String> modelImports = new TreeSet<>();
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
         public boolean hasReturnPassthroughVoid;

@@ -35,7 +35,7 @@ public class PerlClientOptionsProvider implements OptionsProvider {
 
     @Override
     public Map<String, String> createOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
+        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<>();
         return builder.put(PerlClientCodegen.MODULE_NAME, MODULE_NAME_VALUE)
                 .put(PerlClientCodegen.MODULE_VERSION, MODULE_VERSION_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "true")

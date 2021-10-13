@@ -235,7 +235,7 @@ public class Triangle extends AbstractOpenApiSchema {
         schemas.put("ScaleneTriangle", ScaleneTriangle.class);
         JSON.registerDescendants(Triangle.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("EquilateralTriangle", EquilateralTriangle.class);
         mappings.put("IsoscelesTriangle", IsoscelesTriangle.class);
         mappings.put("ScaleneTriangle", ScaleneTriangle.class);
@@ -258,17 +258,17 @@ public class Triangle extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(EquilateralTriangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(EquilateralTriangle.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(IsoscelesTriangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(IsoscelesTriangle.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(ScaleneTriangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(ScaleneTriangle.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

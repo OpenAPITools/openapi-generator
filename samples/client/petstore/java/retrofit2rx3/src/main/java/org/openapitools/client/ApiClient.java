@@ -39,13 +39,13 @@ public class ApiClient {
   private OkHttpClient okHttpClient;
 
   public ApiClient() {
-    apiAuthorizations = new LinkedHashMap<String, Interceptor>();
+    apiAuthorizations = new LinkedHashMap<>();
     createDefaultAdapter();
     okBuilder = new OkHttpClient.Builder();
   }
 
   public ApiClient(OkHttpClient client){
-    apiAuthorizations = new LinkedHashMap<String, Interceptor>();
+    apiAuthorizations = new LinkedHashMap<>();
     createDefaultAdapter();
     okHttpClient = client;
   }
@@ -403,7 +403,7 @@ class GsonCustomConverterFactory extends Converter.Factory
   @Override
   public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
     if (type.equals(String.class))
-      return new GsonResponseBodyConverterToString<Object>(gson, type);
+      return new GsonResponseBodyConverterToString<>(gson, type);
     else
       return gsonConverterFactory.responseBodyConverter(type, annotations, retrofit);
   }

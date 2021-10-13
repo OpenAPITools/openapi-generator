@@ -818,7 +818,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 // for enum model
                 if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                     cm.imports.add(importMapping.get("SerializedName"));
-                    Map<String, String> item = new HashMap<String, String>();
+                    Map<String, String> item = new HashMap<>();
                     item.put("import", importMapping.get("SerializedName"));
                     imports.add(item);
                 }
@@ -864,10 +864,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
                         // add import for Set, HashSet
                         cm.imports.add("Set");
-                        Map<String, String> importsSet = new HashMap<String, String>();
+                        Map<String, String> importsSet = new HashMap<>();
                         importsSet.put("import", "java.util.Set");
                         imports.add(importsSet);
-                        Map<String, String> importsHashSet = new HashMap<String, String>();
+                        Map<String, String> importsHashSet = new HashMap<>();
                         importsHashSet.put("import", "java.util.HashSet");
                         imports.add(importsHashSet);
                     }
@@ -881,7 +881,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
                     for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
                         cm.imports.add(entry.getKey());
-                        Map<String, String> importsItem = new HashMap<String, String>();
+                        Map<String, String> importsItem = new HashMap<>();
                         importsItem.put("import", entry.getValue());
                         imports.add(importsItem);
                     }
@@ -894,9 +894,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<>());
             if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary())) {
-                cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
+                cm.getVendorExtensions().put("x-implements", new ArrayList<>());
 
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
                     // if oneOf contains "null" type

@@ -162,10 +162,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     // the undeclared properties.
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
-    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
+    public List<CodegenProperty> vars = new ArrayList<>(); // all properties (without parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<>();
     public CodegenProperty mostInnerItems;
-    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    public Map<String, Object> vendorExtensions = new HashMap<>();
     public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
     public boolean isInherited;
     public String discriminatorValue;
@@ -619,10 +619,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         try {
             CodegenProperty cp = (CodegenProperty) super.clone();
             if (this._enum != null) {
-                cp._enum = new ArrayList<String>(this._enum);
+                cp._enum = new ArrayList<>(this._enum);
             }
             if (this.allowableValues != null) {
-                cp.allowableValues = new HashMap<String, Object>(this.allowableValues);
+                cp.allowableValues = new HashMap<>(this.allowableValues);
             }
             if (this.items != null) {
                 cp.items = this.items;
@@ -640,7 +640,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 cp.mostInnerItems = this.mostInnerItems;
             }
             if (this.vendorExtensions != null) {
-                cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
+                cp.vendorExtensions = new HashMap<>(this.vendorExtensions);
             }
 
             return cp;

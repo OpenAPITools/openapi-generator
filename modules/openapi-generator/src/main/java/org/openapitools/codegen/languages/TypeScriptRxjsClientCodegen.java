@@ -201,7 +201,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         // Convert List of CodegenOperation to List of ExtendedCodegenOperation
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> os = (List<CodegenOperation>) _operations.get("operation");
-        List<ExtendedCodegenOperation> newOs = new ArrayList<ExtendedCodegenOperation>();
+        List<ExtendedCodegenOperation> newOs = new ArrayList<>();
         for (CodegenOperation o : os) {
             newOs.add(new ExtendedCodegenOperation(o));
         }

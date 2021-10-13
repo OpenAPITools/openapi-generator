@@ -232,7 +232,7 @@ public class ApiClientTest {
 
     @Test
     public void testParameterToPairWhenValueIsCollection() throws Exception {
-        List<Object> values = new ArrayList<Object>();
+        List<Object> values = new ArrayList<>();
         values.add("value-a");
         values.add(123);
         values.add(new Date());
@@ -243,7 +243,7 @@ public class ApiClientTest {
 
     @Test
     public void testParameterToPairsWhenNameIsInvalid() throws Exception {
-        List<Integer> objects = new ArrayList<Integer>();
+        List<Integer> objects = new ArrayList<>();
         objects.add(new Integer(1));
 
         Parameter param = new Parameter().style(Parameter.StyleEnum.SIMPLE);
@@ -264,7 +264,7 @@ public class ApiClientTest {
     @Test
     public void testParameterToPairsWhenValueIsEmptyStrings() throws Exception {
         // list of empty strings
-        List<String> strs = new ArrayList<String>();
+        List<String> strs = new ArrayList<>();
         strs.add(" ");
         strs.add(" ");
         strs.add(" ");
@@ -279,14 +279,14 @@ public class ApiClientTest {
     public void testParameterToPairsWhenValueIsCollection() throws Exception {
         String name = "param-a";
 
-        Map<StyleEnum, String> parameterStyleMap = new HashMap<StyleEnum, String>();
+        Map<StyleEnum, String> parameterStyleMap = new HashMap<>();
         parameterStyleMap.put(StyleEnum.FORM, ",");
         parameterStyleMap.put(StyleEnum.SIMPLE, ",");
         parameterStyleMap.put(StyleEnum.SPACEDELIMITED, " ");
         parameterStyleMap.put(StyleEnum.PIPEDELIMITED, "|");
 
 
-        List<Object> values = new ArrayList<Object>();
+        List<Object> values = new ArrayList<>();
         values.add("value-a");
         values.add(123);
         values.add(new Date());

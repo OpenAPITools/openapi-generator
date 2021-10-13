@@ -71,7 +71,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
     }
 
     public void addControllerToAdditionalProperties() {
-        Map<String, String> supportedControllers = new HashMap<String, String>();
+        Map<String, String> supportedControllers = new HashMap<>();
         supportedControllers.put("esp32", "isESP32");
         supportedControllers.put("esp8266", "isESP8266");
         if (supportedControllers.containsKey(controller)) {
@@ -165,7 +165,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("README.mustache", rootFolder, "README.md"));
         supportingFiles.add(new SupportingFile("pre_compiling_bourne.py.mustache", rootFolder, "pre_compiling_bourne.py"));
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "int",
@@ -173,7 +173,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
                         "double",
                         "float")
         );
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "int",
@@ -183,7 +183,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
                         "std::string")
         );
 
-        super.typeMapping = new HashMap<String, String>();
+        super.typeMapping = new HashMap<>();
         typeMapping.put("string", "std::string");
         typeMapping.put("integer", "int");
         typeMapping.put("boolean", "bool");

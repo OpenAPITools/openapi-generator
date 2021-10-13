@@ -123,7 +123,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         typeMapping.put("ByteArray", "Array[Byte]");
 
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
         importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
         // although Seq is a predef, before Scala 2.13, it _could_ refer to a mutable Seq in some cases.
         importMapping.put("Seq", "scala.collection.immutable.Seq");

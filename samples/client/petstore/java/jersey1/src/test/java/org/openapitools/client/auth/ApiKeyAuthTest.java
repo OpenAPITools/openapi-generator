@@ -13,9 +13,9 @@ import static org.junit.Assert.*;
 public class ApiKeyAuthTest {
     @Test
     public void testApplyToParamsInQuery() {
-        List<Pair> queryParams = new ArrayList<Pair>();
-        Map<String, String> headerParams = new HashMap<String, String>();
-        Map<String, String> cookieParams = new HashMap<String, String>();
+        List<Pair> queryParams = new ArrayList<>();
+        Map<String, String> headerParams = new HashMap<>();
+        Map<String, String> cookieParams = new HashMap<>();
 
         ApiKeyAuth auth = new ApiKeyAuth("query", "api_key");
         auth.setApiKey("my-api-key");
@@ -33,9 +33,9 @@ public class ApiKeyAuthTest {
 
     @Test
     public void testApplyToParamsInHeaderWithPrefix() {
-            List<Pair> queryParams = new ArrayList<Pair>();
-        Map<String, String> headerParams = new HashMap<String, String>();
-        Map<String, String> cookieParams = new HashMap<String, String>();
+            List<Pair> queryParams = new ArrayList<>();
+        Map<String, String> headerParams = new HashMap<>();
+        Map<String, String> cookieParams = new HashMap<>();
 
         ApiKeyAuth auth = new ApiKeyAuth("header", "X-API-TOKEN");
         auth.setApiKey("my-api-token");
@@ -52,9 +52,9 @@ public class ApiKeyAuthTest {
 
     @Test
     public void testApplyToParamsInCookieWithPrefix() {
-            List<Pair> queryParams = new ArrayList<Pair>();
-        Map<String, String> headerParams = new HashMap<String, String>();
-        Map<String, String> cookieParams = new HashMap<String, String>();
+            List<Pair> queryParams = new ArrayList<>();
+        Map<String, String> headerParams = new HashMap<>();
+        Map<String, String> cookieParams = new HashMap<>();
 
         ApiKeyAuth auth = new ApiKeyAuth("cookie", "X-API-TOKEN");
         auth.setApiKey("my-api-token");

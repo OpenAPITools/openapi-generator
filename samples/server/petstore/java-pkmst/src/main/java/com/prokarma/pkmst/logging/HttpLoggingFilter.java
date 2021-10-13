@@ -92,7 +92,7 @@ public class HttpLoggingFilter implements Filter {
   }
 
   private Map<String, String> getTypesafeRequestMap(HttpServletRequest request) {
-    Map<String, String> typesafeRequestMap = new HashMap<String, String>();
+    Map<String, String> typesafeRequestMap = new HashMap<>();
     Enumeration<?> requestParamNames = request.getParameterNames();
     while (requestParamNames.hasMoreElements()) {
       String requestParamName = (String) requestParamNames.nextElement();

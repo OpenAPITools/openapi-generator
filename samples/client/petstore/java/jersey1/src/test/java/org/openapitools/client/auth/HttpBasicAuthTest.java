@@ -20,9 +20,9 @@ public class HttpBasicAuthTest {
 
     @Test
     public void testApplyToParams() {
-        List<Pair> queryParams = new ArrayList<Pair>();
-        Map<String, String> headerParams = new HashMap<String, String>();
-        Map<String, String> cookieParams = new HashMap<String, String>();
+        List<Pair> queryParams = new ArrayList<>();
+        Map<String, String> headerParams = new HashMap<>();
+        Map<String, String> cookieParams = new HashMap<>();
 
         auth.setUsername("my-username");
         auth.setPassword("my-password");

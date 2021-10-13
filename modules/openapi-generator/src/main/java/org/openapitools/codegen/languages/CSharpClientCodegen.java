@@ -243,7 +243,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
                 this.caseInsensitiveResponseHeaders);
 
-        regexModifiers = new HashMap<Character, String>();
+        regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
         regexModifiers.put('m', "Multiline");
         regexModifiers.put('s', "Singleline");
@@ -662,7 +662,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             }
 
             String regex = pattern.substring(1, i).replace("'", "\'");
-            List<String> modifiers = new ArrayList<String>();
+            List<String> modifiers = new ArrayList<>();
 
             // perl requires an explicit modifier to be culture specific and .NET is the reverse.
             modifiers.add("CultureInvariant");

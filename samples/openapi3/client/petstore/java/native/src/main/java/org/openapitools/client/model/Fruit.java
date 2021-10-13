@@ -197,12 +197,12 @@ public class Fruit extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

@@ -86,7 +86,7 @@ public class ParentPet extends GrandparentAnimal {
 
 static {
   // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+  Map<String, Class<?>> mappings = new HashMap<>();
   mappings.put("ChildCat", ChildCat.class);
   mappings.put("ParentPet", ParentPet.class);
   JSON.registerDiscriminator(ParentPet.class, "pet_type", mappings);

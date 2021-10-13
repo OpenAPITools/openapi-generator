@@ -39,7 +39,7 @@ public class XmlExampleGenerator {
     public XmlExampleGenerator(Map<String, Schema> examples) {
         this.examples = examples;
         if (examples == null) {
-            this.examples = new HashMap<String, Schema>();
+            this.examples = new HashMap<>();
         }
     }
 
@@ -63,13 +63,13 @@ public class XmlExampleGenerator {
         if (path.contains(modelName)) {
             return EMPTY;
         }
-        final Set<String> selfPath = new HashSet<String>(path);
+        final Set<String> selfPath = new HashSet<>(path);
         selfPath.add(modelName);
 
         StringBuilder sb = new StringBuilder();
         // attributes
-        Map<String, Schema> attributes = new LinkedHashMap<String, Schema>();
-        Map<String, Schema> elements = new LinkedHashMap<String, Schema>();
+        Map<String, Schema> attributes = new LinkedHashMap<>();
+        Map<String, Schema> elements = new LinkedHashMap<>();
 
         String name = modelName;
         XML xml = schema.getXml();

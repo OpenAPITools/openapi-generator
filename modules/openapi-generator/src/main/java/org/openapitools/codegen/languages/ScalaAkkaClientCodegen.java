@@ -209,7 +209,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
             try {
                 @SuppressWarnings("unchecked")
                 Map<String, ArrayList<CodegenOperation>> opsMap = (Map<String, ArrayList<CodegenOperation>>) objs.get("operations");
-                HashSet<Integer> unknownCodes = new HashSet<Integer>();
+                HashSet<Integer> unknownCodes = new HashSet<>();
                 for (CodegenOperation operation : opsMap.get("operation")) {
                     for (CodegenResponse response : operation.responses) {
                         if ("default".equals(response.code)) {

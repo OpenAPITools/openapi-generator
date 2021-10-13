@@ -48,7 +48,7 @@ public class RubyClientOptionsProvider implements OptionsProvider {
 
     @Override
     public Map<String, String> createOptions() {
-        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
+        ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<>();
         return builder.put(CodegenConstants.GEM_NAME, GEM_NAME_VALUE)
                 .put(CodegenConstants.MODULE_NAME, MODULE_NAME_VALUE)
                 .put(RubyClientCodegen.GEM_VERSION, GEM_VERSION_VALUE)

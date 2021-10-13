@@ -45,11 +45,11 @@ public class CsharpModelEnumTest {
         subEnumProperty.setEnum(Arrays.asList("SUB1", "SUB2", "SUB3"));
 
         // Add one enum property to the parent
-        final Map<String, Schema> parentProperties = new HashMap<String, Schema>();
+        final Map<String, Schema> parentProperties = new HashMap<>();
         parentProperties.put("sharedThing", identicalEnumProperty);
 
         // Add TWO enums to the subType model; one of which is identical to the one in parent class
-        final Map<String, Schema> subProperties = new HashMap<String, Schema>();
+        final Map<String, Schema> subProperties = new HashMap<>();
         subProperties.put("sharedThing", identicalEnumProperty);
         subProperties.put("unsharedThing", identicalEnumProperty);
 

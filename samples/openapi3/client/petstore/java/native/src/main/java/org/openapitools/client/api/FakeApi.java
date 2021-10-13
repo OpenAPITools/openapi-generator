@@ -109,7 +109,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("fakeHealthGet", localVarResponse);
       }
-      return new ApiResponse<HealthCheckResult>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<HealthCheckResult>() {})
@@ -173,7 +173,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("fakeOuterBooleanSerialize", localVarResponse);
       }
-      return new ApiResponse<Boolean>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Boolean>() {})
@@ -243,7 +243,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("fakeOuterCompositeSerialize", localVarResponse);
       }
-      return new ApiResponse<OuterComposite>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OuterComposite>() {})
@@ -313,7 +313,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("fakeOuterNumberSerialize", localVarResponse);
       }
-      return new ApiResponse<BigDecimal>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {})
@@ -383,7 +383,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("fakeOuterStringSerialize", localVarResponse);
       }
-      return new ApiResponse<String>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {})
@@ -451,7 +451,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("getArrayOfEnums", localVarResponse);
       }
-      return new ApiResponse<List<OuterEnum>>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<OuterEnum>>() {})
@@ -513,7 +513,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("testBodyWithFileSchema", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -587,7 +587,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("testBodyWithQueryParams", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -674,7 +674,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("testClientModel", localVarResponse);
       }
-      return new ApiResponse<Client>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
@@ -772,7 +772,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("testEndpointParameters", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -864,7 +864,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("testEnumParameters", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -987,7 +987,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("testGroupParameters", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -1156,7 +1156,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("testInlineAdditionalProperties", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -1230,7 +1230,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("testJsonFormData", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null
@@ -1308,7 +1308,7 @@ public class FakeApi {
       if (localVarResponse.statusCode()/ 100 != 2) {
         throw getApiException("testQueryParameterCollectionFormat", localVarResponse);
       }
-      return new ApiResponse<Void>(
+      return new ApiResponse<>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           null

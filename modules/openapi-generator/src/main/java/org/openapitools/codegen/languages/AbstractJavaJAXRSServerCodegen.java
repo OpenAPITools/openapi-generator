@@ -148,9 +148,9 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {
                         if (operation.getTags() != null) {
-                            List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
+                            List<Map<String, String>> tags = new ArrayList<>();
                             for (String tag : operation.getTags()) {
-                                Map<String, String> value = new HashMap<String, String>();
+                                Map<String, String> value = new HashMap<>();
                                 value.put("tag", tag);
                                 tags.add(value);
                             }

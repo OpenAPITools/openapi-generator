@@ -1249,16 +1249,16 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 // did not include the ones we've just added to support the code in the operation bodies. Therefore it
                 // is necessary to recompute the imports and overwrite the existing ones. The code below was copied from
                 // the private DefaultGenerator.processOperations() method to achieve this end.
-                Set<String> allImports = new TreeSet<String>();
+                Set<String> allImports = new TreeSet<>();
                 for (CodegenOperation op : ops) {
                     allImports.addAll(op.imports);
                 }
                 allImports.add("List");
                 allImports.add("Map");
 
-                List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
+                List<Map<String, String>> imports = new ArrayList<>();
                 for (String nextImport : allImports) {
-                    Map<String, String> im = new LinkedHashMap<String, String>();
+                    Map<String, String> im = new LinkedHashMap<>();
                     String mapping = importMapping().get(nextImport);
                     if (mapping == null) {
                         mapping = toModelImport(nextImport);

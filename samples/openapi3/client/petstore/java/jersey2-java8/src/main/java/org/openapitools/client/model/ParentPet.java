@@ -61,7 +61,7 @@ public class ParentPet extends GrandparentAnimal {
   @JsonAnySetter
   public ParentPet putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -127,7 +127,7 @@ public class ParentPet extends GrandparentAnimal {
 
 static {
   // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+  Map<String, Class<?>> mappings = new HashMap<>();
   mappings.put("ChildCat", ChildCat.class);
   mappings.put("ParentPet", ParentPet.class);
   JSON.registerDiscriminator(ParentPet.class, "pet_type", mappings);

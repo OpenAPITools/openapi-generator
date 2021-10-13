@@ -45,7 +45,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String testFolder = "tests/testthat";
     protected boolean returnExceptionOnFailure = false;
     protected String exceptionPackage = "default";
-    protected Map<String, String> exceptionPackages = new LinkedHashMap<String, String>();
+    protected Map<String, String> exceptionPackages = new LinkedHashMap<>();
 
     public static final String EXCEPTION_PACKAGE = "exceptionPackage";
     public static final String USE_DEFAULT_EXCEPTION = "useDefaultExceptionHandling";
@@ -479,7 +479,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public Map<String, String> createMapping(String key, String value) {
-        Map<String, String> customImport = new HashMap<String, String>();
+        Map<String, String> customImport = new HashMap<>();
         customImport.put(key, value);
 
         return customImport;
@@ -690,7 +690,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
 
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
         for (Object o : allModels) {
             HashMap<String, Object> h = (HashMap<String, Object>) o;
             CodegenModel m = (CodegenModel) h.get("model");

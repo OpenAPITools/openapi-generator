@@ -132,7 +132,7 @@ public class ModelUtils {
      */
     public static List<String> getAllUsedSchemas(OpenAPI openAPI) {
         Map<String, List<String>> childrenMap = getChildrenMap(openAPI);
-        List<String> allUsedSchemas = new ArrayList<String>();
+        List<String> allUsedSchemas = new ArrayList<>();
         visitOpenAPI(openAPI, (s, t) -> {
             if (s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
@@ -170,7 +170,7 @@ public class ModelUtils {
         }
 
         childrenMap = tmpChildrenMap;
-        List<String> unusedSchemas = new ArrayList<String>();
+        List<String> unusedSchemas = new ArrayList<>();
 
         if (openAPI != null) {
             Map<String, Schema> schemas = getSchemas(openAPI);
@@ -196,8 +196,8 @@ public class ModelUtils {
      * @return schemas a list of schemas
      */
     public static List<String> getSchemasUsedOnlyInFormParam(OpenAPI openAPI) {
-        List<String> schemasUsedInFormParam = new ArrayList<String>();
-        List<String> schemasUsedInOtherCases = new ArrayList<String>();
+        List<String> schemasUsedInFormParam = new ArrayList<>();
+        List<String> schemasUsedInOtherCases = new ArrayList<>();
 
         visitOpenAPI(openAPI, (s, t) -> {
             if (s.get$ref() != null) {
@@ -884,8 +884,8 @@ public class ModelUtils {
      * @return a list of schemas
      */
     public static List<Schema> getAllSchemas(OpenAPI openAPI) {
-        List<Schema> allSchemas = new ArrayList<Schema>();
-        List<String> refSchemas = new ArrayList<String>();
+        List<Schema> allSchemas = new ArrayList<>();
+        List<String> refSchemas = new ArrayList<>();
         getSchemas(openAPI).forEach((key, schema) -> {
             // Invoke visitSchema to recursively visit all schema objects, included inlined and composed schemas.
             // Use the OpenAPISchemaVisitor visitor function
@@ -1352,7 +1352,7 @@ public class ModelUtils {
      */
     public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
         List<Schema> interfaces = getInterfaces(composedSchema);
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<>();
 
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {

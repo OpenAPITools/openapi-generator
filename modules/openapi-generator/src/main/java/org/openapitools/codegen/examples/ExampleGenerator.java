@@ -82,20 +82,20 @@ public class ExampleGenerator {
             ArraySchema as = (ArraySchema) responseSchema;
             if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // array of primitive types
                 return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<String>(producesInfo), as.getItems());
+                        new ArrayList<>(producesInfo), as.getItems());
             } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
                 return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<String>(producesInfo), ModelUtils.getSimpleRef(as.getItems().get$ref()));
+                        new ArrayList<>(producesInfo), ModelUtils.getSimpleRef(as.getItems().get$ref()));
             } else {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
             }
         } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primitive type (e.g. integer, string)
             return generate((Map<String, Object>) responseSchema.getExample(),
-                    new ArrayList<String>(producesInfo), responseSchema);
+                    new ArrayList<>(producesInfo), responseSchema);
         } else { // model
             return generate((Map<String, Object>) responseSchema.getExample(),
-                    new ArrayList<String>(producesInfo), ModelUtils.getSimpleRef(responseSchema.get$ref()));
+                    new ArrayList<>(producesInfo), ModelUtils.getSimpleRef(responseSchema.get$ref()));
         }
     }
 
@@ -266,7 +266,7 @@ public class ExampleGenerator {
             }
             return (int) randomNumber(min, max);
         } else if (ModelUtils.isMapSchema(property)) {
-            Map<String, Object> mp = new HashMap<String, Object>();
+            Map<String, Object> mp = new HashMap<>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
                         resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));

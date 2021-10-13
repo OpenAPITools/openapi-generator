@@ -23,7 +23,7 @@ import io.swagger.v3.oas.models.tags.Tag;
 import java.util.*;
 
 public class CodegenOperation {
-    public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
+    public final List<CodegenProperty> responseHeaders = new ArrayList<>();
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isArray, isMultipart,
@@ -34,26 +34,26 @@ public class CodegenOperation {
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
-    public List<CodegenServer> servers = new ArrayList<CodegenServer>();
+    public List<CodegenServer> servers = new ArrayList<>();
     public CodegenParameter bodyParam;
-    public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
-    public List<CodegenParameter> bodyParams = new ArrayList<CodegenParameter>();
-    public List<CodegenParameter> pathParams = new ArrayList<CodegenParameter>();
-    public List<CodegenParameter> queryParams = new ArrayList<CodegenParameter>();
-    public List<CodegenParameter> headerParams = new ArrayList<CodegenParameter>();
-    public List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
-    public List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
-    public List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
-    public List<CodegenParameter> optionalParams = new ArrayList<CodegenParameter>();
+    public List<CodegenParameter> allParams = new ArrayList<>();
+    public List<CodegenParameter> bodyParams = new ArrayList<>();
+    public List<CodegenParameter> pathParams = new ArrayList<>();
+    public List<CodegenParameter> queryParams = new ArrayList<>();
+    public List<CodegenParameter> headerParams = new ArrayList<>();
+    public List<CodegenParameter> formParams = new ArrayList<>();
+    public List<CodegenParameter> cookieParams = new ArrayList<>();
+    public List<CodegenParameter> requiredParams = new ArrayList<>();
+    public List<CodegenParameter> optionalParams = new ArrayList<>();
     public List<CodegenSecurity> authMethods;
     public List<Tag> tags;
-    public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
+    public List<CodegenResponse> responses = new ArrayList<>();
     public List<CodegenCallback> callbacks = new ArrayList<>();
-    public Set<String> imports = new HashSet<String>();
+    public Set<String> imports = new HashSet<>();
     public List<Map<String, String>> examples;
     public List<Map<String, String>> requestBodyExamples;
     public ExternalDocumentation externalDocs;
-    public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    public Map<String, Object> vendorExtensions = new HashMap<>();
     public String nickname; // legacy support
     public String operationIdOriginal; // for plug-in
     public String operationIdLowerCase; // for markdown documentation

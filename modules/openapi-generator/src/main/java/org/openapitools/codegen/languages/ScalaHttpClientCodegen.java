@@ -112,7 +112,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         setDateLibrary("legacy",true);
         importMapping.put("Date", "java.util.Date");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("enum", "NSString");
         typeMapping.put("array", "List");
         typeMapping.put("set", "Set");
