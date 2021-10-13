@@ -172,7 +172,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)",
                 reactive));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER,
-                "wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, HystrixCommand, RxObservable, RxSingle or fully qualified type)"));
+                "wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, RxObservable, RxSingle or fully qualified type)"));
         cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE,
                 "Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki"));
         cliOptions.add(
