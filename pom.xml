@@ -1086,18 +1086,6 @@
             </modules>
         </profile>
         <profile>
-            <id>spring-cloud</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/spring-cloud</module>
-            </modules>
-        </profile>
-        <profile>
             <id>scalatra-server</id>
             <activation>
                 <property>
