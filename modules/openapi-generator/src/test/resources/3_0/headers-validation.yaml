@@ -15,24 +15,53 @@ paths:
       description: desc
       operationId: headersValidationTest
       parameters:
-        - name: stringWithMinLength
+        - name: requiredStringWithMinLength
           in: header
+          required: true
           schema:
             type: string
             minLength: 32
-        - name: stringWithMaxLength
+        - name: requiredStringWithMaxLength
           in: header
+          required: true
           schema:
             type: string
             maxLength: 32
-        - name: stringWithLength
+        - name: requiredStringWithLength
           in: header
+          required: true
           schema:
             type: string
             minLength: 32
             maxLength: 32
-        - name: stringWithPattern
+        - name: requiredStringWithPattern
           in: header
+          required: true
+          schema:
+            type: string
+            pattern: ^([0-9a-fA-F]{32})$
+        - name: optionalStringWithMinLength
+          in: header
+          required: false
+          schema:
+            type: string
+            minLength: 32
+        - name: optionalStringWithMaxLength
+          in: header
+          required: false
+          schema:
+            type: string
+            maxLength: 32
+        - name: optionalStringWithLength
+          in: header
+          required: false
+          schema:
+            type: string
+            minLength: 32
+            maxLength: 32
+        - name: optionalStringWithPattern
+          in: header
+          required: false
           schema:
             type: string
             pattern: ^([0-9a-fA-F]{32})$
