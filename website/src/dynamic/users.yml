@@ -144,6 +144,11 @@
   infoLink: "https://www.edgeimpulse.com/"
   pinned: false
 -
+  caption: "Elastic Email"
+  image: "img/companies/elasticemail.png"
+  infoLink: "https://elasticemail.com/"
+  pinned: false
+-
   caption: "Element AI"
   image: "img/companies/element_ai.png"
   infoLink: "https://www.elementai.com/"

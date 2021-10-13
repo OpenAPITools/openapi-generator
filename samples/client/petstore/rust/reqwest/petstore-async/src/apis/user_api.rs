@@ -14,42 +14,42 @@ use reqwest;
 use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method `create_user`
+/// struct for passing parameters to the method [`create_user`]
 #[derive(Clone, Debug, Default)]
 pub struct CreateUserParams {
     /// Created user object
     pub user: crate::models::User
 }
 
-/// struct for passing parameters to the method `create_users_with_array_input`
+/// struct for passing parameters to the method [`create_users_with_array_input`]
 #[derive(Clone, Debug, Default)]
 pub struct CreateUsersWithArrayInputParams {
     /// List of user object
     pub user: Vec<crate::models::User>
 }
 
-/// struct for passing parameters to the method `create_users_with_list_input`
+/// struct for passing parameters to the method [`create_users_with_list_input`]
 #[derive(Clone, Debug, Default)]
 pub struct CreateUsersWithListInputParams {
     /// List of user object
     pub user: Vec<crate::models::User>
 }
 
-/// struct for passing parameters to the method `delete_user`
+/// struct for passing parameters to the method [`delete_user`]
 #[derive(Clone, Debug, Default)]
 pub struct DeleteUserParams {
     /// The name that needs to be deleted
     pub username: String
 }
 
-/// struct for passing parameters to the method `get_user_by_name`
+/// struct for passing parameters to the method [`get_user_by_name`]
 #[derive(Clone, Debug, Default)]
 pub struct GetUserByNameParams {
     /// The name that needs to be fetched. Use user1 for testing.
     pub username: String
 }
 
-/// struct for passing parameters to the method `login_user`
+/// struct for passing parameters to the method [`login_user`]
 #[derive(Clone, Debug, Default)]
 pub struct LoginUserParams {
     /// The user name for login
@@ -58,7 +58,7 @@ pub struct LoginUserParams {
     pub password: String
 }
 
-/// struct for passing parameters to the method `update_user`
+/// struct for passing parameters to the method [`update_user`]
 #[derive(Clone, Debug, Default)]
 pub struct UpdateUserParams {
     /// name that need to be deleted
@@ -68,35 +68,35 @@ pub struct UpdateUserParams {
 }
 
 
-/// struct for typed successes of method `create_user`
+/// struct for typed successes of method [`create_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUserSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `create_users_with_array_input`
+/// struct for typed successes of method [`create_users_with_array_input`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUsersWithArrayInputSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `create_users_with_list_input`
+/// struct for typed successes of method [`create_users_with_list_input`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUsersWithListInputSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `delete_user`
+/// struct for typed successes of method [`delete_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteUserSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `get_user_by_name`
+/// struct for typed successes of method [`get_user_by_name`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserByNameSuccess {
@@ -104,7 +104,7 @@ pub enum GetUserByNameSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `login_user`
+/// struct for typed successes of method [`login_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LoginUserSuccess {
@@ -112,21 +112,21 @@ pub enum LoginUserSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `logout_user`
+/// struct for typed successes of method [`logout_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LogoutUserSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed successes of method `update_user`
+/// struct for typed successes of method [`update_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateUserSuccess {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `create_user`
+/// struct for typed errors of method [`create_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUserError {
@@ -134,7 +134,7 @@ pub enum CreateUserError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `create_users_with_array_input`
+/// struct for typed errors of method [`create_users_with_array_input`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUsersWithArrayInputError {
@@ -142,7 +142,7 @@ pub enum CreateUsersWithArrayInputError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `create_users_with_list_input`
+/// struct for typed errors of method [`create_users_with_list_input`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUsersWithListInputError {
@@ -150,7 +150,7 @@ pub enum CreateUsersWithListInputError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `delete_user`
+/// struct for typed errors of method [`delete_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteUserError {
@@ -159,7 +159,7 @@ pub enum DeleteUserError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `get_user_by_name`
+/// struct for typed errors of method [`get_user_by_name`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserByNameError {
@@ -168,7 +168,7 @@ pub enum GetUserByNameError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `login_user`
+/// struct for typed errors of method [`login_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LoginUserError {
@@ -176,7 +176,7 @@ pub enum LoginUserError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `logout_user`
+/// struct for typed errors of method [`logout_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LogoutUserError {
@@ -184,7 +184,7 @@ pub enum LogoutUserError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method `update_user`
+/// struct for typed errors of method [`update_user`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateUserError {

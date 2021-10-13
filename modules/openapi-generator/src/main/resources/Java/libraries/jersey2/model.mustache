@@ -49,7 +49,9 @@ import javax.validation.Valid;
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;
 {{/performBeanValidation}}
+{{#discriminator}}
 import {{invokerPackage}}.JSON;
+{{/discriminator}}
 
 {{#models}}
 {{#model}}

@@ -293,7 +293,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         // Set the typescript version compatible to the Angular version
         if (ngVersion.atLeast("12.0.0")) {
-            additionalProperties.put("tsVersion", ">=4.2.3 <4.3.0");
+            additionalProperties.put("tsVersion", ">=4.3.0 <4.4.0");
         } else if (ngVersion.atLeast("11.0.0")) {
             additionalProperties.put("tsVersion", ">=4.0.0 <4.1.0");
         } else if (ngVersion.atLeast("10.0.0")) {

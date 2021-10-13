@@ -314,7 +314,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             ExtendedCodegenModel cm = (ExtendedCodegenModel) mo.get("model");
-            cm.imports = new TreeSet(cm.imports);
+            cm.imports = new TreeSet<>(cm.imports);
             this.processCodeGenModel(cm);
         }
 
