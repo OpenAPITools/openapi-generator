@@ -1086,18 +1086,6 @@
             </modules>
         </profile>
         <profile>
-            <id>spring-cloud</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/spring-cloud</module>
-            </modules>
-        </profile>
-        <profile>
             <id>scalatra-server</id>
             <activation>
                 <property>
@@ -1413,7 +1401,6 @@
             <modules>
                 <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
                 <module>samples/openapi3/client/petstore/dart2/petstore</module>
-                <!--<module>samples/openapi3/client/petstore/dart2/petstore_json_serializable_client_lib_fake</module>-->
                 <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
                 <module>samples/openapi3/client/petstore/dart-dio-next/dio_http_petstore_client_lib_fake</module>
             </modules>

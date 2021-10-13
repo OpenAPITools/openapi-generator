@@ -420,6 +420,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                     continue;
                 }
                 resultImports.add(i);
+            } else if (importMapping().containsKey(modelImport)) {
+                resultImports.add(importMapping().get(modelImport));
             } else {
                 resultImports.add("package:" + pubName + "/src/model/" + underscore(modelImport) + ".dart");
             }

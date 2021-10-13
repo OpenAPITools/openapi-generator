@@ -57,7 +57,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'HealthCheckResult',) as HealthCheckResult;
-        }
+    
+    }
     return Future<HealthCheckResult>.value();
   }
 
@@ -187,7 +188,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'bool',) as bool;
-        }
+    
+    }
     return Future<bool>.value();
   }
 
@@ -244,7 +246,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterComposite',) as OuterComposite;
-        }
+    
+    }
     return Future<OuterComposite>.value();
   }
 
@@ -301,7 +304,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'num',) as num;
-        }
+    
+    }
     return Future<num>.value();
   }
 
@@ -358,7 +362,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
-        }
+    
+    }
     return Future<String>.value();
   }
 
@@ -418,7 +423,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterObjectWithEnumProperty',) as OuterObjectWithEnumProperty;
-        }
+    
+    }
     return Future<OuterObjectWithEnumProperty>.value();
   }
 
@@ -641,7 +647,8 @@ class FakeApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
-        }
+    
+    }
     return Future<ModelClient>.value();
   }
 
