@@ -84,7 +84,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
   @JsonAnySetter
   public AdditionalPropertiesObject putAdditionalProperty(String key, Map value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<>();
+        this.additionalProperties = new HashMap<String, Map>();
     }
     this.additionalProperties.put(key, value);
     return this;

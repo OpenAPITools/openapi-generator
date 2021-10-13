@@ -114,7 +114,7 @@ public class ComplexQuadrilateral {
   @JsonAnySetter
   public ComplexQuadrilateral putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<>();
+        this.additionalProperties = new HashMap<String, Object>();
     }
     this.additionalProperties.put(key, value);
     return this;

@@ -49,7 +49,7 @@ public class ArrayOfNumberOnly {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<>();
+      this.arrayNumber = new ArrayList<BigDecimal>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;

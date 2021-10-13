@@ -31,7 +31,7 @@ public class TypeHolderDefault   {
 
   @JsonProperty("array_item")
   @Valid
-  private List<Integer> arrayItem = new ArrayList<>();
+  private List<Integer> arrayItem = new ArrayList<Integer>();
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;

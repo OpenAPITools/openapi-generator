@@ -84,7 +84,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   @JsonAnySetter
   public AdditionalPropertiesBoolean putAdditionalProperty(String key, Boolean value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<>();
+        this.additionalProperties = new HashMap<String, Boolean>();
     }
     this.additionalProperties.put(key, value);
     return this;

@@ -88,7 +88,7 @@ public class Cat extends Animal {
   @JsonAnySetter
   public Cat putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<>();
+        this.additionalProperties = new HashMap<String, Object>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -158,7 +158,7 @@ public class Cat extends Animal {
 
 static {
   // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<>();
+  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
   mappings.put("Cat", Cat.class);
   JSON.registerDiscriminator(Cat.class, "className", mappings);
 }

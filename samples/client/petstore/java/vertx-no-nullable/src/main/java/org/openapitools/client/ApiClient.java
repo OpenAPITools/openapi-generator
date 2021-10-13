@@ -309,7 +309,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return List of pairs
      */
     public List<Pair> parameterToPairs(String collectionFormat, String name, Object value) {
-        List<Pair> params = new ArrayList<>();
+        List<Pair> params = new ArrayList<Pair>();
 
         // preconditions
         if (name == null || name.isEmpty() || value == null) return params;

@@ -56,7 +56,7 @@ public class JSON {
                 .registerTypeSelector(Animal.class, new TypeSelector<Animal>() {
                     @Override
                     public Class<? extends Animal> getClassForElement(JsonElement readElement) {
-                        Map<String, Class> classByDiscriminatorValue = new HashMap<>();
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         classByDiscriminatorValue.put("BigCat", BigCat.class);
                         classByDiscriminatorValue.put("Cat", Cat.class);
                         classByDiscriminatorValue.put("Dog", Dog.class);
@@ -68,7 +68,7 @@ public class JSON {
                 .registerTypeSelector(BigCat.class, new TypeSelector<BigCat>() {
                     @Override
                     public Class<? extends BigCat> getClassForElement(JsonElement readElement) {
-                        Map<String, Class> classByDiscriminatorValue = new HashMap<>();
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         classByDiscriminatorValue.put("BigCat", BigCat.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
@@ -77,7 +77,7 @@ public class JSON {
                 .registerTypeSelector(Cat.class, new TypeSelector<Cat>() {
                     @Override
                     public Class<? extends Cat> getClassForElement(JsonElement readElement) {
-                        Map<String, Class> classByDiscriminatorValue = new HashMap<>();
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         classByDiscriminatorValue.put("BigCat", BigCat.class);
                         classByDiscriminatorValue.put("Cat", Cat.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
@@ -87,7 +87,7 @@ public class JSON {
                 .registerTypeSelector(Dog.class, new TypeSelector<Dog>() {
                     @Override
                     public Class<? extends Dog> getClassForElement(JsonElement readElement) {
-                        Map<String, Class> classByDiscriminatorValue = new HashMap<>();
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         classByDiscriminatorValue.put("Dog", Dog.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
