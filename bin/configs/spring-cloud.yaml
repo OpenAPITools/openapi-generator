@@ -1,0 +1,8 @@
+generatorName: spring
+outputDir: samples/client/petstore/spring-cloud
+library: spring-cloud
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  artifactId: petstore-spring-cloud
+  hideGenerationTimestamp: "true"
