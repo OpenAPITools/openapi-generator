@@ -23,6 +23,7 @@ components:
         nonNullableProperty: ""
         propertyName31: ""
         propertyName30: ""
+        propertyWithNullAndTwoTypes: ""
       properties:
         propertyName30:
           nullable: true
@@ -36,8 +37,17 @@ components:
           oneOf:
           - type: string
           - type: number
+        propertyWithNullAndTwoTypes:
+          oneOf:
+          - type: "null"
+          - $ref: '#/components/schemas/PropertyType'
+          - $ref: '#/components/schemas/OtherPropertyType'
     PropertyType:
       properties:
         foo:
+          type: string
+    OtherPropertyType:
+      properties:
+        bar:
           type: string
 

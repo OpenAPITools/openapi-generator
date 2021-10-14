@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    OtherPropertyType,
+    OtherPropertyTypeFromJSON,
+    OtherPropertyTypeFromJSONTyped,
+    OtherPropertyTypeToJSON,
     PropertyType,
     PropertyTypeFromJSON,
     PropertyTypeFromJSONTyped,
@@ -44,6 +48,12 @@ export interface ModelWithNullableObjectProperty {
      * @memberof ModelWithNullableObjectProperty
      */
     nonNullableProperty?: string | number | null;
+    /**
+     * 
+     * @type {PropertyType | OtherPropertyType}
+     * @memberof ModelWithNullableObjectProperty
+     */
+    propertyWithNullAndTwoTypes?: PropertyType | OtherPropertyType | null;
 }
 
 export function ModelWithNullableObjectPropertyFromJSON(json: any): ModelWithNullableObjectProperty {
@@ -59,6 +69,7 @@ export function ModelWithNullableObjectPropertyFromJSONTyped(json: any, ignoreDi
         'propertyName30': !exists(json, 'propertyName30') ? undefined : PropertyTypeFromJSON(json['propertyName30']),
         'propertyName31': !exists(json, 'propertyName31') ? undefined : PropertyTypeFromJSON(json['propertyName31']),
         'nonNullableProperty': !exists(json, 'nonNullableProperty') ? undefined : string | numberFromJSON(json['nonNullableProperty']),
+        'propertyWithNullAndTwoTypes': !exists(json, 'propertyWithNullAndTwoTypes') ? undefined : PropertyType | OtherPropertyTypeFromJSON(json['propertyWithNullAndTwoTypes']),
     };
 }
 
@@ -74,6 +85,7 @@ export function ModelWithNullableObjectPropertyToJSON(value?: ModelWithNullableO
         'propertyName30': PropertyTypeToJSON(value.propertyName30),
         'propertyName31': PropertyTypeToJSON(value.propertyName31),
         'nonNullableProperty': string | numberToJSON(value.nonNullableProperty),
+        'propertyWithNullAndTwoTypes': PropertyType | OtherPropertyTypeToJSON(value.propertyWithNullAndTwoTypes),
     };
 }
 

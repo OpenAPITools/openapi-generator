@@ -42,6 +42,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [org.openapitools.client.models.ModelWithNullableObjectProperty](docs/ModelWithNullableObjectProperty.md)
+ - [org.openapitools.client.models.OtherPropertyType](docs/OtherPropertyType.md)
  - [org.openapitools.client.models.PropertyType](docs/PropertyType.md)
 
 

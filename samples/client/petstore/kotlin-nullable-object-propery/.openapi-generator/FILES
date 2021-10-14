@@ -2,6 +2,7 @@ README.md
 build.gradle
 docs/DefaultApi.md
 docs/ModelWithNullableObjectProperty.md
+docs/OtherPropertyType.md
 docs/PropertyType.md
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
@@ -26,4 +27,5 @@ src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt
 src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/UUIDAdapter.kt
 src/main/kotlin/org/openapitools/client/models/ModelWithNullableObjectProperty.kt
+src/main/kotlin/org/openapitools/client/models/OtherPropertyType.kt
 src/main/kotlin/org/openapitools/client/models/PropertyType.kt

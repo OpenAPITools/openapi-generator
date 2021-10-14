@@ -29,7 +29,16 @@ components:
           oneOf:
             - type: string
             - type: number
+        propertyWithNullAndTwoTypes:
+          oneOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/PropertyType'
+            - $ref: '#/components/schemas/OtherPropertyType'
     PropertyType:
       properties:
         foo:
+          type: string
+    OtherPropertyType:
+      properties:
+        bar:
           type: string

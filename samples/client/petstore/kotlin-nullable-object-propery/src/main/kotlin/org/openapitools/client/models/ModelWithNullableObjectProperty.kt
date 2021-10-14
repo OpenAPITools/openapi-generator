@@ -20,6 +20,7 @@
 
 package org.openapitools.client.models
 
+import org.openapitools.client.models.OneOfLessThanNullCommaPropertyTypeCommaOtherPropertyTypeGreaterThan
 import org.openapitools.client.models.OneOfLessThanStringCommaNumberGreaterThan
 import org.openapitools.client.models.PropertyType
 
@@ -32,6 +33,7 @@ import java.io.Serializable
  * @param propertyName30 
  * @param propertyName31 
  * @param nonNullableProperty 
+ * @param propertyWithNullAndTwoTypes 
  */
 
 data class ModelWithNullableObjectProperty (
@@ -43,7 +45,10 @@ data class ModelWithNullableObjectProperty (
     val propertyName31: PropertyType? = null,
 
     @Json(name = "nonNullableProperty")
-    val nonNullableProperty: OneOfLessThanStringCommaNumberGreaterThan? = null
+    val nonNullableProperty: OneOfLessThanStringCommaNumberGreaterThan? = null,
+
+    @Json(name = "propertyWithNullAndTwoTypes")
+    val propertyWithNullAndTwoTypes: OneOfLessThanNullCommaPropertyTypeCommaOtherPropertyTypeGreaterThan? = null
 
 ) : Serializable {
     companion object {

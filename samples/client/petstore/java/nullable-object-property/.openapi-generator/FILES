@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -7,6 +6,7 @@ build.gradle
 build.sbt
 docs/DefaultApi.md
 docs/ModelWithNullableObjectProperty.md
+docs/OtherPropertyType.md
 docs/PropertyType.md
 git_push.sh
 gradle.properties
@@ -29,7 +29,6 @@ src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/api/DefaultApi.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/ModelWithNullableObjectProperty.java
+src/main/java/org/openapitools/client/model/OtherPropertyType.java
 src/main/java/org/openapitools/client/model/PropertyType.java
-src/test/java/org/openapitools/client/api/DefaultApiTest.java
-src/test/java/org/openapitools/client/model/ModelWithNullableObjectPropertyTest.java
-src/test/java/org/openapitools/client/model/PropertyTypeTest.java
+src/test/java/org/openapitools/client/model/OtherPropertyTypeTest.java
