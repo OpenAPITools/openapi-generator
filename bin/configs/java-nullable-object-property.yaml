@@ -1,0 +1,8 @@
+generatorName: java
+outputDir: samples/client/petstore/java/nullable-object-property
+library: native
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_10593.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: java-nullable-property
+  hideGenerationTimestamp: "true"

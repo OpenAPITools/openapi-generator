@@ -1,0 +1,43 @@
+openapi: 3.0.2
+info:
+  title: Title
+  version: latest
+servers:
+- url: /
+paths:
+  /:
+    get:
+      operationId: operation
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelWithNullableObjectProperty'
+          description: Success
+      x-accepts: application/json
+components:
+  schemas:
+    ModelWithNullableObjectProperty:
+      example:
+        nonNullableProperty: ""
+        propertyName31: ""
+        propertyName30: ""
+      properties:
+        propertyName30:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/PropertyType'
+        propertyName31:
+          oneOf:
+          - type: "null"
+          - $ref: '#/components/schemas/PropertyType'
+        nonNullableProperty:
+          oneOf:
+          - type: string
+          - type: number
+    PropertyType:
+      properties:
+        foo:
+          type: string
+
