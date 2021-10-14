@@ -35,6 +35,7 @@ import org.openapitools.client.model.ParentPet;
 import java.util.Set;
 import java.util.HashSet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 
 /**
