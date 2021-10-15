@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Maps;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
@@ -270,10 +269,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return name.contains("&");
     }
 
-    private Map<String,String> toImportMap(String... names){
-        Map<String,String> result = Maps.newHashMap();
-        for(String name: names){
-            if(needToImport(name)){
+    private Map<String,String> toImportMap(String... names) {
+        Map<String,String> result = new HashMap<>();
+        for(final String name : names) {
+            if(needToImport(name)) {
                 result.put(toModelImport(name), name);
             }
         }
@@ -394,7 +393,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         sanName = camelize(sanName);
 
         // model name cannot use reserved keyword, e.g. return
-        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowcase
+        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowercase
         if (isReservedWord(sanName)) {
             String modelName = safePrefix + sanName;
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", sanName, modelName);
@@ -546,7 +545,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "'" + (String) p.getDefault() + "'";
+                return "'" + escapeText((String) p.getDefault()) + "'";
             }
             return UNDEFINED_VALUE;
         } else {

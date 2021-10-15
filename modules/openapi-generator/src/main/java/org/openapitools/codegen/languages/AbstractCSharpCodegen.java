@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap.Builder;
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
 
 import io.swagger.v3.core.util.Json;
@@ -87,6 +87,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
+    // special property keywords not allowed as these are the function names in the model files
+    protected Set<String> propertySpecialKeywords = new HashSet<>(Arrays.asList("ToString", "ToJson", "GetHashCode", "Equals", "ShouldSerializeToString"));
+
+    // A cache to efficiently lookup schema `toModelName()` based on the schema Key
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+
     public AbstractCSharpCodegen() {
         super();
 
@@ -115,7 +121,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         // set "client" as a reserved word to avoid conflicts with Org.OpenAPITools.Client
                         // this is a workaround and can be removed if c# api client is updated to use
                         // fully qualified name
-                        "Client", "client", "parameter",
+                        "Client", "client", "parameter", "Configuration", "Version",
                         // local variable names in API methods (endpoints)
                         "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams",
                         "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
@@ -387,7 +393,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    protected Builder<String, Lambda> addMustacheLambdas() {
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true));
     }
@@ -429,6 +435,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         updateValueTypeProperty(processed);
         updateNullableTypeProperty(processed);
         return processed;
+    }
+
+    @Override
+    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
+        List<Map<String, Object>> enumVars = super.buildEnumVars(values, dataType);
+
+        // this is needed for enumRefs like OuterEnum marked as nullable and also have string values
+        // keep isString true so that the index will be used as the enum value instead of a string
+        // this is inline with C# enums with string values
+        if ("string?".equals(dataType)){
+            enumVars.forEach((enumVar) -> {
+                enumVar.put("isString", true);
+            }); 
+        }
+
+        return enumVars;
     }
 
     /**
@@ -538,7 +560,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         model.vendorExtensions.put("x-enum-string", true);
                     }
 
-                    // Since we iterate enumVars for modelnnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
+                    // Since we iterate enumVars for modelInnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
                     // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
                     List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
                     List<Map<String, Object>> newEnumVars = new ArrayList<Map<String, Object>>();
@@ -815,7 +837,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // sanitize name
         name = sanitizeName(name);
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -829,6 +851,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             name = escapeReservedWord(name);
         }
 
+        if (propertySpecialKeywords.contains(name)) {
+            return camelize("property_" + name);
+        }
+
         return name;
     }
 
@@ -840,7 +866,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -1028,6 +1054,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -1051,9 +1084,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
+        String camelizedName = camelize(name);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return camelizedName;
     }
 
     @Override

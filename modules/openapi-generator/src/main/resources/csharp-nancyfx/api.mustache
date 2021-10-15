@@ -45,9 +45,12 @@ namespace {{packageName}}.{{packageContext}}.Modules
         /// {{notes}}
         /// </summary>
         /// <param name="context">Context of request</param>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
-        {{#asyncServer}}{{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}});{{^-last}}
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
+        {{/allParams}}/// <returns>{{returnType}}</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        {{#asyncServer}}{{#returnType}}Task<{{{.}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}});{{^-last}}
 
         {{/-last}}{{/operation}}
     }
@@ -57,14 +60,16 @@ namespace {{packageName}}.{{packageContext}}.Modules
     /// </summary>
     public abstract class Abstract{{classname}}Service: {{interfacePrefix}}{{classname}}Service
     {
-        {{#operation}}public virtual {{#asyncServer}}{{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}})
+        {{#operation}}{{#isDeprecated}}[Obsolete]
+        {{/isDeprecated}}public virtual {{#asyncServer}}{{#returnType}}Task<{{{.}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}})
         {
             {{^asyncServer}}{{#returnType}}return {{/returnType}}{{/asyncServer}}{{#asyncServer}}return {{/asyncServer}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         }{{^-last}}
 
         {{/-last}}{{/operation}}
 
-        {{#operation}}protected abstract {{#asyncServer}}{{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}({{>paramsList}});{{^-last}}
+        {{#operation}}{{#isDeprecated}}[Obsolete]
+        {{/isDeprecated}}protected abstract {{#asyncServer}}{{#returnType}}Task<{{{.}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}({{>paramsList}});{{^-last}}
 
         {{/-last}}{{/operation}}
     }

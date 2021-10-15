@@ -200,7 +200,7 @@
           <div id="api-_">
             <h2 id="welcome-to-apidoc">API and SDK Documentation</h2>
             {{#version}}
-              <div class="app-desc">Version: {{{version}}}</div>
+              <div class="app-desc">Version: {{{.}}}</div>
             {{/version}}
             <hr>
             <div id="app-description" class="app-desc">
@@ -248,11 +248,7 @@
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-{{baseName}}-{{nickname}}-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X {{vendorExtensions.x-codegen-http-method-upper-case}}{{#authMethods}}\
-{{#isApiKey}}{{#isKeyInHeader}}-H "{{keyParamName}}: [[apiKey]]"{{/isKeyInHeader}}{{/isApiKey}}{{^isBasicBearer}}{{#isBasic}} -H "Authorization: Basic [[basicHash]]"{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}} -H "Authorization: Bearer [[accessToken]]"{{/isBasicBearer}}{{/authMethods}}{{#hasProduces}}\
- -H "Accept: {{#produces}}{{{mediaType}}}{{^-last}},{{/-last}}{{/produces}}"{{/hasProduces}}{{#hasConsumes}}\
- -H "Content-Type: {{#consumes}}{{{mediaType}}}{{^-last}},{{/-last}}{{/consumes}}"{{/hasConsumes}}\
- "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{baseName}}={{vendorExtensions.x-eg}}{{/queryParams}}{{/hasQueryParams}}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">{{>sample_curl}}</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-java">
                             <pre class="prettyprint"><code class="language-java">{{>sample_java}}</code></pre>
@@ -492,10 +488,10 @@
                                           </tr>
                                           {{#headers}}
                                               <tr>
-                                                  <td>{{#name}}{{name}}{{/name}}</td>
+                                                  <td>{{name}}</td>
                                                   <td>{{#datatype}}{{dataType}}{{/datatype}}</td>
-                                                  <td>{{#dataFormat}}{{dataFormat}}{{/dataFormat}}</td>
-                                                  <td>{{#description}}{{description}}{{/description}}</td>
+                                                  <td>{{dataFormat}}</td>
+                                                  <td>{{description}}</td>
                                               </tr>
                                           {{/headers}}
                                       </table>
@@ -523,10 +519,10 @@
                 {{/infoEmail}}
               </p>
               {{#licenseInfo}}
-                <div class="license-info">{{{licenseInfo}}}</div>
+                <div class="license-info">{{{.}}}</div>
               {{/licenseInfo}}
               {{#licenseUrl}}
-                <div class="license-url">{{{licenseUrl}}}</div>
+                <div class="license-url">{{{.}}}</div>
               {{/licenseUrl}}
             </div>
           </div>

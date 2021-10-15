@@ -9,21 +9,13 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`5.2.1`):
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`5.3.0`):
 [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
 [![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/master)](https://cloud.drone.io/OpenAPITools/openapi-generator)
 [![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/master?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
 [![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/openapitools/openapi-generator/Check%20Supported%20Java%20Versions/master?label=Check%20Supported%20Java%20Versions&logo=github&logoColor=green)](https://github.com/OpenAPITools/openapi-generator/actions?query=workflow%3A%22Check+Supported+Java+Versions%22)
-
-
-[5.3.x](https://github.com/OpenAPITools/openapi-generator/tree/5.3.x) (`5.3.x`):
-[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/5.3.x.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
-[![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/5.3.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
-[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=5.3.x&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
-[![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/5.3.x)](https://cloud.drone.io/OpenAPITools/openapi-generator)
-[![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/5.3.x?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
 
 [6.0.x](https://github.com/OpenAPITools/openapi-generator/tree/6.0.x) (`6.0.x`):
 [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/6.0.x.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
@@ -62,6 +54,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/datadog.png" width="128" height="128">](https://datadoghq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/thales.jpg" width="128" height="128">](https://cpl.thalesgroup.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/apideck.jpg" width="128" height="128">](https://www.apideck.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/pexa.png" width="128" height="128">](https://www.pexa.com.au/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS and Checkly for sponsoring the API monitoring
 
@@ -75,8 +68,8 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 |                                  | Languages/Frameworks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.0, .NET Core 2.0, .NET 5.0. Libraries: RestSharp, HttpClient), **C++** (Arduino, cpp-restsdk, Qt5, Tizen, Unreal Engine 4), **Clojure**, **Crystal**, **Dart**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client), **k6**, **Kotlin**, **Lua**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types, Apollo GraphQL DataStore), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (hyper, reqwest, rust-server), **Scala** (akka, http4s, scalaz, sttp, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x, 5.x), **Typescript** (AngularJS, Angular (2.x - 11.x), Aurelia, Axios, Fetch, Inversify, jQuery, Nestjs, Node, redux-query, Rxjs) |
-| **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin, Echo), **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, Jersey, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples), [Vert.x](https://vertx.io/)), **Kotlin** (Spring Boot, Ktor, Vertx), **PHP** (Laravel, Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (FastAPI, Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** (Akka, [Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), Scalatra)                                                                                                                                                                                         |
+| **API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.0, .NET Core 2.0, .NET 5.0. Libraries: RestSharp, HttpClient), **C++** (Arduino, cpp-restsdk, Qt5, Tizen, Unreal Engine 4), **Clojure**, **Crystal**, **Dart**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Apache HttpClient, Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client), **k6**, **Kotlin**, **Lua**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types, Apollo GraphQL DataStore), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (hyper, reqwest, rust-server), **Scala** (akka, http4s, scalaz, sttp, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x, 5.x), **Typescript** (AngularJS, Angular (2.x - 11.x), Aurelia, Axios, Fetch, Inversify, jQuery, Nestjs, Node, redux-query, Rxjs) |
+| **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin, Echo), **Haskell** (Servant, Yesod), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, Jersey, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples), [Vert.x](https://vertx.io/)), **Kotlin** (Spring Boot, Ktor, Vertx), **PHP** (Laravel, Lumen, [Mezzio (fka Zend Expressive)](https://github.com/mezzio/mezzio), Slim, Silex, [Symfony](https://symfony.com/)), **Python** (FastAPI, Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** (Akka, [Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), Scalatra)                                                                                                                                                                                         |
 | **API documentation generators** | **HTML**, **Confluence Wiki**, **Asciidoc**, **Markdown**, **PlantUML**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | **Configuration files**          | [**Apache2**](https://httpd.apache.org/)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | **Others**                       | **GraphQL**, **JMeter**, **Ktorm**, **MySQL Schema**, **Protocol Buffer**, **WSDL**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -118,9 +111,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
 | 6.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.0.0-SNAPSHOT/) | Nov/Dec 2021   | Minor release with breaking changes (no fallback) |
-| 5.3.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.3.0-SNAPSHOT/) | Aug/Sep 2021   | Minor release with breaking changes (with fallback) |
-| 5.2.1 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.2.1-SNAPSHOT/) | 09.08.2021   | Patch release (enhancements, bug fixes, etc) |
-| [5.2.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.2.0) (latest stable release)                                                    | 09.07.2021   | Minor release with breaking changes (with fallback) |
+| 5.3.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.3.0-SNAPSHOT/) | Sep/Oct 2021   | Minor release with breaking changes (with fallback) |
+| [5.2.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.2.1) (latest stable release)                                                    | 016.08.2021   | Patch release (enhancements, bug fixes, etc) | 
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
@@ -177,16 +169,16 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.0/openapi-generator-cli-5.2.0.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.1/openapi-generator-cli-5.2.1.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.0/openapi-generator-cli-5.2.0.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.1/openapi-generator-cli-5.2.1.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.0/openapi-generator-cli-5.2.0.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.1/openapi-generator-cli-5.2.1.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -411,7 +403,7 @@ openapi-generator-cli version
 To use a specific version of "openapi-generator-cli"
 
 ```sh
-openapi-generator-cli version-manager set 5.2.0
+openapi-generator-cli version-manager set 5.2.1
 ```
 
 Or install it as dev-dependency:
@@ -435,7 +427,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 <!-- RELEASE_VERSION -->
-You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.0/openapi-generator-cli-5.2.0.jar)
+You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.1/openapi-generator-cli-5.2.1.jar)
 <!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
@@ -579,6 +571,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Agoda](https://www.agoda.com/)
 - [Allianz](https://www.allianz.com)
 - [Angular.Schule](https://angular.schule/)
+- [Aqovia](https://aqovia.com/)
 - [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [ASKUL](https://www.askul.co.jp)
 - [Arduino](https://www.arduino.cc/)
@@ -599,6 +592,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Cupix](https://www.cupix.com/)
 - [Datadog](https://www.datadoghq.com)
 - [DB Systel](https://www.dbsystel.de)
+- [Devsupply](https://www.devsupply.com/)
 - [DocSpring](https://docspring.com/)
 - [dwango](https://dwango.co.jp/)
 - [Edge Impulse](https://www.edgeimpulse.com/)
@@ -618,6 +612,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Here](https://developer.here.com/)
 - [IBM](https://www.ibm.com/)
 - [Instana](https://www.instana.com)
+- [Interxion](https://www.interxion.com)
+- [Inquisico](https://inquisico.com)
 - [JustStar](https://www.juststarinfo.com)
 - [k6.io](https://k6.io/)
 - [Klarna](https://www.klarna.com/)
@@ -633,6 +629,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [MoonVision](https://www.moonvision.io/)
 - [Myworkout](https://myworkout.com)
 - [NamSor](https://www.namsor.com/)
+- [Neverfail](https://www.neverfail.com/)
+- [NeuerEnergy](https://neuerenergy.com)
 - [Nokia](https://www.nokia.com/)
 - [Options Clearing Corporation (OCC)](https://www.theocc.com/)
 - [Openet](https://www.openet.com/)
@@ -827,6 +825,10 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2021-05-31 - [FlutterでOpen Api Generator(Swagger)を使う](https://aakira.app/blog/2021/05/flutter-open-api/) by [AAkira](https://twitter.com/_a_akira)
 - 2021-06-22 - [Rest API Documentation and Client Generation With OpenAPI](https://dzone.com/articles/rest-api-documentation-and-client-generation-with) by [Prasanth Gullapalli](https://dzone.com/users/1011797/prasanthnath.g@gmail.com.html) 
 - 2021-07-16 - [銀行事業のサーバーサイド開発について / LINE 京都開発室 エンジニア採用説明会](https://www.youtube.com/watch?v=YrrKQHxLPpQ) by 野田誠人, Robert Mitchell
+- 2021-07-29 - [How To Rewrite a Huge Codebase](https://dzone.com/articles/how-to-rewrite-a-huge-code-base) by [Curtis Poe](https://dzone.com/users/4565446/publiusovidius.html)
+- 2021-08-21 - [Generating Client APIs using Swagger Part 1](https://medium.com/@flowsquad/generating-client-apis-using-swagger-part-1-2d46f13f5e92) by [FlowSquad.io](https://medium.com/@flowsquad)
+- 2021-09-11 - [Invoking AWS ParallelCluster API](https://docs.aws.amazon.com/parallelcluster/latest/ug/api-reference-v3.html) at [AWS ParallelCluster API official documentation](https://docs.aws.amazon.com/parallelcluster/latest/ug/api-reference-v3.html)
+- 2021-10-02 - [How to Write Fewer Lines of Code with the OpenAPI Generator](https://hackernoon.com/how-to-write-fewer-lines-of-code-with-the-openapi-generator) by [Mikhail Alfa](https://hackernoon.com/u/alphamikle)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -890,6 +892,7 @@ Here is a list of template creators:
    * Java (Google APIs Client Library): @charlescapps
    * Java (Rest-assured): @viclovsky
    * Java (Java 11 Native HTTP client): @bbdouglas
+   * Java (Apache HttpClient): @harrywhite4
    * Javascript/NodeJS: @jfiala
    * Javascript (Apollo DataSource): @erithmetic
    * Javascript (Closure-annotated Angular) @achew22
@@ -902,6 +905,7 @@ Here is a list of template creators:
    * OCaml: @cgensoul
    * Perl: @wing328 [:heart:](https://www.patreon.com/wing328)
    * PHP (Guzzle): @baartosz
+   * PHP (with Data Transfer): @Articus
    * PowerShell: @beatcracker
    * PowerShell (refactored in 5.0.0): @wing328
    * Python: @spacether
@@ -944,6 +948,7 @@ Here is a list of template creators:
    * Go (Gin) Server: @kemokemo
    * GraphQL Express Server: @renepardon
    * Haskell Servant: @algas
+   * Haskell Yesod: @yotsuya
    * Java MSF4J: @sanjeewa-malalgoda
    * Java Spring Boot: @diyfr
    * Java Undertow: @stevehu
@@ -960,10 +965,10 @@ Here is a list of template creators:
    * NodeJS Express: @YishTish
    * PHP Laravel: @renepardon
    * PHP Lumen: @abcsun
+   * PHP Mezzio (with Path Handler): @Articus
    * PHP Slim: @jfastnacht
    * PHP Slim4: @ybelenko
    * PHP Symfony: @ksm2
-   * PHP Zend Expressive (with Path Handler): @Articus
    * Python FastAPI: @krjakbrjak
    * Python AIOHTTP: @Jyhess
    * Ruby on Rails 5: @zlx
@@ -1030,7 +1035,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | C++               | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08)                                                                                                                     |
 | C#                | @mandrean (2017/08) @frankyjuang (2019/09) @shibayan (2020/02) @Blackclaws (2021/03) @lucamazzanti (2021/05)                                                                               |
 | Clojure           |                                                                                                                                                                                                                                   |
-| Dart              | @jaumard (2018/09) @josh-burton (2019/12) @amondnet (2019/12) @sbu-WBT (2020/12) @kuhnroyal (2020/12) @agilob (2020/12)                                                                                                      |
+| Dart              | @jaumard (2018/09) @josh-burton (2019/12) @amondnet (2019/12) @sbu-WBT (2020/12) @kuhnroyal (2020/12) @agilob (2020/12) @ahmednfwela (2021/08)                                                                                                      |
 | Eiffel            | @jvelilla (2017/09)                                                                                                                                                                                                               |
 | Elixir            | @mrmstn (2018/12)                                                                                                                                                                                                                 |
 | Elm               | @eriktim (2018/09)                                                                                                                                                                                                                |

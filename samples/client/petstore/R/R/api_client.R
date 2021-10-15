@@ -111,7 +111,7 @@ ApiClient  <- R6::R6Class(
       if (is.null(self$maxRetryAttempts)) {
         self$maxRetryAttempts = 3
       }
-      
+
       if (!is.null(self$retryStatusCodes)) {
 
         for (i in 1 : self$maxRetryAttempts) {
@@ -122,7 +122,7 @@ ApiClient  <- R6::R6Class(
           } else {
             break;
           }
-        }  
+        }
       }
 
       resp
@@ -169,7 +169,7 @@ ApiClient  <- R6::R6Class(
       returnObj <- NULL
       primitiveTypes <- c("character", "numeric", "integer", "logical", "complex")
 
-      # To handle the "map" type 
+      # To handle the "map" type
       if (startsWith(returnType, "map(")) {
         innerReturnType <- regmatches(returnType, regexec(pattern = "map\\((.*)\\)", returnType))[[1]][2]
         returnObj <- lapply(names(obj), function(name) {
@@ -207,7 +207,7 @@ ApiClient  <- R6::R6Class(
         returnObj$fromJSON(
           jsonlite::toJSON(obj, digits = NA, auto_unbox = TRUE)
         )
-      } 
+      }
 
       # To handle primitive type
       else {

@@ -8,8 +8,8 @@ import (
 	"{{import}}"{{/imports}}
 )
 
-// {{classname}}Service is a service that implents the logic for the {{classname}}Servicer
-// This service should implement the business logic for every endpoint for the {{classname}} API. 
+// {{classname}}Service is a service that implements the logic for the {{classname}}Servicer
+// This service should implement the business logic for every endpoint for the {{classname}} API.
 // Include any external packages or services that will be required by this service.
 type {{classname}}Service struct {
 }
@@ -20,6 +20,9 @@ func New{{classname}}Service() {{classname}}Servicer {
 }{{#operations}}{{#operation}}
 
 // {{nickname}} - {{summary}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
 func (s *{{classname}}Service) {{nickname}}(ctx context.Context{{#allParams}}, {{paramName}} {{dataType}}{{/allParams}}) (ImplResponse, error) {
 	// TODO - update {{nickname}} with the required logic for this service method.
 	// Add {{classFilename}}_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
@@ -38,4 +41,3 @@ func (s *{{classname}}Service) {{nickname}}(ctx context.Context{{#allParams}}, {
 {{/responses}}
 	return Response(http.StatusNotImplemented, nil), errors.New("{{nickname}} method not implemented")
 }{{/operation}}{{/operations}}
-

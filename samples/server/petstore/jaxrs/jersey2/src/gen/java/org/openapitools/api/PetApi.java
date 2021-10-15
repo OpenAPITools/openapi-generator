@@ -48,7 +48,7 @@ public class PetApi  {
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {

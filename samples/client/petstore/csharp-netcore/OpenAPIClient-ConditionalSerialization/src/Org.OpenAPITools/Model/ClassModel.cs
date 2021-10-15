@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "_class", EmitDefaultValue = false)]
         public string Class
-        { 
+        {
             get{ return _Class;}
             set
             {
                 _Class = value;
                 _flagClass = true;
-            } 
+            }
         }
         private string _Class;
         private bool _flagClass;
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -85,4 +85,3 @@ export function ObjectWithDeprecatedFieldsToJSON(value?: ObjectWithDeprecatedFie
     };
 }
 
-

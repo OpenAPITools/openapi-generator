@@ -63,6 +63,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
+    public static final String GRADLE_PROPERTIES= "gradleProperties";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -84,6 +85,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String RETROFIT_2 = "retrofit2";
     public static final String VERTX = "vertx";
     public static final String MICROPROFILE = "microprofile";
+    public static final String APACHE = "apache-httpclient";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -110,6 +112,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean caseInsensitiveResponseHeaders = false;
     protected boolean useAbstractionForFiles = false;
     protected boolean dynamicOperations = false;
+    protected String gradleProperties;
     protected String authFolder;
     protected String serializationLibrary = null;
 
@@ -153,8 +156,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
+        cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle proeprties to the gradle.properties file"));
 
-        supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
+        supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x.");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
@@ -166,8 +170,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8");
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
-        supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client 1.x. JSON processing: Jackson 2.9.x");
-
+        supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client 1.x. JSON processing: JSON-B");
+        supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 4.x");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -176,7 +180,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(libraryOption);
         setLibrary(OKHTTP_GSON);
 
-        CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library, default depends from the library");
+        CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library, default depends on value of the option library");
         Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_GSON, "Use Gson as serialization library");
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
@@ -317,8 +321,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(DYNAMIC_OPERATIONS, dynamicOperations);
 
+        if (additionalProperties.containsKey(GRADLE_PROPERTIES)) {
+            this.setGradleProperties(additionalProperties.get(GRADLE_PROPERTIES).toString());
+        }
+        additionalProperties.put(GRADLE_PROPERTIES, gradleProperties);
+
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
+        final String modelsFolder = (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
         authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
 
         //Common files
@@ -341,7 +351,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // helper for client library that allow to parse/format java.time.OffsetDateTime or org.threeten.bp.OffsetDateTime
-        if (additionalProperties.containsKey("jsr310") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY1) || isLibrary(JERSEY2))) {
+        if (additionalProperties.containsKey("jsr310") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY1) || isLibrary(JERSEY2) || isLibrary(APACHE))) {
             supportingFiles.add(new SupportingFile("JavaTimeFormatter.mustache", invokerFolder, "JavaTimeFormatter.java"));
         }
 
@@ -378,6 +388,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (FEIGN.equals(getLibrary())) {
             modelDocTemplateFiles.remove("model_doc.mustache");
             apiDocTemplateFiles.remove("api_doc.mustache");
+            //Templates to decode response headers
+            supportingFiles.add(new SupportingFile("model/HttpResponse.mustache", modelsFolder, "HttpResponse.java"));
+            supportingFiles.add(new SupportingFile("JacksonResponseDecoder.mustache", invokerFolder, "JacksonResponseDecoder.java"));
         }
 
         if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || RETROFIT_2.equals(getLibrary()) || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || WEBCLIENT.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
@@ -422,7 +435,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpSignatureAuth.mustache", authFolder, "HttpSignatureAuth.java"));
             }
-            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiSchema.java"));
+            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
 
             // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
@@ -436,7 +449,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             setJava8ModeAndAdditionalProperties(true);
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
-            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiSchema.java"));
+            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (RESTEASY.equals(getLibrary())) {
             setJava8ModeAndAdditionalProperties(true);
@@ -490,6 +503,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
             }
+        } else if (APACHE.equals(getLibrary())) {
+            setJava8ModeAndAdditionalProperties(true);
+            forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
@@ -600,6 +616,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             if (FEIGN.equals(getLibrary())) {
                 supportingFiles.add(new SupportingFile("auth/OauthPasswordGrant.mustache", authFolder, "OauthPasswordGrant.java"));
                 supportingFiles.add(new SupportingFile("auth/OauthClientCredentialsGrant.mustache", authFolder, "OauthClientCredentialsGrant.java"));
+                supportingFiles.add(new SupportingFile("auth/ApiErrorDecoder.mustache", authFolder, "ApiErrorDecoder.java"));
             }
         }
     }
@@ -973,6 +990,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setDynamicOperations(final boolean dynamicOperations) {
         this.dynamicOperations = dynamicOperations;
+    }
+
+    public void setGradleProperties(final String gradleProperties) {
+        this.gradleProperties= gradleProperties;
     }
 
     /**

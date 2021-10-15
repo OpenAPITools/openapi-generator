@@ -49,13 +49,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "file", EmitDefaultValue = false)]
         public File File
-        { 
+        {
             get{ return _File;}
             set
             {
                 _File = value;
                 _flagFile = true;
-            } 
+            }
         }
         private File _File;
         private bool _flagFile;
@@ -73,13 +73,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "files", EmitDefaultValue = false)]
         public List<File> Files
-        { 
+        {
             get{ return _Files;}
             set
             {
                 _Files = value;
                 _flagFiles = true;
-            } 
+            }
         }
         private List<File> _Files;
         private bool _flagFiles;
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

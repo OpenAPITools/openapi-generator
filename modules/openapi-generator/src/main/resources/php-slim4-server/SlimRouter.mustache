@@ -111,7 +111,7 @@ class SlimRouter
                     'isOAuth' => true,
                     'scopes' => [
                     {{#scopes}}
-                        '{{scope}}',{{#description}} // {{description}}{{/description}}
+                        '{{scope}}',{{#description}} // {{.}}{{/description}}
                     {{/scopes}}
                     ],
                 ],

@@ -55,18 +55,21 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
+        [Obsolete]
         public decimal Id { get; set; }
 
         /// <summary>
         /// Gets or Sets DeprecatedRef
         /// </summary>
         [DataMember(Name="deprecatedRef", EmitDefaultValue=false)]
+        [Obsolete]
         public DeprecatedObject DeprecatedRef { get; set; }
 
         /// <summary>
         /// Gets or Sets Bars
         /// </summary>
         [DataMember(Name="bars", EmitDefaultValue=false)]
+        [Obsolete]
         public List<string> Bars { get; set; }
 
         /// <summary>

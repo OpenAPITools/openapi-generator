@@ -150,7 +150,7 @@ uncapitalize [] = []
 --   The @forParsing@ parameter is to distinguish between the cases in which we're using this
 --   to power a @FromJSON@ or a @ToJSON@ instance. In the first case we're parsing, and we want
 --   to replace special characters with their quoted equivalents (because we cannot have special
---   chars in identifier names), while we want to do viceversa when sending data instead.
+--   chars in identifier names), while we want to do vice versa when sending data instead.
 removeFieldLabelPrefix :: Bool -> String -> Options
 removeFieldLabelPrefix forParsing prefix =
   defaultOptions
@@ -184,6 +184,7 @@ removeFieldLabelPrefix forParsing prefix =
       , (".", "'Period")
       , ("/", "'Slash")
       , (":", "'Colon")
+      , (";", "'Semicolon")
       , ("{", "'Left_Curly_Bracket")
       , ("|", "'Pipe")
       , ("<", "'LessThan")

@@ -23,10 +23,10 @@ open class PetAPI {
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
-    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promise in
-            addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
+        return Future<Void, Error> { promise in
+            addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -49,7 +49,7 @@ open class PetAPI {
      */
     open class func addPetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let localVariablePath = "/pet"
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -60,7 +60,7 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
@@ -74,10 +74,10 @@ open class PetAPI {
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
-    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deletePet(petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promise in
-            deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result -> Void in
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deletePet(petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
+        return Future<Void, Error> { promise in
+            deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -104,7 +104,7 @@ open class PetAPI {
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -115,7 +115,7 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
@@ -137,10 +137,10 @@ open class PetAPI {
      - returns: AnyPublisher<[Pet], Error>
      */
     #if canImport(Combine)
-    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func findPetsByStatus(status: [String], apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
-        return Future<[Pet], Error>.init { promise in
-            findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result -> Void in
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func findPetsByStatus(status: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
+        return Future<[Pet], Error> { promise in
+            findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body!))
@@ -164,7 +164,7 @@ open class PetAPI {
      */
     open class func findPetsByStatusWithRequestBuilder(status: [String]) -> RequestBuilder<[Pet]> {
         let localVariablePath = "/pet/findByStatus"
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -178,7 +178,7 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
@@ -192,10 +192,10 @@ open class PetAPI {
      */
     #if canImport(Combine)
     @available(*, deprecated, message: "This operation is deprecated.")
-    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
-        return Future<[Pet], Error>.init { promise in
-            findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result -> Void in
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<[Pet], Error> {
+        return Future<[Pet], Error> { promise in
+            findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body!))
@@ -220,7 +220,7 @@ open class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     open class func findPetsByTagsWithRequestBuilder(tags: [String]) -> RequestBuilder<[Pet]> {
         let localVariablePath = "/pet/findByTags"
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -234,7 +234,7 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[Pet]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
@@ -247,10 +247,10 @@ open class PetAPI {
      - returns: AnyPublisher<Pet, Error>
      */
     #if canImport(Combine)
-    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<Pet, Error> {
-        return Future<Pet, Error>.init { promise in
-            getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result -> Void in
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Pet, Error> {
+        return Future<Pet, Error> { promise in
+            getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body!))
@@ -277,7 +277,7 @@ open class PetAPI {
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -288,7 +288,7 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Pet>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Pet>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
@@ -301,10 +301,10 @@ open class PetAPI {
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
-    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promise in
-            updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
+        return Future<Void, Error> { promise in
+            updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -327,7 +327,7 @@ open class PetAPI {
      */
     open class func updatePetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let localVariablePath = "/pet"
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -338,7 +338,7 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
@@ -353,10 +353,10 @@ open class PetAPI {
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
-    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promise in
-            updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result -> Void in
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
+        return Future<Void, Error> { promise in
+            updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -384,7 +384,7 @@ open class PetAPI {
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
             "name": name?.encodeToJSON(),
             "status": status?.encodeToJSON(),
@@ -401,7 +401,7 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
@@ -416,10 +416,10 @@ open class PetAPI {
      - returns: AnyPublisher<ApiResponse, Error>
      */
     #if canImport(Combine)
-    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<ApiResponse, Error> {
-        return Future<ApiResponse, Error>.init { promise in
-            uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result -> Void in
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<ApiResponse, Error> {
+        return Future<ApiResponse, Error> { promise in
+            uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body!))
@@ -447,7 +447,7 @@ open class PetAPI {
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
             "additionalMetadata": additionalMetadata?.encodeToJSON(),
             "file": file?.encodeToJSON(),
@@ -464,7 +464,7 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }
@@ -479,10 +479,10 @@ open class PetAPI {
      - returns: AnyPublisher<ApiResponse, Error>
      */
     #if canImport(Combine)
-    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClient.apiResponseQueue) -> AnyPublisher<ApiResponse, Error> {
-        return Future<ApiResponse, Error>.init { promise in
-            uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result -> Void in
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<ApiResponse, Error> {
+        return Future<ApiResponse, Error> { promise in
+            uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body!))
@@ -510,7 +510,7 @@ open class PetAPI {
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = PetstoreClient.basePath + localVariablePath
+        let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
             "additionalMetadata": additionalMetadata?.encodeToJSON(),
             "requiredFile": requiredFile.encodeToJSON(),
@@ -527,7 +527,7 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ApiResponse>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
     }

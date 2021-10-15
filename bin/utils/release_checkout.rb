@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# release_chekcout.rb
+# release_checkout.rb
 #
 require 'rubygems'
 require 'open-uri'
@@ -37,7 +37,7 @@ def check_npmjs
 end
 
 def check_homebrew
-  print "Checking homebrew forumla ... "
+  print "Checking homebrew formula ... "
 
   url = "https://raw.githubusercontent.com/Homebrew/homebrew-core/master/Formula/openapi-generator.rb"
   new_maven_url = "https://search.maven.org/remotecontent?filepath=org/openapitools/openapi-generator-cli/#{$version}/openapi-generator-cli-#{$version}.jar"

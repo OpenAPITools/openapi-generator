@@ -16,6 +16,7 @@ src/main/AndroidManifest.xml
 src/main/java/org/openapitools/client/ApiClient.java
 src/main/java/org/openapitools/client/CustomInstantDeserializer.java
 src/main/java/org/openapitools/client/EncodingUtils.java
+src/main/java/org/openapitools/client/JacksonResponseDecoder.java
 src/main/java/org/openapitools/client/ParamExpander.java
 src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
@@ -27,6 +28,7 @@ src/main/java/org/openapitools/client/api/FakeClassnameTags123Api.java
 src/main/java/org/openapitools/client/api/PetApi.java
 src/main/java/org/openapitools/client/api/StoreApi.java
 src/main/java/org/openapitools/client/api/UserApi.java
+src/main/java/org/openapitools/client/auth/ApiErrorDecoder.java
 src/main/java/org/openapitools/client/auth/ApiKeyAuth.java
 src/main/java/org/openapitools/client/auth/DefaultApi20Impl.java
 src/main/java/org/openapitools/client/auth/HttpBasicAuth.java
@@ -63,6 +65,7 @@ src/main/java/org/openapitools/client/model/EnumTest.java
 src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/FormatTest.java
 src/main/java/org/openapitools/client/model/HasOnlyReadOnly.java
+src/main/java/org/openapitools/client/model/HttpResponse.java
 src/main/java/org/openapitools/client/model/MapTest.java
 src/main/java/org/openapitools/client/model/MixedPropertiesAndAdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Model200Response.java

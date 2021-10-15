@@ -44,7 +44,7 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         useBeanValidation = true;
         outputFolder = "generated-code/JavaJaxRS-Resteasy-eap";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
 
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");

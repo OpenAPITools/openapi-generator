@@ -30,11 +30,11 @@
       {{/apiInfo}}
       {{#models}}
       {{#model}}
-      {{^vendorExtensions.x-is-openapimodel-enum}}
+      {{^isEnum}}
       <xs:complexType name="{{classname}}">
         {{#description}}
         <xs:annotation>
-          <xs:documentation>{{description}}</xs:documentation>
+          <xs:documentation>{{.}}</xs:documentation>
         </xs:annotation>
         {{/description}}
         <xs:sequence>
@@ -44,44 +44,49 @@
             <xs:simpleType>
               {{#description}}
               <xs:annotation>
-                <xs:documentation>{{description}}</xs:documentation>
+                <xs:documentation>{{.}}</xs:documentation>
               </xs:annotation>
               {{/description}}
               <xs:restriction base="xs:{{#isString}}string{{/isString}}{{^isString}}{{#isInteger}}integer{{/isInteger}}{{^isInteger}}{{#isDouble}}double{{/isDouble}}{{^isDouble}}long{{/isDouble}}{{/isInteger}}{{/isString}}">
                 {{#maximum}}
-                <xs:maxInclusive value="{{maximum}}" />
+                <xs:maxInclusive value="{{.}}" />
                 {{/maximum}}
                 {{#minimum}}
-                <xs:minInclusive value="{{minimum}}" />
+                <xs:minInclusive value="{{.}}" />
                 {{/minimum}}
                 {{#maxLength}}
-                <xs:maxLength value="{{maxLength}}" />
+                <xs:maxLength value="{{.}}" />
                 {{/maxLength}}
                 {{#minLength}}
-                <xs:minLength value="{{minLength}}" />
+                <xs:minLength value="{{.}}" />
                 {{/minLength}}
               </xs:restriction>
             </xs:simpleType>
           </xs:element>
           {{/vendorExtensions.x-prop-has-minormax}}
           {{^vendorExtensions.x-prop-has-minormax}}
+          {{#vendorExtensions.x-oneof-schemas}}
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="{{#lambda.lowercase}}{{.}}{{/lambda.lowercase}}" type="schemas:{{.}}" />
+          {{/vendorExtensions.x-oneof-schemas}}
+          {{^vendorExtensions.x-oneof-schemas}}
           {{#isContainer}}
-          <xs:element minOccurs="{{#minItems}}{{minItems}}{{/minItems}}{{^minItems}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/minItems}}" maxOccurs="{{#maxItems}}{{maxItems}}{{/maxItems}}{{^maxItems}}unbounded{{/maxItems}}" name="{{baseName}}" type="{{#items}}{{#isModel}}schemas:{{complexType}}{{/isModel}}{{^isModel}}{{#isFreeFormObject}}xs:string{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isString}}xs:{{complexType}}{{/isString}}{{^isString}}{{#isNumeric}}xs:{{complexType}}{{/isNumeric}}{{^isNumeric}}schemas:{{complexType}}{{/isNumeric}}{{/isString}}{{/isFreeFormObject}}{{/isModel}}{{/items}}"{{^description}} /{{/description}}>
+          <xs:element minOccurs="{{minItems}}{{^minItems}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/minItems}}" maxOccurs="{{maxItems}}{{^maxItems}}unbounded{{/maxItems}}" name="{{baseName}}" type="{{#items}}{{#isModel}}schemas:{{complexType}}{{/isModel}}{{^isModel}}{{#isFreeFormObject}}xs:string{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isString}}xs:{{complexType}}{{/isString}}{{^isString}}{{#isNumeric}}xs:{{complexType}}{{/isNumeric}}{{^isNumeric}}schemas:{{complexType}}{{/isNumeric}}{{/isString}}{{/isFreeFormObject}}{{/isModel}}{{/items}}"{{^description}} /{{/description}}>
           {{/isContainer}}
           {{^isContainer}}
           <xs:element minOccurs="{{#required}}1{{/required}}{{^required}}0{{/required}}"{{#vendorExtensions.x-prop-has-defaultvalue}} default="{{defaultValue}}"{{/vendorExtensions.x-prop-has-defaultvalue}} name="{{baseName}}" type="{{#isModel}}schemas:{{complexType}}{{/isModel}}{{^isModel}}{{#isEnum}}schemas:{{name}}{{/isEnum}}{{^isEnum}}{{#isNumber}}xs:double{{/isNumber}}{{^isNumber}}{{#isFreeFormObject}}xs:anyType{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isUuid}}xs:string{{/isUuid}}{{^isUuid}}{{#isByteArray}}xs:string{{/isByteArray}}{{^isByteArray}}{{#allowableValues}}schemas:{{baseType}}{{/allowableValues}}{{^allowableValues}}{{#isFile}}{{#isBinary}}xs:hexBinary{{/isBinary}}{{/isFile}}{{^isFile}}xs:{{baseType}}{{/isFile}}{{/allowableValues}}{{/isByteArray}}{{/isUuid}}{{/isFreeFormObject}}{{/isNumber}}{{/isEnum}}{{/isModel}}"{{^description}} /{{/description}}>
           {{/isContainer}}
           {{#description}}
             <xs:annotation>
-              <xs:documentation>{{description}}</xs:documentation>
+              <xs:documentation>{{.}}</xs:documentation>
             </xs:annotation>
           </xs:element>
           {{/description}}
+          {{/vendorExtensions.x-oneof-schemas}}
           {{/vendorExtensions.x-prop-has-minormax}}
           {{/vars}}
         </xs:sequence>
       </xs:complexType>
-      {{/vendorExtensions.x-is-openapimodel-enum}}
+      {{/isEnum}}
       {{/model}}
       {{/models}}
       {{#models}}
@@ -93,7 +98,7 @@
       <xs:simpleType name="{{name}}">
         {{#description}}
         <xs:annotation>
-          <xs:documentation>{{description}}</xs:documentation>
+          <xs:documentation>{{.}}</xs:documentation>
         </xs:annotation>
         {{/description}}
         <xs:restriction base="xs:{{baseType}}">
@@ -116,7 +121,7 @@
       <xs:simpleType name="{{name}}">
         {{#description}}
         <xs:annotation>
-          <xs:documentation>{{description}}</xs:documentation>
+          <xs:documentation>{{.}}</xs:documentation>
         </xs:annotation>
         {{/description}}
         <xs:restriction base="xs:{{dataType}}">
@@ -164,31 +169,31 @@
             <xs:simpleType>
               {{#description}}
               <xs:annotation>
-                <xs:documentation>{{description}}</xs:documentation>
+                <xs:documentation>{{.}}</xs:documentation>
               </xs:annotation>
               {{/description}}
               <xs:restriction base="xs:{{#isString}}string{{/isString}}{{^isString}}{{#isInteger}}integer{{/isInteger}}{{^isInteger}}{{#isDouble}}double{{/isDouble}}{{^isDouble}}long{{/isDouble}}{{/isInteger}}{{/isString}}">
                 {{#maximum}}
-                <xs:maxInclusive value="{{maximum}}" />
+                <xs:maxInclusive value="{{.}}" />
                 {{/maximum}}
                 {{#minimum}}
-                <xs:minInclusive value="{{minimum}}" />
+                <xs:minInclusive value="{{.}}" />
                 {{/minimum}}
                 {{#maxLength}}
-                <xs:maxLength value="{{maxLength}}" />
+                <xs:maxLength value="{{.}}" />
                 {{/maxLength}}
                 {{#minLength}}
-                <xs:minLength value="{{minLength}}" />
+                <xs:minLength value="{{.}}" />
                 {{/minLength}}
               </xs:restriction>
             </xs:simpleType>
           </xs:element>
           {{/vendorExtensions.x-param-has-minormax}}
           {{^vendorExtensions.x-param-has-minormax}}
-          <xs:element minOccurs="{{#isArray}}{{#minItems}}{{minItems}}{{/minItems}}{{^minItems}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/minItems}}{{/isArray}}{{^isArray}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/isArray}}"{{#isArray}} maxOccurs="{{#maxItems}}{{maxItems}}{{/maxItems}}{{^maxItems}}unbounded{{/maxItems}}"{{/isArray}}{{#vendorExtensions.x-param-has-defaultvalue}} default="{{defaultValue}}"{{/vendorExtensions.x-param-has-defaultvalue}} name="{{#isBodyParam}}body{{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}" type="{{#isBodyParam}}schemas:{{#isArray}}{{baseType}}{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}{{/isBodyParam}}{{^isBodyParam}}{{#isModel}}schemas:{{dataType}}{{/isModel}}{{^isModel}}{{#isEnum}}schemas:{{baseName}}{{/isEnum}}{{^isEnum}}{{#isFile}}{{#isBinary}}xs:hexBinary{{/isBinary}}{{/isFile}}{{^isFile}}{{#isByteArray}}xs:string{{/isByteArray}}{{^isByteArray}}{{#isArray}}{{#isQueryParam}}{{#items}}xs:{{baseType}}{{/items}}{{/isQueryParam}}{{/isArray}}{{^isArray}}xs:{{dataType}}{{/isArray}}{{/isByteArray}}{{/isFile}}{{/isEnum}}{{/isModel}}{{/isBodyParam}}"{{^description}} /{{/description}}>
+          <xs:element minOccurs="{{#isArray}}{{minItems}}{{^minItems}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/minItems}}{{/isArray}}{{^isArray}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/isArray}}"{{#isArray}} maxOccurs="{{maxItems}}{{^maxItems}}unbounded{{/maxItems}}"{{/isArray}}{{#vendorExtensions.x-param-has-defaultvalue}} default="{{defaultValue}}"{{/vendorExtensions.x-param-has-defaultvalue}} name="{{#isBodyParam}}body{{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}" type="{{#isBodyParam}}schemas:{{#isArray}}{{baseType}}{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}{{/isBodyParam}}{{^isBodyParam}}{{#isModel}}schemas:{{dataType}}{{/isModel}}{{^isModel}}{{#isEnum}}schemas:{{baseName}}{{/isEnum}}{{^isEnum}}{{#isFile}}{{#isBinary}}xs:hexBinary{{/isBinary}}{{/isFile}}{{^isFile}}{{#isByteArray}}xs:string{{/isByteArray}}{{^isByteArray}}{{#isArray}}{{#isQueryParam}}{{#items}}xs:{{baseType}}{{/items}}{{/isQueryParam}}{{/isArray}}{{^isArray}}xs:{{dataType}}{{/isArray}}{{/isByteArray}}{{/isFile}}{{/isEnum}}{{/isModel}}{{/isBodyParam}}"{{^description}} /{{/description}}>
           {{#description}}
             <xs:annotation>
-              <xs:documentation>{{description}}</xs:documentation>
+              <xs:documentation>{{.}}</xs:documentation>
             </xs:annotation>
           </xs:element>
           {{/description}}
@@ -206,7 +211,7 @@
       <xs:complexType name="{{operationId}}_ResponseMessage">
         <xs:sequence>
           {{#message}}
-          <xs:element minOccurs="1"{{#isArray}} maxOccurs="unbounded"{{/isArray}} name="{{#isModel}}{{#isMap}}response{{/isMap}}{{^isMap}}{{#isFile}}response{{/isFile}}{{^isFile}}{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}{{baseType}}{{/isArray}}{{^isArray}}response{{/isArray}}{{/isModel}}"{{#dataType}} type="{{#isModel}}{{#isMap}}xs:{{baseType}}{{/isMap}}{{^isMap}}{{#isFile}}xs:anyType{{/isFile}}{{^isFile}}schemas:{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}schemas:{{baseType}}{{/isArray}}{{^isArray}}xs:{{dataType}}{{/isArray}}{{/isModel}}"{{/dataType}}>
+          <xs:element minOccurs="1"{{#isArray}} maxOccurs="unbounded"{{/isArray}} name="{{#isModel}}{{#isMap}}response{{/isMap}}{{^isMap}}{{#isFile}}response{{/isFile}}{{^isFile}}{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}{{baseType}}{{/isArray}}{{^isArray}}response{{/isArray}}{{/isModel}}"{{#dataType}} type="{{#isModel}}{{#isMap}}xs:{{baseType}}{{/isMap}}{{^isMap}}{{#isFile}}xs:string{{/isFile}}{{^isFile}}schemas:{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}schemas:{{baseType}}{{/isArray}}{{^isArray}}xs:{{dataType}}{{/isArray}}{{/isModel}}"{{/dataType}}>
             <xs:annotation>
               <xs:documentation>{{message}}</xs:documentation>
             </xs:annotation>
@@ -224,7 +229,7 @@
       {{/operations}}
       {{/apis}}
       {{/apiInfo}}
-    </xs:schema>  
+    </xs:schema>
   </types>
   {{#apiInfo}}
   {{#apis}}
@@ -266,11 +271,11 @@
   {{#operation}}
     <operation name="{{operationId}}">
       {{#notes}}
-      <documentation>{{notes}}</documentation>
+      <documentation>{{.}}</documentation>
       {{/notes}}
       {{^notes}}
       {{#summary}}
-      <documentation>{{summary}}</documentation>
+      <documentation>{{.}}</documentation>
       {{/summary}}
       {{/notes}}
       <input message="wsdl:{{operationId}}_RequestMessage" />
@@ -279,7 +284,7 @@
       {{^is5xx}}
       <output message="wsdl:{{operationId}}_ResponseMessage"{{^message}} /{{/message}}>
       {{#message}}
-        <documentation>{{message}}</documentation>
+        <documentation>{{.}}</documentation>
       </output>
       {{/message}}
       {{/is5xx}}
@@ -287,14 +292,14 @@
       {{#is4xx}}
       <fault name="{{operationId}}_{{code}}" message="wsdl:{{operationId}}_{{code}}"{{^message}} /{{/message}}>
       {{#message}}
-        <documentation>{{message}}</documentation>
+        <documentation>{{.}}</documentation>
       </fault>
       {{/message}}
       {{/is4xx}}
       {{#is5xx}}
       <fault name="{{operationId}}_{{code}}" message="wsdl:{{operationId}}_{{code}}"{{^message}} /{{/message}}>
       {{#message}}
-        <documentation>{{message}}</documentation>
+        <documentation>{{.}}</documentation>
       </fault>
       {{/message}}
       {{/is5xx}}
