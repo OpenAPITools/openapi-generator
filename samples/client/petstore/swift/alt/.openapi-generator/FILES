@@ -1,0 +1,10 @@
+Apis/PetApi.swift
+Apis/StoreApi.swift
+Apis/UserApi.swift
+Models/ApiResponse.swift
+Models/Category.swift
+Models/Order.swift
+Models/Pet.swift
+Models/Tag.swift
+Models/User.swift
+README.md
