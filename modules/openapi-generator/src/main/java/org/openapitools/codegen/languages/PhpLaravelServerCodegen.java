@@ -286,7 +286,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
     @Override
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
-        if (templateName.equals("api.mustache")) {
+        if ("api.mustache".equals(templateName)) {
             return controllerFileFolder() + '/' + toControllerName(tag) + suffix;
         }
 

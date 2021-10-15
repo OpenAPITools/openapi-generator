@@ -292,11 +292,11 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
 
     @Override
     public String toModelImport(String name) {
-        if (name.equals("std::string")) {
+        if ("std::string".equals(name)) {
             return "#include <string>";
-        } else if (name.equals("std::list")) {
+        } else if ("std::list".equals(name)) {
             return "#include <list>";
-        } else if (name.equals("Map")) {
+        } else if ("Map".equals(name)) {
             return "#include <map>";
         }
         return "#include \"" + name + ".h\"";

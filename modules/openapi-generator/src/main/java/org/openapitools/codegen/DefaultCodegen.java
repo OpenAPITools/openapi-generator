@@ -3767,7 +3767,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected ApiResponse findMethodResponse(ApiResponses responses) {
         String code = null;
         for (String responseCode : responses.keySet()) {
-            if (responseCode.startsWith("2") || responseCode.equals("default")) {
+            if (responseCode.startsWith("2") || "default".equals(responseCode)) {
                 if (code == null || code.compareTo(responseCode) > 0) {
                     code = responseCode;
                 }
@@ -3833,7 +3833,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // generate examples
                 String exampleStatusCode = "200";
                 for (String key : operation.getResponses().keySet()) {
-                    if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
+                    if (operation.getResponses().get(key) == methodResponse && !"default".equals(key)) {
                         exampleStatusCode = key;
                     }
                 }
@@ -4741,7 +4741,7 @@ public class DefaultCodegen implements CodegenConfig {
     // TODO revise below as it should be replaced by ModelUtils.isFileSchema(parameterSchema)
     public boolean isDataTypeFile(String dataType) {
         if (dataType != null) {
-            return dataType.toLowerCase(Locale.ROOT).equals("file");
+            return "file".equals(dataType.toLowerCase(Locale.ROOT));
         } else {
             return false;
         }

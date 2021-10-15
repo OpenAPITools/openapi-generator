@@ -347,7 +347,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     private String createPath(String... segments) {
         StringBuilder buf = new StringBuilder();
         for (String segment : segments) {
-            if (!StringUtils.isEmpty(segment) && !segment.equals(".")) {
+            if (!StringUtils.isEmpty(segment) && !".".equals(segment)) {
                 if (buf.length() != 0)
                     buf.append(File.separatorChar);
                 buf.append(segment);
@@ -865,9 +865,9 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
 
     private String getJSDocType(CodegenModel cm, CodegenProperty cp) {
         if (Boolean.TRUE.equals(cp.isContainer)) {
-            if (cp.containerType.equals("array"))
+            if ("array".equals(cp.containerType))
                 return "Array.<" + cp.items + ">";
-            else if (cp.containerType.equals("map"))
+            else if ("map".equals(cp.containerType))
                 return "Object.<String, " + cp.items + ">";
         }
         String dataType = trimBrackets(cp.datatypeWithEnum);

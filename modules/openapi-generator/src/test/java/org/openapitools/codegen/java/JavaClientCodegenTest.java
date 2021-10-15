@@ -546,14 +546,14 @@ public class JavaClientCodegenTest {
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
 
         // Verify GET only has 'read' scope
-        final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("GET")).collect(Collectors.toList()).get(0);
+        final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> "GET".equals(it.httpMethod)).collect(Collectors.toList()).get(0);
         assertTrue(getCodegenOperation.hasAuthMethods);
         assertEquals(getCodegenOperation.authMethods.size(), 1);
         final List<Map<String, Object>> getScopes = getCodegenOperation.authMethods.get(0).scopes;
         assertEquals(getScopes.size(), 1, "GET scopes don't match. actual::" + getScopes);
 
         // POST operation should have both 'read' and 'write' scope on it
-        final CodegenOperation postCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("POST")).collect(Collectors.toList()).get(0);
+        final CodegenOperation postCodegenOperation = codegenOperations.stream().filter(it -> "POST".equals(it.httpMethod)).collect(Collectors.toList()).get(0);
         assertTrue(postCodegenOperation.hasAuthMethods);
         assertEquals(postCodegenOperation.authMethods.size(), 1);
         final List<Map<String, Object>> postScopes = postCodegenOperation.authMethods.get(0).scopes;
@@ -601,7 +601,7 @@ public class JavaClientCodegenTest {
         defaultGenerator.opts(clientOptInput);
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
 
-        final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("GET")).collect(Collectors.toList()).get(0);
+        final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> "GET".equals(it.httpMethod)).collect(Collectors.toList()).get(0);
         assertTrue(getCodegenOperation.hasAuthMethods);
         assertEquals(getCodegenOperation.authMethods.size(), 2);
     }

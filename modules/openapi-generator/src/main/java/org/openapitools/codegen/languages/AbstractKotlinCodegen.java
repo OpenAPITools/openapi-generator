@@ -749,7 +749,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         String specialChar = specialCharacters.getKey();
         String replacementChar = specialCharacters.getValue();
         // Underscore is the only special character we'll allow
-        if (!specialChar.equals("_") && word.contains(specialChar)) {
+        if (!"_".equals(specialChar) && word.contains(specialChar)) {
             return replaceCharacters(word, specialChar, replacementChar);
         }
         return word;

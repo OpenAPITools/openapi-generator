@@ -447,7 +447,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         op.vendorExtensions.put("x-handler", handler);
         op.vendorExtensions.put("x-param-indent", paramIndent);
         op.vendorExtensions.put("x-resource", resource);
-        op.vendorExtensions.put("x-is-get-or-post", op.httpMethod.equals("GET") || op.httpMethod.equals("POST"));
+        op.vendorExtensions.put("x-is-get-or-post", "GET".equals(op.httpMethod) || "POST".equals(op.httpMethod));
         for (CodegenParameter param : op.pathParams) {
             param.vendorExtensions.put("x-handler", handler);
             param.vendorExtensions.put("x-param-indent", paramIndent);

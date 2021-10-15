@@ -322,7 +322,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     }
 
     protected boolean isFileSchema(CodegenProperty property) {
-        return property.baseType.equals("HttpContent");
+        return "HttpContent".equals(property.baseType);
     }
 
     @Override

@@ -273,7 +273,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
         for (CodegenOperation op : operationList) {
             for (CodegenParameter param : op.bodyParams) {
-                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && op.isMultipart) {
+                if ("Uint8List".equalsIgnoreCase(param.baseType) && op.isMultipart) {
                     param.baseType = "MultipartFile";
                     param.dataType = "MultipartFile";
                 }

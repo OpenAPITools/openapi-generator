@@ -56,7 +56,7 @@ public class AuthorTemplate extends OpenApiGeneratorCommand {
             if ("jar".equals(uri.getScheme())) {
                 Optional<FileSystemProvider> provider = FileSystemProvider.installedProviders()
                         .stream()
-                        .filter(p -> p.getScheme().equalsIgnoreCase("jar"))
+                        .filter(p -> "jar".equalsIgnoreCase(p.getScheme()))
                         .findFirst();
 
                 if (!provider.isPresent()) {

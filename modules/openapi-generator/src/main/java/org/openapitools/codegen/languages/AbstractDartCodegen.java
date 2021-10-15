@@ -280,7 +280,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Override
     protected boolean needToImport(String type) {
         // Import everything, unless it is from dart:core.
-        return StringUtils.isNotBlank(type) && (!imports.containsKey(type) || !imports.get(type).equals("dart:core"));
+        return StringUtils.isNotBlank(type) && (!imports.containsKey(type) || !"dart:core".equals(imports.get(type)));
     }
 
     @Override

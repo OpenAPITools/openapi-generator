@@ -231,10 +231,10 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             return "Object";
         }
         String type = super.getTypeDeclaration(p);
-        if (type.equals("boolean") ||
-                type.equals("Date") ||
-                type.equals("number") ||
-                type.equals("string")) {
+        if ("boolean".equals(type) ||
+                "Date".equals(type) ||
+                "number".equals(type) ||
+                "string".equals(type)) {
             return type;
                 }
         return apiPackage + "." + type;

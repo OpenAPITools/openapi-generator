@@ -368,7 +368,7 @@ public class ScalaAkkaClientCodegenTest {
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/SomeObj.scala");
 
-        File someObj = files.stream().filter(f -> f.getName().equals("SomeObj.scala"))
+        File someObj = files.stream().filter(f -> "SomeObj.scala".equals(f.getName()))
                 .findFirst().get();
 
         byte[] fileContents = Files.readAllBytes(someObj.toPath());
@@ -411,7 +411,7 @@ public class ScalaAkkaClientCodegenTest {
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/SomeObj.scala");
 
-        File someObj = files.stream().filter(f -> f.getName().equals("SomeObj.scala"))
+        File someObj = files.stream().filter(f -> "SomeObj.scala".equals(f.getName()))
                 .findFirst().get();
 
         byte[] fileContents = Files.readAllBytes(someObj.toPath());

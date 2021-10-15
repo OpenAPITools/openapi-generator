@@ -112,7 +112,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
         cliOptions.add(testToolOption);
 
         // Remove the date library option
-        cliOptions.stream().filter(o -> o.getOpt().equals("dateLibrary")).findFirst()
+        cliOptions.stream().filter(o -> "dateLibrary".equals(o.getOpt())).findFirst()
                 .ifPresent(v -> cliOptions.remove(v));
 
         // Add reserved words

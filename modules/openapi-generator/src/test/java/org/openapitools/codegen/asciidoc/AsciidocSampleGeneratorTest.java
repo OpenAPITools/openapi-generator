@@ -43,7 +43,7 @@ public class AsciidocSampleGeneratorTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
 
         for (File file : files) {
-            if (file.getName().equals("index.adoc")) {
+            if ("index.adoc".equals(file.getName())) {
                 this.markupFileName = file.getAbsoluteFile().toString();
                 this.markupContent = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
             }

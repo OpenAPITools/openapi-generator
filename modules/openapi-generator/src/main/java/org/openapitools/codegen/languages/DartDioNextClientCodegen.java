@@ -359,9 +359,9 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             //
             // The following block removes the required import for Uint8List if it is no
             // longer in use.
-            if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))
+            if (op.allParams.stream().noneMatch(param -> "Uint8List".equals(param.dataType))
                     && op.responses.stream().filter(response -> response.dataType != null)
-                            .noneMatch(response -> response.dataType.equals("Uint8List"))) {
+                            .noneMatch(response -> "Uint8List".equals(response.dataType))) {
                 // Remove unused imports after processing
                 op.imports.remove("Uint8List");
             }

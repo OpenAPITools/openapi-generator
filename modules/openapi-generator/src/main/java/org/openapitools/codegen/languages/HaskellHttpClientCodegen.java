@@ -731,7 +731,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             param.vendorExtensions.put(VENDOR_EXTENSION_X_IS_BODY_OR_FORM_PARAM, param.isBodyParam || param.isFormParam);
             if (!StringUtils.isBlank(param.collectionFormat)) {
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
-            } else if (!param.isBodyParam && (param.isArray || param.dataType.startsWith("["))) { // param.isArray is sometimes false for list types
+            } else if (!param.isBodyParam && param.isArray || param.dataType.startsWith("[")) { // param.isArray is sometimes false for list types
                 // defaulting due to https://github.com/wing328/openapi-generator/issues/72
                 param.collectionFormat = "csv";
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
@@ -742,11 +742,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
             if (typeMapping.containsKey(param.dataType)
                     || param.isMap || param.isArray
-                    || param.isPrimitiveType || param.isFile || (param.isEnum || param.allowableValues != null) || !param.isBodyParam) {
+                    || param.isPrimitiveType || param.isFile || param.isEnum || param.allowableValues != null || !param.isBodyParam) {
 
                 String dataType = genEnums && param.isEnum ? param.datatypeWithEnum : param.dataType;
 
-                String paramNameType = toDedupedModelName(toTypeName("Param", param.paramName), dataType, !(param.isEnum || param.allowableValues != null));
+                String paramNameType = toDedupedModelName(toTypeName("Param", param.paramName), dataType, !param.isEnum || param.allowableValues != null);
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_PARAM_NAME_TYPE, paramNameType);
 
                 HashMap<String, Object> props = new HashMap<>();
@@ -828,7 +828,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 if ((boolean) additionalProperties.get(PROP_GENERATE_FORM_URLENCODED_INSTANCES) && mimeTypes.contains("MimeFormUrlEncoded")) {
                     Boolean hasMimeFormUrlEncoded = true;
                     for (CodegenProperty v : m.vars) {
-                        if (!(v.isPrimitiveType || v.isString || v.isDate || v.isDateTime)) {
+                        if (!v.isPrimitiveType || v.isString || v.isDate || v.isDateTime) {
                             hasMimeFormUrlEncoded = false;
                         }
                     }
@@ -881,17 +881,17 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public boolean isDataTypeFile(String dataType) {
-        return dataType != null && dataType.equals("FilePath");
+        return"FilePath".equals(dataType);
     }
 
     @Override
     public boolean isDataTypeBinary(final String dataType) {
-        return dataType != null && dataType.equals("B.ByteString");
+        return"B.ByteString".equals(dataType);
     }
 
     private void processReturnType(CodegenOperation op) {
         String returnType = op.returnType;
-        if (returnType == null || returnType.equals("null")) {
+        if (returnType == null || "null".equals(returnType)) {
             returnType = "NoContent";
             SetNoContent(op, VENDOR_EXTENSION_X_INLINE_ACCEPT);
             op.hasProduces = false;
@@ -1071,7 +1071,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             unknownMimeTypes.add(m);
         }
         for (CodegenParameter param : op.allParams) {
-            if (param.isBodyParam || param.isFormParam && (!param.isPrimitiveType && !param.isArray && !param.isMap)) {
+            if (param.isBodyParam || param.isFormParam && !param.isPrimitiveType && !param.isArray && !param.isMap) {
                 Set<String> mimeTypes = modelMimeTypes.containsKey(param.dataType) ? modelMimeTypes.get(param.dataType) : new HashSet();
                 mimeTypes.add(mimeType);
                 modelMimeTypes.put(param.dataType, mimeTypes);
@@ -1247,7 +1247,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     static boolean isWildcardMimeType(String mime) {
-        return mime != null && mime.equals("*/*");
+        return"*/*".equals(mime);
     }
 
     @Override
@@ -1258,7 +1258,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             }
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (p.getDefault().toString().equalsIgnoreCase("false"))
+                if ("false".equalsIgnoreCase(p.getDefault().toString()))
                     return "False";
                 else
                     return "True";
@@ -1283,7 +1283,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 }
                 if (dataType != null) {
                     cm.vendorExtensions.put(VENDOR_EXTENSION_X_DATA_TYPE, dataType);
-                    if (dataType.equals("Maybe A.Value")) {
+                    if ("Maybe A.Value".equals(dataType)) {
                         cm.vendorExtensions.put(VENDOR_EXTENSION_X_IS_MAYBE_VALUE, true);
                     }
                 }
@@ -1293,7 +1293,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                         ? var.datatypeWithEnum
                         : var.dataType;
                 var.vendorExtensions.put(VENDOR_EXTENSION_X_DATA_TYPE, datatype);
-                if (!var.required && datatype.equals("A.Value") || var.required && datatype.equals("Maybe A.Value")) {
+                if (!var.required && "A.Value".equals(datatype) || var.required && "Maybe A.Value".equals(datatype)) {
                     var.vendorExtensions.put(VENDOR_EXTENSION_X_IS_MAYBE_VALUE, true);
                 }
             }
@@ -1321,7 +1321,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap) || Boolean.TRUE.equals(baseItem.isArray))) {
+        while (baseItem != null && Boolean.TRUE.equals(baseItem.isMap) || Boolean.TRUE.equals(baseItem.isArray)) {
             baseItem = baseItem.items;
         }
         if (baseItem != null) {

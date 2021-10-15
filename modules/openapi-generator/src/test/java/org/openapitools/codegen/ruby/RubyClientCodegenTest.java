@@ -58,7 +58,7 @@ public class RubyClientCodegenTest {
         List<File> files = generator.opts(clientOptInput).generate();
         boolean apiFileGenerated = false;
         for (File file : files) {
-            if (file.getName().equals("default_api.rb")) {
+            if ("default_api.rb".equals(file.getName())) {
                 apiFileGenerated = true;
                 // Ruby client should set the path unescaped in the api file
                 assertTrue(FileUtils.readFileToString(file, StandardCharsets.UTF_8).contains("local_var_path = '/foo=bar'"));
@@ -122,7 +122,7 @@ public class RubyClientCodegenTest {
         List<File> files = generator.opts(clientOptInput).generate();
         boolean apiFileGenerated = false;
         for (File file : files) {
-            if (file.getName().equals("default_api.rb")) {
+            if ("default_api.rb".equals(file.getName())) {
                 apiFileGenerated = true;
                 // Ruby client should set the path unescaped in the api file
                 assertTrue(FileUtils.readFileToString(file, StandardCharsets.UTF_8).contains("local_var_path = '/default/Resources/{id}'"));

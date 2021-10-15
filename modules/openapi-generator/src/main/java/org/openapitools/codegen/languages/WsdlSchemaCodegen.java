@@ -164,13 +164,13 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         if (param.isPrimitiveType) {
             param.dataType = param.dataType.toLowerCase(Locale.getDefault());
         }
-        if (param.dataFormat != null && param.dataFormat.equalsIgnoreCase("date")) {
+        if ("date".equalsIgnoreCase(param.dataFormat)) {
             param.dataType = "date";
         }
-        if (param.dataFormat != null && param.dataFormat.equalsIgnoreCase("date-time")) {
+        if ("date-time".equalsIgnoreCase(param.dataFormat)) {
             param.dataType = "dateTime";
         }
-        if (param.dataFormat != null && param.dataFormat.equalsIgnoreCase("uuid")) {
+        if ("uuid".equalsIgnoreCase(param.dataFormat)) {
             param.dataType = "string";
         }
     }

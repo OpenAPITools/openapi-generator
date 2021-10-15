@@ -234,7 +234,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
 
         private boolean isIndexed() {
-            return isListContainer || isArray && !dataType.equals("byte[]");
+            return isListContainer || isArray && !"byte[]".equals(dataType);
         }
 
         private boolean isListItem() {
@@ -337,7 +337,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     private void appendArrayValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
                                   String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
-        if (var.dataType.equals("byte[]")) {
+        if ("byte[]".equals(var.dataType)) {
             // Byte arrays are represented as Base64-encoded strings.
             appendByteArrayValue(buffer, indent, op, var, localVar, localVars, models);
         } else {
@@ -586,8 +586,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             long minDate = MIN_DATE;
             long maxDate = MAX_DATE;
             if (var != null) {
-                DateFormat df = var.dataFormat.equals("date-time") ? ISO8601_DATETIME_FORMAT.get() : ISO8601_DATE_FORMAT.get();
-                String isoFormat = var.dataFormat.equals("date-time") ? "date-time" : "full-date";
+                DateFormat df = "date-time".equals(var.dataFormat) ? ISO8601_DATETIME_FORMAT.get() : ISO8601_DATE_FORMAT.get();
+                String isoFormat = "date-time".equals(var.dataFormat) ? "date-time" : "full-date";
                 if (var.minimum != null) {
                     try {
                         minDate = df.parse(var.minimum).getTime();
@@ -812,7 +812,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     private void appendScalarValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
                                    String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
-        if (!var.isPrimitiveType && !DATE_TYPES.contains(var.dataType) || var.dataType.equals("Object")) {
+        if (!var.isPrimitiveType && !DATE_TYPES.contains(var.dataType) || "Object".equals(var.dataType)) {
             // All other non-container types: allocate a new object on the heap.
             appendObjectValue(buffer, indent, op, var, localVar, localVars, models);
         } else {

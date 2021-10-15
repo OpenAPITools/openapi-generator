@@ -246,7 +246,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(CORE_DATA)) {
             Object coreData = additionalProperties.get(CORE_DATA);
-            if (((String) coreData).equalsIgnoreCase("true")) {
+            if ("true".equalsIgnoreCase(((String) coreData))) {
                 generateCoreData = true;
             }
         }
@@ -697,7 +697,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (p.getDefault().toString().equalsIgnoreCase("false"))
+                if ("false".equalsIgnoreCase(p.getDefault().toString()))
                     return "@(NO)";
                 else
                     return "@(YES)";

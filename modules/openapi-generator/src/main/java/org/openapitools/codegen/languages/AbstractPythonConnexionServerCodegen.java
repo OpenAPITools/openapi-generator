@@ -645,8 +645,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             if (operation.consumes != null) {
                 if (operation.consumes.size() == 1) {
                     Map<String, String> consume = operation.consumes.get(0);
-                    if (!("application/json".equals(consume.get(MEDIA_TYPE))
-                            || consume.get(MEDIA_TYPE).endsWith("+json"))) {
+                    if (!"application/json".equals(consume.get(MEDIA_TYPE))
+                            || consume.get(MEDIA_TYPE).endsWith("+json")) {
                         skipTests.put("reason", consume.get(MEDIA_TYPE) + " not supported by Connexion");
                         if ("multipart/form-data".equals(consume.get(MEDIA_TYPE))) {
                             operation.isMultipart = Boolean.TRUE;
@@ -674,7 +674,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             if (operation.produces != null) {
                 for (Map<String, String> produce : operation.produces) {
                     operation.vendorExtensions.put("x-prefered-produce", produce);
-                    if (produce.get(MEDIA_TYPE).equals("application/json")) {
+                    if ("application/json".equals(produce.get(MEDIA_TYPE))) {
                         break;
                     }
                 }
@@ -684,7 +684,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             }
             if (operation.requestBodyExamples != null) {
                 for (Map<String, String> example : operation.requestBodyExamples) {
-                    if (example.get("contentType") != null && example.get("contentType").equals("application/json")) {
+                    if ("application/json".equals(example.get("contentType"))) {
                         operation.bodyParam.example = example.get("example");
                     }
                 }

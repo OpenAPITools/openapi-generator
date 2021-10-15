@@ -575,7 +575,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 typeMapping.put("DateTime", "OffsetDateTime");
                 importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
             }
-        } else if (dateLibrary.equals("legacy")) {
+        } else if ("legacy".equals(dateLibrary)) {
             additionalProperties.put("legacyDates", "true");
         }
     }

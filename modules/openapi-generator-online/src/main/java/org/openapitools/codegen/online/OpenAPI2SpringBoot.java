@@ -33,7 +33,7 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
 
     @Override
     public void run(String... arg0) {
-        if (arg0.length > 0 && arg0[0].equals("exitcode")) {
+        if (arg0.length > 0 && "exitcode".equals(arg0[0])) {
             throw new ExitException();
         }
     }

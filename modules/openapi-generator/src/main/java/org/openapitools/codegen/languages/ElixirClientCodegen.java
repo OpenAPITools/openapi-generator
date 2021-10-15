@@ -591,7 +591,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.jsonSchema = o.jsonSchema;
             this.vendorExtensions = o.vendorExtensions;
 
-            this.isDefinedDefault = (this.code.equals("0") || this.code.equals("default"));
+            this.isDefinedDefault = ("0".equals(this.code) || "default".equals(this.code));
         }
 
         public String codeMappingKey() {
@@ -744,8 +744,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                     returnEntry.append(returnBaseType);
                     returnEntry.append(".t");
                 } else {
-                    if (exResponse.containerType.equals("array") ||
-                            exResponse.containerType.equals("set")) {
+                    if ("array".equals(exResponse.containerType) ||
+                            "set".equals(exResponse.containerType)) {
                         returnEntry.append("list(");
                         if (!exResponse.primitiveType) {
                             returnEntry.append(moduleName);
@@ -753,7 +753,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                         }
                         returnEntry.append(exResponse.baseType);
                         returnEntry.append(".t)");
-                    } else if (exResponse.containerType.equals("map")) {
+                    } else if ("map".equals(exResponse.containerType)) {
                         returnEntry.append("map()");
                     }
                 }
@@ -822,7 +822,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         private boolean getRequiresHttpcWorkaround() {
             // Only POST/PATCH/PUT are affected from the httpc bug
-            if (!(this.httpMethod.equals("POST") || this.httpMethod.equals("PATCH") || this.httpMethod.equals("PUT"))) {
+            if (!("POST".equals(this.httpMethod) || "PATCH".equals(this.httpMethod) || "PUT".equals(this.httpMethod))) {
                 return false;
             }
 

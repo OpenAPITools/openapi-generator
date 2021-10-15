@@ -158,7 +158,7 @@ public class ApiInvoker {
     collectionFormat = (collectionFormat == null || collectionFormat.isEmpty() ? "csv" : collectionFormat); // default: csv
 
     // create the params based on the collection format
-    if (collectionFormat.equals("multi")) {
+    if ("multi".equals(collectionFormat)) {
       for (Object item : valueCollection) {
         params.add(new Pair(name, parameterToString(item)));
       }
@@ -168,13 +168,13 @@ public class ApiInvoker {
 
     String delimiter = ",";
 
-    if (collectionFormat.equals("csv")) {
+    if ("csv".equals(collectionFormat)) {
       delimiter = ",";
-    } else if (collectionFormat.equals("ssv")) {
+    } else if ("ssv".equals(collectionFormat)) {
       delimiter = " ";
-    } else if (collectionFormat.equals("tsv")) {
+    } else if ("tsv".equals(collectionFormat)) {
       delimiter = "\t";
-    } else if (collectionFormat.equals("pipes")) {
+    } else if ("pipes".equals(collectionFormat)) {
       delimiter = "|";
     }
 

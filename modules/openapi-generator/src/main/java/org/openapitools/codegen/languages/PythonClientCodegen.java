@@ -140,7 +140,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         // add the models and apis folders
         supportingFiles.add(new SupportingFile("__init__models.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
         SupportingFile originalInitModel = supportingFiles.stream()
-                .filter(sf -> sf.getTemplateFile().equals("__init__model.mustache"))
+                .filter(sf -> "__init__model.mustache".equals(sf.getTemplateFile()))
                 .reduce((a, b) -> {
                     throw new IllegalStateException("Multiple elements: " + a + ", " + b);
                 })
@@ -861,9 +861,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             originalSpecVersion = originalSpecVersion.substring(0, 1);
 
         }
-        Boolean v2DisallowAdditionalPropertiesIfNotPresentAddPropsNullCase = (getAdditionalProperties(p) == null && this.getDisallowAdditionalPropertiesIfNotPresent() && originalSpecVersion.equals("2"));
+        Boolean v2DisallowAdditionalPropertiesIfNotPresentAddPropsNullCase = (getAdditionalProperties(p) == null && this.getDisallowAdditionalPropertiesIfNotPresent() && "2".equals(originalSpecVersion));
         Schema emptySchema = new Schema();
-        Boolean v2WithCompositionAddPropsAnyTypeSchemaCase = (getAdditionalProperties(p) != null && emptySchema.equals(getAdditionalProperties(p)) && originalSpecVersion.equals("2"));
+        Boolean v2WithCompositionAddPropsAnyTypeSchemaCase = (getAdditionalProperties(p) != null && emptySchema.equals(getAdditionalProperties(p)) && "2".equals(originalSpecVersion));
         if (isFreeFormObject(p) && (v2DisallowAdditionalPropertiesIfNotPresentAddPropsNullCase || v2WithCompositionAddPropsAnyTypeSchemaCase)) {
             // for v2 specs only, input AnyType schemas (type unset) or schema {} results in FreeFromObject schemas
             // per https://github.com/swagger-api/swagger-parser/issues/1378
@@ -878,7 +878,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
-        Boolean v3WithCompositionAddPropsAnyTypeSchemaCase = (getAdditionalProperties(p) != null && emptySchema.equals(getAdditionalProperties(p)) && originalSpecVersion.equals("3"));
+        Boolean v3WithCompositionAddPropsAnyTypeSchemaCase = (getAdditionalProperties(p) != null && emptySchema.equals(getAdditionalProperties(p)) && "3".equals(originalSpecVersion));
         if (isFreeFormObject(p) && v3WithCompositionAddPropsAnyTypeSchemaCase) {
             // v3 code path, use case: type object schema with no other schema info
             return prefix + "{str: (bool, date, datetime, dict, float, int, list, str, none_type)}" + fullSuffix;

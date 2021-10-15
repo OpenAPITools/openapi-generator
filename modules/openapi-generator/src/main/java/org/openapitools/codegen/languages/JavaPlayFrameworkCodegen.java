@@ -327,10 +327,10 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                 }
 
                 if (operation.returnType != null) {
-                    if (operation.returnType.equals("Boolean")) {
+                    if ("Boolean".equals(operation.returnType)) {
                         operation.vendorExtensions.put("x-missing-return-info-if-needed", "true");
                     }
-                    if (operation.returnType.equals("BigDecimal")) {
+                    if ("BigDecimal".equals(operation.returnType)) {
                         operation.vendorExtensions.put("x-missing-return-info-if-needed", "1.0");
                     }
                     if (operation.returnType.startsWith("List")) {

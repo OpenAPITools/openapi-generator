@@ -97,7 +97,7 @@ public class HttpLoggingFilter implements Filter {
     while (requestParamNames.hasMoreElements()) {
       String requestParamName = (String) requestParamNames.nextElement();
       String requestParamValue;
-      if (requestParamName.equalsIgnoreCase("password")) {
+      if ("password".equalsIgnoreCase(requestParamName)) {
         requestParamValue = "********";
       } else {
         requestParamValue = request.getParameter(requestParamName);

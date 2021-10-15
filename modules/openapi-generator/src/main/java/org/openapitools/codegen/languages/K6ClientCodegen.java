@@ -244,7 +244,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         public HTTPRequest(String method, String path, @Nullable List<Parameter> query, @Nullable HTTPBody body,
                            @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks) {
             // NOTE: https://k6.io/docs/javascript-api/k6-http/del-url-body-params
-            this.method = method.equals("delete") ? "del" : method;
+            this.method = "delete".equals(method) ? "del" : method;
             this.path = path;
             this.query = query;
             this.body = body;
@@ -418,7 +418,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 final PathItem.HttpMethod method = methodOperation.getKey();
 
                 for (Map.Entry<String, ApiResponse> resp : operation.getResponses().entrySet()) {
-                    String statusData = resp.getKey().equals("default") ? "200" : resp.getKey();
+                    String statusData = "default".equals(resp.getKey()) ? "200" : resp.getKey();
                     int status = Integer.parseInt(statusData);
                     if (status >= 200 && status < 300) {
                         k6Checks.add(new k6Check(status, resp.getValue().getDescription()));
@@ -429,7 +429,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                     String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
                     List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
                     String contentTypeValue = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
-                    if (contentTypeValue.equals("*/*"))
+                    if ("*/*".equals(contentTypeValue))
                         contentTypeValue = "application/json";
                     Parameter contentType = new Parameter("Content-Type", getDoubleQuotedString(contentTypeValue));
                     httpParams.add(contentType);
@@ -452,13 +452,13 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                             Schema nestedSchema = ModelUtils.getSchema(openAPI, parameter.baseType);
                             CodegenModel model = fromModel(parameter.paramName, nestedSchema);
                             reference = generateNestedModelTemplate(model);
-                            if (parameter.dataType.equals("List")) {
+                            if ("List".equals(parameter.dataType)) {
                                 reference = "[" + reference + "]";
                             }
                         }
 
                         Parameter k6Parameter;
-                        if (parameter.dataType.equals("File")) {
+                        if ("File".equals(parameter.dataType)) {
                             k6Parameter = new Parameter(parameter.paramName,
                                     "http.file(open(\"/path/to/file.bin\", \"b\"), \"test.bin\")");
                         } else {
@@ -482,7 +482,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                                 break;
                             case "path":
                             case "query":
-                                if (parameter.getIn().equals("query"))
+                                if ("query".equals(parameter.getIn()))
                                     queryParams.add(new Parameter(parameter.getName(), getTemplateVariable(parameter.getName())));
                                 if (!pathVariables.containsKey(path)) {
                                     // use 'example' field defined at the parameter level of OpenAPI spec
@@ -641,7 +641,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     private String createPath(String... segments) {
         StringBuilder buf = new StringBuilder();
         for (String segment : segments) {
-            if (!StringUtils.isEmpty(segment) && !segment.equals(".")) {
+            if (!StringUtils.isEmpty(segment) && !".".equals(segment)) {
                 if (buf.length() != 0)
                     buf.append(File.separatorChar);
                 buf.append(segment);

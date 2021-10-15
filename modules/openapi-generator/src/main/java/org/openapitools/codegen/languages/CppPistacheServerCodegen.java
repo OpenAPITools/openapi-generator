@@ -275,7 +275,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
             if (op.consumes != null) {
                 for (Map<String, String> consume : op.consumes) {
-                    if (consume.get("mediaType") != null && consume.get("mediaType").equals("application/json")) {
+                    if ("application/json".equals(consume.get("mediaType"))) {
                         consumeJson = true;
                     }
                 }
@@ -462,7 +462,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      */
     @Override
     public String modelFileFolder() {
-        return (outputFolder + "/model").replace("/", File.separator);
+        return outputFolder + "/model".replace("/", File.separator);
     }
 
     /**
@@ -471,11 +471,11 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      */
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/api").replace("/", File.separator);
+        return outputFolder + "/api".replace("/", File.separator);
     }
 
     private String implFileFolder() {
-        return (outputFolder + "/" + implFolder).replace("/", File.separator);
+        return outputFolder + "/" + implFolder.replace("/", File.separator);
     }
 
     /**

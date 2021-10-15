@@ -242,8 +242,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0 ||
-                    type.equals("Map") || type.equals("List") ||
-                    type.equals("File") || type.equals("Date")) {
+                    "Map".equals(type) || "List".equals(type) ||
+                    "File".equals(type) || "Date".equals(type)) {
                 return type;
             }
         } else {

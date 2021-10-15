@@ -186,7 +186,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     public String apiFilename(String templateName, String tag) {
         String result = super.apiFilename(templateName, tag);
 
-        if (templateName.equals("service.mustache")) {
+        if ("service.mustache".equals(templateName)) {
             String stringToMatch = File.separator + "controllers" + File.separator;
             String replacement = File.separator + implFolder + File.separator;
             result = result.replace(stringToMatch, replacement);

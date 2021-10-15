@@ -1350,7 +1350,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         if (
             StringUtils.isEmpty(codegenExample) ||
-            codegenExample.equals("null") ||
+            "null".equals(codegenExample) ||
             codegenExample.equals(genericStringExample)
         ) {
             example.append("My" + codegenName);
@@ -1379,7 +1379,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     private String constructNumericExample(String codegenExample) {
         StringBuilder example = new StringBuilder();
 
-        if (StringUtils.isEmpty(codegenExample) || codegenExample.equals("null")) {
+        if (StringUtils.isEmpty(codegenExample) || "null".equals(codegenExample)) {
             example.append("0");
         } else {
             example.append(codegenExample);

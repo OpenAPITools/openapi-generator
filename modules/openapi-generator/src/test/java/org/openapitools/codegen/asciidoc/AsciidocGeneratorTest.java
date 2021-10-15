@@ -68,7 +68,7 @@ public class AsciidocGeneratorTest {
         List<File> files = generator.opts(clientOptInput).generate();
         boolean markupFileGenerated = false;
         for (File file : files) {
-            if (file.getName().equals("index.adoc")) {
+            if ("index.adoc".equals(file.getName())) {
                 markupFileGenerated = true;
                 String markupContent = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
                 // check on some basic asciidoc markup content
@@ -99,7 +99,7 @@ public class AsciidocGeneratorTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         boolean markupFileGenerated = false;
         for (File file : files) {
-            if (file.getName().equals("index.adoc")) {
+            if ("index.adoc".equals(file.getName())) {
                 markupFileGenerated = true;
                 String markupContent = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
                 Assert.assertTrue(markupContent.contains(":specDir: SPEC-DIR"),
@@ -134,7 +134,7 @@ public class AsciidocGeneratorTest {
         boolean markupFileGenerated = false;
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         for (File file : files) {
-            if (file.getName().equals("index.adoc")) {
+            if ("index.adoc".equals(file.getName())) {
                 markupFileGenerated = true;
                 String markupContent = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
                 Assert.assertFalse(markupContent.contains(":specDir: SPEC-DIR"),

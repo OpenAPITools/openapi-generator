@@ -186,8 +186,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
         return "id".equals(name) ||
                 "ids".equals(name) ||
-                (name.length() >= 3 && name.substring(name.length() - 2).equals("Id")) ||
-                (name.length() >= 4 && name.substring(name.length() - 3).equals("Ids"));
+                (name.length() >= 3 && "Id".equals(name.substring(name.length() - 2))) ||
+                (name.length() >= 4 && "Ids".equals(name.substring(name.length() - 3)));
     }
 
     @Override
@@ -383,11 +383,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         } else if (var.isEnum) {
             var.defaultValue = "'" + var._enum.get(0) + "'";
             updateCodegenPropertyEnum(var);
-        } else if (var.dataType.equalsIgnoreCase("string")) {
+        } else if ("string".equalsIgnoreCase(var.dataType)) {
             var.defaultValue = "\"\"";
-        } else if (var.dataType.equalsIgnoreCase("number")) {
+        } else if ("number".equalsIgnoreCase(var.dataType)) {
             var.defaultValue = "0";
-        } else if (var.dataType.equalsIgnoreCase("boolean")) {
+        } else if ("boolean".equalsIgnoreCase(var.dataType)) {
             var.defaultValue = "false";
         } else {
             if (var.allowableValues != null && var.allowableValues.get("enumVars") instanceof ArrayList && ((ArrayList) var.allowableValues.get("enumVars")).get(0) instanceof HashMap) {
@@ -687,7 +687,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, parentClassName + var.enumName);
 
             // need to post-process defaultValue, was computed with previous var.datatypeWithEnum
-            if (var.defaultValue != null && !var.defaultValue.equals("undefined")) {
+            if (var.defaultValue != null && !"undefined".equals(var.defaultValue)) {
                 int dotPos = var.defaultValue.indexOf(".");
                 if (dotPos != -1) {
                     var.defaultValue = var.datatypeWithEnum + var.defaultValue.substring(dotPos);
@@ -725,7 +725,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             } else if (var.isUniqueId) {
                 var.dataTypeAlternate = "string";
             }
-            if (var.defaultValue == null || var.defaultValue.equals("undefined")) {
+            if (var.defaultValue == null || "undefined".equals(var.defaultValue)) {
                 this.autoSetDefaultValueForProperty(var);
             }
         }

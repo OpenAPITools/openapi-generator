@@ -212,7 +212,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
                 if (operation.requestBodyExamples != null) {
                     for (Map<String, String> example : operation.requestBodyExamples) {
-                        if (example.get("contentType") != null && example.get("contentType").equals("application/json")) {
+                        if ("application/json".equals(example.get("contentType"))) {
                             // Make an example dictionary more python-like (snake-case, etc.).
                             // If fails, use the original string.
                             try {

@@ -219,11 +219,11 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
 
     @Override
     public String toModelImport(String name) {
-        if (name.equals("std::string")) {
+        if ("std::string".equals(name)) {
             return "#include <string>";
-        } else if (name.equals("std::map")) {
+        } else if ("std::map".equals(name)) {
             return "#include <map>";
-        } else if (name.equals("std::list")) {
+        } else if ("std::list".equals(name)) {
             return "#include <list>";
         }
         return "#include \"" + name + ".h\"";

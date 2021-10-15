@@ -92,9 +92,9 @@ public abstract class Rule {
         // NOTE: Comments that start with a : (e.g. //:) are pulled from git documentation for .gitignore
         // see: https://github.com/git/git/blob/90f7b16b3adc78d4bbabbd426fb69aa78c714f71/Documentation/gitignore.txt
         Rule rule = null;
-        if (definition.equals(".")) {
+        if (".".equals(definition)) {
             return new InvalidRule(null, definition, "Pattern '.' is invalid.");
-        } else if (definition.equals("!.")) {
+        } else if ("!.".equals(definition)) {
             return new InvalidRule(null, definition, "Pattern '!.' is invalid.");
         } else if (definition.startsWith("..")) {
             return new InvalidRule(null, definition, "Pattern '..' is invalid.");

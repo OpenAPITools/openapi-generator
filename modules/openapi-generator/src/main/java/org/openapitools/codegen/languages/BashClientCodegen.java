@@ -652,7 +652,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (codesample instanceof ObjectNode) {
                     ObjectNode codesample_object = (ObjectNode) codesample;
 
-                    if ((codesample_object.get("lang").asText()).equals("Shell")) {
+                    if ("Shell".equals((codesample_object.get("lang").asText()))) {
 
                         op.vendorExtensions.put("x-bash-codegen-sample",
                                 escapeUnsafeCharacters(

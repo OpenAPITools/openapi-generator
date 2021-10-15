@@ -329,8 +329,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         // infrastructure destination folder
-        final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
-        authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
+        final String infrastructureFolder = sourceFolder + File.separator + packageName + File.separator + "infrastructure".replace(".", "/");
+        authFolder = sourceFolder + File.separator + packageName + File.separator + "auth".replace(".", "/");
 
         // additional properties
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
@@ -681,7 +681,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 // modify the data type of binary form parameters to a more friendly type for multiplatform builds
                 if (MULTIPLATFORM.equals(getLibrary()) && operation.allParams != null) {
                     for (CodegenParameter param : operation.allParams) {
-                        if (param.dataFormat != null && param.dataFormat.equals("binary")) {
+                        if ("binary".equals(param.dataFormat)) {
                             param.baseType = param.dataType = "io.ktor.client.request.forms.InputProvider";
                         }
                     }
