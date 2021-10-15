@@ -891,7 +891,8 @@ class FakeApi {
     BuiltList<String> ioutil,
     BuiltList<String> http,
     BuiltList<String> url,
-    BuiltList<String> context, { 
+    BuiltList<String> context,
+    String allowEmpty, { 
     BuiltMap<String, String> language,
     CancelToken cancelToken,
     Map<String, dynamic> headers,
@@ -913,6 +914,7 @@ class FakeApi {
         r'url': url,
         r'context': context,
         if (language != null) r'language': language,
+        r'allowEmpty': allowEmpty,
       },
       extra: <String, dynamic>{
         'secure': <Map<String, String>>[],

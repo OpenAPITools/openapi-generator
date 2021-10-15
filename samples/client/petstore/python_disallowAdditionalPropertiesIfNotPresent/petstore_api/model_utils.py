@@ -9,6 +9,7 @@
 
 
 from datetime import date, datetime  # noqa: F401
+from copy import deepcopy
 import inspect
 import io
 import os
@@ -186,6 +187,26 @@ class OpenApiModel(object):
         """get the value of an attribute using dot notation: `instance.attr`"""
         return self.__getitem__(attr)
 
+    def __copy__(self):
+        cls = self.__class__
+        if self.get("_spec_property_naming", False):
+            return cls._new_from_openapi_data(**self.__dict__)
+        else:
+            return new_cls.__new__(cls, **self.__dict__)
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+
+        if self.get("_spec_property_naming", False):
+            new_inst = cls._new_from_openapi_data()
+        else:
+            new_inst = cls.__new__(cls)
+
+        for k, v in self.__dict__.items():
+            setattr(new_inst, k, deepcopy(v, memo))
+        return new_inst
+
+
     def __new__(cls, *args, **kwargs):
         # this function uses the discriminator to
         # pick a new schema/class to instantiate because a discriminator
@@ -295,8 +316,13 @@ class OpenApiModel(object):
             self_inst = super(OpenApiModel, cls).__new__(cls)
             self_inst.__init__(*args, **kwargs)
 
-        new_inst = new_cls.__new__(new_cls, *args, **kwargs)
-        new_inst.__init__(*args, **kwargs)
+        if kwargs.get("_spec_property_naming", False):
+            # when true, implies new is from deserialization
+            new_inst = new_cls._new_from_openapi_data(*args, **kwargs)
+        else:
+            new_inst = new_cls.__new__(new_cls, *args, **kwargs)
+            new_inst.__init__(*args, **kwargs)
+
         return new_inst
 
 

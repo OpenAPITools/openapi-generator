@@ -29,24 +29,38 @@ public interface PetApi {
     /**
      * POST /pet : Add a new pet to the store
      *
-     * @param body Pet object that needs to be added to the store (required)
-     * @return Invalid input (status code 405)
+     * @param pet Pet object that needs to be added to the store (required)
+     * @return successful operation (status code 200)
+     *         or Invalid input (status code 405)
      */
+<<<<<<< HEAD
 
     @ApiOperation(value = "Add a new pet to the store", nickname = "addPet", notes = "", authorizations = {
+=======
+    @ApiOperation(value = "Add a new pet to the store", nickname = "addPet", notes = "", response = Pet.class, authorizations = {
+>>>>>>> master
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet", })
     @ApiResponses(value = { 
+<<<<<<< HEAD
 
+=======
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
+>>>>>>> master
         @ApiResponse(code = 405, message = "Invalid input") })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet",
+        produces = "application/json",
         consumes = "application/json"
     )
+<<<<<<< HEAD
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body);
+=======
+    ResponseEntity<Pet> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet);
+>>>>>>> master
 
 
     /**
@@ -69,7 +83,7 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deletePet(@ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey);
+    ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey);
 
 
     /**
@@ -83,7 +97,6 @@ public interface PetApi {
 
     @ApiOperation(value = "Finds Pets by status", nickname = "findPetsByStatus", notes = "Multiple status values can be provided with comma separated strings", response = Pet.class, responseContainer = "List", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet", })
     @ApiResponses(value = { 
@@ -96,7 +109,7 @@ public interface PetApi {
         value = "/pet/findByStatus",
         produces = "application/json"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status);
+    ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status);
 
 
     /**
@@ -111,7 +124,6 @@ public interface PetApi {
 
     @ApiOperation(value = "Finds Pets by tags", nickname = "findPetsByTags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet", })
     @ApiResponses(value = { 
@@ -124,7 +136,7 @@ public interface PetApi {
         value = "/pet/findByTags",
         produces = "application/json"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags);
+    ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags);
 
 
     /**
@@ -153,25 +165,34 @@ public interface PetApi {
         value = "/pet/{petId}",
         produces = "application/json"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Pet>> getPetById(@ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId);
+    ResponseEntity<Pet> getPetById(@ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId);
 
 
     /**
      * PUT /pet : Update an existing pet
      *
-     * @param body Pet object that needs to be added to the store (required)
-     * @return Invalid ID supplied (status code 400)
+     * @param pet Pet object that needs to be added to the store (required)
+     * @return successful operation (status code 200)
+     *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
      */
+<<<<<<< HEAD
 
     @ApiOperation(value = "Update an existing pet", nickname = "updatePet", notes = "", authorizations = {
+=======
+    @ApiOperation(value = "Update an existing pet", nickname = "updatePet", notes = "", response = Pet.class, authorizations = {
+>>>>>>> master
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
          }, tags={ "pet", })
     @ApiResponses(value = { 
+<<<<<<< HEAD
 
+=======
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
+>>>>>>> master
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
 
         @ApiResponse(code = 404, message = "Pet not found"),
@@ -180,9 +201,14 @@ public interface PetApi {
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/pet",
+        produces = "application/json",
         consumes = "application/json"
     )
+<<<<<<< HEAD
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body);
+=======
+    ResponseEntity<Pet> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet);
+>>>>>>> master
 
 
     /**
@@ -207,7 +233,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         consumes = "application/x-www-form-urlencoded"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
+    ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
 
 
     /**
@@ -233,6 +259,6 @@ public interface PetApi {
         produces = "application/json",
         consumes = "multipart/form-data"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file to upload") @RequestParam("file") MultipartFile file);
+    ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file to upload") @RequestParam("file") MultipartFile file);
 
 }

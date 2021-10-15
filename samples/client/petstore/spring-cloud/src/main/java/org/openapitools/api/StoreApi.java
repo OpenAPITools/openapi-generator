@@ -45,7 +45,7 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = "/store/order/{orderId}"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId);
+    ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId);
 
 
     /**
@@ -67,7 +67,7 @@ public interface StoreApi {
         value = "/store/inventory",
         produces = "application/json"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Map<String, Integer>>> getInventory();
+    ResponseEntity<Map<String, Integer>> getInventory();
 
 
     /**
@@ -93,13 +93,13 @@ public interface StoreApi {
         value = "/store/order/{orderId}",
         produces = "application/json"
     )
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") Long orderId);
+    ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") Long orderId);
 
 
     /**
      * POST /store/order : Place an order for a pet
      *
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
@@ -113,8 +113,13 @@ public interface StoreApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/store/order",
-        produces = "application/json"
+        produces = "application/json",
+        consumes = "application/json"
     )
+<<<<<<< HEAD
     com.netflix.hystrix.HystrixCommand<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid @RequestBody Order body);
+=======
+    ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order);
+>>>>>>> master
 
 }

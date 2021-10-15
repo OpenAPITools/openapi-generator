@@ -39,7 +39,7 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 @SuppressWarnings("unchecked")
 public class KtormSchemaCodegen extends AbstractKotlinCodegen {
-    static Logger LOGGER = LoggerFactory.getLogger(KtormSchemaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(KtormSchemaCodegen.class);
 
     public static final String VENDOR_EXTENSION_SCHEMA = "x-ktorm-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";

@@ -1353,6 +1353,7 @@ class FakeApi {
   /// * [http] 
   /// * [url] 
   /// * [context] 
+  /// * [allowEmpty] 
   /// * [language] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
@@ -1369,6 +1370,7 @@ class FakeApi {
     required BuiltList<String> http,
     required BuiltList<String> url,
     required BuiltList<String> context,
+    required String allowEmpty,
     BuiltMap<String, String>? language,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1397,6 +1399,7 @@ class FakeApi {
       r'url': encodeCollectionQueryParameter<String>(_serializers, url, const FullType(BuiltList, [FullType(String)]), format: ListFormat.csv,),
       r'context': encodeCollectionQueryParameter<String>(_serializers, context, const FullType(BuiltList, [FullType(String)]), format: ListFormat.multi,),
       if (language != null) r'language': encodeQueryParameter(_serializers, language, const FullType(BuiltMap, [FullType(String), FullType(String)]), ),
+      r'allowEmpty': encodeQueryParameter(_serializers, allowEmpty, const FullType(String)),
     };
 
     final _response = await _dio.request<Object>(
