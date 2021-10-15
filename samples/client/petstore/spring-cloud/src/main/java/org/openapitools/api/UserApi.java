@@ -33,15 +33,11 @@ public interface UserApi {
      * @param user Created user object (required)
      * @return successful operation (status code 200)
      */
-<<<<<<< HEAD
 
-    @ApiOperation(value = "Create user", nickname = "createUser", notes = "This can only be done by the logged in user.", tags={ "user", })
-=======
     @ApiOperation(value = "Create user", nickname = "createUser", notes = "This can only be done by the logged in user.", authorizations = {
         
         @Authorization(value = "api_key")
          }, tags={ "user", })
->>>>>>> master
     @ApiResponses(value = { 
 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -50,11 +46,7 @@ public interface UserApi {
         value = "/user",
         consumes = "application/json"
     )
-<<<<<<< HEAD
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object", required = true )   @Valid @RequestBody User body);
-=======
-    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object", required = true) @Valid @RequestBody User user);
->>>>>>> master
+    ResponseEntity<Void> createUser(@ApiParam(value = "Created user object", required = true )   @Valid @RequestBody User user);
 
 
     /**
@@ -63,15 +55,11 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-<<<<<<< HEAD
 
-    @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithArrayInput", notes = "", tags={ "user", })
-=======
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithArrayInput", notes = "", authorizations = {
         
         @Authorization(value = "api_key")
          }, tags={ "user", })
->>>>>>> master
     @ApiResponses(value = { 
 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -80,11 +68,7 @@ public interface UserApi {
         value = "/user/createWithArray",
         consumes = "application/json"
     )
-<<<<<<< HEAD
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body);
-=======
-    ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> user);
->>>>>>> master
+    ResponseEntity<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> user);
 
 
     /**
@@ -93,15 +77,11 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-<<<<<<< HEAD
 
-    @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithListInput", notes = "", tags={ "user", })
-=======
     @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithListInput", notes = "", authorizations = {
         
         @Authorization(value = "api_key")
          }, tags={ "user", })
->>>>>>> master
     @ApiResponses(value = { 
 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -110,11 +90,7 @@ public interface UserApi {
         value = "/user/createWithList",
         consumes = "application/json"
     )
-<<<<<<< HEAD
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body);
-=======
-    ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> user);
->>>>>>> master
+    ResponseEntity<Void> createUsersWithListInput(@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> user);
 
 
     /**
@@ -125,15 +101,11 @@ public interface UserApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-<<<<<<< HEAD
 
-    @ApiOperation(value = "Delete user", nickname = "deleteUser", notes = "This can only be done by the logged in user.", tags={ "user", })
-=======
     @ApiOperation(value = "Delete user", nickname = "deleteUser", notes = "This can only be done by the logged in user.", authorizations = {
         
         @Authorization(value = "api_key")
          }, tags={ "user", })
->>>>>>> master
     @ApiResponses(value = { 
 
         @ApiResponse(code = 400, message = "Invalid username supplied"),
@@ -199,15 +171,11 @@ public interface UserApi {
      *
      * @return successful operation (status code 200)
      */
-<<<<<<< HEAD
 
-    @ApiOperation(value = "Logs out current logged in user session", nickname = "logoutUser", notes = "", tags={ "user", })
-=======
     @ApiOperation(value = "Logs out current logged in user session", nickname = "logoutUser", notes = "", authorizations = {
         
         @Authorization(value = "api_key")
          }, tags={ "user", })
->>>>>>> master
     @ApiResponses(value = { 
 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -227,15 +195,11 @@ public interface UserApi {
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
      */
-<<<<<<< HEAD
 
-    @ApiOperation(value = "Updated user", nickname = "updateUser", notes = "This can only be done by the logged in user.", tags={ "user", })
-=======
     @ApiOperation(value = "Updated user", nickname = "updateUser", notes = "This can only be done by the logged in user.", authorizations = {
         
         @Authorization(value = "api_key")
          }, tags={ "user", })
->>>>>>> master
     @ApiResponses(value = { 
 
         @ApiResponse(code = 400, message = "Invalid user supplied"),
@@ -246,10 +210,6 @@ public interface UserApi {
         value = "/user/{username}",
         consumes = "application/json"
     )
-<<<<<<< HEAD
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,@ApiParam(value = "Updated user object", required = true )   @Valid @RequestBody User body);
-=======
-    ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,@ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User user);
->>>>>>> master
+    ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,@ApiParam(value = "Updated user object", required = true )   @Valid @RequestBody User user);
 
 }

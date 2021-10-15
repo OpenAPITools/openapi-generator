@@ -116,10 +116,6 @@ public interface StoreApi {
         produces = "application/json",
         consumes = "application/json"
     )
-<<<<<<< HEAD
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid @RequestBody Order body);
-=======
-    ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order);
->>>>>>> master
+    ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid @RequestBody Order order);
 
 }
