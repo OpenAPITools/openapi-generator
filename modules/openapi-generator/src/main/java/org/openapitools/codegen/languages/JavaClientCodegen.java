@@ -389,8 +389,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             modelDocTemplateFiles.remove("model_doc.mustache");
             apiDocTemplateFiles.remove("api_doc.mustache");
             //Templates to decode response headers
-            supportingFiles.add(new SupportingFile("model/HttpResponse.mustache", modelsFolder, "HttpResponse.java"));
-            supportingFiles.add(new SupportingFile("JacksonResponseDecoder.mustache", invokerFolder, "JacksonResponseDecoder.java"));
+            supportingFiles.add(new SupportingFile("model/ApiResponse.mustache", modelsFolder, "ApiResponse.java"));
+            supportingFiles.add(new SupportingFile("ApiResponseDecoder.mustache", invokerFolder, "ApiResponseDecoder.java"));
         }
 
         if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || RETROFIT_2.equals(getLibrary()) || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || WEBCLIENT.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
