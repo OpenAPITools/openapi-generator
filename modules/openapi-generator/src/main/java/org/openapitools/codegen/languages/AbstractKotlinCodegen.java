@@ -604,6 +604,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public String toEnumName(CodegenProperty property) {
+        return property.nameInCamelCase;
+    }
+
+    @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "DefaultApi";
