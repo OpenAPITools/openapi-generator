@@ -69,6 +69,10 @@ public class CodegenOperation {
         return params != null && params.size() > 0;
     }
 
+    private static boolean nonempty(Map<?, ?> params) {
+        return params != null && params.size() > 0;
+    }
+
     /**
      * Check if there's at least one body parameter
      *
@@ -175,6 +179,15 @@ public class CodegenOperation {
      */
     public boolean getHasDefaultResponse() {
         return responses.stream().filter(response -> response.isDefault).findFirst().isPresent();
+    }
+
+    /**
+     * Check if there's at least one vendor extension
+     *
+     * @return true if vendor extensions exists, false otherwise
+     */
+    public boolean getHasVendorExtensions() {
+        return nonempty(vendorExtensions);
     }
 
     /**
