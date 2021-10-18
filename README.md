@@ -76,31 +76,75 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 ## Table of contents
 
-  - [OpenAPI Generator](#openapi-generator)
-  - [Overview](#overview)
-  - [Table of Contents](#table-of-contents)
-  - [1 - Installation](#1---installation)
-    - [1.1 - Compatibility](#11---compatibility)
-    - [1.2 - Artifacts on Maven Central](#12---artifacts-on-maven-central)
-    - [1.3 - Download JAR](#13---download-jar)
-    - [1.4 - Build Projects](#14---build-projects)
-    - [1.5 - Homebrew](#15---homebrew)
-    - [1.6 - Docker](#16---docker)
-    - [1.7 - NPM](#17---npm)
-  - [2 - Getting Started](#2---getting-started)
-  - [3 - Usage](#3---usage)
-    - [3.1 - Customization](#31---customization)
-    - [3.2 - Workflow Integration](#32---workflow-integration-maven-gradle-github-cicd)
-    - [3.3 - Online Generators](#33---online-openapi-generator)
-    - [3.4 - License Information on Generated Code](#34---license-information-on-generated-code)
-    - [3.5 - IDE Integration](#35---ide-integration)
-  - [4 - Companies/Projects using OpenAPI Generator](#4---companiesprojects-using-openapi-generator)
-  - [5 - Presentations/Videos/Tutorials/Books](#5---presentationsvideostutorialsbooks)
-  - [6 - About Us](#6---about-us)
-    - [6.1 - OpenAPI Generator Core Team](#61---openapi-generator-core-team)
-    - [6.2 - OpenAPI Generator Technical Committee](#62---openapi-generator-technical-committee)
-    - [6.3 - History of OpenAPI Generator](#63---history-of-openapi-generator)
-  - [7 - License](#7---license)
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [1 - Installation](#1---installation)
+  - [1.1 - Compatibility](#11---compatibility)
+- [1.2 - Artifacts on Maven Central](#12---artifacts-on-maven-central)
+  - [1.3 - Download JAR](#13---download-jar)
+  - [Launcher Script](#launcher-script)
+  - [1.4 - Build Projects](#14---build-projects)
+  - [1.5 - Homebrew](#15---homebrew)
+  - [1.6 - Docker](#16---docker)
+    - [Public Pre-built Docker images](#public-pre-built-docker-images)
+    - [OpenAPI Generator CLI Docker Image](#openapi-generator-cli-docker-image)
+    - [OpenAPI Generator Online Docker Image](#openapi-generator-online-docker-image)
+    - [Development in docker](#development-in-docker)
+      - [Troubleshooting](#troubleshooting)
+    - [Run Docker in Vagrant](#run-docker-in-vagrant)
+  - [1.7 - NPM](#17---npm)
+- [2 - Getting Started](#2---getting-started)
+- [3 - Usage](#3---usage)
+  - [To generate a sample client library](#to-generate-a-sample-client-library)
+  - [3.1 - Customization](#31---customization)
+  - [3.2 - Workflow Integration (Maven, Gradle, Github, CI/CD)](#32---workflow-integration-maven-gradle-github-cicd)
+  - [3.3 - Online OpenAPI generator](#33---online-openapi-generator)
+  - [3.4 - License information on Generated Code](#34---license-information-on-generated-code)
+  - [3.5 - IDE Integration](#35---ide-integration)
+- [4 - Companies/Projects using OpenAPI Generator](#4---companiesprojects-using-openapi-generator)
+- [5 - Presentations/Videos/Tutorials/Books](#5---presentationsvideostutorialsbooks)
+- [6 - About Us](#6---about-us)
+  - [6.1 - OpenAPI Generator Core Team](#61---openapi-generator-core-team)
+    - [Core Team Members](#core-team-members)
+    - [Template Creator](#template-creator)
+    - [How to join the core team](#how-to-join-the-core-team)
+  - [6.2 - OpenAPI Generator Technical Committee](#62---openapi-generator-technical-committee)
+    - [Ada](#ada)
+    - [Android](#android)
+    - [Bash](#bash)
+    - [C](#c)
+    - [C++](#c)
+    - [C](#c-1)
+    - [Dart](#dart)
+    - [Eiffel](#eiffel)
+    - [Elixir](#elixir)
+    - [Elm](#elm)
+    - [Erlang](#erlang)
+    - [F](#f)
+    - [Go](#go)
+    - [GraphQL](#graphql)
+    - [Java](#java)
+    - [JMeter](#jmeter)
+    - [Kotlin](#kotlin)
+    - [Lua](#lua)
+    - [NodeJS/Javascript](#nodejsjavascript)
+    - [OCaml](#ocaml)
+    - [Perl](#perl)
+    - [PHP](#php)
+    - [PowerShell](#powershell)
+    - [Python](#python)
+    - [R](#r)
+    - [Ruby](#ruby)
+    - [Rust](#rust)
+    - [Scala](#scala)
+    - [Swift](#swift)
+    - [TypeScript](#typescript)
+  - [6.3 - History of OpenAPI Generator](#63---history-of-openapi-generator)
+    - [Founding Members (alphabetical order):](#founding-members-alphabetical-order)
+- [7 - License](#7---license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## [1 - Installation](#table-of-contents)
 
@@ -1025,49 +1069,185 @@ Who is eligible? Those who want to join must have at least 3 PRs merged into a g
 
 If you want to join the committee, please kindly apply by sending an email to team@openapitools.org with your Github ID.
 
-#### Members of Technical Committee
+#### Ada
 
-| Languages/Generators         | Member (join date)                                                                                                                                                                                                                |
-| :---------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ActionScript      |                                                                                                                                                                                                                                   |
-| Ada               | @stcarrez (2018/02) @michelealbano (2018/02)                                                                                                                                                                                        |
-| Android           | @jaz-ah (2017/09)                                                                                                                                                                                                                 |
-| Apex              |                                                                                                                                                                                                                                   |
-| Bash              | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09)                                                                                                                                                                       |
-| C                 | @zhemant (2018/11) @ityuhui (2019/12) @michelealbano (2020/03)                                                                                                                                                                   |
-| C++               | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08)                                                                                                                     |
-| C#                | @mandrean (2017/08) @frankyjuang (2019/09) @shibayan (2020/02) @Blackclaws (2021/03) @lucamazzanti (2021/05)                                                                               |
-| Clojure           |                                                                                                                                                                                                                                   |
-| Dart              | @jaumard (2018/09) @josh-burton (2019/12) @amondnet (2019/12) @sbu-WBT (2020/12) @kuhnroyal (2020/12) @agilob (2020/12) @ahmednfwela (2021/08)                                                                                                      |
-| Eiffel            | @jvelilla (2017/09)                                                                                                                                                                                                               |
-| Elixir            | @mrmstn (2018/12)                                                                                                                                                                                                                 |
-| Elm               | @eriktim (2018/09)                                                                                                                                                                                                                |
-| Erlang            | @tsloughter (2017/11) @jfacorro (2018/10) @robertoaloi (2018/10)                                                                                                                                                                  |
-| F#                | @nmfisher (2019/05)                                                                                                                                                                                                               |
-| Go                | @antihax (2017/11) @grokify (2018/07) @kemokemo (2018/09) @jirikuncar (2021/01) @ph4r5h4d (2021/04)                                                                                                                                   |
-| GraphQL           | @renepardon (2018/12)                                                                                                                                                                                                             |
-| Groovy            |                                                                                                                                                                                                                                   |
-| Haskell           |                                                                                                                                                                                                                                   |
-| Java              | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @nmuesch (2021/01)                          |
-| JMeter               | @kannkyo (2021/01)                                                                                                                                                                                                            |
-| Kotlin            | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03)                                                        |
-| Lua               | @daurnimator (2017/08)                                                                                                                                                                                                            |
-| Nim               |                                                                                                                                                                                                                                   |
-| NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07)                                                                                                                                                                         |
-| ObjC              |                                                                                                                                                                                                                                   |
-| OCaml             | @cgensoul (2019/08)                                                                                                                                                                                                               |
-| Perl              | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) @yue9944882 (2019/06)                                                                                                                                               |
-| PHP               | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), @ackintosh (2017/09) [:heart:](https://www.patreon.com/ackintosh/overview), @ybelenko (2018/07), @renepardon (2018/12)                     |
-| PowerShell        | @wing328 (2020/05)                                                                                                                                                                                                                                  |
-| Python            | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @Jyhess (2019/01) @arun-nalla (2019/11) @spacether (2019/11)                                                |
-| R                 | @Ramanth (2019/07) @saigiridhar21 (2019/07)                                                                                                                                                                                       |
-| Ruby              | @cliffano (2017/07) @zlx (2017/09) @autopp (2019/02)                                                                                                                                                                             |
-| Rust              | @frol (2017/07) @farcaller (2017/08) @richardwhiuk (2019/07) @paladinzh (2020/05)                                                                                                                               |
-| Scala             | @clasnake (2017/07), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @shijinkui  (2018/01), @ramzimaalej (2018/03), @chameleon82 (2020/03), @Bouillie (2020/04)                                                          |
-| Swift             | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @4brunu (2019/11)                                                                                                                                       |
-| TypeScript        | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @topce (2018/10) @akehir (2019/07) @petejohansonxo (2019/11) @amakhrov (2020/02) |
+```
+@stcarrez @michelealbano
+```
 
-:heart: = Link to support the contributor directly
+#### Android
+
+```
+@jaz-ah
+```
+
+#### Bash
+
+```
+@frol @bkryza @kenjones-cisco
+```
+
+#### C
+
+```
+@zhemant @ityuhui @michelealbano
+```
+
+#### C++
+
+```
+@ravinikam @stkrwork @etherealjoy @martindelille @muttleyxd
+```
+
+#### C#
+
+```
+@mandrean @frankyjuang @shibayan @Blackclaws @lucamazzanti
+```
+
+#### Dart
+
+```
+@jaumard @josh-burton @amondnet @sbu-WBT @kuhnroyal @agilob @ahmednfwela
+```
+
+#### Eiffel
+
+```
+@jvelilla
+```
+
+#### Elixir
+
+```
+@mrmstn
+```
+
+#### Elm
+
+```
+@eriktim
+```
+
+#### Erlang
+
+```
+@tsloughter @jfacorro @robertoaloi
+```
+
+#### F#
+
+```
+@nmfisher
+```
+
+#### Go
+
+```
+@antihax @grokify @kemokemo @jirikuncar @ph4r5h4d
+```
+
+#### GraphQL
+
+```
+@renepardon
+```
+
+#### Java
+
+```
+@bbdouglas @sreeshas @jfiala @lukoyanov @cbornet @jeff9finger @karismann @Zomzog @lwlee2608 @nmuesch
+```
+
+#### JMeter
+
+```
+@kannkyo
+```
+
+#### Kotlin
+
+```
+@jimschubert @dr4ke616 @karismann @Zomzog @andrewemery @4brunu @yutaka0m
+```
+
+#### Lua
+
+```
+@daurnimator
+```
+
+#### NodeJS/Javascript
+
+```
+@CodeNinjai @frol @cliffano
+```
+
+#### OCaml
+
+```
+@cgensoul
+```
+
+#### Perl
+
+```
+@wing328 @yue9944882
+```
+
+#### PHP
+
+```
+@jebentier @dkarlovi @mandrean @jfastnacht @ackintosh @ybelenko @renepardon
+```
+
+#### PowerShell
+
+```
+@wing328
+```
+
+#### Python
+
+```
+@taxpon @frol @mbohlool @cbornet @kenjones-cisco @tomplus @Jyhess @arun-nalla @spacether
+```
+
+#### R
+
+```
+@Ramanth @saigiridhar21
+```
+
+#### Ruby
+
+```
+@cliffano @zlx @autopp
+```
+
+#### Rust
+
+```
+@frol @farcaller @richardwhiuk @paladinzh
+```
+
+#### Scala
+
+```
+@clasnake @jimschubert @shijinkui @ramzimaalej @chameleon82 @Bouillie
+```
+
+#### Swift
+
+```
+@jgavris @ehyche @Edubits @jaz-ah @4brunu
+```
+
+#### TypeScript
+
+```
+@TiFu @taxpon @sebastianhaas @kenisteward @Vrolijkx @macjohnny @topce @akehir @petejohansonxo @amakhrov
+```
 
 ### [6.3 - History of OpenAPI Generator](#table-of-contents)
 
@@ -1075,7 +1255,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 
 #### Founding Members (alphabetical order):
 
-- [Akihito Nakano](https://github.com/ackintosh)
+- [Akihito Nakano](https://github.com/ackintosh) [:heart:](https://www.patreon.com/ackintosh/overview)
 - [Artem Ocheredko](https://github.com/galaxie)
 - [Arthur Mogliev](https://github.com/Articus)
 - [Bartek Kryza](https://github.com/bkryza)
@@ -1091,7 +1271,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Gustavo Paz](https://github.com/gustavoapaz)
 - [Javier Velilla](https://github.com/jvelilla)
 - [Jean-François Côté](https://github.com/JFCote)
-- [Jim Schubert](https://github.com/jimschubert)
+- [Jim Schubert](https://github.com/jimschubert) [:heart:](https://www.patreon.com/jimschubert)
 - [Jon Schoning](https://github.com/jonschoning)
 - [Jérémie Bresson](https://github.com/jmini) [:heart:](https://www.patreon.com/jmini)
 - [Jörn Ahrens](https://github.com/jayearn)
@@ -1115,7 +1295,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Victor Trakhtenberg](https://github.com/victorgit)
 - [Vlad Frolov](https://github.com/frol)
 - [Vladimir Pouzanov](https://github.com/farcaller)
-- [William Cheng](https://github.com/wing328)
+- [William Cheng](https://github.com/wing328) [:heart:](https://www.patreon.com/wing328)
 - [Xin Meng](https://github.com/xmeng1) [:heart:](https://www.patreon.com/user/overview?u=16435385)
 - [Xu Hui Hui](https://github.com/xhh)
 - [antihax](https://github.com/antihax)
