@@ -1,0 +1,77 @@
+{{>partial_header}}
+
+using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
+using CocApi.Api;
+
+namespace {{packageName}}.Client
+{
+    /// <summary>
+    /// Provides hosting configuration for {{packageName}}
+    /// </summary>
+    public class HostConfiguration
+    {
+        private readonly IServiceCollection _services;
+        private readonly List<IHttpClientBuilder> _clients = new();
+
+        /// <summary>
+        /// Instantiates the class 
+        /// </summary>
+        /// <param name="services"></param>
+        public HostConfiguration(IServiceCollection services)
+        {
+            _services = services;
+            {{#apiInfo}}{{#apis}}_clients.Add(services.AddHttpClient<{{interfacePrefix}}{{classname}}, {{classname}}>(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS)));{{^-last}}
+            {{/-last}}{{/apis}}{{/apiInfo}}
+
+            {{#hasAuthMethods}}{{#hasApiKeyMethods}}services.AddSingleton<TokenProvider<ApiKeyToken>>();{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
+            services.AddSingleton<TokenProvider<BearerToken>>();{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
+            services.AddSingleton<TokenProvider<BasicToken>>();{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
+            services.AddSingleton<TokenProvider<HttpSignatureToken>>();{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
+            services.AddSingleton<TokenProvider<OAuthToken>>();{{/hasOAuthMethods}}
+
+            {{/hasAuthMethods}}
+            {{#apiInfo}}{{#apis}}services.AddTransient<{{interfacePrefix}}{{classname}}, {{classname}}>();{{^-last}}
+            {{/-last}}{{/apis}}{{/apiInfo}}
+        }
+
+        /// <summary>
+        /// Configures the HttpClients. Use this to add your middleware.
+        /// </summary>
+        /// <param name="clientBuilder"></param>
+        /// <returns></returns>
+        public HostConfiguration ConfigureClients(Action<IHttpClientBuilder> clientBuilder)
+        {   
+            foreach(IHttpClientBuilder client in _clients)
+                clientBuilder(client);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the JsonSerializerSettings
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public HostConfiguration ConfigureJsonOptions(Action<Newtonsoft.Json.JsonSerializerSettings> options)
+        {
+            options(Client.ClientUtils.JsonSerializerSettings);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds tokens to your IServiceCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        public HostConfiguration AddTokens<T>(IEnumerable<T> tokens) where T : TokenBase
+        {
+            _services.AddSingleton(new TokenContainer<T>(tokens));
+
+            return this;
+        }
+    }
+}
