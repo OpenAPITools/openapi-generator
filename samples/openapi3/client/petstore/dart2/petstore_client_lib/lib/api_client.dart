@@ -66,7 +66,6 @@ class ApiClient {
     headerParams.addAll(_defaultHeaderMap);
 
     final urlEncodedQueryParams = queryParams
-      .where((param) => param.value != null)
       .map((param) => '$param');
 
     final queryString = urlEncodedQueryParams.isNotEmpty
