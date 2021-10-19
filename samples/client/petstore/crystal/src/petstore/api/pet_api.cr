@@ -79,7 +79,7 @@ module Petstore
     # Deletes a pet
     # @param pet_id [Int64] Pet id to delete
     # @return [nil]
-    def delete_pet(pet_id : Int64, api_key : String?)
+    def delete_pet(pet_id : Int64, api_key : String? = nil)
       delete_pet_with_http_info(pet_id, api_key)
       nil
     end
@@ -373,7 +373,7 @@ module Petstore
     # Updates a pet in the store with form data
     # @param pet_id [Int64] ID of pet that needs to be updated
     # @return [nil]
-    def update_pet_with_form(pet_id : Int64, name : String?, status : String?)
+    def update_pet_with_form(pet_id : Int64, name : String? = nil, status : String? = nil)
       update_pet_with_form_with_http_info(pet_id, name, status)
       nil
     end
@@ -432,7 +432,7 @@ module Petstore
     # uploads an image
     # @param pet_id [Int64] ID of pet to update
     # @return [ApiResponse]
-    def upload_file(pet_id : Int64, additional_metadata : String?, file : File?)
+    def upload_file(pet_id : Int64, additional_metadata : String? = nil, file : File? = nil)
       data, _status_code, _headers = upload_file_with_http_info(pet_id, additional_metadata, file)
       data
     end

@@ -16,21 +16,21 @@ module Petstore
   class Tag
     include JSON::Serializable
 
-    @[JSON::Field(key: id, type: Int64)]
-    property id : Int64
+    @[JSON::Field(key: id, type: Int64?)]
+    property id : Int64?
 
-    @[JSON::Field(key: name, type: String)]
-    property name : String
+    @[JSON::Field(key: name, type: String?)]
+    property name : String?
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : Int64 | Nil, @name : String | Nil)
+    def initialize(@id : Int64? = nil, @name : String? = nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = Array.new
+      invalid_properties = Array(String).new
       invalid_properties
     end
 

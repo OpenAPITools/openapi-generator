@@ -16,11 +16,11 @@ module Petstore
   class Pet
     include JSON::Serializable
 
-    @[JSON::Field(key: id, type: Int64)]
-    property id : Int64
+    @[JSON::Field(key: id, type: Int64?)]
+    property id : Int64?
 
-    @[JSON::Field(key: category, type: Category)]
-    property category : Category
+    @[JSON::Field(key: category, type: Category?)]
+    property category : Category?
 
     @[JSON::Field(key: name, type: String)]
     property name : String
@@ -28,12 +28,12 @@ module Petstore
     @[JSON::Field(key: photoUrls, type: Array(String))]
     property photo_urls : Array(String)
 
-    @[JSON::Field(key: tags, type: Array(Tag))]
-    property tags : Array(Tag)
+    @[JSON::Field(key: tags, type: Array(Tag)?)]
+    property tags : Array(Tag)?
 
     # pet status in the store
-    @[JSON::Field(key: status, type: String)]
-    property status : String
+    @[JSON::Field(key: status, type: String?)]
+    property status : String?
 
     class EnumAttributeValidator
       getter datatype : String
@@ -60,13 +60,13 @@ module Petstore
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : Int64 | Nil, @category : Category | Nil, @name : String, @photo_urls : Array(String), @tags : Array(Tag) | Nil, @status : String | Nil)
+    def initialize(@id : Int64? = nil, @category : Category? = nil, @name : String, @photo_urls : Array(String), @tags : Array(Tag)? = nil, @status : String? = nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = Array.new
+      invalid_properties = Array(String).new
       if @name.nil?
         invalid_properties.push("invalid value for \"name\", name cannot be nil.")
       end

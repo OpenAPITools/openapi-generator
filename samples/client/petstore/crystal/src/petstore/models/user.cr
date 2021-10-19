@@ -16,40 +16,40 @@ module Petstore
   class User
     include JSON::Serializable
 
-    @[JSON::Field(key: id, type: Int64)]
-    property id : Int64
+    @[JSON::Field(key: id, type: Int64?)]
+    property id : Int64?
 
-    @[JSON::Field(key: username, type: String)]
-    property username : String
+    @[JSON::Field(key: username, type: String?)]
+    property username : String?
 
-    @[JSON::Field(key: firstName, type: String)]
-    property first_name : String
+    @[JSON::Field(key: firstName, type: String?)]
+    property first_name : String?
 
-    @[JSON::Field(key: lastName, type: String)]
-    property last_name : String
+    @[JSON::Field(key: lastName, type: String?)]
+    property last_name : String?
 
-    @[JSON::Field(key: email, type: String)]
-    property email : String
+    @[JSON::Field(key: email, type: String?)]
+    property email : String?
 
-    @[JSON::Field(key: password, type: String)]
-    property password : String
+    @[JSON::Field(key: password, type: String?)]
+    property password : String?
 
-    @[JSON::Field(key: phone, type: String)]
-    property phone : String
+    @[JSON::Field(key: phone, type: String?)]
+    property phone : String?
 
     # User Status
-    @[JSON::Field(key: userStatus, type: Int32)]
-    property user_status : Int32
+    @[JSON::Field(key: userStatus, type: Int32?)]
+    property user_status : Int32?
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : Int64 | Nil, @username : String | Nil, @first_name : String | Nil, @last_name : String | Nil, @email : String | Nil, @password : String | Nil, @phone : String | Nil, @user_status : Int32 | Nil)
+    def initialize(@id : Int64? = nil, @username : String? = nil, @first_name : String? = nil, @last_name : String? = nil, @email : String? = nil, @password : String? = nil, @phone : String? = nil, @user_status : Int32? = nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = Array.new
+      invalid_properties = Array(String).new
       invalid_properties
     end
 

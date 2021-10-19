@@ -339,8 +339,8 @@ module Petstore
 
       # query parameters
       query_params = Hash(String, String).new
-      query_params["username"] = username
-      query_params["password"] = password
+      query_params["username"] = username.to_s unless username.nil?
+      query_params["password"] = password.to_s unless password.nil?
 
       # header parameters
       header_params = Hash(String, String).new
