@@ -367,12 +367,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (additionalProperties.containsKey(SPRING_CONTROLLER)) {
-            this.setUseSpringController(Boolean.parseBoolean(additionalProperties.get(SPRING_CONTROLLER).toString()));
+            this.setUseSpringController(convertPropertyToBoolean(SPRING_CONTROLLER));
         }
+        writePropertyBack(SPRING_CONTROLLER, useSpringController);
 
         if (additionalProperties.containsKey(OAS3)) {
-            this.setOas3(Boolean.parseBoolean(additionalProperties.get(OAS3).toString()));
+            this.setOas3(convertPropertyToBoolean(OAS3));
         }
+        writePropertyBack(OAS3, oas3);
 
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
             this.setReturnSuccessCode(Boolean.parseBoolean(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
