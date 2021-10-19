@@ -35,7 +35,7 @@ import feign.slf4j.Slf4jLogger;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
-import {{invokerPackage}}.JacksonResponseDecoder;
+import {{invokerPackage}}.ApiResponseDecoder;
 
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.ApiErrorDecoder;
@@ -64,7 +64,7 @@ public class ApiClient {
     feignBuilder = Feign.builder()
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
-                .decoder(new JacksonResponseDecoder(objectMapper))
+                .decoder(new ApiResponseDecoder(objectMapper))
                 {{#hasOAuthMethods}}
                 .errorDecoder(new ApiErrorDecoder())
                 .retryer(new Retryer.Default(0, 0, 2))
