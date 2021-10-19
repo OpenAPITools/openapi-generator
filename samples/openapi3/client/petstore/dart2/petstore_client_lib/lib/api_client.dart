@@ -137,19 +137,19 @@ class ApiClient {
     throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path',);
   }
 
-  Future<dynamic> deserializeAsync(String json, String targetType, {bool? growable}) async =>
+  Future<dynamic> deserializeAsync(String json, String targetType, {bool growable = false}) async =>
     // ignore: deprecated_member_use_from_same_package
     deserialize(json, targetType, growable: growable);
 
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use deserializeAsync() instead.')
-  dynamic deserialize(String json, String targetType, {bool? growable}) {
+  dynamic deserialize(String json, String targetType, {bool growable = false}) {
     // Remove all spaces. Necessary for regular expressions as well.
     targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
 
     // If the expected target type is String, nothing to do...
     return targetType == 'String'
       ? json
-      : _deserialize(jsonDecode(json), targetType, growable: growable == true);
+      : _deserialize(jsonDecode(json), targetType, growable: growable);
   }
 
   // ignore: deprecated_member_use_from_same_package
@@ -174,7 +174,7 @@ class ApiClient {
     }
   }
 
-  static dynamic _deserialize(dynamic value, String targetType, {bool? growable}) {
+  static dynamic _deserialize(dynamic value, String targetType, {bool growable = false}) {
     try {
       switch (targetType) {
         case 'String':
@@ -207,7 +207,7 @@ class ApiClient {
             targetType = match![1]!; // ignore: parameter_assignments
             return value
               .map<dynamic>((dynamic v) => _deserialize(v, targetType, growable: growable))
-              .toList(growable: growable == true);
+              .toList(growable: growable);
           }
           if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
             targetType = match![1]!; // ignore: parameter_assignments
@@ -235,7 +235,7 @@ class DeserializationMessage {
   const DeserializationMessage({
     required this.json,
     required this.targetType,
-    this.growable,
+    this.growable = false,
   });
 
   /// The JSON value to deserialize.
@@ -245,7 +245,7 @@ class DeserializationMessage {
   final String targetType;
 
   /// Whether to make deserialized lists or maps growable.
-  final bool? growable;
+  final bool growable;
 }
 
 /// Primarily intended for use in an isolate.
@@ -259,7 +259,7 @@ Future<dynamic> deserializeAsync(DeserializationMessage message) async {
     : ApiClient._deserialize(
         jsonDecode(message.json),
         targetType,
-        growable: message.growable == true,
+        growable: message.growable,
       );
 }
 
