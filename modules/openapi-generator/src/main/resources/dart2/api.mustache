@@ -188,6 +188,7 @@ class {{{classname}}} {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}',) as {{{returnType}}};
     {{/isMap}}{{/isArray}}{{/native_serialization}}
     }
+    return Future<{{{returnType}}}>.value();
     {{/returnType}}
   }
   {{/operation}}

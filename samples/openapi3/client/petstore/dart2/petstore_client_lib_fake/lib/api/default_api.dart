@@ -56,5 +56,6 @@ class DefaultApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineResponseDefault',) as InlineResponseDefault;
     
     }
+    return Future<InlineResponseDefault>.value();
   }
 }

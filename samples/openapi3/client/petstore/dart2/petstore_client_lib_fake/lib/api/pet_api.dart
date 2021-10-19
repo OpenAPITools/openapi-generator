@@ -69,6 +69,7 @@ class PetApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// Deletes a pet
@@ -133,6 +134,7 @@ class PetApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// Finds Pets by status
@@ -197,6 +199,7 @@ class PetApi {
         .toList(growable: false);
 
     }
+    return Future<List<Pet>>.value();
   }
 
   /// Finds Pets by tags
@@ -261,6 +264,7 @@ class PetApi {
         .toSet();
 
     }
+    return Future<Set<Pet>>.value();
   }
 
   /// Find pet by ID
@@ -321,6 +325,7 @@ class PetApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
     
     }
+    return Future<Pet>.value();
   }
 
   /// Update an existing pet
@@ -376,6 +381,7 @@ class PetApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// Updates a pet in the store with form data
@@ -450,6 +456,7 @@ class PetApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// uploads an image
@@ -532,6 +539,7 @@ class PetApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
     
     }
+    return Future<ApiResponse>.value();
   }
 
   /// uploads an image (required)
@@ -614,5 +622,6 @@ class PetApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
     
     }
+    return Future<ApiResponse>.value();
   }
 }

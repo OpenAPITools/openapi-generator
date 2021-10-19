@@ -59,6 +59,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'HealthCheckResult',) as HealthCheckResult;
     
     }
+    return Future<HealthCheckResult>.value();
   }
 
   /// test http signature authentication
@@ -134,6 +135,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// Test serialization of outer boolean types
@@ -189,6 +191,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'bool',) as bool;
     
     }
+    return Future<bool>.value();
   }
 
   /// Test serialization of object with outer number type
@@ -244,6 +247,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterComposite',) as OuterComposite;
     
     }
+    return Future<OuterComposite>.value();
   }
 
   /// Test serialization of outer number types
@@ -299,6 +303,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'num',) as num;
     
     }
+    return Future<num>.value();
   }
 
   /// Test serialization of outer string types
@@ -354,6 +359,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
     
     }
+    return Future<String>.value();
   }
 
   /// Test serialization of enum (int) properties with examples
@@ -409,6 +415,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterObjectWithEnumProperty',) as OuterObjectWithEnumProperty;
     
     }
+    return Future<OuterObjectWithEnumProperty>.value();
   }
 
   /// For this test, the body has to be a binary file.
@@ -464,6 +471,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// For this test, the body for this request must reference a schema named `File`.
@@ -517,6 +525,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// Performs an HTTP 'PUT /fake/body-with-query-params' operation and returns the [Response].
@@ -571,6 +580,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// To test \"client\" model
@@ -630,6 +640,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
     
     }
+    return Future<ModelClient>.value();
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -806,6 +817,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// To test enum parameters
@@ -933,6 +945,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// Fake endpoint to test group parameters (optional)
@@ -1036,6 +1049,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// test inline additionalProperties
@@ -1091,6 +1105,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// test json serialization of form data
@@ -1158,6 +1173,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// To test the collection format in query parameters
@@ -1245,5 +1261,6 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 }

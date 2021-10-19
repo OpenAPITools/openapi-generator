@@ -73,6 +73,7 @@ class UserApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// Creates list of users with given input array
@@ -128,6 +129,7 @@ class UserApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// Creates list of users with given input array
@@ -183,6 +185,7 @@ class UserApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// Delete user
@@ -243,6 +246,7 @@ class UserApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// Get user by user name
@@ -299,6 +303,7 @@ class UserApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
     
     }
+    return Future<User>.value();
   }
 
   /// Logs user into the system
@@ -363,6 +368,7 @@ class UserApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
     
     }
+    return Future<String>.value();
   }
 
   /// Logs out current logged in user session
@@ -408,6 +414,7 @@ class UserApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 
   /// Updated user
@@ -474,5 +481,6 @@ class UserApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
     
     }
+    return Future<Map<String, dynamic>>.value();
   }
 }

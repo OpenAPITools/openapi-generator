@@ -73,5 +73,6 @@ class FakeClassnameTags123Api {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
     
     }
+    return Future<ModelClient>.value();
   }
 }
