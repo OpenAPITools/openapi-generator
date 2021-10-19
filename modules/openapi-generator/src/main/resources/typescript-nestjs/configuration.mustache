@@ -1,3 +1,5 @@
+import { HttpModuleOptionsFactory } from "@nestjs/axios";
+
 export interface ConfigurationParameters {
     apiKeys?: {[ key: string ]: string};
     username?: string;
@@ -5,6 +7,9 @@ export interface ConfigurationParameters {
     accessToken?: string | (() => string);
     basePath?: string;
     withCredentials?: boolean;
+    certPath?: string;
+    certKeyPath?: string;
+    caPath?:string;
 }
 
 export class Configuration {
@@ -13,7 +18,10 @@ export class Configuration {
     password?: string;
     accessToken?: string | (() => string);
     basePath?: string;
-    withCredentials?: boolean;
+    withCredentials?: boolean; 
+    certPath?: string;
+    certKeyPath?: string;
+    caPath?:string;
 
     constructor(configurationParameters: ConfigurationParameters = {}) {
         this.apiKeys = configurationParameters.apiKeys;
@@ -22,6 +30,9 @@ export class Configuration {
         this.accessToken = configurationParameters.accessToken;
         this.basePath = configurationParameters.basePath;
         this.withCredentials = configurationParameters.withCredentials;
+        this.certPath =  configurationParameters.certPath;
+        this.certKeyPath =  configurationParameters.certKeyPath;
+        this.caPath = configurationParameters.caPath;
     }
 
     /**
