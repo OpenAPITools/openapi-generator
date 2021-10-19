@@ -40,7 +40,7 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.BaseUrlKey, "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://petstore.swagger.io/v2")
         }
     }
 
