@@ -80,13 +80,13 @@ module {{moduleName}}
       {{/required}}
       {{#hasValidation}}
       {{#maxLength}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.to_s.length > {{{maxLength}}}
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.to_s.size > {{{maxLength}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, the character length must be smaller than or equal to {{{maxLength}}}.")
       end
 
       {{/maxLength}}
       {{#minLength}}
-      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.to_s.length < {{{minLength}}}
+      if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.to_s.size < {{{minLength}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, the character length must be great than or equal to {{{minLength}}}.")
       end
 
@@ -111,13 +111,13 @@ module {{moduleName}}
 
       {{/pattern}}
       {{#maxItems}}
-      if @api_client.config.client_side_validation && {{^required}}{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.length > {{{maxItems}}}
+      if @api_client.config.client_side_validation && {{^required}}{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.size > {{{maxItems}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{{maxItems}}}.")
       end
 
       {{/maxItems}}
       {{#minItems}}
-      if @api_client.config.client_side_validation && {{^required}}{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.length < {{{minItems}}}
+      if @api_client.config.client_side_validation && {{^required}}{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.size < {{{minItems}}}
         raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{{minItems}}}.")
       end
 
