@@ -31,9 +31,9 @@ class UserApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> createUser({ 
+  Future<Response<void>> createUser({ 
     required User user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -82,34 +82,7 @@ class UserApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// Creates list of users with given input array
@@ -124,9 +97,9 @@ class UserApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> createUsersWithArrayInput({ 
+  Future<Response<void>> createUsersWithArrayInput({ 
     required BuiltList<User> user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -175,34 +148,7 @@ class UserApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// Creates list of users with given input array
@@ -217,9 +163,9 @@ class UserApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> createUsersWithListInput({ 
+  Future<Response<void>> createUsersWithListInput({ 
     required BuiltList<User> user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -268,34 +214,7 @@ class UserApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// Delete user
@@ -310,9 +229,9 @@ class UserApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> deleteUser({ 
+  Future<Response<void>> deleteUser({ 
     required String username,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -342,34 +261,7 @@ class UserApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// Get user by user name
@@ -535,9 +427,9 @@ class UserApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> logoutUser({ 
+  Future<Response<void>> logoutUser({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -566,34 +458,7 @@ class UserApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// Updated user
@@ -609,9 +474,9 @@ class UserApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> updateUser({ 
+  Future<Response<void>> updateUser({ 
     required String username,
     required User user,
     CancelToken? cancelToken,
@@ -661,34 +526,7 @@ class UserApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
 }

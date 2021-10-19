@@ -113,9 +113,9 @@ class FakeApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> fakeHttpSignatureTest({ 
+  Future<Response<void>> fakeHttpSignatureTest({ 
     required Pet pet,
     String? query1,
     String? header1,
@@ -179,34 +179,7 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// fakeOuterBooleanSerialize
@@ -671,9 +644,9 @@ class FakeApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> testBodyWithBinary({ 
+  Future<Response<void>> testBodyWithBinary({ 
     MultipartFile? body,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -721,34 +694,7 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// testBodyWithFileSchema
@@ -763,9 +709,9 @@ class FakeApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> testBodyWithFileSchema({ 
+  Future<Response<void>> testBodyWithFileSchema({ 
     required FileSchemaTestClass fileSchemaTestClass,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -814,34 +760,7 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// testBodyWithQueryParams
@@ -857,9 +776,9 @@ class FakeApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> testBodyWithQueryParams({ 
+  Future<Response<void>> testBodyWithQueryParams({ 
     required String query,
     required User user,
     CancelToken? cancelToken,
@@ -915,34 +834,7 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// To test \&quot;client\&quot; model
@@ -1063,9 +955,9 @@ class FakeApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> testEndpointParameters({ 
+  Future<Response<void>> testEndpointParameters({ 
     required num number,
     required double double_,
     required String patternWithoutDelimiter,
@@ -1147,34 +1039,7 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// To test enum parameters
@@ -1196,9 +1061,9 @@ class FakeApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> testEnumParameters({ 
+  Future<Response<void>> testEnumParameters({ 
     BuiltList<String>? enumHeaderStringArray,
     String? enumHeaderString = '-efg',
     BuiltList<String>? enumQueryStringArray,
@@ -1267,34 +1132,7 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// Fake endpoint to test group parameters (optional)
@@ -1314,9 +1152,9 @@ class FakeApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> testGroupParameters({ 
+  Future<Response<void>> testGroupParameters({ 
     required int requiredStringGroup,
     required bool requiredBooleanGroup,
     required int requiredInt64Group,
@@ -1367,34 +1205,7 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// test inline additionalProperties
@@ -1409,9 +1220,9 @@ class FakeApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> testInlineAdditionalProperties({ 
+  Future<Response<void>> testInlineAdditionalProperties({ 
     required BuiltMap<String, String> requestBody,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -1460,34 +1271,7 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// test json serialization of form data
@@ -1503,9 +1287,9 @@ class FakeApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> testJsonFormData({ 
+  Future<Response<void>> testJsonFormData({ 
     required String param,
     required String param2,
     CancelToken? cancelToken,
@@ -1557,34 +1341,7 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// testQueryParameterCollectionFormat
@@ -1605,9 +1362,9 @@ class FakeApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> testQueryParameterCollectionFormat({ 
+  Future<Response<void>> testQueryParameterCollectionFormat({ 
     required BuiltList<String> pipe,
     required BuiltList<String> ioutil,
     required BuiltList<String> http,
@@ -1654,34 +1411,7 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
 }

@@ -40,17 +40,17 @@ class NullableClass {
 
   DateTime? datetimeProp;
 
-  List<Map<String, dynamic>>? arrayNullableProp;
+  List<Object>? arrayNullableProp;
 
-  List<Map<String, dynamic>>? arrayAndItemsNullableProp;
+  List<Object>? arrayAndItemsNullableProp;
 
-  List<Map<String, dynamic>>? arrayItemsNullable;
+  List<Object>? arrayItemsNullable;
 
-  Map<String, dynamic>? objectNullableProp;
+  Map<String, Object>? objectNullableProp;
 
-  Map<String, dynamic>? objectAndItemsNullableProp;
+  Map<String, Object>? objectAndItemsNullableProp;
 
-  Map<String, dynamic>? objectItemsNullable;
+  Map<String, Object>? objectItemsNullable;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
@@ -136,12 +136,12 @@ class NullableClass {
         stringProp: json[r'string_prop'] as String,
         dateProp: mapDateTime(json, r'date_prop', ''),
         datetimeProp: mapDateTime(json, r'datetime_prop', ''),
-        arrayNullableProp: (json[r'array_nullable_prop'] as List).cast<Map<String, dynamic>>(),
-        arrayAndItemsNullableProp: (json[r'array_and_items_nullable_prop'] as List).cast<Map<String, dynamic>>(),
-        arrayItemsNullable: (json[r'array_items_nullable'] as List).cast<Map<String, dynamic>>(),
-        objectNullableProp: json[r'object_nullable_prop'] as Map<String, dynamic>,
-        objectAndItemsNullableProp: json[r'object_and_items_nullable_prop'] as Map<String, dynamic>,
-        objectItemsNullable: json[r'object_items_nullable'] as Map<String, dynamic>,
+        arrayNullableProp: Object.listFromJson(json[r'array_nullable_prop']),
+        arrayAndItemsNullableProp: Object.listFromJson(json[r'array_and_items_nullable_prop']),
+        arrayItemsNullable: Object.listFromJson(json[r'array_items_nullable']),
+        objectNullableProp: json[r'object_nullable_prop'] as Map<String, Object>,
+        objectAndItemsNullableProp: json[r'object_and_items_nullable_prop'] as Map<String, Object>,
+        objectItemsNullable: json[r'object_items_nullable'] as Map<String, Object>,
     );
 
   static List<NullableClass> listFromJson(List json, {bool? growable,}) =>

@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **createUser**
-> Map<String, dynamic> createUser(user)
+> createUser(user)
 
 Create user
 
@@ -38,8 +38,7 @@ final api_instance = UserApi();
 final user = User(); // User | Created user object
 
 try {
-    final result = api_instance.createUser(user);
-    print(result);
+    api_instance.createUser(user);
 } catch (e) {
     print('Exception when calling UserApi->createUser: $e\n');
 }
@@ -53,7 +52,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -67,7 +66,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithArrayInput**
-> Map<String, dynamic> createUsersWithArrayInput(user)
+> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
@@ -83,8 +82,7 @@ final api_instance = UserApi();
 final user = [List<User>()]; // List<User> | List of user object
 
 try {
-    final result = api_instance.createUsersWithArrayInput(user);
-    print(result);
+    api_instance.createUsersWithArrayInput(user);
 } catch (e) {
     print('Exception when calling UserApi->createUsersWithArrayInput: $e\n');
 }
@@ -98,7 +96,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -112,7 +110,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createUsersWithListInput**
-> Map<String, dynamic> createUsersWithListInput(user)
+> createUsersWithListInput(user)
 
 Creates list of users with given input array
 
@@ -128,8 +126,7 @@ final api_instance = UserApi();
 final user = [List<User>()]; // List<User> | List of user object
 
 try {
-    final result = api_instance.createUsersWithListInput(user);
-    print(result);
+    api_instance.createUsersWithListInput(user);
 } catch (e) {
     print('Exception when calling UserApi->createUsersWithListInput: $e\n');
 }
@@ -143,7 +140,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -157,7 +154,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **deleteUser**
-> Map<String, dynamic> deleteUser(username)
+> deleteUser(username)
 
 Delete user
 
@@ -175,8 +172,7 @@ final api_instance = UserApi();
 final username = username_example; // String | The name that needs to be deleted
 
 try {
-    final result = api_instance.deleteUser(username);
-    print(result);
+    api_instance.deleteUser(username);
 } catch (e) {
     print('Exception when calling UserApi->deleteUser: $e\n');
 }
@@ -190,7 +186,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -288,7 +284,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **logoutUser**
-> Map<String, dynamic> logoutUser()
+> logoutUser()
 
 Logs out current logged in user session
 
@@ -303,8 +299,7 @@ import 'package:openapi/api.dart';
 final api_instance = UserApi();
 
 try {
-    final result = api_instance.logoutUser();
-    print(result);
+    api_instance.logoutUser();
 } catch (e) {
     print('Exception when calling UserApi->logoutUser: $e\n');
 }
@@ -315,7 +310,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -329,7 +324,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updateUser**
-> Map<String, dynamic> updateUser(username, user)
+> updateUser(username, user)
 
 Updated user
 
@@ -348,8 +343,7 @@ final username = username_example; // String | name that need to be deleted
 final user = User(); // User | Updated user object
 
 try {
-    final result = api_instance.updateUser(username, user);
-    print(result);
+    api_instance.updateUser(username, user);
 } catch (e) {
     print('Exception when calling UserApi->updateUser: $e\n');
 }
@@ -364,7 +358,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 

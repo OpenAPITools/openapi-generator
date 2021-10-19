@@ -63,7 +63,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **deletePet**
-> Map<String, dynamic> deletePet(petId, apiKey)
+> deletePet(petId, apiKey)
 
 Deletes a pet
 
@@ -78,8 +78,7 @@ final petId = 789; // int | Pet id to delete
 final apiKey = apiKey_example; // String | 
 
 try {
-    final result = api_instance.deletePet(petId, apiKey);
-    print(result);
+    api_instance.deletePet(petId, apiKey);
 } catch (e) {
     print('Exception when calling PetApi->deletePet: $e\n');
 }
@@ -94,7 +93,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -288,7 +287,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePetWithForm**
-> Map<String, dynamic> updatePetWithForm(petId, name, status)
+> updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
@@ -304,8 +303,7 @@ final name = name_example; // String | Updated name of the pet
 final status = status_example; // String | Updated status of the pet
 
 try {
-    final result = api_instance.updatePetWithForm(petId, name, status);
-    print(result);
+    api_instance.updatePetWithForm(petId, name, status);
 } catch (e) {
     print('Exception when calling PetApi->updatePetWithForm: $e\n');
 }
@@ -321,7 +319,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 

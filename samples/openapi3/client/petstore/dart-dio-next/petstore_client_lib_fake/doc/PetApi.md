@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 
 # **addPet**
-> Map<String, dynamic> addPet(pet)
+> addPet(pet)
 
 Add a new pet to the store
 
@@ -35,8 +35,7 @@ final api = Openapi().getPetApi();
 final Pet pet = ; // Pet | Pet object that needs to be added to the store
 
 try {
-    final response = api.addPet(pet);
-    print(response);
+    api.addPet(pet);
 } catch on DioError (e) {
     print('Exception when calling PetApi->addPet: $e\n');
 }
@@ -50,7 +49,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map&lt;String, dynamic&gt;**
+void (empty response body)
 
 ### Authorization
 
@@ -64,7 +63,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **deletePet**
-> Map<String, dynamic> deletePet(petId, apiKey)
+> deletePet(petId, apiKey)
 
 Deletes a pet
 
@@ -79,8 +78,7 @@ final int petId = 789; // int | Pet id to delete
 final String apiKey = apiKey_example; // String | 
 
 try {
-    final response = api.deletePet(petId, apiKey);
-    print(response);
+    api.deletePet(petId, apiKey);
 } catch on DioError (e) {
     print('Exception when calling PetApi->deletePet: $e\n');
 }
@@ -95,7 +93,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map&lt;String, dynamic&gt;**
+void (empty response body)
 
 ### Authorization
 
@@ -246,7 +244,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePet**
-> Map<String, dynamic> updatePet(pet)
+> updatePet(pet)
 
 Update an existing pet
 
@@ -260,8 +258,7 @@ final api = Openapi().getPetApi();
 final Pet pet = ; // Pet | Pet object that needs to be added to the store
 
 try {
-    final response = api.updatePet(pet);
-    print(response);
+    api.updatePet(pet);
 } catch on DioError (e) {
     print('Exception when calling PetApi->updatePet: $e\n');
 }
@@ -275,7 +272,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map&lt;String, dynamic&gt;**
+void (empty response body)
 
 ### Authorization
 
@@ -289,7 +286,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePetWithForm**
-> Map<String, dynamic> updatePetWithForm(petId, name, status)
+> updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
@@ -305,8 +302,7 @@ final String name = name_example; // String | Updated name of the pet
 final String status = status_example; // String | Updated status of the pet
 
 try {
-    final response = api.updatePetWithForm(petId, name, status);
-    print(response);
+    api.updatePetWithForm(petId, name, status);
 } catch on DioError (e) {
     print('Exception when calling PetApi->updatePetWithForm: $e\n');
 }
@@ -322,7 +318,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map&lt;String, dynamic&gt;**
+void (empty response body)
 
 ### Authorization
 

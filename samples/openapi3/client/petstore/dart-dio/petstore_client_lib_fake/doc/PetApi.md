@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 
 # **addPet**
-> Map<String, dynamic> addPet(pet)
+> addPet(pet)
 
 Add a new pet to the store
 
@@ -35,8 +35,7 @@ var api_instance = new PetApi();
 var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try {
-    var result = api_instance.addPet(pet);
-    print(result);
+    api_instance.addPet(pet);
 } catch (e) {
     print('Exception when calling PetApi->addPet: $e\n');
 }
@@ -50,7 +49,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -64,7 +63,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **deletePet**
-> Map<String, dynamic> deletePet(petId, apiKey)
+> deletePet(petId, apiKey)
 
 Deletes a pet
 
@@ -79,8 +78,7 @@ var petId = 789; // int | Pet id to delete
 var apiKey = apiKey_example; // String | 
 
 try {
-    var result = api_instance.deletePet(petId, apiKey);
-    print(result);
+    api_instance.deletePet(petId, apiKey);
 } catch (e) {
     print('Exception when calling PetApi->deletePet: $e\n');
 }
@@ -95,7 +93,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -246,7 +244,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePet**
-> Map<String, dynamic> updatePet(pet)
+> updatePet(pet)
 
 Update an existing pet
 
@@ -260,8 +258,7 @@ var api_instance = new PetApi();
 var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try {
-    var result = api_instance.updatePet(pet);
-    print(result);
+    api_instance.updatePet(pet);
 } catch (e) {
     print('Exception when calling PetApi->updatePet: $e\n');
 }
@@ -275,7 +272,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -289,7 +286,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePetWithForm**
-> Map<String, dynamic> updatePetWithForm(petId, name, status)
+> updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
@@ -305,8 +302,7 @@ var name = name_example; // String | Updated name of the pet
 var status = status_example; // String | Updated status of the pet
 
 try {
-    var result = api_instance.updatePetWithForm(petId, name, status);
-    print(result);
+    api_instance.updatePetWithForm(petId, name, status);
 } catch (e) {
     print('Exception when calling PetApi->updatePetWithForm: $e\n');
 }
@@ -322,7 +318,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 

@@ -32,9 +32,9 @@ class PetApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> addPet({ 
+  Future<Response<void>> addPet({ 
     required Pet pet,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -88,34 +88,7 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// Deletes a pet
@@ -131,9 +104,9 @@ class PetApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> deletePet({ 
+  Future<Response<void>> deletePet({ 
     required int petId,
     String? apiKey,
     CancelToken? cancelToken,
@@ -170,34 +143,7 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// Finds Pets by status
@@ -462,9 +408,9 @@ class PetApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> updatePet({ 
+  Future<Response<void>> updatePet({ 
     required Pet pet,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -518,34 +464,7 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// Updates a pet in the store with form data
@@ -562,9 +481,9 @@ class PetApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
-  /// Returns a [Future] containing a [Response] with a [Map<String, dynamic>] as data
+  /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
-  Future<Response<Map<String, dynamic>>> updatePetWithForm({ 
+  Future<Response<void>> updatePetWithForm({ 
     required int petId,
     String? name,
     String? status,
@@ -622,34 +541,7 @@ class PetApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, dynamic> _responseData;
-
-    try {
-      const _responseType = FullType(Built, [FullType(Map<String, dynamic>)]);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
-      ) as Map<String, dynamic>;
-
-    } catch (error, stackTrace) {
-      throw DioError(
-        requestOptions: _response.requestOptions,
-        response: _response,
-        type: DioErrorType.other,
-        error: error,
-      )..stackTrace = stackTrace;
-    }
-
-    return Response<Map<String, dynamic>>(
-      data: _responseData,
-      headers: _response.headers,
-      isRedirect: _response.isRedirect,
-      requestOptions: _response.requestOptions,
-      redirects: _response.redirects,
-      statusCode: _response.statusCode,
-      statusMessage: _response.statusMessage,
-      extra: _response.extra,
-    );
+    return _response;
   }
 
   /// uploads an image

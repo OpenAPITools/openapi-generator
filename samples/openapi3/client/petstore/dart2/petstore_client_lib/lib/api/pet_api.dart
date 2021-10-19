@@ -122,19 +122,11 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<Map<String, dynamic>?> deletePet(int petId, { String? apiKey, }) async {
+  Future<void> deletePet(int petId, { String? apiKey, }) async {
     final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-    
-    }
-    return Future<Map<String, dynamic>>.value();
   }
 
   /// Finds Pets by status
@@ -444,19 +436,11 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future<Map<String, dynamic>?> updatePetWithForm(int petId, { String? name, String? status, }) async {
+  Future<void> updatePetWithForm(int petId, { String? name, String? status, }) async {
     final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-    
-    }
-    return Future<Map<String, dynamic>>.value();
   }
 
   /// uploads an image

@@ -335,8 +335,8 @@ class EnumTestEnumNumberEnum {
 
   double? toJson() => value;
 
-  static const number1Period1 = EnumTestEnumNumberEnum._(1.1);
-  static const numberNegative1Period2 = EnumTestEnumNumberEnum._(-1.2);
+  static const number1Period1 = EnumTestEnumNumberEnum._('1.1');
+  static const numberNegative1Period2 = EnumTestEnumNumberEnum._('-1.2');
 
   /// List of all possible values in this [enum][EnumTestEnumNumberEnum].
   static const values = <EnumTestEnumNumberEnum>[
@@ -366,10 +366,10 @@ class EnumTestEnumNumberEnumTypeTransformer {
   ///
   /// If the [dynamic value][data] cannot be decoded successfully, then an [UnimplementedError] is thrown.
   EnumTestEnumNumberEnum decode(dynamic data) {
-    if (data == 1.1) {
+    if (data == '1.1') {
       return EnumTestEnumNumberEnum.number1Period1;
     }
-    if (data == -1.2) {
+    if (data == '-1.2') {
       return EnumTestEnumNumberEnum.numberNegative1Period2;
     }
     throw ArgumentError('Unknown enum value to decode: $data');

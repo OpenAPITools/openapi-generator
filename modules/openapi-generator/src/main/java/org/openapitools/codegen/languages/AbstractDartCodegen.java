@@ -1,5 +1,7 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -112,12 +114,13 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         setReservedWordsLowerCase(reservedWordsList);
 
         // These types return isPrimitive=true in templates
-        languageSpecificPrimitives = new HashSet<>(5);
-        languageSpecificPrimitives.add("String");
-        languageSpecificPrimitives.add("bool");
-        languageSpecificPrimitives.add("int");
-        languageSpecificPrimitives.add("num");
-        languageSpecificPrimitives.add("double");
+        languageSpecificPrimitives = Sets.newHashSet(
+                "String",
+                "bool",
+                "int",
+                "num",
+                "double"
+        );
 
         typeMapping = new HashMap<>();
         typeMapping.put("Array", "List");
@@ -148,17 +151,18 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         typeMapping.put("AnyType", "Object");
 
         // Data types of the above values which are automatically imported
-        defaultIncludes = new HashSet<>();
-        defaultIncludes.add("String");
-        defaultIncludes.add("bool");
-        defaultIncludes.add("int");
-        defaultIncludes.add("num");
-        defaultIncludes.add("double");
-        defaultIncludes.add("List");
-        defaultIncludes.add("Set");
-        defaultIncludes.add("Map");
-        defaultIncludes.add("DateTime");
-        defaultIncludes.add("Object");
+        defaultIncludes = Sets.newHashSet(
+                "String",
+                "bool",
+                "int",
+                "num",
+                "double",
+                "List",
+                "Set",
+                "Map",
+                "DateTime",
+                "Object"
+        );
 
         imports.put("String", "dart:core");
         imports.put("bool", "dart:core");
@@ -341,7 +345,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // replace all characters that have a mapping but ignore underscores
         // append an underscore to each replacement so that it can be camelized
         if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
-            name = escape(name, specialCharReplacements, Collections.singletonList("_"), "_");
+            name = escape(name, specialCharReplacements, Lists.newArrayList("_"), "_");
         }
         // remove the rest
         name = sanitizeName(name);
@@ -503,21 +507,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (property.dataType.equals("Object") || property.baseType.equals("Object") || (property.complexType != null && property.complexType.equals("Object"))) {
-            String dataType = "Map<String, dynamic>";
-            String complexType = dataType;
-            if (property.isArray) {
-                dataType = "List<"+dataType+">";
-            }
-            if (property.required) {
-                dataType += "?";
-                complexType += "?";
-            }
-            property.setDatatypeWithEnum(dataType);
-            property.setDatatype(dataType);
-            property.setComplexType(complexType);
-            property.setIsPrimitiveType(true);
-        }
         if (!model.isEnum && property.isEnum) {
             // These are inner enums, enums which do not exist as models, just as properties.
             // They are handled via the enum_inline template and and are generated in the
@@ -543,12 +532,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
-        String returnType = op.returnType;
-        if (returnType == null || returnType.equals("Object")) {
-            op.returnType = "Map<String, dynamic>";
-            op.returnBaseType = "Map<String, dynamic>";
-            op.returnTypeIsPrimitive = true;
-        }
         for (CodegenResponse r : op.responses) {
             // By default only set types are automatically added to operation imports, not sure why.
             // Add all container type imports here, by default 'dart:core' imports are skipped
@@ -661,20 +644,15 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
     }
 
-    boolean needsEnumEscape(String datatype) {
-        // TODO: is this complete?
-        return !("num".equalsIgnoreCase(datatype) ||
-                "int".equalsIgnoreCase(datatype) ||
-                "double".equalsIgnoreCase(datatype)||
-                "float".equalsIgnoreCase(datatype));
-    }
-
     @Override
     public String toEnumVarName(String value, String datatype) {
         if (value.length() == 0) {
             return "empty";
         }
-        if (!needsEnumEscape(datatype) && value.matches("^-?\\d.*")) {
+        if (("number".equalsIgnoreCase(datatype) ||
+                "double".equalsIgnoreCase(datatype) ||
+                "int".equalsIgnoreCase(datatype)) &&
+                value.matches("^-?\\d.*")) {
             // Only rename numeric values when the datatype is numeric
             // AND the name is not changed by enum extensions (matches a numeric value).
             boolean isNegative = value.startsWith("-");
@@ -685,7 +663,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if (!needsEnumEscape(datatype)) {
+        if ("number".equalsIgnoreCase(datatype) ||
+                "int".equalsIgnoreCase(datatype)) {
             return value;
         } else {
             return "'" + escapeText(value) + "'";

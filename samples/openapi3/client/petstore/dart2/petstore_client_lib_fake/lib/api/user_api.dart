@@ -61,19 +61,11 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Created user object
-  Future<Map<String, dynamic>?> createUser(User user,) async {
+  Future<void> createUser(User user,) async {
     final response = await createUserWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-    
-    }
-    return Future<Map<String, dynamic>>.value();
   }
 
   /// Creates list of users with given input array
@@ -117,19 +109,11 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<Map<String, dynamic>?> createUsersWithArrayInput(List<User> user,) async {
+  Future<void> createUsersWithArrayInput(List<User> user,) async {
     final response = await createUsersWithArrayInputWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-    
-    }
-    return Future<Map<String, dynamic>>.value();
   }
 
   /// Creates list of users with given input array
@@ -173,19 +157,11 @@ class UserApi {
   ///
   /// * [List<User>] user (required):
   ///   List of user object
-  Future<Map<String, dynamic>?> createUsersWithListInput(List<User> user,) async {
+  Future<void> createUsersWithListInput(List<User> user,) async {
     final response = await createUsersWithListInputWithHttpInfo(user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-    
-    }
-    return Future<Map<String, dynamic>>.value();
   }
 
   /// Delete user
@@ -234,19 +210,11 @@ class UserApi {
   ///
   /// * [String] username (required):
   ///   The name that needs to be deleted
-  Future<Map<String, dynamic>?> deleteUser(String username,) async {
+  Future<void> deleteUser(String username,) async {
     final response = await deleteUserWithHttpInfo(username,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-    
-    }
-    return Future<Map<String, dynamic>>.value();
   }
 
   /// Get user by user name
@@ -402,19 +370,11 @@ class UserApi {
   }
 
   /// Logs out current logged in user session
-  Future<Map<String, dynamic>?> logoutUser() async {
+  Future<void> logoutUser() async {
     final response = await logoutUserWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-    
-    }
-    return Future<Map<String, dynamic>>.value();
   }
 
   /// Updated user
@@ -469,18 +429,10 @@ class UserApi {
   ///
   /// * [User] user (required):
   ///   Updated user object
-  Future<Map<String, dynamic>?> updateUser(String username, User user,) async {
+  Future<void> updateUser(String username, User user,) async {
     final response = await updateUserWithHttpInfo(username, user,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, dynamic>',) as Map<String, dynamic>;
-    
-    }
-    return Future<Map<String, dynamic>>.value();
   }
 }

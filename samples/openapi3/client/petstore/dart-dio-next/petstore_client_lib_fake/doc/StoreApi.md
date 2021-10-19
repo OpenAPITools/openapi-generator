@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 
 # **deleteOrder**
-> Map<String, dynamic> deleteOrder(orderId)
+> deleteOrder(orderId)
 
 Delete purchase order by ID
 
@@ -30,8 +30,7 @@ final api = Openapi().getStoreApi();
 final String orderId = orderId_example; // String | ID of the order that needs to be deleted
 
 try {
-    final response = api.deleteOrder(orderId);
-    print(response);
+    api.deleteOrder(orderId);
 } catch on DioError (e) {
     print('Exception when calling StoreApi->deleteOrder: $e\n');
 }
@@ -45,7 +44,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map&lt;String, dynamic&gt;**
+void (empty response body)
 
 ### Authorization
 

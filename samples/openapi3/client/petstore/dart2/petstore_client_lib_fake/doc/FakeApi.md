@@ -66,7 +66,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fakeHttpSignatureTest**
-> Map<String, dynamic> fakeHttpSignatureTest(pet, query1, header1)
+> fakeHttpSignatureTest(pet, query1, header1)
 
 test http signature authentication
 
@@ -80,8 +80,7 @@ final query1 = query1_example; // String | query parameter
 final header1 = header1_example; // String | header parameter
 
 try {
-    final result = api_instance.fakeHttpSignatureTest(pet, query1, header1);
-    print(result);
+    api_instance.fakeHttpSignatureTest(pet, query1, header1);
 } catch (e) {
     print('Exception when calling FakeApi->fakeHttpSignatureTest: $e\n');
 }
@@ -97,7 +96,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -326,7 +325,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testBodyWithBinary**
-> Map<String, dynamic> testBodyWithBinary(body)
+> testBodyWithBinary(body)
 
 
 
@@ -340,8 +339,7 @@ final api_instance = FakeApi();
 final body = MultipartFile(); // MultipartFile | image to upload
 
 try {
-    final result = api_instance.testBodyWithBinary(body);
-    print(result);
+    api_instance.testBodyWithBinary(body);
 } catch (e) {
     print('Exception when calling FakeApi->testBodyWithBinary: $e\n');
 }
@@ -355,7 +353,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -369,7 +367,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testBodyWithFileSchema**
-> Map<String, dynamic> testBodyWithFileSchema(fileSchemaTestClass)
+> testBodyWithFileSchema(fileSchemaTestClass)
 
 
 
@@ -383,8 +381,7 @@ final api_instance = FakeApi();
 final fileSchemaTestClass = FileSchemaTestClass(); // FileSchemaTestClass | 
 
 try {
-    final result = api_instance.testBodyWithFileSchema(fileSchemaTestClass);
-    print(result);
+    api_instance.testBodyWithFileSchema(fileSchemaTestClass);
 } catch (e) {
     print('Exception when calling FakeApi->testBodyWithFileSchema: $e\n');
 }
@@ -398,7 +395,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -412,7 +409,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testBodyWithQueryParams**
-> Map<String, dynamic> testBodyWithQueryParams(query, user)
+> testBodyWithQueryParams(query, user)
 
 
 
@@ -425,8 +422,7 @@ final query = query_example; // String |
 final user = User(); // User | 
 
 try {
-    final result = api_instance.testBodyWithQueryParams(query, user);
-    print(result);
+    api_instance.testBodyWithQueryParams(query, user);
 } catch (e) {
     print('Exception when calling FakeApi->testBodyWithQueryParams: $e\n');
 }
@@ -441,7 +437,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -498,7 +494,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testEndpointParameters**
-> Map<String, dynamic> testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback)
+> testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -528,8 +524,7 @@ final password = password_example; // String | None
 final callback = callback_example; // String | None
 
 try {
-    final result = api_instance.testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback);
-    print(result);
+    api_instance.testEndpointParameters(number, double_, patternWithoutDelimiter, byte, integer, int32, int64, float, string, binary, date, dateTime, password, callback);
 } catch (e) {
     print('Exception when calling FakeApi->testEndpointParameters: $e\n');
 }
@@ -556,7 +551,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -570,7 +565,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testEnumParameters**
-> Map<String, dynamic> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
+> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -591,8 +586,7 @@ final enumFormStringArray = []; // List<String> | Form parameter enum test (stri
 final enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
 try {
-    final result = api_instance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
-    print(result);
+    api_instance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
 } catch (e) {
     print('Exception when calling FakeApi->testEnumParameters: $e\n');
 }
@@ -613,7 +607,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -627,7 +621,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testGroupParameters**
-> Map<String, dynamic> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
+> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
 
 Fake endpoint to test group parameters (optional)
 
@@ -652,8 +646,7 @@ final booleanGroup = true; // bool | Boolean in group parameters
 final int64Group = 789; // int | Integer in group parameters
 
 try {
-    final result = api_instance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
-    print(result);
+    api_instance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 } catch (e) {
     print('Exception when calling FakeApi->testGroupParameters: $e\n');
 }
@@ -672,7 +665,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -686,7 +679,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testInlineAdditionalProperties**
-> Map<String, dynamic> testInlineAdditionalProperties(requestBody)
+> testInlineAdditionalProperties(requestBody)
 
 test inline additionalProperties
 
@@ -698,8 +691,7 @@ final api_instance = FakeApi();
 final requestBody = Map<String, String>(); // Map<String, String> | request body
 
 try {
-    final result = api_instance.testInlineAdditionalProperties(requestBody);
-    print(result);
+    api_instance.testInlineAdditionalProperties(requestBody);
 } catch (e) {
     print('Exception when calling FakeApi->testInlineAdditionalProperties: $e\n');
 }
@@ -713,7 +705,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -727,7 +719,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testJsonFormData**
-> Map<String, dynamic> testJsonFormData(param, param2)
+> testJsonFormData(param, param2)
 
 test json serialization of form data
 
@@ -740,8 +732,7 @@ final param = param_example; // String | field1
 final param2 = param2_example; // String | field2
 
 try {
-    final result = api_instance.testJsonFormData(param, param2);
-    print(result);
+    api_instance.testJsonFormData(param, param2);
 } catch (e) {
     print('Exception when calling FakeApi->testJsonFormData: $e\n');
 }
@@ -756,7 +747,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
@@ -770,7 +761,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testQueryParameterCollectionFormat**
-> Map<String, dynamic> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
 
 
 
@@ -790,8 +781,7 @@ final allowEmpty = allowEmpty_example; // String |
 final language = ; // Map<String, String> | 
 
 try {
-    final result = api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
-    print(result);
+    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
 } catch (e) {
     print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
@@ -811,7 +801,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Map<String, dynamic>**
+void (empty response body)
 
 ### Authorization
 
