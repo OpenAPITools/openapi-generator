@@ -305,6 +305,9 @@ class ObjectSerializer
         if ($class === 'object') {
             settype($data, 'array');
             return $data;
+        } else if ($class === 'mixed') {
+            settype($data, gettype($data));
+            return $data;
         }
 
         if ($class === '\DateTime') {

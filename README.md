@@ -828,7 +828,10 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2021-07-29 - [How To Rewrite a Huge Codebase](https://dzone.com/articles/how-to-rewrite-a-huge-code-base) by [Curtis Poe](https://dzone.com/users/4565446/publiusovidius.html)
 - 2021-08-21 - [Generating Client APIs using Swagger Part 1](https://medium.com/@flowsquad/generating-client-apis-using-swagger-part-1-2d46f13f5e92) by [FlowSquad.io](https://medium.com/@flowsquad)
 - 2021-09-11 - [Invoking AWS ParallelCluster API](https://docs.aws.amazon.com/parallelcluster/latest/ug/api-reference-v3.html) at [AWS ParallelCluster API official documentation](https://docs.aws.amazon.com/parallelcluster/latest/ug/api-reference-v3.html)
+- 2021-09-20 - [OpenAPI Generator - The Babel Fish of the API World](https://www.youtube.com/watch?v=s2zMtwd5klg) by [Cliffano Subagio (Principal Engineer at Shine Solutions)](https://github.com/cliffano) at [Apidays LIVE Australia 2021](https://www.apidays.global/australia2021/)
 - 2021-10-02 - [How to Write Fewer Lines of Code with the OpenAPI Generator](https://hackernoon.com/how-to-write-fewer-lines-of-code-with-the-openapi-generator) by [Mikhail Alfa](https://hackernoon.com/u/alphamikle)
+- 2021-10-12 - [OpenAPI Generator : 4000 étoiles sur GitHub et des spaghettis](https://www.youtube.com/watch?v=9hEsNBSqTFk) by [Jérémie Bresson](https://github.com/jmini) at [Devoxx FR 2021](https://cfp.devoxx.fr/2021/speaker/jeremie_bresson)
+- 2021-10-17 - [Generate a TypeScript HTTP Client From An OpenAPI Spec In DotNET 5](https://richardwillis.info/blog/generate-a-type-script-http-client-from-an-open-api-spec-in-dot-net-5) by [Richard Willis](https://github.com/badsyntax)
 
 ## [6 - About Us](#table-of-contents)
 

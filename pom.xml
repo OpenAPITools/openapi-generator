@@ -88,17 +88,17 @@
             <extension>
                 <groupId>org.jvnet.wagon-svn</groupId>
                 <artifactId>wagon-svn</artifactId>
-                <version>1.8</version>
+                <version>${wagon-svn.version}</version>
             </extension>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ssh-external</artifactId>
-                <version>1.0-alpha-6</version>
+                <version>${wagon-ssh-external.version}</version>
             </extension>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-webdav</artifactId>
-                <version>1.0-beta-1</version>
+                <version>${wagon-webdav.version}</version>
             </extension>
         </extensions>
         <defaultGoal>install</defaultGoal>
@@ -124,56 +124,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>net.revelc.code</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
-                <!-- Uncomment this to format before checkstyle -->
-                <!-- <executions>
-                    <execution>
-                        <id>format</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions> -->
-                <configuration>
-                    <compilerSource>1.8</compilerSource>
-                    <compilerCompliance>1.8</compilerCompliance>
-                    <compilerTargetPlatform>1.8</compilerTargetPlatform>
-                    <lineEnding>LF</lineEnding>
-                </configuration>
-            </plugin>
-            <!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.17</version>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <configLocation>google_checkstyle.xml</configLocation>
-                            Don't include generated sources a la http://stackoverflow.com/a/30406454
-                            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-                            <encoding>UTF-8</encoding>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
-                            <linkXRef>false</linkXRef>
-                        </configuration>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>6.19</version>
-                    </dependency>
-                </dependencies>
-            </plugin>-->
             <!-- https://www.jacoco.org/jacoco/trunk/doc/maven.html -->
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -223,7 +173,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire-version}</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <printSummary>true</printSummary>
                     <forkedProcessExitTimeoutInSeconds>120</forkedProcessExitTimeoutInSeconds>
@@ -266,16 +216,16 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.source}</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>${maven-jar-plugin.version}</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -290,20 +240,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.7.1</version>
+                <version>${maven-site-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
+                <version>${maven-release-plugin.version}</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
+                    <source>${maven.compiler.source}</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
                     <failOnWarnings>true</failOnWarnings>
@@ -395,7 +345,7 @@
                 <plugin>
                     <groupId>se.bjurr.violations</groupId>
                     <artifactId>violations-maven-plugin</artifactId>
-                    <version>${violations-maven.plugin.version}</version>
+                    <version>${violations-maven-plugin.version}</version>
                     <configuration>
                         <maxViolations>0</maxViolations>
                         <detailLevel>VERBOSE</detailLevel>
@@ -431,19 +381,14 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <groupId>net.revelc.code</groupId>
-                    <artifactId>formatter-maven-plugin</artifactId>
-                    <version>0.5.2</version>
-                </plugin>
-                <plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>${spotbugs.plugin.version}</version>
+                    <version>${spotbugs-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-pmd-plugin</artifactId>
-                    <version>${pmd.plugin.version}</version>
+                    <version>${pmd-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -453,7 +398,7 @@
                 <plugin>
                     <groupId>pl.project13.maven</groupId>
                     <artifactId>git-commit-id-plugin</artifactId>
-                    <version>${git.commit.id.plugin.version}</version>
+                    <version>${git-commit-id-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -532,7 +477,7 @@
                     <plugin>
                         <groupId>com.github.spotbugs</groupId>
                         <artifactId>spotbugs-maven-plugin</artifactId>
-                        <version>${spotbugs.plugin.version}</version>
+                        <version>${spotbugs-plugin.version}</version>
                         <configuration>
                             <failOnError>false</failOnError>
                             <!-- https://spotbugs.readthedocs.io/en/stable/effort.html -->
@@ -552,7 +497,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-pmd-plugin</artifactId>
-                        <version>${pmd.plugin.version}</version>
+                        <version>${pmd-plugin.version}</version>
                         <configuration>
                             <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
                             <failOnViolation>false</failOnViolation>
@@ -581,7 +526,7 @@
                     <plugin>
                         <groupId>com.github.spotbugs</groupId>
                         <artifactId>spotbugs-maven-plugin</artifactId>
-                        <version>${spotbugs.plugin.version}</version>
+                        <version>${spotbugs-plugin.version}</version>
                     </plugin>
                 </plugins>
             </reporting>
@@ -1141,18 +1086,6 @@
             </modules>
         </profile>
         <profile>
-            <id>spring-cloud</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/spring-cloud</module>
-            </modules>
-        </profile>
-        <profile>
             <id>scalatra-server</id>
             <activation>
                 <property>
@@ -1468,7 +1401,6 @@
             <modules>
                 <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
                 <module>samples/openapi3/client/petstore/dart2/petstore</module>
-                <!--<module>samples/openapi3/client/petstore/dart2/petstore_json_serializable_client_lib_fake</module>-->
                 <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
                 <module>samples/openapi3/client/petstore/dart-dio-next/dio_http_petstore_client_lib_fake</module>
             </modules>
@@ -1555,7 +1487,7 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>${scala-maven-plugin-version}</version>
+                <version>${scala-maven-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -1568,7 +1500,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>${maven-project-info-reports-plugin.version}</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -1584,13 +1516,13 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>${junit-version}</version>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
-                <version>${testng-version}</version>
+                <version>${testng.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -1607,29 +1539,44 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <swagger-core-version>2.1.2</swagger-core-version>
-        <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.26</swagger-parser-version>
-        <felix-version>3.3.1</felix-version>
-        <commons-io-version>2.4</commons-io-version>
-        <commons-cli-version>1.2</commons-cli-version>
-        <junit-version>4.13</junit-version>
-        <jackson-version>2.10.2</jackson-version>
-        <maven-plugin-version>1.0.0</maven-plugin-version>
-        <commons-lang-version>3.4</commons-lang-version>
-        <slf4j-version>1.7.29</slf4j-version>
-        <scala-maven-plugin-version>4.3.1</scala-maven-plugin-version>
-        <jmustache-version>1.14</jmustache-version>
-        <handlebars.java-version>4.2.1</handlebars.java-version>
-        <testng-version>7.1.0</testng-version>
-        <surefire-version>3.0.0-M5</surefire-version>
-        <reflections-version>0.9.10</reflections-version>
-        <mockito-version>3.6.28</mockito-version>
-        <jacoco.version>0.8.5</jacoco.version>
-        <spotbugs.plugin.version>3.1.12.2</spotbugs.plugin.version>
-        <pmd.plugin.version>3.12.0</pmd.plugin.version>
-        <violations-maven.plugin.version>1.34</violations-maven.plugin.version>
+
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
-        <git.commit.id.plugin.version>4.0.0</git.commit.id.plugin.version>
+        <commons-cli.version>1.4</commons-cli.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <commons-lang.version>3.12.0</commons-lang.version>
+        <diffutils.version>1.3.0</diffutils.version>
+        <generex.version>1.0.2</generex.version>
+        <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
+        <groovy.version>3.0.9</groovy.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <handlebars-java.version>4.2.1</handlebars-java.version>
+        <jackson-threetenbp.version>2.10.0</jackson-threetenbp.version>
+        <jackson.version>2.10.2</jackson.version>
+        <jacoco.version>0.8.7</jacoco.version>
+        <jmustache.version>1.14</jmustache.version>
+        <junit.version>4.13.2</junit.version>
+        <kotlin.version>1.3.60</kotlin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+        <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
+        <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+        <mockito.version>3.12.4</mockito.version>
+        <pmd-plugin.version>3.12.0</pmd-plugin.version>
+        <reflections.version>0.10</reflections.version>
+        <rxgen.version>1.3</rxgen.version>
+        <scala-maven-plugin.version>4.3.1</scala-maven-plugin.version>
+        <slf4j.version>1.7.32</slf4j.version>
+        <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <swagger-core.version>2.1.2</swagger-core.version>
+        <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
+        <swagger-parser.version>2.0.26</swagger-parser.version>
+        <testng.version>7.4.0</testng.version>
+        <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
+        <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>
+        <wagon-svn.version>1.12</wagon-svn.version>
+        <wagon-webdav.version>1.0-beta-2</wagon-webdav.version>
     </properties>
 </project>
