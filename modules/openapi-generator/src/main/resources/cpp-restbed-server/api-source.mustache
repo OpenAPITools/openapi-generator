@@ -128,7 +128,13 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_
 {
     const auto request = session->get_request();
     {{#hasBodyParam}}
-    std::string bodyContent = extractBodyContent(session);
+    int content_length = request->get_header("Content-Length", 0);
+    session->fetch(content_length,
+        [this](const std::shared_ptr<restbed::Session> session,
+            const restbed::Bytes& body) {
+
+                std::string bodyContent = restbed::String::format(
+                    "%.*s\n", (int)body.size(), body.data());
 
     // Get body params or form params here from the body content string
     {{#allParams}}
@@ -224,6 +230,10 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_
     }
     {{/responses}}
     defaultSessionClose(session, status_code, result);
+    {{#hasBodyParam}}
+    });
+    {{/hasBodyParam}}
+    
 }
 
 {{#vendorExtensions.x-codegen-other-methods}}
@@ -232,7 +242,13 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_
 
     const auto request = session->get_request();
     {{#hasBodyParam}}
-    std::string bodyContent = extractBodyContent(session);
+    int content_length = request->get_header("Content-Length", 0);
+    session->fetch(content_length,
+        [this](const std::shared_ptr<restbed::Session> session,
+            const restbed::Bytes& body) {
+
+                std::string bodyContent = restbed::String::format(
+                    "%.*s\n", (int)body.size(), body.data());
 
     // body params or form params here from the body content string
     {{#allParams}}
@@ -334,6 +350,9 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_
     }
     {{/responses}}
     defaultSessionClose(session, status_code, result);
+    {{#hasBodyParam}}
+    });
+    {{/hasBodyParam}}
 }
 {{/vendorExtensions.x-codegen-other-methods}}
 
@@ -350,19 +369,6 @@ void {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::handler_
     throw {{classname}}Exception(501, "Not implemented");
 }
 {{/vendorExtensions.x-codegen-other-methods}}
-
-std::string {{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
-  const auto request = session->get_request();
-  int content_length = request->get_header("Content-Length", 0);
-  std::string bodyContent;
-  session->fetch(content_length,
-                 [&bodyContent](const std::shared_ptr<restbed::Session> session,
-                                const restbed::Bytes &body) {
-                   bodyContent = restbed::String::format(
-                       "%.*s\n", (int)body.size(), body.data());
-                 });
-  return bodyContent;
-}
 {{/operation}}
 
 {{classname}}::{{classname}}(std::shared_ptr<restbed::Service> const& restbedService)
