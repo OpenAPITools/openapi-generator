@@ -38,105 +38,6 @@ module {{moduleName}}
       (mime == "*/*") || !(mime =~ /Application\/.*json(?!p)(;.*)?/i).nil?
     end
 
-    # Deserialize the response to the given return type.
-    #
-    # @param [Response] response HTTP response
-    # @param [String] return_type some examples: "User", "Array<User>", "Hash<String, Integer>"
-    def deserialize(response, return_type)
-      body = response.body
-
-      # handle file downloading - return the File instance processed in request callbacks
-      # note that response body is empty when the file is written in chunks in request on_body callback
-      if return_type == "File"
-        content_disposition = response.headers["Content-Disposition"].to_s
-        if content_disposition && content_disposition =~ /filename=/i
-          filename = content_disposition.match(/filename=[""]?([^""\s]+)[""]?/i).try &.[0]
-          prefix = sanitize_filename(filename)
-        else
-          prefix = "download-"
-        end
-        if !prefix.nil? && prefix.ends_with?("-")
-          prefix = prefix + "-"
-        end
-        encoding = response.headers["Content-Encoding"].to_s
-
-        # TODO add file support
-        raise ApiError.new(code: 0, message: "File response not yet supported in the client.") if return_type
-        return nil
-
-        #@tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        #@tempfile.write(@stream.join.force_encoding(encoding))
-        #@tempfile.close
-        #Log.info { "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
-        #                    "with e.g. `FileUtils.cp(tempfile.path, \"/new/file/path\")` otherwise the temp file "\
-        #                    "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-        #                    "explicitly with `tempfile.delete`" }
-        #return @tempfile
-      end
-
-      return nil if body.nil? || body.empty?
-
-      # return response body directly for String return type
-      return body if return_type == "String"
-
-      # ensuring a default content type
-      content_type = response.headers["Content-Type"] || "application/json"
-
-      raise ApiError.new(code: 0, message: "Content-Type is not supported: #{content_type}") unless json_mime?(content_type)
-
-      begin
-        data = JSON.parse("[#{body}]")[0]
-      rescue e : Exception
-        if %w(String Date Time).includes?(return_type)
-          data = body
-        else
-          raise e
-        end
-      end
-
-      convert_to_type data, return_type
-    end
-
-    # Convert data to the given return type.
-    # @param [Object] data Data to be converted
-    # @param [String] return_type Return type
-    # @return [Mixed] Data in a particular type
-    def convert_to_type(data, return_type)
-      return nil if data.nil?
-      case return_type
-      when "String"
-        data.to_s
-      when "Integer"
-        data.to_s.to_i
-      when "Float"
-        data.to_s.to_f
-      when "Boolean"
-        data == true
-      when "Time"
-        # parse date time (expecting ISO 8601 format)
-        Time.parse! data.to_s, "%Y-%m-%dT%H:%M:%S%Z"
-      when "Date"
-        # parse date (expecting ISO 8601 format)
-        Time.parse! data.to_s, "%Y-%m-%d"
-      when "Object"
-        # generic object (usually a Hash), return directly
-        data
-      when /\AArray<(.+)>\z/
-        # e.g. Array<Pet>
-        sub_type = $1
-        data.map { |item| convert_to_type(item, sub_type) }
-      when /\AHash\<String, (.+)\>\z/
-        # e.g. Hash<String, Integer>
-        sub_type = $1
-        ({} of Symbol => String).tap do |hash|
-          data.each { |k, v| hash[k] = convert_to_type(v, sub_type) }
-        end
-      else
-        # models (e.g. Pet) or oneOf
-        klass = Petstore.const_get(return_type)
-        klass.respond_to?(:openapi_one_of) ? klass.build(data) : klass.build_from_hash(data)
-      end
-    end
 
     # Sanitize filename by removing path.
     # e.g. ../../sun.gif becomes sun.gif
@@ -245,10 +146,11 @@ module {{moduleName}}
       when :pipes
         param.join("|")
       when :multi
+        # TODO: Need to fix this
         # return the array directly as typhoeus will handle it as expected
         param
       else
-        fail "unknown collection format: #{collection_format.inspect}"
+        raise "unknown collection format: #{collection_format.inspect}"
       end
     end
 
@@ -256,7 +158,7 @@ module {{moduleName}}
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
-    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, form_params = {} of Symbol => String)
+    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String?, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, form_params = {} of Symbol => String)
       #ssl_options = {
       #  :ca_file => @config.ssl_ca_file,
       #  :verify => @config.ssl_verify,

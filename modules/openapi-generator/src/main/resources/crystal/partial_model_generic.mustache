@@ -8,8 +8,8 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: {{{baseName}}}, type: {{{dataType}}}{{#default}}, default: {{{.}}}{{/default}}{{#isNullable}}, nillable: true, emit_null: true{{/isNullable}})]
-    property {{{name}}} : {{{dataType}}}
+    @[JSON::Field(key: {{{baseName}}}, type: {{{dataType}}}{{^required}}?{{/required}}{{#default}}, default: {{{.}}}{{/default}}{{#isNullable}}, nillable: true, emit_null: true{{/isNullable}})]
+    property {{{name}}} : {{{dataType}}}{{^required}}?{{/required}}
 
   {{/vars}}
 {{#hasEnums}}
@@ -74,13 +74,13 @@
     {{/discriminator}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize({{#vars}}@{{{name}}} : {{{dataType}}}{{^required}} | Nil{{/required}}{{^-last}}, {{/-last}}{{/vars}})
+    def initialize({{#vars}}@{{{name}}} : {{{dataType}}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/vars}})
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = {{^parent}}Array.new{{/parent}}{{#parent}}super{{/parent}}
+      invalid_properties = {{^parent}}Array(String).new{{/parent}}{{#parent}}super{{/parent}}
       {{#vars}}
       {{^isNullable}}
       {{#required}}
