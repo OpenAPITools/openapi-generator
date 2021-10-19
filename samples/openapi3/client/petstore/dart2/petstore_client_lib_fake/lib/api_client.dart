@@ -16,7 +16,7 @@ class ApiClient {
     _authentications[r'api_key'] = ApiKeyAuth('header', 'api_key');
     _authentications[r'api_key_query'] = ApiKeyAuth('query', 'api_key_query');
     _authentications[r'bearer_test'] = HttpBearerAuth();
-    _authentications[r'http_basic_test'] = HttpBasicAuth();
+    _authentications[r'http_basic_test'] = HttpBasicAuth('user', 'password');
     _authentications[r'petstore_auth'] = OAuth();
   }
 

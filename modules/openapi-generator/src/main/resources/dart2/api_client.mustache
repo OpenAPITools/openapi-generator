@@ -7,7 +7,7 @@ class ApiClient {
   {{#authMethods}}
   {{#isBasic}}
   {{#isBasicBasic}}
-    _authentications[r'{{{name}}}'] = HttpBasicAuth();
+    _authentications[r'{{{name}}}'] = HttpBasicAuth('user', 'password');
   {{/isBasicBasic}}
   {{#isBasicBearer}}
     _authentications[r'{{{name}}}'] = HttpBearerAuth();
