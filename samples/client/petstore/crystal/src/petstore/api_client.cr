@@ -155,8 +155,7 @@ module Petstore
         param.join("|")
       when :multi
         # TODO: Need to fix this
-        # return the array directly as typhoeus will handle it as expected
-        param
+        raise "mult is not supported yet"
       else
         raise "unknown collection format: #{collection_format.inspect}"
       end
