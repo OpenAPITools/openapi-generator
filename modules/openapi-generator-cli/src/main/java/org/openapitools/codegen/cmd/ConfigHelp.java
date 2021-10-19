@@ -136,8 +136,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
                     parentFolder.mkdirs();
                 }
 
-                try (Writer writer = new BufferedWriter(
-                        new OutputStreamWriter(new FileOutputStream(out), StandardCharsets.UTF_8))) {
+                try (FileOutputStream fileOutputStream = new FileOutputStream(out);
+                     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);
+                     Writer writer = new BufferedWriter(outputStreamWriter)) {
                     writer.write(sb.toString());
                 }
             } else {
