@@ -228,7 +228,7 @@ public class TypeScriptAngularClientCodegenTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("test", schema);
         codegen.setOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.toModelImport(modelName), "model/foo-response-links");
+        Assert.assertEquals(codegen.toModelImport(modelName), "../model/foo-response-links");
         Assert.assertEquals(codegen.toModelFilename(modelName), "./foo-response-links");
     }
 

@@ -44,6 +44,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static enum PROVIDED_IN_LEVEL {none, root, any, platform}
 
     private static final String DEFAULT_IMPORT_PREFIX = "./";
+    private static final String DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX = "../";
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
@@ -634,7 +635,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
-        return modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
+        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
     public String getNpmRepository() {
