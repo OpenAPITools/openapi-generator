@@ -110,6 +110,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public ExternalDocumentation externalDocumentation;
 
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    private CodegenComposedSchemas composedSchemas = null;
 
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
@@ -810,6 +811,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.isAnyType = isAnyType;
     }
 
+    public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
+        this.composedSchemas = composedSchemas;
+    }
+
+    public CodegenComposedSchemas getComposedSchemas() {
+        return composedSchemas;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -849,6 +858,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
+                Objects.equals(composedSchemas, that.composedSchemas) &&
                 Objects.equals(parent, that.parent) &&
                 Objects.equals(parentSchema, that.parentSchema) &&
                 Objects.equals(interfaces, that.interfaces) &&
@@ -922,7 +932,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping, anyOfProps, oneOfProps, allOfProps,
-                isAnyType);
+                isAnyType, getComposedSchemas());
     }
 
     @Override
@@ -1017,6 +1027,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
         sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
         sb.append(", getIsAnyType=").append(getIsAnyType());
+        sb.append(", composedSchemas=").append(composedSchemas);
         sb.append('}');
         return sb.toString();
     }
