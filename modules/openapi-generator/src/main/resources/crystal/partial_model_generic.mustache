@@ -8,7 +8,7 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: {{{baseName}}}, type: {{{dataType}}}{{^required}}?{{/required}}{{#default}}, default: {{{.}}}{{/default}}{{#isNullable}}, nillable: true, emit_null: true{{/isNullable}})]
+    @[JSON::Field(key: {{{baseName}}}, type: {{{dataType}}}{{^required}}?{{/required}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nillable: true, emit_null: true{{/isNullable}})]
     property {{{name}}} : {{{dataType}}}{{^required}}?{{/required}}
 
   {{/vars}}
@@ -74,7 +74,7 @@
     {{/discriminator}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize({{#vars}}@{{{name}}} : {{{dataType}}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/vars}})
+    def initialize({{#vars}}@{{{name}}} : {{{dataType}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/vars}})
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
