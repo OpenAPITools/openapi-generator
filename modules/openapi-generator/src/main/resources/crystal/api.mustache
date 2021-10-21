@@ -148,7 +148,7 @@ module {{moduleName}}
       {{/headerParams}}
 
       # form parameters
-      form_params = Hash(Symbol, String).new
+      form_params = Hash(Symbol, (String | ::File)).new
       {{#formParams}}
       form_params[:"{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
       {{/formParams}}
