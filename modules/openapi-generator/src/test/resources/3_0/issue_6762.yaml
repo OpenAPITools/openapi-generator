@@ -1,0 +1,61 @@
+openapi: 3.0.0
+servers:
+  - url: 'localhost:8080'
+info:
+  version: 1.0.0
+  title: OpenAPI Zoo
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /girafes/{refStatus}:
+    get:
+      operationId: getGirafes
+      parameters:
+        - $ref: '#/components/parameters/refStatus'
+  /zebras/{status}:
+    get:
+      operationId: getZebras
+      parameters:
+        - in: path
+          name: status
+          required: true
+          schema:
+            type: integer
+            enum: [0,1]
+            default: 0
+  /bears/{refCondition}:
+    get:
+      operationId: getBears
+      parameters:
+        - $ref: '#/components/parameters/refCondition'
+  /camels/{condition}:
+    get:
+      operationId: getCamels
+      parameters:
+        - in: path
+          name: condition
+          required: true
+          schema:
+            type: string
+            enum:
+              - sleeping
+              - awake
+components:
+  parameters:
+    refStatus:
+      in: path
+      name: refStatus
+      required: true
+      schema:
+        type: integer
+        enum: [0,1]
+        default: 0
+    refCondition:
+      in: path
+      name: refCondition
+      schema:
+        type: string
+        enum:
+          - sleeping
+          - awake

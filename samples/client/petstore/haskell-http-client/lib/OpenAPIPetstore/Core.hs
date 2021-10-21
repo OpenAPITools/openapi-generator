@@ -44,6 +44,7 @@ import qualified Data.CaseInsensitive as CI
 import qualified Data.Data as P (Data, Typeable, TypeRep, typeRep)
 import qualified Data.Foldable as P
 import qualified Data.Ix as P
+import qualified Data.Kind as K (Type)
 import qualified Data.Maybe as P
 import qualified Data.Proxy as P (Proxy(..))
 import qualified Data.Text as T
@@ -55,9 +56,9 @@ import qualified Lens.Micro as L
 import qualified Network.HTTP.Client.MultipartFormData as NH
 import qualified Network.HTTP.Types as NH
 import qualified Prelude as P
+import qualified Text.Printf as T
 import qualified Web.FormUrlEncoded as WH
 import qualified Web.HttpApiData as WH
-import qualified Text.Printf as T
 
 import Control.Applicative ((<|>))
 import Control.Applicative (Alternative)
@@ -66,7 +67,7 @@ import Data.Function ((&))
 import Data.Foldable(foldlM)
 import Data.Monoid ((<>))
 import Data.Text (Text)
-import Prelude (($), (.), (<$>), (<*>), Maybe(..), Bool(..), Char, String, fmap, mempty, pure, return, show, IO, Monad, Functor)
+import Prelude (($), (.), (&&), (<$>), (<*>), Maybe(..), Bool(..), Char, String, fmap, mempty, pure, return, show, IO, Monad, Functor, maybe)
 
 -- * OpenAPIPetstoreConfig
 
@@ -78,6 +79,7 @@ data OpenAPIPetstoreConfig = OpenAPIPetstoreConfig
   , configLogContext :: LogContext -- ^ Configures the logger
   , configAuthMethods :: [AnyAuthMethod] -- ^ List of configured auth methods
   , configValidateAuthMethods :: Bool -- ^ throw exceptions if auth methods are not configured
+  , configQueryExtraUnreserved :: B.ByteString -- ^ Configures additional querystring characters which must not be URI encoded, e.g. '+' or ':' 
   }
 
 -- | display the config
@@ -108,6 +110,7 @@ newConfig = do
         , configLogContext = logCxt
         , configAuthMethods = []
         , configValidateAuthMethods = True
+        , configQueryExtraUnreserved = ""
         }
 
 -- | updates config use AuthMethod on matching requests
@@ -335,6 +338,16 @@ toQuery :: WH.ToHttpApiData a => (BC.ByteString, Maybe a) -> [NH.QueryItem]
 toQuery x = [(fmap . fmap) toQueryParam x]
   where toQueryParam = T.encodeUtf8 . WH.toQueryParam
 
+toPartialEscapeQuery :: B.ByteString -> NH.Query -> NH.PartialEscapeQuery
+toPartialEscapeQuery extraUnreserved query = fmap (\(k, v) -> (k, maybe [] go v)) query
+  where go :: B.ByteString -> [NH.EscapeItem]
+        go v = v & B.groupBy (\a b -> a `B.notElem` extraUnreserved && b `B.notElem` extraUnreserved)
+                 & fmap (\xs -> if B.null xs then NH.QN xs
+                                  else if B.head xs `B.elem` extraUnreserved
+                                          then NH.QN xs -- Not Encoded
+                                          else NH.QE xs -- Encoded
+                        )
+
 -- *** OpenAPI `CollectionFormat` Utils
 
 -- | Determines the format of the array if type array is used.
@@ -560,4 +573,4 @@ _showBinaryBase64 = T.decodeUtf8 . BL.toStrict . BL64.encode . unBinary
 -- * Lens Type Aliases
 
 type Lens_' s a = Lens_ s s a a
-type Lens_ s t a b = forall (f :: * -> *). Functor f => (a -> f b) -> s -> f t
+type Lens_ s t a b = forall (f :: K.Type -> K.Type). Functor f => (a -> f b) -> s -> f t

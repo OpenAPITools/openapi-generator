@@ -55,7 +55,7 @@ These options allow some customization of the code generation process.
 **haskell-http-client additional properties:**
 
 | OPTION                          | DESCRIPTION                                                                                                                   | DEFAULT  | ACTUAL                                |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------- |
+|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------|----------|---------------------------------------|
 | allowFromJsonNulls              | allow JSON Null during model decoding from JSON                                                                               | true     | {{{allowFromJsonNulls}}}              |
 | allowNonUniqueOperationIds      | allow *different* API modules to contain the same operationId. Each API must be imported qualified                            | false    | {{{x-allowNonUniqueOperationIds}}}    |
 | allowToJsonNulls                | allow emitting JSON Null during model encoding to JSON                                                                        | false    | {{{allowToJsonNulls}}}                |
@@ -76,6 +76,7 @@ These options allow some customization of the code generation process.
 | requestType                     | Set the name of the type used to generate requests                                                                            |          | {{{requestType}}}                     |
 | strictFields                    | Add strictness annotations to all model fields                                                                                | true     | {{{x-strictFields}}}                  |
 | useKatip                        | Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger       | true     | {{{x-useKatip}}}                      |
+| queryExtraUnreserved            | Configures additional querystring characters which must not be URI encoded, e.g. '+' or ':'                                   |          | {{{x-queryExtraUnreserved}}}          |
 
 [1]: https://www.stackage.org/haddock/lts-9.0/iso8601-time-0.1.4/Data-Time-ISO8601.html#v:formatISO8601Millis
 
@@ -112,7 +113,7 @@ This library is intended to be imported qualified.
 | MODULE              | NOTES                                               |
 | ------------------- | --------------------------------------------------- |
 | {{baseModule}}.Client    | use the "dispatch" functions to send requests       |
-| {{baseModule}}.Core      | core funcions, config and request types             |
+| {{baseModule}}.Core      | core functions, config and request types            |
 | {{baseModule}}.API       | construct api requests                              |
 | {{baseModule}}.Model     | describes api models                                |
 | {{baseModule}}.MimeTypes | encoding/decoding MIME types (content-types/accept) |

@@ -1,0 +1,8 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-enum-default-value
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/issue10591-enum-defaultValue.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-enum-default-value
+  serializableModel: "true"
+  dateLibrary: java8

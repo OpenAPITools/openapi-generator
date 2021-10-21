@@ -444,6 +444,14 @@ public class ApiClient extends JavaTimeFormatter {
             collectionFormat = CollectionFormat.CSV;
         }
 
+        if (value instanceof Map) {
+            final Map<String, Object> valuesMap = (Map<String, Object>) value;
+            for (final Entry<String, Object> entry : valuesMap.entrySet()) {
+                params.add(entry.getKey(), parameterToString(entry.getValue()));
+            }
+            return params;
+        }
+
         Collection<?> valueCollection = null;
         if (value instanceof Collection) {
             valueCollection = (Collection<?>) value;
@@ -602,7 +610,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Include queryParams in uriParams taking into account the paramName
-     * @param queryParam The query parameters
+     * @param queryParams The query parameters
      * @param uriParams The path parameters
      * return templatized query string
      */
@@ -711,7 +719,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @param headerParams The header parameters
      * @param cookieParams the cookie parameters
      */
-    private void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
+    protected void updateParamsForAuth(String[] authNames, MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {

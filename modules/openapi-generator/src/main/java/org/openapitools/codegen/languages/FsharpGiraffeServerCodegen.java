@@ -50,7 +50,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
     @SuppressWarnings("hiding")
-    protected Logger LOGGER = LoggerFactory.getLogger(FsharpGiraffeServerCodegen.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(FsharpGiraffeServerCodegen.class);
 
     private boolean useSwashbuckle = false;
     protected int serverPort = 8080;

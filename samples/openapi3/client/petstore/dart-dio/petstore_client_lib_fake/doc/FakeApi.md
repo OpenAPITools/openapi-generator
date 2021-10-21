@@ -25,7 +25,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 
 
 # **fakeHealthGet**
@@ -585,7 +585,7 @@ var enumQueryStringArray = []; // BuiltList<String> | Query parameter enum test 
 var enumQueryString = enumQueryString_example; // String | Query parameter enum test (string)
 var enumQueryInteger = 56; // int | Query parameter enum test (double)
 var enumQueryDouble = 1.2; // double | Query parameter enum test (double)
-var enumFormStringArray = [enumFormStringArray_example]; // BuiltList<String> | Form parameter enum test (string array)
+var enumFormStringArray = []; // BuiltList<String> | Form parameter enum test (string array)
 var enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
 try {
@@ -761,7 +761,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testQueryParameterCollectionFormat**
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language)
 
 
 
@@ -777,10 +777,11 @@ var ioutil = []; // BuiltList<String> |
 var http = []; // BuiltList<String> | 
 var url = []; // BuiltList<String> | 
 var context = []; // BuiltList<String> | 
+var allowEmpty = allowEmpty_example; // String | 
 var language = ; // BuiltMap<String, String> | 
 
 try {
-    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, language);
+    api_instance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
 } catch (e) {
     print('Exception when calling FakeApi->testQueryParameterCollectionFormat: $e\n');
 }
@@ -795,6 +796,7 @@ Name | Type | Description  | Notes
  **http** | [**BuiltList<String>**](String.md)|  | 
  **url** | [**BuiltList<String>**](String.md)|  | 
  **context** | [**BuiltList<String>**](String.md)|  | 
+ **allowEmpty** | **String**|  | 
  **language** | [**BuiltMap<String, String>**](String.md)|  | [optional] 
 
 ### Return type

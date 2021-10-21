@@ -17,4 +17,4 @@ The last Dart version that was used to generate the keywords can be found in `da
 1. run the dart app 
     - `./save-dart-keywords.exe`
 
-1. the ouput is `dart-keywords.txt` and `dart-version.txt`
+1. the output is `dart-keywords.txt` and `dart-version.txt`

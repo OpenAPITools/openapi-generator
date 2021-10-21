@@ -1307,7 +1307,7 @@ public class FakeApi {
         if (context == null) {
             throw new IllegalArgumentException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
         }
-        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-paramters");
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-parameters");
         if (pipe != null) {
             String key = "pipe";
             Object value = pipe;
@@ -1384,7 +1384,7 @@ public class FakeApi {
         if (context == null) {
             throw new IllegalArgumentException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
         }
-        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-paramters");
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/test-query-parameters");
 
         // Copy the params argument if present, to allow passing in immutable maps
         Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);

@@ -604,6 +604,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public String toEnumName(CodegenProperty property) {
+        return property.nameInCamelCase;
+    }
+
+    @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "DefaultApi";
@@ -881,7 +886,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             name = "_u";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z0-9_]*$")) {
             return name;
         }

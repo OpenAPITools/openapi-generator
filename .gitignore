@@ -62,14 +62,17 @@ samples/server-generator/node/output/node_modules
 samples/server/petstore/nodejs/node_modules
 samples/server/petstore/nodejs-server/node_modules
 
-# qt5 cpp
-*.pro.user
-samples/client/petstore/qt5cpp/PetStore/moc_*
-samples/client/petstore/qt5cpp/PetStore/*.o
-samples/client/petstore/qt5cpp/build-*
-samples/client/petstore/qt5cpp/PetStore/PetStore
-samples/client/petstore/qt5cpp/PetStore/Makefile
-samples/client/petstore/qt5cpp/PetStore/PetStore.pro.user
+# qt cpp
+samples/client/build
+samples/client/petstore/build
+samples/client/petstore/cpp-qt/PetStore/moc_*
+samples/client/petstore/cpp-qt/PetStore/*.o
+samples/client/petstore/cpp-qt/build-*
+samples/client/petstore/cpp-qt/build-*
+samples/client/petstore/cpp-qt/PetStore/PetStore
+samples/client/petstore/cpp-qt/PetStore/Makefile
+samples/client/petstore/cpp-qt/PetStore/PetStore.pro.user
+samples/client/petstore/cpp-qt/CMakeLists.txt.user
 
 # cpprestsdk
 samples/client/petstore/cpp-restsdk/CMakeCache.txt

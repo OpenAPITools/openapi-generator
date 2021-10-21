@@ -30,7 +30,7 @@
       {{/apiInfo}}
       {{#models}}
       {{#model}}
-      {{^vendorExtensions.x-is-openapimodel-enum}}
+      {{^isEnum}}
       <xs:complexType name="{{classname}}">
         {{#description}}
         <xs:annotation>
@@ -65,6 +65,10 @@
           </xs:element>
           {{/vendorExtensions.x-prop-has-minormax}}
           {{^vendorExtensions.x-prop-has-minormax}}
+          {{#vendorExtensions.x-oneof-schemas}}
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="{{#lambda.lowercase}}{{.}}{{/lambda.lowercase}}" type="schemas:{{.}}" />
+          {{/vendorExtensions.x-oneof-schemas}}
+          {{^vendorExtensions.x-oneof-schemas}}
           {{#isContainer}}
           <xs:element minOccurs="{{minItems}}{{^minItems}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/minItems}}" maxOccurs="{{maxItems}}{{^maxItems}}unbounded{{/maxItems}}" name="{{baseName}}" type="{{#items}}{{#isModel}}schemas:{{complexType}}{{/isModel}}{{^isModel}}{{#isFreeFormObject}}xs:string{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isString}}xs:{{complexType}}{{/isString}}{{^isString}}{{#isNumeric}}xs:{{complexType}}{{/isNumeric}}{{^isNumeric}}schemas:{{complexType}}{{/isNumeric}}{{/isString}}{{/isFreeFormObject}}{{/isModel}}{{/items}}"{{^description}} /{{/description}}>
           {{/isContainer}}
@@ -77,11 +81,12 @@
             </xs:annotation>
           </xs:element>
           {{/description}}
+          {{/vendorExtensions.x-oneof-schemas}}
           {{/vendorExtensions.x-prop-has-minormax}}
           {{/vars}}
         </xs:sequence>
       </xs:complexType>
-      {{/vendorExtensions.x-is-openapimodel-enum}}
+      {{/isEnum}}
       {{/model}}
       {{/models}}
       {{#models}}
@@ -206,7 +211,7 @@
       <xs:complexType name="{{operationId}}_ResponseMessage">
         <xs:sequence>
           {{#message}}
-          <xs:element minOccurs="1"{{#isArray}} maxOccurs="unbounded"{{/isArray}} name="{{#isModel}}{{#isMap}}response{{/isMap}}{{^isMap}}{{#isFile}}response{{/isFile}}{{^isFile}}{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}{{baseType}}{{/isArray}}{{^isArray}}response{{/isArray}}{{/isModel}}"{{#dataType}} type="{{#isModel}}{{#isMap}}xs:{{baseType}}{{/isMap}}{{^isMap}}{{#isFile}}xs:anyType{{/isFile}}{{^isFile}}schemas:{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}schemas:{{baseType}}{{/isArray}}{{^isArray}}xs:{{dataType}}{{/isArray}}{{/isModel}}"{{/dataType}}>
+          <xs:element minOccurs="1"{{#isArray}} maxOccurs="unbounded"{{/isArray}} name="{{#isModel}}{{#isMap}}response{{/isMap}}{{^isMap}}{{#isFile}}response{{/isFile}}{{^isFile}}{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}{{baseType}}{{/isArray}}{{^isArray}}response{{/isArray}}{{/isModel}}"{{#dataType}} type="{{#isModel}}{{#isMap}}xs:{{baseType}}{{/isMap}}{{^isMap}}{{#isFile}}xs:string{{/isFile}}{{^isFile}}schemas:{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}schemas:{{baseType}}{{/isArray}}{{^isArray}}xs:{{dataType}}{{/isArray}}{{/isModel}}"{{/dataType}}>
             <xs:annotation>
               <xs:documentation>{{message}}</xs:documentation>
             </xs:annotation>

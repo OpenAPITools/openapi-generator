@@ -50,7 +50,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     public static final String GENERATE_AS_MANAGED_SOURCES_DESC = "Resulting files cab be used as managed resources. No build files or default controllers will be generated";
     public static final boolean DEFAULT_GENERATE_AS_MANAGED_SOURCES = false;
 
-    static final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -305,7 +305,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         .put("String", "Segment")
     .build();
 
-    protected static void addPathMatcher(CodegenOperation codegenOperation) {
+    protected void addPathMatcher(CodegenOperation codegenOperation) {
         LinkedList<String> allPaths = new LinkedList<>(Arrays.asList(codegenOperation.path.split("/")));
         allPaths.removeIf(""::equals);
 

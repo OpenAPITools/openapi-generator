@@ -20,7 +20,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 
 
 
@@ -625,7 +625,7 @@ let opts = {
   'enumQueryString': "'-efg'", // String | Query parameter enum test (string)
   'enumQueryInteger': 56, // Number | Query parameter enum test (double)
   'enumQueryDouble': 3.4, // Number | Query parameter enum test (double)
-  'enumFormStringArray': "'$'", // [String] | Form parameter enum test (string array)
+  'enumFormStringArray': ["'$'"], // [String] | Form parameter enum test (string array)
   'enumFormString': "'-efg'" // String | Form parameter enum test (string)
 };
 apiInstance.testEnumParameters(opts, (error, data, response) => {
@@ -816,7 +816,7 @@ No authorization required
 
 ## testQueryParameterCollectionFormat
 
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, opts)
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, opts)
 
 
 
@@ -833,10 +833,11 @@ let ioutil = ["null"]; // [String] |
 let http = ["null"]; // [String] | 
 let url = ["null"]; // [String] | 
 let context = ["null"]; // [String] | 
+let allowEmpty = "allowEmpty_example"; // String | 
 let opts = {
   'language': {key: "null"} // {String: String} | 
 };
-apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, opts, (error, data, response) => {
+apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -855,6 +856,7 @@ Name | Type | Description  | Notes
  **http** | [**[String]**](String.md)|  | 
  **url** | [**[String]**](String.md)|  | 
  **context** | [**[String]**](String.md)|  | 
+ **allowEmpty** | **String**|  | 
  **language** | [**{String: String}**](String.md)|  | [optional] 
 
 ### Return type
