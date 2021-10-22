@@ -16,14 +16,14 @@ module Petstore
   class ApiResponse
     include JSON::Serializable
 
-    @[JSON::Field(key: "code", type: Int32?)]
-    property code : Int32?
+    @[JSON::Field(key: "code", type: Int32)]
+    property code : Int32
 
-    @[JSON::Field(key: "type", type: String?)]
-    property _type : String?
+    @[JSON::Field(key: "type", type: String)]
+    property _type : String
 
-    @[JSON::Field(key: "message", type: String?)]
-    property message : String?
+    @[JSON::Field(key: "message", type: String)]
+    property message : String
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash

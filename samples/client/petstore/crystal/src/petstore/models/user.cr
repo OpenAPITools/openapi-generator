@@ -16,30 +16,30 @@ module Petstore
   class User
     include JSON::Serializable
 
-    @[JSON::Field(key: "id", type: Int64?)]
-    property id : Int64?
+    @[JSON::Field(key: "id", type: Int64)]
+    property id : Int64
 
-    @[JSON::Field(key: "username", type: String?)]
-    property username : String?
+    @[JSON::Field(key: "username", type: String)]
+    property username : String
 
-    @[JSON::Field(key: "firstName", type: String?)]
-    property first_name : String?
+    @[JSON::Field(key: "firstName", type: String)]
+    property first_name : String
 
-    @[JSON::Field(key: "lastName", type: String?)]
-    property last_name : String?
+    @[JSON::Field(key: "lastName", type: String)]
+    property last_name : String
 
-    @[JSON::Field(key: "email", type: String?)]
-    property email : String?
+    @[JSON::Field(key: "email", type: String)]
+    property email : String
 
-    @[JSON::Field(key: "password", type: String?)]
-    property password : String?
+    @[JSON::Field(key: "password", type: String)]
+    property password : String
 
-    @[JSON::Field(key: "phone", type: String?)]
-    property phone : String?
+    @[JSON::Field(key: "phone", type: String)]
+    property phone : String
 
     # User Status
-    @[JSON::Field(key: "userStatus", type: Int32?)]
-    property user_status : Int32?
+    @[JSON::Field(key: "userStatus", type: Int32)]
+    property user_status : Int32
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash

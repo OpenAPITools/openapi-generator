@@ -8,8 +8,8 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{^required}}?{{/required}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nillable: true, emit_null: true{{/isNullable}})]
-    property {{{name}}} : {{{dataType}}}{{^required}}?{{/required}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nillable: true, emit_null: true{{/isNullable}})]
+    property {{{name}}} : {{{dataType}}}
 
   {{/vars}}
 {{#hasEnums}}
