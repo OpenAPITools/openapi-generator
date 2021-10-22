@@ -15,7 +15,7 @@ export class ServerConfiguration<T extends { [key: string]: string }> implements
 
     /**
      * Sets the value of the variables of this server. Variables are included in 
-     * the `url` of this ServerConfiguration in the form `{key}`
+     * the `url` of this ServerConfiguration in the form `{variableName}`
      *
      * @param variableConfiguration a partial variable configuration for the 
      * variables contained in the url
