@@ -47,19 +47,6 @@ module Petstore
     end
 
 
-    # Sanitize filename by removing path.
-    # e.g. ../../sun.gif becomes sun.gif
-    #
-    # @param [String] filename the filename to be sanitized
-    # @return [String] the sanitized filename
-    def sanitize_filename(filename)
-      if filename.nil?
-        return nil
-      else
-        filename.gsub(/.*[\/\\]/, "")
-      end
-    end
-
     def build_request_url(path : String, operation : Symbol)
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, "/")
@@ -116,31 +103,6 @@ module Petstore
       json_content_type || content_types.first
     end
 
-    # Convert object (array, hash, object, etc) to JSON string.
-    # @param [Object] model object to be converted into JSON string
-    # @return [String] JSON string representation of the object
-    def object_to_http_body(model)
-      return model if model.nil? || model.is_a?(String)
-      local_body = nil
-      if model.is_a?(Array)
-        local_body = model.map { |m| object_to_hash(m) }
-      else
-        local_body = object_to_hash(model)
-      end
-      local_body.to_json
-    end
-
-    # Convert object(non-array) to hash.
-    # @param [Object] obj object to be converted into JSON string
-    # @return [String] JSON string representation of the object
-    def object_to_hash(obj)
-      if obj.respond_to?(:to_hash)
-        obj.to_hash
-      else
-        obj
-      end
-    end
-
     # Build parameter value according to the given collection format.
     # @param [String] collection_format one of :csv, :ssv, :tsv, :pipes and :multi
     def build_collection_param(param, collection_format)
@@ -165,7 +127,7 @@ module Petstore
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
-    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String?, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, form_params = {} of Symbol => String)
+    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String?, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, form_params = {} of Symbol => (String | ::File))
       #ssl_options = {
       #  :ca_file => @config.ssl_ca_file,
       #  :verify => @config.ssl_verify,
@@ -173,15 +135,6 @@ module Petstore
       #  :client_cert => @config.ssl_client_cert,
       #  :client_key => @config.ssl_client_key
       #}
-
-      #connection = Faraday.new(:url => config.base_url, :ssl => ssl_options) do |conn|
-      #  conn.basic_auth(config.username, config.password)
-      #  if opts[:header_params]["Content-Type"] == "multipart/form-data"
-      #    conn.request :multipart
-      #    conn.request :url_encoded
-      #  end
-      #  conn.adapter(Faraday.default_adapter)
-      #end
 
       update_params_for_auth! header_params, query_params, auth_names
 
@@ -224,90 +177,5 @@ module Petstore
 
       return response.body, response.status_code, response.headers
     end
-
-    # Builds the HTTP request
-    #
-    # @param [String] http_method HTTP method/verb (e.g. POST)
-    # @param [String] path URL path (e.g. /account/new)
-    # @option opts [Hash] :header_params Header parameters
-    # @option opts [Hash] :query_params Query parameters
-    # @option opts [Hash] :form_params Query parameters
-    # @option opts [Object] :body HTTP body (JSON/XML)
-    # @return [Typhoeus::Request] A Typhoeus Request
-    def build_request(http_method, path, request, opts = {} of Symbol => String)
-      url = build_request_url(path, opts)
-      http_method = http_method.to_sym.downcase
-
-      header_params = @default_headers.merge(opts[:header_params] || {} of Symbole => String)
-      query_params = opts[:query_params] || {} of Symbol => String
-      form_params = opts[:form_params] || {} of Symbol => String
-
-      update_params_for_auth! header_params, query_params, opts[:auth_names]
-
-      req_opts = {
-        :method => http_method,
-        :headers => header_params,
-        :params => query_params,
-        :params_encoding => @config.params_encoding,
-        :timeout => @config.timeout,
-        :verbose => @config.debugging
-      }
-
-      if [:post, :patch, :put, :delete].includes?(http_method)
-        req_body = build_request_body(header_params, form_params, opts[:body])
-        req_opts.update body: req_body
-        if @config.debugging
-          Log.debug {"HTTP request body param ~BEGIN~\n#{req_body}\n~END~\n"}
-        end
-      end
-      request.headers = header_params
-      request.body = req_body
-      request.url url
-      request.params = query_params
-      download_file(request) if opts[:return_type] == "File"
-      request
-    end
-
-    # Builds the HTTP request body
-    #
-    # @param [Hash] header_params Header parameters
-    # @param [Hash] form_params Query parameters
-    # @param [Object] body HTTP body (JSON/XML)
-    # @return [String] HTTP body data in the form of string
-    def build_request_body(header_params, form_params, body)
-      # http form
-      if header_params["Content-Type"] == "application/x-www-form-urlencoded"
-        data = URI.encode_www_form(form_params)
-      elsif header_params["Content-Type"] == "multipart/form-data"
-        data = {} of Symbol => String
-        form_params.each do |key, value|
-          case value
-          when ::File, ::Tempfile
-            # TODO hardcode to application/octet-stream, need better way to detect content type
-            data[key] = Faraday::UploadIO.new(value.path, "application/octet-stream", value.path)
-          when ::Array, nil
-            # let Faraday handle Array and nil parameters
-            data[key] = value
-          else
-            data[key] = value.to_s
-          end
-        end
-      elsif body
-        data = body.is_a?(String) ? body : body.to_json
-      else
-        data = nil
-      end
-      data
-    end
-
-    # TODO fix streaming response
-    #def download_file(request)
-    #  @stream = []
-
-    #  # handle streaming Responses
-    #  request.options.on_data = Proc.new do |chunk, overall_received_bytes|
-    #    @stream << chunk
-    #  end
-    #end
   end
 end

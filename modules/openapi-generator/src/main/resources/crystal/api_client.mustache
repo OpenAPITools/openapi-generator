@@ -119,7 +119,7 @@ module {{moduleName}}
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
-    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String?, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, form_params = {} of Symbol => (String | File))
+    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String?, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, form_params = {} of Symbol => (String | ::File))
       #ssl_options = {
       #  :ca_file => @config.ssl_ca_file,
       #  :verify => @config.ssl_verify,
