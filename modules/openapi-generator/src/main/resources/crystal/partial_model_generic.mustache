@@ -74,7 +74,7 @@
     {{/discriminator}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize({{#vars}}@{{{name}}} : {{{dataType}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/vars}})
+    def initialize({{#vars}}@{{{name}}} : {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/vars}})
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
