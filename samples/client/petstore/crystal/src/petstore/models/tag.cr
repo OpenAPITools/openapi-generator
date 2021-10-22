@@ -16,10 +16,10 @@ module Petstore
   class Tag
     include JSON::Serializable
 
-    @[JSON::Field(key: id, type: Int64?)]
+    @[JSON::Field(key: "id", type: Int64?)]
     property id : Int64?
 
-    @[JSON::Field(key: name, type: String?)]
+    @[JSON::Field(key: "name", type: String?)]
     property name : String?
 
     # Initializes the object
