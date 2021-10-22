@@ -39,9 +39,11 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     public static final String DEFAULT_INCLUDE = "defaultInclude";
     public static final String GENERATE_GMOCKS_FOR_APIS = "generateGMocksForApis";
 
+    protected String packageName = "CppRestOpenAPIClient";
     protected String packageVersion = "1.0.0";
     protected String declspec = "";
     protected String defaultInclude = "";
+    protected String modelDirName = "model";
 
     private final Set<String> parentModels = new HashSet<>();
     private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
@@ -119,6 +121,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         cliOptions.clear();
 
         // CLI options
+        addOption(CodegenConstants.PACKAGE_NAME, "C++ package name.", this.packageName);
         addOption(CodegenConstants.MODEL_PACKAGE, "C++ namespace for models (convention: name.space.model).",
                 this.modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "C++ namespace for apis (convention: name.space.api).",
@@ -129,7 +132,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         addOption(DEFAULT_INCLUDE,
                 "The default include statement that should be placed in all headers for including things like the declspec (convention: #include \"Commons.h\" ",
                 this.defaultInclude);
-        addOption(GENERATE_GMOCKS_FOR_APIS,
+                addOption(GENERATE_GMOCKS_FOR_APIS,
                 "Generate Google Mock classes for APIs.",
                 null);
         addOption(RESERVED_WORD_PREFIX_OPTION,
@@ -159,6 +162,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("cmake-lists.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("cmake-config.mustache", "", "Config.cmake.in"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -212,6 +216,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             additionalProperties.put("gmockApis", "true");
         }
 
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("modelHeaderGuardPrefix", modelPackage.replaceAll("\\.", "_").toUpperCase(Locale.ROOT));
@@ -229,7 +234,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
      */
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/model";
+        return outputFolder + "/" + modelDirName;
     }
 
     /**
@@ -246,7 +251,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         } else {
-            return "#include \"" + toModelFilename(name) + ".h\"";
+            return "#include \"" + modelDirName + "/" + toModelFilename(name) + ".h\"";
         }
     }
 
@@ -357,10 +362,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isFileSchema(p) || ModelUtils.isBinarySchema(p)) {
             return "std::shared_ptr<" + openAPIType + ">";
         } else if (ModelUtils.isStringSchema(p)
-                || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
-                || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
-                || languageSpecificPrimitives.contains(openAPIType)) {
-            return toModelName(openAPIType);
+        || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
+        || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
+        || languageSpecificPrimitives.contains(openAPIType)) {
+    return toModelName(openAPIType);
         }
 
         return "std::shared_ptr<" + openAPIType + ">";
