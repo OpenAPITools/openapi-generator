@@ -402,8 +402,8 @@ module Petstore
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
-      form_params[:"name"] = name
-      form_params[:"status"] = status
+      form_params[:"name"] = name unless name.nil?
+      form_params[:"status"] = status unless status.nil?
 
       # http body (model)
       post_body = nil
@@ -463,8 +463,8 @@ module Petstore
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
-      form_params[:"additionalMetadata"] = additional_metadata
-      form_params[:"file"] = file
+      form_params[:"additionalMetadata"] = additional_metadata unless additional_metadata.nil?
+      form_params[:"file"] = file unless file.nil?
 
       # http body (model)
       post_body = nil

@@ -150,7 +150,7 @@ module {{moduleName}}
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
       {{#formParams}}
-      form_params[:"{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{/collectionFormat}}
+      form_params[:"{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}} unless {{{paramName}}}.nil?{{/collectionFormat}}
       {{/formParams}}
 
       # http body (model)
