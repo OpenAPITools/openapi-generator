@@ -51,8 +51,10 @@ jobs:
           curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
           export NVM_DIR="/opt/circleci/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm install stable
-          nvm alias default stable
+          #nvm install stable
+          # install v16 instead of the latest stable version
+          nvm install 16
+          nvm alias default 16
 
           # Each step uses the same `$BASH_ENV`, so need to modify it
           echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
