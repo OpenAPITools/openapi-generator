@@ -43,7 +43,9 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user"
     )
-    CompletableFuture<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object", required = true )   @Valid @RequestBody User body);
+    CompletableFuture<ResponseEntity<Void>> createUser(
+
+@ApiParam(value = "Created user object", required = true )   @Valid @RequestBody User body);
 
 
     /**
@@ -61,7 +63,9 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithArray"
     )
-    CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body);
+    CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(
+
+@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body);
 
 
     /**
@@ -79,7 +83,9 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithList"
     )
-    CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body);
+    CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(
+
+@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body);
 
 
     /**
@@ -101,7 +107,9 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = "/user/{username}"
     )
-    CompletableFuture<ResponseEntity<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username);
+    CompletableFuture<ResponseEntity<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+
+);
 
 
     /**
@@ -126,7 +134,9 @@ public interface UserApi {
         value = "/user/{username}",
         produces = "application/json"
     )
-    CompletableFuture<ResponseEntity<User>> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username);
+    CompletableFuture<ResponseEntity<User>> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+
+);
 
 
     /**
@@ -149,7 +159,11 @@ public interface UserApi {
         value = "/user/login",
         produces = "application/json"
     )
-    CompletableFuture<ResponseEntity<String>> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password);
+    CompletableFuture<ResponseEntity<String>> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username
+
+,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password
+
+);
 
 
     /**
@@ -189,6 +203,10 @@ public interface UserApi {
         method = RequestMethod.PUT,
         value = "/user/{username}"
     )
-    CompletableFuture<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,@ApiParam(value = "Updated user object", required = true )   @Valid @RequestBody User body);
+    CompletableFuture<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username
+
+,
+
+@ApiParam(value = "Updated user object", required = true )   @Valid @RequestBody User body);
 
 }

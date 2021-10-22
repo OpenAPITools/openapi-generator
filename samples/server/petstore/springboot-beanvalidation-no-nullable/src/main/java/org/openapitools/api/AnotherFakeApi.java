@@ -39,6 +39,8 @@ public interface AnotherFakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body);
+    ResponseEntity<Client> call123testSpecialTags(
+
+@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body);
 
 }
