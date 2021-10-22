@@ -164,7 +164,7 @@ public class ApiClient {
                 throw new IllegalArgumentException("OAuth2 token URL must be an absolute URL");
             }
         }
-        RetryingOAuth retryingOAuth = new RetryingOAuth(tokenUrl, clientId, OAuthFlow.implicit, clientSecret, parameters);
+        RetryingOAuth retryingOAuth = new RetryingOAuth(tokenUrl, clientId, OAuthFlow.IMPLICIT, clientSecret, parameters);
         authentications.put(
                 "petstore_auth",
                 retryingOAuth
