@@ -18,7 +18,7 @@ export interface Configuration {
 export interface ConfigurationParameters {
     /**
      * Default server to use - a list of available servers (according to the 
-     * spec) is included in the `servers` const in `./servers`. You can also
+     * OpenAPI yaml definition) is included in the `servers` const in `./servers`. You can also
      * create your own server with the `ServerConfiguration` class from the same 
      * file.
      */
@@ -46,7 +46,7 @@ export interface ConfigurationParameters {
     promiseMiddleware?: PromiseMiddleware[];
     /**
      * Configuration for the available authentication methods (e.g., api keys) 
-     * according to the spec. For the definition, please refer to 
+     * according to the OpenAPI yaml definition. For the definition, please refer to 
      * `./auth/auth`
      */
     authMethods?: AuthMethodsConfiguration
