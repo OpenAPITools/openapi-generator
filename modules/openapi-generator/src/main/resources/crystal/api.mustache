@@ -23,7 +23,7 @@ module {{moduleName}}
     {{/required}}
     {{/allParams}}
     # @return [{{{returnType}}}{{^returnType}}nil{{/returnType}}]
-    def {{operationId}}({{#allParams}}{{paramName}} : {{{dataType}}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+    def {{operationId}}({{#allParams}}{{paramName}} : {{{dataType}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/allParams}})
       {{#returnType}}data, _status_code, _headers = {{/returnType}}{{operationId}}_with_http_info({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
       {{#returnType}}data{{/returnType}}{{^returnType}}nil{{/returnType}}
     end
