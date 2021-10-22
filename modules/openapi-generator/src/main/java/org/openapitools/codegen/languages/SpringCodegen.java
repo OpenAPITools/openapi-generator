@@ -512,7 +512,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
 
-        if (!apiFirst && !reactive) {
+        if (!apiFirst && !reactive && !oas3) {
             additionalProperties.put("useSpringfox", true);
         }
 

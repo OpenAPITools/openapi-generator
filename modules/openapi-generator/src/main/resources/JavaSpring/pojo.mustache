@@ -112,7 +112,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
  {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
-  {{#oas3}}@Schema({{#name}}name = "{{{name}}}", {{/name}}{{/oas3}}{{^oas3}}@ApiModelProperty({{/oas3}}{{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
+  {{#oas3}}@Schema({{#name}}name = "{{{name}}}", {{/name}}{{/oas3}}{{^oas3}}@ApiModelProperty({{/oas3}}{{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}{{#oas3}}defaultValue = {{/oas3}}{{^oas3}}value = {{/oas3}}"{{{description}}}")
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{>nullableDataType}} {{getter}}() {
     return {{name}};
   }
