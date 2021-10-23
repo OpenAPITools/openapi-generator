@@ -9,8 +9,7 @@ version = '{{artifactVersion}}'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
@@ -19,7 +18,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 {{#sourceFolder}}
 sourceSets {
@@ -84,14 +83,17 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = '{{artifactId}}'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = '{{artifactId}}'
+               from components.java
+            }
         }
     }
 
@@ -130,6 +132,7 @@ dependencies {
     {{/dynamicOperations}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation 'junit:junit:4.13.1'
+    testImplementation 'org.mockito:mockito-core:3.11.2'
 }
 
 javadoc {
