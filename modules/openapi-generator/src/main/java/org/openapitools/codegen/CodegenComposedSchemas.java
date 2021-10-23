@@ -44,7 +44,7 @@ public class CodegenComposedSchemas {
 
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenComposedSchemas{");
-        sb.append("oneOf='").append(oneOf);
+        sb.append("oneOf=").append(oneOf);
         sb.append(", anyOf=").append(anyOf);
         sb.append(", allOf=").append(allOf);
         sb.append('}');
