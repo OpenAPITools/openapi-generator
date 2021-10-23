@@ -21,7 +21,7 @@ module Petstore
     # For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
     # @param order_id [String] ID of the order that needs to be deleted
     # @return [nil]
-    def delete_order(*, order_id : String)
+    def delete_order(order_id : String)
       delete_order_with_http_info(order_id: order_id)
       nil
     end
@@ -30,7 +30,7 @@ module Petstore
     # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     # @param order_id [String] ID of the order that needs to be deleted
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def delete_order_with_http_info(*, order_id : String)
+    def delete_order_with_http_info(order_id : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: StoreApi.delete_order ..."}
       end
@@ -131,7 +131,7 @@ module Petstore
     # For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
     # @param order_id [Int64] ID of pet that needs to be fetched
     # @return [Order]
-    def get_order_by_id(*, order_id : Int64)
+    def get_order_by_id(order_id : Int64)
       data, _status_code, _headers = get_order_by_id_with_http_info(order_id: order_id)
       data
     end
@@ -140,7 +140,7 @@ module Petstore
     # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     # @param order_id [Int64] ID of pet that needs to be fetched
     # @return [Array<(Order, Integer, Hash)>] Order data, response status code and response headers
-    def get_order_by_id_with_http_info(*, order_id : Int64)
+    def get_order_by_id_with_http_info(order_id : Int64)
       if @api_client.config.debugging
         Log.debug {"Calling API: StoreApi.get_order_by_id ..."}
       end
@@ -197,7 +197,7 @@ module Petstore
     # Place an order for a pet
     # @param order [Order] order placed for purchasing the pet
     # @return [Order]
-    def place_order(*, order : Order)
+    def place_order(order : Order)
       data, _status_code, _headers = place_order_with_http_info(order: order)
       data
     end
@@ -205,7 +205,7 @@ module Petstore
     # Place an order for a pet
     # @param order [Order] order placed for purchasing the pet
     # @return [Array<(Order, Integer, Hash)>] Order data, response status code and response headers
-    def place_order_with_http_info(*, order : Order)
+    def place_order_with_http_info(order : Order)
       if @api_client.config.debugging
         Log.debug {"Calling API: StoreApi.place_order ..."}
       end

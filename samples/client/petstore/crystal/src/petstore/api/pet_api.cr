@@ -20,7 +20,7 @@ module Petstore
     # Add a new pet to the store
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Pet]
-    def add_pet(*, pet : Pet)
+    def add_pet(pet : Pet)
       data, _status_code, _headers = add_pet_with_http_info(pet: pet)
       data
     end
@@ -28,7 +28,7 @@ module Petstore
     # Add a new pet to the store
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Array<(Pet, Integer, Hash)>] Pet data, response status code and response headers
-    def add_pet_with_http_info(*, pet : Pet)
+    def add_pet_with_http_info(pet : Pet)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.add_pet ..."}
       end
@@ -136,7 +136,7 @@ module Petstore
     # Multiple status values can be provided with comma separated strings
     # @param status [Array(String)] Status values that need to be considered for filter
     # @return [Array(Pet)]
-    def find_pets_by_status(*, status : Array(String))
+    def find_pets_by_status(status : Array(String))
       data, _status_code, _headers = find_pets_by_status_with_http_info(status: status)
       data
     end
@@ -145,7 +145,7 @@ module Petstore
     # Multiple status values can be provided with comma separated strings
     # @param status [Array(String)] Status values that need to be considered for filter
     # @return [Array<(Array(Pet), Integer, Hash)>] Array(Pet) data, response status code and response headers
-    def find_pets_by_status_with_http_info(*, status : Array(String))
+    def find_pets_by_status_with_http_info(status : Array(String))
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.find_pets_by_status ..."}
       end
@@ -196,7 +196,7 @@ module Petstore
     # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     # @param tags [Array(String)] Tags to filter by
     # @return [Array(Pet)]
-    def find_pets_by_tags(*, tags : Array(String))
+    def find_pets_by_tags(tags : Array(String))
       data, _status_code, _headers = find_pets_by_tags_with_http_info(tags: tags)
       data
     end
@@ -205,7 +205,7 @@ module Petstore
     # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     # @param tags [Array(String)] Tags to filter by
     # @return [Array<(Array(Pet), Integer, Hash)>] Array(Pet) data, response status code and response headers
-    def find_pets_by_tags_with_http_info(*, tags : Array(String))
+    def find_pets_by_tags_with_http_info(tags : Array(String))
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.find_pets_by_tags ..."}
       end
@@ -256,7 +256,7 @@ module Petstore
     # Returns a single pet
     # @param pet_id [Int64] ID of pet to return
     # @return [Pet]
-    def get_pet_by_id(*, pet_id : Int64)
+    def get_pet_by_id(pet_id : Int64)
       data, _status_code, _headers = get_pet_by_id_with_http_info(pet_id: pet_id)
       data
     end
@@ -265,7 +265,7 @@ module Petstore
     # Returns a single pet
     # @param pet_id [Int64] ID of pet to return
     # @return [Array<(Pet, Integer, Hash)>] Pet data, response status code and response headers
-    def get_pet_by_id_with_http_info(*, pet_id : Int64)
+    def get_pet_by_id_with_http_info(pet_id : Int64)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.get_pet_by_id ..."}
       end
@@ -314,7 +314,7 @@ module Petstore
     # Update an existing pet
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Pet]
-    def update_pet(*, pet : Pet)
+    def update_pet(pet : Pet)
       data, _status_code, _headers = update_pet_with_http_info(pet: pet)
       data
     end
@@ -322,7 +322,7 @@ module Petstore
     # Update an existing pet
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Array<(Pet, Integer, Hash)>] Pet data, response status code and response headers
-    def update_pet_with_http_info(*, pet : Pet)
+    def update_pet_with_http_info(pet : Pet)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.update_pet ..."}
       end

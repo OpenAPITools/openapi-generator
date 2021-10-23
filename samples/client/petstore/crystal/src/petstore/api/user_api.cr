@@ -21,7 +21,7 @@ module Petstore
     # This can only be done by the logged in user.
     # @param user [User] Created user object
     # @return [nil]
-    def create_user(*, user : User)
+    def create_user(user : User)
       create_user_with_http_info(user: user)
       nil
     end
@@ -30,7 +30,7 @@ module Petstore
     # This can only be done by the logged in user.
     # @param user [User] Created user object
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def create_user_with_http_info(*, user : User)
+    def create_user_with_http_info(user : User)
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.create_user ..."}
       end
@@ -79,7 +79,7 @@ module Petstore
     # Creates list of users with given input array
     # @param user [Array(User)] List of user object
     # @return [nil]
-    def create_users_with_array_input(*, user : Array(User))
+    def create_users_with_array_input(user : Array(User))
       create_users_with_array_input_with_http_info(user: user)
       nil
     end
@@ -87,7 +87,7 @@ module Petstore
     # Creates list of users with given input array
     # @param user [Array(User)] List of user object
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def create_users_with_array_input_with_http_info(*, user : Array(User))
+    def create_users_with_array_input_with_http_info(user : Array(User))
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.create_users_with_array_input ..."}
       end
@@ -136,7 +136,7 @@ module Petstore
     # Creates list of users with given input array
     # @param user [Array(User)] List of user object
     # @return [nil]
-    def create_users_with_list_input(*, user : Array(User))
+    def create_users_with_list_input(user : Array(User))
       create_users_with_list_input_with_http_info(user: user)
       nil
     end
@@ -144,7 +144,7 @@ module Petstore
     # Creates list of users with given input array
     # @param user [Array(User)] List of user object
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def create_users_with_list_input_with_http_info(*, user : Array(User))
+    def create_users_with_list_input_with_http_info(user : Array(User))
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.create_users_with_list_input ..."}
       end
@@ -194,7 +194,7 @@ module Petstore
     # This can only be done by the logged in user.
     # @param username [String] The name that needs to be deleted
     # @return [nil]
-    def delete_user(*, username : String)
+    def delete_user(username : String)
       delete_user_with_http_info(username: username)
       nil
     end
@@ -203,7 +203,7 @@ module Petstore
     # This can only be done by the logged in user.
     # @param username [String] The name that needs to be deleted
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def delete_user_with_http_info(*, username : String)
+    def delete_user_with_http_info(username : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.delete_user ..."}
       end
@@ -250,7 +250,7 @@ module Petstore
     # Get user by user name
     # @param username [String] The name that needs to be fetched. Use user1 for testing.
     # @return [User]
-    def get_user_by_name(*, username : String)
+    def get_user_by_name(username : String)
       data, _status_code, _headers = get_user_by_name_with_http_info(username: username)
       data
     end
@@ -258,7 +258,7 @@ module Petstore
     # Get user by user name
     # @param username [String] The name that needs to be fetched. Use user1 for testing.
     # @return [Array<(User, Integer, Hash)>] User data, response status code and response headers
-    def get_user_by_name_with_http_info(*, username : String)
+    def get_user_by_name_with_http_info(username : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.get_user_by_name ..."}
       end
