@@ -17,29 +17,29 @@ module Petstore
     include JSON::Serializable
 
     # Optional properties
-    @[JSON::Field(key: "id", type: Int64?)]
+    @[JSON::Field(key: "id", type: Int64?, nillable: true)]
     property id : Int64?
 
-    @[JSON::Field(key: "username", type: String?)]
+    @[JSON::Field(key: "username", type: String?, nillable: true)]
     property username : String?
 
-    @[JSON::Field(key: "firstName", type: String?)]
+    @[JSON::Field(key: "firstName", type: String?, nillable: true)]
     property first_name : String?
 
-    @[JSON::Field(key: "lastName", type: String?)]
+    @[JSON::Field(key: "lastName", type: String?, nillable: true)]
     property last_name : String?
 
-    @[JSON::Field(key: "email", type: String?)]
+    @[JSON::Field(key: "email", type: String?, nillable: true)]
     property email : String?
 
-    @[JSON::Field(key: "password", type: String?)]
+    @[JSON::Field(key: "password", type: String?, nillable: true)]
     property password : String?
 
-    @[JSON::Field(key: "phone", type: String?)]
+    @[JSON::Field(key: "phone", type: String?, nillable: true)]
     property phone : String?
 
     # User Status
-    @[JSON::Field(key: "userStatus", type: Int32?)]
+    @[JSON::Field(key: "userStatus", type: Int32?, nillable: true)]
     property user_status : Int32?
 
     # Initializes the object

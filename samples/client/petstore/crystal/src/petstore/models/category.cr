@@ -17,10 +17,10 @@ module Petstore
     include JSON::Serializable
 
     # Optional properties
-    @[JSON::Field(key: "id", type: Int64?)]
+    @[JSON::Field(key: "id", type: Int64?, nillable: true)]
     property id : Int64?
 
-    @[JSON::Field(key: "name", type: String?)]
+    @[JSON::Field(key: "name", type: String?, nillable: true)]
     property name : String?
 
     # Initializes the object

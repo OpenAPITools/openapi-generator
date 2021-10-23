@@ -24,17 +24,17 @@ module Petstore
     property photo_urls : Array(String)
 
     # Optional properties
-    @[JSON::Field(key: "id", type: Int64?)]
+    @[JSON::Field(key: "id", type: Int64?, nillable: true)]
     property id : Int64?
 
-    @[JSON::Field(key: "category", type: Category?)]
+    @[JSON::Field(key: "category", type: Category?, nillable: true)]
     property category : Category?
 
-    @[JSON::Field(key: "tags", type: Array(Tag)?)]
+    @[JSON::Field(key: "tags", type: Array(Tag)?, nillable: true)]
     property tags : Array(Tag)?
 
     # pet status in the store
-    @[JSON::Field(key: "status", type: String?)]
+    @[JSON::Field(key: "status", type: String?, nillable: true)]
     property status : String?
 
     class EnumAttributeValidator

@@ -11,7 +11,7 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nilable: true, emit_null: true{{/isNullable}})]
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nillable: true, emit_null: true{{/isNullable}})]
     property {{{name}}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}
 
     {{/requiredVars}}
@@ -22,7 +22,7 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nilable: true, emit_null: true{{/isNullable}})]
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: true{{#isNullable}}, emit_null: true{{/isNullable}})]
     property {{{name}}} : {{{dataType}}}?
 
     {{/optionalVars}}
