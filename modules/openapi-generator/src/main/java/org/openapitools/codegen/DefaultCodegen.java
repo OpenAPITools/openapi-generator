@@ -7157,7 +7157,7 @@ public class DefaultCodegen implements CodegenConfig {
         return null;
     }
 
-    protected CodegenComposedSchemas getComposedSchemas(Schema schema) {
+    private CodegenComposedSchemas getComposedSchemas(Schema schema) {
         if (!(schema instanceof ComposedSchema)) {
             return null;
         }
