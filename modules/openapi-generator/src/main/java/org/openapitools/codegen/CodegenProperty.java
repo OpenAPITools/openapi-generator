@@ -615,10 +615,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.xmlNamespace = xmlNamespace;
     }
 
+    @Override
     public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
         this.composedSchemas = composedSchemas;
     }
 
+    @Override
     public CodegenComposedSchemas getComposedSchemas() {
         return composedSchemas;
     }

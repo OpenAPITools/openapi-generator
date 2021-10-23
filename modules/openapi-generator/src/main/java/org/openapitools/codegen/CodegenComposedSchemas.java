@@ -20,9 +20,27 @@ package org.openapitools.codegen;
 import java.util.*;
 
 public class CodegenComposedSchemas {
-    public List<CodegenProperty> oneOf;
-    public List<CodegenProperty> anyOf;
-    public List<CodegenProperty> allOf;
+    private List<CodegenProperty> allOf;
+    private List<CodegenProperty> oneOf;
+    private List<CodegenProperty> anyOf;
+
+    public CodegenComposedSchemas(List<CodegenProperty> allOf, List<CodegenProperty> oneOf, List<CodegenProperty> anyOf) {
+        this.allOf = allOf;
+        this.oneOf = oneOf;
+        this.anyOf = anyOf;
+    }
+
+    public List<CodegenProperty> getAllOf() {
+        return allOf;
+    }
+
+    public List<CodegenProperty> getOneOf() {
+        return oneOf;
+    }
+
+    public List<CodegenProperty> getAnyOf() {
+        return anyOf;
+    }
 
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenComposedSchemas{");
@@ -44,7 +62,6 @@ public class CodegenComposedSchemas {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(oneOf, anyOf, allOf);
     }
 }

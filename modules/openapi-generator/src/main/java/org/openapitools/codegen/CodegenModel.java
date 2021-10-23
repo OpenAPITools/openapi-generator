@@ -811,10 +811,12 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.isAnyType = isAnyType;
     }
 
+    @Override
     public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
         this.composedSchemas = composedSchemas;
     }
 
+    @Override
     public CodegenComposedSchemas getComposedSchemas() {
         return composedSchemas;
     }
