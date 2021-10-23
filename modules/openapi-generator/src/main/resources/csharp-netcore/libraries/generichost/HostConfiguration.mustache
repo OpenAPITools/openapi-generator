@@ -32,7 +32,7 @@ namespace {{packageName}}.Client
             services.AddSingleton<TokenProvider<OAuthToken>>();{{/hasOAuthMethods}}
 
             {{/hasAuthMethods}}
-            {{#apiInfo}}{{#apis}}services.AddTransient<{{interfacePrefix}}{{classname}}, {{classname}}>();{{^-last}}
+            {{#apiInfo}}{{#apis}}services.AddSingleton<{{interfacePrefix}}{{classname}}, {{classname}}>();{{^-last}}
             {{/-last}}{{/apis}}{{/apiInfo}}
         }
 
