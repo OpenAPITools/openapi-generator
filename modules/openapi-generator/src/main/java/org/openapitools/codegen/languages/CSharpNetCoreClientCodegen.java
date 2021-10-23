@@ -764,6 +764,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
         supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));        
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
+        supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
 
         if (Boolean.FALSE.equals(excludeTests.get())) {
             supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));

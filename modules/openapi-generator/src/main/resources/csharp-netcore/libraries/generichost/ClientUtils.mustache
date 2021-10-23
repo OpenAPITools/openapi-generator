@@ -42,6 +42,15 @@ namespace {{packageName}}.Client
         {{/useCompareNetObjects}}
 
         /// <summary>
+        /// A delegate for events.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public delegate void EventHandler<T>(object sender, T e) where T : EventArgs;
+
+        /// <summary>
         ///  Custom JSON serializer
         /// </summary>
         public static Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get; set; } = new Newtonsoft.Json.JsonSerializerSettings
