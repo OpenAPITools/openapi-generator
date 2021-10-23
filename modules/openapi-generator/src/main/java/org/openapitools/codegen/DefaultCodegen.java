@@ -2696,6 +2696,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         m.setTypeProperties(schema);
+        m.setComposedSchemas(getComposedSchemas(schema));
         if (ModelUtils.isArraySchema(schema)) {
             CodegenProperty arrayProperty = fromProperty(name, schema);
             m.setItems(arrayProperty.items);
@@ -3514,6 +3515,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         property.setTypeProperties(p);
+        property.setComposedSchemas(getComposedSchemas(p));
         if (ModelUtils.isIntegerSchema(p)) { // integer type
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isLongSchema(p)) { // int64/long format
@@ -7153,5 +7155,31 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected String getCollectionFormat(CodegenParameter codegenParameter) {
         return null;
+    }
+
+    protected CodegenComposedSchemas getComposedSchemas(Schema schema) {
+        if (!(schema instanceof ComposedSchema)) {
+            return null;
+        }
+        ComposedSchema cs = (ComposedSchema) schema;
+        return new CodegenComposedSchemas(
+                getComposedProperties(cs.getAllOf(), "allOf"),
+                getComposedProperties(cs.getOneOf(), "oneOf"),
+                getComposedProperties(cs.getAnyOf(), "anyOf")
+        );
+    }
+
+    private List<CodegenProperty> getComposedProperties(List<Schema> xOfCollection, String collectionName) {
+        if (xOfCollection == null) {
+            return null;
+        }
+        List<CodegenProperty> xOf = new ArrayList<>();
+        int i = 0;
+        for (Schema xOfSchema: xOfCollection) {
+            CodegenProperty cp = fromProperty(collectionName + "_" + String.valueOf(i), xOfSchema);
+            xOf.add(cp);
+            i += 1;
+        }
+        return xOf;
     }
 }
