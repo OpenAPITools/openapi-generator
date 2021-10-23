@@ -45,10 +45,10 @@ abstract class {{classname}}
     /**
      * {{httpMethod}} {{operationId}}
      {{#summary}}
-     * Summary: {{summary}}
+     * Summary: {{.}}
      {{/summary}}
      {{#notes}}
-     * Notes: {{notes}}
+     * Notes: {{.}}
      {{/notes}}
      {{#hasProduces}}
      * Output-Formats: [{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}]
@@ -60,6 +60,9 @@ abstract class {{classname}}
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
      */
     public function {{operationId}}(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {

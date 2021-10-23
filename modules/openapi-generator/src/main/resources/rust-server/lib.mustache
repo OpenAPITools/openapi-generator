@@ -11,7 +11,7 @@ type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &'static str = "{{{basePathWithoutHost}}}";
 {{#appVersion}}
-pub const API_VERSION: &'static str = "{{{appVersion}}}";
+pub const API_VERSION: &'static str = "{{{.}}}";
 {{/appVersion}}
 
 {{#apiInfo}}
@@ -35,7 +35,7 @@ pub trait Api<C: Send + Sync> {
     {{#operations}}
       {{#operation}}
 {{#summary}}
-    /// {{{summary}}}
+    /// {{{.}}}
 {{/summary}}
     async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
@@ -63,7 +63,7 @@ pub trait ApiNoContext<C: Send + Sync> {
     {{#operations}}
       {{#operation}}
 {{#summary}}
-    /// {{{summary}}}
+    /// {{{.}}}
 {{/summary}}
     async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
@@ -106,7 +106,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {{#operations}}
       {{#operation}}
 {{#summary}}
-    /// {{{summary}}}
+    /// {{{.}}}
 {{/summary}}
     async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
@@ -158,7 +158,7 @@ pub trait CallbackApi<C: Send + Sync> {
           {{#urls}}
             {{#requests}}
 {{#summary}}
-    /// {{{summary}}}
+    /// {{{.}}}
 {{/summary}}
     async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
@@ -196,7 +196,7 @@ pub trait CallbackApiNoContext<C: Send + Sync> {
           {{#urls}}
             {{#requests}}
 {{#summary}}
-    /// {{{summary}}}
+    /// {{{.}}}
 {{/summary}}
     async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
@@ -249,7 +249,7 @@ impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackApiNoConte
           {{#urls}}
             {{#requests}}
               {{#summary}}
-    /// {{{summary}}}
+    /// {{{.}}}
               {{/summary}}
     async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,

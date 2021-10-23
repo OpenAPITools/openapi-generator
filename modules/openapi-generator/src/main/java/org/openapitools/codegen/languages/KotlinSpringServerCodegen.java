@@ -16,7 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap.Builder;
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
@@ -43,7 +43,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         implements BeanValidationFeatures {
 
-    private static Logger LOGGER =
+    private final Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
 
     private static final HashSet<String> VARIABLE_RESERVED_WORDS =
@@ -437,7 +437,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     @Override
-    protected Builder<String, Lambda> addMustacheLambdas() {
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
                 .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""));
     }

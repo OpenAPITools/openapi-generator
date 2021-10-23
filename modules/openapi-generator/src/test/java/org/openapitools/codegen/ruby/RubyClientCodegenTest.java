@@ -616,7 +616,7 @@ public class RubyClientCodegenTest {
     }
 
 
-    @Test(description = "test example string imported from x-example parameterr (OAS2)")
+    @Test(description = "test example string imported from x-example parameter (OAS2)")
     public void exampleStringFromExampleParameterOAS2Test() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-nullable.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();

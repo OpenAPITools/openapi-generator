@@ -20,8 +20,18 @@ import feign.form.FormEncoder;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
-import org.openapitools.client.auth.*;
+import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
+import org.openapitools.client.auth.ApiKeyAuth;
+import org.openapitools.client.ApiResponseDecoder;
+
+import org.openapitools.client.auth.ApiErrorDecoder;
+import org.openapitools.client.auth.OAuth;
 import org.openapitools.client.auth.OAuth.AccessTokenListener;
+import org.openapitools.client.auth.OAuthFlow;
+import org.openapitools.client.auth.OauthPasswordGrant;
+import org.openapitools.client.auth.OauthClientCredentialsGrant;
+import feign.Retryer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
@@ -40,7 +50,9 @@ public class ApiClient {
     feignBuilder = Feign.builder()
                 .client(new OkHttpClient())
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
-                .decoder(new JacksonDecoder(objectMapper))
+                .decoder(new ApiResponseDecoder(objectMapper))
+                .errorDecoder(new ApiErrorDecoder())
+                .retryer(new Retryer.Default(0, 0, 2))
                 .logger(new Slf4jLogger());
   }
 
@@ -53,8 +65,12 @@ public class ApiClient {
         auth = new ApiKeyAuth("header", "api_key");
       } else if ("api_key_query".equals(authName)) {
         auth = new ApiKeyAuth("query", "api_key_query");
+      } else if ("bearer_test".equals(authName)) {
+        auth = new HttpBearerAuth("bearer");
       } else if ("http_basic_test".equals(authName)) {
         auth = new HttpBasicAuth();
+      } else if ("http_signature_test".equals(authName)) {
+        auth = new HttpBearerAuth("signature");
       } else if ("petstore_auth".equals(authName)) {
         auth = buildOauthRequestInterceptor(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else {
@@ -220,7 +236,7 @@ public class ApiClient {
   }
 
   /**
-   * Helper method to configure the client credentials for Oauth 
+   * Helper method to configure the client credentials for Oauth
    * @param username Username
    * @param password Password
    */
@@ -270,7 +286,7 @@ public class ApiClient {
 
   /**
    * Gets request interceptor based on authentication name
-   * @param authName Authentiation name
+   * @param authName Authentication name
    * @return Request Interceptor
    */
   public RequestInterceptor getAuthorization(String authName) {

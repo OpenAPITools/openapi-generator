@@ -7,7 +7,7 @@
   <h2><a name="{{nickname}}"></a>{{nickname}}</h2>
   <hr>
   <p>{{description}}</p>
-  {{#notes}}<p>{{notes}}</p>{{/notes}}
+  {{#notes}}<p>{{.}}</p>{{/notes}}
   <h3 class="section">URL</h3>
   <code>{{basePath}}{{path}}</code>
   <h3 class="section">HTTP Method</h3>
@@ -24,7 +24,7 @@
       {{#isHeaderParam}}<span class="param-in">Header: </span>{{/isHeaderParam}}
       {{#isBodyParam}}<span class="param-in">Body: </span>{{/isBodyParam}}
       <span class="param-name">{{baseName}}</span>
-      <span class="param-type">{{dataType}}{{#baseType}}({{baseType}}){{/baseType}}</span>
+      <span class="param-type">{{dataType}}{{#baseType}}({{.}}){{/baseType}}</span>
       {{#optional}}<span class="param-optional-flag">(optional)</span>{{/optional}}
       <p class="param-description">{{description}}</p>
 	  </li>

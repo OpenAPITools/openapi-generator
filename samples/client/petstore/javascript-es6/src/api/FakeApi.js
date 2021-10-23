@@ -786,9 +786,13 @@ export default class FakeApi {
      * @param {Array.<String>} http 
      * @param {Array.<String>} url 
      * @param {Array.<String>} context 
+     * @param {String} allowEmpty 
+     * @param {Object} opts Optional parameters
+     * @param {Object.<String, {String: String}>} opts.language 
      * @param {module:api/FakeApi~testQueryParameterCollectionFormatCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, callback) {
+    testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, opts, callback) {
+      opts = opts || {};
       let postBody = null;
       // verify the required parameter 'pipe' is set
       if (pipe === undefined || pipe === null) {
@@ -810,6 +814,10 @@ export default class FakeApi {
       if (context === undefined || context === null) {
         throw new Error("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
       }
+      // verify the required parameter 'allowEmpty' is set
+      if (allowEmpty === undefined || allowEmpty === null) {
+        throw new Error("Missing the required parameter 'allowEmpty' when calling testQueryParameterCollectionFormat");
+      }
 
       let pathParams = {
       };
@@ -818,7 +826,9 @@ export default class FakeApi {
         'ioutil': this.apiClient.buildCollectionParam(ioutil, 'csv'),
         'http': this.apiClient.buildCollectionParam(http, 'ssv'),
         'url': this.apiClient.buildCollectionParam(url, 'csv'),
-        'context': this.apiClient.buildCollectionParam(context, 'multi')
+        'context': this.apiClient.buildCollectionParam(context, 'multi'),
+        'language': opts['language'],
+        'allowEmpty': allowEmpty
       };
       let headerParams = {
       };
@@ -830,7 +840,7 @@ export default class FakeApi {
       let accepts = [];
       let returnType = null;
       return this.apiClient.callApi(
-        '/fake/test-query-paramters', 'PUT',
+        '/fake/test-query-parameters', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

@@ -47,7 +47,10 @@ namespace Org.OpenAPITools.Model
         public QuadrilateralInterface(string quadrilateralType = default(string))
         {
             // to ensure "quadrilateralType" is required (not null)
-            this.QuadrilateralType = quadrilateralType ?? throw new ArgumentNullException("quadrilateralType is a required property for QuadrilateralInterface and cannot be null");
+            if (quadrilateralType == null) {
+                throw new ArgumentNullException("quadrilateralType is a required property for QuadrilateralInterface and cannot be null");
+            }
+            this.QuadrilateralType = quadrilateralType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -128,7 +131,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

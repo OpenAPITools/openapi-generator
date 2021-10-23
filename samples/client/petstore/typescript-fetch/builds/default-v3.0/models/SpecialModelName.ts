@@ -54,4 +54,3 @@ export function SpecialModelNameToJSON(value?: SpecialModelName | null): any {
     };
 }
 
-

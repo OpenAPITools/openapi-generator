@@ -3,7 +3,7 @@
  * @export
  * @interface {{classname}}
  */
-export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#additionalPropertiesType}}
     [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
 
@@ -17,7 +17,7 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
      * @deprecated
     {{/deprecated}}
      */
-    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    '{{baseName}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
 {{/vars}}
 }{{#hasEnums}}
 
@@ -32,7 +32,7 @@ export enum {{enumName}} {
     {{#enumVars}}
     {{#enumDescription}}
     /**
-    * {{enumDescription}}
+    * {{.}}
     */
     {{/enumDescription}}
     {{{name}}} = {{{value}}}{{^-last}},{{/-last}}

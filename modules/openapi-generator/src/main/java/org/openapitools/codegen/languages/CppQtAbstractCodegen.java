@@ -13,7 +13,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-public class CppQtAbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
+public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
+
     private final Logger LOGGER = LoggerFactory.getLogger(CppQtAbstractCodegen.class);
     protected final String PREFIX = "OAI";
     protected String apiVersion = "1.0.0";
@@ -273,7 +274,7 @@ public class CppQtAbstractCodegen extends AbstractCppCodegen implements CodegenC
         String varName = name;
         varName = sanitizeName(name);
 
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (varName.matches("^[A-Z_]*$")) {
             varName = varName.toLowerCase(Locale.ROOT);
         }

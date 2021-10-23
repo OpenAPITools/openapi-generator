@@ -9,7 +9,7 @@ class {{classname}} extends EnumClass {
   {{#allowableValues}}
     {{#enumVars}}
       {{#description}}
-  /// {{{description}}}
+  /// {{{.}}}
       {{/description}}
   @BuiltValueEnumConst({{#isInteger}}wireNumber: {{{value}}}{{/isInteger}}{{^isInteger}}wireName: r{{#lambda.escapeBuiltValueEnum}}{{{value}}}{{/lambda.escapeBuiltValueEnum}}{{/isInteger}})
   static const {{classname}} {{name}} = _${{name}};

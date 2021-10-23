@@ -271,7 +271,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
                 if(this.reservedParamNames.contains(p.paramName)){
                     paramNameAlternative = p.paramName + "Alias";
-                    LOGGER.info("param: "+p.paramName+" isReserved ––> "+paramNameAlternative);
+                    LOGGER.info("param: {} isReserved ––> {}", p.paramName, paramNameAlternative);
                 }
                 setParamNameAlternative(p, p.paramName, paramNameAlternative);
 

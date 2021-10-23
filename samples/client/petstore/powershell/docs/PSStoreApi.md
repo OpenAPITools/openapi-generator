@@ -21,13 +21,13 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example
 ```powershell
-$OrderId = "OrderId_example" # String | ID of the order that needs to be deleted
+$OrderId = "MyOrderId" # String | ID of the order that needs to be deleted
 
 # Delete purchase order by ID
 try {
-     $Result = Remove-PSOrder -OrderId $OrderId
+    $Result = Remove-PSOrder -OrderId $OrderId
 } catch {
-    Write-Host ("Exception occured when calling Remove-PSOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Remove-PSOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -73,9 +73,9 @@ $Configuration.ApiKey.api_key = "YOUR_API_KEY"
 
 # Returns pet inventories by status
 try {
-     $Result = Get-PSInventory
+    $Result = Get-PSInventory
 } catch {
-    Write-Host ("Exception occured when calling Get-PSInventory: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Get-PSInventory: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -109,13 +109,13 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example
 ```powershell
-$OrderId = 987 # Int64 | ID of pet that needs to be fetched
+$OrderId = 789 # Int64 | ID of pet that needs to be fetched
 
 # Find purchase order by ID
 try {
-     $Result = Get-PSOrderById -OrderId $OrderId
+    $Result = Get-PSOrderById -OrderId $OrderId
 } catch {
-    Write-Host ("Exception occured when calling Get-PSOrderById: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Get-PSOrderById: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -150,13 +150,13 @@ Place an order for a pet
 
 ### Example
 ```powershell
-$Order = (Initialize-Order -Id 123 -PetId 123 -Quantity 123 -ShipDate Get-Date -Status "placed" -Complete $false) # Order | order placed for purchasing the pet
+$Order = Initialize-Order -Id 0 -PetId 0 -Quantity 0 -ShipDate (Get-Date) -Status "placed" -Complete $false # Order | order placed for purchasing the pet
 
 # Place an order for a pet
 try {
-     $Result = Invoke-PSPlaceOrder -Order $Order
+    $Result = Invoke-PSPlaceOrder -Order $Order
 } catch {
-    Write-Host ("Exception occured when calling Invoke-PSPlaceOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Invoke-PSPlaceOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```

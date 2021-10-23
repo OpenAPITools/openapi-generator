@@ -32,11 +32,11 @@ object {{classname}} {
   def escape(value: String): String = URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
 
   {{#operation}}
-  def {{nickname}}(host: String{{#allParams}}{{#-first}}, {{/-first}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/allParams}}){{#queryParams}}{{#-first}}(implicit {{/-first}}{{paramName}}Query: QueryParam[{{dataType}}]{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/queryParams}}: {{>operationReturnType}}{{#returnType}}    implicit val returnTypeDecoder: EntityDecoder[{{returnType}}] = jsonOf[{{returnType}}]
+  def {{nickname}}(host: String{{#allParams}}{{#-first}}, {{/-first}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/allParams}}){{#queryParams}}{{#-first}}(implicit {{/-first}}{{paramName}}Query: QueryParam[{{dataType}}]{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/queryParams}}: {{>operationReturnType}}{{#returnType}}    implicit val returnTypeDecoder: EntityDecoder[{{returnType}}] = jsonOf[{{returnType}}]
 
 {{/returnType}}
     val path = "{{path}}"{{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}",escape({{paramName}}.toString)){{/pathParams}}
-    
+
     val httpMethod = Method.{{httpMethod}}
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -51,7 +51,7 @@ object {{classname}} {
       {{>clientFunction}}
     } yield resp
   }
-  
+
   {{/operation}}
 }
 
@@ -61,11 +61,11 @@ class HttpService{{classname}}(service: HttpService) {
   def escape(value: String): String = URLEncoder.encode(value, "utf-8").replaceAll("\\+", "%20")
 
   {{#operation}}
-  def {{nickname}}({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/allParams}}){{#queryParams}}{{#-first}}(implicit {{/-first}}{{paramName}}Query: QueryParam[{{dataType}}]{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/queryParams}}: {{>operationReturnType}}{{#returnType}}    implicit val returnTypeDecoder: EntityDecoder[{{returnType}}] = jsonOf[{{returnType}}]
+  def {{nickname}}({{#allParams}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/allParams}}){{#queryParams}}{{#-first}}(implicit {{/-first}}{{paramName}}Query: QueryParam[{{dataType}}]{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/queryParams}}: {{>operationReturnType}}{{#returnType}}    implicit val returnTypeDecoder: EntityDecoder[{{returnType}}] = jsonOf[{{returnType}}]
 
 {{/returnType}}
     val path = "{{path}}"{{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}",escape({{paramName}}.toString)){{/pathParams}}
-    
+
     val httpMethod = Method.{{httpMethod}}
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -80,7 +80,7 @@ class HttpService{{classname}}(service: HttpService) {
       {{>clientFunction}}
     } yield resp
   }
-  
+
   {{/operation}}
 }
 {{/operations}}

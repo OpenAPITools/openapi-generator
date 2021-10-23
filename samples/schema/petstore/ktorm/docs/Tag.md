@@ -1,5 +1,5 @@
 
-# Table `Tag` 
+# Table `Tag`
 (mapped from: Tag)
 
 ## Properties

@@ -106,7 +106,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *FakeApi* | [**upload_download_file**](docs/FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
 *FakeApi* | [**upload_file**](docs/FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
 *FakeApi* | [**upload_files**](docs/FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
@@ -149,6 +149,7 @@ Class | Method | HTTP request | Description
  - [Banana](docs/Banana.md)
  - [BananaReq](docs/BananaReq.md)
  - [BasquePig](docs/BasquePig.md)
+ - [BooleanEnum](docs/BooleanEnum.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [CatAllOf](docs/CatAllOf.md)
@@ -186,6 +187,7 @@ Class | Method | HTTP request | Description
  - [IntegerEnumOneValue](docs/IntegerEnumOneValue.md)
  - [IntegerEnumWithDefaultValue](docs/IntegerEnumWithDefaultValue.md)
  - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
+ - [Legs](docs/Legs.md)
  - [List](docs/List.md)
  - [Mammal](docs/Mammal.md)
  - [MapTest](docs/MapTest.md)

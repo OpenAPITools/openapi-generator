@@ -13,6 +13,10 @@
 {{#imports}}{{{this}}}
 {{/imports}}
 #include <memory>
+#include <vector>
+{{#hasEnums}}
+#include <array>
+{{/hasEnums}}
 #include <boost/property_tree/ptree.hpp>
 
 {{#modelNamespaceDeclarations}}
@@ -28,9 +32,10 @@ class  {{{this}}};
 class {{declspec}} {{classname}} {{#interfaces}}{{#-first}}:{{/-first}}{{^-first}},{{/-first}} public {{{this}}}{{/interfaces}}
 {
 public:
-    {{classname}}();
-    virtual ~{{classname}}();
-    
+    {{classname}}() = default;
+    explicit {{classname}}(boost::property_tree::ptree const& pt);
+    virtual ~{{classname}}() = default;
+
     std::string toJsonString(bool prettyJson = false);
     void fromJsonString(std::string const& jsonString);
     boost::property_tree::ptree toPropertyTree();
@@ -46,16 +51,43 @@ public:
     {{{dataType}}} {{getter}}() const;
     void {{setter}}({{{dataType}}} value);
     {{/vars}}
+
+protected:
+    //////////////////////////////////////
+    // Override these for customization //
+    //////////////////////////////////////
+
+    virtual std::string toJsonString_internal(bool prettyJson = false);
+    virtual void fromJsonString_internal(std::string const& jsonString);
+    virtual boost::property_tree::ptree toPropertyTree_internal();
+    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
+
+
 protected:
     {{#vars}}
+    {{^isContainer}}
+    {{^isModel}}
+    {{{dataType}}} m_{{name}} = {{{defaultValue}}};
+    {{/isModel}}
+    {{#isModel}}
     {{{dataType}}} m_{{name}};
+    {{/isModel}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{{dataType}}} m_{{name}};
+    {{/isContainer}}
     {{/vars}}
     {{#vars}}
     {{#isEnum}}
-    std::vector<{{{dataType}}}> m_{{enumName}};
+    const std::array<std::string, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> m_{{enumName}} = {
+          {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+    };
+
     {{/isEnum}}
     {{/vars}}
 };
+
+std::vector<{{classname}}> create{{classname}}VectorFromJsonString(const std::string& json);
 
 {{#modelNamespaceDeclarations}}
 }

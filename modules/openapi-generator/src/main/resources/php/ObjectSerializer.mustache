@@ -2,7 +2,7 @@
 /**
  * ObjectSerializer
  *
- * PHP version 7.2
+ * PHP version 7.3
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -295,6 +295,9 @@ class ObjectSerializer
 
         if ($class === 'object') {
             settype($data, 'array');
+            return $data;
+        } else if ($class === 'mixed') {
+            settype($data, gettype($data));
             return $data;
         }
 

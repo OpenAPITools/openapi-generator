@@ -158,7 +158,7 @@ namespace {{packageName}}.Client
     }
     {{! NOTE: Any changes related to RestSharp should be done in this class. All other client classes are for extensibility by consumers.}}
     /// <summary>
-    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
+    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementations),
     /// encapsulating general REST accessor use cases.
     /// </summary>
     {{>visibility}} partial class ApiClient : ISynchronousClient{{#supportsAsync}}, IAsynchronousClient{{/supportsAsync}}
@@ -167,7 +167,7 @@ namespace {{packageName}}.Client
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
-        /// These settings can be adjusted to accomodate custom serialization rules.
+        /// These settings can be adjusted to accommodate custom serialization rules.
         /// </summary>
         public JsonSerializerSettings SerializerSettings { get; set; } = new JsonSerializerSettings
         {
@@ -495,7 +495,14 @@ namespace {{packageName}}.Client
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof({{{packageName}}}.{{modelPackage}}.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
             {
-                response.Data = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                try
+                {
+                    response.Data = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException != null ? ex.InnerException : ex;
+                }
             }
             else if (typeof(T).Name == "Stream") // for binary response
             {
@@ -594,7 +601,7 @@ namespace {{packageName}}.Client
             if (RetryConfiguration.AsyncRetryPolicy != null)
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
-                var policyResult = await policy.ExecuteAndCaptureAsync(() => client.ExecuteAsync(req, cancellationToken)).ConfigureAwait(false);
+                var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(req, ct), cancellationToken).ConfigureAwait(false);
                 response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
                 {
                     Request = req,

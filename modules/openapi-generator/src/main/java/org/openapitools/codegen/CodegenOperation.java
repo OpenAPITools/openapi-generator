@@ -88,6 +88,15 @@ public class CodegenOperation {
     }
 
     /**
+     * Check if there's at least one query parameter or passing API keys in query
+     *
+     * @return true if query parameter exists or passing API keys in query, false otherwise
+     */
+    public boolean getHasQueryParamsOrAuth() {
+        return getHasQueryParams() || (authMethods != null && authMethods.stream().anyMatch(authMethod -> authMethod.isKeyInQuery));
+    }
+
+    /**
      * Check if there's at least one header parameter
      *
      * @return true if header parameter exists, false otherwise

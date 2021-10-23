@@ -79,8 +79,9 @@ public class InlineModelResolver {
             return;
         }
 
-        for (String pathname : paths.keySet()) {
-            PathItem path = paths.get(pathname);
+        for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+            String pathname = pathsEntry.getKey();
+            PathItem path = pathsEntry.getValue();
             List<Operation> operations = new ArrayList<>(path.readOperations());
 
             // Include callback operation as well
@@ -263,8 +264,9 @@ public class InlineModelResolver {
             return;
         }
 
-        for (String key : responses.keySet()) {
-            ApiResponse response = responses.get(key);
+        for (Map.Entry<String, ApiResponse> responsesEntry : responses.entrySet()) {
+            String key = responsesEntry.getKey();
+            ApiResponse response = responsesEntry.getValue();
             if (ModelUtils.getSchemaFromResponse(response) == null) {
                 continue;
             }
@@ -561,8 +563,9 @@ public class InlineModelResolver {
         }
         Map<String, Schema> propsToUpdate = new HashMap<String, Schema>();
         Map<String, Schema> modelsToAdd = new HashMap<String, Schema>();
-        for (String key : properties.keySet()) {
-            Schema property = properties.get(key);
+        for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
+            String key = propertiesEntry.getKey();
+            Schema property = propertiesEntry.getValue();
             if (property instanceof ObjectSchema && ((ObjectSchema) property).getProperties() != null
                     && ((ObjectSchema) property).getProperties().size() > 0) {
                 ObjectSchema op = (ObjectSchema) property;

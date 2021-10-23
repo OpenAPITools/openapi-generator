@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -52,6 +53,7 @@ class User {
 
   @override
   int get hashCode =>
+  // ignore: unnecessary_parenthesis
     (id == null ? 0 : id.hashCode) +
     (username == null ? 0 : username.hashCode) +
     (firstName == null ? 0 : firstName.hashCode) +
@@ -94,40 +96,53 @@ class User {
   }
 
   /// Returns a new [User] instance and imports its values from
-  /// [json] if it's non-null, null if [json] is null.
-  static User fromJson(Map<String, dynamic> json) => json == null
-    ? null
-    : User(
-        id: json[r'id'],
-        username: json[r'username'],
-        firstName: json[r'firstName'],
-        lastName: json[r'lastName'],
-        email: json[r'email'],
-        password: json[r'password'],
-        phone: json[r'phone'],
-        userStatus: json[r'userStatus'],
-    );
+  /// [value] if it's a [Map], null otherwise.
+  // ignore: prefer_constructors_over_static_methods
+  static User fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+      return User(
+        id: mapValueOfType<int>(json, r'id'),
+        username: mapValueOfType<String>(json, r'username'),
+        firstName: mapValueOfType<String>(json, r'firstName'),
+        lastName: mapValueOfType<String>(json, r'lastName'),
+        email: mapValueOfType<String>(json, r'email'),
+        password: mapValueOfType<String>(json, r'password'),
+        phone: mapValueOfType<String>(json, r'phone'),
+        userStatus: mapValueOfType<int>(json, r'userStatus'),
+      );
+    }
+    return null;
+  }
 
-  static List<User> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <User>[]
-      : json.map((v) => User.fromJson(v)).toList(growable: true == growable);
+  static List<User> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(User.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <User>[];
 
-  static Map<String, User> mapFromJson(Map<String, dynamic> json) {
+  static Map<String, User> mapFromJson(dynamic json) {
     final map = <String, User>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) => map[key] = User.fromJson(v));
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) => map[key] = User.fromJson(value));
     }
     return map;
   }
 
   // maps a json object with a list of User-objects as value to a dart map
-  static Map<String, List<User>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<User>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<User>>{};
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic v) {
-        map[key] = User.listFromJson(v, emptyIsNull: emptyIsNull, growable: growable);
-      });
+    if (json is Map && json.isNotEmpty) {
+      json
+        .cast<String, dynamic>()
+        .forEach((key, dynamic value) {
+          map[key] = User.listFromJson(
+            value,
+            emptyIsNull: emptyIsNull,
+            growable: growable,
+          );
+        });
     }
     return map;
   }

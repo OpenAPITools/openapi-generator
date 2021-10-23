@@ -34,6 +34,10 @@ import java.util.Map;
 import java.util.Set;
 
 public interface CodegenConfig {
+    String getFilesMetadataFilename();
+
+    String getVersionMetadataFilename();
+
     GeneratorMetadata getGeneratorMetadata();
 
     CodegenType getTag();
@@ -229,7 +233,7 @@ public interface CodegenConfig {
     /**
      * Library template (sub-template).
      *
-     * @return libray template
+     * @return library template
      */
     String getLibrary();
 
