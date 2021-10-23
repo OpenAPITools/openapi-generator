@@ -568,6 +568,18 @@
             </modules>
         </profile>
         <profile>
+            <id>crystal-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/crystal</module>
+            </modules>
+        </profile>
+        <profile>
             <id>haskell-http-client</id>
             <activation>
                 <property>
