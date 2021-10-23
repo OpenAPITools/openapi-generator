@@ -16,12 +16,14 @@ module Petstore
   class Pet
     include JSON::Serializable
 
+    # Required properties
     @[JSON::Field(key: "name", type: String)]
     property name : String
 
     @[JSON::Field(key: "photoUrls", type: Array(String))]
     property photo_urls : Array(String)
 
+    # Optional properties
     @[JSON::Field(key: "id", type: Int64?)]
     property id : Int64?
 
@@ -60,7 +62,7 @@ module Petstore
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@name : String, @photo_urls : Array(String), @id : Int64? = nil, @category : Category? = nil, @tags : Array(Tag)? = nil, @status : String? = nil)
+    def initialize(*, @name : String, @photo_urls : Array(String), @id : Int64? = nil, @category : Category? = nil, @tags : Array(Tag)? = nil, @status : String? = nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?

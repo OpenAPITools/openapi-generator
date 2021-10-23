@@ -16,6 +16,7 @@ module Petstore
   class User
     include JSON::Serializable
 
+    # Optional properties
     @[JSON::Field(key: "id", type: Int64?)]
     property id : Int64?
 
@@ -43,7 +44,7 @@ module Petstore
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : Int64? = nil, @username : String? = nil, @first_name : String? = nil, @last_name : String? = nil, @email : String? = nil, @password : String? = nil, @phone : String? = nil, @user_status : Int32? = nil)
+    def initialize(*, @id : Int64? = nil, @username : String? = nil, @first_name : String? = nil, @last_name : String? = nil, @email : String? = nil, @password : String? = nil, @phone : String? = nil, @user_status : Int32? = nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?

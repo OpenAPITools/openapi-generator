@@ -20,15 +20,15 @@ module Petstore
     # Add a new pet to the store
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Pet]
-    def add_pet(pet : Pet)
-      data, _status_code, _headers = add_pet_with_http_info(pet)
+    def add_pet(*, pet : Pet)
+      data, _status_code, _headers = add_pet_with_http_info(pet: pet)
       data
     end
 
     # Add a new pet to the store
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Array<(Pet, Integer, Hash)>] Pet data, response status code and response headers
-    def add_pet_with_http_info(pet : Pet)
+    def add_pet_with_http_info(*, pet : Pet)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.add_pet ..."}
       end
@@ -79,15 +79,15 @@ module Petstore
     # Deletes a pet
     # @param pet_id [Int64] Pet id to delete
     # @return [nil]
-    def delete_pet(pet_id : Int64, api_key : String? = nil)
-      delete_pet_with_http_info(pet_id, api_key)
+    def delete_pet(*, pet_id : Int64, api_key : String? = nil)
+      delete_pet_with_http_info(pet_id: pet_id, api_key: api_key)
       nil
     end
 
     # Deletes a pet
     # @param pet_id [Int64] Pet id to delete
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def delete_pet_with_http_info(pet_id : Int64, api_key : String?)
+    def delete_pet_with_http_info(*, pet_id : Int64, api_key : String? = nil)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.delete_pet ..."}
       end
@@ -96,14 +96,14 @@ module Petstore
         raise ArgumentError.new("Missing the required parameter 'pet_id' when calling PetApi.delete_pet")
       end
       # resource path
-      local_var_path = "/pet/{petId}".sub("{" + "petId" + "}", URI.encode(pet_id.to_s).gsub("%2F", "/"))
+      local_var_path = "/pet/{petId}".sub("{" + "petId" + "}", URI.encode_path(pet_id.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new
 
       # header parameters
       header_params = Hash(String, String).new
-      header_params["api_key"] = api_key
+      header_params["api_key"] = api_key unless api_key.nil?
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
@@ -136,8 +136,8 @@ module Petstore
     # Multiple status values can be provided with comma separated strings
     # @param status [Array(String)] Status values that need to be considered for filter
     # @return [Array(Pet)]
-    def find_pets_by_status(status : Array(String))
-      data, _status_code, _headers = find_pets_by_status_with_http_info(status)
+    def find_pets_by_status(*, status : Array(String))
+      data, _status_code, _headers = find_pets_by_status_with_http_info(status: status)
       data
     end
 
@@ -145,7 +145,7 @@ module Petstore
     # Multiple status values can be provided with comma separated strings
     # @param status [Array(String)] Status values that need to be considered for filter
     # @return [Array<(Array(Pet), Integer, Hash)>] Array(Pet) data, response status code and response headers
-    def find_pets_by_status_with_http_info(status : Array(String))
+    def find_pets_by_status_with_http_info(*, status : Array(String))
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.find_pets_by_status ..."}
       end
@@ -158,7 +158,7 @@ module Petstore
 
       # query parameters
       query_params = Hash(String, String).new
-      query_params["status"] = @api_client.build_collection_param(status, :csv)
+      query_params["status"] = @api_client.build_collection_param(status, :csv) unless status.nil? || status.empty?
 
       # header parameters
       header_params = Hash(String, String).new
@@ -196,8 +196,8 @@ module Petstore
     # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     # @param tags [Array(String)] Tags to filter by
     # @return [Array(Pet)]
-    def find_pets_by_tags(tags : Array(String))
-      data, _status_code, _headers = find_pets_by_tags_with_http_info(tags)
+    def find_pets_by_tags(*, tags : Array(String))
+      data, _status_code, _headers = find_pets_by_tags_with_http_info(tags: tags)
       data
     end
 
@@ -205,7 +205,7 @@ module Petstore
     # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     # @param tags [Array(String)] Tags to filter by
     # @return [Array<(Array(Pet), Integer, Hash)>] Array(Pet) data, response status code and response headers
-    def find_pets_by_tags_with_http_info(tags : Array(String))
+    def find_pets_by_tags_with_http_info(*, tags : Array(String))
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.find_pets_by_tags ..."}
       end
@@ -218,7 +218,7 @@ module Petstore
 
       # query parameters
       query_params = Hash(String, String).new
-      query_params["tags"] = @api_client.build_collection_param(tags, :csv)
+      query_params["tags"] = @api_client.build_collection_param(tags, :csv) unless tags.nil? || tags.empty?
 
       # header parameters
       header_params = Hash(String, String).new
@@ -256,8 +256,8 @@ module Petstore
     # Returns a single pet
     # @param pet_id [Int64] ID of pet to return
     # @return [Pet]
-    def get_pet_by_id(pet_id : Int64)
-      data, _status_code, _headers = get_pet_by_id_with_http_info(pet_id)
+    def get_pet_by_id(*, pet_id : Int64)
+      data, _status_code, _headers = get_pet_by_id_with_http_info(pet_id: pet_id)
       data
     end
 
@@ -265,7 +265,7 @@ module Petstore
     # Returns a single pet
     # @param pet_id [Int64] ID of pet to return
     # @return [Array<(Pet, Integer, Hash)>] Pet data, response status code and response headers
-    def get_pet_by_id_with_http_info(pet_id : Int64)
+    def get_pet_by_id_with_http_info(*, pet_id : Int64)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.get_pet_by_id ..."}
       end
@@ -274,7 +274,7 @@ module Petstore
         raise ArgumentError.new("Missing the required parameter 'pet_id' when calling PetApi.get_pet_by_id")
       end
       # resource path
-      local_var_path = "/pet/{petId}".sub("{" + "petId" + "}", URI.encode(pet_id.to_s).gsub("%2F", "/"))
+      local_var_path = "/pet/{petId}".sub("{" + "petId" + "}", URI.encode_path(pet_id.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new
@@ -314,15 +314,15 @@ module Petstore
     # Update an existing pet
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Pet]
-    def update_pet(pet : Pet)
-      data, _status_code, _headers = update_pet_with_http_info(pet)
+    def update_pet(*, pet : Pet)
+      data, _status_code, _headers = update_pet_with_http_info(pet: pet)
       data
     end
 
     # Update an existing pet
     # @param pet [Pet] Pet object that needs to be added to the store
     # @return [Array<(Pet, Integer, Hash)>] Pet data, response status code and response headers
-    def update_pet_with_http_info(pet : Pet)
+    def update_pet_with_http_info(*, pet : Pet)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.update_pet ..."}
       end
@@ -373,15 +373,15 @@ module Petstore
     # Updates a pet in the store with form data
     # @param pet_id [Int64] ID of pet that needs to be updated
     # @return [nil]
-    def update_pet_with_form(pet_id : Int64, name : String? = nil, status : String? = nil)
-      update_pet_with_form_with_http_info(pet_id, name, status)
+    def update_pet_with_form(*, pet_id : Int64, name : String? = nil, status : String? = nil)
+      update_pet_with_form_with_http_info(pet_id: pet_id, name: name, status: status)
       nil
     end
 
     # Updates a pet in the store with form data
     # @param pet_id [Int64] ID of pet that needs to be updated
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def update_pet_with_form_with_http_info(pet_id : Int64, name : String?, status : String?)
+    def update_pet_with_form_with_http_info(*, pet_id : Int64, name : String? = nil, status : String? = nil)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.update_pet_with_form ..."}
       end
@@ -390,7 +390,7 @@ module Petstore
         raise ArgumentError.new("Missing the required parameter 'pet_id' when calling PetApi.update_pet_with_form")
       end
       # resource path
-      local_var_path = "/pet/{petId}".sub("{" + "petId" + "}", URI.encode(pet_id.to_s).gsub("%2F", "/"))
+      local_var_path = "/pet/{petId}".sub("{" + "petId" + "}", URI.encode_path(pet_id.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new
@@ -432,15 +432,15 @@ module Petstore
     # uploads an image
     # @param pet_id [Int64] ID of pet to update
     # @return [ApiResponse]
-    def upload_file(pet_id : Int64, additional_metadata : String? = nil, file : ::File? = nil)
-      data, _status_code, _headers = upload_file_with_http_info(pet_id, additional_metadata, file)
+    def upload_file(*, pet_id : Int64, additional_metadata : String? = nil, file : ::File? = nil)
+      data, _status_code, _headers = upload_file_with_http_info(pet_id: pet_id, additional_metadata: additional_metadata, file: file)
       data
     end
 
     # uploads an image
     # @param pet_id [Int64] ID of pet to update
     # @return [Array<(ApiResponse, Integer, Hash)>] ApiResponse data, response status code and response headers
-    def upload_file_with_http_info(pet_id : Int64, additional_metadata : String?, file : ::File?)
+    def upload_file_with_http_info(*, pet_id : Int64, additional_metadata : String? = nil, file : ::File? = nil)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.upload_file ..."}
       end
@@ -449,7 +449,7 @@ module Petstore
         raise ArgumentError.new("Missing the required parameter 'pet_id' when calling PetApi.upload_file")
       end
       # resource path
-      local_var_path = "/pet/{petId}/uploadImage".sub("{" + "petId" + "}", URI.encode(pet_id.to_s).gsub("%2F", "/"))
+      local_var_path = "/pet/{petId}/uploadImage".sub("{" + "petId" + "}", URI.encode_path(pet_id.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new

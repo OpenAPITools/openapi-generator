@@ -21,8 +21,8 @@ module Petstore
     # This can only be done by the logged in user.
     # @param user [User] Created user object
     # @return [nil]
-    def create_user(user : User)
-      create_user_with_http_info(user)
+    def create_user(*, user : User)
+      create_user_with_http_info(user: user)
       nil
     end
 
@@ -30,7 +30,7 @@ module Petstore
     # This can only be done by the logged in user.
     # @param user [User] Created user object
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def create_user_with_http_info(user : User)
+    def create_user_with_http_info(*, user : User)
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.create_user ..."}
       end
@@ -79,15 +79,15 @@ module Petstore
     # Creates list of users with given input array
     # @param user [Array(User)] List of user object
     # @return [nil]
-    def create_users_with_array_input(user : Array(User))
-      create_users_with_array_input_with_http_info(user)
+    def create_users_with_array_input(*, user : Array(User))
+      create_users_with_array_input_with_http_info(user: user)
       nil
     end
 
     # Creates list of users with given input array
     # @param user [Array(User)] List of user object
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def create_users_with_array_input_with_http_info(user : Array(User))
+    def create_users_with_array_input_with_http_info(*, user : Array(User))
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.create_users_with_array_input ..."}
       end
@@ -136,15 +136,15 @@ module Petstore
     # Creates list of users with given input array
     # @param user [Array(User)] List of user object
     # @return [nil]
-    def create_users_with_list_input(user : Array(User))
-      create_users_with_list_input_with_http_info(user)
+    def create_users_with_list_input(*, user : Array(User))
+      create_users_with_list_input_with_http_info(user: user)
       nil
     end
 
     # Creates list of users with given input array
     # @param user [Array(User)] List of user object
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def create_users_with_list_input_with_http_info(user : Array(User))
+    def create_users_with_list_input_with_http_info(*, user : Array(User))
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.create_users_with_list_input ..."}
       end
@@ -194,8 +194,8 @@ module Petstore
     # This can only be done by the logged in user.
     # @param username [String] The name that needs to be deleted
     # @return [nil]
-    def delete_user(username : String)
-      delete_user_with_http_info(username)
+    def delete_user(*, username : String)
+      delete_user_with_http_info(username: username)
       nil
     end
 
@@ -203,7 +203,7 @@ module Petstore
     # This can only be done by the logged in user.
     # @param username [String] The name that needs to be deleted
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def delete_user_with_http_info(username : String)
+    def delete_user_with_http_info(*, username : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.delete_user ..."}
       end
@@ -212,7 +212,7 @@ module Petstore
         raise ArgumentError.new("Missing the required parameter 'username' when calling UserApi.delete_user")
       end
       # resource path
-      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode(username.to_s).gsub("%2F", "/"))
+      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode_path(username.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new
@@ -250,15 +250,15 @@ module Petstore
     # Get user by user name
     # @param username [String] The name that needs to be fetched. Use user1 for testing.
     # @return [User]
-    def get_user_by_name(username : String)
-      data, _status_code, _headers = get_user_by_name_with_http_info(username)
+    def get_user_by_name(*, username : String)
+      data, _status_code, _headers = get_user_by_name_with_http_info(username: username)
       data
     end
 
     # Get user by user name
     # @param username [String] The name that needs to be fetched. Use user1 for testing.
     # @return [Array<(User, Integer, Hash)>] User data, response status code and response headers
-    def get_user_by_name_with_http_info(username : String)
+    def get_user_by_name_with_http_info(*, username : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.get_user_by_name ..."}
       end
@@ -267,7 +267,7 @@ module Petstore
         raise ArgumentError.new("Missing the required parameter 'username' when calling UserApi.get_user_by_name")
       end
       # resource path
-      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode(username.to_s).gsub("%2F", "/"))
+      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode_path(username.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new
@@ -308,8 +308,8 @@ module Petstore
     # @param username [String] The user name for login
     # @param password [String] The password for login in clear text
     # @return [String]
-    def login_user(username : String, password : String)
-      data, _status_code, _headers = login_user_with_http_info(username, password)
+    def login_user(*, username : String, password : String)
+      data, _status_code, _headers = login_user_with_http_info(username: username, password: password)
       data
     end
 
@@ -317,7 +317,7 @@ module Petstore
     # @param username [String] The user name for login
     # @param password [String] The password for login in clear text
     # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
-    def login_user_with_http_info(username : String, password : String)
+    def login_user_with_http_info(*, username : String, password : String)
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.login_user ..."}
       end
@@ -339,8 +339,8 @@ module Petstore
 
       # query parameters
       query_params = Hash(String, String).new
-      query_params["username"] = username.to_s unless username.nil?
-      query_params["password"] = password.to_s unless password.nil?
+      query_params["username"] = username unless username.nil?
+      query_params["password"] = password unless password.nil?
 
       # header parameters
       header_params = Hash(String, String).new
@@ -428,8 +428,8 @@ module Petstore
     # @param username [String] name that need to be deleted
     # @param user [User] Updated user object
     # @return [nil]
-    def update_user(username : String, user : User)
-      update_user_with_http_info(username, user)
+    def update_user(*, username : String, user : User)
+      update_user_with_http_info(username: username, user: user)
       nil
     end
 
@@ -438,7 +438,7 @@ module Petstore
     # @param username [String] name that need to be deleted
     # @param user [User] Updated user object
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def update_user_with_http_info(username : String, user : User)
+    def update_user_with_http_info(*, username : String, user : User)
       if @api_client.config.debugging
         Log.debug {"Calling API: UserApi.update_user ..."}
       end
@@ -451,7 +451,7 @@ module Petstore
         raise ArgumentError.new("Missing the required parameter 'user' when calling UserApi.update_user")
       end
       # resource path
-      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode(username.to_s).gsub("%2F", "/"))
+      local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode_path(username.to_s).gsub("%2F", "/"))
 
       # query parameters
       query_params = Hash(String, String).new
