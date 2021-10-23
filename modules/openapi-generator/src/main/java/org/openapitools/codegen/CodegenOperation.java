@@ -24,7 +24,7 @@ import java.util.*;
 
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
-    public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
+    public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOnlyOneParam = false, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
             isArray, isMultipart,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
@@ -277,6 +277,7 @@ public class CodegenOperation {
         sb.append(", hasConsumes=").append(hasConsumes);
         sb.append(", hasProduces=").append(hasProduces);
         sb.append(", hasParams=").append(hasParams);
+        sb.append(", hasOnlyOneParam=").append(hasOnlyOneParam);
         sb.append(", hasOptionalParams=").append(hasOptionalParams);
         sb.append(", hasRequiredParams=").append(hasRequiredParams);
         sb.append(", returnTypeIsPrimitive=").append(returnTypeIsPrimitive);
@@ -351,6 +352,7 @@ public class CodegenOperation {
                 hasConsumes == that.hasConsumes &&
                 hasProduces == that.hasProduces &&
                 hasParams == that.hasParams &&
+                hasOnlyOneParam == that.hasOnlyOneParam &&
                 hasOptionalParams == that.hasOptionalParams &&
                 hasRequiredParams == that.hasRequiredParams &&
                 returnTypeIsPrimitive == that.returnTypeIsPrimitive &&
@@ -418,7 +420,7 @@ public class CodegenOperation {
     @Override
     public int hashCode() {
 
-        return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
+        return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOnlyOneParam, hasOptionalParams,
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
                 isArray, isMultipart, isResponseBinary, isResponseFile, hasReference, hasDefaultResponse, isRestfulIndex,
                 isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy, isRestful, isDeprecated,

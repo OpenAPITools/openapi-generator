@@ -4145,6 +4145,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (op.allParams.size() > 0) {
             op.hasParams = true;
         }
+        if (op.allParams.size() == 1) {
+            op.hasOnlyOneParam = true;
+        }
         op.hasRequiredParams = op.requiredParams.size() > 0;
 
         // set Restful Flag
