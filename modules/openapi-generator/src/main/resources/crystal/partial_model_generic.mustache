@@ -4,14 +4,22 @@
   class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
     include JSON::Serializable
 
-    {{#vars}}
+    {{#requiredVars}}
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nillable: true, emit_null: true{{/isNullable}})]
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}})]
     property {{{name}}} : {{{dataType}}}
 
-  {{/vars}}
+    {{/requiredVars}}
+    {{#optionalVars}}
+    {{#description}}
+    # {{{.}}}
+    {{/description}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nilable: true, emit_null: true{{/isNullable}})]
+    property {{{name}}} : {{{dataType}}}?
+
+    {{/optionalVars}}
 {{#hasEnums}}
     class EnumAttributeValidator
       getter datatype : String
@@ -74,7 +82,7 @@
     {{/discriminator}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize({{#vars}}@{{{name}}} : {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/vars}})
+    def initialize({{#requiredVars}}@{{{name}}} : {{{dataType}}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}}, {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}@{{{name}}} : {{{dataType}}}?{{^defaultValue}} = nil{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalVars}})
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
