@@ -43,8 +43,7 @@ namespace YourProject
           {
               // the type of token here depends on the api security specifications
               ApiKeyToken token = new(TimeSpan.FromSeconds(1), $"Bearer <your token>");
-              ApiKeyToken[] tokens = new ApiKeyToken[] { token };
-              options.AddTokens(tokens);
+              options.AddTokens(token);
 
               options.ConfigureJsonOptions((jsonOptions) =>
               {

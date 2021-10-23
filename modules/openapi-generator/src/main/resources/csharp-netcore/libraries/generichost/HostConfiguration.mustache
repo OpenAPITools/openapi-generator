@@ -73,5 +73,18 @@ namespace {{packageName}}.Client
 
             return this;
         }
+
+        /// <summary>
+        /// Adds tokens to your IServiceCollection
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        public HostConfiguration AddTokens<T>(T token) where T : TokenBase
+        {
+            _services.AddSingleton(new TokenContainer<T>(new T[]{ token }));
+
+            return this;
+        }
     }
 }
