@@ -16,24 +16,24 @@ module Petstore
   class Order
     include JSON::Serializable
 
-    @[JSON::Field(key: "id", type: Int64)]
-    property id : Int64
+    @[JSON::Field(key: "id", type: Int64?)]
+    property id : Int64?
 
-    @[JSON::Field(key: "petId", type: Int64)]
-    property pet_id : Int64
+    @[JSON::Field(key: "petId", type: Int64?)]
+    property pet_id : Int64?
 
-    @[JSON::Field(key: "quantity", type: Int32)]
-    property quantity : Int32
+    @[JSON::Field(key: "quantity", type: Int32?)]
+    property quantity : Int32?
 
-    @[JSON::Field(key: "shipDate", type: Time)]
-    property ship_date : Time
+    @[JSON::Field(key: "shipDate", type: Time?)]
+    property ship_date : Time?
 
     # Order Status
-    @[JSON::Field(key: "status", type: String)]
-    property status : String
+    @[JSON::Field(key: "status", type: String?)]
+    property status : String?
 
-    @[JSON::Field(key: "complete", type: Bool, default: false)]
-    property complete : Bool
+    @[JSON::Field(key: "complete", type: Bool?, default: false)]
+    property complete : Bool?
 
     class EnumAttributeValidator
       getter datatype : String
@@ -60,7 +60,7 @@ module Petstore
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : Int64?, @pet_id : Int64?, @quantity : Int32?, @ship_date : Time?, @status : String?, @complete : Bool?)
+    def initialize(@id : Int64? = nil, @pet_id : Int64? = nil, @quantity : Int32? = nil, @ship_date : Time? = nil, @status : String? = nil, @complete : Bool? = false)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
