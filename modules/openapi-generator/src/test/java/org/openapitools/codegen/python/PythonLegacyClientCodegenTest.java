@@ -27,14 +27,6 @@ import org.openapitools.codegen.languages.PythonLegacyClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import org.openapitools.codegen.config.CodegenConfigurator;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.Map;
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -387,27 +379,4 @@ public class PythonLegacyClientCodegenTest {
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
-
-    @Test(description = "tests NoProxyPyLegacyClient")
-    public void testNoProxyPyLegacyClient() throws Exception {
-
-        final String gen = "python-legacy";
-        final String spec = "src/test/resources/3_0/petstore.yaml";
-
-        File output = Files.createTempDirectory("test").toFile();
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName(gen)
-                .setInputSpec(spec)
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        DefaultGenerator generator = new DefaultGenerator();
-        List<File> files = generator.opts(clientOptInput).generate();
-
-        for (String f : new String[] { "openapi_client/configuration.py", "openapi_client/rest.py" } ) {
-            TestUtils.ensureContainsFile(files, output, f);
-            Path p = output.toPath().resolve(f);
-            TestUtils.assertFileContains(p, "no_proxy");
-        }
-    }
-
 }
