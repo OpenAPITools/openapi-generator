@@ -37,7 +37,7 @@ _openapi_generator_cli_completions() {
     ;;
   esac
 
-  # printf '%s\n' "${options[@]}"
+  # printf '%s\n' "${options[@]}" 
   if [[ -n "${options[@]}" ]]; then
     COMPREPLY=( $(compgen  -W "${options}" -- ${2}) )
   fi
