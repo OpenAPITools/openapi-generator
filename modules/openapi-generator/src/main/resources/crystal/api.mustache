@@ -130,7 +130,7 @@ module {{moduleName}}
       # query parameters
       query_params = Hash(String, String).new
       {{#queryParams}}
-      query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}) unless {{{paramName}}}.nil? || {{{paramName}}}.empty?{{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{^isString}}.to_s{{/isString}}{{^isRequired}} unless {{{paramName}}}.nil?{{/isRequired}}{{/collectionFormat}}
+      query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s{{/collectionFormat}}{{^isRequired}} unless {{{paramName}}}.nil?{{#collectionFormat}} || {{{paramName}}}.empty?{{/collectionFormat}}{{/isRequired}}
       {{/queryParams}}
 
       # header parameters
@@ -144,13 +144,23 @@ module {{moduleName}}
       header_params["Content-Type"] = @api_client.select_header_content_type([{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}])
       {{/hasConsumes}}
       {{#headerParams}}
-      header_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}) unless {{{paramName}}}.nil? || {{{paramName}}}.empty?{{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{^isString}}.to_s{{/isString}}{{^isRequired}} unless {{{paramName}}}.nil?{{/isRequired}}{{/collectionFormat}}
+      header_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s{{/collectionFormat}}{{^isRequired}} unless {{{paramName}}}.nil?{{#collectionFormat}} || {{{paramName}}}.empty?{{/collectionFormat}}{{/isRequired}}
       {{/headerParams}}
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
       {{#formParams}}
-      form_params[:"{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}) unless {{{paramName}}}.nil? || {{{paramName}}}.empty?{{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}{{^isFile}}{{^isString}}.to_s{{/isString}}{{/isFile}}{{^isRequired}} unless {{{paramName}}}.nil?{{/isRequired}}{{/collectionFormat}}
+      {{#isFile}}
+      {{#isRequired}}
+      form_params[:"{{baseName}}"] = {{paramName}}.nil? ? "" : {{paramName}}
+      {{/isRequired}}
+      {{^isRequired}}
+      form_params[:"{{baseName}}"] = {{paramName}} unless {{paramName}}.nil?
+      {{/isRequired}}
+      {{/isFile}}
+      {{^isFile}}
+      form_params[:"{{baseName}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s{{/collectionFormat}}{{^isRequired}} unless {{{paramName}}}.nil?{{#collectionFormat}} || {{{paramName}}}.empty?{{/collectionFormat}}{{/isRequired}}
+      {{/isFile}}
       {{/formParams}}
 
       # http body (model)

@@ -103,7 +103,7 @@ module Petstore
 
       # header parameters
       header_params = Hash(String, String).new
-      header_params["api_key"] = api_key unless api_key.nil?
+      header_params["api_key"] = api_key.to_s unless api_key.nil?
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
@@ -402,8 +402,8 @@ module Petstore
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
-      form_params[:"name"] = name unless name.nil?
-      form_params[:"status"] = status unless status.nil?
+      form_params[:"name"] = name.to_s unless name.nil?
+      form_params[:"status"] = status.to_s unless status.nil?
 
       # http body (model)
       post_body = nil
@@ -463,7 +463,7 @@ module Petstore
 
       # form parameters
       form_params = Hash(Symbol, (String | ::File)).new
-      form_params[:"additionalMetadata"] = additional_metadata unless additional_metadata.nil?
+      form_params[:"additionalMetadata"] = additional_metadata.to_s unless additional_metadata.nil?
       form_params[:"file"] = file unless file.nil?
 
       # http body (model)
