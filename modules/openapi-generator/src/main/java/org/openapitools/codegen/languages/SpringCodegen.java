@@ -90,7 +90,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String OPENAPI_DOCKET_CONFIG = "swaggerDocketConfig";
     public static final String API_FIRST = "apiFirst";
     public static final String OAS3 = "oas3";
-    public static final String SPRING_CONTROLLER = "springController";
+    public static final String SPRING_CONTROLLER = "useSpringController";
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
