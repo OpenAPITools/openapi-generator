@@ -23,6 +23,7 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.context.FieldValueResolver;
 import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.context.MapValueResolver;
+import com.github.jknack.handlebars.context.MethodValueResolver;
 import com.github.jknack.handlebars.helper.ConditionalHelpers;
 import com.github.jknack.handlebars.helper.StringHelpers;
 import com.github.jknack.handlebars.io.AbstractTemplateLoader;
@@ -46,6 +47,7 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     // We use this as a simple lookup for valid file name extensions. This adapter will inspect .mustache (built-in) and infer the relevant handlebars filename
     private final String[] canCompileFromExtensions = new String[]{".handlebars",".hbs",".mustache"};
     private boolean infiniteLoops = false;
+    private boolean prettyPrint = false;
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
@@ -71,7 +73,8 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
                 .resolver(
                         MapValueResolver.INSTANCE,
                         JavaBeanValueResolver.INSTANCE,
-                        FieldValueResolver.INSTANCE)
+                        FieldValueResolver.INSTANCE,
+                        MethodValueResolver.INSTANCE)
                 .build();
 
         Handlebars handlebars = new Handlebars(loader);
@@ -84,6 +87,7 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         handlebars.registerHelpers(ConditionalHelpers.class);
         handlebars.registerHelpers(org.openapitools.codegen.templating.handlebars.StringHelpers.class);
         handlebars.setInfiniteLoops(infiniteLoops);
+        handlebars.setPrettyPrint(prettyPrint);
         Template tmpl = handlebars.compile(templateFile);
         return tmpl.apply(context);
     }
@@ -133,6 +137,10 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     public HandlebarsEngineAdapter infiniteLoops(boolean infiniteLoops) {
         this.infiniteLoops = infiniteLoops;
         return this;
+    }
+
+    public void setPrettyPrint(boolean prettyPrint) {
+        this.prettyPrint = prettyPrint;
     }
 }
 
