@@ -63,6 +63,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
+    public static final String SUPPORT_STREAMING = "supportStreaming";
     public static final String GRADLE_PROPERTIES= "gradleProperties";
 
     public static final String PLAY_24 = "play24";
@@ -112,6 +113,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean caseInsensitiveResponseHeaders = false;
     protected boolean useAbstractionForFiles = false;
     protected boolean dynamicOperations = false;
+    protected boolean supportStreaming = false;
     protected String gradleProperties;
     protected String authFolder;
     protected String serializationLibrary = null;
@@ -156,6 +158,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, libraries"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
         cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle proeprties to the gradle.properties file"));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.");
@@ -320,6 +323,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setDynamicOperations(Boolean.parseBoolean(additionalProperties.get(DYNAMIC_OPERATIONS).toString()));
         }
         additionalProperties.put(DYNAMIC_OPERATIONS, dynamicOperations);
+
+        if (additionalProperties.containsKey(SUPPORT_STREAMING)) {
+            this.setSupportStreaming(Boolean.parseBoolean(additionalProperties.get(SUPPORT_STREAMING).toString()));
+        }
+        additionalProperties.put(SUPPORT_STREAMING, supportStreaming);
 
         if (additionalProperties.containsKey(GRADLE_PROPERTIES)) {
             this.setGradleProperties(additionalProperties.get(GRADLE_PROPERTIES).toString());
@@ -990,6 +998,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setDynamicOperations(final boolean dynamicOperations) {
         this.dynamicOperations = dynamicOperations;
+    }
+
+    public void setSupportStreaming(final boolean supportStreaming) {
+        this.supportStreaming = supportStreaming;
     }
 
     public void setGradleProperties(final String gradleProperties) {
