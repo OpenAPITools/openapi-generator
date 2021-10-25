@@ -101,11 +101,35 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
 
     {{#queryParams}}
     {{#required}}
-    local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string())]);
+    {{#isArray}}
+    {{#isExplode}}
+    for local_var_str_param in {{{paramName}}}.into_iter().map(|p| p.to_string()) {
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", local_var_str_param)]);
+    }
+    {{/isExplode}}
+    {{^isExplode}}
+    local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
+    {{/isExplode}}
+    {{/isArray}}
+    {{^isArray}}
+    local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
+    {{/isArray}}
     {{/required}}
     {{^required}}
     if let Some(ref local_var_str) = {{{paramName}}} {
-        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string())]);
+        {{#isArray}}
+            {{#isExplode}}
+            for local_var_str_param in local_var_str.into_iter().map(|p| p.to_string()) {
+                local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", local_var_str_param)]);
+            }
+            {{/isExplode}}
+            {{^isExplode}}
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
+            {{/isExplode}}
+        {{/isArray}}
+        {{^isArray}}
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+        {{/isArray}}
     }
     {{/required}}
     {{/queryParams}}
