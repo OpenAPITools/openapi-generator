@@ -8,7 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		07AD66F44F142A25134285D2 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004F49F830DBCE73EE547625 /* Tag.swift */; };
-		2BD3B8D12727080900E16037 /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD3B8D02727080900E16037 /* Runtime.swift */; };
+		2BD3B8D727271A1300E16037 /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD3B8D627271A1300E16037 /* Runtime.swift */; };
+		2BD3B8DA27271C7F00E16037 /* StoreAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD3B8D527270A5E00E16037 /* StoreAPI.swift */; };
+		2BD3B8DB27271C7F00E16037 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD3B8D427270A5E00E16037 /* UserAPI.swift */; };
+		2BD3B8DC27271C7F00E16037 /* PetAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD3B8D327270A5E00E16037 /* PetAPI.swift */; };
 		5FDB83D7EF01DBFD3E8B6AD6 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0D02E61CF4C58B24BC1581 /* ApiResponse.swift */; };
 		615F8910ABA037FBFA0BC09F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA84FDE7CC165FCEDC532CE0 /* User.swift */; };
 		8BB28EBA3F247E1FC0AEB946 /* Pet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6443F80E261022596B8ABA4 /* Pet.swift */; };
@@ -18,10 +21,11 @@
 
 /* Begin PBXFileReference section */
 		004F49F830DBCE73EE547625 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
-		2BD3B8D02727080900E16037 /* Runtime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Runtime.swift; path = "../../../../../../../../../wallet-client-ios/Runtime.swift"; sourceTree = "<group>"; };
 		2BD3B8D327270A5E00E16037 /* PetAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetAPI.swift; sourceTree = "<group>"; };
 		2BD3B8D427270A5E00E16037 /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		2BD3B8D527270A5E00E16037 /* StoreAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAPI.swift; sourceTree = "<group>"; };
+		2BD3B8D627271A1300E16037 /* Runtime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Runtime.swift; path = "../../../../../../../../modules/openapi-generator/src/main/resources/swift-alt/Runtime.swift"; sourceTree = "<group>"; };
+		2BD3B8D827271B0300E16037 /* Old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Old.swift; path = "../../../../../../../../modules/openapi-generator/src/main/resources/swift-alt/Old.swift"; sourceTree = "<group>"; };
 		557E9F1F7D8EE8697FFC77CA /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		5A68201A010940B069E402C4 /* OpenAPIClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenAPIClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F0D02E61CF4C58B24BC1581 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
@@ -63,7 +67,8 @@
 		58C164DF5107AE40B4ED3435 /* OpenAPIs */ = {
 			isa = PBXGroup;
 			children = (
-				2BD3B8D02727080900E16037 /* Runtime.swift */,
+				2BD3B8D827271B0300E16037 /* Old.swift */,
+				2BD3B8D627271A1300E16037 /* Runtime.swift */,
 				2BD3B8D227270A5E00E16037 /* APIs */,
 				D3393B2ECC9C8AA58D9CC6B5 /* Models */,
 			);
@@ -182,13 +187,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BD3B8DA27271C7F00E16037 /* StoreAPI.swift in Sources */,
 				5FDB83D7EF01DBFD3E8B6AD6 /* ApiResponse.swift in Sources */,
 				B3B33292169982AB380577B9 /* Category.swift in Sources */,
-				2BD3B8D12727080900E16037 /* Runtime.swift in Sources */,
 				D2051AFBDBA23137A85FCA3B /* Order.swift in Sources */,
+				2BD3B8D727271A1300E16037 /* Runtime.swift in Sources */,
 				8BB28EBA3F247E1FC0AEB946 /* Pet.swift in Sources */,
 				07AD66F44F142A25134285D2 /* Tag.swift in Sources */,
 				615F8910ABA037FBFA0BC09F /* User.swift in Sources */,
+				2BD3B8DC27271C7F00E16037 /* PetAPI.swift in Sources */,
+				2BD3B8DB27271C7F00E16037 /* UserAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
