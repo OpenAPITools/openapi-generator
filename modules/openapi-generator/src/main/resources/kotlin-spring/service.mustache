@@ -2,6 +2,7 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
+{{#responseEntity}}import org.springframework.http.ResponseEntity{{/responseEntity}}
 {{#reactive}}
 import kotlinx.coroutines.flow.Flow;
 {{/reactive}}
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.Flow;
 interface {{classname}}Service {
 {{#operation}}
 
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{paramName}}: {{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}Flow<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{^-last}}, {{/-last}}{{/allParams}}): {{>returnTypes}}
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{paramName}}: {{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}Flow<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{^-last}}, {{/-last}}{{/allParams}}): {{#responseEntity}}ResponseEntity<{{/responseEntity}}{{>returnTypes}}{{#responseEntity}}>{{/responseEntity}}
 {{/operation}}
 }
 {{/operations}}

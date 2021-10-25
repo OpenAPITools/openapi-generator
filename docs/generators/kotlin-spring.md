@@ -24,6 +24,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|Generated artifact package name.| |org.openapitools|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |reactive|use coroutines for reactive behavior| |false|
+|responseEntity|use response entity as response for generated services| |false|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
 |serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'| |moshi|
 |serverPort|configuration the port in which the sever is to run on| |8080|

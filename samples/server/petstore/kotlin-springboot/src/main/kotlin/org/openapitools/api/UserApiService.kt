@@ -2,6 +2,7 @@ package org.openapitools.api
 
 import org.openapitools.model.User
 
+
 interface UserApiService {
 
     fun createUser(body: User): Unit
