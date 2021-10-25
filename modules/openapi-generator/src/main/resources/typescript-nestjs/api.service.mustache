@@ -3,7 +3,7 @@
 
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, AxiosRequestHeaders } from 'axios';
 import { Observable } from 'rxjs';
 {{#imports}}
 import { {{classname}} } from '../{{filename}}';
@@ -29,7 +29,7 @@ export class {{classname}} {
 {{/withInterfaces}}
 
     protected basePath = '{{{basePath}}}';
-    public defaultHeaders = new Map()
+    public defaultHeaders: AxiosRequestHeaders = {};
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
