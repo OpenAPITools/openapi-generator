@@ -56,6 +56,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String PLAY_VERSION = "playVersion";
     public static final String ASYNC_NATIVE = "asyncNative";
+    public static final String CONFIGKEY = "configKey";
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
@@ -102,6 +103,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_26;
     protected String microprofileFramework = MICROPROFILE_DEFAULT;
+    protected String configKey = null;
 
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
@@ -280,6 +282,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
         }
         additionalProperties.put(MICROPROFILE_FRAMEWORK, microprofileFramework);
+
+        if (additionalProperties.containsKey(CONFIGKEY)) {
+            this.setConfigKey(additionalProperties.get(CONFIGKEY).toString());
+        }
 
         if (additionalProperties.containsKey(ASYNC_NATIVE)) {
             this.setAsyncNative(convertPropertyToBooleanAndWriteBack(ASYNC_NATIVE));
@@ -962,6 +968,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setMicroprofileFramework(String microprofileFramework) {
         this.microprofileFramework = microprofileFramework;
+    }
+
+    public void setConfigKey(String configKey) {
+        this.configKey = configKey;
     }
 
     public void setParcelableModel(boolean parcelableModel) {
