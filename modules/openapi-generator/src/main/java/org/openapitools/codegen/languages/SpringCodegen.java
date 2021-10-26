@@ -512,9 +512,14 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
 
+        // Springfox cannot be used with oas3 or apiFirst or reactive. So, write the property back after determining
+        // whether it should be enabled or not.
+        boolean useSpringFox = false;
         if (!apiFirst && !reactive && !oas3) {
+            useSpringFox = true;
             additionalProperties.put("useSpringfox", true);
         }
+        writePropertyBack("useSpringfox", useSpringFox);
 
         // Some well-known Spring or Spring-Cloud response wrappers
         if (isNotEmpty(responseWrapper)) {
