@@ -34,9 +34,9 @@ class {{{classname}}} {
   @JsonKey(ignore: true)
   {{/isBinary}}
   {{#required}}
-    {{{datatypeWithEnum}}}{{^isNullable}}?{{/isNullable}} {{{name}}};
+    final {{{datatypeWithEnum}}}{{^isNullable}}?{{/isNullable}} {{{name}}};
   {{/required}}{{^required}}
-    {{{datatypeWithEnum}}}? {{{name}}};
+    final {{{datatypeWithEnum}}}? {{{name}}};
   {{/required}}
 
 {{/vars}}
