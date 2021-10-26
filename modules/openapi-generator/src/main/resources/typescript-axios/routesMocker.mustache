@@ -1,0 +1,99 @@
+import nock from 'nock';
+import process from 'process';
+
+const DEFAULT_EXAMPLE_NAME = 'default';
+const DEFAULT_EXAMPLE_STATUS = 200;
+
+type HttpVerb = string;
+type HttpStatus = number;
+
+type Route = { httpVerb: HttpVerb, routePath: string };
+type RouteMock = {
+    [route: string]: {
+        [httpVerb: string]: {
+            mockCallCount: number,
+            currentExampleName: string,
+            currentStatusCode: number,
+            [statusCode: number]: { examples: Record<any, any> }
+        }
+    }
+}
+
+
+class routesMocker {
+    private readonly routeMocks: Array<RouteMock>;
+    private runningNockMocks: Record<string, Record<string, nock>>;
+    private rootHttpPath: string;
+
+    constructor(routeMocks) {
+        this.rootHttpPath = process.env.ROUTE_MOCKER_{{npmName}};
+        this.routeMocks = routeMocks;
+        this.runningNockMocks = {};
+    }
+
+    private startAMock(mockRoutePath: string, mockVerb: HttpVerb) {
+        const {
+            mockCallCount,
+            currentExampleName,
+            currentStatusCode,
+        } = this.routeMocks[mockRoutePath][mockVerb];
+
+        const exampleData = this.routeMocks[mockRoutePath][mockVerb][currentStatusCode].examples[currentExampleName];
+
+        // https://github.com/nock/nock#http-verbs
+        const nockMock = nock(this.rootHttpPath)
+            .intercept(mockRoutePath, mockVerb)
+            .reply(currentStatusCode, exampleData)
+            .times(mockCallCount);
+
+        this.runningNockMocks = { ...this.runningNockMocks, mockRoutePath: { mockVerb: nockMock } };
+    }
+
+    private stopAMock(mockRoutePath: string, mockVerb: HttpVerb) {
+        nock.removeInterceptor(this.routeMocks[mockRoutePath][mockVerb]);
+    }
+
+    private restartAMock(mockRoutePath: string, mockVerb: HttpVerb) {
+        this.stopAMock(mockRoutePath, mockVerb);
+        this.startAMock(mockRoutePath, mockVerb);
+    }
+
+    public startAllMocks() {
+        Object.entries(this.routeMocks).forEach(([routePath, routePathValues]) => {
+            Object.keys(routePathValues).map(httpVerb => {
+                this.startAMock(routePath, httpVerb);
+            });
+        })
+    }
+
+    public stopAllMocks() {
+        nock.cleanAll();
+        this.runningNockMocks = {};
+
+    }
+
+    public restartMocks() {
+        this.stopAllMocks();
+        this.startAllMocks();
+    }
+
+
+    public changeRouteExample(route: Route, {
+        numberOfCall = Infinity,
+        exampleName = DEFAULT_EXAMPLE_NAME,
+        httpStatus = DEFAULT_EXAMPLE_STATUS,
+    }: { httpStatus?: HttpStatus, exampleName?: string, numberOfCall?: number } = {}) {
+
+        const theRouteMock = this.routeMocks[route.routePath][route.httpVerb];
+        if (!theRouteMock?.[status]?.['examples']?.[exampleName]) {
+            throw new Error(`Route ${route.routePath} wih verb ${route.httpVerb}
+             doesn't have example with name ${exampleName} with status ${status}`);
+        }
+        theRouteMock['mockCallCount'] = numberOfCall;
+        theRouteMock['currentExampleName'] = exampleName;
+        theRouteMock['currentStatusCode'] = httpStatus;
+
+        this.restartAMock(route.routePath, route.httpVerb);
+    }
+
+}
