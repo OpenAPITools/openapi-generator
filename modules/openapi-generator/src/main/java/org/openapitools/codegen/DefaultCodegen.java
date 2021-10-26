@@ -49,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -167,7 +168,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> reservedWordsMappings = new HashMap<String, String>();
     protected String templateDir;
     protected String embeddedTemplateDir;
-    protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    protected Map<String, Object> additionalProperties = new HashMap<>();
     protected Map<String, String> serverVariables = new HashMap<String, String>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     /*
@@ -386,13 +387,14 @@ public class DefaultCodegen implements CodegenConfig {
      * If common lambdas are not desired, override addMustacheLambdas() method
      * and return empty builder.
      *
-     * @return preinitialized map builder with common lambdas
+     * @return preinitialized map with common lambdas
      */
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
 
         return new ImmutableMap.Builder<String, Mustache.Lambda>()
                 .put("lowercase", new LowercaseLambda().generator(this))
                 .put("uppercase", new UppercaseLambda())
+                .put("snakecase", new SnakecaseLambda())
                 .put("titlecase", new TitlecaseLambda())
                 .put("camelcase", new CamelCaseLambda(true).generator(this))
                 .put("pascalcase", new CamelCaseLambda(false).generator(this))
@@ -541,8 +543,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // Let parent know about all its children
-        for (String name : allModels.keySet()) {
-            CodegenModel cm = allModels.get(name);
+        for (Map.Entry<String, CodegenModel> allModelsEntry : allModels.entrySet()) {
+            String name = allModelsEntry.getKey();
+            CodegenModel cm = allModelsEntry.getValue();
             CodegenModel parent = allModels.get(cm.getParent());
             // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy
             // TODO Determine what to do if the parent discriminator name == the grandparent discriminator name
@@ -2381,7 +2384,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
 
-    private void updateModelForComposedSchema(CodegenModel m, Schema schema, Map<String, Schema> allDefinitions) {
+    protected void updateModelForComposedSchema(CodegenModel m, Schema schema, Map<String, Schema> allDefinitions) {
         final ComposedSchema composed = (ComposedSchema) schema;
         Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
         List<String> required = new ArrayList<String>();
@@ -2596,6 +2599,8 @@ public class DefaultCodegen implements CodegenConfig {
             // additionalProperties must be null, ObjectSchema, or empty Schema
             addAdditionPropertiesToCodeGenModel(m, schema);
         }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
     }
 
     protected void updateModelForAnyType(CodegenModel m, Schema schema) {
@@ -2614,6 +2619,8 @@ public class DefaultCodegen implements CodegenConfig {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
     }
 
 
@@ -2776,9 +2783,6 @@ public class DefaultCodegen implements CodegenConfig {
             Collections.sort(m.allVars, comparator);
         }
 
-        // process 'additionalProperties'
-        setAddProps(schema, m);
-
         // post process model properties
         if (m.vars != null) {
             for (CodegenProperty prop : m.vars) {
@@ -2794,7 +2798,7 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    private void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
+    protected void setAddProps(Schema schema, IJsonSchemaValidationProperties property){
         if (schema.equals(new Schema())) {
             // if we are trying to set additionalProperties on an empty schema stop recursing
             return;
@@ -3416,7 +3420,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.example = toExampleValue(p);
         } catch (Exception e) {
             LOGGER.error("Error in generating `example` for the property {}. Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.", property.baseName);
-            LOGGER.debug("Exception from toExampleValue: {}", e);
+            LOGGER.debug("Exception from toExampleValue: {}", e.getMessage());
             property.example = "ERROR_TO_EXAMPLE_VALUE";
         }
         property.defaultValue = toDefaultValue(p);
@@ -3571,13 +3575,13 @@ public class DefaultCodegen implements CodegenConfig {
             ;
         }
 
-        Boolean isAnyTypeWithNothingElseSet = (ModelUtils.isAnyType(p) &&
+        boolean isAnyTypeWithNothingElseSet = (ModelUtils.isAnyType(p) &&
                 (p.getProperties() == null || p.getProperties().isEmpty()) &&
                 !ModelUtils.isComposedSchema(p) &&
                 p.getAdditionalProperties() == null && p.getNot() == null && p.getEnum() == null);
 
         if (!ModelUtils.isArraySchema(p) && !ModelUtils.isMapSchema(p) && !isFreeFormObject(p) && !isAnyTypeWithNothingElseSet) {
-            /** schemas that are not Array, not ModelUtils.isMapSchema, not isFreeFormObject, not AnyType with nothing else set
+            /* schemas that are not Array, not ModelUtils.isMapSchema, not isFreeFormObject, not AnyType with nothing else set
              *  so primitve schemas int, str, number, referenced schemas, AnyType schemas with properties, enums, or composition
              */
             String type = getSchemaType(p);
@@ -3670,7 +3674,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Boolean isPropertyInnerMostEnum(CodegenProperty property) {
         CodegenProperty currentProperty = getMostInnerItems(property);
 
-        return currentProperty == null ? false : currentProperty.isEnum;
+        return currentProperty != null && currentProperty.isEnum;
     }
 
     protected CodegenProperty getMostInnerItems(CodegenProperty property) {
@@ -3949,8 +3953,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
-            for (String key : operation.getResponses().keySet()) {
-                ApiResponse response = operation.getResponses().get(key);
+            for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
+                String key = operationGetResponsesEntry.getKey();
+                ApiResponse response = operationGetResponsesEntry.getValue();
                 addProducesInfo(response, op);
                 CodegenResponse r = fromResponse(key, response);
                 if (r.baseType != null &&
@@ -5109,14 +5114,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // loop through list to update property name with toVarName
-        Set<String> renamedMandatory = new TreeSet<String>();
+        Set<String> renamedMandatory = new ConcurrentSkipListSet<String>();
         Iterator<String> mandatoryIterator = m.mandatory.iterator();
         while (mandatoryIterator.hasNext()) {
             renamedMandatory.add(toVarName(mandatoryIterator.next()));
         }
         m.mandatory = renamedMandatory;
 
-        Set<String> renamedAllMandatory = new TreeSet<String>();
+        Set<String> renamedAllMandatory = new ConcurrentSkipListSet<String>();
         Iterator<String> allMandatoryIterator = m.allMandatory.iterator();
         while (allMandatoryIterator.hasNext()) {
             renamedAllMandatory.add(toVarName(allMandatoryIterator.next()));
@@ -6058,7 +6063,7 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
 
-        Set<String> produces = new TreeSet<String>();
+        Set<String> produces = new ConcurrentSkipListSet<String>();
 
         for (ApiResponse r : operation.getResponses().values()) {
             ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, r);

@@ -28,7 +28,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUser.');
+            throw new RequiredError("UserApi", "createUser", "user");
         }
 
 
@@ -70,7 +70,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
+            throw new RequiredError("UserApi", "createUsersWithArrayInput", "user");
         }
 
 
@@ -112,7 +112,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithListInput.');
+            throw new RequiredError("UserApi", "createUsersWithListInput", "user");
         }
 
 
@@ -155,7 +155,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling deleteUser.');
+            throw new RequiredError("UserApi", "deleteUser", "username");
         }
 
 
@@ -187,7 +187,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling getUserByName.');
+            throw new RequiredError("UserApi", "getUserByName", "username");
         }
 
 
@@ -214,13 +214,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling loginUser.');
+            throw new RequiredError("UserApi", "loginUser", "username");
         }
 
 
         // verify required parameter 'password' is not null or undefined
         if (password === null || password === undefined) {
-            throw new RequiredError('Required parameter password was null or undefined when calling loginUser.');
+            throw new RequiredError("UserApi", "loginUser", "password");
         }
 
 
@@ -281,13 +281,13 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
-            throw new RequiredError('Required parameter username was null or undefined when calling updateUser.');
+            throw new RequiredError("UserApi", "updateUser", "username");
         }
 
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling updateUser.');
+            throw new RequiredError("UserApi", "updateUser", "user");
         }
 
 
@@ -336,7 +336,7 @@ export class UserApiResponseProcessor {
      public async createUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
-            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -344,7 +344,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -357,7 +357,7 @@ export class UserApiResponseProcessor {
      public async createUsersWithArrayInput(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
-            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -365,7 +365,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -378,7 +378,7 @@ export class UserApiResponseProcessor {
      public async createUsersWithListInput(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
-            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -386,7 +386,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -399,10 +399,10 @@ export class UserApiResponseProcessor {
      public async deleteUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<undefined>(response.httpStatusCode, "Invalid username supplied", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid username supplied", undefined, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<undefined>(response.httpStatusCode, "User not found", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "User not found", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -410,7 +410,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -430,10 +430,10 @@ export class UserApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<undefined>(response.httpStatusCode, "Invalid username supplied", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid username supplied", undefined, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<undefined>(response.httpStatusCode, "User not found", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "User not found", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -445,7 +445,7 @@ export class UserApiResponseProcessor {
             return body;
         }
 
-        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -465,7 +465,7 @@ export class UserApiResponseProcessor {
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<undefined>(response.httpStatusCode, "Invalid username/password supplied", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid username/password supplied", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -477,7 +477,7 @@ export class UserApiResponseProcessor {
             return body;
         }
 
-        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -490,7 +490,7 @@ export class UserApiResponseProcessor {
      public async logoutUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("0", response.httpStatusCode)) {
-            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "successful operation", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -498,7 +498,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     /**
@@ -511,10 +511,10 @@ export class UserApiResponseProcessor {
      public async updateUser(response: ResponseContext): Promise< void> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("400", response.httpStatusCode)) {
-            throw new ApiException<undefined>(response.httpStatusCode, "Invalid user supplied", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "Invalid user supplied", undefined, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            throw new ApiException<undefined>(response.httpStatusCode, "User not found", undefined);
+            throw new ApiException<undefined>(response.httpStatusCode, "User not found", undefined, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -522,7 +522,7 @@ export class UserApiResponseProcessor {
             return;
         }
 
-        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny());
+        throw new ApiException<string | Buffer | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
 }

@@ -9,7 +9,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 {{#imports}}
-import { {{classname}} } from '../model/models';
+import { {{ classname }} } from '{{ filename }}';
 {{/imports}}
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -178,7 +178,7 @@ export class {{classname}} {
 {{/required}}
 {{/allParams}}
 
-{{#hasQueryParams}}
+{{#hasQueryParamsOrAuth}}
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
 {{#queryParams}}
         {{#isArray}}
@@ -209,7 +209,7 @@ export class {{classname}} {
         {{/isArray}}
 {{/queryParams}}
 
-{{/hasQueryParams}}
+{{/hasQueryParamsOrAuth}}
         let localVarHeaders = this.defaultHeaders;
 {{#headerParams}}
         {{#isArray}}
@@ -359,9 +359,9 @@ export class {{classname}} {
     {{#httpContextInOptions}}
                 context: localVarHttpContext,
     {{/httpContextInOptions}}
-    {{#hasQueryParams}}
+    {{#hasQueryParamsOrAuth}}
                 params: localVarQueryParameters,
-    {{/hasQueryParams}}
+    {{/hasQueryParamsOrAuth}}
     {{#isResponseFile}}
                 responseType: "blob",
     {{/isResponseFile}}

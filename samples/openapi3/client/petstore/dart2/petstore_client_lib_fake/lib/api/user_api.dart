@@ -294,7 +294,8 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
-        }
+    
+    }
     return Future<User>.value();
   }
 
@@ -366,7 +367,8 @@ class UserApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
-        }
+    
+    }
     return Future<String>.value();
   }
 

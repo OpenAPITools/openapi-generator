@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.utils;
 
-import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
@@ -59,7 +58,7 @@ public class URLPathUtils {
             variables = new ServerVariables();
         }
 
-        Map<String, String> userVariables = userDefinedVariables == null ? new HashMap<>() : ImmutableMap.copyOf(userDefinedVariables);
+        Map<String, String> userVariables = userDefinedVariables == null ? new HashMap<>() : Collections.unmodifiableMap(userDefinedVariables);
 
         if (StringUtils.isNotBlank(url)) {
             url = extractUrl(server, url, variables, userVariables);
