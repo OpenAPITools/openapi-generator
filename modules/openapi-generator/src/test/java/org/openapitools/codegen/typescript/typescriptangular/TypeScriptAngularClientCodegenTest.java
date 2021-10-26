@@ -228,7 +228,7 @@ public class TypeScriptAngularClientCodegenTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("test", schema);
         codegen.setOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.toModelImport(modelName), "model/foo-response-links");
+        Assert.assertEquals(codegen.toModelImport(modelName), "../model/foo-response-links");
         Assert.assertEquals(codegen.toModelFilename(modelName), "./foo-response-links");
     }
 
@@ -257,5 +257,14 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.processOpts();
         Assert.assertEquals(codegen.toParamName("valid_id"), "ValidId");
         Assert.assertEquals(codegen.toParamName("illegal-id+"), "IllegalId");
+    }
+
+    @Test
+    public void testCorrectlyProducesImportsWithImportMapping() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        final String importedModel = "SharedApiModel";
+        final String importName = "@lib/custom/model";
+        codegen.importMapping().put(importedModel, importName);
+        Assert.assertEquals(codegen.toModelImport(importedModel), importName);
     }
 }
