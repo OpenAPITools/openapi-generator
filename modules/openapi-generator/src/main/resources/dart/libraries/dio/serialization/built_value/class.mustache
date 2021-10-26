@@ -106,7 +106,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
                     {{/isContainer}}
                     {{#isModel}}
                     {{#isPrimitiveType}}
-                    {{! These are models that have nee manually marked as primitve via generator param. }}
+                    {{! These are models that have nee manually marked as primitive via generator param. }}
                     result.{{{name}}} = valueDes;
                     {{/isPrimitiveType}}
                     {{^isPrimitiveType}}
