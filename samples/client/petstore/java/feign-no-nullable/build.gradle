@@ -84,9 +84,8 @@ if(hasProperty('target') && target == 'android') {
     publishing {
         publications {
             maven(MavenPublication) {
-               artifactId = 'petstore-feign-no-nullable'
-
-               from components.java
+                artifactId = 'petstore-feign-no-nullable'
+                from components.java
             }
         }
     }

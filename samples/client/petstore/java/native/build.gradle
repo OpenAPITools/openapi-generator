@@ -35,7 +35,6 @@ publishing {
     publications {
         maven(MavenPublication) {
             artifactId = 'petstore-native'
-
             from components.java
         }
     }

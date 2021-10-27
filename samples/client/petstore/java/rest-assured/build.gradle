@@ -104,7 +104,6 @@ ext {
     gson_fire_version = "1.8.4"
     threetenbp_version = "1.4.3"
     okio_version = "1.17.5"
-    jakarta_annotation_version = "1.3.5"
 }
 
 dependencies {

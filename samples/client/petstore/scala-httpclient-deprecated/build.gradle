@@ -117,15 +117,15 @@ repositories {
 }
 
 dependencies {
-    compileOnly "com.fasterxml.jackson.module:jackson-module-scala_2.10:$jackson_version"
-    compileOnly "com.sun.jersey:jersey-client:$jersey_version"
-    compileOnly "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
-    compileOnly "org.jfarcand:jersey-ahc-client:$jersey_async_version"
-    compileOnly "org.scala-lang:scala-library:$scala_version"
-    compileOnly "io.swagger:swagger-core:$swagger_core_version"
-    testCompileOnly "org.scalatest:scalatest_2.10:$scala_test_version"
-    testCompileOnly "junit:junit:$junit_version"
-    compileOnly "joda-time:joda-time:$jodatime_version"
-    compileOnly "org.joda:joda-convert:$joda_version"
-    compileOnly "com.wordnik.swagger:swagger-async-httpclient_2.10:$swagger_async_httpclient_version"
+    compile "com.fasterxml.jackson.module:jackson-module-scala_2.10:$jackson_version"
+    compile "com.sun.jersey:jersey-client:$jersey_version"
+    compile "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
+    compile "org.jfarcand:jersey-ahc-client:$jersey_async_version"
+    compile "org.scala-lang:scala-library:$scala_version"
+    compile "io.swagger:swagger-core:$swagger_core_version"
+    testCompile "org.scalatest:scalatest_2.10:$scala_test_version"
+    testCompile "junit:junit:$junit_version"
+    compile "joda-time:joda-time:$jodatime_version"
+    compile "org.joda:joda-convert:$joda_version"
+    compile "com.wordnik.swagger:swagger-async-httpclient_2.10:$swagger_async_httpclient_version"
 }
