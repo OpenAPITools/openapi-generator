@@ -405,10 +405,11 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                         ));
                     }
                 }
+            }
 
-                if (op.getHasFormParams() || op.getHasQueryParams()) {
-                    resultImports.add("package:" + pubName + "/src/api_util.dart");
-                }
+            resultImports.addAll(rewriteImports(op.imports, false));
+            if (op.getHasFormParams() || op.getHasQueryParams()) {
+                resultImports.add("package:" + pubName + "/src/api_util.dart");
             }
 
                 if (op.returnContainer != null && !(op.isResponseBinary || op.isResponseFile)) {
