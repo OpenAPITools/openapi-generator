@@ -168,7 +168,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> reservedWordsMappings = new HashMap<String, String>();
     protected String templateDir;
     protected String embeddedTemplateDir;
-    protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    protected Map<String, Object> additionalProperties = new HashMap<>();
     protected Map<String, String> serverVariables = new HashMap<String, String>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     /*
@@ -387,13 +387,14 @@ public class DefaultCodegen implements CodegenConfig {
      * If common lambdas are not desired, override addMustacheLambdas() method
      * and return empty builder.
      *
-     * @return preinitialized map builder with common lambdas
+     * @return preinitialized map with common lambdas
      */
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
 
         return new ImmutableMap.Builder<String, Mustache.Lambda>()
                 .put("lowercase", new LowercaseLambda().generator(this))
                 .put("uppercase", new UppercaseLambda())
+                .put("snakecase", new SnakecaseLambda())
                 .put("titlecase", new TitlecaseLambda())
                 .put("camelcase", new CamelCaseLambda(true).generator(this))
                 .put("pascalcase", new CamelCaseLambda(false).generator(this))
@@ -2439,9 +2440,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         // interfaces (schemas defined in allOf, anyOf, oneOf)
         List<Schema> interfaces = ModelUtils.getInterfaces(composed);
-        List<CodegenProperty> anyOfProps = new ArrayList<>();
-        List<CodegenProperty> allOfProps = new ArrayList<>();
-        List<CodegenProperty> oneOfProps = new ArrayList<>();
         if (!interfaces.isEmpty()) {
             // m.interfaces is for backward compatibility
             if (m.interfaces == null)
@@ -2466,7 +2464,6 @@ public class DefaultCodegen implements CodegenConfig {
                             LOGGER.warn("{} (anyOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                         } else {
                             m.anyOf.add(languageType);
-                            anyOfProps.add(interfaceProperty);
 
                         }
                     } else if (composed.getOneOf() != null) {
@@ -2474,7 +2471,6 @@ public class DefaultCodegen implements CodegenConfig {
                             LOGGER.warn("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                         } else {
                             m.oneOf.add(languageType);
-                            oneOfProps.add(interfaceProperty);
                         }
                     } else if (composed.getAllOf() != null) {
                         // no need to add primitive type to allOf, which should comprise of schemas (models) only
@@ -2510,22 +2506,15 @@ public class DefaultCodegen implements CodegenConfig {
 
                 if (composed.getAnyOf() != null) {
                     m.anyOf.add(modelName);
-                    anyOfProps.add(interfaceProperty);
                 } else if (composed.getOneOf() != null) {
                     m.oneOf.add(modelName);
-                    oneOfProps.add(interfaceProperty);
                 } else if (composed.getAllOf() != null) {
                     m.allOf.add(modelName);
-                    allOfProps.add(interfaceProperty);
                 } else {
                     LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
                 }
             }
         }
-
-        m.oneOfProps = oneOfProps;
-        m.allOfProps = allOfProps;
-        m.anyOfProps = anyOfProps;
 
         if (parent != null && composed.getAllOf() != null) { // set parent for allOf only
             m.parentSchema = parentName;
@@ -2695,6 +2684,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         m.setTypeProperties(schema);
+        m.setComposedSchemas(getComposedSchemas(schema));
         if (ModelUtils.isArraySchema(schema)) {
             CodegenProperty arrayProperty = fromProperty(name, schema);
             m.setItems(arrayProperty.items);
@@ -3419,7 +3409,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.example = toExampleValue(p);
         } catch (Exception e) {
             LOGGER.error("Error in generating `example` for the property {}. Default to ERROR_TO_EXAMPLE_VALUE. Enable debugging for more info.", property.baseName);
-            LOGGER.debug("Exception from toExampleValue: {}", e);
+            LOGGER.debug("Exception from toExampleValue: {}", e.getMessage());
             property.example = "ERROR_TO_EXAMPLE_VALUE";
         }
         property.defaultValue = toDefaultValue(p);
@@ -3513,6 +3503,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         property.setTypeProperties(p);
+        property.setComposedSchemas(getComposedSchemas(p));
         if (ModelUtils.isIntegerSchema(p)) { // integer type
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isLongSchema(p)) { // int64/long format
@@ -3574,13 +3565,13 @@ public class DefaultCodegen implements CodegenConfig {
             ;
         }
 
-        Boolean isAnyTypeWithNothingElseSet = (ModelUtils.isAnyType(p) &&
+        boolean isAnyTypeWithNothingElseSet = (ModelUtils.isAnyType(p) &&
                 (p.getProperties() == null || p.getProperties().isEmpty()) &&
                 !ModelUtils.isComposedSchema(p) &&
                 p.getAdditionalProperties() == null && p.getNot() == null && p.getEnum() == null);
 
         if (!ModelUtils.isArraySchema(p) && !ModelUtils.isMapSchema(p) && !isFreeFormObject(p) && !isAnyTypeWithNothingElseSet) {
-            /** schemas that are not Array, not ModelUtils.isMapSchema, not isFreeFormObject, not AnyType with nothing else set
+            /* schemas that are not Array, not ModelUtils.isMapSchema, not isFreeFormObject, not AnyType with nothing else set
              *  so primitve schemas int, str, number, referenced schemas, AnyType schemas with properties, enums, or composition
              */
             String type = getSchemaType(p);
@@ -3673,7 +3664,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Boolean isPropertyInnerMostEnum(CodegenProperty property) {
         CodegenProperty currentProperty = getMostInnerItems(property);
 
-        return currentProperty == null ? false : currentProperty.isEnum;
+        return currentProperty != null && currentProperty.isEnum;
     }
 
     protected CodegenProperty getMostInnerItems(CodegenProperty property) {
@@ -4264,6 +4255,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         r.setTypeProperties(responseSchema);
+        r.setComposedSchemas(getComposedSchemas(responseSchema));
         if (ModelUtils.isArraySchema(responseSchema)) {
             r.simpleType = false;
             r.containerType = cp.containerType;
@@ -4546,6 +4538,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         ModelUtils.syncValidationProperties(parameterSchema, codegenParameter);
         codegenParameter.setTypeProperties(parameterSchema);
+        codegenParameter.setComposedSchemas(getComposedSchemas(parameterSchema));
 
         if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
             codegenParameter.isNullable = true;
@@ -6155,6 +6148,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema ps = unaliasSchema(propertySchema, importMapping);
         ModelUtils.syncValidationProperties(ps, codegenParameter);
         codegenParameter.setTypeProperties(ps);
+        codegenParameter.setComposedSchemas(getComposedSchemas(ps));
         if (ps.getPattern() != null) {
             codegenParameter.pattern = toRegularExpression(ps.getPattern());
         }
@@ -6589,6 +6583,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         ModelUtils.syncValidationProperties(unaliasedSchema, codegenParameter);
         codegenParameter.setTypeProperties(unaliasedSchema);
+        codegenParameter.setComposedSchemas(getComposedSchemas(unaliasedSchema));
         // TODO in the future switch al the below schema usages to unaliasedSchema
         // because it keeps models as refs and will not get their referenced schemas
         if (ModelUtils.isArraySchema(schema)) {
@@ -7152,5 +7147,31 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected String getCollectionFormat(CodegenParameter codegenParameter) {
         return null;
+    }
+
+    private CodegenComposedSchemas getComposedSchemas(Schema schema) {
+        if (!(schema instanceof ComposedSchema)) {
+            return null;
+        }
+        ComposedSchema cs = (ComposedSchema) schema;
+        return new CodegenComposedSchemas(
+                getComposedProperties(cs.getAllOf(), "allOf"),
+                getComposedProperties(cs.getOneOf(), "oneOf"),
+                getComposedProperties(cs.getAnyOf(), "anyOf")
+        );
+    }
+
+    private List<CodegenProperty> getComposedProperties(List<Schema> xOfCollection, String collectionName) {
+        if (xOfCollection == null) {
+            return null;
+        }
+        List<CodegenProperty> xOf = new ArrayList<>();
+        int i = 0;
+        for (Schema xOfSchema: xOfCollection) {
+            CodegenProperty cp = fromProperty(collectionName + "_" + String.valueOf(i), xOfSchema);
+            xOf.add(cp);
+            i += 1;
+        }
+        return xOf;
     }
 }

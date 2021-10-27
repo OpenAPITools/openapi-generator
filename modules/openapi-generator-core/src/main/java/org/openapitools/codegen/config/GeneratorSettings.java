@@ -16,8 +16,6 @@
 
 package org.openapitools.codegen.config;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,7 +118,7 @@ public final class GeneratorSettings implements Serializable {
      * <p>
      * This option differs from {@link GeneratorSettings#getTypeMappings()} in that values provided here are generally used for type construction (what is applied to "new").
      */
-    private final ImmutableMap<String, String> instantiationTypes;
+    private final Map<String, String> instantiationTypes;
 
     /**
      * Type mappings allow for customizing type definitions.
@@ -129,12 +127,12 @@ public final class GeneratorSettings implements Serializable {
      * <p>
      * This option differs from {@link GeneratorSettings#getInstantiationTypes()} in that values provided here are variable reference types rather than concrete instantiation types.
      */
-    private final ImmutableMap<String, String> typeMappings;
+    private final Map<String, String> typeMappings;
 
     /**
      * Additional properties which will be passed to template as dynamic properties.
      */
-    private final ImmutableMap<String, Object> additionalProperties;
+    private final Map<String, Object> additionalProperties;
 
     /**
      * Import mappings between a given class and the import that should be used for that class.
@@ -143,7 +141,7 @@ public final class GeneratorSettings implements Serializable {
      *
      * @see <a href="https://openapi-generator.tech/docs/customization#bringing-your-own-models">Bringing your own models</a>
      */
-    private final ImmutableMap<String, String> importMappings;
+    private final Map<String, String> importMappings;
 
     /**
      * Language specific primitives are in addition to the "base" primitives defined in a generator.
@@ -155,7 +153,7 @@ public final class GeneratorSettings implements Serializable {
      * <p>
      * There may be generator-specific implementation details which differ slightly.
      */
-    private final ImmutableSet<String> languageSpecificPrimitives;
+    private final Set<String> languageSpecificPrimitives;
 
     /**
      * Reserved word mappings values defined here define how a reserved word should be escaped.
@@ -163,12 +161,12 @@ public final class GeneratorSettings implements Serializable {
      * If no mapping is present, the mapping is generally automatically applied to a default with prefixed underscore (<code>_name</code>). Note that
      * some languages don't support identifiers beginning with a prefix, in which case the generator applies a more appropriate prefix.
      */
-    private final ImmutableMap<String, String> reservedWordMappings;
+    private final Map<String, String> reservedWordMappings;
 
     /**
      * Server variable, values defined here will be attempted to be replaced within a templated server object.
      */
-    private final ImmutableMap<String, String> serverVariables;
+    private final Map<String, String> serverVariables;
 
     /**
      * git host. e.g. <strong>gitlab.com</strong>.
@@ -320,12 +318,12 @@ public final class GeneratorSettings implements Serializable {
         artifactId = builder.artifactId;
         artifactVersion = builder.artifactVersion;
         library = builder.library;
-        instantiationTypes = ImmutableMap.copyOf(builder.instantiationTypes);
-        typeMappings = ImmutableMap.copyOf(builder.typeMappings);
-        importMappings = ImmutableMap.copyOf(builder.importMappings);
-        languageSpecificPrimitives = ImmutableSet.copyOf(builder.languageSpecificPrimitives);
-        reservedWordMappings = ImmutableMap.copyOf(builder.reservedWordMappings);
-        serverVariables = ImmutableMap.copyOf(builder.serverVariables);
+        instantiationTypes = Collections.unmodifiableMap(builder.instantiationTypes);
+        typeMappings = Collections.unmodifiableMap(builder.typeMappings);
+        importMappings = Collections.unmodifiableMap(builder.importMappings);
+        languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
+        reservedWordMappings = Collections.unmodifiableMap(builder.reservedWordMappings);
+        serverVariables = Collections.unmodifiableMap(builder.serverVariables);
         gitHost = builder.gitHost;
         gitUserId = builder.gitUserId;
         gitRepoId = builder.gitRepoId;
@@ -380,7 +378,7 @@ public final class GeneratorSettings implements Serializable {
             additional.put("httpUserAgent", httpUserAgent);
         }
 
-        additionalProperties = ImmutableMap.copyOf(additional);
+        additionalProperties = Collections.unmodifiableMap(additional);
     }
 
     /**
@@ -389,13 +387,13 @@ public final class GeneratorSettings implements Serializable {
     @SuppressWarnings("unused")
     public GeneratorSettings() {
         setDefaults();
-        instantiationTypes = ImmutableMap.of();
-        typeMappings = ImmutableMap.of();
-        additionalProperties = ImmutableMap.of();
-        importMappings = ImmutableMap.of();
-        languageSpecificPrimitives = ImmutableSet.of();
-        reservedWordMappings = ImmutableMap.of();
-        serverVariables = ImmutableMap.of();
+        instantiationTypes = Collections.unmodifiableMap(new HashMap<>(0));
+        typeMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        additionalProperties = Collections.unmodifiableMap(new HashMap<>(0));
+        importMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
+        reservedWordMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        serverVariables = Collections.unmodifiableMap(new HashMap<>(0));
     }
 
     private void setDefaults() {

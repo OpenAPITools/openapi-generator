@@ -72,7 +72,8 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
-        }
+    
+    }
     return Future<Pet>.value();
   }
 
@@ -203,6 +204,7 @@ class PetApi {
       return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
         .toList(growable: false);
+
     }
     return Future<List<Pet>>.value();
   }
@@ -272,6 +274,7 @@ class PetApi {
       return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
         .toList(growable: false);
+
     }
     return Future<List<Pet>>.value();
   }
@@ -337,7 +340,8 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
-        }
+    
+    }
     return Future<Pet>.value();
   }
 
@@ -397,7 +401,8 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
-        }
+    
+    }
     return Future<Pet>.value();
   }
 
@@ -556,7 +561,8 @@ class PetApi {
     // FormatException when trying to decode an empty string.
     if (response.body != null && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
-        }
+    
+    }
     return Future<ApiResponse>.value();
   }
 }
