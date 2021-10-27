@@ -22,7 +22,7 @@ import { Configuration } from '../configuration';
 export class StoreService {
 
     protected basePath = 'http://petstore.swagger.io/v2';
-    public defaultHeaders = new Map()
+    public defaultHeaders: Record<string,string> = {};
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {

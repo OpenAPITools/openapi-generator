@@ -1,0 +1,53 @@
+openapi: 3.0.1
+info:
+  title: ping some object
+  version: "1.0"
+servers:
+- url: http://localhost:8082/
+paths:
+  /ping:
+    post:
+      operationId: postPing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SomeObj'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeObj'
+          description: OK
+      tags:
+      - ping
+      x-streaming: true
+      x-contentType: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    SomeObj:
+      example:
+        name: name
+        active: true
+        $_type: SomeObjIdentifier
+        id: 0
+        type: type
+      properties:
+        $_type:
+          default: SomeObjIdentifier
+          enum:
+          - SomeObjIdentifier
+          type: string
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        active:
+          type: boolean
+        type:
+          type: string
+      type: object
+

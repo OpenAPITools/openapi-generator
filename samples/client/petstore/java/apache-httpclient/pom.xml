@@ -228,16 +228,16 @@
         </dependency>
 
 
-        <!-- HTTP client: jersey-client -->
+        <!-- HTTP client: apache client -->
         <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>${jersey-version}</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.sun.jersey.contribs</groupId>
-            <artifactId>jersey-multipart</artifactId>
-            <version>${jersey-version}</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${httpclient-version}</version>
         </dependency>
 
         <!-- JSON processing: jackson -->
@@ -288,7 +288,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
-        <jersey-version>1.19.4</jersey-version>
+        <httpclient-version>4.5.13</httpclient-version>
         <jackson-version>2.12.1</jackson-version>
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
