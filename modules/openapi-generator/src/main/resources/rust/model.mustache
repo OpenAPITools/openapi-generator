@@ -28,6 +28,14 @@ impl ToString for {{{classname}}} {
         }
     }
 }
+
+impl Default for {{{classname}}} {
+    fn default() -> {{{classname}}} {
+        {{#allowableValues}}
+        Self::{{ enumVars.0.name }}
+        {{/allowableValues}}
+    }
+}
 {{/isEnum}}
 
 {{!-- for schemas that have a discriminator --}}
