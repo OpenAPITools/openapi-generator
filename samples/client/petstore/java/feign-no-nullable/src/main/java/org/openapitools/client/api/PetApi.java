@@ -2,7 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
-import org.openapitools.client.model.HttpResponse;
+import org.openapitools.client.model.ApiResponse;
 
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
@@ -42,7 +42,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  HttpResponse<Void> addPetWithHttpInfo(Pet body);
+  ApiResponse<Void> addPetWithHttpInfo(Pet body);
 
 
 
@@ -71,7 +71,7 @@ public interface PetApi extends ApiClient.Api {
     "Accept: application/json",
     "api_key: {apiKey}"
   })
-  HttpResponse<Void> deletePetWithHttpInfo(@Param("petId") Long petId, @Param("apiKey") String apiKey);
+  ApiResponse<Void> deletePetWithHttpInfo(@Param("petId") Long petId, @Param("apiKey") String apiKey);
 
 
 
@@ -92,13 +92,13 @@ public interface PetApi extends ApiClient.Api {
    * Similar to <code>findPetsByStatus</code> but it also returns the http response headers .
    * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter (required)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("GET /pet/findByStatus?status={status}")
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<List<Pet>> findPetsByStatusWithHttpInfo(@Param("status") List<String> status);
+  ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@Param("status") List<String> status);
 
 
   /**
@@ -138,7 +138,7 @@ public interface PetApi extends ApiClient.Api {
       @Headers({
     "Accept: application/json",
       })
-   HttpResponse<List<Pet>> findPetsByStatusWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -171,7 +171,7 @@ public interface PetApi extends ApiClient.Api {
    * Similar to <code>findPetsByTags</code> but it also returns the http response headers .
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    * @deprecated
    */
   @Deprecated
@@ -179,7 +179,7 @@ public interface PetApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<Set<Pet>> findPetsByTagsWithHttpInfo(@Param("tags") Set<String> tags);
+  ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(@Param("tags") Set<String> tags);
 
 
   /**
@@ -223,7 +223,7 @@ public interface PetApi extends ApiClient.Api {
       @Headers({
     "Accept: application/json",
       })
-   HttpResponse<Set<Pet>> findPetsByTagsWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
 
 
    /**
@@ -254,13 +254,13 @@ public interface PetApi extends ApiClient.Api {
    * Similar to <code>getPetById</code> but it also returns the http response headers .
    * Returns a single pet
    * @param petId ID of pet to return (required)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("GET /pet/{petId}")
   @Headers({
     "Accept: application/json",
   })
-  HttpResponse<Pet> getPetByIdWithHttpInfo(@Param("petId") Long petId);
+  ApiResponse<Pet> getPetByIdWithHttpInfo(@Param("petId") Long petId);
 
 
 
@@ -287,7 +287,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  HttpResponse<Void> updatePetWithHttpInfo(Pet body);
+  ApiResponse<Void> updatePetWithHttpInfo(Pet body);
 
 
 
@@ -318,7 +318,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
-  HttpResponse<Void> updatePetWithFormWithHttpInfo(@Param("petId") Long petId, @Param("name") String name, @Param("status") String status);
+  ApiResponse<Void> updatePetWithFormWithHttpInfo(@Param("petId") Long petId, @Param("name") String name, @Param("status") String status);
 
 
 
@@ -344,14 +344,14 @@ public interface PetApi extends ApiClient.Api {
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("POST /pet/{petId}/uploadImage")
   @Headers({
     "Content-Type: multipart/form-data",
     "Accept: application/json",
   })
-  HttpResponse<ModelApiResponse> uploadFileWithHttpInfo(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
+  ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
 
 
 
@@ -377,14 +377,14 @@ public interface PetApi extends ApiClient.Api {
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @return A HttpResponse that wraps the response boyd and the http headers.
+   * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("POST /fake/{petId}/uploadImageWithRequiredFile")
   @Headers({
     "Content-Type: multipart/form-data",
     "Accept: application/json",
   })
-  HttpResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@Param("petId") Long petId, @Param("requiredFile") File requiredFile, @Param("additionalMetadata") String additionalMetadata);
+  ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@Param("petId") Long petId, @Param("requiredFile") File requiredFile, @Param("additionalMetadata") String additionalMetadata);
 
 
 }

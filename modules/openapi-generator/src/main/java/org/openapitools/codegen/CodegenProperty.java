@@ -191,6 +191,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private boolean hasVars;
     private boolean hasRequired;
     private boolean hasDiscriminatorWithNonEmptyMapping;
+    private CodegenComposedSchemas composedSchemas = null;
 
     public String getBaseName() {
         return baseName;
@@ -615,6 +616,16 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
+    public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
+        this.composedSchemas = composedSchemas;
+    }
+
+    @Override
+    public CodegenComposedSchemas getComposedSchemas() {
+        return composedSchemas;
+    }
+
+    @Override
     public CodegenProperty clone() {
         try {
             CodegenProperty cp = (CodegenProperty) super.clone();
@@ -641,6 +652,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             }
             if (this.vendorExtensions != null) {
                 cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
+            }
+            if (this.composedSchemas != null) {
+                cp.composedSchemas = this.composedSchemas;
             }
 
             return cp;
@@ -882,6 +896,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", getHasVars=").append(getHasVars());
         sb.append(", getHasRequired=").append(getHasRequired());
         sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", composedSchemas=").append(composedSchemas);
         sb.append('}');
         return sb.toString();
     }
@@ -937,6 +952,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() ==that.getHasRequired() &&
+                Objects.equals(composedSchemas, that.composedSchemas) &&
                 Objects.equals(openApiType, that.openApiType) &&
                 Objects.equals(baseName, that.baseName) &&
                 Objects.equals(complexType, that.complexType) &&
@@ -999,6 +1015,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired,
-                hasDiscriminatorWithNonEmptyMapping);
+                hasDiscriminatorWithNonEmptyMapping, composedSchemas);
     }
 }
