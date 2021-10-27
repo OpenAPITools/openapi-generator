@@ -50,14 +50,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-  repositories {
-    mavenCentral()     // Needed if the 'petstore-apache-httpclient' jar has been published to maven central.
-    mavenLocal()       // Needed if the 'petstore-apache-httpclient' jar has been published to the local maven repo.
-  }
-
-  dependencies {
-     implementation "org.openapitools:petstore-apache-httpclient:1.0.0"
-  }
+compile "org.openapitools:petstore-apache-httpclient:1.0.0"
 ```
 
 ### Others

@@ -85,6 +85,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private boolean hasVars;
     private boolean hasRequired;
     private boolean hasDiscriminatorWithNonEmptyMapping;
+    private CodegenComposedSchemas composedSchemas;
 
     @Override
     public int hashCode() {
@@ -96,7 +97,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
                 is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired,
-                hasDiscriminatorWithNonEmptyMapping);
+                hasDiscriminatorWithNonEmptyMapping, composedSchemas);
     }
 
     @Override
@@ -144,6 +145,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() == that.getHasRequired() &&
+                Objects.equals(composedSchemas, that.getComposedSchemas()) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(headers, that.headers) &&
@@ -482,6 +484,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", getHasVars=").append(hasVars);
         sb.append(", getHasRequired=").append(hasRequired);
         sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", composedSchemas=").append(composedSchemas);
         sb.append('}');
         return sb.toString();
     }
@@ -569,5 +572,15 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     @Override
     public void setIsAnyType(boolean isAnyType)  {
         this.isAnyType = isAnyType;
+    }
+
+    @Override
+    public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
+        this.composedSchemas = composedSchemas;
+    }
+
+    @Override
+    public CodegenComposedSchemas getComposedSchemas() {
+        return composedSchemas;
     }
 }
