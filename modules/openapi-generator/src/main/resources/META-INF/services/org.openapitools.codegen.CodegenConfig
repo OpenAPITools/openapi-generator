@@ -26,14 +26,12 @@ org.openapitools.codegen.languages.CSharpNancyFXServerCodegen
 org.openapitools.codegen.languages.DartClientCodegen
 org.openapitools.codegen.languages.DartDioClientCodegen
 org.openapitools.codegen.languages.DartDioNextClientCodegen
-org.openapitools.codegen.languages.DartJaguarClientCodegen
 org.openapitools.codegen.languages.EiffelClientCodegen
 org.openapitools.codegen.languages.ElixirClientCodegen
 org.openapitools.codegen.languages.ElmClientCodegen
 org.openapitools.codegen.languages.ErlangClientCodegen
 org.openapitools.codegen.languages.ErlangProperCodegen
 org.openapitools.codegen.languages.ErlangServerCodegen
-org.openapitools.codegen.languages.FlashClientCodegen
 org.openapitools.codegen.languages.FsharpFunctionsServerCodegen
 org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
 org.openapitools.codegen.languages.GoClientCodegen
