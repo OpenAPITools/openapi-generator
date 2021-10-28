@@ -97,12 +97,13 @@ describe "PetApi" do
 
       result = api_instance.get_pet_by_id(pet_id: pet_id)
       result.id.should eq pet_id
-      result.category.id.should eq pet_id + 10
-      result.category.name.should eq "crystal category"
+      category = result.category.not_nil!
+      category.id.should eq pet_id + 10
+      category.name.should eq "crystal category"
       result.name.should eq "crystal"
       result.photo_urls.should eq ["https://crystal-lang.org"]
       result.status.should eq "available" 
-      result.tags[0].id.should eq pet_id + 100
+      result.tags.not_nil![0].id.should eq pet_id + 100
     end
   end
 
