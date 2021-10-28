@@ -96,14 +96,6 @@
     def list_invalid_properties
       invalid_properties = {{^parent}}Array(String).new{{/parent}}{{#parent}}super{{/parent}}
       {{#vars}}
-      {{^isNullable}}
-      {{#required}}
-      if @{{{name}}}.nil?
-        invalid_properties.push("invalid value for \"{{{name}}}\", {{{name}}} cannot be nil.")
-      end
-
-      {{/required}}
-      {{/isNullable}}
       {{#hasValidation}}
       {{#maxLength}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size > {{{maxLength}}}
@@ -157,11 +149,6 @@
     # @return true if the model is valid
     def valid?
       {{#vars}}
-      {{^isNullable}}
-      {{#required}}
-      return false if @{{{name}}}.nil?
-      {{/required}}
-      {{/isNullable}}
       {{#isEnum}}
       {{^isContainer}}
       {{{name}}}_validator = EnumAttributeValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
@@ -231,14 +218,6 @@
     # Custom attribute writer method with validation
     # @param [Object] {{{name}}} Value to be assigned
     def {{{name}}}=({{{name}}})
-      {{^isNullable}}
-      {{#required}}
-      if {{{name}}}.nil?
-        raise ArgumentError.new("{{{name}}} cannot be nil")
-      end
-
-      {{/required}}
-      {{/isNullable}}
       {{#maxLength}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.size > {{{maxLength}}}
         raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
