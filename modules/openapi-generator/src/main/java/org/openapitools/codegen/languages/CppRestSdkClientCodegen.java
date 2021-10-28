@@ -38,8 +38,9 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
     public static final String GENERATE_GMOCKS_FOR_APIS = "generateGMocksForApis";
+    public static final String DEFAULT_PACKAGE_NAME = "CppRestOpenAPIClient";
 
-    protected String packageName = "CppRestOpenAPIClient";
+    protected String packageName = "";
     protected String packageVersion = "1.0.0";
     protected String declspec = "";
     protected String defaultInclude = "";
@@ -121,7 +122,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         cliOptions.clear();
 
         // CLI options
-        addOption(CodegenConstants.PACKAGE_NAME, "C++ package name.", this.packageName);
+        addOption(CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
         addOption(CodegenConstants.MODEL_PACKAGE, "C++ namespace for models (convention: name.space.model).",
                 this.modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "C++ namespace for apis (convention: name.space.api).",
@@ -132,7 +133,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         addOption(DEFAULT_INCLUDE,
                 "The default include statement that should be placed in all headers for including things like the declspec (convention: #include \"Commons.h\" ",
                 this.defaultInclude);
-                addOption(GENERATE_GMOCKS_FOR_APIS,
+        addOption(GENERATE_GMOCKS_FOR_APIS,
                 "Generate Google Mock classes for APIs.",
                 null);
         addOption(RESERVED_WORD_PREFIX_OPTION,
@@ -198,6 +199,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        packageName = (String) additionalProperties.getOrDefault(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
 
         if (additionalProperties.containsKey(DECLSPEC)) {
             declspec = additionalProperties.get(DECLSPEC).toString();
