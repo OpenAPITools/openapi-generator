@@ -105,7 +105,7 @@ public class TemplateManagerTest {
 
             assertEquals(Files.readAllLines(written.toPath()).get(0), "Teddy and 3");
         } finally {
-            target.toFile().delete();
+            target.toFile().deleteOnExit();
         }
     }
 
@@ -127,7 +127,7 @@ public class TemplateManagerTest {
             written = manager.write(data, "README.md", output);
             assertEquals(Files.readAllLines(written.toPath()).get(0), "This should not escape `{{this}}` or `{{{that}}}` or `{{name}} counts{{#each numbers}} {{.}}{{/each}}`");
         } finally {
-            target.toFile().delete();
+            target.toFile().deleteOnExit();
         }
     }
 
@@ -148,7 +148,7 @@ public class TemplateManagerTest {
 
             assertEquals(Files.readAllLines(written.toPath()).get(0), "original data");
         } finally {
-            target.toFile().delete();
+            target.toFile().deleteOnExit();
         }
     }
 
@@ -182,7 +182,7 @@ public class TemplateManagerTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            target.toFile().delete();
+            target.toFile().deleteOnExit();
         }
     }
 
@@ -203,7 +203,7 @@ public class TemplateManagerTest {
 
             assertEquals(Files.readAllLines(written.toPath()).get(0), "Teddy and 3");
         } finally {
-            target.toFile().delete();
+            target.toFile().deleteOnExit();
         }
     }
 
@@ -223,7 +223,7 @@ public class TemplateManagerTest {
 
             assertEquals(Files.readAllLines(written.toPath()).get(0), "Jack counts 1 2 3 4 5");
         } finally {
-            target.toFile().delete();
+            target.toFile().deleteOnExit();
         }
     }
 
@@ -245,7 +245,7 @@ public class TemplateManagerTest {
             written = manager.write(data, "README.md", output);
             assertEquals(Files.readAllLines(written.toPath()).get(0), "This should not escape `{{this}}` or `{{{that}}}` or `{{name}} counts{{#each numbers}} {{.}}{{/each}}`");
         } finally {
-            target.toFile().delete();
+            target.toFile().deleteOnExit();
         }
     }
 }

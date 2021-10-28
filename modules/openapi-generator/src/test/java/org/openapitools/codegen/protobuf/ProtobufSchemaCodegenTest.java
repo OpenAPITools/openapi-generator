@@ -68,7 +68,7 @@ public class ProtobufSchemaCodegenTest {
 
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/pet.proto"));
 
-        output.delete();
+        output.deleteOnExit();
     }
 
     private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
