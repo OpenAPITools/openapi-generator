@@ -11,7 +11,7 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: true, emit_null: false)]
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: false, emit_null: false)]
     property {{{name}}} : {{{dataType}}}
 
     {{/requiredVars}}
