@@ -19,8 +19,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.gradle.kotlin:gradle-kotlin-dsl-plugins:2.1.6"
         classpath "com.gradle.publish:plugin-publish-plugin:0.16.0"
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0"
-        classpath "de.marcphilipp.gradle:nexus-publish-plugin:0.4.0"
+        classpath "io.github.gradle-nexus:publish-plugin:1.1.0"
     }
 }
 
@@ -39,9 +38,9 @@ apply plugin: 'com.gradle.plugin-publish'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'signing'
 apply plugin: 'kotlin'
+apply plugin: 'maven-publish'
 apply plugin: "org.gradle.kotlin.kotlin-dsl"
-apply plugin: 'io.codearte.nexus-staging'
-apply plugin: "de.marcphilipp.nexus-publish"
+apply plugin: "io.github.gradle-nexus.publish-plugin"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -145,14 +144,16 @@ publishing {
     }
 }
 
-nexusStaging {
-    username = project.properties["ossrhUsername"]
-    password = project.properties["ossrhPassword"]
-}
-
 nexusPublishing {
-    // To retrieve: ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="$SIGNING_SECRET" getStagingProfile --no-daemon
-    stagingProfileId = "456297f829bbbe"
+//    packageGroup = "com.example.mycompany.myproject"  //defaults to 'project.group'
+    repositories {
+        sonatype {
+            username = project.properties["ossrhUsername"]
+            password = project.properties["ossrhPassword"]
+            // To retrieve: ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="$SIGNING_SECRET" getStagingProfile --no-daemon
+            stagingProfileId = "456297f829bbbe" //can reduce execution time by even 10 seconds
+        }
+    }
 }
 
 gradlePlugin {
@@ -209,13 +210,17 @@ javadoc {
     }
 }
 
-tasks {
-    closeRepository {
-        onlyIf { nexusPublishing.useStaging.get() }
-    }
-    releaseRepository{
-        onlyIf { nexusPublishing.useStaging.get() }
-    }
-}
+//tasks {
+//    closeRepository {
+//        onlyIf {
+//            nexusPublishing.useStaging.any()
+//        }
+//    }
+//    releaseRepository{
+//        onlyIf {
+//            nexusPublishing.useStaging.any()
+//        }
+//    }
+//}
 
-publishToNexus.dependsOn 'check'
+//nexusPublishing.dependsOn 'check'
