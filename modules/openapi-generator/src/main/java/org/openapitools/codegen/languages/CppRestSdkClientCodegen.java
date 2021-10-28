@@ -365,10 +365,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isFileSchema(p) || ModelUtils.isBinarySchema(p)) {
             return "std::shared_ptr<" + openAPIType + ">";
         } else if (ModelUtils.isStringSchema(p)
-        || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
-        || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
-        || languageSpecificPrimitives.contains(openAPIType)) {
-    return toModelName(openAPIType);
+                || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
+                || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
+                || languageSpecificPrimitives.contains(openAPIType)) {
+            return toModelName(openAPIType);
         }
 
         return "std::shared_ptr<" + openAPIType + ">";
