@@ -15,6 +15,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -281,6 +282,7 @@ public class DefaultGeneratorTest {
     }
 
     @Test
+    @Ignore("https://github.com/jknack/handlebars.java/issues/917")
     public void supportCustomTemplateEngine() throws IOException {
         Path target = Files.createTempDirectory("test");
         File templateDir = new File(target.toFile(), "template");
