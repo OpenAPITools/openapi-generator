@@ -11,8 +11,8 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}{{#isNullable}}, nillable: true, emit_null: true{{/isNullable}})]
-    property {{{name}}} : {{{dataType}}}{{#isNullable}}?{{/isNullable}}
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: true, emit_null: false)]
+    property {{{name}}} : {{{dataType}}}
 
     {{/requiredVars}}
     {{#hasOptional}}
@@ -22,7 +22,7 @@
     {{#description}}
     # {{{.}}}
     {{/description}}
-    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: true{{#isNullable}}, emit_null: true{{/isNullable}})]
+    @[JSON::Field(key: "{{{baseName}}}", type: {{{dataType}}}?{{#defaultValue}}, default: {{{defaultValue}}}{{/defaultValue}}, nillable: true, emit_null: false)]
     property {{{name}}} : {{{dataType}}}?
 
     {{/optionalVars}}
@@ -88,7 +88,7 @@
     {{/discriminator}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize({{#vars}}@{{{name}}} : {{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/vars}})
+    def initialize({{#vars}}@{{{name}}} : {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/vars}})
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
