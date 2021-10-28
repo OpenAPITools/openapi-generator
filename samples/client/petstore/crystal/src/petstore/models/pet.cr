@@ -16,24 +16,26 @@ module Petstore
   class Pet
     include JSON::Serializable
 
-    @[JSON::Field(key: "id", type: Int64)]
-    property id : Int64
-
-    @[JSON::Field(key: "category", type: Category)]
-    property category : Category
-
+    # Required properties
     @[JSON::Field(key: "name", type: String)]
     property name : String
 
     @[JSON::Field(key: "photoUrls", type: Array(String))]
     property photo_urls : Array(String)
 
-    @[JSON::Field(key: "tags", type: Array(Tag))]
-    property tags : Array(Tag)
+    # Optional properties
+    @[JSON::Field(key: "id", type: Int64?, nillable: true)]
+    property id : Int64?
+
+    @[JSON::Field(key: "category", type: Category?, nillable: true)]
+    property category : Category?
+
+    @[JSON::Field(key: "tags", type: Array(Tag)?, nillable: true)]
+    property tags : Array(Tag)?
 
     # pet status in the store
-    @[JSON::Field(key: "status", type: String)]
-    property status : String
+    @[JSON::Field(key: "status", type: String?, nillable: true)]
+    property status : String?
 
     class EnumAttributeValidator
       getter datatype : String
