@@ -17,24 +17,24 @@ module Petstore
     include JSON::Serializable
 
     # Required properties
-    @[JSON::Field(key: "name", type: String)]
+    @[JSON::Field(key: "name", type: String, nillable: true, emit_null: false)]
     property name : String
 
-    @[JSON::Field(key: "photoUrls", type: Array(String))]
+    @[JSON::Field(key: "photoUrls", type: Array(String), nillable: true, emit_null: false)]
     property photo_urls : Array(String)
 
     # Optional properties
-    @[JSON::Field(key: "id", type: Int64?, nillable: true)]
+    @[JSON::Field(key: "id", type: Int64?, nillable: true, emit_null: false)]
     property id : Int64?
 
-    @[JSON::Field(key: "category", type: Category?, nillable: true)]
+    @[JSON::Field(key: "category", type: Category?, nillable: true, emit_null: false)]
     property category : Category?
 
-    @[JSON::Field(key: "tags", type: Array(Tag)?, nillable: true)]
+    @[JSON::Field(key: "tags", type: Array(Tag)?, nillable: true, emit_null: false)]
     property tags : Array(Tag)?
 
     # pet status in the store
-    @[JSON::Field(key: "status", type: String?, nillable: true)]
+    @[JSON::Field(key: "status", type: String?, nillable: true, emit_null: false)]
     property status : String?
 
     class EnumAttributeValidator
@@ -62,29 +62,19 @@ module Petstore
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : Int64?, @category : Category?, @name : String, @photo_urls : Array(String), @tags : Array(Tag)?, @status : String?)
+    def initialize(@name : String, @photo_urls : Array(String), @id : Int64?, @category : Category?, @tags : Array(Tag)?, @status : String?)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array(String).new
-      if @name.nil?
-        invalid_properties.push("invalid value for \"name\", name cannot be nil.")
-      end
-
-      if @photo_urls.nil?
-        invalid_properties.push("invalid value for \"photo_urls\", photo_urls cannot be nil.")
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @name.nil?
-      return false if @photo_urls.nil?
       status_validator = EnumAttributeValidator.new("String", ["available", "pending", "sold"])
       return false unless status_validator.valid?(@status)
       true

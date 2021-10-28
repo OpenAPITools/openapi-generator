@@ -17,23 +17,23 @@ module Petstore
     include JSON::Serializable
 
     # Optional properties
-    @[JSON::Field(key: "id", type: Int64?, nillable: true)]
+    @[JSON::Field(key: "id", type: Int64?, nillable: true, emit_null: false)]
     property id : Int64?
 
-    @[JSON::Field(key: "petId", type: Int64?, nillable: true)]
+    @[JSON::Field(key: "petId", type: Int64?, nillable: true, emit_null: false)]
     property pet_id : Int64?
 
-    @[JSON::Field(key: "quantity", type: Int32?, nillable: true)]
+    @[JSON::Field(key: "quantity", type: Int32?, nillable: true, emit_null: false)]
     property quantity : Int32?
 
-    @[JSON::Field(key: "shipDate", type: Time?, nillable: true)]
+    @[JSON::Field(key: "shipDate", type: Time?, nillable: true, emit_null: false)]
     property ship_date : Time?
 
     # Order Status
-    @[JSON::Field(key: "status", type: String?, nillable: true)]
+    @[JSON::Field(key: "status", type: String?, nillable: true, emit_null: false)]
     property status : String?
 
-    @[JSON::Field(key: "complete", type: Bool?, default: false, nillable: true)]
+    @[JSON::Field(key: "complete", type: Bool?, default: false, nillable: true, emit_null: false)]
     property complete : Bool?
 
     class EnumAttributeValidator

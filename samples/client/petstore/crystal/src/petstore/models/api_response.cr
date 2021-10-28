@@ -17,13 +17,13 @@ module Petstore
     include JSON::Serializable
 
     # Optional properties
-    @[JSON::Field(key: "code", type: Int32?, nillable: true)]
+    @[JSON::Field(key: "code", type: Int32?, nillable: true, emit_null: false)]
     property code : Int32?
 
-    @[JSON::Field(key: "type", type: String?, nillable: true)]
+    @[JSON::Field(key: "type", type: String?, nillable: true, emit_null: false)]
     property _type : String?
 
-    @[JSON::Field(key: "message", type: String?, nillable: true)]
+    @[JSON::Field(key: "message", type: String?, nillable: true, emit_null: false)]
     property message : String?
 
     # Initializes the object
