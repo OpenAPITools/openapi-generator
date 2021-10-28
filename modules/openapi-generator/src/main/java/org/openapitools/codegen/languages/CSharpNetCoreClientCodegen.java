@@ -266,7 +266,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
                 CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
                 this.optionalEmitDefaultValuesFlag);
-               
+            
         addSwitch(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION,
         CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION_DESC,
         this.conditionalSerialization);        

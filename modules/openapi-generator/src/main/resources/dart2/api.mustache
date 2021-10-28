@@ -197,33 +197,7 @@ class {{{classname}}} {
     {{/isMap}}
     {{^isMap}}
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}',) as {{{returnType}}};
-    {{/isMap}}{{/isArray}}{{/native_serialization}}{{#json_serializable}}
-    {{#isArray}}
-      {{#uniqueItems}}
-      return (json.decode(response.body) as List)
-        .map((i) => {{{returnBaseType}}}.fromJson(i))
-        .toSet();
-      {{/uniqueItems}}
-      {{^uniqueItems}}
-      return (json.decode(response.body) as List)
-        .map((i) => {{{returnBaseType}}}.fromJson(i))
-        .toList();
-      {{/uniqueItems}}
-    {{/isArray}}
-    {{^isArray}}
-    {{#isMap}}
-      return {{{returnType}}}.from(json.decode(response.body));
-    {{/isMap}}
-    {{^isMap}}
-    {{#returnTypeIsPrimitive}}
-      return response.body as {{{returnBaseType}}};
-    {{/returnTypeIsPrimitive}}
-    {{^returnTypeIsPrimitive}}
-      return {{{returnType}}}.fromJson(json.decode(response.body));
-    {{/returnTypeIsPrimitive}}
-    {{/isMap}}
-    {{/isArray}}
-    {{/json_serializable}}
+    {{/isMap}}{{/isArray}}{{/native_serialization}}
     }
     return Future<{{{returnType}}}>.value();
     {{/returnType}}

@@ -182,7 +182,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
           case Some(c: String) =>
             HttpRequest(m, uri, entity = HttpEntity(normalizedContentType(request.contentType), ByteString(c)))
           case _ =>
-            HttpRequest(m, uri, entity = HttpEntity(normalizedContentType(request.contentType), ByteString(" ")))
+            HttpRequest(m, uri, entity = HttpEntity(normalizedContentType(request.contentType), ByteString("")))
         }
       case m: HttpMethod => HttpRequest(m, uri)
     }

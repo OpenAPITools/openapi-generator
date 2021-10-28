@@ -102,7 +102,6 @@ namespace Org.OpenAPITools.Model
             this._Quantity = quantity;
             this._ShipDate = shipDate;
             this._Status = status;
-            this.Complete = complete;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
