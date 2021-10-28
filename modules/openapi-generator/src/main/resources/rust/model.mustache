@@ -103,6 +103,14 @@ pub enum {{{enumName}}} {
 {{/enumVars}}
 {{/allowableValues}}
 }
+
+impl Default for {{{enumName}}} {
+    fn default() -> {{{enumName}}} {
+        {{#allowableValues}}
+        Self::{{ enumVars.0.name }}
+        {{/allowableValues}}
+    }
+}
 {{/isEnum}}
 {{/vars}}
 
