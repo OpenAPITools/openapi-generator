@@ -145,6 +145,14 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsAnyType(boolean isAnyType);
 
+    CodegenComposedSchemas getComposedSchemas();
+
+    void setComposedSchemas(CodegenComposedSchemas composedSchemas);
+
+    boolean getHasMultipleTypes();
+
+    void setHasMultipleTypes(boolean hasMultipleTypes);
+
     /**
      * Syncs all the schema's type properties into the IJsonSchemaValidationProperties instance
      * for now this only supports types without format information
