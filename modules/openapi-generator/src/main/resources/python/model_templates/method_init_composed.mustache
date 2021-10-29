@@ -11,7 +11,12 @@
     ])
 
     @convert_js_args_to_python_args
+    {{#setRequiredVars}}
+    def __init__(self{{#requiredVars}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/requiredVars}}, *args, **kwargs):  # noqa: E501
+    {{/setRequiredVars}}
+    {{^setRequiredVars}}
     def __init__(self, *args, **kwargs):  # noqa: E501
+    {{/setRequiredVars}}
         """{{classname}} - a model defined in OpenAPI
 
         Keyword Args:
@@ -60,6 +65,14 @@
             '_configuration': _configuration,
             '_visited_composed_classes': self._visited_composed_classes,
         }
+        {{#setRequiredVars}}
+        required_args = {
+{{#requiredVars}}
+            '{{name}}': {{name}},
+{{/requiredVars}}
+        }
+        kwargs.update(required_args)
+        {{/setRequiredVars}}
         composed_info = validate_get_composed_info(
             constant_args, kwargs, self)
         self._composed_instances = composed_info[0]
