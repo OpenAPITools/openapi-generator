@@ -664,6 +664,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });{{#authMethods}}{{#isOAuth}}{{#isCode}}
     OauthMethod = 2;
     implicit.unlink();
+    credential.unlink();
     auth.link();
     QStringList scope;
     {{#scopes}}
@@ -692,6 +693,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     {{#isImplicit}}
     OauthMethod = 1;
     auth.unlink();
+    credential.unlink();
     implicit.link();
     QStringList scope;
     {{#scopes}}
@@ -716,8 +718,37 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     latestInput = input;
+    latestScope = scope;{{/isImplicit}}
+    {{#isApplication}}
+    OauthMethod = 1;
+    auth.unlink();
+    implicit.unlink();
+    credential.link();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = credential.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    latestWorker->setTimeOut(_timeOut);
+    latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+    
+    connect(latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, latestWorker, &QObject::deleteLater);
+    connect(latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    latestInput = input;
     latestScope = scope;
-    {{/isImplicit}}{{/isOAuth}}{{/authMethods}}
+    {{/isApplication}}{{/isOAuth}}{{/authMethods}}
 
     worker->execute(&input);
 }
@@ -800,8 +831,20 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
         QString authorizationUrl("{{authorizationUrl}}");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
-        emit implicit.authenticationNeeded();
-        {{/isImplicit}}{{/isOAuth}}{{/authMethods}}
+        emit implicit.authenticationNeeded();{{/isImplicit}}
+        {{#isApplication}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&credential, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString tokenUrl("{{tokenUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        credential.setVariables("", tokenUrl , scopeStr, "state" , "", "clientId", "clientSecret");
+        emit credential.authenticationNeeded();
+        {{/isApplication}}{{/isOAuth}}{{/authMethods}}
     } else {
         emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
         emit {{nickname}}SignalEFull(worker, error_type, error_str);
@@ -831,6 +874,16 @@ void {{classname}}::tokenAvailable(){
             latestWorker->execute(&latestInput);
         }else{
             auth.removeToken(latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 3: //client credentials flow
+        token = credential.getToken(latestScope.join(" "));
+        if(token.isValid()){
+            latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            latestWorker->execute(&latestInput);
+        }else{
+            credential.removeToken(latestScope.join(" "));    
             qDebug() << "Could not retreive a valid token";
         }
         break;

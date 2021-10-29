@@ -137,6 +137,42 @@ void OauthImplicit::ImplicitTokenReceived(const QMap<QString, QString> response)
     addToken(oauthToken(token, expiresIn, scope, type));
 }
 
+
+/*
+ * Class to perform the client credentials flow
+ *
+ */
+OauthCredentials::OauthCredentials(QObject *parent) : OauthBase(parent){}
+void OauthCredentials::link()
+{
+    connect(this, SIGNAL(authenticationNeeded()), this, SLOT(authenticationNeededCallback()));
+}
+
+void OauthCredentials::unlink()
+{
+    disconnect(this,0,0,0);
+}
+
+void OauthCredentials::authenticationNeededCallback()
+{
+    //create query with the required fields
+    QUrlQuery postData;
+    postData.addQueryItem("grant_type", "client_credentials");
+    postData.addQueryItem("client_id", m_clientId);
+    postData.addQueryItem("client_secret", m_clientSecret);
+    postData.addQueryItem("scope", m_scope);
+    QNetworkAccessManager * manager = new QNetworkAccessManager(this);
+
+    QNetworkRequest request(m_tokenUrl);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onFinish(QNetworkReply *)));
+
+    manager->post(request, postData.query().toUtf8());
+}
+
+
 /*
  * Class that provides a simple reply server
  *

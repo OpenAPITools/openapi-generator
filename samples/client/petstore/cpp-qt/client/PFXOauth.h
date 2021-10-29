@@ -142,5 +142,19 @@ public slots:
     void ImplicitTokenReceived(const QMap<QString, QString> response);
 };
 
+//client credentials flow
+class OauthCredentials : public OauthBase
+{
+    Q_OBJECT
+public:
+    OauthCredentials(QObject *parent = nullptr);
+    void link() override;
+    void unlink() override;
+
+public slots:
+    void authenticationNeededCallback() override;
+
+};
+
 } // namespace test_namespace
 #endif // PFX_OAUTH2_H

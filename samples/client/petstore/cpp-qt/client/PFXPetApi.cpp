@@ -244,6 +244,7 @@ void PFXPetApi::addPet(const PFXPet &body) {
     });
     OauthMethod = 1;
     auth.unlink();
+    credential.unlink();
     implicit.link();
     QStringList scope;
     scope.append("write:pets");
@@ -266,7 +267,7 @@ void PFXPetApi::addPet(const PFXPet &body) {
 
     latestInput = input;
     latestScope = scope;
-    
+
 
     worker->execute(&input);
 }
@@ -297,7 +298,7 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
         emit implicit.authenticationNeeded();
-        
+
     } else {
         emit addPetSignalE(error_type, error_str);
         emit addPetSignalEFull(worker, error_type, error_str);
@@ -344,6 +345,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
     });
     OauthMethod = 1;
     auth.unlink();
+    credential.unlink();
     implicit.link();
     QStringList scope;
     scope.append("write:pets");
@@ -366,7 +368,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
 
     latestInput = input;
     latestScope = scope;
-    
+
 
     worker->execute(&input);
 }
@@ -397,7 +399,7 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
         emit implicit.authenticationNeeded();
-        
+
     } else {
         emit deletePetSignalE(error_type, error_str);
         emit deletePetSignalEFull(worker, error_type, error_str);
@@ -510,6 +512,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     });
     OauthMethod = 1;
     auth.unlink();
+    credential.unlink();
     implicit.link();
     QStringList scope;
     scope.append("write:pets");
@@ -532,7 +535,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
 
     latestInput = input;
     latestScope = scope;
-    
+
 
     worker->execute(&input);
 }
@@ -573,7 +576,7 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
         emit implicit.authenticationNeeded();
-        
+
     } else {
         emit findPetsByStatusSignalE(output, error_type, error_str);
         emit findPetsByStatusSignalEFull(worker, error_type, error_str);
@@ -686,6 +689,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     });
     OauthMethod = 1;
     auth.unlink();
+    credential.unlink();
     implicit.link();
     QStringList scope;
     scope.append("write:pets");
@@ -708,7 +712,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
 
     latestInput = input;
     latestScope = scope;
-    
+
 
     worker->execute(&input);
 }
@@ -749,7 +753,7 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
         emit implicit.authenticationNeeded();
-        
+
     } else {
         emit findPetsByTagsSignalE(output, error_type, error_str);
         emit findPetsByTagsSignalEFull(worker, error_type, error_str);
@@ -843,6 +847,7 @@ void PFXPetApi::updatePet(const PFXPet &body) {
     });
     OauthMethod = 1;
     auth.unlink();
+    credential.unlink();
     implicit.link();
     QStringList scope;
     scope.append("write:pets");
@@ -865,7 +870,7 @@ void PFXPetApi::updatePet(const PFXPet &body) {
 
     latestInput = input;
     latestScope = scope;
-    
+
 
     worker->execute(&input);
 }
@@ -896,7 +901,7 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
         emit implicit.authenticationNeeded();
-        
+
     } else {
         emit updatePetSignalE(error_type, error_str);
         emit updatePetSignalEFull(worker, error_type, error_str);
@@ -945,6 +950,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
     });
     OauthMethod = 1;
     auth.unlink();
+    credential.unlink();
     implicit.link();
     QStringList scope;
     scope.append("write:pets");
@@ -967,7 +973,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
 
     latestInput = input;
     latestScope = scope;
-    
+
 
     worker->execute(&input);
 }
@@ -998,7 +1004,7 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
         emit implicit.authenticationNeeded();
-        
+
     } else {
         emit updatePetWithFormSignalE(error_type, error_str);
         emit updatePetWithFormSignalEFull(worker, error_type, error_str);
@@ -1047,6 +1053,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
     });
     OauthMethod = 1;
     auth.unlink();
+    credential.unlink();
     implicit.link();
     QStringList scope;
     scope.append("write:pets");
@@ -1069,7 +1076,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
 
     latestInput = input;
     latestScope = scope;
-    
+
 
     worker->execute(&input);
 }
@@ -1101,7 +1108,7 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
         implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
         emit implicit.authenticationNeeded();
-        
+
     } else {
         emit uploadFileSignalE(output, error_type, error_str);
         emit uploadFileSignalEFull(worker, error_type, error_str);
@@ -1129,6 +1136,16 @@ void PFXPetApi::tokenAvailable(){
             latestWorker->execute(&latestInput);
         }else{
             auth.removeToken(latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 3: //client credentials flow
+        token = credential.getToken(latestScope.join(" "));
+        if(token.isValid()){
+            latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            latestWorker->execute(&latestInput);
+        }else{
+            credential.removeToken(latestScope.join(" "));    
             qDebug() << "Could not retreive a valid token";
         }
         break;

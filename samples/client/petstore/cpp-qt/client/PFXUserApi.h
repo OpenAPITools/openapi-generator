@@ -116,6 +116,7 @@ private:
     QStringList latestScope;
     OauthCode auth;
     OauthImplicit implicit;
+    OauthCredentials credential;
     int OauthMethod = 0;
     
 

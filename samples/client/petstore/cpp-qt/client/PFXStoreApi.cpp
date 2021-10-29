@@ -460,6 +460,16 @@ void PFXStoreApi::tokenAvailable(){
             qDebug() << "Could not retreive a valid token";
         }
         break;
+    case 3: //client credentials flow
+        token = credential.getToken(latestScope.join(" "));
+        if(token.isValid()){
+            latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            latestWorker->execute(&latestInput);
+        }else{
+            credential.removeToken(latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
     default:
         qDebug() << "No Oauth method set!";
         break;
