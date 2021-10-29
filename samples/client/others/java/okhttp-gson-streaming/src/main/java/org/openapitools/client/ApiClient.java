@@ -49,10 +49,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.openapitools.client.auth.Authentication;
-import org.openapitools.client.auth.HttpBasicAuth;
-import org.openapitools.client.auth.HttpBearerAuth;
-import org.openapitools.client.auth.ApiKeyAuth;
+import org.openapitools.client.auth.*;
 
 public class ApiClient {
 
@@ -525,7 +522,6 @@ public class ApiClient {
         return this;
     }
 
-
     /**
      * Format the given parameter object into string.
      *
@@ -922,21 +918,6 @@ public class ApiClient {
             Response response = call.execute();
             T data = handleResponse(response, returnType);
             return new ApiResponse<T>(response.code(), response.headers().toMultimap(), data);
-        } catch (IOException e) {
-            throw new ApiException(e);
-        }
-    }
-
-    public InputStream executeStream(Call call, Type returnType) throws ApiException {
-        try {
-             Response response = call.execute();
-             if (!response.isSuccessful()) {
-                 throw new ApiException(response.code(), response.message());
-             }
-             if (response.body() == null) {
-                 return null;
-             }
-             return response.body().byteStream();
         } catch (IOException e) {
             throw new ApiException(e);
         }

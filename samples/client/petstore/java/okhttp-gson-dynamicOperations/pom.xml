@@ -239,9 +239,14 @@
             <version>${gson-fire-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.oltu.oauth2</groupId>
-            <artifactId>org.apache.oltu.oauth2.client</artifactId>
-            <version>1.0.1</version>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-core</artifactId>
+            <version>8.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-httpclient-okhttp</artifactId>
+            <version>8.3.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
