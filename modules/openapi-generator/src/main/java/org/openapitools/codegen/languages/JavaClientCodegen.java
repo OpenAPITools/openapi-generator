@@ -616,8 +616,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (ProcessUtils.hasOAuthMethods(openAPI)) {
             // for okhttp-gson (default), check to see if OAuth is defined and included OAuth-related files accordingly
             if ((OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary()))) {
-                supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
-                supportingFiles.add(new SupportingFile("auth/RetryingOAuth.mustache", authFolder, "RetryingOAuth.java"));
+                supportingFiles.add(new SupportingFile("auth/DefaultApi20Impl.mustache", authFolder, "DefaultApi20Impl.java"));
+                supportingFiles.add(new SupportingFile("auth/OAuthAuthorizationCodeGrant.mustache", authFolder, "OAuthAuthorizationCodeGrant.java"));
+                supportingFiles.add(new SupportingFile("auth/OAuthClientCredentialsGrant.mustache", authFolder, "OAuthClientCredentialsGrant.java"));
+                supportingFiles.add(new SupportingFile("auth/OAuthPasswordGrant.mustache", authFolder, "OAuthPasswordGrant.java"));
+                
             }
 
             // google-api-client doesn't use the OpenAPI auth, because it uses Google Credential directly (HttpRequestInitializer)

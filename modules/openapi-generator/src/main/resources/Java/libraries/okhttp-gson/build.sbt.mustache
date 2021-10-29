@@ -18,7 +18,8 @@ lazy val root = (project in file(".")).
       "org.openapitools" % "jackson-databind-nullable" % "0.2.1",
       {{/openApiNullable}}
       {{#hasOAuthMethods}}
-      "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1",
+      "com.github.scribejava" % "scribejava-core" % "8.3.1",
+      "com.github.scribejava" % "scribejava-httpclient-okhttp" % "8.3.1",
       {{/hasOAuthMethods}}
       {{#joda}}
       "joda-time" % "joda-time" % "2.9.9" % "compile",

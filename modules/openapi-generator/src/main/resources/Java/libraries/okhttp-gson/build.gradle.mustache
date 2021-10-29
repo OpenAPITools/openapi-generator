@@ -118,7 +118,8 @@ dependencies {
     implementation 'org.openapitools:jackson-databind-nullable:0.2.1'
     {{/openApiNullable}}
     {{#hasOAuthMethods}}
-    implementation group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.1'
+    implementation group: 'com.github.scribejava', name: 'scribejava-core', version: '8.3.1'
+    implementation group: 'com.github.scribejava', name: 'scribejava-httpclient-okhttp', version: '8.3.1'
     {{/hasOAuthMethods}}
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
     {{#joda}}

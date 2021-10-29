@@ -247,9 +247,14 @@
         </dependency>
         {{#hasOAuthMethods}}
         <dependency>
-            <groupId>org.apache.oltu.oauth2</groupId>
-            <artifactId>org.apache.oltu.oauth2.client</artifactId>
-            <version>1.0.1</version>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-core</artifactId>
+            <version>8.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-httpclient-okhttp</artifactId>
+            <version>8.3.1</version>
         </dependency>
         {{/hasOAuthMethods}}
         <dependency>
@@ -359,7 +364,7 @@
         <jakarta.el-version>3.0.3</jakarta.el-version>
 {{/performBeanValidation}}
 {{#useBeanValidation}}
-        <beanvalidation-version>2.0.2</beanvalidation-version>
+		<beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
         <junit-version>4.13.2</junit-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
