@@ -104,7 +104,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <!-- attach test jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -113,7 +112,6 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>jar</goal>
                             <goal>test-jar</goal>
                         </goals>
                     </execution>
@@ -121,7 +119,6 @@
                 <configuration>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
