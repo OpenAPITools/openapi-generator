@@ -9,9 +9,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 {{#imports}}
+// @ts-ignore
 import { {{ classname }} } from '{{ filename }}';
 {{/imports}}
 
+// @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { {{configurationClassName}} }                                     from '../configuration';
 {{#withInterfaces}}
