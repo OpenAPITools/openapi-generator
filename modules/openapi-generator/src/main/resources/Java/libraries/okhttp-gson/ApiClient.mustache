@@ -164,7 +164,6 @@ public class ApiClient {
 {{#hasOAuthMethods}}
         initHttpClient();
 
-        {{^java8}}
         switch(OAuthFlow.{{flow}}) {
             case accessCode:
                 authentications.put("{{name}}", new OAuthAuthorizationCodeGrant(clientId, clientSecret, scope, getAuthorizationUrl(), getTokenUrl(), callbackUrl, getRefreshUrl(), parameters, this.httpClient));
@@ -178,22 +177,6 @@ public class ApiClient {
             default:
                 throw new IllegalArgumentException("OAuth flow not implemented");
         }
-        {{/java8}}
-        {{#java8}}
-        switch(OAuthFlow.{{flow}}) {
-            case accessCode:
-                authentications.put("{{name}}", new OAuthAuthorizationCodeGrant(clientId, clientSecret, Optional.of(scope), getAuthorizationUrl(), getTokenUrl(), callbackUrl, getRefreshUrl(), parameters, this.httpClient));
-                break;
-            case password:
-                authentications.put("{{name}}", new OAuthPasswordGrant(clientId, clientSecret, scope, getTokenUrl(), getRefreshUrl(), this.httpClient));
-                break;
-            case application:
-                authentications.put("{{name}}", new OAuthClientCredentialsGrant(clientId, clientSecret, scope, getTokenUrl(), this.httpClient));
-                break;
-            default:
-                throw new IllegalArgumentException("OAuth flow not implemented");
-        }
-        {{/java8}}
 
 {{/hasOAuthMethods}}
         // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
