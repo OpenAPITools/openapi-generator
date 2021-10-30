@@ -18,9 +18,19 @@ require "time"
 describe Petstore::Pet do
 
   describe "test an instance of Pet" do
-    it "should create an instance of Pet" do
-      #instance = Petstore::Pet.new
-      #expect(instance).to be_instance_of(Petstore::Pet)
+    it "should fail to compile if any required properties is missing" do
+      assert_compilation_error(path: "./pet_compilation_error_spec.cr", message: "Error: no overload matches 'Petstore::Pet.new', id: Nil, category: Nil, name: Nil, photo_urls: Array(String), tags: Nil, status: Nil")
+    end
+
+    it "should create an instance of Pet with only required properties" do
+      pet = Petstore::Pet.new(id: nil, category: nil, name: "new pet", photo_urls: Array(String).new, tags: nil, status: nil)
+      pet.should be_a(Petstore::Pet)
+    end
+
+    it "should create an instance of Pet with all properties" do
+      pet_id = 12345_i64
+      pet = Petstore::Pet.new(id: pet_id, category: Petstore::Category.new(id: pet_id + 10, name: "crystal category"), name: "crystal", photo_urls: ["https://crystal-lang.org"], tags: [Petstore::Tag.new(id: pet_id + 100, name: "crystal tag")], status: "available")
+      pet.should be_a(Petstore::Pet)
     end
   end
   describe "test attribute 'id'" do
