@@ -92,7 +92,7 @@ module Petstore
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
-      return true if self.equal?(o)
+      return true if self.same?(o)
       self.class == o.class &&
           id == o.id &&
           pet_id == o.pet_id &&

@@ -270,7 +270,7 @@
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
-      return true if self.equal?(o)
+      return true if self.same?(o)
       self.class == o.class{{#vars}} &&
           {{name}} == o.{{name}}{{/vars}}{{#parent}} && super(o){{/parent}}
     end
