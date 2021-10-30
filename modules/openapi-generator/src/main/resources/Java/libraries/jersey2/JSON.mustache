@@ -9,7 +9,9 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
+{{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+{{/java8}}
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
