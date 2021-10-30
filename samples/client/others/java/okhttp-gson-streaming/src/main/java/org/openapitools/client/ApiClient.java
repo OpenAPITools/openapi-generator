@@ -923,6 +923,22 @@ public class ApiClient {
         }
     }
 
+    public InputStream executeStream(Call call, Type returnType) throws ApiException {
+        try {
+             Response response = call.execute();
+             if (!response.isSuccessful()) {
+                 throw new ApiException(response.code(), response.message());
+             }
+             if (response.body() == null) {
+                 return null;
+             }
+             return response.body().byteStream();
+        } catch (IOException e) {
+            throw new ApiException(e);
+        }
+    }
+
+
     /**
      * {@link #executeAsync(Call, Type, ApiCallback)}
      *
