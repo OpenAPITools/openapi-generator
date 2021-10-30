@@ -33,6 +33,34 @@ describe Petstore::Pet do
       pet.should be_a(Petstore::Pet)
     end
   end
+
+  describe "#from_json" do
+    it "should instantiate a new instance from json string with required properties" do
+      pet = Petstore::Pet.from_json("{\"name\": \"json pet\", \"photoUrls\": []}")
+      pet.should be_a(Petstore::Pet)
+      pet.name.should eq "json pet"
+      pet.photo_urls.should eq Array(String).new
+    end
+
+    it "should raise error when instantiating a new instance from json string with missing required properties" do
+      expect_raises(JSON::SerializableError, "Missing JSON attribute: name") do
+        Petstore::Pet.from_json("{\"photoUrls\": []}")
+      end
+      expect_raises(JSON::SerializableError, "Missing JSON attribute: photoUrls") do
+        Petstore::Pet.from_json("{\"name\": \"json pet\"}")
+      end
+    end
+
+    it "should raise error when instantiating a new instance from json string with required properties set to null value" do
+      expect_raises(JSON::SerializableError, "Expected String but was Null") do
+        Petstore::Pet.from_json("{\"name\": null, \"photoUrls\": []}")
+      end
+      expect_raises(JSON::SerializableError, "Expected BeginArray but was Null") do
+        Petstore::Pet.from_json("{\"name\": \"json pet\", \"photoUrls\": null}")
+      end
+    end
+  end
+
   describe "test attribute 'id'" do
     it "should work" do
       # assertion here. ref: https://crystal-lang.org/reference/guides/testing.html
