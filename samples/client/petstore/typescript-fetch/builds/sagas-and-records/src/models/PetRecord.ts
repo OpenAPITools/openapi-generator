@@ -67,6 +67,7 @@ export const PetRecordProps = {
     tags: (TagRecord(), List<TagRecord>()),
     optionalTags: (TagRecord(), null as List<TagRecord> | null),
     status: PetStatusEnum.Pending,
+    regions: null as List<List<string | null>> | null,
 };
 
 export type PetRecordPropsType = typeof PetRecordProps;
@@ -96,12 +97,13 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         (apiObject as any).recType = asEntity ? PetRecordEntityProps.recType : PetRecordProps.recType;
         (apiObject as any).id = apiObject.id.toString();
         if (apiObject.friendId) { (apiObject as any).friendId = apiObject.friendId.toString(); } 
-        (apiObject as any).otherFriendIds = apiObject.otherFriendIds.map(item => item.toString());
+        (apiObject as any).otherFriendIds = apiObject.otherFriendIds.map(item => item?.toString());
         categoryRecordUtils.normalize(apiObject.category);
         if (apiObject.optionalCategory) { categoryRecordUtils.normalize(apiObject.optionalCategory); } 
         if (apiObject._entries) { categoryRecordUtils.normalizeArray(apiObject._entries); } 
         tagRecordUtils.normalizeArray(apiObject.tags);
         if (apiObject.optionalTags) { tagRecordUtils.normalizeArray(apiObject.optionalTags); } 
+        if (apiObject.regions) { (apiObject as any).regions = apiObject.regions.map(item => item.map(item2 => item2?.toString())); } 
         return apiObject;
     }
 
@@ -117,6 +119,7 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
 
     public *toInlined(entityId?: string | null) {
         if (!entityId) {return undefined; }
+        // @ts-ignore
         const entity = yield select(apiEntityPetSelector, {id: entityId});
         if (!entity) {return undefined; }
 
@@ -131,10 +134,15 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
 		} = entity;
 
         const entityProperties = {
+            // @ts-ignore
             category: yield call(categoryRecordUtils.toInlined, entity.category),
+            // @ts-ignore
             optionalCategory: entity.optionalCategory ? yield call(categoryRecordUtils.toInlined, entity.optionalCategory) : null,
+            // @ts-ignore
             _entries: entity._entries ? yield call(categoryRecordUtils.toInlinedArray, entity._entries) : null,
+            // @ts-ignore
             tags: yield call(tagRecordUtils.toInlinedArray, entity.tags),
+            // @ts-ignore
             optionalTags: entity.optionalTags ? yield call(tagRecordUtils.toInlinedArray, entity.optionalTags) : null,
         }
 
@@ -148,6 +156,7 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         if (!entityIds) {return null; }
         let entities = List<PetRecord>();
         for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
+            // @ts-ignore
             const entity = yield call(this.toInlined, entityIds.get(entityIndex));
             if (entity) {
                 entities.push(entity);
@@ -160,12 +169,13 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         const apiObject = super.toApi(record);
         apiObject.id = parseFloat(record.id);
         if (record.friendId) { apiObject.friendId = parseFloat(record.friendId); } 
-        apiObject.otherFriendIds = record.otherFriendIds.map(item => parseFloat(item)).toArray();
+        apiObject.otherFriendIds = record.otherFriendIds.map(item => (item ? parseFloat(item) : null) as number).toArray();
         apiObject.category = categoryRecordUtils.toApi(record.category);
         if (record.optionalCategory) { apiObject.optionalCategory = categoryRecordUtils.toApi(record.optionalCategory); } 
         if (record._entries) { apiObject._entries = categoryRecordUtils.toApiArray(record._entries); } 
         apiObject.tags = tagRecordUtils.toApiArray(record.tags);
         if (record.optionalTags) { apiObject.optionalTags = tagRecordUtils.toApiArray(record.optionalTags); } 
+        if (record.regions) { apiObject.regions = record.regions.map(item => item.toArray().map(item2 => (item2 ? parseFloat(item2) : null) as number)).toArray(); } 
         return apiObject;
     }
 }
