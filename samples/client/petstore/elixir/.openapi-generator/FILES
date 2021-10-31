@@ -23,6 +23,7 @@ lib/openapi_petstore/model/cat_all_of.ex
 lib/openapi_petstore/model/category.ex
 lib/openapi_petstore/model/class_model.ex
 lib/openapi_petstore/model/client.ex
+lib/openapi_petstore/model/deprecated_object.ex
 lib/openapi_petstore/model/dog.ex
 lib/openapi_petstore/model/dog_all_of.ex
 lib/openapi_petstore/model/enum_arrays.ex
@@ -42,6 +43,7 @@ lib/openapi_petstore/model/model_200_response.ex
 lib/openapi_petstore/model/name.ex
 lib/openapi_petstore/model/nullable_class.ex
 lib/openapi_petstore/model/number_only.ex
+lib/openapi_petstore/model/object_with_deprecated_fields.ex
 lib/openapi_petstore/model/order.ex
 lib/openapi_petstore/model/outer_composite.ex
 lib/openapi_petstore/model/outer_enum.ex

@@ -30,6 +30,24 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
+<li>ByteArray</li>
+<li>DateTime</li>
+<li>URI</li>
+<li>UUID</li>
+<li>boolean</li>
+<li>char</li>
+<li>date</li>
+<li>decimal</li>
+<li>double</li>
+<li>file</li>
+<li>float</li>
+<li>int</li>
+<li>integer</li>
+<li>long</li>
+<li>number</li>
+<li>object</li>
+<li>short</li>
+<li>string</li>
 </ul>
 
 ## RESERVED WORDS

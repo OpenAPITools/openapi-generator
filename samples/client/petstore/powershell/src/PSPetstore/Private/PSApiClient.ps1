@@ -53,7 +53,7 @@ function Invoke-PSApiClient {
         }
     }
     if ($CookieParameters -and $CookieParameters.Count -gt 1) {
-        Write-Warning "Multipe cookie parameters found. Curently only the first one is supported/used"
+        Write-Warning "Multiple cookie parameters found. Currently only the first one is supported/used"
     }
 
     # accept, content-type headers
@@ -62,9 +62,15 @@ function Invoke-PSApiClient {
         $HeaderParameters['Accept'] = $Accept
     }
 
+    [string]$MultiPartBoundary = $null
     $ContentType= SelectHeaders -Headers $ContentTypes
     if ($ContentType) {
         $HeaderParameters['Content-Type'] = $ContentType
+        if ($ContentType -eq 'multipart/form-data') {
+            [string]$MultiPartBoundary = [System.Guid]::NewGuid()
+            $MultiPartBoundary = "---------------------------$MultiPartBoundary"
+            $HeaderParameters['Content-Type'] = "$ContentType; boundary=$MultiPartBoundary"
+        }
     }
 
     # add default headers if any
@@ -72,8 +78,7 @@ function Invoke-PSApiClient {
         $HeaderParameters[$header.Name] = $header.Value
     }
 
-
-    # constrcut URL query string
+    # construct URL query string
     $HttpValues = [System.Web.HttpUtility]::ParseQueryString([String]::Empty)
     foreach ($Parameter in $QueryParameters.GetEnumerator()) {
         if ($Parameter.Value.Count -gt 1) { // array
@@ -90,8 +95,33 @@ function Invoke-PSApiClient {
 
     # include form parameters in the request body
     if ($FormParameters -and $FormParameters.Count -gt 0) {
-        $RequestBody = $FormParameters
+        if (![string]::IsNullOrEmpty($MultiPartBoundary)) {
+            $RequestBody = ""
+            $LF = "`r`n"
+            $FormParameters.Keys | ForEach-Object {
+                $value = $FormParameters[$_]
+                $isFile = $value.GetType().FullName -eq "System.IO.FileInfo"
+
+                $RequestBody += "--$MultiPartBoundary$LF"
+                $RequestBody += "Content-Disposition: form-data; name=`"$_`""
+                if ($isFile) {
+                    $fileName = $value.Name
+                    $RequestBody += "; filename=`"$fileName`"$LF"
+                    $RequestBody += "Content-Type: application/octet-stream$LF$LF"
+                    $RequestBody += Get-Content -Path $value.FullName
+                } else {
+                    $RequestBody += "$LF$LF"
+                    $RequestBody += ([string]$value)
+                }
+                $RequestBody += "$LF--$MultiPartBoundary"
+            }
+            $RequestBody += "--"
+        } else {
+            $RequestBody = $FormParameters
+        }
     }
+
+
 
     if ($Body -or $IsBodyNullable) {
         $RequestBody = $Body

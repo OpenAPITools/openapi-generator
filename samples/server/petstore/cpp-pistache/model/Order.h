@@ -116,6 +116,7 @@ protected:
     bool m_StatusIsSet;
     bool m_Complete;
     bool m_CompleteIsSet;
+    
 };
 
 } // namespace org::openapitools::server::model

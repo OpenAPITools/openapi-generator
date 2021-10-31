@@ -601,7 +601,7 @@ feature -- API Access
 			reset_error
 			create l_request
 			
-			l_path := "/fake/test-query-paramters"
+			l_path := "/fake/test-query-parameters"
 			l_request.fill_query_params(api_client.parameter_to_tuple("csv", "pipe", pipe));
 			l_request.fill_query_params(api_client.parameter_to_tuple("csv", "ioutil", ioutil));
 			l_request.fill_query_params(api_client.parameter_to_tuple("ssv", "http", http));

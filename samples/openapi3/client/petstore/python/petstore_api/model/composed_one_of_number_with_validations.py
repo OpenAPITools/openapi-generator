@@ -90,6 +90,7 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
         lazy_import()
         return {
             'color': (str,),  # noqa: E501
+            'tail': (bool,),  # noqa: E501
             'class_name': (str,),  # noqa: E501
         }
 
@@ -100,10 +101,12 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
 
     attribute_map = {
         'color': 'color',  # noqa: E501
+        'tail': 'tail',  # noqa: E501
         'class_name': 'className',  # noqa: E501
     }
 
     read_only_vars = {
+        'tail',  # noqa: E501
     }
 
     @classmethod
@@ -143,6 +146,7 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
+            tail (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
             class_name (str): [optional]  # noqa: E501
         """
 
@@ -244,6 +248,7 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
+            tail (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
             class_name (str): [optional]  # noqa: E501
         """
 
@@ -301,7 +306,7 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
         # we need this here to make our import statements work
         # we must store _composed_schemas in here so the code is only run
         # when we invoke this method. If we kept this at the class
-        # level we would get an error beause the class level
+        # level we would get an error because the class level
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading

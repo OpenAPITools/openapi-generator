@@ -2,7 +2,7 @@
 
 /**
  * OpenAPI Petstore
- * PHP version 7.2
+ * PHP version 7.3
  *
  * @package OpenAPIServer
  * @author  OpenAPI Generator team
@@ -55,7 +55,7 @@ return [
         // 'relaxed' => ['localhost', '127.0.0.1'],
 
         /**
-         * By default on ocurred a fail on authentication, is sent a response on json format with a
+         * By default on occurred a fail on authentication, is sent a response on json format with a
          * message (`Invalid Token` or `Not found Token`) and with the token (if found), with status
          * `401 Unauthorized`. You can customize it by setting a callable function on error option.
          * Default: null

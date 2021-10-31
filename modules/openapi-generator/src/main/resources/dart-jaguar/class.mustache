@@ -9,7 +9,7 @@ message {{classname}} {
 part '{{classFilename}}.jser.dart';
 
 class {{classname}} {
-  {{#vars}}{{#description}} /* {{{description}}} */{{/description}}
+  {{#vars}}{{#description}} /* {{{.}}} */{{/description}}
   @Alias('{{{baseName}}}', isNullable:{{#isNullable}} true{{/isNullable}}{{^isNullable}} false{{/isNullable}},{{#allowableValues}}
           {{^enumVars.empty}}{{^isString}}{{! isString because inline enums are not handled for now }}
              processor:  const {{{datatype}}}FieldProcessor(),

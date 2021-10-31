@@ -5,11 +5,13 @@ import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/ht
 {{#platforms}}
 {{#node}}
 import * as FormData from "form-data";
+import { URLSearchParams } from 'url';
 {{/node}}
 {{/platforms}}
 import {ObjectSerializer} from '../models/ObjectSerializer{{extensionForDeno}}';
 import {ApiException} from './exception{{extensionForDeno}}';
-import {isCodeInRange} from '../util{{extensionForDeno}}';
+import {canConsumeForm, isCodeInRange} from '../util{{extensionForDeno}}';
+
 {{#useInversify}}
 import { injectable } from "inversify";
 {{/useInversify}}
@@ -20,7 +22,7 @@ import { {{classname}} } from '..{{filename}}{{extensionForDeno}}';
 {{#operations}}
 
 /**
- * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
+ * {{{description}}}{{^description}}no description{{/description}}
  */
 {{#useInversify}}
 @injectable()
@@ -46,7 +48,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{#required}}
         // verify required parameter '{{paramName}}' is not null or undefined
         if ({{paramName}} === null || {{paramName}} === undefined) {
-            throw new RequiredError('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+            throw new RequiredError("{{classname}}", "{{nickname}}", "{{paramName}}");
         }
 
         {{/required}}
@@ -59,22 +61,33 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+        {{#queryParams}}
 
         // Query Params
-        {{#queryParams}}
         if ({{paramName}} !== undefined) {
             requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
         }
         {{/queryParams}}
+        {{#headerParams}}
 
         // Header Params
-        {{#headerParams}}
         requestContext.setHeaderParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
         {{/headerParams}}
+        {{#hasFormParams}}
 
         // Form Params
-        {{#hasFormParams}}
-        let localVarFormParams = new FormData();
+        const useForm = canConsumeForm([
+        {{#consumes}}
+            '{{{mediaType}}}',
+        {{/consumes}}
+        ]);
+
+        let localVarFormParams
+        if (useForm) {
+            localVarFormParams = new FormData();
+        } else {
+            localVarFormParams = new URLSearchParams();
+        }
         {{/hasFormParams}}
 
         {{#formParams}}
@@ -98,24 +111,34 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
              localVarFormParams.append('{{baseName}}', {{paramName}} as any);
              {{/isFile}}
              {{#isFile}}
-             {{#platforms}}
-             {{#node}}
-             localVarFormParams.append('{{baseName}}', {{paramName}}.data, {{paramName}}.name);
-             {{/node}}
-             {{^node}}
-             localVarFormParams.append('{{baseName}}', {{paramName}}, {{paramName}}.name);
-             {{/node}}
-             {{/platforms}}
+             if (localVarFormParams instanceof FormData) {
+                 {{#platforms}}
+                 {{#node}}
+                 localVarFormParams.append('{{baseName}}', {{paramName}}.data, {{paramName}}.name);
+                 {{/node}}
+                 {{^node}}
+                 localVarFormParams.append('{{baseName}}', {{paramName}}, {{paramName}}.name);
+                 {{/node}}
+                 {{/platforms}}
+             }
              {{/isFile}}
         }
         {{/isArray}}
         {{/formParams}}
         {{#hasFormParams}}
+
         requestContext.setBody(localVarFormParams);
+
+        if(!useForm) {
+            const contentType = ObjectSerializer.getPreferredMediaType([{{#consumes}}
+                "{{{mediaType}}}"{{^-last}},{{/-last}}
+            {{/consumes}}]);
+            requestContext.setHeaderParam("Content-Type", contentType);
+        }
         {{/hasFormParams}}
+        {{#bodyParam}}
 
         // Body Params
-        {{#bodyParam}}
         const contentType = ObjectSerializer.getPreferredMediaType([{{#consumes}}
             "{{{mediaType}}}"{{^-last}},{{/-last}}
         {{/consumes}}]);
@@ -130,8 +153,8 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{#hasAuthMethods}}
         let authMethod = null;
         {{/hasAuthMethods}}
-        // Apply auth methods
         {{#authMethods}}
+        // Apply auth methods
         authMethod = _config.authMethods["{{name}}"]
         if (authMethod) {
             await authMethod.applySecurityAuthentication(requestContext);
@@ -159,7 +182,7 @@ export class {{classname}}ResponseProcessor {
      * @params response Response returned by the server for a request to {{nickname}}
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async {{nickname}}(response: ResponseContext): Promise<{{#returnType}}{{{returnType}}}{{/returnType}} {{^returnType}}void{{/returnType}}> {
+     public async {{nickname}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         {{#responses}}
         if (isCodeInRange("{{code}}", response.httpStatusCode)) {
@@ -177,7 +200,7 @@ export class {{classname}}ResponseProcessor {
             return body;
             {{/is2xx}}
             {{^is2xx}}
-            throw new ApiException<{{{dataType}}}>({{code}}, body);
+            throw new ApiException<{{{dataType}}}>({{code}}, "{{message}}", body, response.headers);
             {{/is2xx}}
             {{/dataType}}
             {{^dataType}}
@@ -185,7 +208,7 @@ export class {{classname}}ResponseProcessor {
             return;
             {{/is2xx}}
             {{^is2xx}}
-            throw new ApiException<string>(response.httpStatusCode, "{{message}}");
+            throw new ApiException<undefined>(response.httpStatusCode, "{{message}}", undefined, response.headers);
             {{/is2xx}}
             {{/dataType}}
         }
@@ -210,8 +233,7 @@ export class {{classname}}ResponseProcessor {
             {{/returnType}}
         }
 
-        let body = response.body || "";
-        throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+        throw new ApiException<string | {{{fileContentDataType}}} | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
     }
 
     {{/operation}}

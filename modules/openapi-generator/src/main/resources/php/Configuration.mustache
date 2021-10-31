@@ -1,7 +1,7 @@
 <?php
 /**
  * Configuration
- * PHP version 7.2
+ * PHP version 7.3
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -20,7 +20,7 @@ namespace {{invokerPackage}};
 
 /**
  * Configuration Class Doc Comment
- * PHP version 7.2
+ * PHP version 7.3
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -81,7 +81,7 @@ class Configuration
      *
      * @var string
      */
-    protected $userAgent = '{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{#artifactVersion}}{{{.}}}{{/artifactVersion}}{{^artifactVersion}}1.0.0{{/artifactVersion}}/PHP{{/httpUserAgent}}';
+    protected $userAgent = '{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}{{^artifactVersion}}1.0.0{{/artifactVersion}}/PHP{{/httpUserAgent}}';
 
     /**
      * Debug switch (default set to false)
@@ -368,7 +368,7 @@ class Configuration
     }
 
     /**
-     * Sets the detault configuration instance
+     * Sets the default configuration instance
      *
      * @param Configuration $config An instance of the Configuration Object
      *
@@ -391,7 +391,7 @@ class Configuration
         $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
         $report .= '    The version of the OpenAPI document: {{version}}' . PHP_EOL;
 	    {{#artifactVersion}}
-        $report .= '    SDK Package Version: {{artifactVersion}}' . PHP_EOL;
+        $report .= '    SDK Package Version: {{.}}' . PHP_EOL;
     	{{/artifactVersion}}
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 

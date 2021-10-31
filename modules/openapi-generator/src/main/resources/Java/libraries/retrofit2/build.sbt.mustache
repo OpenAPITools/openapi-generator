@@ -23,7 +23,7 @@ lazy val root = (project in file(".")).
       {{/play25}}
       {{#play26}}
       "com.typesafe.play" % "play-ahc-ws_2.12" % "2.6.7" % "compile",
-      "javax.validation" % "validation-api" % "1.1.0.Final" % "compile",
+      "jakarta.validation" % "jakarta.validation-api" % "2.0.2" % "compile",
       {{/play26}}
       "com.squareup.retrofit2" % "converter-jackson" % "2.3.0" % "compile",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.10.5" % "compile",
@@ -51,7 +51,7 @@ lazy val root = (project in file(".")).
       "org.threeten" % "threetenbp" % "1.4.0" % "compile",
       {{/threetenbp}}
       "io.gsonfire" % "gson-fire" % "1.8.0" % "compile",
-      "javax.annotation" % "javax.annotation-api" % "1.3.2" % "compile",
+      "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5" % "compile",
       "junit" % "junit" % "4.13.1" % "test",
       "com.novocode" % "junit-interface" % "0.11" % "test"
     )

@@ -26,30 +26,30 @@ Pet::~Pet()
 
 void
 Pet::fromJson(std::string jsonObj)
-{   
+{
     bourne::json object = bourne::json::parse(jsonObj);
 
     const char *idKey = "id";
-    
-    if(object.has_key(idKey)) 
+
+    if(object.has_key(idKey))
     {
         bourne::json value = object[idKey];
 
 
-        
+
         jsonToValue(&id, value, "long");
 
 
     }
 
     const char *categoryKey = "category";
-    
-    if(object.has_key(categoryKey)) 
+
+    if(object.has_key(categoryKey))
     {
         bourne::json value = object[categoryKey];
 
 
-        
+
 
         Category* obj = &category;
 		obj->fromJson(value.dump());
@@ -57,21 +57,21 @@ Pet::fromJson(std::string jsonObj)
     }
 
     const char *nameKey = "name";
-    
-    if(object.has_key(nameKey)) 
+
+    if(object.has_key(nameKey))
     {
         bourne::json value = object[nameKey];
 
 
-        
+
         jsonToValue(&name, value, "std::string");
 
 
     }
 
     const char *photoUrlsKey = "photoUrls";
-    
-    if(object.has_key(photoUrlsKey)) 
+
+    if(object.has_key(photoUrlsKey))
     {
         bourne::json value = object[photoUrlsKey];
 
@@ -82,8 +82,8 @@ Pet::fromJson(std::string jsonObj)
         {
 
             jsonToValue(&element, var, "std::string");
-            
-            
+
+
             photoUrls_list.push_back(element);
         }
         photoUrls = photoUrls_list;
@@ -92,8 +92,8 @@ Pet::fromJson(std::string jsonObj)
     }
 
     const char *tagsKey = "tags";
-    
-    if(object.has_key(tagsKey)) 
+
+    if(object.has_key(tagsKey))
     {
         bourne::json value = object[tagsKey];
 
@@ -103,9 +103,9 @@ Pet::fromJson(std::string jsonObj)
         for(auto& var : value.array_range())
         {
 
-            
+
             element.fromJson(var.dump());
-            
+
             tags_list.push_back(element);
         }
         tags = tags_list;
@@ -114,13 +114,13 @@ Pet::fromJson(std::string jsonObj)
     }
 
     const char *statusKey = "status";
-    
-    if(object.has_key(statusKey)) 
+
+    if(object.has_key(statusKey))
     {
         bourne::json value = object[statusKey];
 
 
-        
+
         jsonToValue(&status, value, "std::string");
 
 
@@ -134,30 +134,30 @@ Pet::toJson()
 {
     bourne::json object = bourne::json::object();
 
-    
+
 
 
 
     object["id"] = getId();
 
 
-    
+
 
 
 
 
 	object["category"] = getCategory().toJson();
 
-    
+
 
 
 
     object["name"] = getName();
 
 
-    
-    
-    
+
+
+
     std::list<std::string> photoUrls_list = getPhotoUrls();
     bourne::json photoUrls_arr = bourne::json::array();
 
@@ -167,12 +167,12 @@ Pet::toJson()
     }
     object["photoUrls"] = photoUrls_arr;
 
-    
 
 
 
-    
-    
+
+
+
 
     std::list<Tag> tags_list = getTags();
     bourne::json tags_arr = bourne::json::array();
@@ -186,7 +186,7 @@ Pet::toJson()
 
 
 
-    
+
 
 
 

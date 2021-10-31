@@ -291,7 +291,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      *
      * @param gemName Ruby gem name
      *
-     * @return Ruby module naame
+     * @return Ruby module name
      */
     @SuppressWarnings("static-method")
     public String generateModuleName(String gemName) {
@@ -301,7 +301,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     /**
      * Generate Ruby gem name from the module name, e.g. use "openapi_client" for "OpenAPIClient".
      *
-     * @param moduleName Ruby module naame
+     * @param moduleName Ruby module name
      *
      * @return Ruby gem name
      */
@@ -672,6 +672,12 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isArray) { // array
+            if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                String value = codegenProperty.example;
+                value = value.replaceAll(",", ", ");
+                value = value.replaceAll(":", ": ");
+                return value;
+            }
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "]";
         } else if (codegenProperty.isMap) {
             return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";

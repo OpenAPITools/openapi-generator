@@ -54,4 +54,3 @@ export function ListToJSON(value?: List | null): any {
     };
 }
 
-

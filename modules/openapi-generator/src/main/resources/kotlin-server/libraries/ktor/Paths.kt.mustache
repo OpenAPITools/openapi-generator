@@ -1,24 +1,28 @@
 {{>licenseInfo}}
 package {{packageName}}
 
-import io.ktor.locations.KtorExperimentalLocationsAPI
-import io.ktor.locations.Location
+import io.ktor.locations.*
 import {{packageName}}.models.*
 {{#imports}}import {{import}}
 {{/imports}}
 
 {{#apiInfo}}
+@KtorExperimentalLocationsAPI
 object Paths {
 {{#apis}}
 {{#operations}}
     {{#operation}}
-    /**
-     * {{summary}}
-     * {{#unescapedNotes}}{{.}}{{/unescapedNotes}}
+    /**{{#summary}}
+     * {{.}}{{/summary}}
+     * {{unescapedNotes}}
      {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
      {{/allParams}}*/
-    @KtorExperimentalLocationsAPI
+    {{#hasParams}}
     @Location("{{path}}") class {{operationId}}({{#allParams}}val {{paramName}}: {{{dataType}}}{{^required}}? = null{{/required}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+    {{/hasParams}}
+    {{^hasParams}}
+    @Location("{{path}}") object {{operationId}}
+    {{/hasParams}}
 
     {{/operation}}
 {{/operations}}

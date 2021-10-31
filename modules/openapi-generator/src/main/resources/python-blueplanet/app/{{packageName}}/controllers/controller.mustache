@@ -9,9 +9,9 @@ from {{packageName}} import util
 
 
 def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
-    """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
+    """{{summary}}{{^summary}}{{operationId}}{{/summary}}
 
-    {{#notes}}{{.}}{{/notes}} # noqa: E501
+    {{notes}} # noqa: E501
 
     {{#allParams}}
     :param {{paramName}}: {{description}}
@@ -55,7 +55,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
         {{/isMap}}
     {{/allParams}}
 
-    :rtype: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}None{{/returnType}}
+    :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
     """
     {{#allParams}}
         {{^isContainer}}

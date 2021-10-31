@@ -1,0 +1,9 @@
+# This is for generating scala legacy client
+generatorName: scala-httpclient-deprecated
+outputDir: samples/client/petstore/scala-httpclient-deprecated
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/scala-httpclient
+additionalProperties:
+  apiPackage: org.openapitools.example.api
+  invokerPackage: org.openapitools.example.invoker
+  artifactId: scala-legacy-petstore

@@ -24,6 +24,7 @@ from petstore_api.model.array_test import ArrayTest
 from petstore_api.model.banana import Banana
 from petstore_api.model.banana_req import BananaReq
 from petstore_api.model.basque_pig import BasquePig
+from petstore_api.model.boolean_enum import BooleanEnum
 from petstore_api.model.capitalization import Capitalization
 from petstore_api.model.cat import Cat
 from petstore_api.model.cat_all_of import CatAllOf
@@ -61,6 +62,7 @@ from petstore_api.model.integer_enum import IntegerEnum
 from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
 from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
 from petstore_api.model.isosceles_triangle import IsoscelesTriangle
+from petstore_api.model.legs import Legs
 from petstore_api.model.list import List
 from petstore_api.model.mammal import Mammal
 from petstore_api.model.map_test import MapTest

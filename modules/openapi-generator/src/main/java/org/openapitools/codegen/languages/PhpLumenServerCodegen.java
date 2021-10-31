@@ -175,7 +175,7 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
         }
 
-        // sort the endpoints in ascending to avoid the route priority issure.
+        // sort the endpoints in ascending to avoid the route priority issue.
         Collections.sort(operations, new Comparator<CodegenOperation>() {
             @Override
             public int compare(CodegenOperation lhs, CodegenOperation rhs) {

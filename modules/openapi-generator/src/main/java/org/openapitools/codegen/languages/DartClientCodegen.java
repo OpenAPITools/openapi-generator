@@ -33,7 +33,6 @@ public class DartClientCodegen extends AbstractDartCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
     public static final String SERIALIZATION_LIBRARY_NATIVE = "native_serialization";
-    public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
 
     public DartClientCodegen() {
         super();
@@ -43,7 +42,6 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
         final Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_NATIVE, "Use native serializer, backwards compatible");
-        serializationOptions.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "Use json_serializable. Experimental and subject to breaking changes without further notice");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
     }
@@ -64,6 +62,7 @@ public class DartClientCodegen extends AbstractDartCodegen {
 
         final String libFolder = sourceFolder + File.separator + "lib";
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
+        supportingFiles.add(new SupportingFile("analysis_options.mustache", "", "analysis_options.yaml"));
         supportingFiles.add(new SupportingFile("api_client.mustache", libFolder, "api_client.dart"));
         supportingFiles.add(new SupportingFile("api_exception.mustache", libFolder, "api_exception.dart"));
         supportingFiles.add(new SupportingFile("api_helper.mustache", libFolder, "api_helper.dart"));
@@ -87,15 +86,7 @@ public class DartClientCodegen extends AbstractDartCodegen {
         LOGGER.info("Using serialization library {}", serialization_library);
 
         switch (serialization_library) {
-            case SERIALIZATION_LIBRARY_JSON_SERIALIZABLE:
-                additionalProperties.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "true");
-                // json_serializable requires build.yaml
-                supportingFiles.add(new SupportingFile("build.yaml.mustache",
-                        "" /* main project dir */,
-                        "build.yaml"));
-                break;
-
-            case SERIALIZATION_LIBRARY_NATIVE: // fall trough to default backwards compatible generator
+            case SERIALIZATION_LIBRARY_NATIVE: // fall through to default backwards compatible generator
             default:
                 additionalProperties.put(SERIALIZATION_LIBRARY_NATIVE, "true");
 

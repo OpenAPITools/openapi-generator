@@ -89,4 +89,3 @@ export function EnumPatternObjectToJSON(value?: EnumPatternObject | null): any {
     };
 }
 
-
