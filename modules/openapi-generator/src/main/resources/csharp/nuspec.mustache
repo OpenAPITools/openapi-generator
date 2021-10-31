@@ -12,7 +12,7 @@
         <authors>$author$</authors>
 
         <!-- Owners are typically nuget.org identities that allow gallery
-             users to earily find other packages by the same owners.  -->
+             users to easily find other packages by the same owners.  -->
         <owners>$author$</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <developmentDependency>false</developmentDependency>
@@ -21,10 +21,10 @@
              nuget.org gallery uses information you add in the portal. -->
         <description>{{packageDescription}}</description>
         {{#termsOfService}}
-        <copyright>{{termsOfService}}</copyright>
+        <copyright>{{.}}</copyright>
         {{/termsOfService}}
         {{#licenseUrl}}
-        <licenseUrl>{{licenseUrl}}</licenseUrl>
+        <licenseUrl>{{.}}</licenseUrl>
         {{/licenseUrl}}
 
         <!-- Dependencies are automatically installed when the package is installed -->

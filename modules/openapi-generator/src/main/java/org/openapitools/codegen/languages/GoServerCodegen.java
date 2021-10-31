@@ -17,18 +17,33 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GoServerCodegen extends AbstractGoCodegen {
+
+    /**
+     *  Name of additional property for switching routers
+     */
+    private static final String ROUTER_SWITCH = "router";
+
+    /**
+     * Description of additional property for switching routers
+     */
+    private static final String ROUTER_SWITCH_DESC = "Specify the router which should be used.";
+
+    /**
+     * List of available routers
+     */
+    private static final String[] ROUTERS = { "mux", "chi" };
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
@@ -68,6 +83,13 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
                 .defaultValue(sourceFolder));
+
+        CliOption frameworkOption = new CliOption(ROUTER_SWITCH, ROUTER_SWITCH_DESC);
+        for (String option: ROUTERS) {
+            frameworkOption.addEnum(option, option);
+        }
+        frameworkOption.defaultValue(ROUTERS[0]);
+        cliOptions.add(frameworkOption);
 
         CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
         optServerPort.setType("int");
@@ -199,6 +221,15 @@ public class GoServerCodegen extends AbstractGoCodegen {
             }
         }
 
+        additionalProperties.putIfAbsent(ROUTER_SWITCH, ROUTERS[0]);
+
+        final Object propRouter = additionalProperties.get(ROUTER_SWITCH);
+        final Map<String, Boolean> routers = new HashMap<>();
+        for (String router: ROUTERS) {
+            routers.put(router, router.equals(propRouter));
+        }
+        additionalProperties.put("routers", routers);
+
         modelPackage = packageName;
         apiPackage = packageName;
 
@@ -216,6 +247,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("impl.mustache",sourceFolder, "impl.go"));
         supportingFiles.add(new SupportingFile("helpers.mustache", sourceFolder, "helpers.go"));
         supportingFiles.add(new SupportingFile("api.mustache", sourceFolder, "api.go"));
+        supportingFiles.add(new SupportingFile("error.mustache", sourceFolder, "error.go"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());
     }
@@ -329,5 +361,31 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     public void setAddResponseHeaders(Boolean addResponseHeaders) {
         this.addResponseHeaders = addResponseHeaders;
+    }
+
+    @Override
+    protected void updateModelForObject(CodegenModel m, Schema schema) {
+        /**
+         * we have a custom version of this function so we only set isMap to true if
+         * ModelUtils.isMapSchema
+         * In other generators, isMap is true for all type object schemas
+         */
+        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+            // passing null to allProperties and allRequired as there's no parent
+            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+        }
+        if (ModelUtils.isMapSchema(schema)) {
+            // an object or anyType composed schema that has additionalProperties set
+            addAdditionPropertiesToCodeGenModel(m, schema);
+        } else {
+            m.setIsMap(false);
+            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+                // non-composed object type with no properties + additionalProperties
+                // additionalProperties must be null, ObjectSchema, or empty Schema
+                addAdditionPropertiesToCodeGenModel(m, schema);
+            }
+        }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
     }
 }

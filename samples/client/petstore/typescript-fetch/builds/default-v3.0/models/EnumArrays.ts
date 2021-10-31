@@ -78,4 +78,3 @@ export function EnumArraysToJSON(value?: EnumArrays | null): any {
     };
 }
 
-

@@ -9,7 +9,7 @@
 #include "Containers/Ticker.h"
 
 {{#cppNamespaceDeclarations}}
-namespace {{this}} 
+namespace {{this}}
 {
 {{/cppNamespaceDeclarations}}
 
@@ -41,7 +41,7 @@ struct {{dllapi}} HttpRetryParams
 };
 
 class {{dllapi}} Model
-{ 
+{
 public:
 	virtual ~Model() {}
 	virtual void WriteJson(JsonWriter& Writer) const = 0;

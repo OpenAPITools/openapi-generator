@@ -1,5 +1,3 @@
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,7 +8,6 @@ import java.util.HashSet;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -99,7 +96,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     // store a list of schema names defined in anyOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
     public {{classname}}() {
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
@@ -128,8 +125,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     {{/anyOf}}
     static {
         {{#anyOf}}
-        schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
-        });
+        schemas.put("{{{.}}}", {{{.}}}.class);
         {{/anyOf}}
         JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
         {{#discriminator}}
@@ -144,7 +140,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return {{classname}}.schemas;
     }
 
@@ -188,7 +184,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     {{#anyOf}}
     /**
-     * Get the actual instance of `{{{.}}}`. If the actual instanct is not `{{{.}}}`,
+     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
      * the ClassCastException will be thrown.
      *
      * @return The actual instance of `{{{.}}}`

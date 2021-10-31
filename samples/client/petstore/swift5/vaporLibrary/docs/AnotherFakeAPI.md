@@ -9,14 +9,14 @@ Method | HTTP request | Description
 
 # **call123testSpecialTags**
 ```swift
-    open class func call123testSpecialTags(body: Client, headers: HTTPHeaders = PetstoreClient.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags>
+    open class func call123testSpecialTags(body: Client, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags>
 ```
 
 To test special tags
 
 To test special tags and operation ID starting with number
 
-### Example 
+### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient

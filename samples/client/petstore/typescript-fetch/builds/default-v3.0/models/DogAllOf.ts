@@ -54,4 +54,3 @@ export function DogAllOfToJSON(value?: DogAllOf | null): any {
     };
 }
 
-

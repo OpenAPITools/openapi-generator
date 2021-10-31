@@ -722,7 +722,7 @@ if (param2 != null)
     }
     
     // create path and map variables
-    String localVarPath = "/fake/test-query-paramters".replaceAll("\\{format\\}","json");
+    String localVarPath = "/fake/test-query-parameters".replaceAll("\\{format\\}","json");
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();

@@ -153,7 +153,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         languageSpecificPrimitives.add("Time");
         languageSpecificPrimitives.add("Array");
         languageSpecificPrimitives.add("Hash");
-        languageSpecificPrimitives.add("File");
+        languageSpecificPrimitives.add("::File");
         languageSpecificPrimitives.add("Object");
 
         typeMapping.clear();
@@ -174,7 +174,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         typeMapping.put("set", "Set");
         typeMapping.put("map", "Hash");
         typeMapping.put("object", "Object");
-        typeMapping.put("file", "File");
+        typeMapping.put("file", "::File");
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("UUID", "String");
@@ -802,7 +802,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 } else if (p.getDefault() instanceof java.time.OffsetDateTime) {
                     return "Time.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
                 } else {
-                    return "'" + escapeText((String) p.getDefault()) + "'";
+                    return "\"" + escapeText((String) p.getDefault()) + "\"";
                 }
             }
         }
@@ -820,7 +820,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         String varName;
         // sanitize name
         varName = sanitizeName(name);
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             varName = varName.toLowerCase(Locale.ROOT);
         }
@@ -837,6 +837,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         return varName;
     }
 
+    @Override
     public String toRegularExpression(String pattern) {
         return addRegularExpressionDelimiter(pattern);
     }
@@ -874,13 +875,15 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line);
+                    try (InputStreamReader inputStreamReader = new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8);
+                         BufferedReader br = new BufferedReader(inputStreamReader)) {
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line);
+                        }
+                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb.toString());
                     }
-                    LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb.toString());
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }

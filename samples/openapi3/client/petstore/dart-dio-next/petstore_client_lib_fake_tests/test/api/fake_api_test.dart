@@ -7,27 +7,25 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openapi/openapi.dart';
 import 'package:test/test.dart';
 
-import '../matcher/list_param_matcher.dart';
-
 void main() {
   Openapi client;
-  DioAdapter server;
+  DioAdapter tester;
 
   setUp(() {
-    server = DioAdapter();
-    client = Openapi(dio: Dio()..httpClientAdapter = server);
+    client = Openapi(dio: Dio());
+    tester = DioAdapter(dio: client.dio);
   });
 
   tearDown(() {
-    server.close();
+    tester.close();
   });
 
   group(FakeApi, () {
     group('testEndpointParameters', () {
       test('complete', () async {
-        server.onPost(
+        tester.onPost(
           '/fake',
-          (request) => request.reply(200, null),
+          (server) => server.reply(200, null),
           data: {
             'number': '3',
             'double': '-13.57',
@@ -65,9 +63,9 @@ void main() {
       });
 
       test('minimal', () async {
-        server.onPost(
+        tester.onPost(
           '/fake',
-          (request) => request.reply(200, null),
+          (server) => server.reply(200, null),
           data: {
             'byte': '0',
             'double': '-13.57',
@@ -95,21 +93,21 @@ void main() {
       test('in body data', () async {
         // Not sure if this is correct, we are not sending
         // form data in the body but some weird map
-        server.onGet(
+        tester.onGet(
           '/fake',
-          (request) => request.reply(200, null),
+          (server) => server.reply(200, null),
           data: {
             'enum_form_string': 'formString',
-            'enum_form_string_array': ListParamMatcher(
-              expected: ListParam(
+            'enum_form_string_array': Matchers.listParam<String>(
+              ListParam(
                 ['foo', 'bar'],
                 ListFormat.csv,
               ),
             ),
           },
           queryParameters: <String, dynamic>{
-            'enum_query_string_array': ListParamMatcher(
-              expected: ListParam(
+            'enum_query_string_array': Matchers.listParam<String>(
+              ListParam(
                 ['a', 'b', 'c'],
                 ListFormat.multi,
               ),

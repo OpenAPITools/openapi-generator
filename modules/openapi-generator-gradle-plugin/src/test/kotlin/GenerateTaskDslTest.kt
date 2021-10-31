@@ -228,4 +228,40 @@ class GenerateTaskDslTest : TestBase() {
         assertEquals(TaskOutcome.FAILED, result.task(":openApiGenerate")?.outcome,
                 "Expected a failed run, but found ${result.task(":openApiGenerate")?.outcome}")
     }
+
+    @Test
+    fun `openapiGenerate should attempt to set my-custom-engine (or any other) when specified as engine`() {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+
+        withProject("""
+        plugins {
+          id 'org.openapi.generator'
+        }
+        openApiGenerate {
+            generatorName = "kotlin"
+            inputSpec = file("spec.yaml").absolutePath
+            outputDir = file("build/kotlin").absolutePath
+            apiPackage = "org.openapitools.example.api"
+            invokerPackage = "org.openapitools.example.invoker"
+            modelPackage = "org.openapitools.example.model"
+            engine = "my-custom-engine"
+        }
+    """.trimIndent(), projectFiles)
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--stacktrace")
+            .withPluginClasspath()
+            .buildAndFail()
+
+        // Assert
+        // as the custom generator doesn't exist, we'll just test that the configurator has set my-custom-engine as the engine.
+        assertTrue(result.output.contains("my-custom-engine"), "Build should have attempted to use my-custom-engine.")
+        assertEquals(TaskOutcome.FAILED, result.task(":openApiGenerate")?.outcome,
+            "Expected a failed run, but found ${result.task(":openApiGenerate")?.outcome}")
+    }
 }

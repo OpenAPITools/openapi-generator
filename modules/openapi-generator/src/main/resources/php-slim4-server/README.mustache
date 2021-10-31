@@ -19,7 +19,7 @@ This server has been generated with [Laminas (Zend) PSR-7 implementation](https:
 ## Requirements
 
 * Web server with URL rewriting
-* PHP 7.2 or newer
+* PHP 7.3 or newer
 
 This package contains `.htaccess` for Apache configuration.
 If you use another server(Nginx, HHVM, IIS, lighttpd) check out [Web Servers](https://www.slimframework.com/docs/v3/start/web-servers.html) doc.
@@ -38,9 +38,9 @@ Application requires at least one config file(`config/dev/config.inc.php` or `co
 
 ## Start devserver
 
-Run the following command in terminal to start localhost web server, assuming `./php-slim-server/` is public-accessible directory with `index.php` file:
+Run the following command in terminal to start localhost web server, assuming `./php-slim-server/public/` is public-accessible directory with `index.php` file:
 ```bash
-$ php -S localhost:8888 -t php-slim-server
+$ php -S localhost:8888 -t php-slim-server/public
 ```
 > **Warning** This web server was designed to aid application development.
 > It may also be useful for testing purposes or for application demonstrations that are run in controlled environments.
@@ -145,7 +145,7 @@ For instance, when abstract class located at `./lib/Api/AbstractPetApi.php` you 
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | **{{operationId}}** | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | **{{operationId}}** | **{{httpMethod}}** {{path}} | {{{summary}}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 {{/generateApiDocs}}
 
@@ -185,7 +185,7 @@ No model defined in this package
 
 Scope list:
 {{#scopes}}
-* `{{scope}}`{{#description}} - {{description}}{{/description}}
+* `{{scope}}`{{#description}} - {{.}}{{/description}}
 {{/scopes}}
 
 {{/isOAuth}}

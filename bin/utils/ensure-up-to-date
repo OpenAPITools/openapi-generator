@@ -26,7 +26,7 @@ if [[ "--skip-docs" == "${1}" ]]; then
   export SKIP_EXPORT_DOCS=true
 fi
 
-# Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)
+# Some special case generators may expect to be run as a standalone process (e.g. modifying classpath)
 # Docs should always be run, regardless of batch or operation.
 declare -a always_iterate=(
 "${root}/bin/meta-codegen.sh"

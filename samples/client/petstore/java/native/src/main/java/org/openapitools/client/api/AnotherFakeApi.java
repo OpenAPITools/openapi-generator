@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AnotherFakeApi {
@@ -44,6 +45,7 @@ public class AnotherFakeApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public AnotherFakeApi() {
     this(new ApiClient());
@@ -56,14 +58,20 @@ public class AnotherFakeApi {
     memberVarInterceptor = apiClient.getRequestInterceptor();
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
+    memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
   }
 
-  protected ApiException createApiException(HttpResponse<InputStream> response, String msgPrefix) throws IOException {
+  protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
     String body = response.body() == null ? null : new String(response.body().readAllBytes());
-    if (body != null) {
-      msgPrefix += ": " + body;
+    String message = formatExceptionMessage(operationId, response.statusCode(), body);
+    return new ApiException(response.statusCode(), message, response.headers(), body);
+  }
+
+  private String formatExceptionMessage(String operationId, int statusCode, String body) {
+    if (body == null || body.isEmpty()) {
+      body = "[no body]";
     }
-    return new ApiException(response.statusCode(), msgPrefix, response.headers(), body);
+    return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
   /**
@@ -95,7 +103,7 @@ public class AnotherFakeApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw createApiException(localVarResponse, "call123testSpecialTags call received non-success response");
+        throw getApiException("call123testSpecialTags", localVarResponse);
       }
       return new ApiResponse<Client>(
           localVarResponse.statusCode(),

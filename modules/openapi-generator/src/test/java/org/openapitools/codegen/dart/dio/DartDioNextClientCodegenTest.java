@@ -38,7 +38,7 @@ public class DartDioNextClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class DartDioNextClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class DartDioNextClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -75,12 +75,32 @@ public class DartDioNextClientCodegenTest {
             Assert.fail(errorString, e);
         }
 
-        Assert.assertEquals(reservedWordsList.size() > 20, true);
-        Assert.assertEquals(codegen.reservedWords().size() == reservedWordsList.size(), true);
+        Assert.assertTrue(reservedWordsList.size() > 20);
+        Assert.assertEquals(codegen.reservedWords().size(), reservedWordsList.size());
         for(String keyword : reservedWordsList) {
             // reserved words are stored in lowercase
-            Assert.assertEquals(codegen.reservedWords().contains(keyword.toLowerCase(Locale.ROOT)), true, String.format(Locale.ROOT, "%s, part of %s, was not found in %s", keyword, reservedWordsList, codegen.reservedWords().toString()));
+            Assert.assertTrue(codegen.reservedWords().contains(keyword.toLowerCase(Locale.ROOT)), String.format(Locale.ROOT, "%s, part of %s, was not found in %s", keyword, reservedWordsList, codegen.reservedWords().toString()));
         }
+    }
+
+
+    @Test
+    public void testInitialDioLibraryValues() throws Exception {
+        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(DartDioNextClientCodegen.DIO_LIBRARY), DartDioNextClientCodegen.DIO_LIBRARY_DEFAULT);
+        Assert.assertEquals(codegen.getDioLibrary(), DartDioNextClientCodegen.DIO_LIBRARY_DEFAULT);
+    }
+
+    @Test
+    public void testAdditionalPropertiesPutForDioLibraryValues() throws Exception {
+        final DartDioNextClientCodegen codegen = new DartDioNextClientCodegen();
+        codegen.additionalProperties().put(DartDioNextClientCodegen.DIO_LIBRARY, DartDioNextClientCodegen.DIO_HTTP);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(DartDioNextClientCodegen.DIO_LIBRARY), DartDioNextClientCodegen.DIO_HTTP);
+        Assert.assertEquals(codegen.getDioLibrary(), DartDioNextClientCodegen.DIO_HTTP);
     }
 
 }

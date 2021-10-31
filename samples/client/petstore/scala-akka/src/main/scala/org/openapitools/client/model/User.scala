@@ -25,4 +25,3 @@ case class User (
   userStatus: Option[Int] = None
 ) extends ApiModel
 
-

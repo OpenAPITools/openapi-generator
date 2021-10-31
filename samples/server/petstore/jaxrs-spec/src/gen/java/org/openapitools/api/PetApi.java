@@ -46,7 +46,7 @@ import javax.validation.Valid;
         @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class)
     })
-    public Response deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId,@HeaderParam("api_key")    String apiKey) {
+    public Response deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId,@HeaderParam("api_key")   String apiKey) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -62,7 +62,7 @@ import javax.validation.Valid;
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value", response = Void.class)
     })
-    public Response findPetsByStatus(@QueryParam("status") @NotNull   @ApiParam("Status values that need to be considered for filter")  List<String> status) {
+    public Response findPetsByStatus(@QueryParam("status") @NotNull  @ApiParam("Status values that need to be considered for filter")  List<String> status) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -78,7 +78,7 @@ import javax.validation.Valid;
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class)
     })
-    public Response findPetsByTags(@QueryParam("tags") @NotNull   @ApiParam("Tags to filter by")  Set<String> tags) {
+    public Response findPetsByTags(@QueryParam("tags") @NotNull  @ApiParam("Tags to filter by")  Set<String> tags) {
         return Response.ok().entity("magic!").build();
     }
 

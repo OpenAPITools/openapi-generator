@@ -20,7 +20,7 @@
 #include "HttpModule.h"
 #include "PlatformHttp.h"
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 FString OpenAPIUserApi::CreateUserRequest::ComputePath() const
@@ -200,7 +200,7 @@ FString OpenAPIUserApi::DeleteUserRequest::ComputePath() const
 	{ TEXT("username"), ToStringFormatArg(Username) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
-	
+
 	return Path;
 }
 
@@ -214,6 +214,14 @@ void OpenAPIUserApi::DeleteUserRequest::SetupHttpRequest(const FHttpRequestRef& 
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
+		// Form parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
@@ -252,7 +260,7 @@ FString OpenAPIUserApi::GetUserByNameRequest::ComputePath() const
 	{ TEXT("username"), ToStringFormatArg(Username) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
-	
+
 	return Path;
 }
 
@@ -266,6 +274,14 @@ void OpenAPIUserApi::GetUserByNameRequest::SetupHttpRequest(const FHttpRequestRe
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
+		// Form parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
@@ -323,6 +339,14 @@ void OpenAPIUserApi::LoginUserRequest::SetupHttpRequest(const FHttpRequestRef& H
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
+		// Form parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
@@ -371,6 +395,14 @@ void OpenAPIUserApi::LogoutUserRequest::SetupHttpRequest(const FHttpRequestRef& 
 	// Default to Json Body request
 	if (Consumes.Num() == 0 || Consumes.Contains(TEXT("application/json")))
 	{
+		// Form parameters
+		FString JsonBody;
+		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+		Writer->Close();
+		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
+		HttpRequest->SetContentAsString(JsonBody);
 	}
 	else if (Consumes.Contains(TEXT("multipart/form-data")))
 	{
@@ -407,7 +439,7 @@ FString OpenAPIUserApi::UpdateUserRequest::ComputePath() const
 	{ TEXT("username"), ToStringFormatArg(Username) } };
 
 	FString Path = FString::Format(TEXT("/user/{username}"), PathParams);
-	
+
 	return Path;
 }
 

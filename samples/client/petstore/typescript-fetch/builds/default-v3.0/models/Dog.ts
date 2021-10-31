@@ -65,4 +65,3 @@ export function DogToJSON(value?: Dog | null): any {
     };
 }
 
-

@@ -22,7 +22,7 @@ interface {{classname}}  {
     {{#operation}}
     /* {{operationId}}
      * {{summary}} */
-    suspend fun {{operationId}}({{#allParams}}{{paramName}}:{{^isFile}}{{{dataType}}}{{/isFile}}{{#isFile}}kotlin.collections.List<java.io.File>{{/isFile}}{{^isRequired}}?{{/isRequired}},{{/allParams}}context:OperationRequest):Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
+    suspend fun {{operationId}}({{#allParams}}{{paramName}}:{{^isFile}}{{{dataType}}}{{/isFile}}{{#isFile}}kotlin.collections.List<java.io.File>{{/isFile}}{{^isRequired}}?{{/isRequired}},{{/allParams}}context:OperationRequest):Response<{{{returnType}}}{{^returnType}}Void{{/returnType}}>
     {{/operation}}
 {{/operations}}
     companion object {

@@ -48,7 +48,10 @@ namespace Org.OpenAPITools.Model
         public GrandparentAnimal(string petType = default(string))
         {
             // to ensure "petType" is required (not null)
-            this.PetType = petType ?? throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
+            if (petType == null) {
+                throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
+            }
+            this.PetType = petType;
         }
 
         /// <summary>
@@ -119,7 +122,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }

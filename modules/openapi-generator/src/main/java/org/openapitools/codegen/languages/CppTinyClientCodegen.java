@@ -36,13 +36,14 @@ import org.slf4j.LoggerFactory;
 public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "TinyClient";
 
-    static final Logger LOGGER = LoggerFactory.getLogger(CppTinyClientCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(CppTinyClientCodegen.class);
 
     public static final String MICROCONTROLLER = "controller";
     public static final String rootFolder = "";
     protected String controller = "esp32";
 
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -53,6 +54,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "cpp-tiny";
     }
@@ -63,15 +65,15 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a C++ Arduino REST API client.";
     }
 
     public void addControllerToAdditionalProperties() {
-        Map<String, String> supportedControllers = new HashMap<String, String>() {{
-            put("esp32", "isESP32");
-            put("esp8266", "isESP8266");
-        }};
+        Map<String, String> supportedControllers = new HashMap<String, String>();
+        supportedControllers.put("esp32", "isESP32");
+        supportedControllers.put("esp8266", "isESP8266");
         if (supportedControllers.containsKey(controller)) {
             additionalProperties.put(supportedControllers.get(controller), true);
         } else {
@@ -315,6 +317,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         return "" + paramName;
     }
 
+    @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             return "bool(false)";

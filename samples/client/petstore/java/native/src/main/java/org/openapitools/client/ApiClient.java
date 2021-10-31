@@ -61,6 +61,7 @@ public class ApiClient {
   private String basePath;
   private Consumer<HttpRequest.Builder> interceptor;
   private Consumer<HttpResponse<InputStream>> responseInterceptor;
+  private Consumer<HttpResponse<String>> asyncResponseInterceptor;
   private Duration readTimeout;
 
   private static String valueToString(Object value) {
@@ -167,6 +168,7 @@ public class ApiClient {
     interceptor = null;
     readTimeout = null;
     responseInterceptor = null;
+    asyncResponseInterceptor = null;
   }
 
   /**
@@ -179,6 +181,7 @@ public class ApiClient {
     interceptor = null;
     readTimeout = null;
     responseInterceptor = null;
+    asyncResponseInterceptor = null;
   }
 
   protected ObjectMapper createDefaultObjectMapper() {
@@ -364,6 +367,29 @@ public class ApiClient {
   }
 
   /**
+   * Set a custom async response interceptor. Use this interceptor when asyncNative is set to 'true'.
+   *
+   * <p>This is useful for logging, monitoring or extraction of header variables</p>
+   *
+   * @param interceptor A function invoked before creating each request. A value
+   *                    of null resets the interceptor to a no-op.
+   * @return This object.
+   */
+  public ApiClient setAsyncResponseInterceptor(Consumer<HttpResponse<String>> interceptor) {
+    this.asyncResponseInterceptor = interceptor;
+    return this;
+  }
+
+ /**
+   * Get the custom async response interceptor. Use this interceptor when asyncNative is set to 'true'.
+   *
+   * @return The custom interceptor that was set, or null if there isn't any.
+   */
+  public Consumer<HttpResponse<String>> getAsyncResponseInterceptor() {
+    return asyncResponseInterceptor;
+  }
+
+  /**
    * Set the read timeout for the http client.
    *
    * <p>This is the value used by default for each request, though it can be
@@ -378,7 +404,7 @@ public class ApiClient {
     this.readTimeout = readTimeout;
     return this;
   }
-  
+
   /**
    * Get the read timeout that was set.
    *

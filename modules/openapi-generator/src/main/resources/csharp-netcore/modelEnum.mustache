@@ -1,8 +1,8 @@
     /// <summary>
-    /// {{^description}}Defines {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+    /// {{description}}{{^description}}Defines {{{name}}}{{/description}}
     /// </summary>
     {{#description}}
-    /// <value>{{description}}</value>
+    /// <value>{{.}}</value>
     {{/description}}
     {{#allowableValues}}
     {{#enumVars}}
@@ -13,12 +13,12 @@
     {{/-first}}
     {{/enumVars}}
     {{/allowableValues}}
-    {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
+    {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
     {
         {{#allowableValues}}
         {{#enumVars}}
         /// <summary>
-        /// Enum {{name}} for value: {{{value}}}
+        /// Enum {{name}} for value: {{value}}
         /// </summary>
         {{#isString}}
         [EnumMember(Value = "{{{value}}}")]

@@ -67,7 +67,9 @@ public interface PetApi {
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
    * @return Call&lt;Set&lt;Pet&gt;&gt;
+   * @deprecated
    */
+  @Deprecated
   @GET("pet/findByTags")
   CompletionStage<Response<Set<Pet>>> findPetsByTags(
     @retrofit2.http.Query("tags") CSVParams tags

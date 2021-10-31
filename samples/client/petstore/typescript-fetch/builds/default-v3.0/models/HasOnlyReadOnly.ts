@@ -60,4 +60,3 @@ export function HasOnlyReadOnlyToJSON(value?: HasOnlyReadOnly | null): any {
     };
 }
 
-

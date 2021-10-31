@@ -22,19 +22,16 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.13</version>
                 <executions>
                     <execution>
                         <id>test</id>
                         <phase>integration-test</phase>
                         <goals>
-                            <goal>exec</goal>
+                            <goal>build</goal>
                         </goals>
-                        <configuration>
-                            <executable>./test_python3.sh</executable>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

@@ -25,49 +25,48 @@ export interface User {
      * @type {number}
      * @memberof User
      */
-    id?: number;
+    'id'?: number;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    username?: string;
+    'username'?: string;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    firstName?: string;
+    'firstName'?: string;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    lastName?: string;
+    'lastName'?: string;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    email?: string;
+    'email'?: string;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    password?: string;
+    'password'?: string;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    phone?: string;
+    'phone'?: string;
     /**
      * User Status
      * @type {number}
      * @memberof User
      */
-    userStatus?: number;
+    'userStatus'?: number;
 }
-
 
