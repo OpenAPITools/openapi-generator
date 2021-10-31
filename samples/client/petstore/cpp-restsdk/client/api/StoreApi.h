@@ -19,13 +19,12 @@
 #define ORG_OPENAPITOOLS_CLIENT_API_StoreApi_H_
 
 
-#include "../ApiClient.h"
 
-#include "Order.h"
+#include "ApiClient.h"
+
+#include "model/Order.h"
 #include <map>
 #include <cpprest/details/basic_types.h>
-
-
 #include <boost/optional.hpp>
 
 namespace org {

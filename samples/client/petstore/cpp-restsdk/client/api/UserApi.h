@@ -19,13 +19,12 @@
 #define ORG_OPENAPITOOLS_CLIENT_API_UserApi_H_
 
 
-#include "../ApiClient.h"
 
-#include "User.h"
+#include "ApiClient.h"
+
+#include "model/User.h"
 #include <vector>
 #include <cpprest/details/basic_types.h>
-
-
 #include <boost/optional.hpp>
 
 namespace org {
