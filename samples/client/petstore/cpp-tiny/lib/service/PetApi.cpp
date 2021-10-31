@@ -22,6 +22,8 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+            addHeader("Content-Type", "application/json");
+
 
 
 
@@ -30,7 +32,6 @@ using namespace Tiny;
             // Send Request
             // METHOD | POST
             // Body     | pet
-            addHeader("Content-Type", "application/json");
 
 
 
@@ -76,6 +77,7 @@ using namespace Tiny;
             // Form     | 
 
 
+
                 std::string s_petId("{");
                 s_petId.append("petId");
                 s_petId.append("}");
@@ -117,11 +119,12 @@ using namespace Tiny;
             // Headers  | 
 
             // Query    | status 
-        //    for (auto &x : status){
-        //        addQueryParam("status", std::string(x));
-        //    }
+            for (auto &x : status){
+                addQueryParam("status", std::string(x));
+            }
 
             // Form     | 
+
 
 
 
@@ -182,11 +185,12 @@ using namespace Tiny;
             // Headers  | 
 
             // Query    | tags 
-        //    for (auto &x : tags){
-        //        addQueryParam("tags", std::string(x));
-        //    }
+            for (auto &x : tags){
+                addQueryParam("tags", std::string(x));
+            }
 
             // Form     | 
+
 
 
 
@@ -251,6 +255,7 @@ using namespace Tiny;
             // Form     | 
 
 
+
                 std::string s_petId("{");
                 s_petId.append("petId");
                 s_petId.append("}");
@@ -299,6 +304,8 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | 
+            addHeader("Content-Type", "application/json");
+
 
 
 
@@ -307,7 +314,6 @@ using namespace Tiny;
             // Send Request
             // METHOD | PUT
             // Body     | pet
-            addHeader("Content-Type", "application/json");
 
 
 
@@ -353,6 +359,10 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | name status 
+            addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            addFormParam("name",name);
+            addFormParam("status",status);
 
 
                 std::string s_petId("{");
@@ -404,6 +414,10 @@ using namespace Tiny;
             // Query    | 
 
             // Form     | additionalMetadata file 
+            addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            addFormParam("additionalMetadata",additionalMetadata);
+            addFormParam("file",file);
 
 
                 std::string s_petId("{");

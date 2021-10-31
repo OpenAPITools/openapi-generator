@@ -50,9 +50,9 @@ using namespace Tiny;
             // Query    | {{#queryParams}}{{paramName}} {{/queryParams}}
         {{#queryParams}}
         {{#isArray}}
-        //    for (auto &x : {{paramName}}){
-        //        addQueryParam("{{baseName}}", std::string(x));
-        //    }
+            for (auto &x : {{paramName}}){
+                addQueryParam("{{baseName}}", std::string(x));
+            }
         {{/isArray}}
         {{^isArray}}
             addQueryParam("{{baseName}}",{{paramName}});
@@ -60,6 +60,23 @@ using namespace Tiny;
         {{/queryParams}}
 
             // Form     | {{#formParams}}{{paramName}} {{/formParams}}
+        {{#hasFormParams}}
+            addHeader("Content-Type", "application/x-www-form-urlencoded");
+        {{/hasFormParams}}
+        {{#hasBodyParam}}
+            addHeader("Content-Type", "application/json");
+        {{/hasBodyParam}}
+
+        {{#formParams}}
+            {{#isArray}}
+            for (auto &x : {{paramName}}){
+                addFormParam("{{baseName}}", std::string(x));
+            }
+            {{/isArray}}
+            {{^isArray}}
+            addFormParam("{{baseName}}",{{paramName}});
+            {{/isArray}}
+        {{/formParams}}
 
 
             {{#pathParams}}
@@ -79,7 +96,6 @@ using namespace Tiny;
             // METHOD | {{httpMethod}}
             // Body     | {{#bodyParam}}{{paramName}}{{/bodyParam}}
             {{#bodyParam}}
-            addHeader("Content-Type", "application/json");
 
             {{#isContainer}}
             {{#isArray}}

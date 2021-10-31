@@ -3,7 +3,7 @@
 
 #include "HTTPClient.h"
 #include "Response.h"
-#include <map>
+#include <list>
 namespace Tiny {
 
 /**
@@ -15,13 +15,15 @@ class Service {
         HTTPClient http;
         std::string basepath = "https://petstore3.swagger.io/api/v3"; // TODO: change to your url
         std::string url = "";
-        std::map<std::string, std::string> queryParams;
+        std::string payload = "";
+        std::list<std::tuple<std::string, std::string>> queryParams;
+        std::list<std::tuple<std::string, std::string>> formParams;
 
         int sendRequest(std::string url, const char * type, uint8_t * payload, size_t size);
-
         String getResponseBody();
 
         void addQueryParam(std::string key, std::string value);
+        void addFormParam(std::string key, std::string value);
         void addHeader(std::string key, std::string value);
 
         // Go and comment out a certificate in root.cert, if you get an error here
@@ -33,7 +35,7 @@ class Service {
     private:
         void begin(std::string url);
         void prepareRequest();
-        void addQueryParamsToUrl();
+        std::string encodeKeyValueTuple(std::list<std::tuple<std::string, std::string>> params);
 
 }; // end class
 }// namespace Tinyclient
