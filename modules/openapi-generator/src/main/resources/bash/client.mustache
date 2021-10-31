@@ -149,6 +149,7 @@ operation_parameters_collection_type["{{operationId}}:::{{baseName}}"]={{#isCont
 # PARAMETER==STRING_VALUE or PARAMETER:=NUMERIC_VALUE
 # These will be mapped to top level json keys ( { "PARAMETER": "VALUE" })
 declare -A body_parameters
+declare -A body_parameters_no_quote
 
 ##
 # These arguments will be directly passed to cURL
@@ -344,6 +345,24 @@ body_parameters_to_json() {
         echo ""
     else
         echo "${body_json}"
+    fi
+}
+
+body_parameters_to_form_data() {
+    local body_data="-d '"
+    local count=0
+    for key in "${!body_parameters_no_quote[@]}"; do
+        if [[ $((count++)) -gt 0 ]]; then
+            body_data+="&"
+        fi
+        body_data+="${key}=${body_parameters_no_quote[${key}]}"
+    done
+    body_data+="'"
+
+    if [[ "${#body_parameters_no_quote[@]}" -eq 0 ]]; then
+        echo ""
+    else
+        echo "${body_data}"
     fi
 }
 
@@ -841,11 +860,21 @@ call_{{operationId}}() {
     fi
 {{/hasBodyParam}}
 {{^hasBodyParam}}
+{{#hasFormParams}}
+    body_data_curl=$(body_parameters_to_form_data)
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${body_data_curl} ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${body_data_curl} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+{{/hasFormParams}}
+{{^hasFormParams}}
     if [[ "$print_curl" = true ]]; then
         echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
         eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
+{{/hasFormParams}}
 {{/hasBodyParam}}
 }
 
@@ -967,6 +996,7 @@ case $key in
     if [[ "$operation" ]]; then
         IFS='==' read -r body_key sep body_value <<< "$key"
         body_parameters[${body_key}]="\"${body_value}\""
+        body_parameters_no_quote[${body_key}]=${body_value}
     fi
     ;;
     *:=*)
@@ -977,6 +1007,7 @@ case $key in
         # shellcheck disable=SC2034
         IFS=':=' read -r body_key sep body_value <<< "$key"
         body_parameters[${body_key}]=${body_value}
+        body_parameters_no_quote[${body_key}]=${body_value}
     fi
     ;;
     +([^=]):*)
