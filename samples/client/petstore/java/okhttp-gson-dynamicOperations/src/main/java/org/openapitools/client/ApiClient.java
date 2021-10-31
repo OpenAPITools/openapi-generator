@@ -65,6 +65,9 @@ import org.openapitools.client.auth.OAuth;
 import org.openapitools.client.auth.RetryingOAuth;
 import org.openapitools.client.auth.OAuthFlow;
 
+/**
+ * <p>ApiClient class.</p>
+ */
 public class ApiClient {
 
     private String basePath = "http://petstore.swagger.io:80/v2";
@@ -109,6 +112,8 @@ public class ApiClient {
 
     /**
      * Basic constructor with custom OkHttpClient
+     *
+     * @param client a {@link okhttp3.OkHttpClient} object
      */
     public ApiClient(OkHttpClient client) {
         init();
@@ -983,7 +988,7 @@ public class ApiClient {
      *
      * @param response An instance of the Response object
      * @return Prepared file for the download
-     * @throws IOException If fail to prepare file for download
+     * @throws java.io.IOException If fail to prepare file for download
      */
     public File prepareDownloadFile(Response response) throws IOException {
         String filename = null;

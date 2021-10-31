@@ -18,8 +18,6 @@ import java.util.Map;
 
 /**
  * API response returned by API call.
- *
- * @param <T> The type of data that is deserialized from response body
  */
 public class ApiResponse<T> {
     final private int statusCode;
