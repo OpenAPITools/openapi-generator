@@ -170,7 +170,7 @@ public interface IJsonSchemaValidationProperties {
         } else if (ModelUtils.isStringSchema(p)) {
             setIsString(true);
             if (ModelUtils.isByteArraySchema(p)) {
-                ;
+                setIsString(false);
             } else if (ModelUtils.isBinarySchema(p)) {
                 // openapi v3 way of representing binary + file data
                 // for backward compatibility with 2.x file type
