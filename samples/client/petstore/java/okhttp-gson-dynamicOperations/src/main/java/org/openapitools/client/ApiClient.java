@@ -57,6 +57,9 @@ import java.util.regex.Pattern;
 
 import org.openapitools.client.auth.*;
 
+/**
+ * <p>ApiClient class.</p>
+ */
 public class ApiClient {
 
     private String basePath = "http://petstore.swagger.io:80/v2";
@@ -83,7 +86,7 @@ public class ApiClient {
 
     private Map<String, ApiOperation> operationLookupMap = new HashMap<>();
 
-    /*
+    /**
      * Basic constructor for ApiClient
      */
     public ApiClient() {
@@ -99,8 +102,10 @@ public class ApiClient {
         authentications = Collections.unmodifiableMap(authentications);
     }
 
-    /*
+    /**
      * Basic constructor with custom OkHttpClient
+     *
+     * @param client a {@link okhttp3.OkHttpClient} object
      */
     public ApiClient(OkHttpClient client) {
         init();
@@ -116,21 +121,21 @@ public class ApiClient {
         authentications = Collections.unmodifiableMap(authentications);
     }
 
-    /*
+    /**
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID
      */
     public ApiClient(String clientId) {
         this(clientId, null, null);
     }
 
-    /*
+    /**
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID and additional parameters
      */
     public ApiClient(String clientId, Map<String, String> parameters) {
         this(clientId, null, parameters);
     }
 
-    /*
+    /**
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID, secret, and additional parameters
      */
     public ApiClient(String clientId, String clientSecret, Map<String, String> parameters) {
@@ -279,7 +284,7 @@ public class ApiClient {
      *
      * @param newHttpClient An instance of OkHttpClient
      * @return Api Client
-     * @throws NullPointerException when newHttpClient is null
+     * @throws java.lang.NullPointerException when newHttpClient is null
      */
     public ApiClient setHttpClient(OkHttpClient newHttpClient) {
         this.httpClient = Objects.requireNonNull(newHttpClient, "HttpClient must not be null!");
@@ -351,6 +356,11 @@ public class ApiClient {
         return this;
     }
 
+    /**
+     * <p>Getter for the field <code>keyManagers</code>.</p>
+     *
+     * @return an array of {@link javax.net.ssl.KeyManager} objects
+     */
     public KeyManager[] getKeyManagers() {
         return keyManagers;
     }
@@ -368,30 +378,65 @@ public class ApiClient {
         return this;
     }
 
+    /**
+     * <p>Getter for the field <code>dateFormat</code>.</p>
+     *
+     * @return a {@link java.text.DateFormat} object
+     */
     public DateFormat getDateFormat() {
         return dateFormat;
     }
 
+    /**
+     * <p>Setter for the field <code>dateFormat</code>.</p>
+     *
+     * @param dateFormat a {@link java.text.DateFormat} object
+     * @return a {@link org.openapitools.client.ApiClient} object
+     */
     public ApiClient setDateFormat(DateFormat dateFormat) {
         this.json.setDateFormat(dateFormat);
         return this;
     }
 
+    /**
+     * <p>Set SqlDateFormat.</p>
+     *
+     * @param dateFormat a {@link java.text.DateFormat} object
+     * @return a {@link org.openapitools.client.ApiClient} object
+     */
     public ApiClient setSqlDateFormat(DateFormat dateFormat) {
         this.json.setSqlDateFormat(dateFormat);
         return this;
     }
 
+    /**
+     * <p>Set OffsetDateTimeFormat.</p>
+     *
+     * @param dateFormat a {@link org.threeten.bp.format.DateTimeFormatter} object
+     * @return a {@link org.openapitools.client.ApiClient} object
+     */
     public ApiClient setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
         this.json.setOffsetDateTimeFormat(dateFormat);
         return this;
     }
 
+    /**
+     * <p>Set LocalDateFormat.</p>
+     *
+     * @param dateFormat a {@link org.threeten.bp.format.DateTimeFormatter} object
+     * @return a {@link org.openapitools.client.ApiClient} object
+     */
     public ApiClient setLocalDateFormat(DateTimeFormatter dateFormat) {
         this.json.setLocalDateFormat(dateFormat);
         return this;
     }
 
+    /**
+     * <p>Set LenientOnJson.</p>
+     *
+     * @param lenientOnJson a boolean
+     * @return a {@link org.openapitools.client.ApiClient} object
+     */
     public ApiClient setLenientOnJson(boolean lenientOnJson) {
         this.json.setLenientOnJson(lenientOnJson);
         return this;
@@ -594,7 +639,7 @@ public class ApiClient {
     /**
      * Sets the connect timeout (in milliseconds).
      * A value of 0 means no timeout, otherwise values must be between 1 and
-     * {@link Integer#MAX_VALUE}.
+     * {@link java.lang.Integer#MAX_VALUE}.
      *
      * @param connectionTimeout connection timeout in milliseconds
      * @return Api client
@@ -616,7 +661,7 @@ public class ApiClient {
     /**
      * Sets the read timeout (in milliseconds).
      * A value of 0 means no timeout, otherwise values must be between 1 and
-     * {@link Integer#MAX_VALUE}.
+     * {@link java.lang.Integer#MAX_VALUE}.
      *
      * @param readTimeout read timeout in milliseconds
      * @return Api client
@@ -638,7 +683,7 @@ public class ApiClient {
     /**
      * Sets the write timeout (in milliseconds).
      * A value of 0 means no timeout, otherwise values must be between 1 and
-     * {@link Integer#MAX_VALUE}.
+     * {@link java.lang.Integer#MAX_VALUE}.
      *
      * @param writeTimeout connection timeout in milliseconds
      * @return Api client
@@ -859,7 +904,7 @@ public class ApiClient {
      * @param response HTTP response
      * @param returnType The type of the Java object
      * @return The deserialized Java object
-     * @throws ApiException If fail to deserialize response body, i.e. cannot read response body
+     * @throws org.openapitools.client.ApiException If fail to deserialize response body, i.e. cannot read response body
      *   or the Content-Type of the response is not supported.
      */
     @SuppressWarnings("unchecked")
@@ -920,7 +965,7 @@ public class ApiClient {
      * @param obj The Java object
      * @param contentType The request Content-Type
      * @return The serialized request body
-     * @throws ApiException If fail to serialize the given object
+     * @throws org.openapitools.client.ApiException If fail to serialize the given object
      */
     public RequestBody serialize(Object obj, String contentType) throws ApiException {
         if (obj instanceof byte[]) {
@@ -946,7 +991,7 @@ public class ApiClient {
      * Download file from the given response.
      *
      * @param response An instance of the Response object
-     * @throws ApiException If fail to read file content from response and write to disk
+     * @throws org.openapitools.client.ApiException If fail to read file content from response and write to disk
      * @return Downloaded file
      */
     public File downloadFileFromResponse(Response response) throws ApiException {
@@ -966,7 +1011,7 @@ public class ApiClient {
      *
      * @param response An instance of the Response object
      * @return Prepared file for the download
-     * @throws IOException If fail to prepare file for download
+     * @throws java.io.IOException If fail to prepare file for download
      */
     public File prepareDownloadFile(Response response) throws IOException {
         String filename = null;
@@ -1010,7 +1055,7 @@ public class ApiClient {
      * @param <T> Type
      * @param call An instance of the Call object
      * @return ApiResponse&lt;T&gt;
-     * @throws ApiException If fail to execute the call
+     * @throws org.openapitools.client.ApiException If fail to execute the call
      */
     public <T> ApiResponse<T> execute(Call call) throws ApiException {
         return execute(call, null);
@@ -1025,7 +1070,7 @@ public class ApiClient {
      * @return ApiResponse object containing response status, headers and
      *   data, which is a Java object deserialized from response body and would be null
      *   when returnType is null.
-     * @throws ApiException If fail to execute the call
+     * @throws org.openapitools.client.ApiException If fail to execute the call
      */
     public <T> ApiResponse<T> execute(Call call, Type returnType) throws ApiException {
         try {
@@ -1090,7 +1135,7 @@ public class ApiClient {
      * @param response Response
      * @param returnType Return type
      * @return Type
-     * @throws ApiException If the response has an unsuccessful status code or
+     * @throws org.openapitools.client.ApiException If the response has an unsuccessful status code or
      *                      fail to deserialize the response body
      */
     public <T> T handleResponse(Response response, Type returnType) throws ApiException {
@@ -1136,7 +1181,7 @@ public class ApiClient {
      * @param authNames The authentications to apply
      * @param callback Callback for upload/download progress
      * @return The HTTP call
-     * @throws ApiException If fail to serialize the request body object
+     * @throws org.openapitools.client.ApiException If fail to serialize the request body object
      */
     public Call buildCall(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String[] authNames, ApiCallback callback) throws ApiException {
         Request request = buildRequest(path, method, queryParams, collectionQueryParams, body, headerParams, cookieParams, formParams, authNames, callback);
@@ -1158,7 +1203,7 @@ public class ApiClient {
      * @param authNames The authentications to apply
      * @param callback Callback for upload/download progress
      * @return The HTTP request
-     * @throws ApiException If fail to serialize the request body object
+     * @throws org.openapitools.client.ApiException If fail to serialize the request body object
      */
     public Request buildRequest(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String[] authNames, ApiCallback callback) throws ApiException {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
