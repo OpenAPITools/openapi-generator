@@ -1,3 +1,16 @@
+{{#isEnum}}
+
+    """
+    allowed enum values
+    """
+
+{{#allowableValues}}
+{{#enumVars}}
+    {{name}} = {{{value}}},
+{{/enumVars}}
+{{/allowableValues}}
+
+{{/isEnum}}
     allowed_values = {
 {{#isEnum}}
         ('value',): {
