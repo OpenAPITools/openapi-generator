@@ -931,7 +931,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     return statusCode >= 200 && statusCode < 300;
   }
 
-  protected boolean isBodyAllowed(String method) {
+  protected boolean isMethodPutOrPatchOrPost(String method) {
     return bodyMethods.contains(method);
   }
 
@@ -1031,7 +1031,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     ContentType contentTypeObj = getContentType(contentType);
     if (body != null || !formParams.isEmpty()) {
-      if (isBodyAllowed(method)) {
+      if (isMethodPutOrPatchOrPost(method)) {
         // Add entity if we have content and a valid method
         builder.setEntity(serialize(body, formParams, contentTypeObj));
       } else {
