@@ -3336,6 +3336,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected void updatePropertyForString(CodegenProperty property, Schema p) {
         if (ModelUtils.isByteArraySchema(p)) {
+            property.setIsString(false);
             property.isByteArray = true;
         } else if (ModelUtils.isBinarySchema(p)) {
             property.isBinary = true;
@@ -4277,6 +4278,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isUUIDSchema(responseSchema)) {
                 r.isUuid = true;
             } else if (ModelUtils.isByteArraySchema(responseSchema)) {
+                r.setIsString(false);
                 r.isByteArray = true;
             } else if (ModelUtils.isBinarySchema(responseSchema)) {
                 r.isFile = true; // file = binary in OAS3
@@ -6529,6 +6531,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected void updateRequestBodyForString(CodegenParameter codegenParameter, Schema schema, Set<String> imports, String bodyParameterName) {
         updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
         if (ModelUtils.isByteArraySchema(schema)) {
+            codegenParameter.setIsString(false);
             codegenParameter.isByteArray = true;
         } else if (ModelUtils.isBinarySchema(schema)) {
             codegenParameter.isBinary = true;
