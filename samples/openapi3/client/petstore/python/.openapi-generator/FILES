@@ -223,5 +223,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_gm_fruit_no_properties.py
 tox.ini
