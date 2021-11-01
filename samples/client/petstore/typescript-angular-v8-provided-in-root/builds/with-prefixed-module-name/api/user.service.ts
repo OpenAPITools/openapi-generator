@@ -18,8 +18,10 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { User } from '../model/models';
+// @ts-ignore
+import { User } from 'model/user';
 
+// @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { PetStoreConfiguration }                                     from '../configuration';
 
@@ -359,16 +361,6 @@ export class UserService {
             throw new Error('Required parameter password was null or undefined when calling loginUser.');
         }
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (username !== undefined && username !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>username, 'username');
-        }
-        if (password !== undefined && password !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>password, 'password');
-        }
-
         let localVarHeaders = this.defaultHeaders;
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -393,7 +385,6 @@ export class UserService {
 
         return this.httpClient.get<string>(`${this.configuration.basePath}/user/login`,
             {
-                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

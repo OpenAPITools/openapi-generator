@@ -48,7 +48,7 @@ module Petstore
       header_params = Hash(String, String).new
 
       # form parameters
-      form_params = Hash(Symbol, String).new
+      form_params = Hash(Symbol, (String | ::File)).new
 
       # http body (model)
       post_body = nil
@@ -101,7 +101,7 @@ module Petstore
       header_params["Accept"] = @api_client.select_header_accept(["application/json"])
 
       # form parameters
-      form_params = Hash(Symbol, String).new
+      form_params = Hash(Symbol, (String | ::File)).new
 
       # http body (model)
       post_body = nil
@@ -168,7 +168,7 @@ module Petstore
       header_params["Accept"] = @api_client.select_header_accept(["application/xml", "application/json"])
 
       # form parameters
-      form_params = Hash(Symbol, String).new
+      form_params = Hash(Symbol, (String | ::File)).new
 
       # http body (model)
       post_body = nil
@@ -227,7 +227,7 @@ module Petstore
       header_params["Content-Type"] = @api_client.select_header_content_type(["application/json"])
 
       # form parameters
-      form_params = Hash(Symbol, String).new
+      form_params = Hash(Symbol, (String | ::File)).new
 
       # http body (model)
       post_body = order.to_json

@@ -4,10 +4,10 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**propertyName** | [**inline**](#PropertyName) |  | 
+**propertyName** | [**inline**](#PropertyNameEnum) |  | 
 
 
-<a name="PropertyName"></a>
+<a name="PropertyNameEnum"></a>
 ## Enum: propertyName
 Name | Value
 ---- | -----

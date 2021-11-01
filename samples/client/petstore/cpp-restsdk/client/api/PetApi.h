@@ -19,14 +19,13 @@
 #define ORG_OPENAPITOOLS_CLIENT_API_PetApi_H_
 
 
-#include "../ApiClient.h"
+
+#include "ApiClient.h"
 
 #include "ApiResponse.h"
 #include "HttpContent.h"
 #include "Pet.h"
 #include <cpprest/details/basic_types.h>
-
-
 #include <boost/optional.hpp>
 
 namespace org {

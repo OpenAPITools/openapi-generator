@@ -7,8 +7,8 @@ import 'dart:typed_data';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
-import 'package:dio/dio.dart';
-import 'package:dio/src/parameter.dart';
+import '';
+import 'package:/src/parameter.dart';
 
 /// Format the given form parameter object into something that Dio can handle.
 /// Returns primitive or String.

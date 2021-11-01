@@ -199,6 +199,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     return objectMapper;
   }
 
+  /**
+   * @return API client
+   */
   public ApiClient setObjectMapper(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
     return this;
@@ -208,6 +211,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     return httpClient;
   }
 
+  /**
+   * @return API client
+   */
   public ApiClient setHttpClient(CloseableHttpClient httpClient) {
     this.httpClient = httpClient;
     return this;
@@ -217,6 +223,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     return basePath;
   }
 
+  /**
+   * @return API client
+   */
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
     return this;
@@ -226,6 +235,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     return servers;
   }
 
+  /**
+   * @return API client
+   */
   public ApiClient setServers(List<ServerConfiguration> servers) {
     this.servers = servers;
     return this;
@@ -235,6 +247,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     return serverIndex;
   }
 
+  /**
+   * @return API client
+   */
   public ApiClient setServerIndex(Integer serverIndex) {
     this.serverIndex = serverIndex;
     return this;
@@ -244,6 +259,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     return serverVariables;
   }
 
+  /**
+   * @return API client
+   */
   public ApiClient setServerVariables(Map<String, String> serverVariables) {
     this.serverVariables = serverVariables;
     return this;
@@ -298,6 +316,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * Helper method to set access token for the first Bearer authentication.
    * @param bearerToken Bearer token
+   * @return API client
    */
   public ApiClient setBearerToken(String bearerToken) {
     for (Authentication auth : authentications.values()) {
@@ -315,6 +334,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * Helper method to set username for the first HTTP basic authentication.
    * @param username Username
+   * @return API client
    */
   public ApiClient setUsername(String username) {
     for (Authentication auth : authentications.values()) {
@@ -329,6 +349,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * Helper method to set password for the first HTTP basic authentication.
    * @param password Password
+   * @return API client
    */
   public ApiClient setPassword(String password) {
     for (Authentication auth : authentications.values()) {
@@ -346,6 +367,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * Helper method to set API key value for the first API key authentication.
    * @param apiKey the API key
+   * @return API client
    */
   public ApiClient setApiKey(String apiKey) {
     for (Authentication auth : authentications.values()) {
@@ -360,6 +382,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * Helper method to set API key prefix for the first API key authentication.
    * @param apiKeyPrefix API key prefix
+   * @return API client
    */
   public ApiClient setApiKeyPrefix(String apiKeyPrefix) {
     for (Authentication auth : authentications.values()) {
@@ -377,6 +400,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   /**
    * Helper method to set access token for the first OAuth2 authentication.
    * @param accessToken Access token
+   * @return API client
    */
   public ApiClient setAccessToken(String accessToken) {
     for (Authentication auth : authentications.values()) {
@@ -948,6 +972,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @param accept The request's Accept header
    * @param contentType The request's Content-Type header
    * @param authNames The authentications to apply
+   * @param returnType Return type
    * @return The response body in type of string
    * @throws ApiException API exception
    */

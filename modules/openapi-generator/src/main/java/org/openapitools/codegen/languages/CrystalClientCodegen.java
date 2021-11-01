@@ -153,7 +153,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         languageSpecificPrimitives.add("Time");
         languageSpecificPrimitives.add("Array");
         languageSpecificPrimitives.add("Hash");
-        languageSpecificPrimitives.add("File");
+        languageSpecificPrimitives.add("::File");
         languageSpecificPrimitives.add("Object");
 
         typeMapping.clear();
@@ -174,7 +174,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         typeMapping.put("set", "Set");
         typeMapping.put("map", "Hash");
         typeMapping.put("object", "Object");
-        typeMapping.put("file", "File");
+        typeMapping.put("file", "::File");
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("UUID", "String");
@@ -802,7 +802,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 } else if (p.getDefault() instanceof java.time.OffsetDateTime) {
                     return "Time.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
                 } else {
-                    return "'" + escapeText((String) p.getDefault()) + "'";
+                    return "\"" + escapeText((String) p.getDefault()) + "\"";
                 }
             }
         }

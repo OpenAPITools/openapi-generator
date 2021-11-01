@@ -2,7 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-import 'package:dio_http/dio_http.dart';
+import '';
 import 'package:openapi/src/auth/auth.dart';
 
 class OAuthInterceptor extends AuthInterceptor {

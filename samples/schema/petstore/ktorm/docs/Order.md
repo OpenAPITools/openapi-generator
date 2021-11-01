@@ -9,7 +9,7 @@ Name | Mapping | SQL Type | Default | Type | Description | Notes
 **petId** | petId | long |  | **kotlin.Long** |  |  [optional]
 **quantity** | quantity | int |  | **kotlin.Int** |  |  [optional]
 **shipDate** | shipDate | datetime |  | [**java.time.LocalDateTime**](java.time.LocalDateTime.md) |  |  [optional]
-**status** | status | text |  | [**status**](#Status) | Order Status |  [optional]
+**status** | status | text |  | [**status**](#StatusEnum) | Order Status |  [optional]
 **complete** | complete | boolean |  | **kotlin.Boolean** |  |  [optional]
 
 

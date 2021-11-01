@@ -14,7 +14,6 @@ pom.xml
 settings.gradle
 src/main/AndroidManifest.xml
 src/main/java/org/openapitools/client/ApiClient.java
-src/main/java/org/openapitools/client/ApiResponseDecoder.java
 src/main/java/org/openapitools/client/CustomInstantDeserializer.java
 src/main/java/org/openapitools/client/EncodingUtils.java
 src/main/java/org/openapitools/client/ParamExpander.java
@@ -40,7 +39,6 @@ src/main/java/org/openapitools/client/auth/OauthClientCredentialsGrant.java
 src/main/java/org/openapitools/client/auth/OauthPasswordGrant.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Animal.java
-src/main/java/org/openapitools/client/model/ApiResponse.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayTest.java

@@ -3,7 +3,7 @@
 //
 
 
-import 'package:dio_http/dio_http.dart';
+import '';
 import 'package:openapi/src/auth/auth.dart';
 
 class ApiKeyAuthInterceptor extends AuthInterceptor {

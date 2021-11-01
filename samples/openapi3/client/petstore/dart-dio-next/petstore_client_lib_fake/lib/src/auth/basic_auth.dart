@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
+import '';
 import 'package:openapi/src/auth/auth.dart';
 
 class BasicAuthInfo {

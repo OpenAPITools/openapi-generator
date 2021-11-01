@@ -18,9 +18,12 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
-import { ApiResponse } from '../model/models';
-import { Pet } from '../model/models';
+// @ts-ignore
+import { ApiResponse } from 'model/apiResponse';
+// @ts-ignore
+import { Pet } from 'model/pet';
 
+// @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
@@ -285,12 +288,6 @@ export class PetService {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
 
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (status) {
-            localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                status.join(COLLECTION_FORMATS['csv']), 'status');
-        }
-
         let localVarHeaders = this.defaultHeaders;
 
         let localVarCredential: string | undefined;
@@ -322,7 +319,6 @@ export class PetService {
 
         return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByStatus`,
             {
-                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -347,12 +343,6 @@ export class PetService {
         const tags = requestParameters.tags;
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
-        }
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (tags) {
-            localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                tags.join(COLLECTION_FORMATS['csv']), 'tags');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -386,7 +376,6 @@ export class PetService {
 
         return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByTags`,
             {
-                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
