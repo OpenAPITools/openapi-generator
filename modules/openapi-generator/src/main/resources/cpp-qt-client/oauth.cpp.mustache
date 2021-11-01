@@ -7,17 +7,6 @@ namespace OpenAPI {
  *
  */
 
-void OauthBase::setVariables(QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType){
-
-    m_authUrl = QUrl(authUrl);
-    m_tokenUrl = QUrl(tokenUrl);
-    m_scope = scope;
-    m_accessType = accessType;
-    m_state = state;
-    m_redirectUri = redirectUri;
-    m_clientId = clientId;    m_clientSecret = clientSecret;
-
-}
 
 void OauthBase::onFinish(QNetworkReply *rep)
 {
@@ -66,6 +55,19 @@ void OauthCode::unlink()
 {
     disconnect(this,0,0,0);
     disconnect(&m_server,0,0,0);
+}
+
+void OauthCode::setVariables(QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType){
+
+    m_authUrl = QUrl(authUrl);
+    m_tokenUrl = QUrl(tokenUrl);
+    m_scope = scope;
+    m_accessType = accessType;
+    m_state = state;
+    m_redirectUri = redirectUri;
+    m_clientId = clientId;
+    m_clientSecret = clientSecret;
+
 }
 
 void OauthCode::authenticationNeededCallback()
@@ -122,6 +124,17 @@ void OauthImplicit::unlink()
      m_linked = false;
 }
 
+void OauthImplicit::setVariables(QString authUrl, QString scope, QString state, QString redirectUri, QString clientId, QString accessType){
+
+    m_authUrl = QUrl(authUrl);
+    m_scope = scope;
+    m_accessType = accessType;
+    m_state = state;
+    m_redirectUri = redirectUri;
+    m_clientId = clientId;
+
+}
+
 void OauthImplicit::authenticationNeededCallback()
 {
      QDesktopServices::openUrl(QUrl(m_authUrl.toString() + "?scope=" + m_scope + (m_accessType=="" ? "" : "&access_type=" + m_accessType) + "&response_type=token" + "&state=" + m_state + "&redirect_uri=" + m_redirectUri + "&client_id=" + m_clientId));
@@ -153,11 +166,66 @@ void OauthCredentials::unlink()
     disconnect(this,0,0,0);
 }
 
+void OauthCredentials::setVariables(QString tokenUrl, QString scope, QString clientId, QString clientSecret){
+
+    m_tokenUrl = QUrl(tokenUrl);
+    m_scope = scope;
+    m_clientId = clientId;
+    m_clientSecret = clientSecret;
+
+}
+
 void OauthCredentials::authenticationNeededCallback()
 {
     //create query with the required fields
     QUrlQuery postData;
     postData.addQueryItem("grant_type", "client_credentials");
+    postData.addQueryItem("client_id", m_clientId);
+    postData.addQueryItem("client_secret", m_clientSecret);
+    postData.addQueryItem("scope", m_scope);
+    QNetworkAccessManager * manager = new QNetworkAccessManager(this);
+
+    QNetworkRequest request(m_tokenUrl);
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onFinish(QNetworkReply *)));
+
+    manager->post(request, postData.query().toUtf8());
+}
+
+/*
+ * Class to perform the resource owner password flow
+ *
+ */
+OauthPassword::OauthPassword(QObject *parent) : OauthBase(parent){}
+void OauthPassword::link()
+{
+    connect(this, SIGNAL(authenticationNeeded()), this, SLOT(authenticationNeededCallback()));
+}
+
+void OauthPassword::unlink()
+{
+    disconnect(this,0,0,0);
+}
+
+void OauthPassword::setVariables(QString tokenUrl, QString scope, QString clientId, QString clientSecret, QString username, QString password){
+
+    m_tokenUrl = QUrl(tokenUrl);
+    m_scope = scope;
+    m_clientId = clientId;
+    m_clientSecret = clientSecret;
+    m_username = username;
+    m_password = password;
+
+}
+void OauthPassword::authenticationNeededCallback()
+{
+    //create query with the required fields
+    QUrlQuery postData;
+    postData.addQueryItem("grant_type", "password");
+    postData.addQueryItem("username", m_username);
+    postData.addQueryItem("password", m_password);
     postData.addQueryItem("client_id", m_clientId);
     postData.addQueryItem("client_secret", m_clientSecret);
     postData.addQueryItem("scope", m_scope);
