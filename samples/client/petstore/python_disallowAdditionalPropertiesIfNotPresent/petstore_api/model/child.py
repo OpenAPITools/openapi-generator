@@ -92,6 +92,7 @@ class Child(ModelComposed):
         return None
 
 
+
     attribute_map = {
         'radio_waves': 'radioWaves',  # noqa: E501
         'tele_vision': 'teleVision',  # noqa: E501

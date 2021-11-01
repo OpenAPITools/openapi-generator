@@ -111,6 +111,7 @@ class XmlItem(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'attribute_string': 'attribute_string',  # noqa: E501
         'attribute_number': 'attribute_number',  # noqa: E501

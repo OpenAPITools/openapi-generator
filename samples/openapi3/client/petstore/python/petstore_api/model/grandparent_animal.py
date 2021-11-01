@@ -103,6 +103,7 @@ class GrandparentAnimal(ModelNormal):
             return None
         return {'pet_type': val}
 
+
     attribute_map = {
         'pet_type': 'pet_type',  # noqa: E501
     }

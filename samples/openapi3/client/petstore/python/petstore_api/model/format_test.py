@@ -147,6 +147,7 @@ class FormatTest(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'number': 'number',  # noqa: E501
         'byte': 'byte',  # noqa: E501

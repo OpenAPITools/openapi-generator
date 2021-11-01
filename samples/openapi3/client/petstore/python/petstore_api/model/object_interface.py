@@ -88,6 +88,7 @@ class ObjectInterface(ModelNormal):
         return None
 
 
+
     attribute_map = {
     }
 

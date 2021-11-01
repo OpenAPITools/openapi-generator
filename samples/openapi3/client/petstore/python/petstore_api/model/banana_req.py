@@ -84,6 +84,7 @@ class BananaReq(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'length_cm': 'lengthCm',  # noqa: E501
         'sweet': 'sweet',  # noqa: E501

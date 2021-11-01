@@ -89,6 +89,7 @@ class AdditionalPropertiesString(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'name': 'name',  # noqa: E501
     }

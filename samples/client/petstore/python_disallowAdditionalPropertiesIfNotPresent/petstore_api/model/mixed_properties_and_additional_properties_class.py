@@ -90,6 +90,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'uuid': 'uuid',  # noqa: E501
         'date_time': 'dateTime',  # noqa: E501

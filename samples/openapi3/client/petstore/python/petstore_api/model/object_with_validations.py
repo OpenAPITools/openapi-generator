@@ -91,6 +91,7 @@ class ObjectWithValidations(ModelNormal):
         return None
 
 
+
     attribute_map = {
     }
 

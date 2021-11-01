@@ -89,6 +89,7 @@ class HealthCheckResult(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'nullable_message': 'NullableMessage',  # noqa: E501
     }

@@ -89,6 +89,7 @@ class ShapeInterface(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'shape_type': 'shapeType',  # noqa: E501
     }

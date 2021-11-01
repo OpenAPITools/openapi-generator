@@ -101,6 +101,7 @@ class NullableClass(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'integer_prop': 'integer_prop',  # noqa: E501
         'number_prop': 'number_prop',  # noqa: E501

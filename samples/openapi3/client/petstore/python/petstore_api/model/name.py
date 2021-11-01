@@ -92,6 +92,7 @@ class Name(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'name': 'name',  # noqa: E501
         'snake_case': 'snake_case',  # noqa: E501

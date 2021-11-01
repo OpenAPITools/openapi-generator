@@ -96,6 +96,7 @@ class TypeHolderExample(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'string_item': 'string_item',  # noqa: E501
         'number_item': 'number_item',  # noqa: E501

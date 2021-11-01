@@ -91,6 +91,7 @@ class Whale(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'class_name': 'className',  # noqa: E501
         'has_baleen': 'hasBaleen',  # noqa: E501

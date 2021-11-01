@@ -94,6 +94,7 @@ class AdditionalPropertiesWithArrayOfEnums(ModelNormal):
         return None
 
 
+
     attribute_map = {
     }
 

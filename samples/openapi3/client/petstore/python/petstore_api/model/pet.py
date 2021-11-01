@@ -107,6 +107,7 @@ class Pet(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'name': 'name',  # noqa: E501
         'photo_urls': 'photoUrls',  # noqa: E501

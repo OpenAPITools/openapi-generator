@@ -111,6 +111,7 @@ class GmFruit(ModelComposed):
         return None
 
 
+
     attribute_map = {
         'cultivar': 'cultivar',  # noqa: E501
         'length_cm': 'lengthCm',  # noqa: E501

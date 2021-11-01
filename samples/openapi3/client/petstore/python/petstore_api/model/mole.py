@@ -94,6 +94,7 @@ class Mole(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'blind': 'blind',  # noqa: E501
         'smell': 'smell',  # noqa: E501

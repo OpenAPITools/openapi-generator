@@ -95,6 +95,7 @@ class InlineAdditionalPropertiesRefPayload(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'array_data': 'arrayData',  # noqa: E501
     }

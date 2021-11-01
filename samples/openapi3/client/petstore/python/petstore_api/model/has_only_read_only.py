@@ -90,6 +90,7 @@ class HasOnlyReadOnly(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'bar': 'bar',  # noqa: E501
         'foo': 'foo',  # noqa: E501

@@ -83,6 +83,7 @@ class ChildAllOf(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'inter_net': 'interNet',  # noqa: E501
     }

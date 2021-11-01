@@ -83,6 +83,7 @@ class ArrayOfArrayOfNumberOnly(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'array_array_number': 'ArrayArrayNumber',  # noqa: E501
     }

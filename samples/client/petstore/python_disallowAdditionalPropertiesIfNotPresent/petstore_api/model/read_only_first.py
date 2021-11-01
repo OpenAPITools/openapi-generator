@@ -84,6 +84,7 @@ class ReadOnlyFirst(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'bar': 'bar',  # noqa: E501
         'baz': 'baz',  # noqa: E501

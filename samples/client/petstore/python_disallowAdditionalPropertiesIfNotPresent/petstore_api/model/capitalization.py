@@ -88,6 +88,7 @@ class Capitalization(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'small_camel': 'smallCamel',  # noqa: E501
         'capital_camel': 'CapitalCamel',  # noqa: E501

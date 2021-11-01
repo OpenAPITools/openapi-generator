@@ -89,6 +89,7 @@ class ClassModel(ModelNormal):
         return None
 
 
+
     attribute_map = {
         '_class': '_class',  # noqa: E501
     }

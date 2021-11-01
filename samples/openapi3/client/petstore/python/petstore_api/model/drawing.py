@@ -104,6 +104,7 @@ class Drawing(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'main_shape': 'mainShape',  # noqa: E501
         'shape_or_null': 'shapeOrNull',  # noqa: E501

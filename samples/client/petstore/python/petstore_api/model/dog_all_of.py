@@ -89,6 +89,7 @@ class DogAllOf(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'breed': 'breed',  # noqa: E501
     }

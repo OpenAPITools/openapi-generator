@@ -96,6 +96,7 @@ class AdditionalPropertiesClass(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'map_property': 'map_property',  # noqa: E501
         'map_of_map_property': 'map_of_map_property',  # noqa: E501

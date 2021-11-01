@@ -50,6 +50,15 @@ class EnumClass(ModelSimple):
           as additional properties values.
     """
 
+
+    """
+    allowed enum values
+    """
+
+    _ABC = "_abc",
+    -EFG = "-efg",
+    (XYZ) = "(xyz)",
+
     allowed_values = {
         ('value',): {
             '_ABC': "_abc",
@@ -82,6 +91,7 @@ class EnumClass(ModelSimple):
     @cached_property
     def discriminator():
         return None
+
 
 
     attribute_map = {}

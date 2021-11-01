@@ -101,6 +101,7 @@ class ChildLizard(ModelComposed):
             return None
         return {'pet_type': val}
 
+
     attribute_map = {
         'pet_type': 'pet_type',  # noqa: E501
         'loves_rocks': 'lovesRocks',  # noqa: E501

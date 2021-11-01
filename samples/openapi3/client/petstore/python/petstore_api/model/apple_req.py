@@ -84,6 +84,7 @@ class AppleReq(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'cultivar': 'cultivar',  # noqa: E501
         'mealy': 'mealy',  # noqa: E501

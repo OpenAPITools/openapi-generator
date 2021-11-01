@@ -83,6 +83,7 @@ class Grandparent(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'radio_waves': 'radioWaves',  # noqa: E501
     }

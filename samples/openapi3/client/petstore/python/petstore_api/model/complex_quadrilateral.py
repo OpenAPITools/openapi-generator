@@ -98,6 +98,7 @@ class ComplexQuadrilateral(ModelComposed):
         return None
 
 
+
     attribute_map = {
         'shape_type': 'shapeType',  # noqa: E501
         'quadrilateral_type': 'quadrilateralType',  # noqa: E501

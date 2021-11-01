@@ -89,6 +89,7 @@ class Foo(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'bar': 'bar',  # noqa: E501
     }

@@ -90,6 +90,7 @@ class ComposedSchemaWithPropsAndNoAddProps(ModelComposed):
         return None
 
 
+
     attribute_map = {
         'color': 'color',  # noqa: E501
         'id': 'id',  # noqa: E501

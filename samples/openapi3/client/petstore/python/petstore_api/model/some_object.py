@@ -94,6 +94,7 @@ class SomeObject(ModelComposed):
         return None
 
 
+
     attribute_map = {
     }
 

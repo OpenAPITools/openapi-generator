@@ -50,6 +50,13 @@ class BooleanEnum(ModelSimple):
           as additional properties values.
     """
 
+
+    """
+    allowed enum values
+    """
+
+    TRUE = True,
+
     allowed_values = {
         ('value',): {
             'TRUE': True,
@@ -80,6 +87,7 @@ class BooleanEnum(ModelSimple):
     @cached_property
     def discriminator():
         return None
+
 
 
     attribute_map = {}

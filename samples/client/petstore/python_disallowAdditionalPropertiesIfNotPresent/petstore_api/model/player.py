@@ -84,6 +84,7 @@ class Player(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'name': 'name',  # noqa: E501
         'enemy_player': 'enemyPlayer',  # noqa: E501

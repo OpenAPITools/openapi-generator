@@ -90,6 +90,7 @@ class Tag(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'id': 'id',  # noqa: E501
         'name': 'name',  # noqa: E501

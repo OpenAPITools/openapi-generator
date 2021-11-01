@@ -90,6 +90,7 @@ class ArrayTest(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'array_of_string': 'array_of_string',  # noqa: E501
         'array_array_of_integer': 'array_array_of_integer',  # noqa: E501

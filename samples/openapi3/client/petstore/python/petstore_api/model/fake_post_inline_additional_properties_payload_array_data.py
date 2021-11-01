@@ -89,6 +89,7 @@ class FakePostInlineAdditionalPropertiesPayloadArrayData(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'labels': 'labels',  # noqa: E501
     }

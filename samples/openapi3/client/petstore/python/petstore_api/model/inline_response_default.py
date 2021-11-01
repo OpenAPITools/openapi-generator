@@ -95,6 +95,7 @@ class InlineResponseDefault(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'string': 'string',  # noqa: E501
     }

@@ -89,6 +89,7 @@ class QuadrilateralInterface(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'quadrilateral_type': 'quadrilateralType',  # noqa: E501
     }

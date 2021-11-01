@@ -89,6 +89,7 @@ class FileSchemaTestClass(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'file': 'file',  # noqa: E501
         'files': 'files',  # noqa: E501

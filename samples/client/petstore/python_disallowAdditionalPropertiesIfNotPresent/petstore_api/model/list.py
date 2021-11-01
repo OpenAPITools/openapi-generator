@@ -83,6 +83,7 @@ class List(ModelNormal):
         return None
 
 
+
     attribute_map = {
         '_123_list': '123-list',  # noqa: E501
     }

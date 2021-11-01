@@ -89,6 +89,7 @@ class SomeObjectWithSelfAttr(ModelNormal):
         return None
 
 
+
     attribute_map = {
         '_self': 'self',  # noqa: E501
     }

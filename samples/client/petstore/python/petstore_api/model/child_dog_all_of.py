@@ -89,6 +89,7 @@ class ChildDogAllOf(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'bark': 'bark',  # noqa: E501
     }

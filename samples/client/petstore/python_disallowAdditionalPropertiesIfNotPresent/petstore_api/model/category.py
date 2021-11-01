@@ -84,6 +84,7 @@ class Category(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'name': 'name',  # noqa: E501
         'id': 'id',  # noqa: E501

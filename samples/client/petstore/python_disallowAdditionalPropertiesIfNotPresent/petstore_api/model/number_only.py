@@ -83,6 +83,7 @@ class NumberOnly(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'just_number': 'JustNumber',  # noqa: E501
     }

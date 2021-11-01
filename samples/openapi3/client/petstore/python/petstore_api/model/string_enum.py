@@ -50,6 +50,20 @@ class StringEnum(ModelSimple):
           as additional properties values.
     """
 
+
+    """
+    allowed enum values
+    """
+
+    PLACED = "placed",
+    APPROVED = "approved",
+    DELIVERED = "delivered",
+    SINGLE_QUOTED = "single quoted",
+    MULTIPLE_LINES = '''multiple
+lines''',
+    DOUBLE_QUOTE_WITH_NEWLINE = '''double quote 
+ with newline''',
+
     allowed_values = {
         ('value',): {
             'None': None,
@@ -88,6 +102,7 @@ lines''',
     @cached_property
     def discriminator():
         return None
+
 
 
     attribute_map = {}

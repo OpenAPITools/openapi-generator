@@ -105,6 +105,7 @@ class Shape(ModelComposed):
             return None
         return {'shape_type': val}
 
+
     attribute_map = {
         'shape_type': 'shapeType',  # noqa: E501
         'quadrilateral_type': 'quadrilateralType',  # noqa: E501

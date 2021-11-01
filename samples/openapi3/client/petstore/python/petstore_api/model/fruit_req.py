@@ -100,6 +100,7 @@ class FruitReq(ModelComposed):
         return None
 
 
+
     attribute_map = {
         'mealy': 'mealy',  # noqa: E501
         'sweet': 'sweet',  # noqa: E501

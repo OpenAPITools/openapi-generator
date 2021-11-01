@@ -89,6 +89,7 @@ class TriangleInterface(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'triangle_type': 'triangleType',  # noqa: E501
     }

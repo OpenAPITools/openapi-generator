@@ -50,6 +50,15 @@ class IntegerEnum(ModelSimple):
           as additional properties values.
     """
 
+
+    """
+    allowed enum values
+    """
+
+    0 = 0,
+    1 = 1,
+    2 = 2,
+
     allowed_values = {
         ('value',): {
             '0': 0,
@@ -82,6 +91,7 @@ class IntegerEnum(ModelSimple):
     @cached_property
     def discriminator():
         return None
+
 
 
     attribute_map = {}

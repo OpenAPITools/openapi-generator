@@ -102,6 +102,7 @@ class Dog(ModelComposed):
             return None
         return {'class_name': val}
 
+
     attribute_map = {
         'class_name': 'className',  # noqa: E501
         'breed': 'breed',  # noqa: E501

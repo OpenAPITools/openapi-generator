@@ -107,6 +107,7 @@ class Triangle(ModelComposed):
             return None
         return {'triangle_type': val}
 
+
     attribute_map = {
         'triangle_type': 'triangleType',  # noqa: E501
         'shape_type': 'shapeType',  # noqa: E501

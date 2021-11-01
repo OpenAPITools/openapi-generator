@@ -89,6 +89,7 @@ class Client(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'client': 'client',  # noqa: E501
     }

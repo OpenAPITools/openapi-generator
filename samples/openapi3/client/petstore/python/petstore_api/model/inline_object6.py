@@ -95,6 +95,7 @@ class InlineObject6(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'array_data': 'arrayData',  # noqa: E501
     }

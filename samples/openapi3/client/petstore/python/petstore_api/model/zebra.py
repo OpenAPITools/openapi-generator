@@ -95,6 +95,7 @@ class Zebra(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'class_name': 'className',  # noqa: E501
         'type': 'type',  # noqa: E501

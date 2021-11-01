@@ -93,6 +93,7 @@ class Order(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'id': 'id',  # noqa: E501
         'pet_id': 'petId',  # noqa: E501

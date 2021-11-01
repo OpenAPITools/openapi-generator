@@ -98,6 +98,7 @@ class EnumArrays(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'just_symbol': 'just_symbol',  # noqa: E501
         'array_enum': 'array_enum',  # noqa: E501

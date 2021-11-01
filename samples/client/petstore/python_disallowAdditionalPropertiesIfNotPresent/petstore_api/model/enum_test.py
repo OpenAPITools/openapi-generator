@@ -110,6 +110,7 @@ class EnumTest(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'enum_string_required': 'enum_string_required',  # noqa: E501
         'enum_string': 'enum_string',  # noqa: E501

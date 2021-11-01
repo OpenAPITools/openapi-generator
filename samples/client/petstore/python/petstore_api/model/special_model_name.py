@@ -89,6 +89,7 @@ class SpecialModelName(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'special_property_name': '$special[property.name]',  # noqa: E501
     }

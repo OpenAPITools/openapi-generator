@@ -101,6 +101,7 @@ class Apple(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'cultivar': 'cultivar',  # noqa: E501
         'origin': 'origin',  # noqa: E501

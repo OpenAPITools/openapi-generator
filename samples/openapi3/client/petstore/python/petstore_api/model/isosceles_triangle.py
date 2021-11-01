@@ -98,6 +98,7 @@ class IsoscelesTriangle(ModelComposed):
         return None
 
 
+
     attribute_map = {
         'shape_type': 'shapeType',  # noqa: E501
         'triangle_type': 'triangleType',  # noqa: E501

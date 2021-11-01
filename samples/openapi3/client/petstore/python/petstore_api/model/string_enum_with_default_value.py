@@ -50,6 +50,15 @@ class StringEnumWithDefaultValue(ModelSimple):
           as additional properties values.
     """
 
+
+    """
+    allowed enum values
+    """
+
+    PLACED = "placed",
+    APPROVED = "approved",
+    DELIVERED = "delivered",
+
     allowed_values = {
         ('value',): {
             'PLACED': "placed",
@@ -82,6 +91,7 @@ class StringEnumWithDefaultValue(ModelSimple):
     @cached_property
     def discriminator():
         return None
+
 
 
     attribute_map = {}

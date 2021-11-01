@@ -99,6 +99,7 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
         return None
 
 
+
     attribute_map = {
         'color': 'color',  # noqa: E501
         'tail': 'tail',  # noqa: E501

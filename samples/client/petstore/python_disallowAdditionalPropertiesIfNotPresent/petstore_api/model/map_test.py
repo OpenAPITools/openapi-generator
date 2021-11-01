@@ -95,6 +95,7 @@ class MapTest(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'map_map_of_string': 'map_map_of_string',  # noqa: E501
         'map_of_enum_string': 'map_of_enum_string',  # noqa: E501

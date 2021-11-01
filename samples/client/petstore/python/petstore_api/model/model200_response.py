@@ -90,6 +90,7 @@ class Model200Response(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'name': 'name',  # noqa: E501
         '_class': 'class',  # noqa: E501

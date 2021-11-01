@@ -84,6 +84,7 @@ class AnimalFarm(ModelSimple):
         return None
 
 
+
     attribute_map = {}
 
     read_only_vars = set()

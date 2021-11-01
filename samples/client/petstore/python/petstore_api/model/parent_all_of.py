@@ -89,6 +89,7 @@ class ParentAllOf(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'tele_vision': 'teleVision',  # noqa: E501
     }

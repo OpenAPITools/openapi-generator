@@ -103,6 +103,7 @@ class Pig(ModelComposed):
             return None
         return {'class_name': val}
 
+
     attribute_map = {
         'class_name': 'className',  # noqa: E501
     }

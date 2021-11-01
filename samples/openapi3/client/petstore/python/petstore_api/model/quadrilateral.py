@@ -104,6 +104,7 @@ class Quadrilateral(ModelComposed):
             return None
         return {'quadrilateral_type': val}
 
+
     attribute_map = {
         'quadrilateral_type': 'quadrilateralType',  # noqa: E501
         'shape_type': 'shapeType',  # noqa: E501

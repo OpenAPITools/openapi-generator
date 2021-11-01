@@ -85,6 +85,7 @@ class ApiResponse(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'code': 'code',  # noqa: E501
         'type': 'type',  # noqa: E501

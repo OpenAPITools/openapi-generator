@@ -104,6 +104,7 @@ class Animal(ModelNormal):
             return None
         return {'class_name': val}
 
+
     attribute_map = {
         'class_name': 'className',  # noqa: E501
         'color': 'color',  # noqa: E501

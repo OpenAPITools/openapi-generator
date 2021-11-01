@@ -89,6 +89,7 @@ class File(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'source_uri': 'sourceURI',  # noqa: E501
     }

@@ -94,6 +94,7 @@ class Legs(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'legs': 'legs',  # noqa: E501
         'name': 'name',  # noqa: E501

@@ -100,6 +100,7 @@ class ObjectModelWithRefProps(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'my_number': 'my_number',  # noqa: E501
         'my_readonly': 'my_readonly',  # noqa: E501

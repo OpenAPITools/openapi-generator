@@ -100,6 +100,7 @@ class User(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'id': 'id',  # noqa: E501
         'username': 'username',  # noqa: E501

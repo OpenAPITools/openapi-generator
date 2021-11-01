@@ -83,6 +83,7 @@ class ModelReturn(ModelNormal):
         return None
 
 
+
     attribute_map = {
         '_return': 'return',  # noqa: E501
     }

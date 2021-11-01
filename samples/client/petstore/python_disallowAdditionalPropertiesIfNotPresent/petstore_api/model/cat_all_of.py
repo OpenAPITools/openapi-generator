@@ -83,6 +83,7 @@ class CatAllOf(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'declawed': 'declawed',  # noqa: E501
     }

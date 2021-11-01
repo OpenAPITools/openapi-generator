@@ -89,6 +89,7 @@ class ChildLizardAllOf(ModelNormal):
         return None
 
 
+
     attribute_map = {
         'loves_rocks': 'lovesRocks',  # noqa: E501
     }

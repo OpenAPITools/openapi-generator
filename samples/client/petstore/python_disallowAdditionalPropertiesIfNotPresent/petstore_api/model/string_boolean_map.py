@@ -88,6 +88,7 @@ class StringBooleanMap(ModelNormal):
         return None
 
 
+
     attribute_map = {
     }
 
