@@ -714,5 +714,34 @@ class TestFakeApi(unittest.TestCase):
             assert isinstance(response, InlineObject6)
             assert model_to_dict(response) == expected_json_body
 
+    def test_post_tx_rx_any_of_payload(self):
+        """Test case for postInlineAdditionlPropertiesPayload
+        """
+        from petstore_api.model.gm_fruit_no_properties import GmFruitNoProperties
+        endpoint = self.api.tx_rx_any_of_model_endpoint
+        assert endpoint.openapi_types['gm_fruit_no_properties'] == (GmFruitNoProperties,)
+        assert endpoint.settings['response_type'] == (GmFruitNoProperties,)
+
+        # serialization + deserialization works
+        from petstore_api.rest import RESTClientObject, RESTResponse
+        with patch.object(RESTClientObject, 'request') as mock_method:
+            expected_json_body = {
+                'cultivar': 'Alice',
+                'origin': 'Kazakhstan',
+                'lengthCm': 7,
+            }
+            fruit = GmFruitNoProperties(**expected_json_body)
+            mock_method.return_value = self.mock_response(expected_json_body)
+
+            response = self.api.tx_rx_any_of_model(gm_fruit_no_properties=fruit)
+            self.assert_request_called_with(
+                mock_method,
+                'http://petstore.swagger.io:80/v2/fake/TxRxAnyOfModel',
+                body=expected_json_body
+            )
+
+            assert isinstance(response, GmFruitNoProperties)
+            assert model_to_dict(response) == expected_json_body
+
 if __name__ == '__main__':
     unittest.main()
