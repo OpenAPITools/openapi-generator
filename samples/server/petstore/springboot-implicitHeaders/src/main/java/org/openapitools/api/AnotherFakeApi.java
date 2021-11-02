@@ -51,7 +51,7 @@ public interface AnotherFakeApi {
     )
     default ResponseEntity<Client> call123testSpecialTags(
 
-@ApiParam(value = "client model", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Client body) {
+@ApiParam(value = "client model", required = true )   @Valid  @RequestBody Client body) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

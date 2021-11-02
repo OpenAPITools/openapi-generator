@@ -151,7 +151,7 @@ public interface StoreApi {
     )
     default CompletableFuture<ResponseEntity<Order>> placeOrder(
 
-@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Order body) {
+@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid  @RequestBody Order body) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

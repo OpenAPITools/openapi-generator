@@ -40,7 +40,7 @@ public class AnotherFakeApiController implements AnotherFakeApi {
      */
     public ResponseEntity<Client> call123testSpecialTags(
 
-@ApiParam(value = "client model", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Client body) {
+@ApiParam(value = "client model", required = true )   @Valid  @RequestBody Client body) {
         return delegate.call123testSpecialTags(body);
     }
 

@@ -58,7 +58,7 @@ public interface FakeApi {
     )
     default CompletableFuture<ResponseEntity<Void>> createXmlItem(
 
-@ApiParam(value = "XmlItem Body", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody XmlItem xmlItem) {
+@ApiParam(value = "XmlItem Body", required = true )   @Valid  @RequestBody XmlItem xmlItem) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -83,7 +83,7 @@ public interface FakeApi {
     )
     default CompletableFuture<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(
 
-@ApiParam(value = "Input boolean as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) Boolean body) {
+@ApiParam(value = "Input boolean as post body" )   @Valid  @RequestBody(required = false) Boolean body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -108,7 +108,7 @@ public interface FakeApi {
     )
     default CompletableFuture<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(
 
-@ApiParam(value = "Input composite as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) OuterComposite body) {
+@ApiParam(value = "Input composite as post body" )   @Valid  @RequestBody(required = false) OuterComposite body) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -144,7 +144,7 @@ public interface FakeApi {
     )
     default CompletableFuture<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(
 
-@ApiParam(value = "Input number as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) BigDecimal body) {
+@ApiParam(value = "Input number as post body" )   @Valid  @RequestBody(required = false) BigDecimal body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -169,7 +169,7 @@ public interface FakeApi {
     )
     default CompletableFuture<ResponseEntity<String>> fakeOuterStringSerialize(
 
-@ApiParam(value = "Input string as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) String body) {
+@ApiParam(value = "Input string as post body" )   @Valid  @RequestBody(required = false) String body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -194,7 +194,7 @@ public interface FakeApi {
     )
     default CompletableFuture<ResponseEntity<Void>> testBodyWithFileSchema(
 
-@ApiParam(value = "", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody FileSchemaTestClass body) {
+@ApiParam(value = "", required = true )   @Valid  @RequestBody FileSchemaTestClass body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -221,7 +221,7 @@ public interface FakeApi {
 
 ,
 
-@ApiParam(value = "", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody User body) {
+@ApiParam(value = "", required = true )   @Valid  @RequestBody User body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -247,7 +247,7 @@ public interface FakeApi {
     )
     default CompletableFuture<ResponseEntity<Client>> testClientModel(
 
-@ApiParam(value = "client model", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Client body) {
+@ApiParam(value = "client model", required = true )   @Valid  @RequestBody Client body) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -440,7 +440,7 @@ public interface FakeApi {
     )
     default CompletableFuture<ResponseEntity<Void>> testInlineAdditionalProperties(
 
-@ApiParam(value = "request body", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Map<String, String> param) {
+@ApiParam(value = "request body", required = true )   @Valid  @RequestBody Map<String, String> param) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }

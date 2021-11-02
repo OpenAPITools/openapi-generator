@@ -44,7 +44,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> createUser(
 
-@ApiParam(value = "Created user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody User body) {
+@ApiParam(value = "Created user object", required = true )   @Valid  @RequestBody User body) {
         return getDelegate().createUser(body);
     }
 
@@ -66,7 +66,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
 
-@ApiParam(value = "List of user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody List<User> body) {
+@ApiParam(value = "List of user object", required = true )   @Valid  @RequestBody List<User> body) {
         return getDelegate().createUsersWithArrayInput(body);
     }
 
@@ -88,7 +88,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> createUsersWithListInput(
 
-@ApiParam(value = "List of user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody List<User> body) {
+@ApiParam(value = "List of user object", required = true )   @Valid  @RequestBody List<User> body) {
         return getDelegate().createUsersWithListInput(body);
     }
 
@@ -220,7 +220,7 @@ public interface UserApi {
 
 ,
 
-@ApiParam(value = "Updated user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody User body) {
+@ApiParam(value = "Updated user object", required = true )   @Valid  @RequestBody User body) {
         return getDelegate().updateUser(username, body);
     }
 

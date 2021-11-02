@@ -41,7 +41,7 @@ public class PetApiController implements PetApi {
      */
     public ResponseEntity<Void> addPet(
 
-@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Pet body) {
+@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid  @RequestBody Pet body) {
         return delegate.addPet(body);
     }
 
@@ -121,7 +121,7 @@ public class PetApiController implements PetApi {
      */
     public ResponseEntity<Void> updatePet(
 
-@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Pet body) {
+@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid  @RequestBody Pet body) {
         return delegate.updatePet(body);
     }
 

@@ -51,7 +51,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<Void> createXmlItem(
 
-@ApiParam(value = "XmlItem Body", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody XmlItem xmlItem) {
+@ApiParam(value = "XmlItem Body", required = true )   @Valid  @RequestBody XmlItem xmlItem) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -66,7 +66,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<Boolean> fakeOuterBooleanSerialize(
 
-@ApiParam(value = "Input boolean as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) Boolean body) {
+@ApiParam(value = "Input boolean as post body" )   @Valid  @RequestBody(required = false) Boolean body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -81,7 +81,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
 
-@ApiParam(value = "Input composite as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) OuterComposite body) {
+@ApiParam(value = "Input composite as post body" )   @Valid  @RequestBody(required = false) OuterComposite body) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
                 String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
@@ -103,7 +103,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
 
-@ApiParam(value = "Input number as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) BigDecimal body) {
+@ApiParam(value = "Input number as post body" )   @Valid  @RequestBody(required = false) BigDecimal body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -118,7 +118,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<String> fakeOuterStringSerialize(
 
-@ApiParam(value = "Input string as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) String body) {
+@ApiParam(value = "Input string as post body" )   @Valid  @RequestBody(required = false) String body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -133,7 +133,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<Void> testBodyWithFileSchema(
 
-@ApiParam(value = "", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody FileSchemaTestClass body) {
+@ApiParam(value = "", required = true )   @Valid  @RequestBody FileSchemaTestClass body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -150,7 +150,7 @@ public class FakeApiController implements FakeApi {
 
 ,
 
-@ApiParam(value = "", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody User body) {
+@ApiParam(value = "", required = true )   @Valid  @RequestBody User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -165,7 +165,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<Client> testClientModel(
 
-@ApiParam(value = "client model", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Client body) {
+@ApiParam(value = "client model", required = true )   @Valid  @RequestBody Client body) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"client\" : \"client\" }";
@@ -308,7 +308,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<Void> testInlineAdditionalProperties(
 
-@ApiParam(value = "request body", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Map<String, String> param) {
+@ApiParam(value = "request body", required = true )   @Valid  @RequestBody Map<String, String> param) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

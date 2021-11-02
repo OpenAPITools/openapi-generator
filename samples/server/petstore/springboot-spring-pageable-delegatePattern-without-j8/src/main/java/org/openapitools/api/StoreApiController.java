@@ -83,7 +83,7 @@ public class StoreApiController implements StoreApi {
      */
     public ResponseEntity<Order> placeOrder(
 
-@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Order body) {
+@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid  @RequestBody Order body) {
         return delegate.placeOrder(body);
     }
 
