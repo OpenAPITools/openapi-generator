@@ -1286,6 +1286,7 @@
             <modules>
                 <!-- clients -->
                 <!-- test java-related projects -->
+                <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
@@ -1314,9 +1315,6 @@
                 <module>samples/client/petstore/java/rest-assured-jackson</module>
                 <module>samples/client/petstore/java/microprofile-rest-client</module>
                 <module>samples/client/petstore/java/apache-httpclient</module>
-                <!-- commnet out test due to org.jfrog.buildinfo:build-info-extractor-gradle:2.0.16 not resolved
-                <module>samples/client/petstore/groovy</module>
-                -->
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
