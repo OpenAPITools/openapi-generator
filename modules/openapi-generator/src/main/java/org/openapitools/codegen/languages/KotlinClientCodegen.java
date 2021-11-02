@@ -386,11 +386,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         if (usesRetrofit2Library()) {
-            if (ProcessUtils.hasOAuthMethods(openAPI)) {
-                supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
+            boolean hasOAuthMethods = ProcessUtils.hasOAuthMethods(openAPI);
+
+            if (hasOAuthMethods) {
                 supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
                 supportingFiles.add(new SupportingFile("auth/OAuthFlow.kt.mustache", authFolder, "OAuthFlow.kt"));
                 supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.kt.mustache", authFolder, "OAuthOkHttpClient.kt"));
+            }
+
+            if (hasOAuthMethods || ProcessUtils.hasApiKeyMethods(openAPI)) {
+                supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
             }
 
             if (ProcessUtils.hasHttpBearerMethods(openAPI)) {
