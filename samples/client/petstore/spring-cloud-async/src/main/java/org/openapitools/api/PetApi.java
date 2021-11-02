@@ -49,7 +49,7 @@ public interface PetApi {
     )
     CompletableFuture<ResponseEntity<Void>> addPet(
 
-@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid  @RequestBody Pet body);
+@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body);
 
 
     /**
@@ -197,7 +197,7 @@ public interface PetApi {
     )
     CompletableFuture<ResponseEntity<Void>> updatePet(
 
-@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid  @RequestBody Pet body);
+@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body);
 
 
     /**

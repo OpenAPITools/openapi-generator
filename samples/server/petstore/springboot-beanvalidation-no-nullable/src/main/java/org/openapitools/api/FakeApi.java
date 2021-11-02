@@ -49,7 +49,7 @@ public interface FakeApi {
     )
     ResponseEntity<Void> createXmlItem(
 
-@ApiParam(value = "XmlItem Body", required = true )   @Valid  @RequestBody XmlItem xmlItem);
+@ApiParam(value = "XmlItem Body", required = true )   @Valid @RequestBody XmlItem xmlItem);
 
 
     /**
@@ -71,7 +71,7 @@ public interface FakeApi {
     )
     ResponseEntity<Boolean> fakeOuterBooleanSerialize(
 
-@ApiParam(value = "Input boolean as post body" )   @Valid  @RequestBody(required = false) Boolean body);
+@ApiParam(value = "Input boolean as post body" )   @Valid @RequestBody(required = false) Boolean body);
 
 
     /**
@@ -93,7 +93,7 @@ public interface FakeApi {
     )
     ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
 
-@ApiParam(value = "Input composite as post body" )   @Valid  @RequestBody(required = false) OuterComposite body);
+@ApiParam(value = "Input composite as post body" )   @Valid @RequestBody(required = false) OuterComposite body);
 
 
     /**
@@ -115,7 +115,7 @@ public interface FakeApi {
     )
     ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
 
-@ApiParam(value = "Input number as post body" )   @Valid  @RequestBody(required = false) BigDecimal body);
+@ApiParam(value = "Input number as post body" )   @Valid @RequestBody(required = false) BigDecimal body);
 
 
     /**
@@ -137,7 +137,7 @@ public interface FakeApi {
     )
     ResponseEntity<String> fakeOuterStringSerialize(
 
-@ApiParam(value = "Input string as post body" )   @Valid  @RequestBody(required = false) String body);
+@ApiParam(value = "Input string as post body" )   @Valid @RequestBody(required = false) String body);
 
 
     /**
@@ -159,7 +159,7 @@ public interface FakeApi {
     )
     ResponseEntity<Void> testBodyWithFileSchema(
 
-@ApiParam(value = "", required = true )   @Valid  @RequestBody FileSchemaTestClass body);
+@ApiParam(value = "", required = true )   @Valid @RequestBody FileSchemaTestClass body);
 
 
     /**
@@ -183,7 +183,7 @@ public interface FakeApi {
 
 ,
 
-@ApiParam(value = "", required = true )   @Valid  @RequestBody User body);
+@ApiParam(value = "", required = true )   @Valid @RequestBody User body);
 
 
     /**
@@ -206,7 +206,7 @@ public interface FakeApi {
     )
     ResponseEntity<Client> testClientModel(
 
-@ApiParam(value = "client model", required = true )   @Valid  @RequestBody Client body);
+@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body);
 
 
     /**
@@ -376,7 +376,7 @@ public interface FakeApi {
     )
     ResponseEntity<Void> testInlineAdditionalProperties(
 
-@ApiParam(value = "request body", required = true )   @Valid  @RequestBody Map<String, String> param);
+@ApiParam(value = "request body", required = true )   @Valid @RequestBody Map<String, String> param);
 
 
     /**

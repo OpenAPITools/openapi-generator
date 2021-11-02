@@ -40,7 +40,7 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
      */
     public ResponseEntity<Client> testClassname(
 
-@ApiParam(value = "client model", required = true )   @Valid  @RequestBody Client body) {
+@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body) {
         return delegate.testClassname(body);
     }
 

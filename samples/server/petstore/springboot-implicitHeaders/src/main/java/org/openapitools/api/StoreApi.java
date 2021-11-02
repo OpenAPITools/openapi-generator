@@ -156,7 +156,7 @@ public interface StoreApi {
     )
     default ResponseEntity<Order> placeOrder(
 
-@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid  @RequestBody Order body) {
+@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid @RequestBody Order body) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

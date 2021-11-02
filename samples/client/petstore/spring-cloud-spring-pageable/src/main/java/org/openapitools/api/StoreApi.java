@@ -121,6 +121,6 @@ public interface StoreApi {
     )
     ResponseEntity<Order> placeOrder(
 
-@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid  @RequestBody Order body);
+@ApiParam(value = "order placed for purchasing the pet", required = true )   @Valid @RequestBody Order body);
 
 }
