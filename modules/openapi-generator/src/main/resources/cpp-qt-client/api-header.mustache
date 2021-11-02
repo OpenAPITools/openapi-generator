@@ -74,14 +74,14 @@ private:
     QMap<QString, QString> _defaultHeaders;
     bool _isResponseCompressionEnabled;
     bool _isRequestCompressionEnabled;
-    {{prefix}}HttpRequestInput latestInput;
-    {{prefix}}HttpRequestWorker *latestWorker;
-    QStringList latestScope;
-    OauthCode auth;
-    OauthImplicit implicit;
-    OauthCredentials credential;
-    OauthPassword passwordFlow;
-    int OauthMethod = 0;
+    {{prefix}}HttpRequestInput _latestInput;
+    {{prefix}}HttpRequestWorker *_latestWorker;
+    QStringList _latestScope;
+    OauthCode _authFlow;
+    OauthImplicit _implicitFlow;
+    OauthCredentials _credentialFlow;
+    OauthPassword _passwordFlow;
+    int _OauthMethod = 0;
 {{#operations}}{{#operation}}
     void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}
 

@@ -111,13 +111,14 @@ private:
     QMap<QString, QString> _defaultHeaders;
     bool _isResponseCompressionEnabled;
     bool _isRequestCompressionEnabled;
-    PFXHttpRequestInput latestInput;
-    PFXHttpRequestWorker *latestWorker;
-    QStringList latestScope;
-    OauthCode auth;
-    OauthImplicit implicit;
-    OauthCredentials credential;
-    int OauthMethod = 0;
+    PFXHttpRequestInput _latestInput;
+    PFXHttpRequestWorker *_latestWorker;
+    QStringList _latestScope;
+    OauthCode _authFlow;
+    OauthImplicit _implicitFlow;
+    OauthCredentials _credentialFlow;
+    OauthPassword _passwordFlow;
+    int _OauthMethod = 0;
 
     void createUserCallback(PFXHttpRequestWorker *worker);
     void createUsersWithArrayInputCallback(PFXHttpRequestWorker *worker);

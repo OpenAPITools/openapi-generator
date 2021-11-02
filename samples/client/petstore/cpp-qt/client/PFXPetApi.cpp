@@ -256,31 +256,33 @@ void PFXPetApi::addPet(const PFXPet &body) {
             emit allPendingRequestsCompleted();
         }
     });
-    OauthMethod = 1;
-    auth.unlink();
-    credential.unlink();
-    implicit.link();
+    _OauthMethod = 1;
+    _implicitFlow.link();
+    _passwordFlow.unlink();
+    _authFlow.unlink();
+    _credentialFlow.unlink();
     QStringList scope;
     scope.append("write:pets");
     scope.append("read:pets");
-    auto token = implicit.getToken(scope.join(" "));
+    auto token = _implicitFlow.getToken(scope.join(" "));
     if(token.isValid())
         input.headers.insert("Authorization", "Bearer " + token.getToken());
 
-    latestWorker = new PFXHttpRequestWorker(this, _manager);
-    latestWorker->setTimeOut(_timeOut);
-    latestWorker->setWorkingDirectory(_workingDirectory);
+    _latestWorker = new PFXHttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);
     
-    connect(latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::addPetCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, latestWorker, &QObject::deleteLater);
-    connect(latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::addPetCallback);
+    connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
 
-    latestInput = input;
-    latestScope = scope;
+    _latestInput = input;
+    _latestScope = scope;
+
 
 
     worker->execute(&input);
@@ -299,15 +301,16 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
         emit addPetSignal();
         emit addPetSignalFull(worker);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
-        connect(&implicit, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
         scope.append("write:pets");
         scope.append("read:pets");
         QString scopeStr = scope.join(" ");
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
-        implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
-        emit implicit.authenticationNeeded();
+        _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
+        emit _implicitFlow.authenticationNeeded();
+
 
     } else {
         emit addPetSignalE(error_type, error_str);
@@ -361,31 +364,33 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
             emit allPendingRequestsCompleted();
         }
     });
-    OauthMethod = 1;
-    auth.unlink();
-    credential.unlink();
-    implicit.link();
+    _OauthMethod = 1;
+    _implicitFlow.link();
+    _passwordFlow.unlink();
+    _authFlow.unlink();
+    _credentialFlow.unlink();
     QStringList scope;
     scope.append("write:pets");
     scope.append("read:pets");
-    auto token = implicit.getToken(scope.join(" "));
+    auto token = _implicitFlow.getToken(scope.join(" "));
     if(token.isValid())
         input.headers.insert("Authorization", "Bearer " + token.getToken());
 
-    latestWorker = new PFXHttpRequestWorker(this, _manager);
-    latestWorker->setTimeOut(_timeOut);
-    latestWorker->setWorkingDirectory(_workingDirectory);
+    _latestWorker = new PFXHttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);
     
-    connect(latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::deletePetCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, latestWorker, &QObject::deleteLater);
-    connect(latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::deletePetCallback);
+    connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
 
-    latestInput = input;
-    latestScope = scope;
+    _latestInput = input;
+    _latestScope = scope;
+
 
 
     worker->execute(&input);
@@ -404,15 +409,16 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
         emit deletePetSignal();
         emit deletePetSignalFull(worker);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
-        connect(&implicit, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
         scope.append("write:pets");
         scope.append("read:pets");
         QString scopeStr = scope.join(" ");
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
-        implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
-        emit implicit.authenticationNeeded();
+        _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
+        emit _implicitFlow.authenticationNeeded();
+
 
     } else {
         emit deletePetSignalE(error_type, error_str);
@@ -532,31 +538,33 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
             emit allPendingRequestsCompleted();
         }
     });
-    OauthMethod = 1;
-    auth.unlink();
-    credential.unlink();
-    implicit.link();
+    _OauthMethod = 1;
+    _implicitFlow.link();
+    _passwordFlow.unlink();
+    _authFlow.unlink();
+    _credentialFlow.unlink();
     QStringList scope;
     scope.append("write:pets");
     scope.append("read:pets");
-    auto token = implicit.getToken(scope.join(" "));
+    auto token = _implicitFlow.getToken(scope.join(" "));
     if(token.isValid())
         input.headers.insert("Authorization", "Bearer " + token.getToken());
 
-    latestWorker = new PFXHttpRequestWorker(this, _manager);
-    latestWorker->setTimeOut(_timeOut);
-    latestWorker->setWorkingDirectory(_workingDirectory);
+    _latestWorker = new PFXHttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);
     
-    connect(latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByStatusCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, latestWorker, &QObject::deleteLater);
-    connect(latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByStatusCallback);
+    connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
 
-    latestInput = input;
-    latestScope = scope;
+    _latestInput = input;
+    _latestScope = scope;
+
 
 
     worker->execute(&input);
@@ -585,15 +593,16 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
         emit findPetsByStatusSignal(output);
         emit findPetsByStatusSignalFull(worker, output);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
-        connect(&implicit, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
         scope.append("write:pets");
         scope.append("read:pets");
         QString scopeStr = scope.join(" ");
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
-        implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
-        emit implicit.authenticationNeeded();
+        _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
+        emit _implicitFlow.authenticationNeeded();
+
 
     } else {
         emit findPetsByStatusSignalE(output, error_type, error_str);
@@ -713,31 +722,33 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
             emit allPendingRequestsCompleted();
         }
     });
-    OauthMethod = 1;
-    auth.unlink();
-    credential.unlink();
-    implicit.link();
+    _OauthMethod = 1;
+    _implicitFlow.link();
+    _passwordFlow.unlink();
+    _authFlow.unlink();
+    _credentialFlow.unlink();
     QStringList scope;
     scope.append("write:pets");
     scope.append("read:pets");
-    auto token = implicit.getToken(scope.join(" "));
+    auto token = _implicitFlow.getToken(scope.join(" "));
     if(token.isValid())
         input.headers.insert("Authorization", "Bearer " + token.getToken());
 
-    latestWorker = new PFXHttpRequestWorker(this, _manager);
-    latestWorker->setTimeOut(_timeOut);
-    latestWorker->setWorkingDirectory(_workingDirectory);
+    _latestWorker = new PFXHttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);
     
-    connect(latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByTagsCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, latestWorker, &QObject::deleteLater);
-    connect(latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByTagsCallback);
+    connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
 
-    latestInput = input;
-    latestScope = scope;
+    _latestInput = input;
+    _latestScope = scope;
+
 
 
     worker->execute(&input);
@@ -766,15 +777,16 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
         emit findPetsByTagsSignal(output);
         emit findPetsByTagsSignalFull(worker, output);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
-        connect(&implicit, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
         scope.append("write:pets");
         scope.append("read:pets");
         QString scopeStr = scope.join(" ");
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
-        implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
-        emit implicit.authenticationNeeded();
+        _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
+        emit _implicitFlow.authenticationNeeded();
+
 
     } else {
         emit findPetsByTagsSignalE(output, error_type, error_str);
@@ -879,31 +891,33 @@ void PFXPetApi::updatePet(const PFXPet &body) {
             emit allPendingRequestsCompleted();
         }
     });
-    OauthMethod = 1;
-    auth.unlink();
-    credential.unlink();
-    implicit.link();
+    _OauthMethod = 1;
+    _implicitFlow.link();
+    _passwordFlow.unlink();
+    _authFlow.unlink();
+    _credentialFlow.unlink();
     QStringList scope;
     scope.append("write:pets");
     scope.append("read:pets");
-    auto token = implicit.getToken(scope.join(" "));
+    auto token = _implicitFlow.getToken(scope.join(" "));
     if(token.isValid())
         input.headers.insert("Authorization", "Bearer " + token.getToken());
 
-    latestWorker = new PFXHttpRequestWorker(this, _manager);
-    latestWorker->setTimeOut(_timeOut);
-    latestWorker->setWorkingDirectory(_workingDirectory);
+    _latestWorker = new PFXHttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);
     
-    connect(latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, latestWorker, &QObject::deleteLater);
-    connect(latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetCallback);
+    connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
 
-    latestInput = input;
-    latestScope = scope;
+    _latestInput = input;
+    _latestScope = scope;
+
 
 
     worker->execute(&input);
@@ -922,15 +936,16 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
         emit updatePetSignal();
         emit updatePetSignalFull(worker);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
-        connect(&implicit, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
         scope.append("write:pets");
         scope.append("read:pets");
         QString scopeStr = scope.join(" ");
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
-        implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
-        emit implicit.authenticationNeeded();
+        _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
+        emit _implicitFlow.authenticationNeeded();
+
 
     } else {
         emit updatePetSignalE(error_type, error_str);
@@ -986,31 +1001,33 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
             emit allPendingRequestsCompleted();
         }
     });
-    OauthMethod = 1;
-    auth.unlink();
-    credential.unlink();
-    implicit.link();
+    _OauthMethod = 1;
+    _implicitFlow.link();
+    _passwordFlow.unlink();
+    _authFlow.unlink();
+    _credentialFlow.unlink();
     QStringList scope;
     scope.append("write:pets");
     scope.append("read:pets");
-    auto token = implicit.getToken(scope.join(" "));
+    auto token = _implicitFlow.getToken(scope.join(" "));
     if(token.isValid())
         input.headers.insert("Authorization", "Bearer " + token.getToken());
 
-    latestWorker = new PFXHttpRequestWorker(this, _manager);
-    latestWorker->setTimeOut(_timeOut);
-    latestWorker->setWorkingDirectory(_workingDirectory);
+    _latestWorker = new PFXHttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);
     
-    connect(latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetWithFormCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, latestWorker, &QObject::deleteLater);
-    connect(latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetWithFormCallback);
+    connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
 
-    latestInput = input;
-    latestScope = scope;
+    _latestInput = input;
+    _latestScope = scope;
+
 
 
     worker->execute(&input);
@@ -1029,15 +1046,16 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
         emit updatePetWithFormSignal();
         emit updatePetWithFormSignalFull(worker);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
-        connect(&implicit, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
         scope.append("write:pets");
         scope.append("read:pets");
         QString scopeStr = scope.join(" ");
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
-        implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
-        emit implicit.authenticationNeeded();
+        _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
+        emit _implicitFlow.authenticationNeeded();
+
 
     } else {
         emit updatePetWithFormSignalE(error_type, error_str);
@@ -1093,31 +1111,33 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
             emit allPendingRequestsCompleted();
         }
     });
-    OauthMethod = 1;
-    auth.unlink();
-    credential.unlink();
-    implicit.link();
+    _OauthMethod = 1;
+    _implicitFlow.link();
+    _passwordFlow.unlink();
+    _authFlow.unlink();
+    _credentialFlow.unlink();
     QStringList scope;
     scope.append("write:pets");
     scope.append("read:pets");
-    auto token = implicit.getToken(scope.join(" "));
+    auto token = _implicitFlow.getToken(scope.join(" "));
     if(token.isValid())
         input.headers.insert("Authorization", "Bearer " + token.getToken());
 
-    latestWorker = new PFXHttpRequestWorker(this, _manager);
-    latestWorker->setTimeOut(_timeOut);
-    latestWorker->setWorkingDirectory(_workingDirectory);
+    _latestWorker = new PFXHttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);
     
-    connect(latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::uploadFileCallback);
-    connect(this, &PFXPetApi::abortRequestsSignal, latestWorker, &QObject::deleteLater);
-    connect(latestWorker, &QObject::destroyed, [this](){
+    connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::uploadFileCallback);
+    connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             emit allPendingRequestsCompleted();
         }
     });
 
-    latestInput = input;
-    latestScope = scope;
+    _latestInput = input;
+    _latestScope = scope;
+
 
 
     worker->execute(&input);
@@ -1137,15 +1157,16 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
         emit uploadFileSignal(output);
         emit uploadFileSignalFull(worker, output);
     } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
-        connect(&implicit, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
         QStringList scope;
         scope.append("write:pets");
         scope.append("read:pets");
         QString scopeStr = scope.join(" ");
         QString authorizationUrl("http://petstore.swagger.io/api/oauth/dialog");
         //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
-        implicit.setVariables(authorizationUrl, "", scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
-        emit implicit.authenticationNeeded();
+        _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
+        emit _implicitFlow.authenticationNeeded();
+
 
     } else {
         emit uploadFileSignalE(output, error_type, error_str);
@@ -1156,34 +1177,44 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
 void PFXPetApi::tokenAvailable(){
   
     oauthToken token; 
-    switch (OauthMethod) {
+    switch (_OauthMethod) {
     case 1: //implicit flow
-        token = implicit.getToken(latestScope.join(" "));
+        token = _implicitFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
-            latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
-            latestWorker->execute(&latestInput);
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
         }else{
-            implicit.removeToken(latestScope.join(" "));
+            _implicitFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retreive a valid token";
         }
         break;
     case 2: //authorization flow
-        token = auth.getToken(latestScope.join(" "));
+        token = _authFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
-            latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
-            latestWorker->execute(&latestInput);
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
         }else{
-            auth.removeToken(latestScope.join(" "));    
+            _authFlow.removeToken(_latestScope.join(" "));    
             qDebug() << "Could not retreive a valid token";
         }
         break;
     case 3: //client credentials flow
-        token = credential.getToken(latestScope.join(" "));
+        token = _credentialFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
-            latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
-            latestWorker->execute(&latestInput);
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
         }else{
-            credential.removeToken(latestScope.join(" "));    
+            _credentialFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 4: //resource owner password flow
+        token = _passwordFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));    
             qDebug() << "Could not retreive a valid token";
         }
         break;

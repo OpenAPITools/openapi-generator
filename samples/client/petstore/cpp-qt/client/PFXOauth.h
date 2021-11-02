@@ -86,7 +86,6 @@ public:
     oauthToken getToken(QString scope);
     void addToken(oauthToken token);
     void removeToken(QString scope);
-    void setVariables( QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType = "");
     bool linked(){return m_linked;};
     virtual void link()=0;
     virtual void unlink()=0;
@@ -115,6 +114,7 @@ public:
     OauthCode(QObject *parent = nullptr);
     void link() override;
     void unlink() override;
+    void setVariables(QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType = "");
 
 private:
     ReplyServer m_server;
@@ -133,6 +133,7 @@ public:
     OauthImplicit(QObject *parent = nullptr);
     void link() override;
     void unlink() override;
+    void setVariables(QString authUrl, QString scope, QString state, QString redirectUri, QString clientId, QString accessType = "");
 
 private:
     ReplyServer m_server;
@@ -150,11 +151,31 @@ public:
     OauthCredentials(QObject *parent = nullptr);
     void link() override;
     void unlink() override;
+    void setVariables(QString tokenUrl, QString scope, QString clientId, QString clientSecret);
 
 public slots:
     void authenticationNeededCallback() override;
 
 };
+
+//resource owner password flow
+class OauthPassword : public OauthBase
+{
+    Q_OBJECT
+public:
+    OauthPassword(QObject *parent = nullptr);
+    void link() override;
+    void unlink() override;
+    void setVariables(QString tokenUrl, QString scope, QString clientId, QString clientSecret, QString username, QString password);
+
+private:
+    QString m_username, m_password;
+
+public slots:
+    void authenticationNeededCallback() override;
+
+};
+
 
 } // namespace test_namespace
 #endif // PFX_OAUTH2_H
