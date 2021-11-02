@@ -1,0 +1,10 @@
+generatorName: spring
+outputDir: samples/server/petstore/spring-mvc-headers-validation-with-optional
+inputSpec: modules/openapi-generator/src/test/resources/3_0/headers-validation.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  java8: true
+  performBeanValidation: "true"
+  useOptional: true
+  hideGenerationTimestamp: "true"
+  artifactId: spring-mvc-headers-validation
