@@ -87,7 +87,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
+        localVariableHeaders["Content-Type"] = "application/json"
+        
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/pet",
@@ -142,7 +143,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
-
+        
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
@@ -198,6 +199,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
                 put("status", toMultiValue(status.toList(), "csv"))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -257,6 +259,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
                 put("tags", toMultiValue(tags.toList(), "csv"))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -310,6 +313,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -362,7 +366,8 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
+        localVariableHeaders["Content-Type"] = "application/json"
+        
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/pet",
@@ -418,7 +423,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         val localVariableBody = mapOf("name" to name, "status" to status)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
-
+        
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
@@ -475,6 +480,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         val localVariableBody = mapOf("additionalMetadata" to additionalMetadata, "file" to file)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,

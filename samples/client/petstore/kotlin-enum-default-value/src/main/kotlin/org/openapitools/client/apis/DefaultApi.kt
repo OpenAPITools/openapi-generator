@@ -83,6 +83,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
