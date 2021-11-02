@@ -48,7 +48,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUser(
 
-@ApiParam(value = "Created user object", required = true )   @Valid @RequestBody User user);
+@ApiParam(value = "Created user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody User user);
 
 
     /**
@@ -72,7 +72,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUsersWithArrayInput(
 
-@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> user);
+@ApiParam(value = "List of user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody List<User> user);
 
 
     /**
@@ -96,7 +96,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUsersWithListInput(
 
-@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> user);
+@ApiParam(value = "List of user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody List<User> user);
 
 
     /**
@@ -228,6 +228,6 @@ public interface UserApi {
 
 ,
 
-@ApiParam(value = "Updated user object", required = true )   @Valid @RequestBody User user);
+@ApiParam(value = "Updated user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody User user);
 
 }

@@ -52,7 +52,7 @@ public interface PetApi {
     )
     default ResponseEntity<Void> addPet(
 
-@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body) {
+@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Pet body) {
         return getDelegate().addPet(body);
     }
 
@@ -216,7 +216,7 @@ public interface PetApi {
     )
     default ResponseEntity<Void> updatePet(
 
-@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body) {
+@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Pet body) {
         return getDelegate().updatePet(body);
     }
 

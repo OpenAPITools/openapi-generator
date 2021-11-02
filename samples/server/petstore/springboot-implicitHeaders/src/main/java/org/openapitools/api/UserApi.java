@@ -50,7 +50,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> createUser(
 
-@ApiParam(value = "Created user object", required = true )   @Valid @RequestBody User body) {
+@ApiParam(value = "Created user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -75,7 +75,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
 
-@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body) {
+@ApiParam(value = "List of user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody List<User> body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -100,7 +100,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> createUsersWithListInput(
 
-@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body) {
+@ApiParam(value = "List of user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody List<User> body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -261,7 +261,7 @@ public interface UserApi {
 
 ,
 
-@ApiParam(value = "Updated user object", required = true )   @Valid @RequestBody User body) {
+@ApiParam(value = "Updated user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

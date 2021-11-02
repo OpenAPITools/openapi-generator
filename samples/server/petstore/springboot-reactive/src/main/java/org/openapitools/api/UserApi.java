@@ -48,7 +48,7 @@ public interface UserApi {
     )
     default Mono<ResponseEntity<Void>> createUser(
 
-@ApiParam(value = "Created user object", required = true )   @Valid @RequestBody Mono<User> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+@ApiParam(value = "Created user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Mono<User> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().createUser(body, exchange);
     }
 
@@ -70,7 +70,7 @@ public interface UserApi {
     )
     default Mono<ResponseEntity<Void>> createUsersWithArrayInput(
 
-@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody Flux<User> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+@ApiParam(value = "List of user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Flux<User> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().createUsersWithArrayInput(body, exchange);
     }
 
@@ -92,7 +92,7 @@ public interface UserApi {
     )
     default Mono<ResponseEntity<Void>> createUsersWithListInput(
 
-@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody Flux<User> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+@ApiParam(value = "List of user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Flux<User> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().createUsersWithListInput(body, exchange);
     }
 
@@ -224,7 +224,7 @@ public interface UserApi {
 
 ,
 
-@ApiParam(value = "Updated user object", required = true )   @Valid @RequestBody Mono<User> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+@ApiParam(value = "Updated user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Mono<User> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().updateUser(username, body, exchange);
     }
 

@@ -41,7 +41,7 @@ public class UserApiController implements UserApi {
      */
     public ResponseEntity<Void> createUser(
 
-@ApiParam(value = "Created user object", required = true )   @Valid @RequestBody User body) {
+@ApiParam(value = "Created user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody User body) {
         return delegate.createUser(body);
     }
 
@@ -54,7 +54,7 @@ public class UserApiController implements UserApi {
      */
     public ResponseEntity<Void> createUsersWithArrayInput(
 
-@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body) {
+@ApiParam(value = "List of user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody List<User> body) {
         return delegate.createUsersWithArrayInput(body);
     }
 
@@ -67,7 +67,7 @@ public class UserApiController implements UserApi {
      */
     public ResponseEntity<Void> createUsersWithListInput(
 
-@ApiParam(value = "List of user object", required = true )   @Valid @RequestBody List<User> body) {
+@ApiParam(value = "List of user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody List<User> body) {
         return delegate.createUsersWithListInput(body);
     }
 
@@ -142,7 +142,7 @@ public class UserApiController implements UserApi {
 
 ,
 
-@ApiParam(value = "Updated user object", required = true )   @Valid @RequestBody User body) {
+@ApiParam(value = "Updated user object", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody User body) {
         return delegate.updateUser(username, body);
     }
 

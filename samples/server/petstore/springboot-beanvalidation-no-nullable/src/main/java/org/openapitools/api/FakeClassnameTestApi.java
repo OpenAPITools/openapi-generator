@@ -44,6 +44,6 @@ public interface FakeClassnameTestApi {
     )
     ResponseEntity<Client> testClassname(
 
-@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body);
+@ApiParam(value = "client model", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Client body);
 
 }

@@ -49,7 +49,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<Void> createXmlItem(
 
-@ApiParam(value = "XmlItem Body", required = true )   @Valid @RequestBody XmlItem xmlItem) {
+@ApiParam(value = "XmlItem Body", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody XmlItem xmlItem) {
         return delegate.createXmlItem(xmlItem);
     }
 
@@ -63,7 +63,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<Boolean> fakeOuterBooleanSerialize(
 
-@ApiParam(value = "Input boolean as post body" )   @Valid @RequestBody(required = false) Boolean body) {
+@ApiParam(value = "Input boolean as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) Boolean body) {
         return delegate.fakeOuterBooleanSerialize(body);
     }
 
@@ -77,7 +77,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
 
-@ApiParam(value = "Input composite as post body" )   @Valid @RequestBody(required = false) OuterComposite body) {
+@ApiParam(value = "Input composite as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) OuterComposite body) {
         return delegate.fakeOuterCompositeSerialize(body);
     }
 
@@ -91,7 +91,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
 
-@ApiParam(value = "Input number as post body" )   @Valid @RequestBody(required = false) BigDecimal body) {
+@ApiParam(value = "Input number as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) BigDecimal body) {
         return delegate.fakeOuterNumberSerialize(body);
     }
 
@@ -105,7 +105,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<String> fakeOuterStringSerialize(
 
-@ApiParam(value = "Input string as post body" )   @Valid @RequestBody(required = false) String body) {
+@ApiParam(value = "Input string as post body" )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody(required = false) String body) {
         return delegate.fakeOuterStringSerialize(body);
     }
 
@@ -119,7 +119,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<Void> testBodyWithFileSchema(
 
-@ApiParam(value = "", required = true )   @Valid @RequestBody FileSchemaTestClass body) {
+@ApiParam(value = "", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody FileSchemaTestClass body) {
         return delegate.testBodyWithFileSchema(body);
     }
 
@@ -135,7 +135,7 @@ public class FakeApiController implements FakeApi {
 
 ,
 
-@ApiParam(value = "", required = true )   @Valid @RequestBody User body) {
+@ApiParam(value = "", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody User body) {
         return delegate.testBodyWithQueryParams(query, body);
     }
 
@@ -149,7 +149,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<Client> testClientModel(
 
-@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body) {
+@ApiParam(value = "client model", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Client body) {
         return delegate.testClientModel(body);
     }
 
@@ -281,7 +281,7 @@ public class FakeApiController implements FakeApi {
      */
     public ResponseEntity<Void> testInlineAdditionalProperties(
 
-@ApiParam(value = "request body", required = true )   @Valid @RequestBody Map<String, String> param) {
+@ApiParam(value = "request body", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Map<String, String> param) {
         return delegate.testInlineAdditionalProperties(param);
     }
 

@@ -50,7 +50,7 @@ public interface AnotherFakeApi {
     )
     default CompletableFuture<ResponseEntity<Client>> call123testSpecialTags(
 
-@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body) {
+@ApiParam(value = "client model", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Client body) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

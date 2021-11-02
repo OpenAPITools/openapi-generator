@@ -45,7 +45,7 @@ public interface AnotherFakeApi {
     )
     default ResponseEntity<Client> call123testSpecialTags(
 
-@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body) {
+@ApiParam(value = "client model", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Client body) {
         return getDelegate().call123testSpecialTags(body);
     }
 

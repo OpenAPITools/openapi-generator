@@ -57,7 +57,7 @@ public interface PetApi {
     )
     default CompletableFuture<ResponseEntity<Void>> addPet(
 
-@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body) {
+@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Pet body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -274,7 +274,7 @@ public interface PetApi {
     )
     default CompletableFuture<ResponseEntity<Void>> updatePet(
 
-@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid @RequestBody Pet body) {
+@ApiParam(value = "Pet object that needs to be added to the store", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Pet body) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }

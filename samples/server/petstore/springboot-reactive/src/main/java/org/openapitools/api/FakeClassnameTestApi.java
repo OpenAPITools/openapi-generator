@@ -52,7 +52,7 @@ public interface FakeClassnameTestApi {
     )
     default Mono<ResponseEntity<Client>> testClassname(
 
-@ApiParam(value = "client model", required = true )   @Valid @RequestBody Mono<Client> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+@ApiParam(value = "client model", required = true )   @Valid@org.springframework.web.bind.annotation.RequestBody @RequestBody Mono<Client> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().testClassname(body, exchange);
     }
 
