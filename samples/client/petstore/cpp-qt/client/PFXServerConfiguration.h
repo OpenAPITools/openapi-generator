@@ -14,9 +14,11 @@
  */
 #ifndef PFX_SERVERVCONFIGURATION_H
 #define PFX_SERVERVCONFIGURATION_H
+
 #include <QString>
 #include <QMap>
 #include <QRegularExpression>
+#include <QUrl>
 #include <stdexcept>
 #include "PFXServerVariable.h"
 

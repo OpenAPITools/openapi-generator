@@ -132,7 +132,7 @@ public abstract class AbstractOpenApiSchema {
     }
 
     /**
-     * Is nullalble
+     * Is nullable
      *
      * @return true if it's nullable
      */

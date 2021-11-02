@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
@@ -32,8 +31,6 @@ import java.util.Map.Entry;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
-
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CppRestbedServerCodegen.class);
 
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
@@ -318,13 +315,14 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 if (!foundInNewList) {
                     if (op1.path.equals(op.path)) {
                         foundInNewList = true;
-                        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get("x-codegen-otherMethods");
+                        final String X_CODEGEN_OTHER_METHODS = "x-codegen-other-methods";
+                        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get(X_CODEGEN_OTHER_METHODS);
                         if (currentOtherMethodList == null) {
                             currentOtherMethodList = new ArrayList<CodegenOperation>();
                         }
                         op.operationIdCamelCase = op1.operationIdCamelCase;
                         currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put("x-codegen-other-methods", currentOtherMethodList);
+                        op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
                     }
                 }
             }

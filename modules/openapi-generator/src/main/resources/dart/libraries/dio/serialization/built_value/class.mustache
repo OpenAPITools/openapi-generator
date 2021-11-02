@@ -25,7 +25,7 @@ abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builde
     /// {{{.}}}
     {{/description}}
     @BuiltValueField(wireName: r'{{baseName}}')
-    {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};
+    {{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};
     {{#allowableValues}}
     // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{{.}}}, {{/values}} };{{/min}}
     {{/allowableValues}}
@@ -67,7 +67,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
         result
             ..add(r'{{baseName}}')
             ..add({{#isNullable}}object.{{{name}}} == null ? null : {{/isNullable}}serializers.serialize(object.{{{name}}},
-                specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}));
+                specifiedType: const {{>serialization/built_value/variable_serializer_type}}));
         {{/required}}
         {{^required}}
         if (object.{{{name}}} != null) {
@@ -75,7 +75,7 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
             result
                 ..add(r'{{baseName}}')
                 ..add(serializers.serialize(object.{{{name}}},
-                    specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}));
+                    specifiedType: const {{>serialization/built_value/variable_serializer_type}}));
         }
         {{/required}}
         {{/vars}}
@@ -92,21 +92,30 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
             final key = iterator.current as String;
             iterator.moveNext();
             final Object? value = iterator.current;
+            
             switch (key) {
                 {{#vars}}
                 case r'{{baseName}}':
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const {{>serialization/built_value/variable_serializer_type}}) as {{>serialization/built_value/variable_type}};
+                    {{#isNullable}}
+                    if (valueDes == null) continue;
+                    {{/isNullable}}
                     {{#isContainer}}
-                    result.{{{name}}}.replace(serializers.deserialize(value,
-                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}});
+                    result.{{{name}}}.replace(valueDes);
                     {{/isContainer}}
                     {{#isModel}}
-                    result.{{{name}}}.replace(serializers.deserialize(value,
-                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}});
+                    {{#isPrimitiveType}}
+                    {{! These are models that have nee manually marked as primitive via generator param. }}
+                    result.{{{name}}} = valueDes;
+                    {{/isPrimitiveType}}
+                    {{^isPrimitiveType}}
+                    result.{{{name}}}.replace(valueDes);
+                    {{/isPrimitiveType}}
                     {{/isModel}}
                     {{^isContainer}}
                     {{^isModel}}
-                    result.{{{name}}} = serializers.deserialize(value,
-                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}};
+                    result.{{{name}}} = valueDes;
                     {{/isModel}}
                     {{/isContainer}}
                     break;

@@ -14,6 +14,7 @@ pom.xml
 settings.gradle
 src/main/AndroidManifest.xml
 src/main/java/org/openapitools/client/ApiClient.java
+src/main/java/org/openapitools/client/ApiResponseDecoder.java
 src/main/java/org/openapitools/client/CustomInstantDeserializer.java
 src/main/java/org/openapitools/client/EncodingUtils.java
 src/main/java/org/openapitools/client/ParamExpander.java
@@ -27,6 +28,7 @@ src/main/java/org/openapitools/client/api/FakeClassnameTags123Api.java
 src/main/java/org/openapitools/client/api/PetApi.java
 src/main/java/org/openapitools/client/api/StoreApi.java
 src/main/java/org/openapitools/client/api/UserApi.java
+src/main/java/org/openapitools/client/auth/ApiErrorDecoder.java
 src/main/java/org/openapitools/client/auth/ApiKeyAuth.java
 src/main/java/org/openapitools/client/auth/DefaultApi20Impl.java
 src/main/java/org/openapitools/client/auth/HttpBasicAuth.java
@@ -44,6 +46,7 @@ src/main/java/org/openapitools/client/model/AdditionalPropertiesNumber.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesObject.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesString.java
 src/main/java/org/openapitools/client/model/Animal.java
+src/main/java/org/openapitools/client/model/ApiResponse.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayTest.java
