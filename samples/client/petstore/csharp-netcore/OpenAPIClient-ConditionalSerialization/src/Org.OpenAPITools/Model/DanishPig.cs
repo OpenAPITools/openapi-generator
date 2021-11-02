@@ -47,7 +47,10 @@ namespace Org.OpenAPITools.Model
         public DanishPig(string className = default(string))
         {
             // to ensure "className" is required (not null)
-            this._ClassName = className ?? throw new ArgumentNullException("className is a required property for DanishPig and cannot be null");
+            if (className == null) {
+                throw new ArgumentNullException("className is a required property for DanishPig and cannot be null");
+            }
+            this._ClassName = className;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -56,13 +59,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
         public string ClassName
-        { 
+        {
             get{ return _ClassName;}
             set
             {
                 _ClassName = value;
                 _flagClassName = true;
-            } 
+            }
         }
         private string _ClassName;
         private bool _flagClassName;
@@ -146,7 +149,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

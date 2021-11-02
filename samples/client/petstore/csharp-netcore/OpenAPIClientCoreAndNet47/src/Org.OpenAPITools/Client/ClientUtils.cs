@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Client
         public static CompareLogic compareLogic;
 
         /// <summary>
-        /// Static contstructor to initialise compareLogic.
+        /// Static constructor to initialise compareLogic.
         /// </summary>
         static ClientUtils()
         {

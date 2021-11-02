@@ -2,37 +2,37 @@ note
 	description: "[
 					Object Helper to deserialize a string in JSON format to an object in the domain model
 					How to write a converter. Suppose we have the following class
-					
+
 					PERSON
-						id: INTEGER_64                 
+						id: INTEGER_64
 						name: STRING
 						address: ADDRESS
 						hobbies: LIST [STRING]
 						photos: LIST [PHOTOS]
-				
+
 					conversion:
 					First go to the feature from_json_to_`model' and then start to set
-					the object attibures as follow.
-					
+					the object attributes as follow.
+
 					STRING, INTEGER, etc use the following pattern
-		
+
 						Result.set_id (integer_64_value_from_json (a_json, "id"))
 						Result.set_name (string_value_from_json (a_json, "name"))
-		
+
 					OBJECTS
 					When you have an attribute that's an object itself (part of the domain) you will need to first
 					get JSON_OBJECT to the corresponding attribute and then use the related feature
 					`from_json_to_model' in this case from_json_to_address (l_address)
-					 
+
 						if attached {JSON_OBJECT} json_value (a_json, "address") as l_address then
 							Result.set_address(from_json_to_address (l_address))
-						end	
-						
+						end
+
 					LIST [STRING] or other simple types.
-						
+
 					In the case of a list of string we need to do something similar but we need to traverse the array
 					We will need a local variable to build the lists.
-					
+
 					if attached {JSON_ARRAY} json_value (a_json, "hobbies") as l_array then
 						create {ARRAYED_LIST [STRING]} l_hobbies.make (l_array.count)
 						across l_array as ic loop
@@ -41,13 +41,13 @@ note
 							end
 						end
 						Result.set_hobbies (l_hobbies)
-					end	
-					
+					end
+
 					LIST [PHOTOS]
 					This case is similar to the previous, but in this case the element is
-					an object, so we will need to use the feature `from_json_to_model', here 
+					an object, so we will need to use the feature `from_json_to_model', here
 					we again need a local variable to build a temporary list of photos.
-					
+
 					if attached {JSON_ARRAY} json_value (a_json, "photos") as l_array then
 						create {ARRAYED_LIST [PHOTOS]} l_photos.make (l_array.count)
 						across

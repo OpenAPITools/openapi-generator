@@ -17,6 +17,7 @@ Use custom server
 
 ### Example
 
+
 ```python
 import time
 import dynamic_servers
@@ -62,6 +63,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -76,6 +78,7 @@ Use default server
 Use default server
 
 ### Example
+
 
 ```python
 import time
@@ -122,6 +125,7 @@ No authorization required
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

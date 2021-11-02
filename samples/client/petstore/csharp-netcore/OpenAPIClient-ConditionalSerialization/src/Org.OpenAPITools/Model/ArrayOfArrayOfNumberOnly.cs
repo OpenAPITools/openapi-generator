@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "ArrayArrayNumber", EmitDefaultValue = false)]
         public List<List<decimal>> ArrayArrayNumber
-        { 
+        {
             get{ return _ArrayArrayNumber;}
             set
             {
                 _ArrayArrayNumber = value;
                 _flagArrayArrayNumber = true;
-            } 
+            }
         }
         private List<List<decimal>> _ArrayArrayNumber;
         private bool _flagArrayArrayNumber;
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

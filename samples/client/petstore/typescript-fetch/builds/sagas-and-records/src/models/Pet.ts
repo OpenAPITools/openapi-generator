@@ -158,6 +158,12 @@ export interface Pet {
      * @memberof Pet
      */
     status: PetStatusEnum;
+    /**
+     * An array of all 15-minute time slots in 24 hours.
+     * @type {Array<Array<number>>}
+     * @memberof Pet
+     */
+    regions?: Array<Array<number>>;
 }
 
 /**
@@ -200,6 +206,7 @@ export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
         'tags': ((json['tags'] as Array<any>).map(TagFromJSON)),
         'optionalTags': !exists(json, 'optionalTags') ? undefined : ((json['optionalTags'] as Array<any>).map(TagFromJSON)),
         'status': json['status'],
+        'regions': !exists(json, 'regions') ? undefined : json['regions'],
     };
 }
 
@@ -232,7 +239,7 @@ export function PetToJSON(value?: Pet | null): any {
         'tags': ((value.tags as Array<any>).map(TagToJSON)),
         'optionalTags': value.optionalTags === undefined ? undefined : ((value.optionalTags as Array<any>).map(TagToJSON)),
         'status': value.status,
+        'regions': value.regions,
     };
 }
-
 

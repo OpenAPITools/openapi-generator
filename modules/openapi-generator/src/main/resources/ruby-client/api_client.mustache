@@ -28,7 +28,7 @@ module {{moduleName}}
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(config = Configuration.default)
       @config = config
-      @user_agent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/ruby{{/httpUserAgent}}"
+      @user_agent = "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/ruby{{/httpUserAgent}}"
       @default_headers = {
         'Content-Type' => 'application/json',
         'User-Agent' => @user_agent
@@ -170,7 +170,7 @@ module {{moduleName}}
       @config.base_url(opts[:operation]) + path
     end
 
-    # Update hearder and query params based on authentication settings.
+    # Update header and query params based on authentication settings.
     #
     # @param [Hash] header_params Header parameters
     # @param [Hash] query_params Query parameters
@@ -209,8 +209,8 @@ module {{moduleName}}
     # @param [Array] content_types array for Content-Type
     # @return [String] the Content-Type header  (e.g. application/json)
     def select_header_content_type(content_types)
-      # use application/json by default
-      return 'application/json' if content_types.nil? || content_types.empty?
+      # return nil by default
+      return if content_types.nil? || content_types.empty?
       # use JSON when present, otherwise use the first one
       json_content_type = content_types.find { |s| json_mime?(s) }
       json_content_type || content_types.first

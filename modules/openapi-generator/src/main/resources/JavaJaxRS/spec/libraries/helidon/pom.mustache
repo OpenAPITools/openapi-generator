@@ -7,6 +7,14 @@
     <artifactId>{{artifactId}}</artifactId>
     <version>{{artifactVersion}}</version>
 
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{parentGroupId}}</groupId>
+        <artifactId>{{parentArtifactId}}</artifactId>
+        <version>{{parentVersion}}</version>
+    </parent>
+{{/parentOverridden}}
+
     <properties>
         <mainClass>io.helidon.microprofile.server.Main</mainClass>
         <version.lib.helidon>1.2.0</version.lib.helidon>
@@ -16,7 +24,7 @@
         <version.plugin.jar>3.0.2</version.plugin.jar>
         <version.lib.microprofile-openapi-api>1.1.2</version.lib.microprofile-openapi-api>
         <version.lib.jersey>2.29</version.lib.jersey>
-        <version.lib.activation-api>1.2.0</version.lib.activation-api>
+        <version.lib.activation-api>1.2.2</version.lib.activation-api>
         <version.lib.junit>5.1.0</version.lib.junit>
     </properties>
 
@@ -89,8 +97,8 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>javax.activation-api</artifactId>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
             <version>${version.lib.activation-api}</version>
             <scope>runtime</scope>
         </dependency>

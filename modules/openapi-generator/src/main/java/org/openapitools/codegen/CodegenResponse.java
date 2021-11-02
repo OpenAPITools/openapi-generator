@@ -84,6 +84,9 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private boolean additionalPropertiesIsAnyType;
     private boolean hasVars;
     private boolean hasRequired;
+    private boolean hasDiscriminatorWithNonEmptyMapping;
+    private CodegenComposedSchemas composedSchemas;
+    private boolean hasMultipleTypes = false;
 
     @Override
     public int hashCode() {
@@ -94,7 +97,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 vars, requiredVars, isNull, hasValidation, isShort, isUnboundedInteger,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
-                is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired);
+                is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired,
+                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes);
     }
 
     @Override
@@ -138,9 +142,12 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 is3xx == that.is3xx &&
                 is4xx == that.is4xx &&
                 is5xx == that.is5xx &&
+                hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
+                hasMultipleTypes == that.getHasMultipleTypes() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() == that.getHasRequired() &&
+                Objects.equals(composedSchemas, that.getComposedSchemas()) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(headers, that.headers) &&
@@ -478,6 +485,9 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", getAdditionalPropertiesIsAnyType=").append(additionalPropertiesIsAnyType);
         sb.append(", getHasVars=").append(hasVars);
         sb.append(", getHasRequired=").append(hasRequired);
+        sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", composedSchemas=").append(composedSchemas);
+        sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
         sb.append('}');
         return sb.toString();
     }
@@ -534,4 +544,52 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public void setHasVars(boolean hasVars) {
         this.hasVars = hasVars;
     }
+
+    @Override
+    public boolean getHasDiscriminatorWithNonEmptyMapping() { return hasDiscriminatorWithNonEmptyMapping; };
+
+    @Override
+    public void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping) {
+        this.hasDiscriminatorWithNonEmptyMapping = hasDiscriminatorWithNonEmptyMapping;
+    }
+
+    @Override
+    public boolean getIsString() { return isString; }
+
+    @Override
+    public void setIsString(boolean isString)  {
+        this.isString = isString;
+    }
+
+    @Override
+    public boolean getIsNumber() { return isNumber; }
+
+    @Override
+    public void setIsNumber(boolean isNumber)  {
+        this.isNumber = isNumber;
+    }
+
+    @Override
+    public boolean getIsAnyType() { return isAnyType; }
+
+    @Override
+    public void setIsAnyType(boolean isAnyType)  {
+        this.isAnyType = isAnyType;
+    }
+
+    @Override
+    public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
+        this.composedSchemas = composedSchemas;
+    }
+
+    @Override
+    public CodegenComposedSchemas getComposedSchemas() {
+        return composedSchemas;
+    }
+
+    @Override
+    public boolean getHasMultipleTypes() {return hasMultipleTypes; }
+
+    @Override
+    public void setHasMultipleTypes(boolean hasMultipleTypes) { this.hasMultipleTypes = hasMultipleTypes; }
 }

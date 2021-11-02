@@ -161,4 +161,3 @@ export function EnumTestToJSON(value?: EnumTest | null): any {
     };
 }
 
-

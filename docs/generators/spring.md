@@ -8,7 +8,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
-|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiFirst|Generate the API from the OAI spec at server compile time (API first approach)| |false|
 |apiPackage|package for generated api classes| |org.openapitools.api|
@@ -45,6 +45,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.model|
+|oas3|Use OAS 3 Swagger annotations instead of OAS 2 annotations| |false|
 |openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
@@ -52,7 +53,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |performBeanValidation|Use Bean Validation Impl. to perform BeanValidation| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |reactive|wrap responses in Mono/Flux Reactor types (spring-boot only)| |false|
-|responseWrapper|wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, HystrixCommand, RxObservable, RxSingle or fully qualified type)| |null|
+|responseWrapper|wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, RxObservable, RxSingle or fully qualified type)| |null|
 |returnSuccessCode|Generated server returns 2xx code| |false|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
@@ -69,6 +70,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useOptional|Use Optional container for optional parameters| |false|
+|useSpringController|Annotate the generated API as a Spring Controller| |false|
 |useTags|use tags for creating interface and controller classnames| |false|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|

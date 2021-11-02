@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "NullableMessage", EmitDefaultValue = true)]
         public string NullableMessage
-        { 
+        {
             get{ return _NullableMessage;}
             set
             {
                 _NullableMessage = value;
                 _flagNullableMessage = true;
-            } 
+            }
         }
         private string _NullableMessage;
         private bool _flagNullableMessage;
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// <value>Test capitalization</value>
         [DataMember(Name = "sourceURI", EmitDefaultValue = false)]
         public string SourceURI
-        { 
+        {
             get{ return _SourceURI;}
             set
             {
                 _SourceURI = value;
                 _flagSourceURI = true;
-            } 
+            }
         }
         private string _SourceURI;
         private bool _flagSourceURI;
@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -64,10 +64,10 @@ namespace Org.OpenAPITools.Model
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
-        
+
         [DataMember(Name = "status", EmitDefaultValue = false)]
-        public StatusEnum? Status 
-        { 
+        public StatusEnum? Status
+        {
             get{ return _Status;}
             set
             {
@@ -102,7 +102,6 @@ namespace Org.OpenAPITools.Model
             this._Quantity = quantity;
             this._ShipDate = shipDate;
             this._Status = status;
-            this.Complete = complete;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -111,13 +110,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public long Id
-        { 
+        {
             get{ return _Id;}
             set
             {
                 _Id = value;
                 _flagId = true;
-            } 
+            }
         }
         private long _Id;
         private bool _flagId;
@@ -135,13 +134,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "petId", EmitDefaultValue = false)]
         public long PetId
-        { 
+        {
             get{ return _PetId;}
             set
             {
                 _PetId = value;
                 _flagPetId = true;
-            } 
+            }
         }
         private long _PetId;
         private bool _flagPetId;
@@ -159,13 +158,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "quantity", EmitDefaultValue = false)]
         public int Quantity
-        { 
+        {
             get{ return _Quantity;}
             set
             {
                 _Quantity = value;
                 _flagQuantity = true;
-            } 
+            }
         }
         private int _Quantity;
         private bool _flagQuantity;
@@ -183,13 +182,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "shipDate", EmitDefaultValue = false)]
         public DateTime ShipDate
-        { 
+        {
             get{ return _ShipDate;}
             set
             {
                 _ShipDate = value;
                 _flagShipDate = true;
-            } 
+            }
         }
         private DateTime _ShipDate;
         private bool _flagShipDate;
@@ -207,13 +206,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "complete", EmitDefaultValue = true)]
         public bool Complete
-        { 
+        {
             get{ return _Complete;}
             set
             {
                 _Complete = value;
                 _flagComplete = true;
-            } 
+            }
         }
         private bool _Complete;
         private bool _flagComplete;
@@ -307,7 +306,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

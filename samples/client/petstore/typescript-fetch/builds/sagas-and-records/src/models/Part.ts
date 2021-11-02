@@ -62,4 +62,3 @@ export function PartToJSON(value?: Part | null): any {
     };
 }
 
-

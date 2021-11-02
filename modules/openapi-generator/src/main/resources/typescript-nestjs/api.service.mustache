@@ -28,7 +28,7 @@ export class {{classname}} {
 {{/withInterfaces}}
 
     protected basePath = '{{{basePath}}}';
-    public defaultHeaders = new Map()
+    public defaultHeaders: Record<string,string> = {};
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
@@ -70,7 +70,7 @@ export class {{classname}} {
 {{/allParams}}
 
 {{#hasQueryParams}}
-        let queryParameters = {};   
+        let queryParameters = {};
 {{#queryParams}}
         {{#isListContainer}}
         if ({{paramName}}) {

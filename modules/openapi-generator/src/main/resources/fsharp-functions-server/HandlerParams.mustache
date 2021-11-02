@@ -2,13 +2,13 @@ namespace {{packageName}}
 
 {{#imports}}
 {{#import}}
-open {{import}}
+open {{.}}
 {{/import}}
 {{/imports}}
 open System.Collections.Generic
 open System
 
-module {{classname}}HandlerParams = 
+module {{classname}}HandlerParams =
 
     {{#operations}}
     {{#operation}}
@@ -21,7 +21,7 @@ module {{classname}}HandlerParams =
       {{paramName}} : {{dataType}} {{^required}}option{{/required}};
     {{#-last}}
     }
-    {{/-last}}  
+    {{/-last}}
     //#endregion
     {{/pathParams}}
     {{#queryParams}}
@@ -32,11 +32,11 @@ module {{classname}}HandlerParams =
     type {{operationId}}QueryParams = {
     {{/-first}}
       {{paramName}} : {{dataType}} {{^required}}option{{/required}};
-      
+
     {{#-last}}
     }
     //#endregion
-    {{/-last}}  
+    {{/-last}}
     {{/queryParams}}
     {{#bodyParams}}
 
@@ -44,10 +44,10 @@ module {{classname}}HandlerParams =
     //#region Body parameters
     [<CLIMutable>]
     {{#-last}}
-    type {{operationId}}BodyParams = {{dataType}} 
+    type {{operationId}}BodyParams = {{dataType}}
     {{/-last}}
     {{^-last}}
-    type {{operationId}}BodyParams = { 
+    type {{operationId}}BodyParams = {
       {{paramName}} : {{dataType}};
     {{/-last}}
     {{/-first}}
@@ -59,7 +59,7 @@ module {{classname}}HandlerParams =
     }
     {{/-first}}
     //#endregion
-    {{/-last}}  
+    {{/-last}}
     {{/bodyParams}}
     {{#formParams}}
 
@@ -71,7 +71,7 @@ module {{classname}}HandlerParams =
       {{paramName}} : {{dataType}} {{^required}}option{{/required}};
     {{#-last}}
     }
-    {{/-last}}  
+    {{/-last}}
     //#endregion
     {{/formParams}}
     {{#headerParams}}
@@ -84,11 +84,11 @@ module {{classname}}HandlerParams =
       {{paramName}} : {{dataType}} {{^required}}option{{/required}};
     {{#-last}}
     }
-    {{/-last}}  
+    {{/-last}}
     //#endregion
     {{/headerParams}}
     {{#cookieParams}}
-    
+
     //#region Cookie parameters
     {{#-first}}
     type {{operationId}}CookieParams = {
@@ -96,14 +96,14 @@ module {{classname}}HandlerParams =
       {{paramName}} : {{dataType}} {{^required}}option{{/required}};
     {{#-last}}
     }
-    {{/-last}}  
+    {{/-last}}
     //#endregion
     {{/cookieParams}}
 
     {{#responses}}
-    
+
     type {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}}Response = {
-      content:{{#dataType}}{{{.}}}{{/dataType}}{{^dataType}}string{{/dataType}};
+      content:{{{dataType}}}{{^dataType}}string{{/dataType}};
       {{^code}}code:int{{/code}}
     }
     {{/responses}}
@@ -144,4 +144,3 @@ module {{classname}}HandlerParams =
     {{/allParams}}
     {{/operation}}
     {{/operations}}
-    

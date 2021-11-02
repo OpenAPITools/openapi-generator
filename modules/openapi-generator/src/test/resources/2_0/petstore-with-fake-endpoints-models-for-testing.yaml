@@ -1041,7 +1041,7 @@ paths:
       responses:
         '200':
           description: Success
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -1252,6 +1252,7 @@ definitions:
       status:
         type: string
         description: pet status in the store
+        deprecated: true
         enum:
           - available
           - pending

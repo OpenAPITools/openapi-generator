@@ -31,10 +31,10 @@ class {{classname}}(object):
 {{#operation}}
 
     def {{operationId}}(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):  # noqa: E501
-        """{{#summary}}{{{.}}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+        """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
-        {{{notes}}}  # noqa: E501
+        {{{.}}}  # noqa: E501
 {{/notes}}
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -48,7 +48,7 @@ class {{classname}}(object):
         >>> result = thread.get()
 
 {{#allParams}}
-        :param {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
         :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
 {{/allParams}}
         :param async_req: Whether to execute the request asynchronously.
@@ -64,16 +64,16 @@ class {{classname}}(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
+        :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
         """
         kwargs['_return_http_data_only'] = True
         return self.{{operationId}}_with_http_info({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs)  # noqa: E501
 
     def {{operationId}}_with_http_info(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):  # noqa: E501
-        """{{#summary}}{{{.}}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+        """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
-        {{{notes}}}  # noqa: E501
+        {{{.}}}  # noqa: E501
 {{/notes}}
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -87,7 +87,7 @@ class {{classname}}(object):
         >>> result = thread.get()
 
 {{#allParams}}
-        :param {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
         :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
 {{/allParams}}
         :param async_req: Whether to execute the request asynchronously.
@@ -110,7 +110,7 @@ class {{classname}}(object):
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: {{#returnType}}tuple({{returnType}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
+        :rtype: {{#returnType}}tuple({{.}}, status_code(int), headers(HTTPHeaderDict)){{/returnType}}{{^returnType}}None{{/returnType}}
         """
 
         {{#servers.0}}
@@ -253,14 +253,14 @@ class {{classname}}(object):
         {{/hasConsumes}}
         # Authentication setting
         auth_settings = [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]  # noqa: E501
-        
+
         {{#returnType}}
         {{#responses}}
         {{#-first}}
         response_types_map = {
         {{/-first}}
             {{^isWildcard}}
-            {{code}}: {{#dataType}}"{{dataType}}"{{/dataType}}{{^dataType}}None{{/dataType}},
+            {{code}}: {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}},
             {{/isWildcard}}
         {{#-last}}
         }

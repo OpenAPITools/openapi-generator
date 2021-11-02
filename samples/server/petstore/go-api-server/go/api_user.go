@@ -103,12 +103,18 @@ func (c *UserApiController) Routes() Routes {
 
 // CreateUser - Create user
 func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
-	user := &User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+	userParam := User{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&userParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.CreateUser(r.Context(), *user)
+	if err := AssertUserRequired(userParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.CreateUser(r.Context(), userParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -121,12 +127,20 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) {
-	user := &[]User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+	userParam := []User{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&userParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.CreateUsersWithArrayInput(r.Context(), *user)
+	for _, el := range userParam {
+		if err := AssertUserRequired(el); err != nil {
+			c.errorHandler(w, r, err, nil)
+			return
+		}
+	}
+	result, err := c.service.CreateUsersWithArrayInput(r.Context(), userParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -139,12 +153,20 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 
 // CreateUsersWithListInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) {
-	user := &[]User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+	userParam := []User{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&userParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.CreateUsersWithListInput(r.Context(), *user)
+	for _, el := range userParam {
+		if err := AssertUserRequired(el); err != nil {
+			c.errorHandler(w, r, err, nil)
+			return
+		}
+	}
+	result, err := c.service.CreateUsersWithListInput(r.Context(), userParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -158,9 +180,9 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 // DeleteUser - Delete user
 func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	username := params["username"]
+	usernameParam := params["username"]
 	
-	result, err := c.service.DeleteUser(r.Context(), username)
+	result, err := c.service.DeleteUser(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -174,9 +196,9 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 // GetUserByName - Get user by user name
 func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	username := params["username"]
+	usernameParam := params["username"]
 	
-	result, err := c.service.GetUserByName(r.Context(), username)
+	result, err := c.service.GetUserByName(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -190,9 +212,9 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 // LoginUser - Logs user into the system
 func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	username := query.Get("username")
-	password := query.Get("password")
-	result, err := c.service.LoginUser(r.Context(), username, password)
+	usernameParam := query.Get("username")
+	passwordParam := query.Get("password")
+	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -219,14 +241,20 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 // UpdateUser - Updated user
 func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	username := params["username"]
+	usernameParam := params["username"]
 	
-	user := &User{}
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+	userParam := User{}
+	d := json.NewDecoder(r.Body)
+	d.DisallowUnknownFields()
+	if err := d.Decode(&userParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.UpdateUser(r.Context(), username, *user)
+	if err := AssertUserRequired(userParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	result, err := c.service.UpdateUser(r.Context(), usernameParam, userParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

@@ -21,7 +21,7 @@
 
 class IHttpRequest;
 
-namespace OpenAPI 
+namespace OpenAPI
 {
 
 typedef TSharedRef<TJsonWriter<>> JsonWriter;
@@ -221,6 +221,19 @@ inline FString CollectionToUrlString_multi(const TArray<T>& Collection, const TC
 
 //////////////////////////////////////////////////////////////////////////
 
+inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonValue>& Value)
+{
+	if (Value.IsValid())
+	{
+		FJsonSerializer::Serialize(Value.ToSharedRef(), "", Writer, false);
+	}
+	else
+	{
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+	}
+}
+
 inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonObject>& Value)
 {
 	if (Value.IsValid())
@@ -331,6 +344,12 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, bool& Value
 	}
 	else
 		return false;
+}
+
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TSharedPtr<FJsonValue>& JsonObjectValue)
+{
+	JsonObjectValue = JsonValue;
+	return true;
 }
 
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TSharedPtr<FJsonObject>& JsonObjectValue)

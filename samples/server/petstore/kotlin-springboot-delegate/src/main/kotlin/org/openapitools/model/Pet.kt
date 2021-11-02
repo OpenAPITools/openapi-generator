@@ -44,6 +44,7 @@ data class Pet(
     @field:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
     @ApiModelProperty(example = "null", value = "pet status in the store")
+    @Deprecated(message = "")
     @field:JsonProperty("status") val status: Pet.Status? = null
 ) {
 

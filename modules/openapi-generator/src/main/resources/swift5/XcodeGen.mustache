@@ -4,15 +4,15 @@ targets:
     type: framework
     platform: iOS
     deploymentTarget: "9.0"
-    sources: [{{#swiftPackagePath}}{{swiftPackagePath}}{{/swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}{{/useSPMFileStructure}}{{/swiftPackagePath}}]
+    sources: [{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}{{/useSPMFileStructure}}{{/swiftPackagePath}}]
     info:
       path: ./Info.plist
-      version: {{#podVersion}}{{podVersion}}{{/podVersion}}{{^podVersion}}{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}{{/podVersion}}
+      version: {{podVersion}}{{^podVersion}}{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}{{/podVersion}}
     settings:
       APPLICATION_EXTENSION_API_ONLY: true
     scheme: {}
     dependencies:
     - carthage: AnyCodable{{#useAlamofire}}
-    - carthage: Alamofire{{/useAlamofire}}{{#useRxSwift}}
-    - carthage: RxSwift{{/useRxSwift}}{{#usePromiseKit}}
-    - carthage: PromiseKit{{/usePromiseKit}}
+    - carthage: Alamofire{{/useAlamofire}}{{#usePromiseKit}}
+    - carthage: PromiseKit{{/usePromiseKit}}{{#useRxSwift}}
+    - carthage: RxSwift{{/useRxSwift}}

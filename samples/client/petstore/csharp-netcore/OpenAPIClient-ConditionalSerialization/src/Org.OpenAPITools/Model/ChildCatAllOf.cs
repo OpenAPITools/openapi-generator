@@ -50,10 +50,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets PetType
         /// </summary>
-        
+
         [DataMember(Name = "pet_type", EmitDefaultValue = false)]
-        public PetTypeEnum? PetType 
-        { 
+        public PetTypeEnum? PetType
+        {
             get{ return _PetType;}
             set
             {
@@ -80,7 +80,6 @@ namespace Org.OpenAPITools.Model
         public ChildCatAllOf(string name = default(string), PetTypeEnum? petType = PetTypeEnum.ChildCat)
         {
             this._Name = name;
-            this.PetType = petType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -89,13 +88,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name
-        { 
+        {
             get{ return _Name;}
             set
             {
                 _Name = value;
                 _flagName = true;
-            } 
+            }
         }
         private string _Name;
         private bool _flagName;
@@ -181,7 +180,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

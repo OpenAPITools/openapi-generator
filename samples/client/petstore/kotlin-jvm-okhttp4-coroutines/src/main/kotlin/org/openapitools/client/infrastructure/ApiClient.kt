@@ -11,9 +11,14 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import okhttp3.internal.EMPTY_REQUEST
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.io.IOException
 import java.net.URLConnection
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -22,6 +27,9 @@ import java.time.OffsetDateTime
 import java.time.OffsetTime
 import java.util.Date
 import java.util.Locale
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlinx.coroutines.suspendCancellableCoroutine
 import com.google.gson.reflect.TypeToken
 
 open class ApiClient(val baseUrl: String) {
@@ -39,6 +47,7 @@ open class ApiClient(val baseUrl: String) {
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
+        const val baseUrlKey = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val client: OkHttpClient by lazy {
@@ -99,9 +108,16 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> Serializer.gson.toJson(content, T::class.java).toRequestBody(
-                mediaType.toMediaTypeOrNull()
-            )
+            mediaType == JsonMediaType -> {
+                if (content == null) {
+                    EMPTY_REQUEST
+                } else {
+                    Serializer.gson.toJson(content, T::class.java)
+                        .toRequestBody(
+                            mediaType.toMediaTypeOrNull()
+                        )
+                }
+            }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
@@ -147,7 +163,7 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
-    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
+    protected suspend inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
         // take authMethod from operation
@@ -195,7 +211,19 @@ open class ApiClient(val baseUrl: String) {
             headers.forEach { header -> addHeader(header.key, header.value) }
         }.build()
 
-        val response = client.newCall(request).execute()
+        val response: Response = suspendCancellableCoroutine { continuation ->
+            val call = client.newCall(request)
+            continuation.invokeOnCancellation { call.cancel() }
+            call.enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    continuation.resumeWithException(e)
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    continuation.resume(response)
+                }
+            })
+        }
+
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>

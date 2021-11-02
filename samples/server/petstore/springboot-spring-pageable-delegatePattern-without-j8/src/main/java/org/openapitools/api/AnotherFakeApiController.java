@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -39,7 +38,9 @@ public class AnotherFakeApiController implements AnotherFakeApi {
      * @return successful operation (status code 200)
      * @see AnotherFakeApi#call123testSpecialTags
      */
-    public ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+    public ResponseEntity<Client> call123testSpecialTags(
+
+@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body) {
         return delegate.call123testSpecialTags(body);
     }
 

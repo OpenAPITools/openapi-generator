@@ -1,4 +1,4 @@
-// {{classname}} - {{#description}}{{{description}}}{{/description}}{{^description}}struct for {{{classname}}}{{/description}}
+// {{classname}} - {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
 	{{#oneOf}}
 	{{{.}}} *{{{.}}}
@@ -31,7 +31,7 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	var jsonDict map[string]interface{}
 	err = json.Unmarshal(data, &jsonDict)
 	if err != nil {
-		return fmt.Errorf("Failed to unmarshal JSON into map for the discrimintor lookup.")
+		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
 	}
 
 	{{/-first}}

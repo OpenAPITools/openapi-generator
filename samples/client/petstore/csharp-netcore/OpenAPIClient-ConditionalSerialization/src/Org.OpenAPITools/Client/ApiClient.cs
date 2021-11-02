@@ -157,7 +157,7 @@ namespace Org.OpenAPITools.Client
         }
     }
     /// <summary>
-    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementatios),
+    /// Provides a default implementation of an Api client (both synchronous and asynchronous implementations),
     /// encapsulating general REST accessor use cases.
     /// </summary>
     public partial class ApiClient : ISynchronousClient, IAsynchronousClient
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Client
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
-        /// These settings can be adjusted to accomodate custom serialization rules.
+        /// These settings can be adjusted to accommodate custom serialization rules.
         /// </summary>
         public JsonSerializerSettings SerializerSettings { get; set; } = new JsonSerializerSettings
         {
@@ -494,7 +494,14 @@ namespace Org.OpenAPITools.Client
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
             if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
             {
-                response.Data = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                try
+                {
+                    response.Data = (T) typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                }
+                catch (Exception ex)
+                {
+                    throw ex.InnerException != null ? ex.InnerException : ex;
+                }
             }
             else if (typeof(T).Name == "Stream") // for binary response
             {

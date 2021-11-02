@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -18,7 +19,7 @@ class EnumClass {
   final String value;
 
   @override
-  String toString() => value;
+  String toString() => value ?? '';
 
   String toJson() => value;
 
@@ -36,20 +37,18 @@ class EnumClass {
   static EnumClass fromJson(dynamic value) =>
     EnumClassTypeTransformer().decode(value);
 
-  static List<EnumClass> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <EnumClass>[]
-      : json
-          .map((value) => EnumClass.fromJson(value))
-          .toList(growable: true == growable);
+  static List<EnumClass> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(EnumClass.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <EnumClass>[];
 }
 
 /// Transformation class that can [encode] an instance of [EnumClass] to String,
 /// and [decode] dynamic data back to [EnumClass].
 class EnumClassTypeTransformer {
-  const EnumClassTypeTransformer._();
+  factory EnumClassTypeTransformer() => _instance ??= const EnumClassTypeTransformer._();
 
-  factory EnumClassTypeTransformer() => _instance ??= EnumClassTypeTransformer._();
+  const EnumClassTypeTransformer._();
 
   String encode(EnumClass data) => data.value;
 
@@ -62,14 +61,16 @@ class EnumClassTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   EnumClass decode(dynamic data, {bool allowNull}) {
-    switch (data) {
-      case r'_abc': return EnumClass.abc;
-      case r'-efg': return EnumClass.efg;
-      case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case r'_abc': return EnumClass.abc;
+        case r'-efg': return EnumClass.efg;
+        case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }
@@ -77,3 +78,4 @@ class EnumClassTypeTransformer {
   /// Singleton [EnumClassTypeTransformer] instance.
   static EnumClassTypeTransformer _instance;
 }
+
