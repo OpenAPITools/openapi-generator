@@ -1232,6 +1232,14 @@ paths:
             type: string
           type: object
         style: form
+      - allowEmptyValue: true
+        explode: true
+        in: query
+        name: allowEmpty
+        required: true
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           description: Success

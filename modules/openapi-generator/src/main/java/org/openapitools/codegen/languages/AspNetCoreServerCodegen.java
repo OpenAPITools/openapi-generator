@@ -64,7 +64,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
-    protected Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
 
     private boolean useSwashbuckle = true;
     protected int serverPort = 8080;

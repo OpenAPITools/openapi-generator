@@ -123,7 +123,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         reservedWords.addAll(Arrays.asList(
                 // local variable names used in API methods (endpoints)
                 "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
-                "requestOptions",
+                "requestOptions", "from",
                 // Typescript reserved words
                 "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
 
@@ -1100,7 +1100,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
             String refModelName = getModelName(schema);
             return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, seenSchemas);
-        } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
+        } else if (ModelUtils.isNullType(schema) || ModelUtils.isAnyType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
             return fullPrefix + "null" + closeChars;
@@ -1180,7 +1180,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
                     // this seed makes it so if we have [a-z] we pick a
                     Random random = new Random(18);
-                    example = rgxGen.generate(random);
+                    if (rgxGen != null){
+                        example = rgxGen.generate(random);
+                    } else {
+                        throw new RuntimeException("rgxGen cannot be null. Please open an issue in the openapi-generator github repo.");
+                    }
                 } else if (schema.getMinLength() != null) {
                     example = "";
                     int len = schema.getMinLength().intValue();

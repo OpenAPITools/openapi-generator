@@ -46,7 +46,10 @@ namespace Org.OpenAPITools.Model
         public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
         {
             // to ensure "className" is required (not null)
-            this.ClassName = className ?? throw new ArgumentNullException("className is a required property for Whale and cannot be null");
+            if (className == null) {
+                throw new ArgumentNullException("className is a required property for Whale and cannot be null");
+            }
+            this.ClassName = className;
             this.HasBaleen = hasBaleen;
             this.HasTeeth = hasTeeth;
         }
@@ -135,7 +138,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

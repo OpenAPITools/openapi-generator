@@ -164,7 +164,7 @@ public class AbstractPhpCodegenTest {
 
         // Assert the enum default value is properly generated
         CodegenProperty cp1 = cm1.vars.get(0);
-        Assert.assertEquals(cp1.getDefaultValue(), "self::PROPERTY_NAME_VALUE");
+        Assert.assertEquals(cp1.getDefaultValue(), "'VALUE'");
     }
 
     private static class P_AbstractPhpCodegen extends AbstractPhpCodegen {

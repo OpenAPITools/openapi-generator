@@ -22,6 +22,8 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.utils.ModelUtils;
+
 import java.util.*;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -53,6 +55,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITHOUT_PREFIX_ENUMS, "Don't prefix enum names with class names", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        // Templates have no mapping between formatted property names and original base names so use only "original" and remove this option
+        removeOption(CodegenConstants.MODEL_PROPERTY_NAMING);
     }
 
     @Override
@@ -255,4 +259,19 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
     }
 
+    @Override
+    protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
+        // The 'null' value is allowed when the OAS schema is 'any type'.
+        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        // custom line here, do not set property.isNullable = true
+        if (languageSpecificPrimitives.contains(property.dataType)) {
+            property.isPrimitiveType = true;
+        }
+        if (ModelUtils.isMapSchema(p)) {
+            // an object or anyType composed schema that has additionalProperties set
+            // some of our code assumes that any type schema with properties defined will be a map
+            // even though it should allow in any type and have map constraints for properties
+            updatePropertyForMap(property, p);
+        }
+    }
 }

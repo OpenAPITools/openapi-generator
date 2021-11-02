@@ -9,13 +9,20 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`5.3.0`):
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`5.3.1`):
 [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
 [![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/master)](https://cloud.drone.io/OpenAPITools/openapi-generator)
 [![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/master?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
 [![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/openapitools/openapi-generator/Check%20Supported%20Java%20Versions/master?label=Check%20Supported%20Java%20Versions&logo=github&logoColor=green)](https://github.com/OpenAPITools/openapi-generator/actions?query=workflow%3A%22Check+Supported+Java+Versions%22)
+
+[5.4.x](https://github.com/OpenAPITools/openapi-generator/tree/5.4.x) (`5.4.x`):
+[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/5.4.x.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
+[![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/5.4.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
+[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=5.4.x&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
+[![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/5.4.x)](https://cloud.drone.io/OpenAPITools/openapi-generator)
+[![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/5.4.x?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
 
 [6.0.x](https://github.com/OpenAPITools/openapi-generator/tree/6.0.x) (`6.0.x`):
 [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/6.0.x.svg?label=Integration%20Test)](https://travis-ci.com/OpenAPITools/openapi-generator)
@@ -110,9 +117,10 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 6.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.0.0-SNAPSHOT/) | Nov/Dec 2021   | Minor release with breaking changes (no fallback) |
-| 5.3.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.3.0-SNAPSHOT/) | Sep/Oct 2021   | Minor release with breaking changes (with fallback) |
-| [5.2.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.2.1) (latest stable release)                                                    | 016.08.2021   | Patch release (enhancements, bug fixes, etc) | 
+| 6.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/6.0.0-SNAPSHOT/) | Jan/Feb 2022   | Minor release with breaking changes (no fallback) |
+| 5.4.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.4.0-SNAPSHOT/) | Dec 2021   | Minor release with breaking changes (with fallback) |
+| 5.3.1 (upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.3.1-SNAPSHOT/) | Nov/Dec 2021   | Patch release (enhancements, bug fixes, etc) |  
+| [5.3.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.3.0) (latest stable release)                                                    | 24.10.2021   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
@@ -169,16 +177,16 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.1/openapi-generator-cli-5.2.1.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.1/openapi-generator-cli-5.2.1.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.1/openapi-generator-cli-5.2.1.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -403,7 +411,7 @@ openapi-generator-cli version
 To use a specific version of "openapi-generator-cli"
 
 ```sh
-openapi-generator-cli version-manager set 5.2.1
+openapi-generator-cli version-manager set 5.3.0
 ```
 
 Or install it as dev-dependency:
@@ -427,7 +435,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 <!-- RELEASE_VERSION -->
-You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.2.1/openapi-generator-cli-5.2.1.jar)
+You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar)
 <!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
@@ -571,6 +579,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Agoda](https://www.agoda.com/)
 - [Allianz](https://www.allianz.com)
 - [Angular.Schule](https://angular.schule/)
+- [Aqovia](https://aqovia.com/)
 - [Australia and New Zealand Banking Group (ANZ)](http://www.anz.com/)
 - [ASKUL](https://www.askul.co.jp)
 - [Arduino](https://www.arduino.cc/)
@@ -611,6 +620,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Here](https://developer.here.com/)
 - [IBM](https://www.ibm.com/)
 - [Instana](https://www.instana.com)
+- [Interxion](https://www.interxion.com)
 - [Inquisico](https://inquisico.com)
 - [JustStar](https://www.juststarinfo.com)
 - [k6.io](https://k6.io/)
@@ -628,6 +638,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Myworkout](https://myworkout.com)
 - [NamSor](https://www.namsor.com/)
 - [Neverfail](https://www.neverfail.com/)
+- [NeuerEnergy](https://neuerenergy.com)
 - [Nokia](https://www.nokia.com/)
 - [Options Clearing Corporation (OCC)](https://www.theocc.com/)
 - [Openet](https://www.openet.com/)
@@ -822,8 +833,14 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2021-05-31 - [FlutterでOpen Api Generator(Swagger)を使う](https://aakira.app/blog/2021/05/flutter-open-api/) by [AAkira](https://twitter.com/_a_akira)
 - 2021-06-22 - [Rest API Documentation and Client Generation With OpenAPI](https://dzone.com/articles/rest-api-documentation-and-client-generation-with) by [Prasanth Gullapalli](https://dzone.com/users/1011797/prasanthnath.g@gmail.com.html) 
 - 2021-07-16 - [銀行事業のサーバーサイド開発について / LINE 京都開発室 エンジニア採用説明会](https://www.youtube.com/watch?v=YrrKQHxLPpQ) by 野田誠人, Robert Mitchell
+- 2021-07-19 - [OpenAPI code generation with kotlin](https://sylhare.github.io/2021/07/19/Openapi-swagger-codegen-with-kotlin.html) by [sylhare](https://github.com/sylhare)
 - 2021-07-29 - [How To Rewrite a Huge Codebase](https://dzone.com/articles/how-to-rewrite-a-huge-code-base) by [Curtis Poe](https://dzone.com/users/4565446/publiusovidius.html)
 - 2021-08-21 - [Generating Client APIs using Swagger Part 1](https://medium.com/@flowsquad/generating-client-apis-using-swagger-part-1-2d46f13f5e92) by [FlowSquad.io](https://medium.com/@flowsquad)
+- 2021-09-11 - [Invoking AWS ParallelCluster API](https://docs.aws.amazon.com/parallelcluster/latest/ug/api-reference-v3.html) at [AWS ParallelCluster API official documentation](https://docs.aws.amazon.com/parallelcluster/latest/ug/api-reference-v3.html)
+- 2021-09-20 - [OpenAPI Generator - The Babel Fish of the API World](https://www.youtube.com/watch?v=s2zMtwd5klg) by [Cliffano Subagio (Principal Engineer at Shine Solutions)](https://github.com/cliffano) at [Apidays LIVE Australia 2021](https://www.apidays.global/australia2021/)
+- 2021-10-02 - [How to Write Fewer Lines of Code with the OpenAPI Generator](https://hackernoon.com/how-to-write-fewer-lines-of-code-with-the-openapi-generator) by [Mikhail Alfa](https://hackernoon.com/u/alphamikle)
+- 2021-10-12 - [OpenAPI Generator : 4000 étoiles sur GitHub et des spaghettis](https://www.youtube.com/watch?v=9hEsNBSqTFk) by [Jérémie Bresson](https://github.com/jmini) at [Devoxx FR 2021](https://cfp.devoxx.fr/2021/speaker/jeremie_bresson)
+- 2021-10-17 - [Generate a TypeScript HTTP Client From An OpenAPI Spec In DotNET 5](https://richardwillis.info/blog/generate-a-type-script-http-client-from-an-open-api-spec-in-dot-net-5) by [Richard Willis](https://github.com/badsyntax)
 
 ## [6 - About Us](#table-of-contents)
 

@@ -28,6 +28,7 @@ Method | HTTP request | Description
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
+[**tx_rx_any_of_model**](FakeApi.md#tx_rx_any_of_model) | **POST** /fake/TxRxAnyOfModel | 
 [**upload_download_file**](FakeApi.md#upload_download_file) | **POST** /fake/uploadDownloadFile | uploads a file and downloads a file using application/octet-stream
 [**upload_file**](FakeApi.md#upload_file) | **POST** /fake/uploadFile | uploads a file using multipart/form-data
 [**upload_files**](FakeApi.md#upload_files) | **POST** /fake/uploadFiles | uploads files using multipart/form-data
@@ -333,7 +334,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    composed_one_of_number_with_validations = ComposedOneOfNumberWithValidations() # ComposedOneOfNumberWithValidations | Input model (optional)
+    composed_one_of_number_with_validations = ComposedOneOfNumberWithValidations(None) # ComposedOneOfNumberWithValidations | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -609,11 +610,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    mammal = Mammal(
-        has_baleen=True,
-        has_teeth=True,
-        class_name="whale",
-    ) # Mammal | Input mammal
+    mammal = Mammal(None) # Mammal | Input mammal
 
     # example passing only required values which don't have defaults set
     try:
@@ -1437,7 +1434,9 @@ with petstore_api.ApiClient() as api_client:
     enum_query_string = "-efg" # str | Query parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
     enum_query_integer = 1 # int | Query parameter enum test (double) (optional)
     enum_query_double = 1.1 # float | Query parameter enum test (double) (optional)
-    enum_form_string_array = "$" # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of "$"
+    enum_form_string_array = [
+        "$",
+    ] # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of "$"
     enum_form_string = "-efg" # str | Form parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
 
     # example passing only required values which don't have defaults set
@@ -1791,6 +1790,71 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **tx_rx_any_of_model**
+> GmFruitNoProperties tx_rx_any_of_model()
+
+
+
+### Example
+
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model.gm_fruit_no_properties import GmFruitNoProperties
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    gm_fruit_no_properties = GmFruitNoProperties(None) # GmFruitNoProperties |  (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        api_response = api_instance.tx_rx_any_of_model(gm_fruit_no_properties=gm_fruit_no_properties)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->tx_rx_any_of_model: %s\n" % e)
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **gm_fruit_no_properties** | [**GmFruitNoProperties**](GmFruitNoProperties.md)|  | [optional]
+
+### Return type
+
+[**GmFruitNoProperties**](GmFruitNoProperties.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | TxRxAnyOfModel |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **upload_download_file**
 > file_type upload_download_file(body)
 
@@ -1956,7 +2020,9 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    files = open('/path/to/file', 'rb') # [file_type] |  (optional)
+    files = [
+        open('/path/to/file', 'rb'),
+    ] # [file_type] |  (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
