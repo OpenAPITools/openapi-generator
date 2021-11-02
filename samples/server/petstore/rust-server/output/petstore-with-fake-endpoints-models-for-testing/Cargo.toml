@@ -24,6 +24,8 @@ cli = [
 ]
 conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-enum-derive"]
 
+mock = ["mockall"]
+
 [target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))'.dependencies]
 native-tls = { version = "0.2", optional = true }
 hyper-tls = { version = "0.6", optional = true }
@@ -41,6 +43,7 @@ swagger = { version = "7.0.0-rc2", features = ["serdejson", "server", "client", 
 headers = "0.4.0"
 log = "0.4.27"
 mime = "0.3"
+mockall = { version = "0.13.1", optional = true }
 
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

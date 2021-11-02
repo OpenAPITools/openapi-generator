@@ -1390,11 +1390,11 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn test_enum_parameters(
+    async fn test_enum_parameters<'a>(
         &self,
-        param_enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        param_enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         param_enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
-        param_enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        param_enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         param_enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         param_enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         param_enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
@@ -1968,9 +1968,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn find_pets_by_status(
+    async fn find_pets_by_status<'a>(
         &self,
-        param_status: &Vec<models::FindPetsByStatusStatusParameterInner>,
+        param_status: &'a Vec<models::FindPetsByStatusStatusParameterInner>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -2076,9 +2076,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn find_pets_by_tags(
+    async fn find_pets_by_tags<'a>(
         &self,
-        param_tags: &Vec<String>,
+        param_tags: &'a Vec<String>,
         context: &C) -> Result<FindPetsByTagsResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -3201,9 +3201,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn create_users_with_array_input(
+    async fn create_users_with_array_input<'a>(
         &self,
-        param_body: &Vec<models::User>,
+        param_body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithArrayInputResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -3278,9 +3278,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn create_users_with_list_input(
+    async fn create_users_with_list_input<'a>(
         &self,
-        param_body: &Vec<models::User>,
+        param_body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithListInputResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
