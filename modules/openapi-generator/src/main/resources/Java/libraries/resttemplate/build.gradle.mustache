@@ -6,8 +6,7 @@ version = '{{artifactVersion}}'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.5.+'
@@ -16,7 +15,7 @@ buildscript {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 
@@ -55,7 +54,7 @@ if(hasProperty('target') && target == 'android') {
         }
 
         dependencies {
-            provided 'javax.annotation:jsr250-api:1.0'
+            provided "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
         }
     }
 
@@ -83,7 +82,7 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
     {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -94,9 +93,12 @@ if(hasProperty('target') && target == 'android') {
     targetCompatibility = JavaVersion.VERSION_1_7
     {{/java8}}
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = '{{artifactId}}'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = '{{artifactId}}'
+               from components.java
+            }
         }
     }
 
@@ -113,6 +115,7 @@ ext {
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
     {{/openApiNullable}}
+    jakarta_annotation_version = "1.3.5"
     spring_web_version = "5.2.5.RELEASE"
     jodatime_version = "2.9.9"
     junit_version = "4.13.1"
@@ -146,6 +149,6 @@ dependencies {
     {{#withXml}}
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
     {{/withXml}}
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "junit:junit:$junit_version"
 }

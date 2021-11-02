@@ -105,7 +105,13 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
                     result.{{{name}}}.replace(valueDes);
                     {{/isContainer}}
                     {{#isModel}}
+                    {{#isPrimitiveType}}
+                    {{! These are models that have nee manually marked as primitive via generator param. }}
+                    result.{{{name}}} = valueDes;
+                    {{/isPrimitiveType}}
+                    {{^isPrimitiveType}}
                     result.{{{name}}}.replace(valueDes);
+                    {{/isPrimitiveType}}
                     {{/isModel}}
                     {{^isContainer}}
                     {{^isModel}}

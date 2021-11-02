@@ -1104,7 +1104,7 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat

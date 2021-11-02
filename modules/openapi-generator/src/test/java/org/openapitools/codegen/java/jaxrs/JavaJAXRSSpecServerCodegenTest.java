@@ -317,7 +317,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
-    public void testGenerateApiWithPreceedingPathParameter_issue1347() throws Exception {
+    public void testGenerateApiWithPrecedingPathParameter_issue1347() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "openapi.yml");

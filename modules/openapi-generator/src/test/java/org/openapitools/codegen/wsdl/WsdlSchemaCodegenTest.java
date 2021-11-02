@@ -65,7 +65,7 @@ public class WsdlSchemaCodegenTest {
         Assert.assertEquals(newOperationIdWithoutId, "PostStoreOrder");
     }
 
-    @Test(description = "Ensure that passed strings are processed correcly by this method")
+    @Test(description = "Ensure that passed strings are processed correctly by this method")
     public void testLowerCaseStringExceptFirstLetter() {
         WsdlSchemaCodegen codegen = new WsdlSchemaCodegen();
         String value = codegen.lowerCaseStringExceptFirstLetter("uploadPetByPathId");
@@ -180,7 +180,7 @@ public class WsdlSchemaCodegenTest {
     }
 
     @Test(description = "Check if portType tag and portType operation has been generated")
-    public void testIfPorttypeOperationExists() {
+    public void testIfPortTypeOperationExists() {
         String portType = "<portType name=\"ServiceV1_PortType\">";
 
         String portTypeOperation =

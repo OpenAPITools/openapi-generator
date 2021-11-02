@@ -314,7 +314,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             ExtendedCodegenModel cm = (ExtendedCodegenModel) mo.get("model");
-            cm.imports = new TreeSet(cm.imports);
+            cm.imports = new TreeSet<>(cm.imports);
             this.processCodeGenModel(cm);
         }
 
@@ -572,7 +572,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         }
 
-        this.addOperationModelImportInfomation(operations);
+        this.addOperationModelImportInformation(operations);
         this.updateOperationParameterForEnum(operations);
         if (this.getSagasAndRecords()) {
             this.updateOperationParameterForSagaAndRecords(operations);
@@ -708,15 +708,22 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
             var.dataTypeAlternate = var.dataType;
             if (var.isArray) {
+                var.isUniqueId = var.isUniqueId || var.itemsAreUniqueId();
                 var.dataTypeAlternate = var.dataType.replace("Array<", "List<");
+                String newItemsDataType = var.getItemsDataType();
                 if (var.items.isModel) {
-                    String itemsDataType = var.items.dataType + "Record";
-                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, itemsDataType);
+                    newItemsDataType = var.items.dataType + "Record";
+                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, newItemsDataType);
                 } else if (var.items.isEnum) {
-                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.items.datatypeWithEnum);
+                    newItemsDataType = var.items.datatypeWithEnum;
+                    var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, newItemsDataType);
+                } else if (var.isUniqueId) {
+                    newItemsDataType = "string";
+                    var.dataTypeAlternate = var.dataTypeAlternate.replace("number", newItemsDataType);
                 }
-                if (var.isUniqueId) {
-                    var.dataTypeAlternate = var.dataTypeAlternate.replace("number", "string");
+
+                if (var.itemsAreNullable()) {
+                    var.dataTypeAlternate = var.dataTypeAlternate.replace(newItemsDataType, newItemsDataType + " | null");
                 }
             } else if (var.isEnum) {
                 var.dataTypeAlternate = var.datatypeWithEnum;
@@ -724,12 +731,19 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 var.dataTypeAlternate = var.dataType + "Record";
             } else if (var.isUniqueId) {
                 var.dataTypeAlternate = "string";
+                if (var.isNullable) {
+                    var.dataTypeAlternate = var.dataTypeAlternate + " | null";
+                }
             }
             if (var.defaultValue == null || var.defaultValue.equals("undefined")) {
                 this.autoSetDefaultValueForProperty(var);
             }
         }
         return parentIsEntity;
+    }
+
+    private boolean itemsAreNullable(ExtendedCodegenProperty var) {
+        return var.items.isNullable || (var.items.items != null && var.items.items.isNullable);
     }
 
     private void escapeOperationIds(Map<String, Object> operations) {
@@ -746,9 +760,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
-    private void addOperationModelImportInfomation(Map<String, Object> operations) {
-        // This method will add extra infomation to the operations.imports array.
-        // The api template uses this infomation to import all the required
+    private void addOperationModelImportInformation(Map<String, Object> operations) {
+        // This method will add extra information to the operations.imports array.
+        // The api template uses this information to import all the required
         // models for a given operation.
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         List<String> existingRecordClassNames = new ArrayList<String>();
@@ -779,7 +793,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void updateOperationParameterForEnum(Map<String, Object> operations) {
-        // This method will add extra infomation as to whether or not we have enums and
+        // This method will add extra information as to whether or not we have enums and
         // update their names with the operation.id prefixed.
         // It will also set the uniqueId status if provided.
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
@@ -801,7 +815,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void updateOperationParameterForSagaAndRecords(Map<String, Object> operations) {
-        // This method will add extra infomation as to whether or not we have enums and
+        // This method will add extra information as to whether or not we have enums and
         // update their names with the operation.id prefixed.
         // It will also set the uniqueId status if provided.
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
@@ -816,19 +830,25 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     param.isUniqueId = this.isUniqueIdAccordingToNameSuffix(param.paramName);
                 }
 
+
                 param.dataTypeAlternate = param.dataType;
                 if (param.isArray) {
+                    param.isUniqueId = param.isUniqueId || param.itemsAreUniqueId();
+                    param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
+                    String newItemsDataType = param.getItemsDataType();
                     if (param.items.isModel) {
-                        String itemsDataType = param.items.dataType + "Record";
-                        param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
-                        param.dataTypeAlternate = param.dataTypeAlternate.replace(param.items.dataType, itemsDataType);
+                        newItemsDataType = param.items.dataType + "Record";
+                        param.dataTypeAlternate = param.dataTypeAlternate.replace(param.items.dataType, newItemsDataType);
                     } else if (param.items.isEnum) {
+                        newItemsDataType = param.datatypeWithEnum.substring(param.datatypeWithEnum.lastIndexOf("<") + 1, param.datatypeWithEnum.indexOf(">"));
                         param.dataTypeAlternate = param.datatypeWithEnum.replace("Array<", "List<");
-                    } else {
-                        param.dataTypeAlternate = param.dataType.replace("Array<", "List<");
+                    } else if (param.isUniqueId) {
+                        newItemsDataType = "string";
+                        param.dataTypeAlternate = param.dataTypeAlternate.replace("number", newItemsDataType);
                     }
-                    if (param.isUniqueId) {
-                        param.dataTypeAlternate = param.dataTypeAlternate.replace("number", "string");
+
+                    if (param.itemsAreNullable()) {
+                        param.dataTypeAlternate = param.dataTypeAlternate.replace(newItemsDataType, newItemsDataType + " | null");
                     }
                 } else if (param.isEnum) {
                     param.dataTypeAlternate = param.datatypeWithEnum;
@@ -836,14 +856,17 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     param.dataTypeAlternate = param.dataType + "Record";
                 } else if (param.isUniqueId) {
                     param.dataTypeAlternate = "string";
+                    if (param.isNullable) {
+                        param.dataTypeAlternate = param.dataTypeAlternate + " | null";
+                    }
                 }
             }
         }
     }
 
     private void addOperationObjectResponseInformation(Map<String, Object> operations) {
-        // This method will modify the infomation on the operations' return type.
-        // The api template uses this infomation to know when to return a text
+        // This method will modify the information on the operations' return type.
+        // The api template uses this information to know when to return a text
         // response for a given simple response operation.
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
@@ -912,9 +935,45 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.prefixParameterInterfaces = prefixParameterInterfaces;
     }
 
+    private static boolean itemsAreUniqueId(CodegenProperty items) {
+        if (items.items != null) {
+            return itemsAreUniqueId(items.items);
+        };
+        if (items.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
+            return Boolean.TRUE.equals(items.vendorExtensions.get(X_IS_UNIQUE_ID));
+        }
+        return false;
+    }
+
+    private static boolean itemsAreNullable(CodegenProperty items) {
+        if (items.items != null) {
+            return itemsAreNullable(items.items);
+        };
+        return items.isNullable;
+    }
+
+    private static String getItemsDataType(CodegenProperty items) {
+        if (items.items != null) {
+            return getItemsDataType(items.items);
+        };
+        return items.dataType;
+    }
+
     class ExtendedCodegenParameter extends CodegenParameter {
         public String dataTypeAlternate;
         public boolean isUniqueId; // this parameter represents a unique id (x-isUniqueId: true)
+
+        public boolean itemsAreUniqueId() {
+            return TypeScriptFetchClientCodegen.itemsAreUniqueId(this.items);
+        }
+
+        public boolean itemsAreNullable() {
+            return TypeScriptFetchClientCodegen.itemsAreNullable(this.items);
+        }
+
+        public String getItemsDataType() {
+            return TypeScriptFetchClientCodegen.getItemsDataType(this.items);
+        }
 
         public ExtendedCodegenParameter(CodegenParameter cp) {
             super();
@@ -1034,6 +1093,18 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public boolean isUniqueId; // The property represents a unique id (x-isUniqueId: true)
         public boolean keepAsJSObject;
         public boolean isReservedRecordField;
+
+        public boolean itemsAreUniqueId() {
+            return TypeScriptFetchClientCodegen.itemsAreUniqueId(this.items);
+        }
+
+        public boolean itemsAreNullable() {
+            return TypeScriptFetchClientCodegen.itemsAreNullable(this.items);
+        }
+
+        public String getItemsDataType() {
+            return TypeScriptFetchClientCodegen.getItemsDataType(this.items);
+        }
 
         public ExtendedCodegenProperty(CodegenProperty cp) {
             super();

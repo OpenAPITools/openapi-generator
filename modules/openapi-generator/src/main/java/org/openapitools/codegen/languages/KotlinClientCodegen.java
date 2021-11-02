@@ -191,7 +191,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         CliOption requestDateConverter = new CliOption(REQUEST_DATE_CONVERTER, "JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)");
         Map<String, String> requestDateConverterOptions = new HashMap<>();
-        requestDateConverterOptions.put(RequestDateConverter.TO_JSON.value, "[DEFAULT] Date formater option using a json converter.");
+        requestDateConverterOptions.put(RequestDateConverter.TO_JSON.value, "[DEFAULT] Date formatter option using a json converter.");
         requestDateConverterOptions.put(RequestDateConverter.TO_STRING.value, "Use the 'toString'-method of the date-time object to retrieve the related string representation.");
         requestDateConverter.setEnum(requestDateConverterOptions);
         requestDateConverter.setDefault(this.requestDateConverter);
@@ -372,11 +372,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         if (usesRetrofit2Library()) {
-            if (ProcessUtils.hasOAuthMethods(openAPI)) {
-                supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
+            boolean hasOAuthMethods = ProcessUtils.hasOAuthMethods(openAPI);
+
+            if (hasOAuthMethods) {
                 supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
                 supportingFiles.add(new SupportingFile("auth/OAuthFlow.kt.mustache", authFolder, "OAuthFlow.kt"));
                 supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.kt.mustache", authFolder, "OAuthOkHttpClient.kt"));
+            }
+
+            if (hasOAuthMethods || ProcessUtils.hasApiKeyMethods(openAPI)) {
+                supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
             }
 
             if (ProcessUtils.hasHttpBearerMethods(openAPI)) {

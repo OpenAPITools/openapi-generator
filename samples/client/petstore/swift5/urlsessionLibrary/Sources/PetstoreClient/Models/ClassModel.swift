@@ -10,10 +10,10 @@ import Foundation
 import AnyCodable
 #endif
 
-@available(*, deprecated, renamed: "PetstoreClient.ClassModel")
-public typealias ClassModel = PetstoreClient.ClassModel
+@available(*, deprecated, renamed: "PetstoreClientAPI.ClassModel")
+public typealias ClassModel = PetstoreClientAPI.ClassModel
 
-extension PetstoreClient {
+extension PetstoreClientAPI {
 
 /** Model for testing model with \&quot;_class\&quot; property */
 public final class ClassModel: Codable, Hashable {

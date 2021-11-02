@@ -435,6 +435,14 @@ public class ApiClient extends JavaTimeFormatter {
             collectionFormat = CollectionFormat.CSV;
         }
 
+        if (value instanceof Map) {
+            final Map<String, Object> valuesMap = (Map<String, Object>) value;
+            for (final Entry<String, Object> entry : valuesMap.entrySet()) {
+                params.add(entry.getKey(), parameterToString(entry.getValue()));
+            }
+            return params;
+        }
+
         Collection<?> valueCollection = null;
         if (value instanceof Collection) {
             valueCollection = (Collection<?>) value;
@@ -575,7 +583,7 @@ public class ApiClient extends JavaTimeFormatter {
     /**
      * Include queryParams in uriParams taking into account the paramName
      *
-     * @param queryParam The query parameters
+     * @param queryParams The query parameters
      * @param uriParams The path parameters
      * return templatized query string
      */
@@ -627,7 +635,7 @@ public class ApiClient extends JavaTimeFormatter {
     public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-   	    Map<String,Object> uriParams = new HashMap();
+   	    Map<String,Object> uriParams = new HashMap<>();
         uriParams.putAll(pathParams);
 
         String finalUri = path;

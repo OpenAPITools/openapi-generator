@@ -49,11 +49,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> oneOf = new TreeSet<String>();
     public Set<String> allOf = new TreeSet<String>();
 
-    // anyOf, oneOf, allOf with full properties/tags (e.g. isString, etc)
-    public List<CodegenProperty> anyOfProps = new ArrayList<>();
-    public List<CodegenProperty> allOfProps = new ArrayList<>();
-    public List<CodegenProperty> oneOfProps = new ArrayList<>();
-
     // The schema name as written in the OpenAPI document.
     public String name;
     // The language-specific name of the class that implements this schema.
@@ -110,6 +105,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public ExternalDocumentation externalDocumentation;
 
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
+    private CodegenComposedSchemas composedSchemas;
+    private boolean hasMultipleTypes = false;
 
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
@@ -161,6 +158,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private boolean isModel;
     private boolean hasRequiredVars;
     private boolean hasDiscriminatorWithNonEmptyMapping;
+    private boolean isAnyType;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -786,6 +784,46 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsString() { return isString; }
+
+    @Override
+    public void setIsString(boolean isString)  {
+        this.isString = isString;
+    }
+
+    @Override
+    public boolean getIsNumber() { return isNumber; }
+
+    @Override
+    public void setIsNumber(boolean isNumber)  {
+        this.isNumber = isNumber;
+    }
+
+    @Override
+    public boolean getIsAnyType() { return isAnyType; }
+
+    @Override
+    public void setIsAnyType(boolean isAnyType)  {
+        this.isAnyType = isAnyType;
+    }
+
+    @Override
+    public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
+        this.composedSchemas = composedSchemas;
+    }
+
+    @Override
+    public CodegenComposedSchemas getComposedSchemas() {
+        return composedSchemas;
+    }
+
+    @Override
+    public boolean getHasMultipleTypes() {return hasMultipleTypes; }
+
+    @Override
+    public void setHasMultipleTypes(boolean hasMultipleTypes) { this.hasMultipleTypes = hasMultipleTypes; }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CodegenModel)) return false;
@@ -818,11 +856,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
                 isNull == that.isNull &&
                 hasValidation == that.hasValidation &&
+                hasMultipleTypes == that.getHasMultipleTypes() &&
                 hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
+                getIsAnyType() == that.getIsAnyType() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
+                Objects.equals(composedSchemas, that.composedSchemas) &&
                 Objects.equals(parent, that.parent) &&
                 Objects.equals(parentSchema, that.parentSchema) &&
                 Objects.equals(interfaces, that.interfaces) &&
@@ -830,9 +871,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(parentModel, that.parentModel) &&
                 Objects.equals(interfaceModels, that.interfaceModels) &&
                 Objects.equals(children, that.children) &&
-                Objects.equals(anyOf, that.anyOfProps) &&
-                Objects.equals(oneOf, that.oneOfProps) &&
-                Objects.equals(allOf, that.allOfProps) &&
                 Objects.equals(anyOf, that.anyOf) &&
                 Objects.equals(oneOf, that.oneOf) &&
                 Objects.equals(allOf, that.allOf) &&
@@ -895,7 +933,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
-                getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping, anyOfProps, oneOfProps, allOfProps);
+                getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
+                isAnyType, getComposedSchemas(), hasMultipleTypes);
     }
 
     @Override
@@ -911,9 +950,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", anyOf=").append(anyOf);
         sb.append(", oneOf=").append(oneOf);
         sb.append(", allOf=").append(allOf);
-        sb.append(", anyOf=").append(anyOfProps);
-        sb.append(", oneOf=").append(oneOfProps);
-        sb.append(", allOf=").append(allOfProps);
         sb.append(", name='").append(name).append('\'');
         sb.append(", classname='").append(classname).append('\'');
         sb.append(", title='").append(title).append('\'');
@@ -989,6 +1025,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", hasValidation='").append(hasValidation);
         sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
         sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", getIsAnyType=").append(getIsAnyType());
+        sb.append(", composedSchemas=").append(composedSchemas);
+        sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
         sb.append('}');
         return sb.toString();
     }

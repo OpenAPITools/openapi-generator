@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1de2469e3014acffdfb079309edd15dc88ec7f5acce21f1062b61a1b002418fd
+-- hash: 67946b4cbdad5837b584f5f3f5dbe69d3529a6aafe98c462228958f8d19e894e
 
 name:           openapi-petstore-tests-integration
 version:        0.1.0.0
@@ -33,18 +33,18 @@ test-suite tests
     , QuickCheck
     , aeson
     , base >=4.7 && <5.0
-    , bytestring >=0.10.0 && <0.11
+    , bytestring >=0.10.0
     , case-insensitive
     , containers
     , exceptions >=0.4
     , hspec >=1.8
     , http-api-data >=0.3.4 && <0.5
-    , http-client >=0.5 && <0.7
+    , http-client >=0.5 && <0.8
     , http-client-tls
-    , http-media >=0.4 && <0.9
+    , http-media
     , http-types >=0.8 && <0.13
     , iso8601-time
-    , microlens >=0.4.3 && <0.5
+    , microlens >=0.4.3
     , mtl >=2.2.1
     , openapi-petstore
     , safe-exceptions <0.2

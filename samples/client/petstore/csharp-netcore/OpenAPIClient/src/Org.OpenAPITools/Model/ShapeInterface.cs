@@ -47,7 +47,10 @@ namespace Org.OpenAPITools.Model
         public ShapeInterface(string shapeType = default(string))
         {
             // to ensure "shapeType" is required (not null)
-            this.ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null");
+            if (shapeType == null) {
+                throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null");
+            }
+            this.ShapeType = shapeType;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -128,7 +131,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

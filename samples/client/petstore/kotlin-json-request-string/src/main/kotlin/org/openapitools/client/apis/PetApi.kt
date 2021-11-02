@@ -39,7 +39,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://petstore.swagger.io/v2")
         }
     }
 
@@ -212,7 +212,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     /**
     * Get all pets
     * 
-    * @param lastUpdated When this endpoint was hit last to help indentify if the client already has the latest copy. (optional)
+    * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
     * @return kotlin.collections.List<Pet>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
@@ -245,7 +245,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     /**
     * To obtain the request config of the operation getAllPets
     *
-    * @param lastUpdated When this endpoint was hit last to help indentify if the client already has the latest copy. (optional)
+    * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
     * @return RequestConfig
     */
     fun getAllPetsRequestConfig(lastUpdated: java.time.OffsetDateTime?) : RequestConfig<Unit> {

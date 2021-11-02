@@ -5,6 +5,7 @@
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
 part of openapi.api;
@@ -18,7 +19,7 @@ class OuterEnumInteger {
   final int value;
 
   @override
-  String toString() => value.toString();
+  String toString() => value == null ? '' : value.toString();
 
   int toJson() => value;
 
@@ -36,20 +37,18 @@ class OuterEnumInteger {
   static OuterEnumInteger fromJson(dynamic value) =>
     OuterEnumIntegerTypeTransformer().decode(value);
 
-  static List<OuterEnumInteger> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
-    json == null || json.isEmpty
-      ? true == emptyIsNull ? null : <OuterEnumInteger>[]
-      : json
-          .map((value) => OuterEnumInteger.fromJson(value))
-          .toList(growable: true == growable);
+  static List<OuterEnumInteger> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
+    json is List && json.isNotEmpty
+      ? json.map(OuterEnumInteger.fromJson).toList(growable: true == growable)
+      : true == emptyIsNull ? null : <OuterEnumInteger>[];
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumInteger] to int,
 /// and [decode] dynamic data back to [OuterEnumInteger].
 class OuterEnumIntegerTypeTransformer {
-  const OuterEnumIntegerTypeTransformer._();
+  factory OuterEnumIntegerTypeTransformer() => _instance ??= const OuterEnumIntegerTypeTransformer._();
 
-  factory OuterEnumIntegerTypeTransformer() => _instance ??= OuterEnumIntegerTypeTransformer._();
+  const OuterEnumIntegerTypeTransformer._();
 
   int encode(OuterEnumInteger data) => data.value;
 
@@ -62,14 +61,16 @@ class OuterEnumIntegerTypeTransformer {
   /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
   /// and users are still using an old app with the old code.
   OuterEnumInteger decode(dynamic data, {bool allowNull}) {
-    switch (data) {
-      case 0: return OuterEnumInteger.number0;
-      case 1: return OuterEnumInteger.number1;
-      case 2: return OuterEnumInteger.number2;
-      default:
-        if (allowNull == false) {
-          throw ArgumentError('Unknown enum value to decode: $data');
-        }
+    if (data != null) {
+      switch (data.toString()) {
+        case 0: return OuterEnumInteger.number0;
+        case 1: return OuterEnumInteger.number1;
+        case 2: return OuterEnumInteger.number2;
+        default:
+          if (allowNull == false) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
     return null;
   }
@@ -77,3 +78,4 @@ class OuterEnumIntegerTypeTransformer {
   /// Singleton [OuterEnumIntegerTypeTransformer] instance.
   static OuterEnumIntegerTypeTransformer _instance;
 }
+
