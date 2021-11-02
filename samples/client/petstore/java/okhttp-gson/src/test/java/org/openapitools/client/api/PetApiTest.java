@@ -34,8 +34,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.junit.*;
 
@@ -47,7 +45,6 @@ import static org.junit.Assert.*;
 public class PetApiTest {
 
     private PetApi api = new PetApi();
-    private final Logger LOG = LoggerFactory.getLogger(PetApiTest.class);
     // In the circle.yml file, /etc/host is configured with an entry to resolve petstore.swagger.io to 127.0.0.1
     private static String basePath = "http://petstore.swagger.io:80/v2";
 
@@ -368,7 +365,6 @@ public class PetApiTest {
             fetched = api.getPetById(fetched.getId());
             fail("expected an error");
         } catch (ApiException e) {
-            LOG.info("Code: {}. Message: {}", e.getCode(), e.getMessage());
             assertEquals(404, e.getCode());
         }
     }
