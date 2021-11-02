@@ -160,8 +160,9 @@ import com.squareup.moshi.adapter
                     }
                 }.build()
             }
+            mediaType.startsWith("application/") && mediaType.endsWith("json") ->
             {{#jvm-okhttp3}}
-            mediaType == JsonMediaType -> RequestBody.create(
+            RequestBody.create(
                 {{#moshi}}
                 MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
                 {{/moshi}}
@@ -177,7 +178,7 @@ import com.squareup.moshi.adapter
             )
             {{/jvm-okhttp3}}
             {{#jvm-okhttp4}}
-            mediaType == JsonMediaType -> {{#moshi}}Serializer.moshi.adapter(T::class.java).toJson(content){{/moshi}}{{#gson}}Serializer.gson.toJson(content, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.writeValueAsString(content){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.encodeToString(content){{/kotlinx_serialization}}.toRequestBody(
+            {{#moshi}}Serializer.moshi.adapter(T::class.java).toJson(content){{/moshi}}{{#gson}}Serializer.gson.toJson(content, T::class.java){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.writeValueAsString(content){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.encodeToString(content){{/kotlinx_serialization}}.toRequestBody(
                 mediaType.toMediaTypeOrNull()
             )
             {{/jvm-okhttp4}}
@@ -216,8 +217,9 @@ import com.squareup.moshi.adapter
             out.close()
             return f as T
         }
-        return when(mediaType) {
-            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
+        return when {
+        mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+                {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -312,11 +314,11 @@ import com.squareup.moshi.adapter
         }
         val headers = requestConfig.headers
 
-        if(headers[ContentType] ?: "" == "") {
+        if(headers[ContentType].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Content-Type header. This is required.")
         }
 
-        if(headers[Accept] ?: "" == "") {
+        if(headers[Accept].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Accept header. This is required.")
         }
 

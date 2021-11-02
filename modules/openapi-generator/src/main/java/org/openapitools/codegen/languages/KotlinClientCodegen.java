@@ -18,8 +18,21 @@
 package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +41,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -610,14 +624,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
             // escape the variable base name for use as a string literal
             List<CodegenProperty> vars = Stream.of(
-                    cm.vars,
-                    cm.allVars,
-                    cm.optionalVars,
-                    cm.requiredVars,
-                    cm.readOnlyVars,
-                    cm.readWriteVars,
-                    cm.parentVars
-            )
+                            cm.vars,
+                            cm.allVars,
+                            cm.optionalVars,
+                            cm.requiredVars,
+                            cm.readOnlyVars,
+                            cm.readWriteVars,
+                            cm.parentVars
+                    )
                     .flatMap(List::stream)
                     .collect(Collectors.toList());
 
@@ -644,6 +658,35 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
                 if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
+                }
+
+                if (JVM_OKHTTP.equals(getLibrary()) || JVM_OKHTTP3.equals(getLibrary()) || JVM_OKHTTP4.equals(getLibrary())) {
+                    // Ideally we would do content negotiation to choose the best mediatype, but that would be a next step.
+                    // For now we take the first mediatype we can parse and send that.
+                    Predicate<Map<String, String>> isSerializable = typeMapping -> {
+                        String mediaTypeValue = typeMapping.get("mediaType");
+                        if (mediaTypeValue == null)
+                            return false;
+                        // match on first part in mediaTypes like 'application/json; charset=utf-8'
+                        int endIndex = mediaTypeValue.indexOf(';');
+                        String mediaType = (endIndex == -1
+                                ? mediaTypeValue
+                                : mediaTypeValue.substring(0, endIndex)
+                        ).trim();
+                        return "multipart/form-data".equals(mediaType)
+                                || "application/x-www-form-urlencoded".equals(mediaType)
+                                || (mediaType.startsWith("application/") && mediaType.endsWith("json"));
+                    };
+                    operation.consumes = operation.consumes == null ? null : operation.consumes.stream()
+                            .filter(isSerializable)
+                            .limit(1)
+                            .collect(Collectors.toList());
+                    operation.hasConsumes = operation.consumes != null && !operation.consumes.isEmpty();
+
+                    operation.produces = operation.produces == null ? null : operation.produces.stream()
+                            .filter(isSerializable)
+                            .collect(Collectors.toList());
+                    operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
                 }
 
                 // set multipart against all relevant operations
