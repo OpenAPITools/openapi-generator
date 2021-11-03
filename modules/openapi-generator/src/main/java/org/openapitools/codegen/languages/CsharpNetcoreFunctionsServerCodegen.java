@@ -34,23 +34,23 @@ public class CsharpNetcoreFunctionsServerCodegen extends DefaultCodegen implemen
     public CsharpNetcoreFunctionsServerCodegen() {
         super();
         outputFolder = "generated-code" + File.separator + "csharp";
-        modelTemplateFiles.put("model.mustache", ".zz");
-        apiTemplateFiles.put("functions.mustache", ".zz");
+        modelTemplateFiles.put("model.mustache", ".cs");
+        apiTemplateFiles.put("functions.mustache", ".cs");
         embeddedTemplateDir = templateDir = "csharp";
         apiPackage = "Apis";
         modelPackage = "Models";
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
+        supportingFiles.add(new SupportingFile("README.mustache", "generatedSrc", "README.md"));
+        supportingFiles.add(new SupportingFile("project.mustache", "generatedSrc", "project.json"));
     }
 	
 	@Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + "OpenApi.Output" + File.separator + CodegenConstants.SOURCE_FOLDER + File.separator + CodegenConstants.PACKAGE_NAME + File.separator + "Functions";
+        return outputFolder + File.separator + "generatedSrc" + File.separator + "Functions";
     }
 	
 	@Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + "OpenApi.Output" + File.separator + CodegenConstants.SOURCE_FOLDER + File.separator + CodegenConstants.PACKAGE_NAME + File.separator + "Models";
+        return outputFolder + File.separator + "generatedSrc" + File.separator +  "Models";
     }
 
     @Override
