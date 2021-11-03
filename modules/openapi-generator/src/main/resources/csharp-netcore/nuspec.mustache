@@ -31,7 +31,9 @@
         <dependencies>
 
             <dependency id="Newtonsoft.Json" version="12.0.3" />
+            {{#useRestSharp}}
             <dependency id="RestSharp" version="106.13.0" />
+            {{/useRestSharp}}
             {{#useCompareNetObjects}}
             <dependency id="CompareNETObjects" version="4.61.0" />
             {{/useCompareNetObjects}}
@@ -39,6 +41,9 @@
             {{#validatable}}
             <dependency id="System.ComponentModel.Annotations" version="5.0.0" />
             {{/validatable}}
+            {{#supportsRetry}}
+            <dependency id="Polly" version="7.2.2" />
+            {{/supportsRetry}}
 
         </dependencies>
     </metadata>
