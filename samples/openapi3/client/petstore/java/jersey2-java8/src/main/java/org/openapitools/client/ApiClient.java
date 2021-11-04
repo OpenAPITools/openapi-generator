@@ -915,11 +915,11 @@ public class ApiClient extends JavaTimeFormatter {
     *
     * @param contentTypes The Content-Type array to select from
     * @return The Content-Type header to use. If the given array is empty,
-    *   returns null. If it matches "any", JSON will be used.
+    *   returns "application/octet-stream". If it matches "any", JSON will be used.
     */
   public String selectHeaderContentType(String[] contentTypes) {
       if (contentTypes.length == 0) {
-          return null;
+          return "application/octet-stream";
       }
 
       if (contentTypes[0].equals("*/*")) {

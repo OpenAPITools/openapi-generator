@@ -95,7 +95,7 @@ public class ApiClientTest {
         assertEquals("text/plain", apiClient.selectHeaderContentType(contentTypes));
 
         contentTypes = new String[]{};
-        assertNull(apiClient.selectHeaderContentType(contentTypes));
+        assertEquals("application/octet-stream", apiClient.selectHeaderContentType(contentTypes));
     }
 
     @Test
