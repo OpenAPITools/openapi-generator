@@ -308,20 +308,20 @@ export class {{classname}} {
         let localVarFormParams: { append(param: string, value: any): any; };
         let localVarUseForm = false;
         let localVarConvertFormParamsToString = false;
-{{#localVarFormParams}}
+{{#formParams}}
 {{#isFile}}
         // use FormData to transmit files using content-type "multipart/form-data"
         // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
         localVarUseForm = canConsumeForm;
 {{/isFile}}
-{{/localVarFormParams}}
+{{/formParams}}
         if (localVarUseForm) {
             localVarFormParams = new FormData();
         } else {
             localVarFormParams = new HttpParams({encoder: this.encoder});
         }
 
-{{#localVarFormParams}}
+{{#formParams}}
         {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
@@ -345,7 +345,7 @@ export class {{classname}} {
             localVarFormParams = localVarFormParams.append('{{baseName}}', {{^isModel}}<any>{{paramName}}{{/isModel}}{{#isModel}}localVarUseForm ? new Blob([JSON.stringify({{paramName}})], {type: 'application/json'}) : <any>{{paramName}}{{/isModel}}) as any || localVarFormParams;
         }
         {{/isArray}}
-{{/localVarFormParams}}
+{{/formParams}}
 
 {{/hasFormParams}}
     {{^isResponseFile}}
