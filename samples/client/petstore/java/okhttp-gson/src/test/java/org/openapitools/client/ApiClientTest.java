@@ -82,7 +82,7 @@ public class ApiClientTest {
         assertEquals("text/plain", apiClient.selectHeaderContentType(contentTypes));
 
         contentTypes = new String[]{};
-        assertEquals("application/json", apiClient.selectHeaderContentType(contentTypes));
+        assertNull(apiClient.selectHeaderContentType(contentTypes));
     }
 
     @Test
