@@ -878,7 +878,7 @@ public class ApiClient extends JavaTimeFormatter {
   public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType, boolean isBodyNullable) throws ApiException {
     Entity<?> entity;
     if (contentType == null) {
-      return entity;
+      return null;
     } else if (contentType.startsWith("multipart/form-data")) {
       MultiPart multiPart = new MultiPart();
       for (Entry<String, Object> param: formParams.entrySet()) {
