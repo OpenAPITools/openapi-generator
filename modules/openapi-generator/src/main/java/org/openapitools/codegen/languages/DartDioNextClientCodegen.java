@@ -408,7 +408,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             }
 
             resultImports.addAll(rewriteImports(op.imports, false));
-            if (op.getHasFormParams() || op.getHasQueryParams()) {
+            
+            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams())) {
                 resultImports.add("package:" + pubName + "/src/api_util.dart");
             }
 
