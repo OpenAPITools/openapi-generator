@@ -825,24 +825,30 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
-   * Select the Content-Type header's value from the given array:
-   *   if JSON exists in the given array, use it;
-   *   otherwise use the first one of the array.
-   *
-   * @param contentTypes The Content-Type array to select from
-   * @return The Content-Type header to use. If the given array is empty,
-   *   JSON will be used.
-   */
+    * Select the Content-Type header's value from the given array:
+    *   if JSON exists in the given array, use it;
+    *   otherwise use the first one of the array.
+    *
+    * @param contentTypes The Content-Type array to select from
+    * @return The Content-Type header to use. If the given array is empty,
+    *   returns null. If it matches "any", JSON will be used.
+    */
   public String selectHeaderContentType(String[] contentTypes) {
-    if (contentTypes.length == 0) {
-      return "application/json";
-    }
-    for (String contentType : contentTypes) {
-      if (isJsonMime(contentType)) {
-        return contentType;
+      if (contentTypes.length == 0) {
+          return null;
       }
-    }
-    return contentTypes[0];
+
+      if (contentTypes[0].equals("*/*")) {
+          return "application/json";
+      }
+
+      for (String contentType : contentTypes) {
+          if (isJsonMime(contentType)) {
+              return contentType;
+          }
+      }
+
+      return contentTypes[0];
   }
 
   /**
