@@ -924,12 +924,15 @@ public class ApiClient extends JavaTimeFormatter {
    *
    * @param obj Object
    * @param formParams Form parameters
-   * @param contentType Context type
+   * @param contentType Content type
    * @param isBodyNullable True if the body is nullable
    * @return String
    * @throws ApiException API exception
    */
   public String serializeToString(Object obj, Map<String, Object> formParams, String contentType, boolean isBodyNullable) throws ApiException {
+    if (contentType == null) {
+      return null;
+    }
     try {
       if (contentType.startsWith("multipart/form-data")) {
         throw new ApiException("multipart/form-data not yet supported for serializeToString (http signature authentication)");
