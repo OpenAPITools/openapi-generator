@@ -130,6 +130,9 @@ javadoc {
 // To apply changes directly to the file, run `gradlew spotlessApply`
 // Ref: https://github.com/diffplug/spotless/tree/main/plugin-gradle
 spotless {
+    // comment out below to run spotless as part of the `check` task
+    enforceCheck false
+
     format 'misc', {
         // define the files (e.g. '*.gradle', '*.md') to apply `misc` to
         target '.gitignore'
