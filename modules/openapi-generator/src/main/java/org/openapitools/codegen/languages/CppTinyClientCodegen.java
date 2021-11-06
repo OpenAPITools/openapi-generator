@@ -152,17 +152,16 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
 
         // SERVICES: Helpers
         supportingFiles.add(new SupportingFile("service/Response.h.mustache", serviceFolder, "Response.h"));
-        supportingFiles.add(new SupportingFile("service/AbstractService.h.mustache", serviceFolder, "AbstractService.h"));
-        supportingFiles.add(new SupportingFile("service/AbstractService.cpp.mustache", serviceFolder, "AbstractService.cpp"));
+        supportingFiles.add(new SupportingFile("service/Service.h.mustache", serviceFolder, "Service.h"));
+        supportingFiles.add(new SupportingFile("service/Service.cpp.mustache", serviceFolder, "Service.cpp"));
 
         // Main
-        supportingFiles.add(new SupportingFile("main.mustache", CppTinyClientCodegen.sourceFolder, "main.cpp"));
+        supportingFiles.add(new SupportingFile("main.mustache", CppTinyClientCodegen.sourceFolder, "main.cpp")); // TODO no overwrite
 
         // Config files
         supportingFiles.add(new SupportingFile("README.mustache", rootFolder, "README.md"));
-        supportingFiles.add(new SupportingFile("platformio.ini.mustache", rootFolder, "platformio.ini"));
-        supportingFiles.add(new SupportingFile("root.cert.mustache", rootFolder, "root.cert"));
-        supportingFiles.add(new SupportingFile("README.mustache", rootFolder, "README.md"));
+        supportingFiles.add(new SupportingFile("platformio.ini.mustache", rootFolder, "platformio.ini")); // TODO no overwrite
+        supportingFiles.add(new SupportingFile("root.cert.mustache", rootFolder, "root.cert")); // TODO no overwrite
         supportingFiles.add(new SupportingFile("pre_compiling_bourne.py.mustache", rootFolder, "pre_compiling_bourne.py"));
 
         defaultIncludes = new HashSet<String>(
@@ -232,7 +231,6 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
     @Override
     public void processOpts() {
         super.processOpts();
-        // Throw exception if http and esp8266
 
         // -- --additional-properties=controller=<controllername>
         if (additionalProperties.containsKey(MICROCONTROLLER)) {
