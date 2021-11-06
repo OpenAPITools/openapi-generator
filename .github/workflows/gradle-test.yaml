@@ -21,7 +21,7 @@ jobs:
   build:
     name: Gradle tests
     runs-on: ubuntu-latest
-    container: gradle:jdk8
+    container: gradle:jdk11
     strategy:
       fail-fast: true
       matrix:
