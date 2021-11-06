@@ -268,7 +268,11 @@ public class DefaultGenerator implements Generator {
         URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
         contextPath = removeTrailingSlash(config.escapeText(url.getPath())); // for backward compatibility
         basePathWithoutHost = contextPath;
-        basePath = removeTrailingSlash(config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides())));
+        if (URLPathUtils.isRelativeUrl(openAPI.getServers())) {
+            basePath = removeTrailingSlash(basePathWithoutHost);
+        } else {
+            basePath = removeTrailingSlash(config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides())));
+        }
     }
 
     private void configureOpenAPIInfo() {
