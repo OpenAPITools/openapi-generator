@@ -336,7 +336,7 @@ body_parameters_to_json() {
         if [[ $((count++)) -gt 0 ]]; then
             body_json+=", "
         fi
-        body_json+="\"${key}\": ${body_parameters[${key}]}"
+        body_json+="\"${key}\": \"${body_parameters[${key}]\"}"
     done
     body_json+="}'"
 
@@ -344,6 +344,29 @@ body_parameters_to_json() {
         echo ""
     else
         echo "${body_json}"
+    fi
+}
+
+##############################################################################
+#
+# Converts an associative array into form urlencoded string
+#
+##############################################################################
+body_parameters_to_form_urlencoded() {
+    local body_form_urlencoded="-d '"
+    local count=0
+    for key in "${!body_parameters[@]}"; do
+        if [[ $((count++)) -gt 0 ]]; then
+            body_form_urlencoded+="&"
+        fi
+        body_form_urlencoded+="${key}=${body_parameters[${key}]}"
+    done
+    body_form_urlencoded+="'"
+
+    if [[ "${#body_parameters[@]}" -eq 0 ]]; then
+        echo ""
+    else
+        echo "${body_data}"
     fi
 }
 
@@ -841,11 +864,21 @@ call_{{operationId}}() {
     fi
 {{/hasBodyParam}}
 {{^hasBodyParam}}
+{{#hasFormParams}}
+    body_form_urlencoded=$(body_parameters_to_form_urlencoded)
+    if [[ "$print_curl" = true ]]; then
+        echo "curl ${body_form_urlencoded} ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    else
+        eval "curl ${body_form_urlencoded} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
+    fi
+{{/hasFormParams}}
+{{^hasFormParams}}
     if [[ "$print_curl" = true ]]; then
         echo "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     else
         eval "curl -d '' ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\""
     fi
+{{/hasFormParams}}
 {{/hasBodyParam}}
 }
 
