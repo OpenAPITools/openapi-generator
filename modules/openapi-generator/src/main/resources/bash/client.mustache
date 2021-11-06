@@ -336,7 +336,7 @@ body_parameters_to_json() {
         if [[ $((count++)) -gt 0 ]]; then
             body_json+=", "
         fi
-        body_json+="\"${key}\": \"${body_parameters[${key}]\"}"
+        body_json+="\"${key}\": ${body_parameters[${key}]}"
     done
     body_json+="}'"
 
@@ -366,7 +366,7 @@ body_parameters_to_form_urlencoded() {
     if [[ "${#body_parameters[@]}" -eq 0 ]]; then
         echo ""
     else
-        echo "${body_data}"
+        echo "${body_form_urlencoded}"
     fi
 }
 
