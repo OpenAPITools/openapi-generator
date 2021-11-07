@@ -769,7 +769,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
         // only process files with php extension
         if ("php".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = phpPostProcessFile + " " + file.toString();
+            String command = phpPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();

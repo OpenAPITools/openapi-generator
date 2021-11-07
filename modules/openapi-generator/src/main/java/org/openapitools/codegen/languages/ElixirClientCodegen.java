@@ -730,7 +730,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             HashSet<String> uniqueResponseTypes = new HashSet<>();
             for (CodegenResponse response : this.responses) {
                 ExtendedCodegenResponse exResponse = (ExtendedCodegenResponse) response;
-                StringBuilder returnEntry = new StringBuilder("");
+                StringBuilder returnEntry = new StringBuilder();
                 if (exResponse.baseType == null) {
                     returnEntry.append("nil");
                 } else if (exResponse.simpleType) {

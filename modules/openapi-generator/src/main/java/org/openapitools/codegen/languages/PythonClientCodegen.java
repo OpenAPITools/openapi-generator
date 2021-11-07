@@ -1235,7 +1235,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             String itemModelName = getModelName(itemSchema);
             if (objExample instanceof Iterable && itemModelName == null) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
-                return fullPrefix + objExample.toString() + closeChars;
+                return fullPrefix + objExample + closeChars;
             }
             Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
             newSeenSchemas.add(schema);

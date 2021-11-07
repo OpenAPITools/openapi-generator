@@ -941,7 +941,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         // only process files with kt extension
         if ("kt".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = kotlinPostProcessFile + " " + file.toString();
+            String command = kotlinPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();

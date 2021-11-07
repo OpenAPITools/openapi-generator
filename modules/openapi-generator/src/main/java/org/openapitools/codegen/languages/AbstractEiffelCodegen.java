@@ -592,7 +592,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     public String toEiffelFeatureStyle(String operationId) {
         if (operationId.startsWith("get_")) {
-            return operationId.substring(4, operationId.length());
+            return operationId.substring(4);
         } else {
             return operationId;
         }

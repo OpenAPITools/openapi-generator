@@ -870,7 +870,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
         // only process files with cr extension
         if ("cr".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = crystalPostProcessFile + " " + file.toString();
+            String command = crystalPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -882,7 +882,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
                         while ((line = br.readLine()) != null) {
                             sb.append(line);
                         }
-                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb.toString());
+                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb);
                     }
                 } else {
                     LOGGER.info("Successfully executed: {}", command);

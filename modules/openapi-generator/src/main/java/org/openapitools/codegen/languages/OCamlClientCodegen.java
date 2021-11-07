@@ -812,7 +812,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
         // only process files with ml or mli extension
         if ("ml".equals(FilenameUtils.getExtension(file.toString())) || "mli".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = ocamlPostProcessFile + " " + file.toString();
+            String command = ocamlPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();

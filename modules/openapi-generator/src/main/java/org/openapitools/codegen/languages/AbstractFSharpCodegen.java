@@ -1115,7 +1115,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // only process files with .fs extension
         if ("fs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = fsharpPostProcessFile + " " + file.toString();
+            String command = fsharpPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();

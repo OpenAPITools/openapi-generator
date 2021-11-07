@@ -1864,7 +1864,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // only process files with java extension
         if ("java".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = javaPostProcessFile + " " + file.toString();
+            String command = javaPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();

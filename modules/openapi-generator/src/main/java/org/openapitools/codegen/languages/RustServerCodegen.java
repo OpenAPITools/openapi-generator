@@ -1087,7 +1087,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean isDataTypeFile(final String dataType) {
-        return dataType != null && dataType.equals(typeMapping.get("File").toString());
+        return dataType != null && dataType.equals(typeMapping.get("File"));
     }
 
     /**
@@ -1176,7 +1176,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
             return datatype;
         } else if (p instanceof FileSchema) {
-            return typeMapping.get("File").toString();
+            return typeMapping.get("File");
         }
 
         return super.getTypeDeclaration(p);
@@ -1674,12 +1674,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 Process p = Runtime.getRuntime().exec(new String[]{commandPrefix, file.toString()});
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file.toString(), exitValue);
+                    LOGGER.error("Error running the command ({} {}). Exit code: {}", commandPrefix, file, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: {} {}", commandPrefix, file.toString());
+                    LOGGER.info("Successfully executed: {} {}", commandPrefix, file);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file.toString(), e.getMessage());
+                LOGGER.error("Error running the command ({} ()). Exception: {}", commandPrefix, file, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }

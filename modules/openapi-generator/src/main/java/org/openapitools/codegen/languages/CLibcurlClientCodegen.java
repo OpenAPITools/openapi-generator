@@ -888,7 +888,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process files with .c or .h extension
         if ("c".equals(FilenameUtils.getExtension(file.toString())) ||
                 "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = cPostProcessFile + " " + file.toString();
+            String command = cPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();

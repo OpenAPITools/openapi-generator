@@ -507,7 +507,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             if (!isFirst) {
                 b.append(" | ");
             }
-            b.append(toEnumValue(value.toString(), dataType));
+            b.append(toEnumValue(value, dataType));
             isFirst = false;
         }
         return b.toString();
@@ -1220,7 +1220,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             String itemModelName = getModelName(itemSchema);
             if (objExample instanceof Iterable && itemModelName == null) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
-                return fullPrefix + objExample.toString() + closeChars;
+                return fullPrefix + objExample + closeChars;
             }
             Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
             newSeenSchemas.add(schema);

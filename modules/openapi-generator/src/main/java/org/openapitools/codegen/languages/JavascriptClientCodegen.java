@@ -1212,7 +1212,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsPostProcessFile + " " + file.toString();
+            String command = jsPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();

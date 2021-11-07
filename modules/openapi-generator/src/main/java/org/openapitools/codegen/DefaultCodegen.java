@@ -1748,7 +1748,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (!param.getRequired()) {
                         paramPart.append("]");
                     }
-                    sb.append(paramPart.toString());
+                    sb.append(paramPart);
                 }
             }
         }
@@ -7171,7 +7171,7 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenProperty> xOf = new ArrayList<>();
         int i = 0;
         for (Schema xOfSchema: xOfCollection) {
-            CodegenProperty cp = fromProperty(collectionName + "_" + String.valueOf(i), xOfSchema);
+            CodegenProperty cp = fromProperty(collectionName + "_" + i, xOfSchema);
             xOf.add(cp);
             i += 1;
         }

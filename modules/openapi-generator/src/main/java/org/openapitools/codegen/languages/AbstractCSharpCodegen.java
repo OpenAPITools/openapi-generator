@@ -1325,7 +1325,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // only process files with .cs extension
         if ("cs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = csharpPostProcessFile + " " + file.toString();
+            String command = csharpPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();

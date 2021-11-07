@@ -1300,14 +1300,14 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             } else if (codegenProperty.isArray && codegenProperty.items.isString) {
                 if (codegenProperty.items.isEnum || (codegenProperty.items.allowableValues != null && !codegenProperty.items.allowableValues.isEmpty())) {
                     example.append(constructEnumExample(codegenProperty.items.allowableValues));
-                    propertyExamples.add("-" + codegenProperty.name + " " + example.toString());
+                    propertyExamples.add("-" + codegenProperty.name + " " + example);
                 } else {
                     StringBuilder stringArrayPropertyValue = new StringBuilder();
                     String genericStringExample = codegenProperty.items.name + "_example";
 
                     stringArrayPropertyValue.append(constructStringExample(codegenProperty.name, codegenProperty.items.example, genericStringExample));
 
-                    propertyExamples.add("-" + codegenProperty.name + " " + stringArrayPropertyValue.toString());
+                    propertyExamples.add("-" + codegenProperty.name + " " + stringArrayPropertyValue);
                 }
             } else if (codegenProperty.isMap && codegenProperty.items.isModel) {
                 String modelExample = constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly);
@@ -1369,7 +1369,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         example.append("\"");
 
         List<Object> enumValues = (List<Object>) allowableValues.get("values");
-        example.append(String.valueOf(enumValues.get(0)));
+        example.append(enumValues.get(0));
 
         example.append("\"");
 
@@ -1474,7 +1474,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         // only process files with ps extension
         if ("ps".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = powershellPostProcessFile + " " + file.toString();
+            String command = powershellPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();

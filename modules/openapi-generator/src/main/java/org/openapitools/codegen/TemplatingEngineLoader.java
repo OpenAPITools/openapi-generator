@@ -42,7 +42,7 @@ public class TemplatingEngineLoader {
             // Attempt to load skipping SPI
             return (TemplatingEngineAdapter) Class.forName(id).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new RuntimeException(String.format(Locale.ROOT, "Couldn't load template engine adapter %s. Available options: %n%s", id, sb.toString()), e);
+            throw new RuntimeException(String.format(Locale.ROOT, "Couldn't load template engine adapter %s. Available options: %n%s", id, sb), e);
         }
     }
 }

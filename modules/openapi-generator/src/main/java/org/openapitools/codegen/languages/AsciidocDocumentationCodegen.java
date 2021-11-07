@@ -89,10 +89,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
             String includeStatement = "include::{" + attributePathReference + "}" + escapeCurlyBrackets(relativeFileName) + "[opts=optional]";
             if (Files.isRegularFile(filePathToInclude)) {
-                LOGGER.debug("including {}. file into markup from: {}", ++includeCount, filePathToInclude.toString());
+                LOGGER.debug("including {}. file into markup from: {}", ++includeCount, filePathToInclude);
                 out.write("\n" + includeStatement + "\n");
             } else {
-                LOGGER.debug("{}. file not found, skip include for: {}", ++notFoundCount, filePathToInclude.toString());
+                LOGGER.debug("{}. file not found, skip include for: {}", ++notFoundCount, filePathToInclude);
                 out.write("\n// markup not found, no " + includeStatement + "\n");
             }
         }
@@ -140,10 +140,10 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
             final Path filePathToLinkTo = Paths.get(basePath, relativeFileName).toAbsolutePath();
 
             if (Files.isRegularFile(filePathToLinkTo)) {
-                LOGGER.debug("linking {}. file into markup from: {}", ++linkedCount, filePathToLinkTo.toString());
+                LOGGER.debug("linking {}. file into markup from: {}", ++linkedCount, filePathToLinkTo);
                 out.write("\n" + linkName + " link:" + relativeFileName + "[]\n");
             } else {
-                LOGGER.debug("{}. file not found, skip link for: {}", ++notFoundLinkCount, filePathToLinkTo.toString());
+                LOGGER.debug("{}. file not found, skip link for: {}", ++notFoundLinkCount, filePathToLinkTo);
                 out.write("\n// file not found, no " + linkName + " link :" + relativeFileName + "[]\n");
             }
         }

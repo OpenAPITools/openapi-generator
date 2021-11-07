@@ -605,8 +605,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         String name = string;
         //Check if it is a reserved word, in which case the underscore is added when property name is generated.
         if (string.startsWith("_")) {
-            if (reservedWords.contains(string.substring(1, string.length()))) {
-                name = string.substring(1, string.length());
+            if (reservedWords.contains(string.substring(1))) {
+                name = string.substring(1);
             } else if (reservedWordsMappings.containsValue(string)) {
                 name = LEADING_UNDERSCORE.matcher(string).replaceFirst("");
             }
@@ -685,7 +685,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = haskellPostProcessFile + " " + file.toString();
+            String command = haskellPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();

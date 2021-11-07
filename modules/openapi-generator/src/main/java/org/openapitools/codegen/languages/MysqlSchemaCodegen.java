@@ -366,7 +366,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
                             "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS.toString(), (String) enumValues.get(i));
+                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
@@ -457,7 +457,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
                             "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS.toString(), (String) enumValues.get(i));
+                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
@@ -601,7 +601,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn(
                             "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS.toString(), (String) enumValues.get(i));
+                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
@@ -1076,7 +1076,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         // identifier name cannot be empty
         if (escapedName.isEmpty()) {
-            throw new RuntimeException("Empty database/table/column name for property '" + name.toString() + "' not allowed");
+            throw new RuntimeException("Empty database/table/column name for property '" + name + "' not allowed");
         }
         return escapedName;
     }
