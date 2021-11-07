@@ -328,7 +328,9 @@ namespace Org.OpenAPITools.Api
 
             if (files != null)
             {
-                localVarRequestOptions.FileParameters.Add("files", files);
+                foreach (var file in files) {
+                    localVarRequestOptions.FileParameters.Add("files", file);
+                }
             }
 
 
@@ -385,7 +387,9 @@ namespace Org.OpenAPITools.Api
 
             if (files != null)
             {
-                localVarRequestOptions.FileParameters.Add("files", files);
+                foreach (var file in files) {
+                    localVarRequestOptions.FileParameters.Add("files", file);
+                }
             }
 
 
