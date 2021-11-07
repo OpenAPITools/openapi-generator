@@ -1687,38 +1687,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    protected void updateRequestBodyForString(CodegenParameter codegenParameter, Schema schema, Set<String> imports, String bodyParameterName) {
-        /**
-         * we have a custom version of this function to set isString to false for isByteArray
-         */
-        updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
-        if (ModelUtils.isByteArraySchema(schema)) {
-            codegenParameter.isByteArray = true;
-            // custom code
-            codegenParameter.setIsString(false);
-        } else if (ModelUtils.isBinarySchema(schema)) {
-            codegenParameter.isBinary = true;
-            codegenParameter.isFile = true; // file = binary in OAS3
-        } else if (ModelUtils.isUUIDSchema(schema)) {
-            codegenParameter.isUuid = true;
-        } else if (ModelUtils.isURISchema(schema)) {
-            codegenParameter.isUri = true;
-        } else if (ModelUtils.isEmailSchema(schema)) {
-            codegenParameter.isEmail = true;
-        } else if (ModelUtils.isDateSchema(schema)) { // date format
-            codegenParameter.setIsString(false); // for backward compatibility with 2.x
-            codegenParameter.isDate = true;
-        } else if (ModelUtils.isDateTimeSchema(schema)) { // date-time format
-            codegenParameter.setIsString(false); // for backward compatibility with 2.x
-            codegenParameter.isDateTime = true;
-        } else if (ModelUtils.isDecimalSchema(schema)) { // type: string, format: number
-            codegenParameter.isDecimal = true;
-            codegenParameter.setIsString(false);
-        }
-        codegenParameter.pattern = toRegularExpression(schema.getPattern());
-    }
-
-    @Override
     protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema){
         /**
          * we have a custom version of this function to set isString to false for uuid

@@ -528,6 +528,17 @@ fail:
     {{classname}}_t *{{classname}}_local_var = NULL;
 
     {{#vars}}
+    {{^isPrimitiveType}}
+    {{#isModel}}
+    {{^isEnum}}
+    // define the local variable for {{{classname}}}->{{{name}}}
+    {{^isFreeFormObject}}{{complexType}}{{/isFreeFormObject}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_t *{{name}}_local_nonprim = NULL;
+
+    {{/isEnum}}
+    {{/isModel}}
+    {{/isPrimitiveType}}
+    {{/vars}}
+    {{#vars}}
     // {{{classname}}}->{{{name}}}
     cJSON *{{{name}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
     {{#required}}
@@ -614,7 +625,6 @@ fail:
     {{{name}}}_local_nonprim_enum = {{datatypeWithEnum}}_parseFromJSON({{{name}}}); //enum model
     {{/isEnum}}
     {{^isEnum}}
-    {{^isFreeFormObject}}{{complexType}}{{/isFreeFormObject}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_t *{{name}}_local_nonprim = NULL;
     {{^required}}if ({{{name}}}) { {{/required}}
     {{{name}}}_local_nonprim = {{complexType}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_parseFromJSON({{{name}}}); //nonprimitive
     {{/isEnum}}

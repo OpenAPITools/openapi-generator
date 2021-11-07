@@ -22,6 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportPython2|support python2. This option has been deprecated and will be removed in the 5.x release.| |false|
+|testsUsePythonSrcRoot|generates test under the pythonSrcRoot folder.| |false|
 |useNose|use the nose test framework| |false|
 |usePythonSrcRootInImports|include pythonSrcRoot in import namespaces.| |false|
 

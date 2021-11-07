@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -13,8 +14,12 @@ import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
 
 /**
  * Pet
