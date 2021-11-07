@@ -471,7 +471,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         // get vendor extensions
 
         Map<String, Object> vendorExt = openAPI.getInfo().getExtensions();
-        if (vendorExt != null && !vendorExt.toString().equals("")) {
+        if (vendorExt != null && !vendorExt.toString().isEmpty()) {
             if (vendorExt.containsKey("x-codegen")) {
 
                 Map<String, String> uris = (Map<String, String>) vendorExt.get("x-codegen");

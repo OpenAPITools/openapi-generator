@@ -392,9 +392,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
             for (String name : cm.imports) {
                 if (name.indexOf(" | ") >= 0) {
                     String[] parts = name.split(" \\| ");
-                    for (String s : parts) {
-                        newImports.add(s);
-                    }
+                    newImports.addAll(Arrays.asList(parts));
                 } else {
                     newImports.add(name);
                 }

@@ -5827,7 +5827,7 @@ public class DefaultCodegen implements CodegenConfig {
                 enumName = String.valueOf(value);
             } else {
                 enumName = value.toString().substring(truncateIdx);
-                if ("".equals(enumName)) {
+                if (enumName.isEmpty()) {
                     enumName = value.toString();
                 }
             }

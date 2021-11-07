@@ -341,7 +341,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("serverHost", url.getHost());
         additionalProperties.put("serverPort", URLPathUtils.getPort(url, serverPort));
 
-        if (packageVersion == null || "".equals(packageVersion)) {
+        if (packageVersion == null || packageVersion.isEmpty()) {
             List<String> versionComponents = new ArrayList<>(Arrays.asList(info.getVersion().split("[.]")));
             if (versionComponents.size() < 1) {
                 versionComponents.add("1");

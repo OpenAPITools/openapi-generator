@@ -472,7 +472,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                             continue;
                         }
 
-                        if(consumesString.toString().equals("")) {
+                        if(consumesString.toString().isEmpty()) {
                             consumesString = new StringBuilder("\"" + consume.get("mediaType") + "\"");
                         }
                         else {
@@ -500,7 +500,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                         }
                     }
 
-                    if(!consumesString.toString().equals("")) {
+                    if(!consumesString.toString().isEmpty()) {
                         operation.vendorExtensions.put("x-aspnetcore-consumes", consumesString.toString());
                     }
                 }

@@ -457,8 +457,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                     List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
                     List<Map<String, Object>> newEnumVars = new ArrayList<>();
                     for (Map<String, String> enumVar : enumVars) {
-                        Map<String, Object> mixedVars = new HashMap<>();
-                        mixedVars.putAll(enumVar);
+                        Map<String, Object> mixedVars = new HashMap<>(enumVar);
 
                         mixedVars.put("isString", isString);
                         mixedVars.put("isLong", isLong);
@@ -473,7 +472,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                     }
                 }
             } else {
-                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
+                LOGGER.warn("Expected to retrieve model {} by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
             }
         }
     }
