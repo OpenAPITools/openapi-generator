@@ -65,7 +65,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
         return tmpl.execute(bundle);
     }
 
-    @SuppressWarnings({"java:S108"}) // catch-all is expected, and is later thrown
+    @SuppressWarnings("java:S108") // catch-all is expected, and is later thrown
     public Reader findTemplate(TemplatingExecutor generator, String name) {
         for (String extension : extensions) {
             final String templateName = name + "." + extension;

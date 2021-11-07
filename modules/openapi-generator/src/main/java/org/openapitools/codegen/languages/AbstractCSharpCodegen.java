@@ -463,7 +463,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      *
      * @param models processed models to be further processed for enum references
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     private void postProcessEnumRefs(final Map<String, Object> models) {
         Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, Object> entry : models.entrySet()) {

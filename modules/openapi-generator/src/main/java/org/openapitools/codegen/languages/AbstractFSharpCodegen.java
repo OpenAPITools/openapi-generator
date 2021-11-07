@@ -349,7 +349,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
      * Output of CodeGen models must therefore be in dependency order (rather than alphabetical order, which seems to be the default).
      * This could probably be made more efficient if absolutely needed.
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessDependencyOrders(final Map<String, Object> objs) {
 
         Map<String, Set<String>> dependencies = new HashMap<>();
@@ -400,7 +400,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
      *
      * @param models processed models to be further processed for enum references
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     private void postProcessEnumRefs(final Map<String, Object> models) {
         Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, Object> entry : models.entrySet()) {

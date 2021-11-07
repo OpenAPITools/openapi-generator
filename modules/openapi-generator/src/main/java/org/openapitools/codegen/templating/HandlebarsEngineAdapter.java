@@ -92,7 +92,7 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         return tmpl.apply(context);
     }
 
-    @SuppressWarnings({"java:S108"})
+    @SuppressWarnings("java:S108")
     public TemplateSource findTemplate(TemplatingExecutor generator, String templateFile) {
         String[] possibilities = getModifiedFileLocation(templateFile);
         for (String file : possibilities) {

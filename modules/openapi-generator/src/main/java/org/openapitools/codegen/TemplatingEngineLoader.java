@@ -26,7 +26,7 @@ public class TemplatingEngineLoader {
         throw new IllegalStateException("Utility class");
     }
 
-    @SuppressWarnings({"java:S112"}) // ignore java:S112 as generic RuntimeException is acceptable here
+    @SuppressWarnings("java:S112") // ignore java:S112 as generic RuntimeException is acceptable here
     public static TemplatingEngineAdapter byIdentifier(String id) {
         ServiceLoader<TemplatingEngineAdapter> loader = ServiceLoader.load(TemplatingEngineAdapter.class, TemplatingEngineLoader.class.getClassLoader());
 
