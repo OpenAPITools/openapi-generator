@@ -54,7 +54,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "htmlDocs";
 
-        defaultIncludes = new HashSet<String>();
+        defaultIncludes = new HashSet<>();
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
         cliOptions.add(new CliOption("appDescription", "description of the application"));
@@ -79,10 +79,10 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.html"));
-        reservedWords = new HashSet<String>();
+        reservedWords = new HashSet<>();
 
-        languageSpecificPrimitives = new HashSet<String>();
-        importMapping = new HashMap<String, String>();
+        languageSpecificPrimitives = new HashSet<>();
+        importMapping = new HashMap<>();
     }
 
     /**

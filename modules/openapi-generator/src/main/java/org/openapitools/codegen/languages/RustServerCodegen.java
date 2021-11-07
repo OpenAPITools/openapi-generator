@@ -53,7 +53,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
 
-    private HashMap<String, String> modelXmlNames = new HashMap<String, String>();
+    private Map<String, String> modelXmlNames = new HashMap<String, String>();
 
     private static final String NO_FORMAT = "%%NO_FORMAT";
 
@@ -160,13 +160,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "char",
@@ -1314,7 +1314,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         // If we have callbacks, add the callbacks module, otherwise remove it
         boolean hasCallbacks = haveCallbacks(bundle);
         bundle.put("hasCallbacks", hasCallbacks);
-        SupportingFile[] callbackFiles = new SupportingFile[]{
+        SupportingFile[] callbackFiles = {
                 new SupportingFile("client-callbacks.mustache", "src/client", "callbacks.rs"),
                 new SupportingFile("server-callbacks.mustache", "src/server", "callbacks.rs"),
                 new SupportingFile("example-client-server.mustache", "examples/client", "server.rs")

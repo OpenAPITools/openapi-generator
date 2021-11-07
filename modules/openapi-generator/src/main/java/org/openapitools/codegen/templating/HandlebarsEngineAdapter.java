@@ -42,10 +42,10 @@ import java.util.Map;
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
      final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
-    private final String[] extensions = new String[]{"handlebars", "hbs"};
+    private final String[] extensions = {"handlebars", "hbs"};
 
     // We use this as a simple lookup for valid file name extensions. This adapter will inspect .mustache (built-in) and infer the relevant handlebars filename
-    private final String[] canCompileFromExtensions = new String[]{".handlebars",".hbs",".mustache"};
+    private final String[] canCompileFromExtensions = {".handlebars",".hbs",".mustache"};
     private boolean infiniteLoops = false;
     private boolean prettyPrint = false;
 

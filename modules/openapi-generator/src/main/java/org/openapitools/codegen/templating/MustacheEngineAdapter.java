@@ -43,7 +43,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
         return "mustache";
     }
 
-    private final String[] extensions = new String[]{"mustache"};
+    private final String[] extensions = {"mustache"};
     Mustache.Compiler compiler = Mustache.compiler();
 
     /**

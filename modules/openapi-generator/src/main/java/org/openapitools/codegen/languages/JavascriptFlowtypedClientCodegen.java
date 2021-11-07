@@ -64,7 +64,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
                 "Math", "NaN", "Number", "Object",
                 "prototype", "String", "toString", "undefined", "valueOf"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("string", "boolean", "number", "Array", "Object", "Date", "File", "Blob")
         );
 
@@ -95,7 +95,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
 
-        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
+        defaultIncludes = new HashSet<>(languageSpecificPrimitives);
         outputFolder = "generated-code/javascript-flowtyped";
         embeddedTemplateDir = templateDir = "Javascript-Flowtyped";
 
