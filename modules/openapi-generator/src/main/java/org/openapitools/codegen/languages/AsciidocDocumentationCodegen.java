@@ -325,7 +325,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     public void processOpts() {
         super.processOpts();
 
-        String specDir = this.additionalProperties.get(SPEC_DIR) + "";
+        String specDir = String.valueOf(this.additionalProperties.get(SPEC_DIR));
         if (!Files.isDirectory(Paths.get(specDir))) {
             LOGGER.warn("base part for include markup lambda not found: {} as {}", specDir, Paths.get(specDir).toAbsolutePath());
         }
@@ -333,7 +333,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         this.includeSpecMarkupLambda = new IncludeMarkupLambda(SPEC_DIR,specDir);
         additionalProperties.put("specinclude", this.includeSpecMarkupLambda);
 
-        String snippetDir = this.additionalProperties.get(SNIPPET_DIR) + "";
+        String snippetDir = String.valueOf(this.additionalProperties.get(SNIPPET_DIR));
         if (!Files.isDirectory(Paths.get(snippetDir))) {
             LOGGER.warn("base part for include markup lambda not found: {} as {}", snippetDir, Paths.get(snippetDir).toAbsolutePath());
         }

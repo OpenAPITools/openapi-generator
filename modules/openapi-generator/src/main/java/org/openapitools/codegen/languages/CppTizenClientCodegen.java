@@ -175,7 +175,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         if (languageSpecificPrimitives.contains(name)) {
             return name;
         } else {
-            return name + "";
+            return name;
         }
     }
 
@@ -200,7 +200,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         if (languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         } else {
-            return openAPIType + "";
+            return openAPIType;
         }
     }
 
@@ -295,7 +295,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         if (isReservedWord(paramName)) {
             return escapeReservedWord(paramName);
         }
-        return "" + paramName;
+        return paramName;
     }
 
     @Override

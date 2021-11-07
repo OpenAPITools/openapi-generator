@@ -257,7 +257,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         if (languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         } else {
-            return openAPIType + "";
+            return openAPIType;
         }
     }
 
@@ -314,7 +314,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         if (isReservedWord(paramName)) {
             return escapeReservedWord(paramName);
         }
-        return "" + paramName;
+        return paramName;
     }
 
     @Override
