@@ -10,16 +10,13 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
-<<<<<<< HEAD
 
 import java.util.*;
 
-=======
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
->>>>>>> be1ba96d0a1... fix: #1466 additionalProperties works now in spring generator
 /**
  * AdditionalPropertiesArray
  */

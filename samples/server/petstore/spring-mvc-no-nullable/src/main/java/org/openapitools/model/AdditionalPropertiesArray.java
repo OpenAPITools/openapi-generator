@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
-<<<<<<< HEAD
-import java.util.Map;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -16,15 +14,10 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-=======
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
->>>>>>> be1ba96d0a1... fix: #1466 additionalProperties works now in spring generator
 /**
  * AdditionalPropertiesArray
  */
