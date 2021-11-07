@@ -1185,10 +1185,10 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             if (codegenParameter.items.isModel) {
                 String modelExample = constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
-                    example.append(modelExample + "\n");
+                    example.append(modelExample).append("\n");
                 }
 
-                example.append("$" + codegenParameter.paramName + " = @{ key_example = $" + codegenParameter.items.dataType + " }");
+                example.append("$").append(codegenParameter.paramName).append(" = @{ key_example = $").append(codegenParameter.items.dataType).append(" }");
             } else {
                 example.append("@{ key_example = ");
                 example.append(constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly));
@@ -1280,7 +1280,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             if (codegenProperty.isModel) {
                 String modelExample = constructExampleCode(codegenProperty, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
-                    example.append(modelExample + "\n");
+                    example.append(modelExample).append("\n");
                 }
 
                 propertyExamples.add("-" + codegenProperty.name + " " + "$" + codegenProperty.dataType);
@@ -1293,7 +1293,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 }
 
                 if (!StringUtils.isEmpty(modelExample)) {
-                    example.append(modelExample + "\n");
+                    example.append(modelExample).append("\n");
                 }
 
                 propertyExamples.add("-" + codegenProperty.name + " " + "$" + codegenProperty.complexType);
@@ -1312,7 +1312,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             } else if (codegenProperty.isMap && codegenProperty.items.isModel) {
                 String modelExample = constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
-                    example.append(modelExample + "\n");
+                    example.append(modelExample).append("\n");
                 }
 
                 propertyExamples.add("-" + codegenProperty.name + " " + "@{ key_example = " + "$" + codegenProperty.complexType + " }");
@@ -1327,7 +1327,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         } else {
             example.append(codegenModel.name);
         }
-        example.append(" = " + this.modelsCmdletVerb + "-");
+        example.append(" = ").append(this.modelsCmdletVerb).append("-");
         if (this.useClassNameInModelsExamples) {
             example.append(codegenModel.classname);
         } else {
@@ -1353,7 +1353,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             codegenExample.equals("null") ||
             codegenExample.equals(genericStringExample)
         ) {
-            example.append("My" + codegenName);
+            example.append("My").append(codegenName);
         } else {
             example.append(codegenExample);
         }
