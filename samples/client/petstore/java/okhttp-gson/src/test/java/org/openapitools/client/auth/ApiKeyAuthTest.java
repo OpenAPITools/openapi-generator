@@ -1,14 +1,13 @@
 package org.openapitools.client.auth;
 
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.List;
-
-import org.openapitools.client.Pair;
-import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.junit.*;
+import org.openapitools.client.Pair;
 
 public class ApiKeyAuthTest {
     @Test

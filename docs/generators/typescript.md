@@ -90,6 +90,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>float</li>
 <li>for</li>
 <li>formParams</li>
+<li>from</li>
 <li>function</li>
 <li>goto</li>
 <li>headerParams</li>
