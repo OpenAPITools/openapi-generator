@@ -520,7 +520,14 @@ public class CodegenConfigurator {
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
-        SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
+
+        SwaggerParseResult result = new SwaggerParseResult();
+        try{
+            result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
+        } catch (NullPointerException e) {
+            System.err.println("[error] There is an error parsing the input spec file: " + inputSpec);
+            System.err.println("[error] Please make sure the spec file has correct format and all required fields are populated.");
+        }
 
         // TODO: Move custom validations to a separate type as part of a "Workflow"
         Set<String> validationMessages = new HashSet<>(null != result.getMessages() ? result.getMessages() : new ArrayList<>());
