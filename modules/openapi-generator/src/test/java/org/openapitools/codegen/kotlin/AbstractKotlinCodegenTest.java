@@ -1,10 +1,20 @@
 package org.openapitools.codegen.kotlin;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
+import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE;
+import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
+import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original;
+import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.snake_case;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.io.File;
+import java.util.Collections;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
@@ -13,20 +23,23 @@ import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
-import static org.testng.Assert.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 
 public class AbstractKotlinCodegenTest {
 
-    private final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
+    private AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
+
+    @BeforeTest
+    public void setUp() {
+        codegen = new P_AbstractKotlinCodegen();
+    }
 
     @Test
     public void camlCaseEnumConverter() {
@@ -75,6 +88,55 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("5", "kotlin.Float"), "5f");
         assertEquals(codegen.toEnumValue("1.0", "kotlin.Float"), "1.0f");
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
+    }
+
+    @Test
+    public void defaultModelPropertyNameConverter() {
+        codegen.processOpts();
+        assertEquals(codegen.toParamName("camelCaseParamName"), "camelCaseParamName");
+        assertEquals(codegen.toParamName("PascalCaseParamName"), "pascalCaseParamName");
+        assertEquals(codegen.toParamName("snake_case_param_name"), "snakeCaseParamName");
+        assertEquals(codegen.toParamName("mixed_paramName"), "mixedParamName");
+    }
+
+    @Test
+    public void camelCaseModelPropertyNameConverter() {
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase.name());
+        codegen.processOpts();
+        assertEquals(codegen.toParamName("camelCaseParamName"), "camelCaseParamName");
+        assertEquals(codegen.toParamName("PascalCaseParamName"), "pascalCaseParamName");
+        assertEquals(codegen.toParamName("snake_case_param_name"), "snakeCaseParamName");
+        assertEquals(codegen.toParamName("mixed_paramName"), "mixedParamName");
+    }
+
+    @Test
+    public void originalModelPropertyNameConverter() {
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.original.name());
+        codegen.processOpts();
+        assertEquals(codegen.toParamName("camelCaseParamName"), "camelCaseParamName");
+        assertEquals(codegen.toParamName("PascalCaseParamName"), "PascalCaseParamName");
+        assertEquals(codegen.toParamName("snake_case_param_name"), "snake_case_param_name");
+        assertEquals(codegen.toParamName("mixed_paramName"), "mixed_paramName");
+    }
+
+    @Test
+    public void snakeCaseModelPropertyNameConverter() {
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.snake_case.name());
+        codegen.processOpts();
+        assertEquals(codegen.toParamName("camelCaseParamName"), "camel_case_param_name");
+        assertEquals(codegen.toParamName("PascalCaseParamName"), "pascal_case_param_name");
+        assertEquals(codegen.toParamName("snake_case_param_name"), "snake_case_param_name");
+        assertEquals(codegen.toParamName("mixed_paramName"), "mixed_param_name");
+    }
+
+    @Test
+    public void pascalCaseModelPropertyNameConverter() {
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name());
+        codegen.processOpts();
+        assertEquals(codegen.toParamName("camelCaseParamName"), "CamelCaseParamName");
+        assertEquals(codegen.toParamName("PascalCaseParamName"), "PascalCaseParamName");
+        assertEquals(codegen.toParamName("snake_case_param_name"), "SnakeCaseParamName");
+        assertEquals(codegen.toParamName("mixed_paramName"), "MixedParamName");
     }
 
     private static class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
@@ -158,7 +220,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setOutputDir("/User/open/api/tools");
         codegen.setSourceFolder("src/folder");
         codegen.setApiPackage("org.openapitools.codegen.api");
-        Assert.assertEquals(codegen.apiFileFolder(), "/User/open/api/tools/src/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+        assertEquals(codegen.apiFileFolder(), "/User/open/api/tools/src/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
     }
 
     @Test
@@ -166,7 +228,7 @@ public class AbstractKotlinCodegenTest {
         codegen.setOutputDir("/User/open/api/tools");
         codegen.setTestFolder("test/folder");
         codegen.setApiPackage("org.openapitools.codegen.api");
-        Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open/api/tools/test/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+        assertEquals(codegen.apiTestFileFolder(), "/User/open/api/tools/test/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
     }
 
     @Test
@@ -237,14 +299,14 @@ public class AbstractKotlinCodegenTest {
         Map<String, CodegenProperty> allVarsMap = pm.allVars.stream()
                 .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
         for (CodegenProperty p : pm.requiredVars) {
-            Assert.assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
+            assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
         }
         Assert.assertEqualsNoOrder(
             pm.requiredVars.stream().map(CodegenProperty::getBaseName).toArray(),
             new String[] {"a", "c"}
         );
         for (CodegenProperty p : pm.optionalVars) {
-            Assert.assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
+            assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
         }
         Assert.assertEqualsNoOrder(
             pm.optionalVars.stream().map(CodegenProperty::getBaseName).toArray(),
@@ -261,15 +323,15 @@ public class AbstractKotlinCodegenTest {
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
 
         // Make sure we got the container object.
-        Assert.assertEquals(cm1.getDataType(), "kotlin.Any");
-        Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "MyResponse");
+        assertEquals(cm1.getDataType(), "kotlin.Any");
+        assertEquals(codegen.getTypeDeclaration("MyResponse"), "MyResponse");
 
         // We need to postProcess the model for enums to be processed
         codegen.postProcessModels(Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm1))));
 
         // Assert the enum default value is properly generated
         CodegenProperty cp1 = cm1.vars.get(0);
-        Assert.assertEquals(cp1.getEnumName(), "PropertyName");
-        Assert.assertEquals(cp1.getDefaultValue(), "PropertyName.vALUE");
+        assertEquals(cp1.getEnumName(), "PropertyName");
+        assertEquals(cp1.getDefaultValue(), "PropertyName.vALUE");
     }
 }

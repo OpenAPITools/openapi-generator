@@ -66,6 +66,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected boolean nonPublicApi = false;
 
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
+    protected CodegenConstants.MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase;
     protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
 
     // model classes cannot use the same property names defined in HashMap
@@ -238,6 +239,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC);
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
+
+        CliOption modelPropertyNamingOpt = new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC);
+        cliOptions.add(modelPropertyNamingOpt.defaultValue(modelPropertyNaming.name()));
 
         CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
@@ -417,6 +421,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
+            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
@@ -903,9 +911,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             name = escape(name, specialCharReplacements, allowedCharacters, "_");
         }
 
-        // camelize (lower first character) the variable name
-        // pet_id => petId
-        name = camelize(name, true);
+        name = getNameUsingModelPropertyNaming(name);
 
         // for reserved word or word starting with number or containing dollar symbol, escape it
         if (isReservedWord(name) || name.matches("(^\\d.*)|(.*[$].*)")) {
@@ -1014,5 +1020,35 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         return null;
+    }
+
+	private CodegenConstants.MODEL_PROPERTY_NAMING_TYPE getModelPropertyNaming() {
+		return this.modelPropertyNaming;
+	}
+
+	public void setModelPropertyNaming(final String modelPropertyNamingType) {
+		try {
+			this.modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(modelPropertyNamingType);
+		} catch (IllegalArgumentException ex) {
+			StringBuilder sb = new StringBuilder(modelPropertyNamingType + " is an invalid model property naming option. Please choose from:");
+			for (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE t : CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.values()) {
+				sb.append("\n  ").append(t.name());
+			}
+			throw new RuntimeException(sb.toString());
+		}
+	}
+
+    private String getNameUsingModelPropertyNaming(String name) {
+		switch (getModelPropertyNaming()) {
+		case original:
+			return name;
+        default:
+		case camelCase:
+			return camelize(name, true);
+		case PascalCase:
+			return camelize(name);
+		case snake_case:
+			return underscore(name);
+		}
     }
 }
