@@ -42,7 +42,7 @@ public class AbstractKotlinCodegenTest {
     }
 
     @Test
-    public void camlCaseEnumConverter() {
+    public void camelCaseEnumConverter() {
         codegen.setEnumPropertyNaming(camelCase.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "longName");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1longName");
