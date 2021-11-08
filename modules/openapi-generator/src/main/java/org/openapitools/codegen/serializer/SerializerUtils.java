@@ -9,14 +9,18 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
+import org.apache.commons.lang3.time.DateUtils;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.text.ParseException;
 
 public class SerializerUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(SerializerUtils.class);
     private static final String YAML_MINIMIZE_QUOTES_PROPERTY = "org.openapitools.codegen.utils.yaml.minimize.quotes";
     private static final boolean minimizeYamlQuotes = Boolean.parseBoolean(GlobalSettings.getProperty(YAML_MINIMIZE_QUOTES_PROPERTY, "true"));
+    private static final String[] parsePatterns = {"yyyy-MM-dd HH:mm:ss","yyyy-MM-dd HH:mm","yyyy-MM-dd", "yyyy/MM/dd HH:mm:ss","yyyy/MM/dd HH:mm","yyyy/MM/dd HH:mm","yyyy/MM/dd"};
 
     public static String toYamlString(OpenAPI openAPI) {
         if (openAPI == null) {
@@ -28,7 +32,9 @@ public class SerializerUtils {
             // there is an unfortunate YAML condition where user inputs should be treated as strings (e.g. "1234_1234"), but in yaml this is a valid number and
             // removing quotes forcibly by default means we are potentially doing a data conversion resulting in an unexpected change to the user's YAML outputs.
             // We may allow for property-based enable/disable, retaining the default of enabled for backward compatibility.
-            if (minimizeYamlQuotes) {
+            if(openAPI.toString().contains("type: string") && checkValiedTime(openAPI.toString())) {
+                ((YAMLFactory) yamlMapper.getFactory()).disable(YAMLGenerator.Feature.MINIMIZE_QUOTES);
+            }else if (minimizeYamlQuotes) {
                 ((YAMLFactory) yamlMapper.getFactory()).enable(YAMLGenerator.Feature.MINIMIZE_QUOTES);
             } else {
                 ((YAMLFactory) yamlMapper.getFactory()).disable(YAMLGenerator.Feature.MINIMIZE_QUOTES);
@@ -43,6 +49,63 @@ public class SerializerUtils {
         return null;
     }
 
+    private static int countFrontSpace(String s){
+        int count = 0;
+        for(char c : s.toCharArray()){
+            if(c == ' ') count++;
+            else return count;
+        }
+        return (int)Integer.MAX_VALUE;
+    }
+    //check yaml contains data type value and also contains type:String
+    private static boolean checkValiedTime(String string){
+        String[] strings = string.split("\n");
+        boolean typeString ;
+        boolean dateForm ;
+
+        for(int i = 0; i < strings.length; i++){
+            String st = strings[i];
+            if(st.contains("Schema") || st.contains("schema") ){
+                int space = countFrontSpace(st);
+                dateForm = false;
+                typeString = false;
+                String st2 = strings[++i];
+                while( countFrontSpace(st2) > space) {
+                    st2 = strings[i];  i++;
+                    dateForm = dateForm || checkDateForm(st2);
+                    typeString = typeString || checkTypeString(st2);
+                    if (typeString && dateForm) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    // check String include date time value
+    private static boolean checkDateForm(String st){
+        String[] lines = st.split(":",2);
+
+        if(lines.length < 2 || lines[1] == null || lines[1].length() == 0){
+            return false;
+        }
+        try{
+            DateUtils.parseDate(lines[1].trim(),parsePatterns);
+            return true;
+        }catch(ParseException e){
+            return false;
+        }
+    }
+
+    // check type as "String" or "string"
+    private static boolean checkTypeString(String st){
+        String[] lines = st.split(":");
+
+        if(lines.length < 2 || lines[1] == null || lines[1].length() == 0){
+            return false;
+        }
+        return lines[1].trim().equals("string") || lines[1].trim().equals("String");
+    }
     public static String toJsonString(OpenAPI openAPI) {
         if (openAPI == null) {
             return null;
