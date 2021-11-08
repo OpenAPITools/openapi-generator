@@ -24,6 +24,8 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
+import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,8 +67,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     protected boolean nonPublicApi = false;
 
-    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
-    protected CodegenConstants.MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase;
+    protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.camelCase;
+    protected MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.camelCase;
     protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
 
     // model classes cannot use the same property names defined in HashMap
@@ -286,7 +288,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
-    public CodegenConstants.ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
+    public ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
         return this.enumPropertyNaming;
     }
 
@@ -297,18 +299,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     /**
      * Sets the naming convention for Kotlin enum properties
      *
-     * @param enumPropertyNamingType The string representation of the naming convention, as defined by {@link org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE}
+     * @param enumPropertyNamingType The string representation of the naming convention, as defined by {@link ENUM_PROPERTY_NAMING_TYPE}
      */
     public void setEnumPropertyNaming(final String enumPropertyNamingType) {
-        try {
-            this.enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(enumPropertyNamingType);
-        } catch (IllegalArgumentException ex) {
-            StringBuilder sb = new StringBuilder(enumPropertyNamingType + " is an invalid enum property naming option. Please choose from:");
-            for (CodegenConstants.ENUM_PROPERTY_NAMING_TYPE t : CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.values()) {
-                sb.append("\n  ").append(t.name());
-            }
-            throw new RuntimeException(sb.toString());
-        }
+		this.enumPropertyNaming = parseEnumValue(ENUM_PROPERTY_NAMING_TYPE.class, enumPropertyNamingType, "enum property naming");
     }
 
     /**
@@ -318,15 +312,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      *                                 {@link org.openapitools.codegen.languages.AbstractKotlinCodegen.SERIALIZATION_LIBRARY_TYPE}
      */
     public void setSerializationLibrary(final String enumSerializationLibrary) {
-        try {
-            this.serializationLibrary = SERIALIZATION_LIBRARY_TYPE.valueOf(enumSerializationLibrary);
-        } catch (IllegalArgumentException ex) {
-            StringBuilder sb = new StringBuilder(enumSerializationLibrary + " is an invalid enum property naming option. Please choose from:");
-            for (SERIALIZATION_LIBRARY_TYPE t : SERIALIZATION_LIBRARY_TYPE.values()) {
-                sb.append("\n  ").append(t.name());
-            }
-            throw new RuntimeException(sb.toString());
-        }
+		this.serializationLibrary = parseEnumValue(SERIALIZATION_LIBRARY_TYPE.class, enumSerializationLibrary, "serialization library");
     }
 
     /**
@@ -1022,20 +1008,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         return null;
     }
 
-	private CodegenConstants.MODEL_PROPERTY_NAMING_TYPE getModelPropertyNaming() {
+	private MODEL_PROPERTY_NAMING_TYPE getModelPropertyNaming() {
 		return this.modelPropertyNaming;
 	}
 
 	public void setModelPropertyNaming(final String modelPropertyNamingType) {
-		try {
-			this.modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(modelPropertyNamingType);
-		} catch (IllegalArgumentException ex) {
-			StringBuilder sb = new StringBuilder(modelPropertyNamingType + " is an invalid model property naming option. Please choose from:");
-			for (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE t : CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.values()) {
-				sb.append("\n  ").append(t.name());
-			}
-			throw new RuntimeException(sb.toString());
-		}
+		this.modelPropertyNaming = parseEnumValue(MODEL_PROPERTY_NAMING_TYPE.class, modelPropertyNamingType, "model property naming");
 	}
 
     private String getNameUsingModelPropertyNaming(String name) {
@@ -1051,4 +1029,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 			return underscore(name);
 		}
     }
+
+	private <T extends Enum<T>> T parseEnumValue(Class<T> enumType, String enumValueAsString, String description) {
+		try {
+			return Enum.valueOf(enumType, enumValueAsString);
+		} catch (IllegalArgumentException exception) {
+			StringBuilder sb = new StringBuilder(String.format("%s is an invalid %s option. Please choose from:", enumValueAsString, description));
+			for (T t : enumType.getEnumConstants()) {
+				sb.append("\n  ").append(t.name());
+			}
+			throw new RuntimeException(sb.toString());
+		}
+	}
 }
