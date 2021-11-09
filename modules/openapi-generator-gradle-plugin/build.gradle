@@ -210,4 +210,4 @@ javadoc {
     }
 }
 
-publishToSonatype.dependsOn 'check'
+publish.dependsOn 'check'
