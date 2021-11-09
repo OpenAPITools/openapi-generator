@@ -640,7 +640,6 @@ components:
           nullable: true
           type: string
         nullableWithNullDefault:
-          default: "null"
           nullable: true
           type: string
         nullableWithPresentDefault:
