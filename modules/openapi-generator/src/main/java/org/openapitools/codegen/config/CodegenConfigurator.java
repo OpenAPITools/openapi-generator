@@ -542,9 +542,7 @@ public class CodegenConfigurator {
             Set<String> warnings = new HashSet<>();
             if (specification != null) {
                 List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
-                if (unusedModels != null) {
-                    unusedModels.forEach(name -> warnings.add("Unused model: " + name));
-                }
+                unusedModels.forEach(name -> warnings.add("Unused model: " + name));
             }
 
             if (workflowSettings.isValidateSpec()) {

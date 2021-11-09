@@ -575,7 +575,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 basePath = basePath.substring(0, pos);
             }
 
-            if ("".equals(basePath)) {
+            if (basePath.isEmpty()) {
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();

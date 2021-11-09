@@ -38,6 +38,9 @@ $ echo '<body_content>' | petstore-cli --host <hostname> --content-type json <op
 # }
 $ echo '<body_content>' | petstore-cli --host <hostname> --content-type json <operationId> key1==value1 key2=value2 key3:=23 -
 
+# Make POST request with form data
+$ petstore-cli --host <hostname> <operationId> key1:=value1 key2:=value2 key3:=23
+
 # Preview the cURL command without actually executing it
 $ petstore-cli --host http://<hostname>:<port> --dry-run <operationid>
 
