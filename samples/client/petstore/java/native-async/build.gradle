@@ -6,18 +6,16 @@ version = '1.0.0'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
-        jcenter()
+        mavenCentral()
     }
 }
 
 repositories {
-    maven { url "https://repo1.maven.org/maven2" }
-    jcenter()
+    mavenCentral()
 }
 
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -33,9 +31,12 @@ javadoc {
     options.encoding = 'UTF-8'
 }
 
-install {
-    repositories.mavenInstaller {
-        pom.artifactId = 'petstore-native'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'petstore-native'
+            from components.java
+        }
     }
 }
 

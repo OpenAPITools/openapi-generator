@@ -50,7 +50,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     protected List<Map<String, Object>> orderedModels;
     protected final Map<String, List<String>> modelDepends;
     protected final Map<String, String> nullableTypeMapping;
-    protected final HashMap<String, String> operationsScopes;
+    protected final Map<String, String> operationsScopes;
     protected int scopeIndex = 0;
 
     public AbstractAdaCodegen() {
@@ -155,7 +155,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         "xor")
         );
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("date", "Swagger.Date");
         typeMapping.put("DateTime", "Swagger.Datetime");
         typeMapping.put("string", "Swagger.UString");
@@ -172,7 +172,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("binary", "Swagger.Binary");
 
         // Mapping to convert an Ada required type to an optional type (nullable).
-        nullableTypeMapping = new HashMap<String, String>();
+        nullableTypeMapping = new HashMap<>();
         nullableTypeMapping.put("Swagger.Date", "Swagger.Nullable_Date");
         nullableTypeMapping.put("Swagger.Datetime", "Swagger.Nullable_Date");
         nullableTypeMapping.put("Swagger.UString", "Swagger.Nullable_UString");
@@ -181,10 +181,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         nullableTypeMapping.put("Boolean", "Swagger.Nullable_Boolean");
         nullableTypeMapping.put("Swagger.Object", "Swagger.Object");
 
-        modelDepends = new HashMap<String, List<String>>();
-        orderedModels = new ArrayList<Map<String, Object>>();
-        operationsScopes = new HashMap<String, String>();
-        super.importMapping = new HashMap<String, String>();
+        modelDepends = new HashMap<>();
+        orderedModels = new ArrayList<>();
+        operationsScopes = new HashMap<>();
+        super.importMapping = new HashMap<>();
 
         // CLI options
         addOption(CodegenConstants.PROJECT_NAME, "GNAT project name",
@@ -193,7 +193,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         modelNameSuffix = "Type";
         embeddedTemplateDir = templateDir = "Ada";
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("integer", "boolean", "number", "long", "float",
                         "double", "object", "string", "date", "DateTime", "binary"));
     }
@@ -651,7 +651,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             Object v = model.get("model");
             if (v instanceof CodegenModel) {
                 CodegenModel m = (CodegenModel) v;
-                List<String> d = new ArrayList<String>();
+                List<String> d = new ArrayList<>();
                 for (CodegenProperty p : m.vars) {
                     boolean isModel = false;
                     CodegenProperty item = p;
@@ -687,8 +687,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         //     if I find a model that has no dependencies, or all of its dependencies are in revisedOrderedModels, consider it the independentModel
         //   put the independentModel at the end of revisedOrderedModels, and remove it from orderedModels
         //
-        List<Map<String, Object>> revisedOrderedModels = new ArrayList<Map<String, Object>>();
-        List<String> collectedModelNames = new ArrayList<String>();
+        List<Map<String, Object>> revisedOrderedModels = new ArrayList<>();
+        List<String> collectedModelNames = new ArrayList<>();
         int sizeOrderedModels = orderedModels.size();
         for (int i = 0; i < sizeOrderedModels; i++) {
             Map<String, Object> independentModel = null;
@@ -760,7 +760,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
      * @return the authMethods to be used by the operation with its required scopes.
      */
     private List<CodegenSecurity> postProcessAuthMethod(List<CodegenSecurity> authMethods, Map<String, List<String>> scopes) {
-        List<CodegenSecurity> result = (scopes == null) ? null : new ArrayList<CodegenSecurity>();
+        List<CodegenSecurity> result = (scopes == null) ? null : new ArrayList<>();
         if (authMethods != null) {
             for (CodegenSecurity authMethod : authMethods) {
                 if (authMethod.scopes != null) {
@@ -803,7 +803,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     opSecurity.isKeyInQuery = authMethod.isKeyInQuery;
                     opSecurity.flow = authMethod.flow;
                     opSecurity.tokenUrl = authMethod.tokenUrl;
-                    List<Map<String, Object>> opAuthScopes = new ArrayList<Map<String, Object>>();
+                    List<Map<String, Object>> opAuthScopes = new ArrayList<>();
                     for (String opScopeName : opScopes) {
                         for (Map<String, Object> scope : authMethod.scopes) {
                             String name = (String) scope.get("scope");

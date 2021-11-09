@@ -1,17 +1,12 @@
 package org.openapitools.client;
 
-import okhttp3.OkHttpClient;
-import org.openapitools.client.auth.*;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.TimeZone;
-
-import org.junit.*;
-import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
+import java.util.*;
+import okhttp3.OkHttpClient;
+import org.junit.*;
+import org.openapitools.client.auth.*;
 
 public class ApiClientTest {
     ApiClient apiClient;
@@ -54,16 +49,16 @@ public class ApiClientTest {
         String[] accepts = {"application/json", "application/xml"};
         assertEquals("application/json", apiClient.selectHeaderAccept(accepts));
 
-        accepts = new String[]{"APPLICATION/XML", "APPLICATION/JSON"};
+        accepts = new String[] {"APPLICATION/XML", "APPLICATION/JSON"};
         assertEquals("APPLICATION/JSON", apiClient.selectHeaderAccept(accepts));
 
-        accepts = new String[]{"application/xml", "application/json; charset=UTF8"};
+        accepts = new String[] {"application/xml", "application/json; charset=UTF8"};
         assertEquals("application/json; charset=UTF8", apiClient.selectHeaderAccept(accepts));
 
-        accepts = new String[]{"text/plain", "application/xml"};
+        accepts = new String[] {"text/plain", "application/xml"};
         assertEquals("text/plain,application/xml", apiClient.selectHeaderAccept(accepts));
 
-        accepts = new String[]{};
+        accepts = new String[] {};
         assertNull(apiClient.selectHeaderAccept(accepts));
     }
 
@@ -72,17 +67,18 @@ public class ApiClientTest {
         String[] contentTypes = {"application/json", "application/xml"};
         assertEquals("application/json", apiClient.selectHeaderContentType(contentTypes));
 
-        contentTypes = new String[]{"APPLICATION/JSON", "APPLICATION/XML"};
+        contentTypes = new String[] {"APPLICATION/JSON", "APPLICATION/XML"};
         assertEquals("APPLICATION/JSON", apiClient.selectHeaderContentType(contentTypes));
 
-        contentTypes = new String[]{"application/xml", "application/json; charset=UTF8"};
-        assertEquals("application/json; charset=UTF8", apiClient.selectHeaderContentType(contentTypes));
+        contentTypes = new String[] {"application/xml", "application/json; charset=UTF8"};
+        assertEquals(
+                "application/json; charset=UTF8", apiClient.selectHeaderContentType(contentTypes));
 
-        contentTypes = new String[]{"text/plain", "application/xml"};
+        contentTypes = new String[] {"text/plain", "application/xml"};
         assertEquals("text/plain", apiClient.selectHeaderContentType(contentTypes));
 
-        contentTypes = new String[]{};
-        assertEquals("application/json", apiClient.selectHeaderContentType(contentTypes));
+        contentTypes = new String[] {};
+        assertNull(apiClient.selectHeaderContentType(contentTypes));
     }
 
     @Test
@@ -293,7 +289,9 @@ public class ApiClientTest {
         List<Pair> multiPairs = apiClient.parameterToPairs("multi", name, values);
         assertEquals(values.size(), multiPairs.size());
         for (int i = 0; i < values.size(); i++) {
-            assertEquals(apiClient.escapeString(apiClient.parameterToString(values.get(i))), multiPairs.get(i).getValue());
+            assertEquals(
+                    apiClient.escapeString(apiClient.parameterToString(values.get(i))),
+                    multiPairs.get(i).getValue());
         }
 
         // all other formats
@@ -312,7 +310,9 @@ public class ApiClientTest {
             // must equal input values
             assertEquals(values.size(), pairValueSplit.length);
             for (int i = 0; i < values.size(); i++) {
-                assertEquals(apiClient.escapeString(apiClient.parameterToString(values.get(i))), pairValueSplit[i]);
+                assertEquals(
+                        apiClient.escapeString(apiClient.parameterToString(values.get(i))),
+                        pairValueSplit[i]);
             }
         }
     }
@@ -337,9 +337,7 @@ public class ApiClientTest {
         assertThat(apiClient.getHttpClient(), is(not(oldClient)));
     }
 
-    /**
-     * Tests the invariant that the HttpClient for the ApiClient must never be null
-     */
+    /** Tests the invariant that the HttpClient for the ApiClient must never be null */
     @Test(expected = NullPointerException.class)
     public void testNullHttpClient() {
         apiClient.setHttpClient(null);

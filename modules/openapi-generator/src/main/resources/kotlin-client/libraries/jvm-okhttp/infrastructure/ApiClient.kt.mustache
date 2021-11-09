@@ -90,6 +90,7 @@ import com.squareup.moshi.adapter
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
+        const val baseUrlKey = "{{packageName}}.baseUrl"
 
         @JvmStatic
         val client: OkHttpClient by lazy {
