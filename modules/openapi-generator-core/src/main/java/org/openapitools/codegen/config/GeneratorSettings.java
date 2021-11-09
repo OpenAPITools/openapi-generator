@@ -392,7 +392,6 @@ public final class GeneratorSettings implements Serializable {
         if (isNotEmpty(artifactVersion)) {
             additional.put("artifactVersion", artifactVersion);
         }
-        additional.put("serverSelection", serverSelection);
         if (isNotEmpty(apiNameSuffix)) {
             additional.put("apiNameSuffix", apiNameSuffix);
         }
