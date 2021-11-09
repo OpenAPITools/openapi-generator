@@ -2425,7 +2425,7 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        final Set<CodegenDiscriminator.MappedModel> expectedMappedModels = new HashSet<>(Arrays.asList(new CodegenDiscriminator.MappedModel("UserSleep", "UserSleep")));
+        final Set<CodegenDiscriminator.MappedModel> expectedMappedModels = Sets.newHashSet(new CodegenDiscriminator.MappedModel("UserSleep", "UserSleep"));
         final Set<CodegenDiscriminator.MappedModel> mappedModels = cm.getDiscriminator().getMappedModels();
         assertEquals(mappedModels, expectedMappedModels);
 
@@ -3845,5 +3845,30 @@ public class DefaultCodegenTest {
         co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
         cp = co.queryParams.get(0);
         assertTrue(cp.getIsAnyType());
+    }
+
+    @Test
+    public void testByteArrayTypeInSchemas() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10725.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+        CodegenParameter cp;
+
+        path = "/TxRxByteArray";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.isByteArray);
+        assertFalse(cp.getIsString());
+        CodegenResponse cr = co.responses.get(0);
+        assertTrue(cr.isByteArray);
+        assertFalse(cr.getIsString());
+
+        String modelName = "ObjectContainingByteArray";
+        CodegenModel m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        CodegenProperty pr = m.vars.get(0);
+        assertTrue(pr.isByteArray);
+        assertFalse(pr.getIsString());
     }
 }

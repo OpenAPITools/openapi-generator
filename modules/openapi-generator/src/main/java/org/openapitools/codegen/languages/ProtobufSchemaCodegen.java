@@ -86,13 +86,13 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         modelPackage = "messages";
         apiPackage = "services";
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array",

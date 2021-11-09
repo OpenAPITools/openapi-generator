@@ -44,7 +44,7 @@ public class XmlExampleGenerator {
     }
 
     public String toXml(Schema schema) {
-        return toXml(null, schema, 0, Collections.<String>emptySet());
+        return toXml(null, schema, 0, Collections.emptySet());
     }
 
     protected String toXml(Schema schema, int indent, Collection<String> path) {

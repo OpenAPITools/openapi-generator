@@ -12,6 +12,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |defaultInclude|The default include statement that should be placed in all headers for including things like the declspec (convention: #include &quot;Commons.h&quot; | ||
 |generateGMocksForApis|Generate Google Mock classes for APIs.| |null|
 |modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.client.model|
+|packageName|C++ package (library) name.| |CppRestOpenAPIClient|
 |packageVersion|C++ package version.| |1.0.0|
 |reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 |variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|

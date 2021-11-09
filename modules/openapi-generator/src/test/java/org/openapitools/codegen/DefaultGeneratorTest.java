@@ -662,6 +662,30 @@ public class DefaultGeneratorTest {
         Assert.assertEquals(servers.get(1).url, "http://trailingshlash.io:80/v1");
         Assert.assertEquals(servers.get(2).url, "http://notrailingslash.io:80/v2");
     }
+    
+    @Test
+    public void testHandlesRelativeUrlsInServers() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10056.yaml");
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        DefaultCodegen config = new DefaultCodegen();
+        config.setStrictSpecBehavior(true);
+        opts.config(config);
+        final DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        generator.configureGeneratorProperties();
+
+        List<File> files = new ArrayList<>();
+        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<Object> allModels = new ArrayList<>();
+        generator.generateModels(files, allModels, filteredSchemas);
+        List<Object> allOperations = new ArrayList<>();
+        generator.generateApis(files, allOperations, allModels);
+
+        Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels);
+        LinkedList<CodegenServer> servers = (LinkedList<CodegenServer>) bundle.get("servers");
+        Assert.assertEquals(servers.get(0).url, "/relative/url");
+    }
 
     @Test
     public void testProcessUserDefinedTemplatesWithConfig() throws IOException {
