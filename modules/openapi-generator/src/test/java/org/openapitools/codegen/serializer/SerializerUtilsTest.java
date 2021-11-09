@@ -242,6 +242,7 @@ public class SerializerUtilsTest {
     public void testToYamlStringMinimalExample() throws Exception {
         OpenAPI openAPI = createMinimalExample();
 
+
         String content = SerializerUtils.toYamlString(openAPI);
         String expected = "openapi: 3.0.1\n" +
                 "info:\n" +
