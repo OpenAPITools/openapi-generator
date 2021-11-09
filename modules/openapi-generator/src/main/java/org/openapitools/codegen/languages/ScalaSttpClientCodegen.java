@@ -246,7 +246,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
      *
      * @param models processed models to be further processed
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     private void postProcessUpdateImports(final Map<String, Object> models) {
         final String prefix = modelPackage() + ".";
         Map<String, Object> enumRefs = new HashMap<String, Object>();

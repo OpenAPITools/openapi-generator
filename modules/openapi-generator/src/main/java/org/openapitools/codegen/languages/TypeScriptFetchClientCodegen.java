@@ -186,8 +186,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
         return "id".equals(name) ||
                 "ids".equals(name) ||
-                (name.length() >= 3 && name.substring(name.length() - 2).equals("Id")) ||
-                (name.length() >= 4 && name.substring(name.length() - 3).equals("Ids"));
+                (name.length() >= 3 && name.endsWith("Id")) ||
+                (name.length() >= 4 && name.endsWith("Ids"));
     }
 
     @Override
@@ -488,7 +488,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                                 op.returnPassthrough = null;
                             }
                         }
-                    } else if (this.getDetectPassthroughModelsWithSuffixAndField() != null && op.returnBaseType.length() > this.getPassthroughSuffix().length() && op.returnBaseType.substring(op.returnBaseType.length() - this.getPassthroughSuffix().length()).equals(this.getPassthroughSuffix())) {
+                    } else if (this.getDetectPassthroughModelsWithSuffixAndField() != null && op.returnBaseType.length() > this.getPassthroughSuffix().length() && op.returnBaseType.endsWith(this.getPassthroughSuffix())) {
                         boolean foundMatch = false;
                         for (CodegenProperty var : cm.vars) {
                             if (var.name.equals(this.getPassthroughField())) {
@@ -635,7 +635,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                         cm.returnPassthrough = null;
                     }
                 }
-            } else if (this.getDetectPassthroughModelsWithSuffixAndField() != null && cm.name.length() > this.getPassthroughSuffix().length() && cm.name.substring(cm.name.length() - this.getPassthroughSuffix().length()).equals(this.getPassthroughSuffix())) {
+            } else if (this.getDetectPassthroughModelsWithSuffixAndField() != null && cm.name.length() > this.getPassthroughSuffix().length() && cm.name.endsWith(this.getPassthroughSuffix())) {
                 boolean foundMatch = false;
                 for (CodegenProperty var : cm.vars) {
                     if (var.name.equals(this.getPassthroughField())) {

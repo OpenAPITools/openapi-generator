@@ -529,7 +529,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         // only process files with scala extension
         if ("scala".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = scalaPostProcessFile + " " + file.toString();
+            String command = scalaPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
