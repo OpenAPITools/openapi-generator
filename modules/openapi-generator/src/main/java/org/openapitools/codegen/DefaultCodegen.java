@@ -170,6 +170,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<>();
     protected Map<String, String> serverVariables = new HashMap<String, String>();
+    protected int serverSelection = 0;
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     /*
     Supporting files are those which aren't models, APIs, or docs.
@@ -1148,6 +1149,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public int serverSelection() {
+        return serverSelection;
+    }
+
+    @Override
     public Map<String, Object> vendorExtensions() {
         return vendorExtensions;
     }
@@ -1185,6 +1191,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public String getFilesMetadataFilename() {
         return filesMetadataFilename;
+    }
+
+    @Override
+    public void setServerSelection(int serverSelection) {
+        this.serverSelection = serverSelection;
     }
 
     public void setFilesMetadataFilename(String filesMetadataFilename) {

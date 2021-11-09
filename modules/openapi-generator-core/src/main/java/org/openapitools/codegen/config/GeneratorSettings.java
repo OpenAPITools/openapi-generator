@@ -45,6 +45,7 @@ public final class GeneratorSettings implements Serializable {
     private String artifactId;
     private String artifactVersion;
     private String library;
+    private int serverSelection;
 
     private final Map<String, String> instantiationTypes;
     private final Map<String, String> typeMappings;
@@ -184,6 +185,15 @@ public final class GeneratorSettings implements Serializable {
      */
     public String getLibrary() {
         return library;
+    }
+
+    /**
+     * Gets serverSelection for the target Server Object.
+     *
+     * @return the serverSelection
+     */
+    public int getServerSelection() {
+        return serverSelection;
     }
 
 
@@ -345,6 +355,7 @@ public final class GeneratorSettings implements Serializable {
         groupId = builder.groupId;
         artifactId = builder.artifactId;
         artifactVersion = builder.artifactVersion;
+        serverSelection = builder.serverSelection;
         library = builder.library;
         instantiationTypes = Collections.unmodifiableMap(builder.instantiationTypes);
         typeMappings = Collections.unmodifiableMap(builder.typeMappings);
@@ -381,6 +392,7 @@ public final class GeneratorSettings implements Serializable {
         if (isNotEmpty(artifactVersion)) {
             additional.put("artifactVersion", artifactVersion);
         }
+        additional.put("serverSelection", serverSelection);
         if (isNotEmpty(apiNameSuffix)) {
             additional.put("apiNameSuffix", apiNameSuffix);
         }
@@ -456,6 +468,7 @@ public final class GeneratorSettings implements Serializable {
         builder.modelNameSuffix = copy.getModelNameSuffix();
         builder.groupId = copy.getGroupId();
         builder.artifactId = copy.getArtifactId();
+        builder.serverSelection = copy.getServerSelection();
         builder.artifactVersion = copy.getArtifactVersion();
         builder.library = copy.getLibrary();
         if (copy.getInstantiationTypes() != null) {
@@ -512,6 +525,7 @@ public final class GeneratorSettings implements Serializable {
         private Set<String> languageSpecificPrimitives;
         private Map<String, String> reservedWordMappings;
         private Map<String, String> serverVariables;
+        private int serverSelection;
         private String gitHost;
         private String gitUserId;
         private String gitRepoId;
@@ -529,7 +543,6 @@ public final class GeneratorSettings implements Serializable {
             languageSpecificPrimitives = new HashSet<>();
             reservedWordMappings = new HashMap<>();
             serverVariables = new HashMap<>();
-
             gitHost = DEFAULT_GIT_HOST;
             gitUserId = DEFAULT_GIT_USER_ID;
             gitRepoId = DEFAULT_GIT_REPO_ID;
@@ -702,6 +715,17 @@ public final class GeneratorSettings implements Serializable {
          */
         public Builder withServerVariables(Map<String, String> serverVariables) {
             this.serverVariables = serverVariables;
+            return this;
+        }
+
+        /**
+         * Sets the {@code serverSelection} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param serverSelection the {@code serverSelection} to set
+         * @return a reference to this Builder
+         */
+        public Builder withServerSelection(int serverSelection) {
+            this.setServerSelection(serverSelection);
             return this;
         }
 
@@ -901,6 +925,14 @@ public final class GeneratorSettings implements Serializable {
             LOGGER.debug("GeneratorSettings#build: %s", instance.toString());
             return instance;
         }
+
+		public int getServerSelection() {
+			return serverSelection;
+		}
+
+		public void setServerSelection(int serverSelection) {
+			this.serverSelection = serverSelection;
+		}
     }
 
     @Override
@@ -916,6 +948,7 @@ public final class GeneratorSettings implements Serializable {
                 ", modelNameSuffix='" + modelNameSuffix + '\'' +
                 ", groupId='" + groupId + '\'' +
                 ", artifactId='" + artifactId + '\'' +
+                ", serverSelection='" + serverSelection + '\'' +
                 ", artifactVersion='" + artifactVersion + '\'' +
                 ", library='" + library + '\'' +
                 ", instantiationTypes=" + instantiationTypes +

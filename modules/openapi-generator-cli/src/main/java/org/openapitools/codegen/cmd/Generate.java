@@ -165,6 +165,12 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "sets server variables overrides for spec documents which support variable templating of servers.")
     private List<String> serverVariableOverrides = new ArrayList<>();
 
+    @Option(
+            name = {"--server"},
+            title = "server selection",
+            description = "select which server to target in servers list")
+    private int server = 0;
+
     @Option(name = {"--invoker-package"}, title = "invoker package",
             description = CodegenConstants.INVOKER_PACKAGE_DESC)
     private String invokerPackage;
@@ -356,6 +362,10 @@ public class Generate extends OpenApiGeneratorCommand {
 
         if (isNotEmpty(groupId)) {
             configurator.setGroupId(groupId);
+        }
+
+        if (server > 0) {
+            configurator.setServerSelection(server);
         }
 
         if (isNotEmpty(artifactId)) {

@@ -41,14 +41,18 @@ public class URLPathUtils {
     public static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{([^\\}]+)\\}");
 
     // TODO: This should probably be moved into generator/workflow type rather than a static like this.
-    public static URL getServerURL(OpenAPI openAPI, Map<String, String> userDefinedVariables) {
+    public static URL getServerURL(OpenAPI openAPI, Map<String, String> userDefinedVariables, int serverSelection) {
         final List<Server> servers = openAPI.getServers();
         if (servers == null || servers.isEmpty()) {
             once(LOGGER).warn("Server information seems not defined in the spec. Default to {}.", LOCAL_HOST);
             return getDefaultUrl();
         }
+        if (servers.size() <= serverSelection) {
+            once(LOGGER).warn("server selection index {} is greater than the servers list size {}. Default to {}.", serverSelection, servers.size(), servers.get(0));
+            return getServerURL(servers.get(0), userDefinedVariables);
+        }
         // TODO need a way to obtain all server URLs
-        return getServerURL(servers.get(0), userDefinedVariables);
+        return getServerURL(servers.get(serverSelection), userDefinedVariables);
     }
 
     public static URL getServerURL(final Server server, final Map<String, String> userDefinedVariables) {
@@ -113,7 +117,7 @@ public class URLPathUtils {
     }
 
     public static String getScheme(OpenAPI openAPI, CodegenConfig config) {
-        URL url = getServerURL(openAPI, config.serverVariableOverrides());
+        URL url = getServerURL(openAPI, config.serverVariableOverrides(), config.serverSelection());
         return getScheme(url, config);
     }
 
@@ -232,10 +236,13 @@ public class URLPathUtils {
         }
     }
 
-    public static boolean isRelativeUrl(List<Server> servers) {
+    public static boolean isRelativeUrl(List<Server> servers, int serverSelection) {
         if (servers != null && servers.size() > 0) {
-            final Server firstServer = servers.get(0);
-            return Pattern.matches("^(\\/[\\w\\d]+)+", firstServer.getUrl());
+        	Server server = servers.get(0);
+            if (serverSelection < servers.size()) {
+                server = servers.get(serverSelection);
+            }
+            return Pattern.matches("^(\\/[\\w\\d]+)+", server.getUrl());
         }
         return false;
     }

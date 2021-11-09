@@ -337,7 +337,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         Info info = openAPI.getInfo();
 
-        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides(), serverSelection());
         additionalProperties.put("serverHost", url.getHost());
         additionalProperties.put("serverPort", URLPathUtils.getPort(url, serverPort));
 

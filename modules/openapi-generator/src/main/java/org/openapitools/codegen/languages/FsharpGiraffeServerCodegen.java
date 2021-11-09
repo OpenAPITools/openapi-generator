@@ -168,7 +168,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
-        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides(), serverSelection());
         additionalProperties.put("serverHost", url.getHost());
         additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
     }
