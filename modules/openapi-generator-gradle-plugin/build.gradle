@@ -210,17 +210,4 @@ javadoc {
     }
 }
 
-//tasks {
-//    closeRepository {
-//        onlyIf {
-//            nexusPublishing.useStaging.any()
-//        }
-//    }
-//    releaseRepository{
-//        onlyIf {
-//            nexusPublishing.useStaging.any()
-//        }
-//    }
-//}
-
-//nexusPublishing.dependsOn 'check'
+publishToSonatype.dependsOn 'check'
