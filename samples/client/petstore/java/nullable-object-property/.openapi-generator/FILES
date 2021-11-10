@@ -31,4 +31,3 @@ src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/ModelWithNullableObjectProperty.java
 src/main/java/org/openapitools/client/model/OtherPropertyType.java
 src/main/java/org/openapitools/client/model/PropertyType.java
-src/test/java/org/openapitools/client/model/OtherPropertyTypeTest.java
