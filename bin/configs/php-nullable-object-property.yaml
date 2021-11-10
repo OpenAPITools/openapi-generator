@@ -1,0 +1,4 @@
+generatorName: php
+outputDir: samples/client/petstore/php/nullable-object-property-php
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_10593.yaml
+templateDir: modules/openapi-generator/src/main/resources/php
