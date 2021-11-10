@@ -15,10 +15,11 @@ from uplink import (
 
 from typing import Dict, List, Optional, Union # noqa: F401
 
+from {{packageName}}.uplink_util import bool_query
+
 {{#imports}}
 {{{import}}}
 {{/imports}}
-
 
 {{#operations}}
 class {{classname}}(Consumer):
@@ -28,12 +29,22 @@ class {{classname}}(Consumer):
         """{{{summary}}}"""
         return await self.__{{operationId}}(
             {{#allParams}}
-            {{#isPathParam}}
+                {{#isPathParam}}
             {{baseName}}={{paramName}},
-            {{/isPathParam}}
-            {{^isPathParam}}
+                {{/isPathParam}}
+                {{^isPathParam}}
+                    {{#isQueryParam}}
+                        {{#isBoolean}}
+            {{paramName}}=bool_query({{paramName}}),
+                        {{/isBoolean}}
+                        {{^isBoolean}}
             {{paramName}}={{paramName}},
-            {{/isPathParam}}
+                        {{/isBoolean}}
+                    {{/isQueryParam}}
+                    {{^isQueryParam}}
+            {{paramName}}={{paramName}},
+                    {{/isQueryParam}}
+                {{/isPathParam}}
             {{/allParams}}
         )
 {{/operation}}

@@ -86,9 +86,10 @@ public class PythonUplinkClientCodegen extends AbstractPythonCodegen implements 
         supportingFiles.add(new SupportingFile("__init__.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("client.mustache", packagePath(), "client.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "model",
-                "__init__.py"));
+        "__init__.py"));
         supportingFiles.add(
-                new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + "api", "__init__.py"));
+            new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + "api", "__init__.py"));
+        supportingFiles.add(new SupportingFile("uplink_util.mustache", packagePath(), "uplink_util.py"));
 
         modelTemplateFiles.put("model.mustache", ".py");
         apiTemplateFiles.put("api.mustache", ".py");
