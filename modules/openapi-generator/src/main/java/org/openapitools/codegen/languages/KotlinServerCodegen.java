@@ -38,6 +38,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String USE_COROUTINES = "useCoroutines";
+    public static final String RETURN_RESPONSE = "returnResponse";
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
 
@@ -51,6 +52,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
     private boolean useCoroutines = false;
+    private boolean returnResponse = false;
 
     // This is here to potentially warn the user when an option is not supported by the target framework.
     private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
@@ -130,6 +132,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines with the JAX-RS library."));
+        cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
     }
 
     public Boolean getAutoHeadFeatureEnabled() {
@@ -219,6 +222,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             useCoroutines = Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString());
             if (!useCoroutines) {
                 additionalProperties.remove(USE_COROUTINES);
+            }
+        }
+
+        if (additionalProperties.containsKey(RETURN_RESPONSE)) {
+            returnResponse = Boolean.parseBoolean(additionalProperties.get(RETURN_RESPONSE).toString());
+            if (!returnResponse) {
+                additionalProperties.remove(RETURN_RESPONSE);
             }
         }
 
