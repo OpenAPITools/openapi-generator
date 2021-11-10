@@ -521,13 +521,7 @@ public class CodegenConfigurator {
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
 
-        SwaggerParseResult result = new SwaggerParseResult();
-        try{
-            result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
-        } catch (NullPointerException e) {
-            System.err.println("[error] There is an error parsing the input spec file: " + inputSpec);
-            System.err.println("[error] Please make sure the spec file has correct format and all required fields are populated.");
-        }
+        SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
 
         // TODO: Move custom validations to a separate type as part of a "Workflow"
         Set<String> validationMessages = new HashSet<>(null != result.getMessages() ? result.getMessages() : new ArrayList<>());
@@ -541,9 +535,14 @@ public class CodegenConfigurator {
         if (validationMessages.size() > 0) {
             Set<String> warnings = new HashSet<>();
             if (specification != null) {
-                List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
-                if (unusedModels != null) {
-                    unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+                try{
+                    List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
+                    if (unusedModels != null) {
+                        unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+                    }
+                } catch (Exception e){
+                    System.err.println("[error] There is an error with OpenAPI specification parsed from the input spec file: " + inputSpec);
+                    System.err.println("[error] Please make sure the spec file has correct format and all required fields are populated with valid value.");
                 }
             }
 
