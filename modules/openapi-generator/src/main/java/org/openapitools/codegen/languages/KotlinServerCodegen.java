@@ -37,6 +37,7 @@ import java.util.Map;
 public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String USE_COROUTINES = "useCoroutines";
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
 
@@ -49,6 +50,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
+    private boolean useCoroutines = false;
 
     // This is here to potentially warn the user when an option is not supported by the target framework.
     private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
@@ -127,6 +129,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines with the JAX-RS library."));
     }
 
     public Boolean getAutoHeadFeatureEnabled() {
@@ -209,6 +212,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             interfaceOnly = Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
             if (!interfaceOnly) {
                 additionalProperties.remove(INTERFACE_ONLY);
+            }
+        }
+
+        if (additionalProperties.containsKey(USE_COROUTINES)) {
+            useCoroutines = Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString());
+            if (!useCoroutines) {
+                additionalProperties.remove(USE_COROUTINES);
             }
         }
 

@@ -10,4 +10,4 @@
         {{/isOAuth}}{{/authMethods}} }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}){{^-last}},{{/-last}}{{/responses}} }){{/useSwaggerAnnotations}}
-    fun {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}){{#returnResponse}}: Response{{/returnResponse}}{{^returnResponse}}{{#returnType}}: {{{returnType}}}{{/returnType}}{{/returnResponse}}
+    {{#useCoroutines}}suspend {{/useCoroutines}}fun {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}){{#returnResponse}}: Response{{/returnResponse}}{{^returnResponse}}{{#returnType}}: {{{returnType}}}{{/returnType}}{{/returnResponse}}
