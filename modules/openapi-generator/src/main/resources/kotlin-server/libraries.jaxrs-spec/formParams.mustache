@@ -1,0 +1,1 @@
+{{#isFormParam}}{{^isFile}}@FormParam(value = "{{baseName}}") {{paramName}}: {{{dataType}}}{{/isFile}}{{#isFile}} @FormParam(value = "{{baseName}}") {{paramName}}InputStream: InputStream{{/isFile}}{{/isFormParam}}
