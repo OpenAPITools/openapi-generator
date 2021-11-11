@@ -34,6 +34,10 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
+
 public class AbstractPhpCodegenTest {
 
     @Test
@@ -164,6 +168,39 @@ public class AbstractPhpCodegenTest {
         // Assert the enum default value is properly generated
         CodegenProperty cp1 = cm1.vars.get(0);
         Assert.assertEquals(cp1.getDefaultValue(), "'VALUE'");
+    }
+
+    @Test(description = "Issue #10593")
+    public void testModelWithNullableObjectProperty() {
+        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10593.yaml");
+        codegen.setOpenAPI(openAPI);
+        Schema schema = openAPI.getComponents().getSchemas().get("ModelWithNullableObjectProperty");
+
+        String propertyName;
+        CodegenProperty property;
+
+        // regular property
+        propertyName = "propertyName";
+        property = codegen.fromProperty(propertyName, (Schema) schema.getProperties().get(propertyName));
+        assertEquals(property.openApiType, "PropertyType");
+        assertFalse(property.isNullable);
+        assertEquals(property.dataType, "\\php\\Model\\PropertyType");
+
+        // openapi 3.0 nullable
+        propertyName = "propertyName30";
+        property = codegen.fromProperty(propertyName, (Schema) schema.getProperties().get(propertyName));
+        assertEquals(property.openApiType, "PropertyType");
+        assertTrue(property.isNullable);
+        assertEquals(property.dataType, "\\php\\Model\\PropertyType");
+
+        // openapi 3.1 'null'
+        propertyName = "propertyName31";
+        property = codegen.fromProperty(propertyName, (Schema) schema.getProperties().get(propertyName));
+        assertEquals(property.openApiType, "PropertyType");
+        assertTrue(property.isNullable);
+        assertEquals(property.dataType, "\\php\\Model\\PropertyType");
     }
 
     private static class P_AbstractPhpCodegen extends AbstractPhpCodegen {

@@ -30,6 +30,7 @@ import java.io.Serializable
 /**
  * 
  *
+ * @param propertyName 
  * @param propertyName30 
  * @param propertyName31 
  * @param nonNullableProperty 
@@ -37,6 +38,9 @@ import java.io.Serializable
  */
 
 data class ModelWithNullableObjectProperty (
+
+    @Json(name = "propertyName")
+    val propertyName: PropertyType? = null,
 
     @Json(name = "propertyName30")
     val propertyName30: PropertyType? = null,

@@ -35,6 +35,12 @@ export interface ModelWithNullableObjectProperty {
      * @type {PropertyType}
      * @memberof ModelWithNullableObjectProperty
      */
+    propertyName?: PropertyType;
+    /**
+     * 
+     * @type {PropertyType}
+     * @memberof ModelWithNullableObjectProperty
+     */
     propertyName30?: PropertyType | null;
     /**
      * 
@@ -66,6 +72,7 @@ export function ModelWithNullableObjectPropertyFromJSONTyped(json: any, ignoreDi
     }
     return {
         
+        'propertyName': !exists(json, 'propertyName') ? undefined : PropertyTypeFromJSON(json['propertyName']),
         'propertyName30': !exists(json, 'propertyName30') ? undefined : PropertyTypeFromJSON(json['propertyName30']),
         'propertyName31': !exists(json, 'propertyName31') ? undefined : PropertyTypeFromJSON(json['propertyName31']),
         'nonNullableProperty': !exists(json, 'nonNullableProperty') ? undefined : string | numberFromJSON(json['nonNullableProperty']),
@@ -82,6 +89,7 @@ export function ModelWithNullableObjectPropertyToJSON(value?: ModelWithNullableO
     }
     return {
         
+        'propertyName': PropertyTypeToJSON(value.propertyName),
         'propertyName30': PropertyTypeToJSON(value.propertyName30),
         'propertyName31': PropertyTypeToJSON(value.propertyName31),
         'nonNullableProperty': string | numberToJSON(value.nonNullableProperty),

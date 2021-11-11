@@ -17,6 +17,8 @@ components:
   schemas:
     ModelWithNullableObjectProperty:
       properties:
+        propertyName:
+          $ref: '#/components/schemas/PropertyType'
         propertyName30:
           nullable: true
           oneOf:

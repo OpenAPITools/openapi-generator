@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
@@ -331,7 +332,22 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             String type = super.getTypeDeclaration(p);
             return (!languageSpecificPrimitives.contains(type))
                     ? "\\" + modelPackage + "\\" + type : type;
+        } else if (p instanceof ComposedSchema) {
+            // Support nullable defined using oneOf construct
+            ComposedSchema composedSchema = (ComposedSchema)p;
+            if (Boolean.TRUE.equals(p.getNullable()) || ModelUtils.isNullableComposedSchema(composedSchema)) {
+                Schema inner = composedSchema
+                    .getOneOf()
+                    .stream()
+                    .filter(
+                        subSchema -> !ModelUtils.isNullType(subSchema)
+                    ).findFirst().orElse(null);
+                if (inner != null) {
+                    return this.getTypeDeclaration(inner);
+                }
+            }
         }
+
         return super.getTypeDeclaration(p);
     }
 

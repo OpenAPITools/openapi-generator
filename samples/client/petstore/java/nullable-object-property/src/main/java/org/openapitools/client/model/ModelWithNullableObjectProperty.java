@@ -38,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * ModelWithNullableObjectProperty
  */
 @JsonPropertyOrder({
+  ModelWithNullableObjectProperty.JSON_PROPERTY_PROPERTY_NAME,
   ModelWithNullableObjectProperty.JSON_PROPERTY_PROPERTY_NAME30,
   ModelWithNullableObjectProperty.JSON_PROPERTY_PROPERTY_NAME31,
   ModelWithNullableObjectProperty.JSON_PROPERTY_NON_NULLABLE_PROPERTY,
@@ -45,6 +46,9 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelWithNullableObjectProperty {
+  public static final String JSON_PROPERTY_PROPERTY_NAME = "propertyName";
+  private PropertyType propertyName;
+
   public static final String JSON_PROPERTY_PROPERTY_NAME30 = "propertyName30";
   private JsonNullable<PropertyType> propertyName30 = JsonNullable.<PropertyType>undefined();
 
@@ -56,6 +60,32 @@ public class ModelWithNullableObjectProperty {
 
   public static final String JSON_PROPERTY_PROPERTY_WITH_NULL_AND_TWO_TYPES = "propertyWithNullAndTwoTypes";
   private JsonNullable<OneOfnullPropertyTypeOtherPropertyType> propertyWithNullAndTwoTypes = JsonNullable.<OneOfnullPropertyTypeOtherPropertyType>undefined();
+
+
+  public ModelWithNullableObjectProperty propertyName(PropertyType propertyName) {
+    this.propertyName = propertyName;
+    return this;
+  }
+
+   /**
+   * Get propertyName
+   * @return propertyName
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public PropertyType getPropertyName() {
+    return propertyName;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPropertyName(PropertyType propertyName) {
+    this.propertyName = propertyName;
+  }
 
 
   public ModelWithNullableObjectProperty propertyName30(PropertyType propertyName30) {
@@ -206,7 +236,8 @@ public class ModelWithNullableObjectProperty {
       return false;
     }
     ModelWithNullableObjectProperty modelWithNullableObjectProperty = (ModelWithNullableObjectProperty) o;
-    return equalsNullable(this.propertyName30, modelWithNullableObjectProperty.propertyName30) &&
+    return Objects.equals(this.propertyName, modelWithNullableObjectProperty.propertyName) &&
+        equalsNullable(this.propertyName30, modelWithNullableObjectProperty.propertyName30) &&
         equalsNullable(this.propertyName31, modelWithNullableObjectProperty.propertyName31) &&
         equalsNullable(this.nonNullableProperty, modelWithNullableObjectProperty.nonNullableProperty) &&
         equalsNullable(this.propertyWithNullAndTwoTypes, modelWithNullableObjectProperty.propertyWithNullAndTwoTypes);
@@ -218,7 +249,7 @@ public class ModelWithNullableObjectProperty {
 
   @Override
   public int hashCode() {
-    return Objects.hash(hashCodeNullable(propertyName30), hashCodeNullable(propertyName31), hashCodeNullable(nonNullableProperty), hashCodeNullable(propertyWithNullAndTwoTypes));
+    return Objects.hash(propertyName, hashCodeNullable(propertyName30), hashCodeNullable(propertyName31), hashCodeNullable(nonNullableProperty), hashCodeNullable(propertyWithNullAndTwoTypes));
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -232,6 +263,7 @@ public class ModelWithNullableObjectProperty {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelWithNullableObjectProperty {\n");
+    sb.append("    propertyName: ").append(toIndentedString(propertyName)).append("\n");
     sb.append("    propertyName30: ").append(toIndentedString(propertyName30)).append("\n");
     sb.append("    propertyName31: ").append(toIndentedString(propertyName31)).append("\n");
     sb.append("    nonNullableProperty: ").append(toIndentedString(nonNullableProperty)).append("\n");

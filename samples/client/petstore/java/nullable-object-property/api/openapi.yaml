@@ -20,11 +20,15 @@ components:
   schemas:
     ModelWithNullableObjectProperty:
       example:
+        propertyName:
+          foo: foo
         nonNullableProperty: ""
         propertyName31: ""
         propertyName30: ""
         propertyWithNullAndTwoTypes: ""
       properties:
+        propertyName:
+          $ref: '#/components/schemas/PropertyType'
         propertyName30:
           nullable: true
           oneOf:
@@ -43,6 +47,8 @@ components:
           - $ref: '#/components/schemas/PropertyType'
           - $ref: '#/components/schemas/OtherPropertyType'
     PropertyType:
+      example:
+        foo: foo
       properties:
         foo:
           type: string

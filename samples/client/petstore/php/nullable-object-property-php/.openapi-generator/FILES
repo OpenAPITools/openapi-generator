@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .php_cs
 .travis.yml
 README.md
@@ -19,7 +18,3 @@ lib/Model/OtherPropertyType.php
 lib/Model/PropertyType.php
 lib/ObjectSerializer.php
 phpunit.xml.dist
-test/Api/DefaultApiTest.php
-test/Model/ModelWithNullableObjectPropertyTest.php
-test/Model/OtherPropertyTypeTest.php
-test/Model/PropertyTypeTest.php

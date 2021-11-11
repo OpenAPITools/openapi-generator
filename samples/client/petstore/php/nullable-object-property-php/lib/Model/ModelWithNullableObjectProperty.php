@@ -59,8 +59,9 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
       * @var string[]
       */
     protected static $openAPITypes = [
-        'property_name30' => 'PropertyType',
-        'property_name31' => 'PropertyType',
+        'property_name' => '\OpenAPI\Client\Model\PropertyType',
+        'property_name30' => '\OpenAPI\Client\Model\PropertyType',
+        'property_name31' => '\OpenAPI\Client\Model\PropertyType',
         'non_nullable_property' => 'OneOfStringNumber',
         'property_with_null_and_two_types' => 'OneOfNullPropertyTypeOtherPropertyType'
     ];
@@ -73,6 +74,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
+        'property_name' => null,
         'property_name30' => null,
         'property_name31' => null,
         'non_nullable_property' => null,
@@ -106,6 +108,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $attributeMap = [
+        'property_name' => 'propertyName',
         'property_name30' => 'propertyName30',
         'property_name31' => 'propertyName31',
         'non_nullable_property' => 'nonNullableProperty',
@@ -118,6 +121,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $setters = [
+        'property_name' => 'setPropertyName',
         'property_name30' => 'setPropertyName30',
         'property_name31' => 'setPropertyName31',
         'non_nullable_property' => 'setNonNullableProperty',
@@ -130,6 +134,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
      * @var string[]
      */
     protected static $getters = [
+        'property_name' => 'getPropertyName',
         'property_name30' => 'getPropertyName30',
         'property_name31' => 'getPropertyName31',
         'non_nullable_property' => 'getNonNullableProperty',
@@ -193,6 +198,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
      */
     public function __construct(array $data = null)
     {
+        $this->container['property_name'] = $data['property_name'] ?? null;
         $this->container['property_name30'] = $data['property_name30'] ?? null;
         $this->container['property_name31'] = $data['property_name31'] ?? null;
         $this->container['non_nullable_property'] = $data['non_nullable_property'] ?? null;
@@ -224,9 +230,33 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
 
 
     /**
+     * Gets property_name
+     *
+     * @return \OpenAPI\Client\Model\PropertyType|null
+     */
+    public function getPropertyName()
+    {
+        return $this->container['property_name'];
+    }
+
+    /**
+     * Sets property_name
+     *
+     * @param \OpenAPI\Client\Model\PropertyType|null $property_name property_name
+     *
+     * @return self
+     */
+    public function setPropertyName($property_name)
+    {
+        $this->container['property_name'] = $property_name;
+
+        return $this;
+    }
+
+    /**
      * Gets property_name30
      *
-     * @return PropertyType|null
+     * @return \OpenAPI\Client\Model\PropertyType|null
      */
     public function getPropertyName30()
     {
@@ -236,7 +266,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
     /**
      * Sets property_name30
      *
-     * @param PropertyType|null $property_name30 property_name30
+     * @param \OpenAPI\Client\Model\PropertyType|null $property_name30 property_name30
      *
      * @return self
      */
@@ -250,7 +280,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
     /**
      * Gets property_name31
      *
-     * @return PropertyType|null
+     * @return \OpenAPI\Client\Model\PropertyType|null
      */
     public function getPropertyName31()
     {
@@ -260,7 +290,7 @@ class ModelWithNullableObjectProperty implements ModelInterface, ArrayAccess, \J
     /**
      * Sets property_name31
      *
-     * @param PropertyType|null $property_name31 property_name31
+     * @param \OpenAPI\Client\Model\PropertyType|null $property_name31 property_name31
      *
      * @return self
      */
