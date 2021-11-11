@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CsharpNetcoreFunctionsServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class CsharpNetcoreFunctionsServerCodegen extends CSharpNetCoreClientCodegen  {
     public static final String PROJECT_NAME = "projectName";
 
     static final Logger LOGGER = LoggerFactory.getLogger(CsharpNetcoreFunctionsServerCodegen.class);
@@ -36,11 +36,27 @@ public class CsharpNetcoreFunctionsServerCodegen extends DefaultCodegen implemen
         outputFolder = "generated-code" + File.separator + "csharp";
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("functions.mustache", ".cs");
-        embeddedTemplateDir = templateDir = "csharp";
+        embeddedTemplateDir = templateDir = "csharp-netcore-functions";
         apiPackage = "Apis";
         modelPackage = "Models";
+		String clientPackageDir = "generatedSrc/Client";
         supportingFiles.add(new SupportingFile("README.mustache", "generatedSrc", "README.md"));
         supportingFiles.add(new SupportingFile("project.mustache", "generatedSrc", "project.json"));
+		
+        supportingFiles.add(new SupportingFile("IApiAccessor.mustache",
+                clientPackageDir, "IApiAccessor.cs"));
+        supportingFiles.add(new SupportingFile("Configuration.mustache",
+                clientPackageDir, "Configuration.cs"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache",
+                clientPackageDir, "ApiClient.cs"));
+        supportingFiles.add(new SupportingFile("ApiException.mustache",
+                clientPackageDir, "ApiException.cs"));
+        supportingFiles.add(new SupportingFile("ApiResponse.mustache",
+                clientPackageDir, "ApiResponse.cs"));
+        supportingFiles.add(new SupportingFile("ExceptionFactory.mustache",
+                clientPackageDir, "ExceptionFactory.cs"));
+        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache",
+                clientPackageDir, "OpenAPIDateConverter.cs"));
     }
 	
 	@Override
