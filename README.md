@@ -651,6 +651,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Ponicode](https://ponicode.dev/)
 - [Pricefx](https://www.pricefx.com/)
 - [Prometheus/Alertmanager](https://github.com/prometheus/alertmanager)
+- [Qavar](https://www.qavar.com)
 - [QEDIT](https://qed-it.com)
 - [Qulix Systems](https://www.qulix.com)
 - [Raksul](https://corp.raksul.com)
