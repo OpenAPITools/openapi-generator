@@ -19,8 +19,7 @@ class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     }
 }
 
-// Store the URLSession to retain its reference
-private var urlSessionStore = SynchronizedDictionary<Int, URLSession>()
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} typealias {{projectName}}APIChallengeHandler = ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))
 
 // Store the URLSession's delegate to retain its reference
 private let sessionDelegate = SessionDelegate()
@@ -29,7 +28,7 @@ private let sessionDelegate = SessionDelegate()
 private let defaultURLSession = URLSession(configuration: .default, delegate: sessionDelegate, delegateQueue: nil)
 
 // Store current taskDidReceiveChallenge for every URLSessionTask
-private var challengeHandlerStore = SynchronizedDictionary<Int, ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))>()
+private var challengeHandlerStore = SynchronizedDictionary<Int, {{projectName}}APIChallengeHandler>()
 
 // Store current URLCredential for every URLSessionTask
 private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
@@ -39,7 +38,7 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
     /**
      May be assigned if you want to control the authentication challenges.
      */
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var taskDidReceiveChallenge: ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))?
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var taskDidReceiveChallenge: {{projectName}}APIChallengeHandler?
 
     /**
      May be assigned if you want to do any of those things:
