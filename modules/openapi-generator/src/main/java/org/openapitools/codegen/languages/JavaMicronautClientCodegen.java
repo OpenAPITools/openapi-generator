@@ -116,7 +116,7 @@ public class JavaMicronautClientCodegen extends AbstractJavaCodegen implements B
                 .ifPresent(v -> cliOptions.remove(v));
 
         // Add reserved words
-        String[] reservedWordsArray = new String[]{
+        String[] reservedWordsArray = {
                 "client", "format", "queryvalue", "queryparam", "pathvariable", "header", "cookie",
                 "authorization", "body", "application"
         };
