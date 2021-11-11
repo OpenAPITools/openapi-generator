@@ -19,6 +19,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd></dl>|ktor|
 |modelMutable|Create mutable models| |false|
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |packageName|Generated artifact package name.| |org.openapitools.server|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|

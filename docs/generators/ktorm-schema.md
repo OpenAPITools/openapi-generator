@@ -16,6 +16,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |identifierNamingConvention|Naming convention of Ktorm identifiers(table names and column names). This is not related to database name which is defined by defaultDatabaseName option|<dl><dt>**original**</dt><dd>Do not transform original names</dd><dt>**snake_case**</dt><dd>Use snake_case names</dd></dl>|original|
 |importModelPackageName|Package name of the imported models| |org.openapitools.database.models|
 |modelMutable|Create mutable models| |false|
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |packageName|Generated artifact package name.| |org.openapitools.database|
 |primaryKeyConvention|Primary key naming convention| |id|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|

@@ -16,6 +16,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |library|Library template (sub-template) to use|<dl><dt>**jvm-okhttp4**</dt><dd>[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.</dd><dt>**jvm-okhttp3**</dt><dd>Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.</dd><dt>**jvm-retrofit2**</dt><dd>Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.</dd><dt>**multiplatform**</dt><dd>Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.0. JSON processing: Kotlinx Serialization: 1.2.1.</dd></dl>|jvm-okhttp4|
 |modelMutable|Create mutable models| |false|
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |moshiCodeGen|Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info.| |false|
 |packageName|Generated artifact package name.| |org.openapitools.client|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|

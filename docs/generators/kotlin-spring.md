@@ -21,6 +21,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd></dl>|spring-boot|
 |modelMutable|Create mutable models| |false|
 |modelPackage|model package for generated code| |org.openapitools.model|
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |packageName|Generated artifact package name.| |org.openapitools|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |reactive|use coroutines for reactive behavior| |false|

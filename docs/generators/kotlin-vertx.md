@@ -13,6 +13,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |modelMutable|Create mutable models| |false|
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |packageName|Generated artifact package name.| |org.openapitools|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
