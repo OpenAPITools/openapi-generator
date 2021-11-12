@@ -380,6 +380,8 @@ namespace {{packageName}}.{{apiPackage}}
             localVarRequestOptions.Data = {{paramName}};
             {{/bodyParam}}
 
+            localVarRequestOptions.Operation = "{{classname}}.{{operationId}}";
+
             {{#authMethods}}
             // authentication ({{name}}) required
             {{#isApiKey}}
