@@ -119,10 +119,7 @@ public class OneOfImplementorAdditionalData {
         }
 
         // Add oneOf-containing models properties - we need to properly set the hasMore values to make rendering correct
-        for (int i = 0; i < additionalProps.size(); i++) {
-            CodegenProperty var = additionalProps.get(i);
-            implcm.vars.add(var);
-        }
+        implcm.vars.addAll(additionalProps);
 
         // Add imports
         for (Map<String, String> oneImport : additionalImports) {

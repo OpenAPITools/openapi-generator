@@ -1172,7 +1172,6 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/kotlin-springboot</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>
@@ -1230,7 +1229,6 @@
                 <module>samples/server/petstore/scala-akka-http-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/scala-finch</module>
-                <!--<module>samples/server/petstore/kotlin/vertx</module>-->
             </modules>
         </profile>
         <!-- node 3 tests in CircleCI -->
@@ -1247,6 +1245,33 @@
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
                 <module>samples/openapi3/client/petstore/python</module>
+                <!-- TODO comment out below when the test for typescript-nestjs is ready
+                <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
+                <!-- comment out due to error `npm run build`
+                <module>samples/client/petstore/typescript-jquery/npm</module>-->
+                <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v11-provided-in-root</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/default</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/default</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/jquery</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/object_params</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/object_params</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/inversify</module>
+                <!-- comment out due to failure in travis ci
+                <module>samples/openapi3/client/petstore/typescript/tests/inversify</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/deno</module>-->
+                <module>samples/client/petstore/typescript-fetch/builds/default</module>
+                <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
+                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-fetch/tests/default</module>
+                <module>samples/client/petstore/typescript-node/npm</module>
+                <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-axios/builds/with-npm-version</module>
+                <module>samples/client/petstore/typescript-axios/tests/default</module>
+                <module>samples/client/petstore/javascript-flowtyped</module>
+                <module>samples/client/petstore/javascript-es6</module>
+                <module>samples/client/petstore/javascript-promise-es6</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
@@ -1261,6 +1286,7 @@
             <modules>
                 <!-- clients -->
                 <!-- test java-related projects -->
+                <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
@@ -1289,40 +1315,6 @@
                 <module>samples/client/petstore/java/rest-assured-jackson</module>
                 <module>samples/client/petstore/java/microprofile-rest-client</module>
                 <module>samples/client/petstore/java/apache-httpclient</module>
-                <module>samples/client/petstore/groovy</module>
-                <!-- test non-java projects -->
-                <module>samples/client/petstore/go</module>
-                <module>samples/openapi3/client/petstore/go</module>
-                <module>samples/client/petstore/javascript-flowtyped</module>
-                <module>samples/client/petstore/javascript-es6</module>
-                <module>samples/client/petstore/javascript-promise-es6</module>
-                <module>samples/server/petstore/go-api-server</module>
-                <module>samples/server/petstore/go-gin-api-server</module>
-                <module>samples/server/petstore/go-echo-server</module>
-                <!-- TODO comment out below when the test for typescript-nestjs is ready
-                <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
-                <!-- comment out due to error `npm run build`
-                <module>samples/client/petstore/typescript-jquery/npm</module>-->
-                <module>samples/client/petstore/typescript-angular-v7-provided-in-root</module>
-                <module>samples/client/petstore/typescript-angular-v11-provided-in-root</module>
-                <module>samples/openapi3/client/petstore/typescript/builds/default</module>
-                <module>samples/openapi3/client/petstore/typescript/tests/default</module>
-                <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>
-                <module>samples/openapi3/client/petstore/typescript/tests/jquery</module>
-                <module>samples/openapi3/client/petstore/typescript/builds/object_params</module>
-                <module>samples/openapi3/client/petstore/typescript/tests/object_params</module>
-                <module>samples/openapi3/client/petstore/typescript/builds/inversify</module>
-                <!-- comment out due to failure in travis ci
-                <module>samples/openapi3/client/petstore/typescript/tests/inversify</module>
-                <module>samples/openapi3/client/petstore/typescript/tests/deno</module>-->
-                <module>samples/client/petstore/typescript-fetch/builds/default</module>
-                <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
-                <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
-                <module>samples/client/petstore/typescript-fetch/tests/default</module>
-                <module>samples/client/petstore/typescript-node/npm</module>
-                <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
-                <module>samples/client/petstore/typescript-axios/builds/with-npm-version</module>
-                <module>samples/client/petstore/typescript-axios/tests/default</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
@@ -1356,6 +1348,8 @@
                 <module>samples/client/petstore/kotlin-threetenbp</module>
                 <module>samples/client/petstore/kotlin-uppercase-enum</module>
                 <!-- servers -->
+                <module>samples/server/petstore/kotlin-springboot</module>
+                <!--<module>samples/server/petstore/kotlin/vertx</module>-->
                 <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
         </profile>
@@ -1388,6 +1382,12 @@
                 <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->
                 <!--<module>samples/server/petstore/haskell-servant</module>-->
+                <!-- test Go projects -->
+                <module>samples/client/petstore/go</module>
+                <module>samples/openapi3/client/petstore/go</module>
+                <module>samples/server/petstore/go-api-server</module>
+                <module>samples/server/petstore/go-gin-api-server</module>
+                <module>samples/server/petstore/go-echo-server</module>
             </modules>
         </profile>
         <profile>

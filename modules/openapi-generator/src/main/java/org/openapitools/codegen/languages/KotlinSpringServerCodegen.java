@@ -379,7 +379,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         } else if (interfaceOnly) {
             apiTemplateFiles.put("apiInterface.mustache", ".kt");
         } else {
-            apiTemplateFiles.put("api.mustache", ".kt");
+            apiTemplateFiles.put("api.mustache", "Controller.kt");
             apiTestTemplateFiles.put("api_test.mustache", ".kt");
         }
 
@@ -454,7 +454,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 basePath = basePath.substring(0, pos);
             }
 
-            if (basePath.equals("")) {
+            if (basePath.isEmpty()) {
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();

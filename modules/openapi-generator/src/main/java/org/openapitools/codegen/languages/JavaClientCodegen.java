@@ -56,6 +56,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String PLAY_VERSION = "playVersion";
     public static final String ASYNC_NATIVE = "asyncNative";
+    public static final String CONFIG_KEY = "configKey";
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
@@ -102,6 +103,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_26;
     protected String microprofileFramework = MICROPROFILE_DEFAULT;
+    protected String configKey = null;
 
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
@@ -160,6 +162,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
         cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
         cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle proeprties to the gradle.properties file"));
+        cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -280,6 +283,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
         }
         additionalProperties.put(MICROPROFILE_FRAMEWORK, microprofileFramework);
+
+        if (additionalProperties.containsKey(CONFIG_KEY)) {
+            this.setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
+        }
 
         if (additionalProperties.containsKey(ASYNC_NATIVE)) {
             this.setAsyncNative(convertPropertyToBooleanAndWriteBack(ASYNC_NATIVE));
@@ -962,6 +969,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setMicroprofileFramework(String microprofileFramework) {
         this.microprofileFramework = microprofileFramework;
+    }
+
+    public void setConfigKey(String configKey) {
+        this.configKey = configKey;
     }
 
     public void setParcelableModel(boolean parcelableModel) {
