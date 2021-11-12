@@ -1255,9 +1255,9 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 	}
 	localVarFormParams.Add("pattern_without_delimiter", parameterToString(*r.patternWithoutDelimiter, ""))
 	localVarFormParams.Add("byte", parameterToString(*r.byte_, ""))
-    var binaryLocalVarFormFileName string
-    var binaryLocalVarFileName     string
-    var binaryLocalVarFileBytes    []byte
+	var binaryLocalVarFormFileName string
+	var binaryLocalVarFileName     string
+	var binaryLocalVarFileBytes    []byte
 
 	binaryLocalVarFormFileName = "binary"
 
@@ -1265,7 +1265,7 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 	if r.binary != nil {
 		binaryLocalVarFile = *r.binary
 	}
-    if binaryLocalVarFile != nil {
+	if binaryLocalVarFile != nil {
 		fbs, _ := _ioutil.ReadAll(binaryLocalVarFile)
 		binaryLocalVarFileBytes = fbs
 		binaryLocalVarFileName = binaryLocalVarFile.Name()

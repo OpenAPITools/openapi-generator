@@ -975,9 +975,9 @@ func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (ApiResponse, 
 	if r.additionalMetadata != nil {
 		localVarFormParams.Add("additionalMetadata", parameterToString(*r.additionalMetadata, ""))
 	}
-    var fileLocalVarFormFileName string
-    var fileLocalVarFileName     string
-    var fileLocalVarFileBytes    []byte
+	var fileLocalVarFormFileName string
+	var fileLocalVarFileName     string
+	var fileLocalVarFileBytes    []byte
 
 	fileLocalVarFormFileName = "file"
 
@@ -985,7 +985,7 @@ func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (ApiResponse, 
 	if r.file != nil {
 		fileLocalVarFile = *r.file
 	}
-    if fileLocalVarFile != nil {
+	if fileLocalVarFile != nil {
 		fbs, _ := _ioutil.ReadAll(fileLocalVarFile)
 		fileLocalVarFileBytes = fbs
 		fileLocalVarFileName = fileLocalVarFile.Name()
@@ -1112,14 +1112,14 @@ func (a *PetApiService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 	if r.additionalMetadata != nil {
 		localVarFormParams.Add("additionalMetadata", parameterToString(*r.additionalMetadata, ""))
 	}
-    var requiredFileLocalVarFormFileName string
-    var requiredFileLocalVarFileName     string
-    var requiredFileLocalVarFileBytes    []byte
+	var requiredFileLocalVarFormFileName string
+	var requiredFileLocalVarFileName     string
+	var requiredFileLocalVarFileBytes    []byte
 
 	requiredFileLocalVarFormFileName = "requiredFile"
 
 	requiredFileLocalVarFile := *r.requiredFile
-    if requiredFileLocalVarFile != nil {
+	if requiredFileLocalVarFile != nil {
 		fbs, _ := _ioutil.ReadAll(requiredFileLocalVarFile)
 		requiredFileLocalVarFileBytes = fbs
 		requiredFileLocalVarFileName = requiredFileLocalVarFile.Name()
