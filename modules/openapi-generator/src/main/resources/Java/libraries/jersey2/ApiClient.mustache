@@ -922,7 +922,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
           return "application/octet-stream";
       }
 
-      if (contentTypes[0].equals("*/*")) {
+      if ("*/*".equals(contentTypes[0])) {
           return "application/json";
       }
 
