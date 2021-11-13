@@ -838,7 +838,7 @@ public class ApiClient extends JavaTimeFormatter {
           return "application/octet-stream";
       }
 
-      if (contentTypes[0].equals("*/*")) {
+      if ("*/*".equals(contentTypes[0])) {
           return "application/json";
       }
 
