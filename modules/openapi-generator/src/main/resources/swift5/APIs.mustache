@@ -56,8 +56,11 @@ import Vapor
             headers[header] = value
         }
     }
-
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) { }
+    {{#useURLSession}}{{^useVapor}}{{^usePromiseKit}}{{^useResult}}{{^useAsyncAwait}}
+    @discardableResult{{/useAsyncAwait}}{{/useResult}}{{/usePromiseKit}}{{/useVapor}}{{/useURLSession}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {{#useURLSession}}{{^useVapor}}{{^usePromiseKit}}{{^useResult}}{{^useAsyncAwait}}-> URLSessionDataTask? {{/useAsyncAwait}}{{/useResult}}{{/usePromiseKit}}{{/useVapor}}{{/useURLSession}}{
+        {{#useURLSession}}{{^useVapor}}{{^usePromiseKit}}{{^useResult}}{{^useAsyncAwait}}return nil{{/useAsyncAwait}}{{/useResult}}{{/usePromiseKit}}{{/useVapor}}{{/useURLSession}}
+    }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
