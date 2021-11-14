@@ -98,7 +98,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
         return modifiedRequest
     }
-
+    
     override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         let urlSession = createURLSession()
 

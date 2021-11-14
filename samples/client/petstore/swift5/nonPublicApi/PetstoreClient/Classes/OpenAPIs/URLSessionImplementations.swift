@@ -98,8 +98,9 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
         return modifiedRequest
     }
-
-    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    
+    @discardableResult
+    override internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> URLSessionDataTask? {
         let urlSession = createURLSession()
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
@@ -171,10 +172,12 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
             dataTask.resume()
 
+            return dataTask
         } catch {
             apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
+            return nil
         }
     }
 

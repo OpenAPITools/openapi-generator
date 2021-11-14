@@ -47,8 +47,11 @@ open class RequestBuilder<T> {
             headers[header] = value
         }
     }
-
-    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) { }
+    
+    @discardableResult
+    open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> URLSessionDataTask? {
+        return nil
+    }
 
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
