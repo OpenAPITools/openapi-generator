@@ -1247,6 +1247,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 model.getVendorExtensions().put("x-jackson-optional-nullable-helpers", true);
             }
         }
+
+        if (property.isReadOnly) {
+            model.getVendorExtensions().put("x-has-readonly-properties", true);
+        }
     }
 
     @Override
