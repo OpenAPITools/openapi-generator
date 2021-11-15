@@ -98,9 +98,9 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 
         return modifiedRequest
     }
-    {{^useVapor}}{{^usePromiseKit}}{{^useResult}}{{^useAsyncAwait}}
-    @discardableResult{{/useAsyncAwait}}{{/useResult}}{{/usePromiseKit}}{{/useVapor}}
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {{^useVapor}}{{^usePromiseKit}}{{^useResult}}{{^useAsyncAwait}}-> URLSessionDataTask? {{/useAsyncAwait}}{{/useResult}}{{/usePromiseKit}}{{/useVapor}}{
+
+    @discardableResult
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> URLSessionTask? {
         let urlSession = createURLSession()
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
@@ -171,13 +171,14 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
             credentialStore[dataTask.taskIdentifier] = credential
 
             dataTask.resume()
-{{^useVapor}}{{^usePromiseKit}}{{^useResult}}{{^useAsyncAwait}}
-            return dataTask{{/useAsyncAwait}}{{/useResult}}{{/usePromiseKit}}{{/useVapor}}
+
+            return dataTask
         } catch {
             apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
-            }{{^useVapor}}{{^usePromiseKit}}{{^useResult}}{{^useAsyncAwait}}
-            return nil{{/useAsyncAwait}}{{/useResult}}{{/usePromiseKit}}{{/useVapor}}
+            }
+
+            return nil
         }
     }
 
