@@ -18,6 +18,7 @@ import okhttp3.internal.http.HttpMethod;
 import okhttp3.internal.tls.OkHostnameVerifier;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
+import okio.Buffer;
 import okio.BufferedSink;
 import okio.Okio;
 import org.threeten.bp.LocalDate;
@@ -1128,16 +1129,12 @@ public class ApiClient {
         List<Pair> allQueryParams = new ArrayList<Pair>(queryParams);
         allQueryParams.addAll(collectionQueryParams);
 
-        // update parameters with authentication settings
-        updateParamsForAuth(authNames, allQueryParams, headerParams, cookieParams);
-
         final String url = buildUrl(path, queryParams, collectionQueryParams);
-        final Request.Builder reqBuilder = new Request.Builder().url(url);
-        processHeaderParams(headerParams, reqBuilder);
-        processCookieParams(cookieParams, reqBuilder);
 
-        String contentType = (String) headerParams.get("Content-Type");
+        // prepare HTTP request body
         RequestBody reqBody;
+        String contentType = headerParams.get("Content-Type");
+
         if (!HttpMethod.permitsRequestBody(method)) {
             reqBody = null;
         } else if ("application/x-www-form-urlencoded".equals(contentType)) {
@@ -1155,6 +1152,13 @@ public class ApiClient {
         } else {
             reqBody = serialize(body, contentType);
         }
+
+        // update parameters with authentication settings
+        updateParamsForAuth(authNames, allQueryParams, headerParams, cookieParams, requestBodyToString(reqBody), method, URI.create(url));
+
+        final Request.Builder reqBuilder = new Request.Builder().url(url);
+        processHeaderParams(headerParams, reqBuilder);
+        processCookieParams(cookieParams, reqBuilder);
 
         // Associate callback with request (if not null) so interceptor can
         // access it when creating ProgressResponseBody
@@ -1263,13 +1267,14 @@ public class ApiClient {
      * @param headerParams Map of header parameters
      * @param cookieParams Map of cookie parameters
      */
-    public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
+    public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams,
+                                    Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {
                 throw new RuntimeException("Authentication undefined: " + authName);
             }
-            auth.applyToParams(queryParams, headerParams, cookieParams);
+            auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
         }
     }
 
@@ -1420,5 +1425,27 @@ public class ApiClient {
         } catch (IOException e) {
             throw new AssertionError(e);
         }
+    }
+
+    /**
+     * Convert the HTTP request body to a string.
+     *
+     * @param request The HTTP request object
+     * @return The string representation of the HTTP request body
+     * @throws org.openapitools.client.ApiException If fail to serialize the request body object into a string
+     */
+    private String requestBodyToString(RequestBody requestBody) throws ApiException {
+        if (requestBody != null) {
+            try {
+                final Buffer buffer = new Buffer();
+                requestBody.writeTo(buffer);
+                return buffer.readUtf8();
+            } catch (final IOException e) {
+                throw new ApiException(e);
+            }
+        }
+
+        // empty http request body
+        return "";
     }
 }
