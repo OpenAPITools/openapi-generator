@@ -124,6 +124,8 @@ public class ApiClient {
 
     /**
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID
+     *
+     * @param clientId client ID
      */
     public ApiClient(String clientId) {
         this(clientId, null, null);
@@ -131,6 +133,9 @@ public class ApiClient {
 
     /**
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID and additional parameters
+     *
+     * @param clientId client ID
+     * @param parameters a {@link java.util.Map} of parameters
      */
     public ApiClient(String clientId, Map<String, String> parameters) {
         this(clientId, null, parameters);
@@ -138,6 +143,10 @@ public class ApiClient {
 
     /**
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID, secret, and additional parameters
+     *
+     * @param clientId client ID
+     * @param clientSecret client secret
+     * @param parameters a {@link java.util.Map} of parameters
      */
     public ApiClient(String clientId, String clientSecret, Map<String, String> parameters) {
         this(null, clientId, clientSecret, parameters);
@@ -145,6 +154,11 @@ public class ApiClient {
 
     /**
      * Constructor for ApiClient to support access token retry on 401/403 configured with base path, client ID, secret, and additional parameters
+     *
+     * @param basePath base path
+     * @param clientId client ID
+     * @param clientSecret client secret
+     * @param parameters a {@link java.util.Map} of parameters
      */
     public ApiClient(String basePath, String clientId, String clientSecret, Map<String, String> parameters) {
         init();
@@ -1331,6 +1345,9 @@ public class ApiClient {
      * @param queryParams List of query parameters
      * @param headerParams Map of header parameters
      * @param cookieParams Map of cookie parameters
+     * @param payload HTTP request body
+     * @param method HTTP method
+     * @param uri URI
      */
     public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams,
                                     Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
