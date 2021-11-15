@@ -4,6 +4,7 @@ import org.openapitools.model.User
 import kotlinx.coroutines.flow.Flow;
 
 interface UserApiService {
+
     /**
      * POST /user : Create user
      * This can only be done by the logged in user.
@@ -13,6 +14,7 @@ interface UserApiService {
      * @see UserApi#createUser
      */
     suspend fun createUser(body: User): Unit
+
     /**
      * POST /user/createWithArray : Creates list of users with given input array
      *
@@ -21,6 +23,7 @@ interface UserApiService {
      * @see UserApi#createUsersWithArrayInput
      */
     suspend fun createUsersWithArrayInput(body: Flow<User>): Unit
+
     /**
      * POST /user/createWithList : Creates list of users with given input array
      *
@@ -29,6 +32,7 @@ interface UserApiService {
      * @see UserApi#createUsersWithListInput
      */
     suspend fun createUsersWithListInput(body: Flow<User>): Unit
+
     /**
      * DELETE /user/{username} : Delete user
      * This can only be done by the logged in user.
@@ -39,6 +43,7 @@ interface UserApiService {
      * @see UserApi#deleteUser
      */
     suspend fun deleteUser(username: kotlin.String): Unit
+
     /**
      * GET /user/{username} : Get user by user name
      *
@@ -49,6 +54,7 @@ interface UserApiService {
      * @see UserApi#getUserByName
      */
     suspend fun getUserByName(username: kotlin.String): User
+
     /**
      * GET /user/login : Logs user into the system
      *
@@ -59,6 +65,7 @@ interface UserApiService {
      * @see UserApi#loginUser
      */
     suspend fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String
+
     /**
      * GET /user/logout : Logs out current logged in user session
      *
@@ -66,6 +73,7 @@ interface UserApiService {
      * @see UserApi#logoutUser
      */
     suspend fun logoutUser(): Unit
+
     /**
      * PUT /user/{username} : Updated user
      * This can only be done by the logged in user.

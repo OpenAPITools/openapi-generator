@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow;
 {{#operations}}
 interface {{classname}}Service {
 {{#operation}}
+
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
     {{#notes}}

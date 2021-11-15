@@ -3,6 +3,7 @@ package org.openapitools.api
 import org.openapitools.model.User
 
 interface UserApiService {
+
     /**
      * POST /user : Create user
      * This can only be done by the logged in user.
@@ -12,6 +13,7 @@ interface UserApiService {
      * @see UserApi#createUser
      */
     fun createUser(body: User): Unit
+
     /**
      * POST /user/createWithArray : Creates list of users with given input array
      *
@@ -20,6 +22,7 @@ interface UserApiService {
      * @see UserApi#createUsersWithArrayInput
      */
     fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Unit
+
     /**
      * POST /user/createWithList : Creates list of users with given input array
      *
@@ -28,6 +31,7 @@ interface UserApiService {
      * @see UserApi#createUsersWithListInput
      */
     fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit
+
     /**
      * DELETE /user/{username} : Delete user
      * This can only be done by the logged in user.
@@ -38,6 +42,7 @@ interface UserApiService {
      * @see UserApi#deleteUser
      */
     fun deleteUser(username: kotlin.String): Unit
+
     /**
      * GET /user/{username} : Get user by user name
      *
@@ -48,6 +53,7 @@ interface UserApiService {
      * @see UserApi#getUserByName
      */
     fun getUserByName(username: kotlin.String): User
+
     /**
      * GET /user/login : Logs user into the system
      *
@@ -58,6 +64,7 @@ interface UserApiService {
      * @see UserApi#loginUser
      */
     fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String
+
     /**
      * GET /user/logout : Logs out current logged in user session
      *
@@ -65,6 +72,7 @@ interface UserApiService {
      * @see UserApi#logoutUser
      */
     fun logoutUser(): Unit
+
     /**
      * PUT /user/{username} : Updated user
      * This can only be done by the logged in user.

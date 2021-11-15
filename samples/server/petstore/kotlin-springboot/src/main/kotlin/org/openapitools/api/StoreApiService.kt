@@ -3,6 +3,7 @@ package org.openapitools.api
 import org.openapitools.model.Order
 
 interface StoreApiService {
+
     /**
      * DELETE /store/order/{orderId} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -13,6 +14,7 @@ interface StoreApiService {
      * @see StoreApi#deleteOrder
      */
     fun deleteOrder(orderId: kotlin.String): Unit
+
     /**
      * GET /store/inventory : Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -21,6 +23,7 @@ interface StoreApiService {
      * @see StoreApi#getInventory
      */
     fun getInventory(): Map<String, kotlin.Int>
+
     /**
      * GET /store/order/{orderId} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
@@ -32,6 +35,7 @@ interface StoreApiService {
      * @see StoreApi#getOrderById
      */
     fun getOrderById(orderId: kotlin.Long): Order
+
     /**
      * POST /store/order : Place an order for a pet
      *

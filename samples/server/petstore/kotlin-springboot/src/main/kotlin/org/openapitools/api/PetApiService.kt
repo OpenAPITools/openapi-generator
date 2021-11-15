@@ -4,6 +4,7 @@ import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
 
 interface PetApiService {
+
     /**
      * POST /pet : Add a new pet to the store
      *
@@ -12,6 +13,7 @@ interface PetApiService {
      * @see PetApi#addPet
      */
     fun addPet(body: Pet): Unit
+
     /**
      * DELETE /pet/{petId} : Deletes a pet
      *
@@ -21,6 +23,7 @@ interface PetApiService {
      * @see PetApi#deletePet
      */
     fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?): Unit
+
     /**
      * GET /pet/findByStatus : Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -31,6 +34,7 @@ interface PetApiService {
      * @see PetApi#findPetsByStatus
      */
     fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): List<Pet>
+
     /**
      * GET /pet/findByTags : Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -42,6 +46,7 @@ interface PetApiService {
      * @see PetApi#findPetsByTags
      */
     fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<Pet>
+
     /**
      * GET /pet/{petId} : Find pet by ID
      * Returns a single pet
@@ -53,6 +58,7 @@ interface PetApiService {
      * @see PetApi#getPetById
      */
     fun getPetById(petId: kotlin.Long): Pet
+
     /**
      * PUT /pet : Update an existing pet
      *
@@ -63,6 +69,7 @@ interface PetApiService {
      * @see PetApi#updatePet
      */
     fun updatePet(body: Pet): Unit
+
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
      *
@@ -73,6 +80,7 @@ interface PetApiService {
      * @see PetApi#updatePetWithForm
      */
     fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): Unit
+
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
      *
