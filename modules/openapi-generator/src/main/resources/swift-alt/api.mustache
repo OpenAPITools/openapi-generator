@@ -12,13 +12,13 @@ import Combine
 {{#description}}
 /** {{{.}}} */{{/description}}
 open class {{classname}} {
-    private let encoder: JSONEncoder = {
+    private static let encoder: JSONEncoder = {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(OpenISO8601DateFormatter())
         encoder.outputFormatting = .prettyPrinted
         return encoder
     }()
-    private let decoder: JSONDecoder = {
+    private static let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(OpenISO8601DateFormatter())
         return decoder
@@ -52,9 +52,9 @@ open class {{classname}} {
     {{#allParams}}
         - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
     {{/allParams}}
-        - returns: AnyPublisher<Result<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error>, Never> {{description}}
+        - returns: AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {{description}}
         */
-    open func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> AnyPublisher<Result<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error>, Never> {
+    open func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {
         // Creating final URL with query items and path
         var components = URLComponents()
         components.path = "{{path}}"
@@ -83,65 +83,25 @@ open class {{classname}} {
             "{{baseName}}": {{paramName}}{{^-last}}, {{/-last}}{{/headerParams}}
         ].compactMapValues { $0 }{{/hasHeaderParams}}
         {{#hasBodyParam}}{{#bodyParam}}// Setting body parameters {{! TODO: Convert value to data if needed (can be nil, can be Data already) }}
-        request.httpBody = try? encoder.encode({{paramName}}){{/bodyParam}}{{/hasBodyParam}}
+        request.httpBody = try? {{classname}}.encoder.encode({{paramName}})
+        if request.value(forHTTPHeaderField: "Content-Type") == nil {
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+        {{/bodyParam}}{{/hasBodyParam}}
         // Getting auth type {{! TODO: Set proper auth type) }}
-        let securityScheme: SecurityScheme = .none
-        return transport.send(request: request, securityScheme: securityScheme)
-            .map { response -> Result<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> in
+        let securitySchemes: [SecurityScheme] = [{{#authMethods}}{{#isBasicBearer}}.bearer{{/isBasicBearer}}{{/authMethods}}]
+        return transport.send(request: request, securitySchemes: securitySchemes)
+            .tryMap { response in
                 {{! TODO: Check responses properly }}
-                if response.response?.statusCode == 200 {
-                    {{#returnType}}
-                    if let data = response.data {
-                        return Result { try self.decoder.decode({{{returnType}}}.self, from: data) }
-                    } else {
-                        return .failure(TransportError.unknown)
-                    }
-                    {{/returnType}}
-                    {{^returnType}}
-                    return .success(())
-                    {{/returnType}}
-                } else {
-                    return .failure(response.error ?? TransportError.unknown)
-                }
+                {{#returnType}}
+                try {{classname}}.decoder.decode({{{returnType}}}.self, from: response.data)
+                {{/returnType}}
+                {{^returnType}}
+                return ()
+                {{/returnType}}
             }
             .eraseToAnyPublisher()
     }
 {{/operation}}
 }
 {{/operations}}
-
-
-private class OpenISO8601DateFormatter: DateFormatter {
-    static let withoutSeconds: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        return formatter
-    }()
-
-    private func setup() {
-        calendar = Calendar(identifier: .iso8601)
-        locale = Locale(identifier: "en_US_POSIX")
-        timeZone = TimeZone(secondsFromGMT: 0)
-        dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-    }
-
-    override init() {
-        super.init()
-        setup()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
-    }
-
-    override func date(from string: String) -> Date? {
-        if let result = super.date(from: string) {
-            return result
-        }
-        return OpenISO8601DateFormatter.withoutSeconds.date(from: string)
-    }
-}

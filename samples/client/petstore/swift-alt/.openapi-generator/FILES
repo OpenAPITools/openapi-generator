@@ -1,0 +1,12 @@
+Package.swift
+Sources/APIs/PetAPI.swift
+Sources/APIs/StoreAPI.swift
+Sources/APIs/UserAPI.swift
+Sources/Models/ApiResponse.swift
+Sources/Models/Category.swift
+Sources/Models/Order.swift
+Sources/Models/Pet.swift
+Sources/Models/Tag.swift
+Sources/Models/User.swift
+Sources/Private/OpenISO8601DateFormatter.swift
+Sources/Runtime.swift

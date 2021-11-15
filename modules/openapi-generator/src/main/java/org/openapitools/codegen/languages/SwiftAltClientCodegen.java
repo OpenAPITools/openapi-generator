@@ -47,8 +47,8 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String PROJECT_NAME = "projectName";
     protected String projectName = "OpenAPIClient";
-    protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
-    protected String sourceFolder = swiftPackagePath;
+    protected String privateFolder = "Sources/Private";
+    protected String sourceFolder = "Sources";
 
     /**
      * Constructor for the swift alt language codegen module.
@@ -64,12 +64,15 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
         apiTemplateFiles.put("api.mustache", ".swift");
-        supportingFiles.add(new SupportingFile("Package.swift.mustache",
+        supportingFiles.add(new SupportingFile("Package.mustache",
                 "",
                 "Package.swift"));
-        supportingFiles.add(new SupportingFile("XcodeGen.mustache",
-                "",
-                "project.yml"));
+        supportingFiles.add(new SupportingFile("Runtime.mustache",
+                sourceFolder,
+                "Runtime.swift"));
+        supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
+                privateFolder,
+                "OpenISO8601DateFormatter.swift"));
         embeddedTemplateDir = templateDir = "swift-alt";
         apiPackage = File.separator + "APIs";
         modelPackage = File.separator + "Models";
@@ -281,7 +284,6 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         } else {
             additionalProperties.put(PROJECT_NAME, projectName);
         }
-        sourceFolder = projectName + File.separator + sourceFolder;
     }
 
     @Override
@@ -562,10 +564,6 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
-    public void setSwiftPackagePath(String swiftPackagePath) {
-        this.swiftPackagePath = swiftPackagePath;
-    }
-
     @Override
     public String toEnumValue(String value, String datatype) {
         // for string, array of string

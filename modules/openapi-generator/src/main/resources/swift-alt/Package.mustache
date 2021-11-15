@@ -1,0 +1,24 @@
+// swift-tools-version:5.1
+
+import PackageDescription
+
+let package = Package(
+    name: "{{projectName}}",
+    platforms: [
+        .iOS(.v13)
+    ],
+    products: [
+        .library(
+            name: "{{projectName}}",
+            targets: ["{{projectName}}"]
+        ),
+    ],
+    dependencies: [],
+    targets: [
+        .target(
+            name: "{{projectName}}",
+            dependencies: [],
+            path: "Sources"
+        ),
+    ]
+)
