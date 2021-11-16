@@ -288,7 +288,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     /**
     * Get all pets
     * 
-    * @param lastUpdated When this endpoint was hit last to help indentify if the client already has the latest copy. (optional)
+    * @param lastUpdated When this endpoint was hit last to help identify if the client already has the latest copy. (optional)
     * @return ApiInfrastructureResponse<kotlin.collections.List<Pet>?>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
