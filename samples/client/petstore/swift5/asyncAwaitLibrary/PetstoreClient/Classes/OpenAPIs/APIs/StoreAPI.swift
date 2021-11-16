@@ -21,6 +21,7 @@ open class StoreAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+
         return try await withCheckedThrowingContinuation { continuation in
             deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                 switch result {
@@ -69,6 +70,7 @@ open class StoreAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> [String: Int] {
+
         return try await withCheckedThrowingContinuation { continuation in
             getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
                 switch result {
@@ -117,6 +119,7 @@ open class StoreAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Order {
+
         return try await withCheckedThrowingContinuation { continuation in
             getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                 switch result {
@@ -166,6 +169,7 @@ open class StoreAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Order {
+
         return try await withCheckedThrowingContinuation { continuation in
             placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {

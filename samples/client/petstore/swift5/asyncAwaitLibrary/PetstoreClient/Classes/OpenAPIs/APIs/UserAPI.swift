@@ -21,6 +21,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func createUser(body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+
         return try await withCheckedThrowingContinuation { continuation in
             createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
@@ -67,6 +68,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func createUsersWithArrayInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+
         return try await withCheckedThrowingContinuation { continuation in
             createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
@@ -112,6 +114,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func createUsersWithListInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+
         return try await withCheckedThrowingContinuation { continuation in
             createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
@@ -157,6 +160,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func deleteUser(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+
         return try await withCheckedThrowingContinuation { continuation in
             deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                 switch result {
@@ -206,6 +210,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func getUserByName(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> User {
+
         return try await withCheckedThrowingContinuation { continuation in
             getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                 switch result {
@@ -255,6 +260,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func loginUser(username: String, password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> String {
+
         return try await withCheckedThrowingContinuation { continuation in
             loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
                 switch result {
@@ -305,6 +311,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+
         return try await withCheckedThrowingContinuation { continuation in
             logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
                 switch result {
@@ -350,6 +357,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func updateUser(username: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
+
         return try await withCheckedThrowingContinuation { continuation in
             updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
                 switch result {

@@ -22,7 +22,7 @@ open class FakeClassnameTags123API {
      */
     open class func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            let dataTask = testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let task = testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -33,7 +33,7 @@ open class FakeClassnameTags123API {
             }
             
             return Disposables.create {
-                dataTask?.cancel()
+                task?.cancel()
             }
         }
     }
