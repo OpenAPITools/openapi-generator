@@ -11,6 +11,7 @@ import public "{{{modelPackage}}}/{{{import}}}.proto";
 
 {{#models}}
 {{#model}}
+{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}
 message {{classname}} {
 
   {{#vars}}
@@ -34,5 +35,6 @@ message {{classname}} {
 
   {{/vars}}
 }
+{{/isEnum}}
 {{/model}}
 {{/models}}
