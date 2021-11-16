@@ -49,6 +49,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     protected String projectName = "OpenAPIClient";
     protected String privateFolder = "Sources/Private";
     protected String sourceFolder = "Sources";
+    protected String transportFolder = "OpenAPITransport";
 
     /**
      * Constructor for the swift alt language codegen module.
@@ -64,15 +65,6 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
         apiTemplateFiles.put("api.mustache", ".swift");
-        supportingFiles.add(new SupportingFile("Package.mustache",
-                "",
-                "Package.swift"));
-        supportingFiles.add(new SupportingFile("Runtime.mustache",
-                sourceFolder,
-                "Runtime.swift"));
-        supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
-                privateFolder,
-                "OpenISO8601DateFormatter.swift"));
         embeddedTemplateDir = templateDir = "swift-alt";
         apiPackage = File.separator + "APIs";
         modelPackage = File.separator + "Models";
@@ -284,6 +276,19 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         } else {
             additionalProperties.put(PROJECT_NAME, projectName);
         }
+
+        supportingFiles.add(new SupportingFile("Package.mustache",
+                projectName,
+                "Package.swift"));
+        supportingFiles.add(new SupportingFile("OpenAPITransportPackage.mustache",
+                transportFolder,
+                "Package.swift"));
+        supportingFiles.add(new SupportingFile("OpenAPITransport.mustache",
+                transportFolder + File.separator + sourceFolder,
+                "OpenAPITransport.swift"));
+        supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
+                projectName + File.separator + privateFolder,
+                "OpenISO8601DateFormatter.swift"));
     }
 
     @Override
@@ -293,13 +298,13 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder
+        return outputFolder + File.separator + projectName + File.separator + sourceFolder
                 + modelPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder
+        return outputFolder + File.separator + projectName + File.separator + sourceFolder
                 + apiPackage().replace('.', File.separatorChar);
     }
 

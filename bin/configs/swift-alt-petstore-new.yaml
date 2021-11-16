@@ -1,6 +1,7 @@
 generatorName: swift-alt
-outputDir: samples/client/petstore/swift-alt
+outputDir: samples/client/petstore/swift-alt/client
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/swift-alt
 additionalProperties:
   hideGenerationTimestamp: "true"
+  projectName: "PetstoreOpenAPI"

@@ -3,20 +3,21 @@
 import PackageDescription
 
 let package = Package(
-    name: "OpenAPIClient",
+    name: "OpenAPITransport",
     platforms: [
-        .iOS(.v13)
+        .iOS(.v13),
+        .macOS(.v10_15)
     ],
     products: [
         .library(
-            name: "OpenAPIClient",
-            targets: ["OpenAPIClient"]
+            name: "OpenAPITransport",
+            targets: ["OpenAPITransport"]
         ),
     ],
     dependencies: [],
     targets: [
         .target(
-            name: "OpenAPIClient",
+            name: "OpenAPITransport",
             dependencies: [],
             path: "Sources"
         ),

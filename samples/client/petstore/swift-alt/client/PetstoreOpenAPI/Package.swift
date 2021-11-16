@@ -3,21 +3,21 @@
 import PackageDescription
 
 let package = Package(
-    name: "{{projectName}}",
+    name: "PetstoreOpenAPI",
     platforms: [
         .iOS(.v13),
         .macOS(.v10_15)
     ],
     products: [
         .library(
-            name: "{{projectName}}",
-            targets: ["{{projectName}}"]
+            name: "PetstoreOpenAPI",
+            targets: ["PetstoreOpenAPI"]
         ),
     ],
     dependencies: [.package(path: "../OpenAPITransport")],
     targets: [
         .target(
-            name: "{{projectName}}",
+            name: "PetstoreOpenAPI",
             dependencies: [.byName(name: "OpenAPITransport")],
             path: "Sources"
         ),
