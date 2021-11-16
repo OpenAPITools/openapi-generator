@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 public class CsharpNetcoreFunctionsServerCodegen extends CSharpNetCoreClientCodegen  {
     public static final String PROJECT_NAME = "projectName";
 
-    static final Logger LOGGER = LoggerFactory.getLogger(CsharpNetcoreFunctionsServerCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(CsharpNetcoreFunctionsServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
