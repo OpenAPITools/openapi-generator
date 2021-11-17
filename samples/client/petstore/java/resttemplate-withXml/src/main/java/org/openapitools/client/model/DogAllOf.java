@@ -43,6 +43,8 @@ public class DogAllOf {
   @XmlElement(name = "breed")
   private String breed;
 
+  public DogAllOf() { 
+  }
 
   public DogAllOf breed(String breed) {
     

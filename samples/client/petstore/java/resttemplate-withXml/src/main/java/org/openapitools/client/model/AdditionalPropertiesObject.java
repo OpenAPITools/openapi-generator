@@ -45,6 +45,8 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
   @XmlElement(name = "name")
   private String name;
 
+  public AdditionalPropertiesObject() { 
+  }
 
   public AdditionalPropertiesObject name(String name) {
     

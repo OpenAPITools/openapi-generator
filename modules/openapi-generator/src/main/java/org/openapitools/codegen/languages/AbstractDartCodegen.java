@@ -340,7 +340,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // replace all characters that have a mapping but ignore underscores
         // append an underscore to each replacement so that it can be camelized
-        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
+        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
             name = escape(name, specialCharReplacements, Collections.singletonList("_"), "_");
         }
         // remove the rest
@@ -752,7 +752,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently supported is "dartfmt -w" and "dart format"
-            String command = dartPostProcessFile + " " + file.toString();
+            String command = dartPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();

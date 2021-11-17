@@ -141,7 +141,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                             .map(x -> quoteExample(
                                     StringEscapeUtils.escapeEcmaScript(
                                             String.valueOf(x.getValue()))))
-                            .collect(Collectors.toCollection(() -> new TreeSet<String>()));
+                            .collect(Collectors.toCollection(() -> new TreeSet<>()));
 
                     if (!exampleValues.isEmpty()) {
 
@@ -274,7 +274,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String BASE_URL = "baseURL";
     public static final String PRESERVE_LEADING_PARAM_CHAR = "preserveLeadingParamChar";
     static final Collection<String> INVOKER_PKG_SUPPORTING_FILES = Arrays.asList("script.mustache", "README.mustache");
-    static final String[][] JAVASCRIPT_SUPPORTING_FILES = new String[][]{
+    static final String[][] JAVASCRIPT_SUPPORTING_FILES = {
             new String[]{"script.mustache", "script.js"}, new String[]{"README.mustache", "README.md"}};
 
     protected String projectName;
@@ -412,7 +412,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 List<Parameter> queryParams = new ArrayList<>();
                 List<Parameter> bodyOrFormParams = new ArrayList<>();
                 List<k6Check> k6Checks = new ArrayList<>();
-                Set<String> imports = new HashSet<String>();
+                Set<String> imports = new HashSet<>();
 
                 final Operation operation = methodOperation.getValue();
                 final PathItem.HttpMethod method = methodOperation.getKey();
