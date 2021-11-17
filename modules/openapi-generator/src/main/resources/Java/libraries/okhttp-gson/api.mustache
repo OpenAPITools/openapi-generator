@@ -126,8 +126,10 @@ public class {{classname}} {
         // Determine Base Path to Use
         if (localCustomBaseUrl != null){
             basePath = localCustomBaseUrl;
-        } else {
+        } else if ( localBasePaths.length > 0 ) {
             basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
         }
 
         Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
