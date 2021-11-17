@@ -286,27 +286,27 @@ public class TypeHolderExample {
     openapiRequiredFields.add("array_item");
   }
 
-  public static class TypeHolderExampleDeserializer implements JsonDeserializer<TypeHolderExample> {
+  public static class CustomDeserializer implements JsonDeserializer<TypeHolderExample> {
     @Override
     public TypeHolderExample deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
       JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
       Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-      // check to see if the JSON payload contains additional fields
+      // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry: entries) {
         if (!TypeHolderExample.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON payload is not defined in the `TypeHolderExample` properties");
+          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `TypeHolderExample` properties");
         }
       }
 
-      // check to make sure all required properties/fields are present in the JSON payload
+      // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : TypeHolderExample.openapiRequiredFields) {
         if (obj.get(requiredField) == null) {
-          throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON payload");
+          throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON string");
         }
       }
 
       // all checks passed, return using the original implementation of deserialize
-      return deserialize(json, typeOfT, context);
+      return new Gson().fromJson(json, TypeHolderExample.class);
     }
   }
 }

@@ -144,20 +144,20 @@ public class HasOnlyReadOnly {
     openapiRequiredFields = new HashSet<String>();
   }
 
-  public static class HasOnlyReadOnlyDeserializer implements JsonDeserializer<HasOnlyReadOnly> {
+  public static class CustomDeserializer implements JsonDeserializer<HasOnlyReadOnly> {
     @Override
     public HasOnlyReadOnly deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
       JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
       Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-      // check to see if the JSON payload contains additional fields
+      // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry: entries) {
         if (!HasOnlyReadOnly.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON payload is not defined in the `HasOnlyReadOnly` properties");
+          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `HasOnlyReadOnly` properties");
         }
       }
 
       // all checks passed, return using the original implementation of deserialize
-      return deserialize(json, typeOfT, context);
+      return new Gson().fromJson(json, HasOnlyReadOnly.class);
     }
   }
 }

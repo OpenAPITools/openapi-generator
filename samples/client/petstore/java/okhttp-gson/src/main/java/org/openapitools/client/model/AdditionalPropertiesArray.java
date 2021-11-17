@@ -127,20 +127,20 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
     openapiRequiredFields = new HashSet<String>();
   }
 
-  public static class AdditionalPropertiesArrayDeserializer implements JsonDeserializer<AdditionalPropertiesArray> {
+  public static class CustomDeserializer implements JsonDeserializer<AdditionalPropertiesArray> {
     @Override
     public AdditionalPropertiesArray deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
       JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
       Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-      // check to see if the JSON payload contains additional fields
+      // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry: entries) {
         if (!AdditionalPropertiesArray.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON payload is not defined in the `AdditionalPropertiesArray` properties");
+          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `AdditionalPropertiesArray` properties");
         }
       }
 
       // all checks passed, return using the original implementation of deserialize
-      return deserialize(json, typeOfT, context);
+      return new Gson().fromJson(json, AdditionalPropertiesArray.class);
     }
   }
 }

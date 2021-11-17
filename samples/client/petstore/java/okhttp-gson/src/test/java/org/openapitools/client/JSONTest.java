@@ -2,6 +2,8 @@ package org.openapitools.client;
 
 import static org.junit.Assert.*;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
@@ -20,6 +22,8 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.format.DateTimeFormatter;
+
+import org.openapitools.client.model.*;
 
 public class JSONTest {
     private ApiClient apiClient = null;
@@ -194,6 +198,53 @@ public class JSONTest {
         // Assert
         assertEquals(
                 expectedBytesAsString, new String(actualDeserializedBytes, StandardCharsets.UTF_8));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testRequiredFieldException() {
+        // test json string missing required field(s) to ensure exception is thrown
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Pet.class, new Pet.CustomDeserializer())
+                .create();
+        String json = "{\"id\": 5847, \"name\":\"tag test 1\"}"; // missing photoUrls (required field)
+        //String json = "{\"id2\": 5847, \"name\":\"tag test 1\"}";
+        //String json = "{\"id\": 5847}";
+        Pet p = gson.fromJson(json, Pet.class);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAdditionalFieldException() {
+        // test json string with additional field(s) to ensure exception is thrown
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
+                .create();
+        String json = "{\"id\": 5847, \"name\":\"tag test 1\", \"new-field\": true}";
+        Tag t = gson.fromJson(json, Tag.class);
+    }
+
+    @Test
+    public void testCustomDeserializer() {
+        // test the custom deserializer to ensure it can deserialize json payload into objects
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
+                .create();
+        // id and name
+        String json = "{\"id\": 5847, \"name\":\"tag test 1\"}";
+        Tag t = gson.fromJson(json, Tag.class);
+        assertEquals(t.getName(), "tag test 1");
+        assertEquals(t.getId(), Long.valueOf(5847L));
+
+        // name only
+        String json2 = "{\"name\":\"tag test 1\"}";
+        Tag t2 = gson.fromJson(json2, Tag.class);
+        assertEquals(t2.getName(), "tag test 1");
+        assertEquals(t2.getId(), null);
+       
+        // with all required fields 
+        String json3 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"]}"; // missing photoUrls (required field)
+        Pet t3 = gson.fromJson(json3, Pet.class);
+        assertEquals(t3.getName(), "pet test 1");
+        assertEquals(t3.getId(), Long.valueOf(5847));
     }
 
     // Obtained 22JAN2018 from stackoverflow answer by PuguaSoft
