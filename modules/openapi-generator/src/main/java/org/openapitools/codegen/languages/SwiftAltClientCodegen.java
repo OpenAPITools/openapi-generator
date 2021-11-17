@@ -50,6 +50,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     protected String privateFolder = "Sources/Private";
     protected String sourceFolder = "Sources";
     protected String transportFolder = "OpenAPITransport";
+    protected List<String> notCodableTypes = Arrays.asList("Any", "AnyObject", "[String: Any]");
 
     /**
      * Constructor for the swift alt language codegen module.
@@ -86,6 +87,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
                         "URL",
                         "AnyObject",
                         "Any",
+                        "[String: Any]",
                         "Decimal")
         );
         defaultIncludes = new HashSet<>(
@@ -100,7 +102,6 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
                         "Any",
                         "Empty",
                         "AnyObject",
-                        "Any",
                         "Decimal")
         );
 
@@ -176,8 +177,8 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "String");
         typeMapping.put("decimal", "Decimal");
-        typeMapping.put("object", "AnyCodable");
-        typeMapping.put("AnyType", "AnyCodable");
+        typeMapping.put("object", "[String: Any]");
+        typeMapping.put("AnyType", "Any");
         typeMapping.put("file", "Data");
         typeMapping.put("binary", "Data");
 
@@ -766,6 +767,9 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
             for (CodegenParameter cp : operation.allParams) {
                 cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<String>()));
             }
+            if (notCodableTypes.contains(operation.returnType)) {
+                operation.vendorExtensions.put("x-swift-isNotCodable", true);
+            }
         }
         return objs;
     }
@@ -880,7 +884,8 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     public void postProcess() {
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# swift alternative generator #");
+        System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
+        System.out.println("# swift alternative generator v0.1.0                                           #");
         System.out.println("################################################################################");
     }
 }

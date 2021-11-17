@@ -21,7 +21,7 @@ class PetAPITests: XCTestCase {
 
     func testAddPet() {
         // Given
-        let transport =  URLSessionOpenAPITransport(baseURL: baseURL)
+        let transport =  URLSessionOpenAPITransport(config: .init(baseURL: baseURL))
         let api = PetAPI(transport)
         let category = Category(id: 1, name: "CategoryName")
         let photoUrls = ["https://petstore.com/sample/photo1.jpg", "https://petstore.com/sample/photo2.jpg"]
@@ -55,59 +55,48 @@ class PetAPITests: XCTestCase {
         wait(for: [expectation], timeout: timeout)
     }
 
-    func testGetPetById() {
+    func testGetPetByUnknownId() {
         // Given
-        let transport =  URLSessionOpenAPITransport(baseURL: baseURL)
+        let transport =  URLSessionOpenAPITransport(config: .init(baseURL: baseURL))
         let api = PetAPI(transport)
-        let petId: Int64 = 101
-        let pet = Pet(id: petId, category: nil, name: "PetName101", photoUrls: [], tags: nil, status: .available)
+        let unknownPetId: Int64 = 1010101010
 
         // When
         let expectation = expectation(description: "testGetPetByIdExpectation")
-        api.addPet(pet: pet)
-            // Delay to prevent too early access data
-            .delay(for: 3.0, scheduler: DispatchQueue.global())
-            .flatMap { _ in
-                api.getPetById(petId: petId)
-            }
+        api.getPetById(petId: unknownPetId)
             .sink { completion in
                 switch completion {
                 case .finished:
+                    XCTFail("Finding unknown pet operation should return 404 error")
                     expectation.fulfill()
                 case let .failure(error):
-                    XCTFail("Finding pet operation finished with error: \(error)")
+                    XCTAssertTrue((error as? OpenAPITransportError)?.statusCode == 404, "Finding unknown pet operation should return 404 error")
                     expectation.fulfill()
                 }
-            } receiveValue: { pet in
-                XCTAssertTrue(pet.id == petId, "Found pet should have given pet id")
-            }
+            } receiveValue: { _ in }
             .store(in: &cancellable)
 
         wait(for: [expectation], timeout: timeout)
     }
 
-    func testDeletePet() {
+    func testDeleteUnknownPet() {
         // Given
-        let transport =  URLSessionOpenAPITransport(baseURL: baseURL)
+        let transport =  URLSessionOpenAPITransport(config: .init(baseURL: baseURL))
         let api = PetAPI(transport)
-        let petId: Int64 = 102
-        let pet = Pet(id: petId, category: nil, name: "PetName102", photoUrls: [], tags: nil, status: .available)
+        let unknownPetId: Int64 = 1010101010
 
         // When
         let expectation = expectation(description: "testDeletePetExpectation")
-        api.addPet(pet: pet)
-            // Delay to prevent too early access data
-            .delay(for: 3.0, scheduler: DispatchQueue.global())
-            .flatMap { _ in
-                api.deletePet(petId: petId, apiKey: "special-key")
-            }
+        api
+            .deletePet(petId: unknownPetId, apiKey: "special-key")
             .sink { completion in
                 // Then
                 switch completion {
                 case .finished:
+                    XCTFail("Deleting unknown pet operation should return 404 error")
                     expectation.fulfill()
                 case let .failure(error):
-                    XCTFail("Deleting pet operation finished with error: \(error)")
+                    XCTAssertTrue((error as? OpenAPITransportError)?.statusCode == 404, "Deleting unknown pet operation should return 404 error")
                     expectation.fulfill()
                 }
             } receiveValue: {}

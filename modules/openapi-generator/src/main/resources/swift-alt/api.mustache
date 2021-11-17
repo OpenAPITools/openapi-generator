@@ -100,7 +100,16 @@ open class {{classname}} {
             .tryMap { response in
                 {{! TODO: Check responses properly }}
                 {{#returnType}}
+                {{#vendorExtensions.x-swift-isNotCodable}}
+                if let object = try JSONSerialization.jsonObject(with: response.data, options: []) as? {{{returnType}}} {
+                    return object
+                } else {
+                    throw OpenAPITransportError.invalidResponseMappingError(data: response.data)
+                }
+                {{/vendorExtensions.x-swift-isNotCodable}} 
+                {{^vendorExtensions.x-swift-isNotCodable}} 
                 try {{classname}}.decoder.decode({{{returnType}}}.self, from: response.data)
+                {{/vendorExtensions.x-swift-isNotCodable}} 
                 {{/returnType}}
                 {{^returnType}}
                 return ()
