@@ -34,6 +34,9 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Model for testing model name starting with number
@@ -138,18 +141,32 @@ public class Model200Response {
   }
 
   public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
   static {
+    // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
-    openapiFields.add("a");
+    openapiFields.add("name");
+    openapiFields.add("class");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
   }
 
   public static class Model200ResponseDeserializer implements JsonDeserializer<Model200Response> {
     @Override
-    public Model200Response deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
-      HashSet<String> test = Model200Response.openapiFields;
-      JsonObject jsonObject = (JsonObject) json;
-      return new Gson().fromJson(json, Model200Response.class);
+    public Model200Response deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
+      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+      // check to see if the JSON payload contains additional fields
+      for (Entry<String, JsonElement> entry: entries) {
+        if (!Model200Response.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON payload is not defined in the `Model200Response` properties");
+        }
+      }
+
+      // all checks passed, return using the original implementation of deserialize
+      return deserialize(json, typeOfT, context);
     }
   }
 }
-

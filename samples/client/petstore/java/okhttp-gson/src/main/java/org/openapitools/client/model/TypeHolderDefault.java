@@ -37,6 +37,9 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * TypeHolderDefault
@@ -232,18 +235,47 @@ public class TypeHolderDefault {
   }
 
   public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
   static {
+    // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
-    openapiFields.add("a");
+    openapiFields.add("string_item");
+    openapiFields.add("number_item");
+    openapiFields.add("integer_item");
+    openapiFields.add("bool_item");
+    openapiFields.add("array_item");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("string_item");
+    openapiRequiredFields.add("number_item");
+    openapiRequiredFields.add("integer_item");
+    openapiRequiredFields.add("bool_item");
+    openapiRequiredFields.add("array_item");
   }
 
   public static class TypeHolderDefaultDeserializer implements JsonDeserializer<TypeHolderDefault> {
     @Override
-    public TypeHolderDefault deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
-      HashSet<String> test = TypeHolderDefault.openapiFields;
-      JsonObject jsonObject = (JsonObject) json;
-      return new Gson().fromJson(json, TypeHolderDefault.class);
+    public TypeHolderDefault deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
+      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+      // check to see if the JSON payload contains additional fields
+      for (Entry<String, JsonElement> entry: entries) {
+        if (!TypeHolderDefault.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON payload is not defined in the `TypeHolderDefault` properties");
+        }
+      }
+
+      // check to make sure all required properties/fields are present in the JSON payload
+      for (String requiredField : TypeHolderDefault.openapiRequiredFields) {
+        if (obj.get(requiredField) == null) {
+          throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON payload");
+        }
+      }
+
+      // all checks passed, return using the original implementation of deserialize
+      return deserialize(json, typeOfT, context);
     }
   }
 }
-

@@ -40,6 +40,9 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Pet
@@ -321,18 +324,45 @@ public class Pet {
   }
 
   public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
   static {
+    // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
-    openapiFields.add("a");
+    openapiFields.add("id");
+    openapiFields.add("category");
+    openapiFields.add("name");
+    openapiFields.add("photoUrls");
+    openapiFields.add("tags");
+    openapiFields.add("status");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("name");
+    openapiRequiredFields.add("photoUrls");
   }
 
   public static class PetDeserializer implements JsonDeserializer<Pet> {
     @Override
-    public Pet deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
-      HashSet<String> test = Pet.openapiFields;
-      JsonObject jsonObject = (JsonObject) json;
-      return new Gson().fromJson(json, Pet.class);
+    public Pet deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
+      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+      // check to see if the JSON payload contains additional fields
+      for (Entry<String, JsonElement> entry: entries) {
+        if (!Pet.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON payload is not defined in the `Pet` properties");
+        }
+      }
+
+      // check to make sure all required properties/fields are present in the JSON payload
+      for (String requiredField : Pet.openapiRequiredFields) {
+        if (obj.get(requiredField) == null) {
+          throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON payload");
+        }
+      }
+
+      // all checks passed, return using the original implementation of deserialize
+      return deserialize(json, typeOfT, context);
     }
   }
 }
-

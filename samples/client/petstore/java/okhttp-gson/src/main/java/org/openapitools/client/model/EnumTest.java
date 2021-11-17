@@ -35,6 +35,9 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * EnumTest
@@ -417,18 +420,43 @@ public class EnumTest {
   }
 
   public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
   static {
+    // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
-    openapiFields.add("a");
+    openapiFields.add("enum_string");
+    openapiFields.add("enum_string_required");
+    openapiFields.add("enum_integer");
+    openapiFields.add("enum_number");
+    openapiFields.add("outerEnum");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("enum_string_required");
   }
 
   public static class EnumTestDeserializer implements JsonDeserializer<EnumTest> {
     @Override
-    public EnumTest deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
-      HashSet<String> test = EnumTest.openapiFields;
-      JsonObject jsonObject = (JsonObject) json;
-      return new Gson().fromJson(json, EnumTest.class);
+    public EnumTest deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
+      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+      // check to see if the JSON payload contains additional fields
+      for (Entry<String, JsonElement> entry: entries) {
+        if (!EnumTest.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON payload is not defined in the `EnumTest` properties");
+        }
+      }
+
+      // check to make sure all required properties/fields are present in the JSON payload
+      for (String requiredField : EnumTest.openapiRequiredFields) {
+        if (obj.get(requiredField) == null) {
+          throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON payload");
+        }
+      }
+
+      // all checks passed, return using the original implementation of deserialize
+      return deserialize(json, typeOfT, context);
     }
   }
 }
-

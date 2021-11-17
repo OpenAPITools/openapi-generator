@@ -36,6 +36,9 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * AdditionalPropertiesString
@@ -112,18 +115,31 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
   }
 
   public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
   static {
+    // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
-    openapiFields.add("a");
+    openapiFields.add("name");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
   }
 
   public static class AdditionalPropertiesStringDeserializer implements JsonDeserializer<AdditionalPropertiesString> {
     @Override
-    public AdditionalPropertiesString deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
-      HashSet<String> test = AdditionalPropertiesString.openapiFields;
-      JsonObject jsonObject = (JsonObject) json;
-      return new Gson().fromJson(json, AdditionalPropertiesString.class);
+    public AdditionalPropertiesString deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
+      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+      // check to see if the JSON payload contains additional fields
+      for (Entry<String, JsonElement> entry: entries) {
+        if (!AdditionalPropertiesString.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON payload is not defined in the `AdditionalPropertiesString` properties");
+        }
+      }
+
+      // all checks passed, return using the original implementation of deserialize
+      return deserialize(json, typeOfT, context);
     }
   }
 }
-

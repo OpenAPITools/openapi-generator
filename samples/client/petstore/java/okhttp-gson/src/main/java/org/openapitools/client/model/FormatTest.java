@@ -39,6 +39,9 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * FormatTest
@@ -500,18 +503,55 @@ public class FormatTest {
   }
 
   public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
   static {
+    // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
-    openapiFields.add("a");
+    openapiFields.add("integer");
+    openapiFields.add("int32");
+    openapiFields.add("int64");
+    openapiFields.add("number");
+    openapiFields.add("float");
+    openapiFields.add("double");
+    openapiFields.add("string");
+    openapiFields.add("byte");
+    openapiFields.add("binary");
+    openapiFields.add("date");
+    openapiFields.add("dateTime");
+    openapiFields.add("uuid");
+    openapiFields.add("password");
+    openapiFields.add("BigDecimal");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("number");
+    openapiRequiredFields.add("byte");
+    openapiRequiredFields.add("date");
+    openapiRequiredFields.add("password");
   }
 
   public static class FormatTestDeserializer implements JsonDeserializer<FormatTest> {
     @Override
-    public FormatTest deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
-      HashSet<String> test = FormatTest.openapiFields;
-      JsonObject jsonObject = (JsonObject) json;
-      return new Gson().fromJson(json, FormatTest.class);
+    public FormatTest deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
+      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+      // check to see if the JSON payload contains additional fields
+      for (Entry<String, JsonElement> entry: entries) {
+        if (!FormatTest.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON payload is not defined in the `FormatTest` properties");
+        }
+      }
+
+      // check to make sure all required properties/fields are present in the JSON payload
+      for (String requiredField : FormatTest.openapiRequiredFields) {
+        if (obj.get(requiredField) == null) {
+          throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON payload");
+        }
+      }
+
+      // all checks passed, return using the original implementation of deserialize
+      return deserialize(json, typeOfT, context);
     }
   }
 }
-
