@@ -534,6 +534,9 @@ public class CodegenConfigurator {
         if (validationMessages.size() > 0) {
             Set<String> warnings = new HashSet<>();
             if (specification != null) {
+
+                // Wrap the getUnusedSchemas() in try catch block so it catches the NPE
+                // when the input spec file is not correct
                 try{
                     List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
                     if (unusedModels != null) {
