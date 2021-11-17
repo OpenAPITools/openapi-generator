@@ -55,6 +55,8 @@ import java.io.InputStream;
 {{#operations}}
 public class {{classname}} {
     private ApiClient localVarApiClient;
+    private int localHostIndex;
+    private String localCustomBaseUrl;
 
     public {{classname}}() {
         this(Configuration.getDefaultApiClient());
@@ -70,6 +72,22 @@ public class {{classname}} {
 
     public void setApiClient(ApiClient apiClient) {
         this.localVarApiClient = apiClient;
+    }
+
+    public void getHostIndex() {
+        return localHostIndex;
+    }
+
+    public void setHostIndex(int hostIndex) {
+        this.localHostIndex = hostIndex;
+    }
+
+    public void getCustomBaseUrl() {
+        return localCustomBaseUrl;
+    }
+
+    public void setHostIndex(String customBaseUrl) {
+        this.localCustomBaseUrl = customBaseUrl;
     }
 
     {{#operation}}
