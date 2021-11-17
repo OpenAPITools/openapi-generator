@@ -28,6 +28,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+
 /**
  * AdditionalPropertiesClass
  */
@@ -454,5 +465,19 @@ public class AdditionalPropertiesClass {
     return o.toString().replace("\n", "\n    ");
   }
 
+  public static HashSet<String> openapiFields;
+  static {
+    openapiFields = new HashSet<String>();
+    openapiFields.add("a");
+  }
+
+  public static class AdditionalPropertiesClassDeserializer implements JsonDeserializer<AdditionalPropertiesClass> {
+    @Override
+    public AdditionalPropertiesClass deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
+      HashSet<String> test = AdditionalPropertiesClass.openapiFields;
+      JsonObject jsonObject = (JsonObject) json;
+      return new Gson().fromJson(json, AdditionalPropertiesClass.class);
+    }
+  }
 }
 

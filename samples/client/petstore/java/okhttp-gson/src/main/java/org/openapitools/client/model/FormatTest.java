@@ -29,6 +29,17 @@ import java.util.UUID;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+
 /**
  * FormatTest
  */
@@ -488,5 +499,19 @@ public class FormatTest {
     return o.toString().replace("\n", "\n    ");
   }
 
+  public static HashSet<String> openapiFields;
+  static {
+    openapiFields = new HashSet<String>();
+    openapiFields.add("a");
+  }
+
+  public static class FormatTestDeserializer implements JsonDeserializer<FormatTest> {
+    @Override
+    public FormatTest deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
+      HashSet<String> test = FormatTest.openapiFields;
+      JsonObject jsonObject = (JsonObject) json;
+      return new Gson().fromJson(json, FormatTest.class);
+    }
+  }
 }
 

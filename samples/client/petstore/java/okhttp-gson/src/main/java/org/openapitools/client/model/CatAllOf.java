@@ -24,6 +24,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+
 /**
  * CatAllOf
  */
@@ -96,5 +107,19 @@ public class CatAllOf {
     return o.toString().replace("\n", "\n    ");
   }
 
+  public static HashSet<String> openapiFields;
+  static {
+    openapiFields = new HashSet<String>();
+    openapiFields.add("a");
+  }
+
+  public static class CatAllOfDeserializer implements JsonDeserializer<CatAllOf> {
+    @Override
+    public CatAllOf deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
+      HashSet<String> test = CatAllOf.openapiFields;
+      JsonObject jsonObject = (JsonObject) json;
+      return new Gson().fromJson(json, CatAllOf.class);
+    }
+  }
 }
 

@@ -25,6 +25,17 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.threeten.bp.OffsetDateTime;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+
 /**
  * Order
  */
@@ -291,5 +302,19 @@ public class Order {
     return o.toString().replace("\n", "\n    ");
   }
 
+  public static HashSet<String> openapiFields;
+  static {
+    openapiFields = new HashSet<String>();
+    openapiFields.add("a");
+  }
+
+  public static class OrderDeserializer implements JsonDeserializer<Order> {
+    @Override
+    public Order deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
+      HashSet<String> test = Order.openapiFields;
+      JsonObject jsonObject = (JsonObject) json;
+      return new Gson().fromJson(json, Order.class);
+    }
+  }
 }
 

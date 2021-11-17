@@ -30,6 +30,17 @@ import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import org.threeten.bp.OffsetDateTime;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
@@ -168,5 +179,19 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return o.toString().replace("\n", "\n    ");
   }
 
+  public static HashSet<String> openapiFields;
+  static {
+    openapiFields = new HashSet<String>();
+    openapiFields.add("a");
+  }
+
+  public static class MixedPropertiesAndAdditionalPropertiesClassDeserializer implements JsonDeserializer<MixedPropertiesAndAdditionalPropertiesClass> {
+    @Override
+    public MixedPropertiesAndAdditionalPropertiesClass deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
+      HashSet<String> test = MixedPropertiesAndAdditionalPropertiesClass.openapiFields;
+      JsonObject jsonObject = (JsonObject) json;
+      return new Gson().fromJson(json, MixedPropertiesAndAdditionalPropertiesClass.class);
+    }
+  }
 }
 

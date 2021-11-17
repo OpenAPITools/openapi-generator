@@ -26,6 +26,17 @@ import java.io.IOException;
 import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+
 /**
  * BigCat
  */
@@ -152,5 +163,19 @@ public class BigCat extends Cat {
     return o.toString().replace("\n", "\n    ");
   }
 
+  public static HashSet<String> openapiFields;
+  static {
+    openapiFields = new HashSet<String>();
+    openapiFields.add("a");
+  }
+
+  public static class BigCatDeserializer implements JsonDeserializer<BigCat> {
+    @Override
+    public BigCat deserialize(JsonElement json, Type typeOf, JsonDeserializationContext context) throws JsonParseException {
+      HashSet<String> test = BigCat.openapiFields;
+      JsonObject jsonObject = (JsonObject) json;
+      return new Gson().fromJson(json, BigCat.class);
+    }
+  }
 }
 
