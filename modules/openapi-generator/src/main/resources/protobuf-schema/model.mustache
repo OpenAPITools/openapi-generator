@@ -11,8 +11,7 @@ import public "{{{modelPackage}}}/{{{import}}}.proto";
 
 {{#models}}
 {{#model}}
-{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}
-message {{classname}} {
+{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}message {{classname}} {
 
   {{#vars}}
   {{#description}}
