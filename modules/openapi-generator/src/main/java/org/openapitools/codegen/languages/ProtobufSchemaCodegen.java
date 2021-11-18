@@ -192,22 +192,22 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return camelize(sanitizeName(operationId));
     }
 
-    public void addUnknownToAllowableValues(Map<String, Object> allowableValues){
+    public void addUnknownToAllowableValues(Map<String, Object> allowableValues, String name){
         if(startEnumsWithUnknown){
             if(allowableValues.containsKey("enumVars")){
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
                 
                 HashMap<String, Object> unknown = new HashMap<String, Object>();
-                unknown.put("name", "UNKNOWN");
+                unknown.put("name", name + "_UNKNOWN");
                 unknown.put("isString", "false");
-                unknown.put("value", "\"UNKNOWN\"");
+                unknown.put("value", "\"" + name + "_UNKNOWN\"");
 
                 enumVars.add(0, unknown);
             }
 
             if(allowableValues.containsKey("values")){
                 List<String> values = (List<String>)allowableValues.get("values");           
-                values.add(0, "UNKNOWN");
+                values.add(0, name + "_UNKNOWN");
             }
         }
     }
@@ -224,7 +224,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             if(cm.isEnum) {
                 Map<String, Object> allowableValues = cm.getAllowableValues();
 
-                addUnknownToAllowableValues(allowableValues);
+                addUnknownToAllowableValues(allowableValues, cm.getClassname());
             }
 
             for (CodegenProperty var : cm.vars) {
@@ -244,7 +244,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
 
                 if (var.isEnum) {
-                    addUnknownToAllowableValues(var.allowableValues);
+                    addUnknownToAllowableValues(var.allowableValues, var.getEnumName());
                 
                     if(var.allowableValues.containsKey("enumVars")) {
                         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
