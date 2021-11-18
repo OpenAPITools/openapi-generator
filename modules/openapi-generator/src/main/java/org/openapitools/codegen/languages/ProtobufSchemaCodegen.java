@@ -201,8 +201,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             CodegenModel cm = (CodegenModel) mo.get("model");
 
             if(cm.isEnum) {
-                cm.setClassname(StringUtils.capitalize(cm.getName()) + "Enum");
-
                 Map<String, Object> allowableValues = cm.getAllowableValues();
                 if (allowableValues.containsKey("enumVars")) {
                     List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
