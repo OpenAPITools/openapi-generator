@@ -344,7 +344,7 @@ public class ApiClientTest {
     }
 
     /**
-     * Tests the apiClient serialize methods
+     * Tests the ApiClient serialize methods
      */
     @Test
     public void testSerializeRequest() throws ApiException {
@@ -353,8 +353,8 @@ public class ApiClientTest {
     }
 
     /**
-     * Tests the apiClient serialize methods with unsupported content-type
-     * should failed
+     * Tests the ApiClient serialize methods with unsupported content-type
+     * should raise ApiException
      */
     @Test(expected = ApiException.class)
     public void testUnsupportedSerializeRequest() throws ApiException {
