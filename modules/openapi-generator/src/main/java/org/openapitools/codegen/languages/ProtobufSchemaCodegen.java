@@ -47,9 +47,13 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     private static final String IMPORTS = "imports";
 
+    public static final String START_ENUMS_WITH_UNKNOWN = "startEnumsWithUnknown";
+
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     protected String packageName = "openapitools";
+
+    private boolean startEnumsWithUnknown = false;
 
     @Override
     public CodegenType getTag() {
@@ -145,6 +149,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         cliOptions.clear();
 
+        addSwitch(START_ENUMS_WITH_UNKNOWN, "Introduces \"UNKNOWN\" as the first element of enumerations.", startEnumsWithUnknown);
     }
 
     @Override
@@ -162,6 +167,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        }
+
+        if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNKNOWN)){
+            this.startEnumsWithUnknown = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNKNOWN);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -183,6 +192,26 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return camelize(sanitizeName(operationId));
     }
 
+    public void addUnknownToAllowableValues(Map<String, Object> allowableValues){
+        if(startEnumsWithUnknown){
+            if(allowableValues.containsKey("enumVars")){
+                List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
+                
+                HashMap<String, Object> unknown = new HashMap<String, Object>();
+                unknown.put("name", "UNKNOWN");
+                unknown.put("isString", "false");
+                unknown.put("value", "\"UNKNOWN\"");
+
+                enumVars.add(0, unknown);
+            }
+
+            if(allowableValues.containsKey("values")){
+                List<String> values = (List<String>)allowableValues.get("values");           
+                values.add(0, "UNKNOWN");
+            }
+        }
+    }
+
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = postProcessModelsEnum(objs);
@@ -191,6 +220,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
+
+            if(cm.isEnum) {
+                Map<String, Object> allowableValues = cm.getAllowableValues();
+
+                addUnknownToAllowableValues(allowableValues);
+            }
 
             for (CodegenProperty var : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array
@@ -208,12 +243,16 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
-                if (var.isEnum && var.allowableValues.containsKey("enumVars")) {
-                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
-                    int enumIndex = 0;
-                    for (Map<String, Object> enumVar : enumVars) {
-                        enumVar.put("protobuf-enum-index", enumIndex);
-                        enumIndex++;
+                if (var.isEnum) {
+                    addUnknownToAllowableValues(var.allowableValues);
+                
+                    if(var.allowableValues.containsKey("enumVars")) {
+                        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
+                        int enumIndex = 0;
+                        for (Map<String, Object> enumVar : enumVars) {
+                            enumVar.put("protobuf-enum-index", enumIndex);
+                            enumIndex++;
+                        }
                     }
                 }
 
