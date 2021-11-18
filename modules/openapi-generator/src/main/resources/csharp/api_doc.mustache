@@ -1,8 +1,7 @@
-# {{packageName}}.{{apiPackage}}.{{classname}}{{#description}}
-
+# {{packageName}}.Api.{{classname}}{{#description}}
 {{description}}{{/description}}
 
-All URIs are relative to *{{{basePath}}}*
+All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -11,61 +10,43 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-
-## {{{operationId}}}
-
-> {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+# **{{{operationId}}}**
+> {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
 
 {{{summary}}}{{#notes}}
 
 {{{notes}}}{{/notes}}
 
 ### Example
-
 ```csharp
-using System.Collections.Generic;
+using System;
 using System.Diagnostics;
-using {{packageName}}.{{apiPackage}};
+using {{packageName}}.Api;
 using {{packageName}}.Client;
-using {{packageName}}.{{modelPackage}};
+using {{packageName}}.Model;
 
 namespace Example
 {
     public class {{operationId}}Example
     {
-        public static void Main()
+        public void main()
         {
-            Configuration.Default.BasePath = "{{{basePath}}}";
-            {{#hasAuthMethods}}
-            {{#authMethods}}
-            {{#isBasic}}
-            {{#isBasicBasic}}
+            {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
             // Configure HTTP basic authorization: {{{name}}}
-            Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";
-            {{/isBasicBasic}}
-            {{#isBasicBearer}}
-            // Configure HTTP bearer authorization: {{{name}}}
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
-            {{/isBasicBearer}}
-            {{/isBasic}}
-            {{#isApiKey}}
+            Configuration.Default.Username = 'YOUR_USERNAME';
+            Configuration.Default.Password = 'YOUR_PASSWORD';{{/isBasic}}{{#isApiKey}}
             // Configure API key authorization: {{{name}}}
-            Configuration.Default.AddApiKey("{{{keyParamName}}}", "YOUR_API_KEY");
+            Configuration.Default.ApiKey.Add('{{{keyParamName}}}', 'YOUR_API_KEY');
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.AddApiKeyPrefix("{{{keyParamName}}}", "Bearer");
-            {{/isApiKey}}
-            {{#isOAuth}}
+            // Configuration.Default.ApiKeyPrefix.Add('{{{keyParamName}}}', 'Bearer');{{/isApiKey}}{{#isOAuth}}
             // Configure OAuth2 access token for authorization: {{{name}}}
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
-            {{/isOAuth}}
-            {{/authMethods}}
-
+            Configuration.Default.AccessToken = 'YOUR_ACCESS_TOKEN';{{/isOAuth}}{{/authMethods}}
             {{/hasAuthMethods}}
-            var apiInstance = new {{classname}}(Configuration.Default);
+
+            var apiInstance = new {{classname}}();
             {{#allParams}}
             {{#isPrimitiveType}}
-            var {{paramName}} = {{{example}}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+            var {{paramName}} = {{example}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
             var {{paramName}} = new {{{dataType}}}(); // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
@@ -77,14 +58,12 @@ namespace Example
                 {{#summary}}
                 // {{{.}}}
                 {{/summary}}
-                {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
+                {{#returnType}}{{returnType}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
                 Debug.WriteLine(result);{{/returnType}}
             }
-            catch (ApiException e)
+            catch (Exception e)
             {
                 Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
-                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -92,16 +71,15 @@ namespace Example
 ```
 
 ### Parameters
-
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{#isContainer}}{{baseType}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}.md){{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isFile}}**{{{dataType}}}**{{/isFile}}{{#isPrimitiveType}}**{{{dataType}}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{{dataType}}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type
 
-{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
 
 ### Authorization
 
@@ -109,23 +87,10 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
-- **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+ - **Content-Type**: {{#consumes}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+ - **Accept**: {{#produces}}{{mediaType}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
-{{#responses.0}}
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-{{#responses}}
-| **{{code}}** | {{message}} | {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} |
-{{/responses}}
-{{/responses.0}}
-
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 {{/operation}}
 {{/operations}}

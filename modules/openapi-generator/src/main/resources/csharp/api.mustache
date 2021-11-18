@@ -1,26 +1,19 @@
-{{>partial_header}}
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
-{{#netStandard}}
-using RestSharp.Portable;
-{{/netStandard}}
-{{^netStandard}}
 using RestSharp;
-{{/netStandard}}
 using {{packageName}}.Client;
-{{#hasImport}}using {{packageName}}.{{modelPackage}};
+{{#hasImport}}using {{packageName}}.Model;
 {{/hasImport}}
 
-namespace {{packageName}}.{{apiPackage}}
+namespace {{packageName}}.Api
 {
     {{#operations}}
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    {{>visibility}} interface {{interfacePrefix}}{{classname}} : IApiAccessor
+    public interface I{{classname}} : IApiAccessor
     {
         #region Synchronous Operations
         {{#operation}}
@@ -33,7 +26,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
-        {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
         /// <summary>
         /// {{summary}}
@@ -44,7 +37,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}/// <returns>ApiResponse of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
-        ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+        ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         {{/operation}}
         #endregion Synchronous Operations
         {{#supportsAsync}}
@@ -58,9 +51,8 @@ namespace {{packageName}}.{{apiPackage}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}</returns>
-        {{#returnType}}System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken));
+        {{/allParams}}/// <returns>Task of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}</returns>
+        {{#returnType}}System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 
         /// <summary>
         /// {{summary}}
@@ -70,9 +62,8 @@ namespace {{packageName}}.{{apiPackage}}
         /// </remarks>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
-        System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken));
+        {{/allParams}}/// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
+        System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}AsyncWithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
         {{/operation}}
         #endregion Asynchronous Operations
         {{/supportsAsync}}
@@ -81,30 +72,21 @@ namespace {{packageName}}.{{apiPackage}}
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    {{>visibility}} partial class {{classname}} : {{interfacePrefix}}{{classname}}
+    public partial class {{classname}} : I{{classname}}
     {
-        private {{packageName}}.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
         public {{classname}}(String basePath)
         {
-            this.Configuration = new {{packageName}}.Client.Configuration { BasePath = basePath };
+            this.Configuration = new Configuration(new ApiClient(basePath));
 
-            ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="{{classname}}"/> class
-        /// </summary>
-        /// <returns></returns>
-        public {{classname}}()
-        {
-            this.Configuration = {{packageName}}.Client.Configuration.Default;
-
-            ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
+            // ensure API client has configuration ready
+            if (Configuration.ApiClient.Configuration == null)
+            {
+                this.Configuration.ApiClient.Configuration = this.Configuration;
+            }
         }
 
         /// <summary>
@@ -113,14 +95,18 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public {{classname}}({{packageName}}.Client.Configuration configuration = null)
+        public {{classname}}(Configuration configuration = null)
         {
             if (configuration == null) // use the default one in Configuration
-                this.Configuration = {{packageName}}.Client.Configuration.Default;
+                this.Configuration = Configuration.Default;
             else
                 this.Configuration = configuration;
 
-            ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
+            // ensure API client has configuration ready
+            if (Configuration.ApiClient.Configuration == null)
+            {
+                this.Configuration.ApiClient.Configuration = this.Configuration;
+            }
         }
 
         /// <summary>
@@ -146,32 +132,16 @@ namespace {{packageName}}.{{apiPackage}}
         /// Gets or sets the configuration object
         /// </summary>
         /// <value>An instance of the Configuration</value>
-        public {{packageName}}.Client.Configuration Configuration {get; set;}
-
-        /// <summary>
-        /// Provides a factory method hook for the creation of exceptions.
-        /// </summary>
-        public {{packageName}}.Client.ExceptionFactory ExceptionFactory
-        {
-            get
-            {
-                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
-                {
-                    throw new InvalidOperationException("Multicast delegate for ExceptionFactory is unsupported.");
-                }
-                return _exceptionFactory;
-            }
-            set { _exceptionFactory = value; }
-        }
+        public Configuration Configuration {get; set;}
 
         /// <summary>
         /// Gets the default header.
         /// </summary>
         /// <returns>Dictionary of HTTP header</returns>
         [Obsolete("DefaultHeader is deprecated, please use Configuration.DefaultHeader instead.")]
-        public IDictionary<String, String> DefaultHeader()
+        public Dictionary<String, String> DefaultHeader()
         {
-            return new {{^net35}}ReadOnly{{/net35}}Dictionary<string, string>(this.Configuration.DefaultHeader);
+            return this.Configuration.DefaultHeader;
         }
 
         /// <summary>
@@ -193,10 +163,10 @@ namespace {{packageName}}.{{apiPackage}}
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
-        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
-             {{#returnType}}ApiResponse<{{{returnType}}}> localVarResponse = {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-             return localVarResponse.Data;{{/returnType}}{{^returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/returnType}}
+             {{#returnType}}ApiResponse<{{{returnType}}}> localVarResponse = {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+             return localVarResponse.Data;{{/returnType}}{{^returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/returnType}}
         }
 
         /// <summary>
@@ -205,7 +175,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}/// <returns>ApiResponse of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Object(void){{/returnType}}</returns>
-        public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+        public ApiResponse<{{#returnType}} {{{returnType}}} {{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             {{#allParams}}
             {{#required}}
@@ -215,10 +185,10 @@ namespace {{packageName}}.{{apiPackage}}
             {{/required}}
             {{/allParams}}
 
-            var localVarPath = "{{#netStandard}}.{{/netStandard}}{{{path}}}";
+            var localVarPath = "{{path}}";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
             Object localVarPostBody = null;
@@ -226,37 +196,40 @@ namespace {{packageName}}.{{apiPackage}}
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
                 {{#consumes}}
-                "{{{mediaType}}}"{{^-last}}, {{/-last}}
+                "{{mediaType}}"{{#hasMore}}, {{/hasMore}}
                 {{/consumes}}
             };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
                 {{#produces}}
-                "{{{mediaType}}}"{{^-last}},{{/-last}}
+                "{{mediaType}}"{{#hasMore}}, {{/hasMore}}
                 {{/produces}}
             };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
             {{#pathParams}}
-            if ({{paramName}} != null) localVarPathParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // path parameter
+            if ({{paramName}} != null) localVarPathParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // path parameter
             {{/pathParams}}
             {{#queryParams}}
-            if ({{paramName}} != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}})); // query parameter
+            if ({{paramName}} != null) localVarQueryParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // query parameter
             {{/queryParams}}
             {{#headerParams}}
-            if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
+            if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
             {{/headerParams}}
             {{#formParams}}
-            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", {{#vendorExtensions.x-is-json}}{{paramName}}.ToJson(){{/vendorExtensions.x-is-json}}{{^vendorExtensions.x-is-json}}this.Configuration.ApiClient.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}}){{/vendorExtensions.x-is-json}}); // form parameter{{/isFile}}
+            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // form parameter{{/isFile}}
             {{/formParams}}
             {{#bodyParam}}
             if ({{paramName}} != null && {{paramName}}.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize({{paramName}}); // http body (model) parameter
+                localVarPostBody = Configuration.ApiClient.Serialize({{paramName}}); // http body (model) parameter
             }
             else
             {
@@ -268,66 +241,51 @@ namespace {{packageName}}.{{apiPackage}}
             // authentication ({{name}}) required
             {{#isApiKey}}
             {{#isKeyInHeader}}
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                localVarHeaderParams["{{keyParamName}}"] = this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
+                localVarHeaderParams["{{keyParamName}}"] = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
             }
             {{/isKeyInHeader}}
             {{#isKeyInQuery}}
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "{{keyParamName}}", this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")));
+                localVarQueryParams["{{keyParamName}}"] = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
             }
             {{/isKeyInQuery}}
             {{/isApiKey}}
             {{#isBasic}}
-            {{#isBasicBasic}}
             // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
+            if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
             {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
+                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(Configuration.Username + ":" + Configuration.Password);
             }
-            {{/isBasicBasic}}
-            {{#isBasicBearer}}
-            // http beerer authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
-            }
-            {{/isBasicBearer}}
             {{/isBasic}}
             {{#isOAuth}}
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
-                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
-            }
-            {{/isOAuth}}
+                localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
+            }{{/isOAuth}}
             {{/authMethods}}
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse) Configuration.ApiClient.CallApi(localVarPath,
                 Method.{{httpMethod}}, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("{{operationId}}", localVarResponse);
-                if (exception != null) throw exception;
-            }
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling {{operationId}}: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling {{operationId}}: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
-            {{#returnType}}
-            return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => string.Join(",", x.Value){{#caseInsensitiveResponseHeaders}}, StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}),
-                ({{{returnType}}}) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));
-            {{/returnType}}
-            {{^returnType}}
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => string.Join(",", x.Value){{#caseInsensitiveResponseHeaders}}, StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}),
-                null);
-            {{/returnType}}
+            {{#returnType}}return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                ({{{returnType}}}) Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));{{/returnType}}
+            {{^returnType}}return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);{{/returnType}}
         }
 
         {{#supportsAsync}}
@@ -336,12 +294,11 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}</returns>
-        {{#returnType}}public async System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken))
+        {{/allParams}}/// <returns>Task of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}</returns>
+        {{#returnType}}public async System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
-             {{#returnType}}ApiResponse<{{{returnType}}}> localVarResponse = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken);
-             return localVarResponse.Data;{{/returnType}}{{^returnType}}await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken);{{/returnType}}
+             {{#returnType}}ApiResponse<{{{returnType}}}> localVarResponse = await {{operationId}}AsyncWithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+             return localVarResponse.Data;{{/returnType}}{{^returnType}}await {{operationId}}AsyncWithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/returnType}}
 
         }
 
@@ -350,9 +307,8 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
-        /// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken))
+        {{/allParams}}/// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}AsyncWithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             {{#allParams}}
             {{#required}}
@@ -362,10 +318,10 @@ namespace {{packageName}}.{{apiPackage}}
             {{/required}}
             {{/allParams}}
 
-            var localVarPath = "{{#netStandard}}.{{/netStandard}}{{{path}}}";
+            var localVarPath = "{{path}}";
             var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarQueryParams = new Dictionary<String, String>();
+            var localVarHeaderParams = new Dictionary<String, String>(Configuration.DefaultHeader);
             var localVarFormParams = new Dictionary<String, String>();
             var localVarFileParams = new Dictionary<String, FileParameter>();
             Object localVarPostBody = null;
@@ -373,37 +329,40 @@ namespace {{packageName}}.{{apiPackage}}
             // to determine the Content-Type header
             String[] localVarHttpContentTypes = new String[] {
                 {{#consumes}}
-                "{{{mediaType}}}"{{^-last}}, {{/-last}}
+                "{{mediaType}}"{{#hasMore}}, {{/hasMore}}
                 {{/consumes}}
             };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+            String localVarHttpContentType = Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
 
             // to determine the Accept header
             String[] localVarHttpHeaderAccepts = new String[] {
                 {{#produces}}
-                "{{{mediaType}}}"{{^-last}},{{/-last}}
+                "{{mediaType}}"{{#hasMore}}, {{/hasMore}}
                 {{/produces}}
             };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            String localVarHttpHeaderAccept = Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
+            // set "format" to json by default
+            // e.g. /pet/{petId}.{format} becomes /pet/{petId}.json
+            localVarPathParams.Add("format", "json");
             {{#pathParams}}
-            if ({{paramName}} != null) localVarPathParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // path parameter
+            if ({{paramName}} != null) localVarPathParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // path parameter
             {{/pathParams}}
             {{#queryParams}}
-            if ({{paramName}} != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}})); // query parameter
+            if ({{paramName}} != null) localVarQueryParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // query parameter
             {{/queryParams}}
             {{#headerParams}}
-            if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
+            if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
             {{/headerParams}}
             {{#formParams}}
-            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", {{#vendorExtensions.x-is-json}}{{paramName}}.ToJson(){{/vendorExtensions.x-is-json}}{{^vendorExtensions.x-is-json}}this.Configuration.ApiClient.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}}){{/vendorExtensions.x-is-json}}); // form parameter{{/isFile}}
+            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", Configuration.ApiClient.ParameterToString({{paramName}})); // form parameter{{/isFile}}
             {{/formParams}}
             {{#bodyParam}}
             if ({{paramName}} != null && {{paramName}}.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize({{paramName}}); // http body (model) parameter
+                localVarPostBody = Configuration.ApiClient.Serialize({{paramName}}); // http body (model) parameter
             }
             else
             {
@@ -415,66 +374,52 @@ namespace {{packageName}}.{{apiPackage}}
             // authentication ({{name}}) required
             {{#isApiKey}}
             {{#isKeyInHeader}}
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                localVarHeaderParams["{{keyParamName}}"] = this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
+                localVarHeaderParams["{{keyParamName}}"] = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
             }
             {{/isKeyInHeader}}
             {{#isKeyInQuery}}
-            if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
+            if (!String.IsNullOrEmpty(Configuration.GetApiKeyWithPrefix("{{keyParamName}}")))
             {
-                localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "{{keyParamName}}", this.Configuration.GetApiKeyWithPrefix("{{keyParamName}}")));
+                localVarQueryParams["{{keyParamName}}"] = Configuration.GetApiKeyWithPrefix("{{keyParamName}}");
             }
             {{/isKeyInQuery}}
             {{/isApiKey}}
             {{#isBasic}}
-            {{#isBasicBasic}}
             // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
+            if (!String.IsNullOrEmpty(Configuration.Username) || !String.IsNullOrEmpty(Configuration.Password))
             {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
+                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(Configuration.Username + ":" + Configuration.Password);
             }
-            {{/isBasicBasic}}
-            {{#isBasicBearer}}
-            // http bearer authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
-            {
-                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
-            }
-            {{/isBasicBearer}}
             {{/isBasic}}
             {{#isOAuth}}
             // oauth required
-            if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (!String.IsNullOrEmpty(Configuration.AccessToken))
             {
-                localVarHeaderParams["Authorization"] = "Bearer " + this.Configuration.AccessToken;
+                localVarHeaderParams["Authorization"] = "Bearer " + Configuration.AccessToken;
             }
             {{/isOAuth}}
             {{/authMethods}}
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse) await Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.{{httpMethod}}, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType, cancellationToken);
+                localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
 
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("{{operationId}}", localVarResponse);
-                if (exception != null) throw exception;
-            }
+            if (localVarStatusCode >= 400)
+                throw new ApiException (localVarStatusCode, "Error calling {{operationId}}: " + localVarResponse.Content, localVarResponse.Content);
+            else if (localVarStatusCode == 0)
+                throw new ApiException (localVarStatusCode, "Error calling {{operationId}}: " + localVarResponse.ErrorMessage, localVarResponse.ErrorMessage);
 
-            {{#returnType}}
-            return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => string.Join(",", x.Value){{#caseInsensitiveResponseHeaders}}, StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}),
-                ({{{returnType}}}) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));
-            {{/returnType}}
-            {{^returnType}}
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => string.Join(",", x.Value){{#caseInsensitiveResponseHeaders}}, StringComparer.OrdinalIgnoreCase{{/caseInsensitiveResponseHeaders}}),
-                null);
-            {{/returnType}}
+            {{#returnType}}return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                ({{{returnType}}}) Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));{{/returnType}}
+            {{^returnType}}return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);{{/returnType}}
         }
 
         {{/supportsAsync}}
