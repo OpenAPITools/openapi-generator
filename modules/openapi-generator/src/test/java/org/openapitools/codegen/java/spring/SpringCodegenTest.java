@@ -731,8 +731,11 @@ public class SpringCodegenTest {
     /**define the templateFile*/
     private final static String TEMPLATEFILE = "openapiDocumentationConfig.mustache";
 
+    /**
+     * test whether OpenAPIDocumentationConfig.java is generated
+     * fix issue #10287
+     */
     @Test
-    /**test whether OpenAPIDocumentationConfig.java generated, fix #10287*/
     public void testConfigFileGeneration() {
 
         final SpringCodegen codegen = new SpringCodegen();
