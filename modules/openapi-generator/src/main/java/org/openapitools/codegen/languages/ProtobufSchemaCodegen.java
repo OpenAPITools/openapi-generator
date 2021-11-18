@@ -183,7 +183,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return camelize(sanitizeName(operationId));
     }
 
-    public void addModelEnumIndexes(List<Map<String, Object>> enumVars){
+    public void addEnumIndexes(List<Map<String, Object>> enumVars){
         int enumIndex = 0;
         for (Map<String, Object> enumVar : enumVars) {
             enumVar.put("protobuf-enum-index", enumIndex);
@@ -204,7 +204,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 Map<String, Object> allowableValues = cm.getAllowableValues();
                 if (allowableValues.containsKey("enumVars")) {
                     List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
-                    addModelEnumIndexes(enumVars);
+                    addEnumIndexes(enumVars);
                 }
             }
 
@@ -226,7 +226,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
                 if (var.isEnum && var.allowableValues.containsKey("enumVars")) {
                     List<Map<String, Object>> enumVars = (List<Map<String, Object>>)var.allowableValues.get("enumVars");
-                    addModelEnumIndexes(enumVars);
+                    addEnumIndexes(enumVars);
                 }
 
                 // Add x-protobuf-index, unless already specified
