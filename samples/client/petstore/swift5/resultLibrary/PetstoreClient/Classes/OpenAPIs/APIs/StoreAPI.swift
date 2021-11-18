@@ -19,8 +19,9 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
-    open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) {
-        deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+    @discardableResult
+    open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> URLSessionTask? {
+        return deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
             switch result {
             case .success:
                 completion(.success(()))
@@ -64,8 +65,9 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
-    open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[String: Int], ErrorResponse>) -> Void)) {
-        getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
+    @discardableResult
+    open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[String: Int], ErrorResponse>) -> Void)) -> URLSessionTask? {
+        return getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body!))
@@ -109,8 +111,9 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
-    open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) {
-        getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+    @discardableResult
+    open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> URLSessionTask? {
+        return getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body!))
@@ -155,8 +158,9 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the result
      */
-    open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) {
-        placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+    @discardableResult
+    open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> URLSessionTask? {
+        return placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(.success(response.body!))
