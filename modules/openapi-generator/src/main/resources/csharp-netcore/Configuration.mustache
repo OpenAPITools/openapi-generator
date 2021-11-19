@@ -93,6 +93,13 @@ namespace {{packageName}}.Client
         /// <value>The servers</value>
         private IList<IReadOnlyDictionary<string, object>> _servers;
         {{/servers.0}}
+
+        /// <summary>
+        /// Gets or sets the operation servers defined in the OpenAPI spec.
+        /// </summary>
+        /// <value>The operation servers</value>
+        private IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> _operationServers;
+
         {{#hasHttpSignatureMethods}}
 
         /// <summary>
@@ -158,6 +165,31 @@ namespace {{packageName}}.Client
             };
             {{/-last}}
             {{/servers}}
+            OperationServers = new Dictionary<string, List<IReadOnlyDictionary<string, object>>>()
+            {
+                {{#apiInfo}}
+                {{#apis}}
+                {{#operations}}
+                {{#operation}}
+                {
+                    "{{{classname}}}.{{{nickname}}}", new List<IReadOnlyDictionary<string, object>>
+                    {
+                        {{#servers}}
+                        {
+                            new Dictionary<string, object>
+                            {
+                                {"url", "{{{url}}}"},
+                                {"description", "{{{description}}}{{^description}}No description provided{{/description}}"}
+                            }
+                        },
+                        {{/servers}}
+                    }
+                },
+                {{/operation}}
+                {{/operations}}
+                {{/apis}}
+                {{/apiInfo}}
+            };
 
             // Setting Timeout has side effects (forces ApiClient creation).
             Timeout = 100000;
@@ -415,6 +447,23 @@ namespace {{packageName}}.Client
                     throw new InvalidOperationException("Servers may not be null.");
                 }
                 _servers = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the operation servers.
+        /// </summary>
+        /// <value>The operation servers.</value>
+        public virtual IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> OperationServers
+        {
+            get { return _operationServers; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new InvalidOperationException("Operation servers may not be null.");
+                }
+                _operationServers = value;
             }
         }
 
