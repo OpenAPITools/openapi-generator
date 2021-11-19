@@ -1348,6 +1348,23 @@ paths:
                         items:
                           type: string
                           nullable: true
+  /fake/TxRxAnyOfModel:
+    post:
+      tags:
+        - fake
+      operationId: txRxAnyOfModel
+      responses:
+        200:
+          description: TxRxAnyOfModel
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GmFruitNoProperties'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GmFruitNoProperties'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2243,6 +2260,10 @@ components:
           type: string
       required:
         - className
+    GmFruitNoProperties:
+      anyOf:
+        - $ref: '#/components/schemas/apple'
+        - $ref: '#/components/schemas/banana'
     gmFruit:
       properties:
         color:

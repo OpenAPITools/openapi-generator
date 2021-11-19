@@ -116,7 +116,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
          * Reserved words.  Override this with reserved words specific to your language
          * Ref: https://github.com/itsgreggreg/elixir_quick_reference#reserved-words
          */
-        reservedWords = new HashSet<String>(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "nil",
                         "true",
@@ -164,7 +164,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
          * Language Specific Primitives.  These types will not trigger imports by
          * the client generator
          */
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "Integer",
                         "Float",
@@ -182,7 +182,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         );
 
         // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("integer", "Integer");
         typeMapping.put("long", "Integer");
         typeMapping.put("number", "Float");
@@ -727,10 +727,10 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             }
 
             sb.append("keyword()) :: ");
-            HashSet<String> uniqueResponseTypes = new HashSet<String>();
+            HashSet<String> uniqueResponseTypes = new HashSet<>();
             for (CodegenResponse response : this.responses) {
                 ExtendedCodegenResponse exResponse = (ExtendedCodegenResponse) response;
-                StringBuilder returnEntry = new StringBuilder("");
+                StringBuilder returnEntry = new StringBuilder();
                 if (exResponse.baseType == null) {
                     returnEntry.append("nil");
                 } else if (exResponse.simpleType) {

@@ -37,8 +37,10 @@ public interface AnotherFakeApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
+
     @ApiOperation(value = "To test special tags", nickname = "call123testSpecialTags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
     @ApiResponses(value = { 
+
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @RequestMapping(
         method = RequestMethod.PATCH,
@@ -46,7 +48,9 @@ public interface AnotherFakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Client>> call123testSpecialTags(@ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Client>> call123testSpecialTags(
+
+@ApiParam(value = "client model", required = true )   @Valid @RequestBody Mono<Client> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
         return getDelegate().call123testSpecialTags(body, exchange);
     }
 

@@ -666,11 +666,11 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                             operation.isMultipart = Boolean.TRUE;
                         }
                     }
-                    operation.vendorExtensions.put("x-prefered-consume", consume);
+                    operation.vendorExtensions.put("x-preferred-consume", consume);
                 } else if (operation.consumes.size() > 1) {
                     Map<String, String> consume = operation.consumes.get(0);
                     skipTests.put("reason", "Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760");
-                    operation.vendorExtensions.put("x-prefered-consume", consume);
+                    operation.vendorExtensions.put("x-preferred-consume", consume);
                     if ("multipart/form-data".equals(consume.get(MEDIA_TYPE))) {
                         operation.isMultipart = Boolean.TRUE;
                     }
@@ -680,14 +680,14 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 if (operation.bodyParam != null) {
                     Map<String, String> consume = new HashMap<>();
                     consume.put(MEDIA_TYPE, "application/json");
-                    operation.vendorExtensions.put("x-prefered-consume", consume);
+                    operation.vendorExtensions.put("x-preferred-consume", consume);
                     skipTests.put("reason", "*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760");
                 }
             }
             // Choose to consume 'application/json' if available, else choose the last one.
             if (operation.produces != null) {
                 for (Map<String, String> produce : operation.produces) {
-                    operation.vendorExtensions.put("x-prefered-produce", produce);
+                    operation.vendorExtensions.put("x-preferred-produce", produce);
                     if (produce.get(MEDIA_TYPE).equals("application/json")) {
                         break;
                     }

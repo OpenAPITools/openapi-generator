@@ -46,6 +46,8 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
   @XmlElement(name = "name")
   private String name;
 
+  public AdditionalPropertiesArray() { 
+  }
 
   public AdditionalPropertiesArray name(String name) {
     

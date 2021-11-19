@@ -51,7 +51,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public static final String USE_ES6 = "useES6";
     public static final String NPM_REPOSITORY = "npmRepository";
 
-    final String[][] JAVASCRIPT_SUPPORTING_FILES = new String[][]{
+    final String[][] JAVASCRIPT_SUPPORTING_FILES = {
             new String[]{"package.mustache", "package.json"},
             // new String[]{"index.mustache", "src/index.js", },
             // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
@@ -62,7 +62,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             new String[]{"gitignore.mustache", ".gitignore"}
     };
 
-    final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = new String[][]{
+    final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = {
             new String[]{"package.mustache", "package.json"},
             // new String[]{"index.mustache", "src/index.js"},
             // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
@@ -135,10 +135,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                         "prototype", "String", "toString", "undefined", "valueOf")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File", "Blob")
         );
-        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
+        defaultIncludes = new HashSet<>(languageSpecificPrimitives);
 
         instantiationTypes.put("array", "Array");
         instantiationTypes.put("set", "Array");
@@ -1212,7 +1212,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsPostProcessFile + " " + file.toString();
+            String command = jsPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();

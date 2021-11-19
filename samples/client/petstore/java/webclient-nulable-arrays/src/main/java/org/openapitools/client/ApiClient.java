@@ -424,6 +424,7 @@ public class ApiClient extends JavaTimeFormatter {
         }
 
         if (value instanceof Map) {
+            @SuppressWarnings("unchecked")
             final Map<String, Object> valuesMap = (Map<String, Object>) value;
             for (final Entry<String, Object> entry : valuesMap.entrySet()) {
                 params.add(entry.getKey(), parameterToString(entry.getValue()));
