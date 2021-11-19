@@ -49,6 +49,8 @@ public class Parent {
   public static final String JSON_PROPERTY_OBJECT_TYPE = "objectType";
   private String objectType;
 
+  public Parent() { 
+  }
 
   public Parent objectType(String objectType) {
     this.objectType = objectType;

@@ -44,7 +44,7 @@ public class OuterComposite implements Parcelable {
   @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
   private Boolean myBoolean;
 
-  public OuterComposite() {
+  public OuterComposite() { 
   }
 
   public OuterComposite myNumber(BigDecimal myNumber) {

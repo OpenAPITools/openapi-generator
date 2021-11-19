@@ -38,7 +38,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> implements 
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public AdditionalPropertiesArray() {
+  public AdditionalPropertiesArray() { 
     super();
   }
 

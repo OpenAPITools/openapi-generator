@@ -96,6 +96,8 @@ public class FormatTest {
   public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
   private BigDecimal bigDecimal;
 
+  public FormatTest() { 
+  }
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;

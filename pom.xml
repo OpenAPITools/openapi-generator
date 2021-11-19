@@ -176,13 +176,12 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <printSummary>true</printSummary>
-                    <forkedProcessExitTimeoutInSeconds>120</forkedProcessExitTimeoutInSeconds>
+                    <parallel>classes</parallel>
+                    <threadCountClasses>3</threadCountClasses>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
                     <argLine>@{argLine} -XX:+StartAttachListener</argLine>
-                    <forkCount>3</forkCount>
-                    <reuseForks>true</reuseForks>
                     <systemPropertyVariables>
                         <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
                         <org.openapitools.codegen.utils.oncelogger.cachesize>5000</org.openapitools.codegen.utils.oncelogger.cachesize>
@@ -1149,7 +1148,9 @@
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
+                <!--
                 <module>samples/client/petstore/cpp-qt</module>
+                -->
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
@@ -1573,7 +1574,7 @@
         <swagger-core.version>2.1.2</swagger-core.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
         <swagger-parser.version>2.0.26</swagger-parser.version>
-        <testng.version>7.4.0</testng.version>
+        <testng.version>7.3.0</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>
         <wagon-svn.version>1.12</wagon-svn.version>
