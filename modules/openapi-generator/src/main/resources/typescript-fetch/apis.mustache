@@ -124,7 +124,19 @@ export class {{classname}} extends runtime.BaseAPI {
             queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substr(0,10);
             {{/isDate}}
             {{^isDate}}
+            {{#isContainer}}
+            {{#isExplode}}
+            for (const key in requestParameters.{{paramName}}) {
+                queryParameters[key] = requestParameters.{{paramName}}[key]
+            }
+            {{/isExplode}}
+            {{^isExplode}}
             queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+            {{/isExplode}}
+            {{/isContainer}}
+            {{^isContainer}}
+            queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+            {{/isContainer}}
             {{/isDate}}
             {{/isDateTime}}
         }
