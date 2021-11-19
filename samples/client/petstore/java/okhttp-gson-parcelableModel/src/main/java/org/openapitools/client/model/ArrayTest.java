@@ -46,7 +46,7 @@ public class ArrayTest implements Parcelable {
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL)
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
-  public ArrayTest() {
+  public ArrayTest() { 
   }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {

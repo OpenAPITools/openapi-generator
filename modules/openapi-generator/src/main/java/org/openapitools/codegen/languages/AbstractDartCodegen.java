@@ -1,7 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -114,13 +112,12 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         setReservedWordsLowerCase(reservedWordsList);
 
         // These types return isPrimitive=true in templates
-        languageSpecificPrimitives = Sets.newHashSet(
-                "String",
-                "bool",
-                "int",
-                "num",
-                "double"
-        );
+        languageSpecificPrimitives = new HashSet<>(5);
+        languageSpecificPrimitives.add("String");
+        languageSpecificPrimitives.add("bool");
+        languageSpecificPrimitives.add("int");
+        languageSpecificPrimitives.add("num");
+        languageSpecificPrimitives.add("double");
 
         typeMapping = new HashMap<>();
         typeMapping.put("Array", "List");
@@ -151,18 +148,17 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         typeMapping.put("AnyType", "Object");
 
         // Data types of the above values which are automatically imported
-        defaultIncludes = Sets.newHashSet(
-                "String",
-                "bool",
-                "int",
-                "num",
-                "double",
-                "List",
-                "Set",
-                "Map",
-                "DateTime",
-                "Object"
-        );
+        defaultIncludes = new HashSet<>();
+        defaultIncludes.add("String");
+        defaultIncludes.add("bool");
+        defaultIncludes.add("int");
+        defaultIncludes.add("num");
+        defaultIncludes.add("double");
+        defaultIncludes.add("List");
+        defaultIncludes.add("Set");
+        defaultIncludes.add("Map");
+        defaultIncludes.add("DateTime");
+        defaultIncludes.add("Object");
 
         imports.put("String", "dart:core");
         imports.put("bool", "dart:core");
@@ -344,8 +340,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // replace all characters that have a mapping but ignore underscores
         // append an underscore to each replacement so that it can be camelized
-        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey("" + ((char) character)))) {
-            name = escape(name, specialCharReplacements, Lists.newArrayList("_"), "_");
+        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
+            name = escape(name, specialCharReplacements, Collections.singletonList("_"), "_");
         }
         // remove the rest
         name = sanitizeName(name);
@@ -756,7 +752,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently supported is "dartfmt -w" and "dart format"
-            String command = dartPostProcessFile + " " + file.toString();
+            String command = dartPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();

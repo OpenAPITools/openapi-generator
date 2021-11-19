@@ -53,6 +53,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     public static final String USE_NOSE = "useNose";
     public static final String PYTHON_SRC_ROOT = "pythonSrcRoot";
     public static final String USE_PYTHON_SRC_ROOT_IN_IMPORTS = "usePythonSrcRootInImports";
+    public static final String MOVE_TESTS_UNDER_PYTHON_SRC_ROOT = "testsUsePythonSrcRoot";
     static final String MEDIA_TYPE = "mediaType";
 
     protected int serverPort = 8080;
@@ -64,6 +65,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     protected boolean useNose = Boolean.FALSE;
     protected String pythonSrcRoot;
     protected boolean usePythonSrcRootInImports = Boolean.FALSE;
+    protected boolean moveTestsUnderPythonSrcRoot = Boolean.FALSE;
 
     public AbstractPythonConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
         super();
@@ -136,6 +138,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 defaultValue(""));
         cliOptions.add(new CliOption(USE_PYTHON_SRC_ROOT_IN_IMPORTS, "include pythonSrcRoot in import namespaces.").
                 defaultValue("false"));
+        cliOptions.add(new CliOption(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT, "generates test under the pythonSrcRoot folder.")
+            .defaultValue("false"));
     }
 
     protected void addSupportingFiles() {
@@ -183,11 +187,17 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (additionalProperties.containsKey(USE_PYTHON_SRC_ROOT_IN_IMPORTS)) {
             setUsePythonSrcRootInImports((String) additionalProperties.get(USE_PYTHON_SRC_ROOT_IN_IMPORTS));
         }
+        if (additionalProperties.containsKey(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT)) {
+            setMoveTestsUnderPythonSrcRoot((String) additionalProperties.get(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT));
+        }
         if (additionalProperties.containsKey(PYTHON_SRC_ROOT)) {
             String pythonSrcRoot = (String) additionalProperties.get(PYTHON_SRC_ROOT);
+            if (moveTestsUnderPythonSrcRoot) {
+                testPackage = pythonSrcRoot + "." + testPackage;
+            }
             if (usePythonSrcRootInImports) {
-                // if we prepend the package name if the pythonSrcRoot we get the desired effect.
-                // but we also need to set pythonSrcRoot itself to "" to ensure all the paths are
+                // if we prepend the package name with the pythonSrcRoot we get the desired effect.
+                // But, we also need to set pythonSrcRoot itself to "" to ensure all the paths are
                 // what we expect.
                 setPackageName(pythonSrcRoot + "." + packageName);
                 pythonSrcRoot = "";
@@ -196,6 +206,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         } else {
             setPythonSrcRoot("");
         }
+
         supportingFiles.add(new SupportingFile("__main__.mustache", packagePath(), "__main__.py"));
         supportingFiles.add(new SupportingFile("util.mustache", packagePath(), "util.py"));
         supportingFiles.add(new SupportingFile("typing_utils.mustache", packagePath(), "typing_utils.py"));
@@ -238,6 +249,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         this.usePythonSrcRootInImports = Boolean.parseBoolean(val);
     }
 
+    public void setMoveTestsUnderPythonSrcRoot(String val) {
+        this.moveTestsUnderPythonSrcRoot = Boolean.parseBoolean(val);
+    }
 
     public String pythonSrcOutputFolder() {
         return outputFolder + File.separator + pythonSrcRoot;
@@ -652,11 +666,11 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                             operation.isMultipart = Boolean.TRUE;
                         }
                     }
-                    operation.vendorExtensions.put("x-prefered-consume", consume);
+                    operation.vendorExtensions.put("x-preferred-consume", consume);
                 } else if (operation.consumes.size() > 1) {
                     Map<String, String> consume = operation.consumes.get(0);
                     skipTests.put("reason", "Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760");
-                    operation.vendorExtensions.put("x-prefered-consume", consume);
+                    operation.vendorExtensions.put("x-preferred-consume", consume);
                     if ("multipart/form-data".equals(consume.get(MEDIA_TYPE))) {
                         operation.isMultipart = Boolean.TRUE;
                     }
@@ -666,14 +680,14 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 if (operation.bodyParam != null) {
                     Map<String, String> consume = new HashMap<>();
                     consume.put(MEDIA_TYPE, "application/json");
-                    operation.vendorExtensions.put("x-prefered-consume", consume);
+                    operation.vendorExtensions.put("x-preferred-consume", consume);
                     skipTests.put("reason", "*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760");
                 }
             }
             // Choose to consume 'application/json' if available, else choose the last one.
             if (operation.produces != null) {
                 for (Map<String, String> produce : operation.produces) {
-                    operation.vendorExtensions.put("x-prefered-produce", produce);
+                    operation.vendorExtensions.put("x-preferred-produce", produce);
                     if (produce.get(MEDIA_TYPE).equals("application/json")) {
                         break;
                     }

@@ -6,8 +6,7 @@ version = 'v1'
 
 buildscript {
     repositories {
-        maven { url "https://repo1.maven.org/maven2" }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
@@ -16,8 +15,7 @@ buildscript {
 }
 
 repositories {
-    maven { url "https://repo1.maven.org/maven2" }
-    jcenter()
+    mavenCentral()
 }
 
 if(hasProperty('target') && target == 'android') {
@@ -78,14 +76,17 @@ if(hasProperty('target') && target == 'android') {
 } else {
 
     apply plugin: 'java'
-    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-    install {
-        repositories.mavenInstaller {
-            pom.artifactId = 'petstore-webclient-nullable-arrays'
+    publishing {
+        publications {
+            maven(MavenPublication) {
+               artifactId = 'petstore-webclient-nullable-arrays'
+               from components.java
+            }
         }
     }
 

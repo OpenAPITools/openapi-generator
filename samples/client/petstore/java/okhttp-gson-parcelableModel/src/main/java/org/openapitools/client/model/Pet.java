@@ -110,7 +110,7 @@ public class Pet implements Parcelable {
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
-  public Pet() {
+  public Pet() { 
   }
 
   public Pet id(Long id) {

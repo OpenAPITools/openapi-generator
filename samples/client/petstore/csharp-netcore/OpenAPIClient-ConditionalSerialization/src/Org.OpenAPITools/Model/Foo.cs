@@ -38,8 +38,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar (default to &quot;bar&quot;).</param>
         public Foo(string bar = "bar")
         {
-            // use default value if no "bar" provided
-            this.Bar = bar ?? "bar";
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

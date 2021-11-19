@@ -131,6 +131,8 @@ public class EnumArrays {
   @XmlElement(name = "arrayEnum")
   private List<ArrayEnumEnum> arrayEnum = null;
 
+  public EnumArrays() { 
+  }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     

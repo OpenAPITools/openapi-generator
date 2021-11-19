@@ -114,11 +114,20 @@
             <artifactId>swagger-ui</artifactId>
             <version>3.14.2</version>
         </dependency>
+        {{#oas3}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+        {{/oas3}}
+        {{^oas3}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>1.5.14</version>
         </dependency>
+        {{/oas3}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>

@@ -6,6 +6,7 @@ ApiConfiguration.h
 ApiException.cpp
 ApiException.h
 CMakeLists.txt
+Config.cmake.in
 HttpContent.cpp
 HttpContent.h
 IHttpBody.h

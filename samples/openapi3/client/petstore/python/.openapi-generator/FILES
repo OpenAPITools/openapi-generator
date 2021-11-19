@@ -49,6 +49,7 @@ docs/FormatTest.md
 docs/Fruit.md
 docs/FruitReq.md
 docs/GmFruit.md
+docs/GmFruitNoProperties.md
 docs/GrandparentAnimal.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
@@ -161,6 +162,7 @@ petstore_api/model/format_test.py
 petstore_api/model/fruit.py
 petstore_api/model/fruit_req.py
 petstore_api/model/gm_fruit.py
+petstore_api/model/gm_fruit_no_properties.py
 petstore_api/model/grandparent_animal.py
 petstore_api/model/has_only_read_only.py
 petstore_api/model/health_check_result.py
