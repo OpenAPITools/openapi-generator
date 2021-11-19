@@ -22,7 +22,7 @@ open class FakeClassnameTags123API {
      */
     open class func testClassname( body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
-        testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
+        testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body!)

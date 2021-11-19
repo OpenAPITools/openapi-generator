@@ -44,6 +44,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static enum PROVIDED_IN_LEVEL {none, root, any, platform}
 
     private static final String DEFAULT_IMPORT_PREFIX = "./";
+    private static final String DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX = "../";
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
@@ -54,6 +55,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String PROVIDED_IN = "providedIn";
     public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
     public static final String HTTP_CONTEXT_IN_OPTIONS = "httpContextInOptions";
+    public static final String DELETE_ACCEPTS_BODY = "deleteAcceptsBody";
     public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String CONFIGURATION_PREFIX = "configurationPrefix";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
@@ -65,7 +67,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
 
-    protected String ngVersion = "12.0.0";
+    protected String ngVersion = "12.2.12";
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
@@ -236,6 +238,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put(HTTP_CONTEXT_IN_OPTIONS, false);
         }
 
+        if (ngVersion.atLeast("12.1.0")) {
+            additionalProperties.put(DELETE_ACCEPTS_BODY, true);
+        } else {
+            additionalProperties.put(DELETE_ACCEPTS_BODY, false);
+        }
+        
         additionalProperties.put(NG_VERSION, ngVersion);
 
         if (additionalProperties.containsKey(API_MODULE_PREFIX)) {
@@ -293,7 +301,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         // Set the typescript version compatible to the Angular version
         if (ngVersion.atLeast("12.0.0")) {
-            additionalProperties.put("tsVersion", ">=4.2.3 <4.3.0");
+            additionalProperties.put("tsVersion", ">=4.3.0 <4.4.0");
         } else if (ngVersion.atLeast("11.0.0")) {
             additionalProperties.put("tsVersion", ">=4.0.0 <4.1.0");
         } else if (ngVersion.atLeast("10.0.0")) {
@@ -569,7 +577,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * Parse imports
      */
     private Set<String> parseImports(CodegenModel cm) {
-        Set<String> newImports = new HashSet<String>();
+        Set<String> newImports = new HashSet<>();
         if (cm.imports.size() > 0) {
             for (String name : cm.imports) {
                 if (name.indexOf(" | ") >= 0) {
@@ -634,7 +642,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
-        return modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
+        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
     public String getNpmRepository() {

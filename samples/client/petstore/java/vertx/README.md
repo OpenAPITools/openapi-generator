@@ -50,7 +50,14 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:petstore-vertx:1.0.0"
+  repositories {
+    mavenCentral()     // Needed if the 'petstore-vertx' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'petstore-vertx' jar has been published to the local maven repo.
+  }
+
+  dependencies {
+     implementation "org.openapitools:petstore-vertx:1.0.0"
+  }
 ```
 
 ### Others

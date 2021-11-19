@@ -105,7 +105,7 @@ public class Order implements Parcelable {
   @SerializedName(SERIALIZED_NAME_COMPLETE)
   private Boolean complete = false;
 
-  public Order() {
+  public Order() { 
   }
 
   public Order id(Long id) {

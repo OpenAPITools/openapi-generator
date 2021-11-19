@@ -372,9 +372,9 @@
                 <version>${play-version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.validation</groupId>
-                <artifactId>validation-api</artifactId>
-                <version>1.1.0.Final</version>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${beanvalidation-version}</version>
             </dependency>
             {{/play26}}
         {{/usePlayWS}}
@@ -388,9 +388,9 @@
             </dependency>
         {{/parcelableModel}}
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- test dependencies -->
@@ -439,7 +439,10 @@
         {{#threetenbp}}
         <threetenbp-version>1.4.0</threetenbp-version>
         {{/threetenbp}}
-        <javax-annotation-version>1.3.2</javax-annotation-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+{{#useBeanValidation}}
+		<beanvalidation-version>2.0.2</beanvalidation-version>
+{{/useBeanValidation}}
         <oltu-version>1.0.1</oltu-version>
         <junit-version>4.13.1</junit-version>
     </properties>

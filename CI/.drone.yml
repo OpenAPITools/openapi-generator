@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: default
+name: java11-test
 steps:
 # test Java 11 HTTP client
 - name: java11-test
@@ -20,7 +20,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: default
+name: nim-client-test
 steps:
 # test nim client
 - name: nim-client-test
@@ -31,7 +31,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: default
+name: protobuf-schema-test
 steps:
 # test protobuf schema generator
 - name: protobuf-schema-test
@@ -46,7 +46,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: default
+name: aspnetcore-test
 steps:
 # test aspnetcore 3.x
 - name: aspnetcore-test
@@ -58,7 +58,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: default
+name: ocaml-test
 steps:
 # test ocaml petstore client
 - name: ocaml-test
@@ -75,7 +75,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: default
+name: haskell-client-test
 steps:
 # test haskell client
 - name: haskell-client-test
@@ -86,7 +86,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: default
+name: erlang
 steps:
 # test erlang client and server
 - name: erlang

@@ -51,8 +51,8 @@
 {{#useBeanValidation}}
         <dependencies>
           <dependency>
-              <groupId>javax.validation</groupId>
-              <artifactId>validation-api</artifactId>
+              <groupId>jakarta.validation</groupId>
+              <artifactId>jakarta.validation-api</artifactId>
               <version>${beanvalidation-version}</version>
           </dependency>
         </dependencies>
@@ -136,8 +136,8 @@
 {{#useBeanValidation}}
     <!-- Bean Validation API support -->
     <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
+        <groupId>jakarta.validation</groupId>
+        <artifactId>jakarta.validation-api</artifactId>
         <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
@@ -238,9 +238,9 @@
         </dependency>
 {{/generateSpringBootApplication}}
     <dependency>
-        <groupId>javax.annotation</groupId>
-        <artifactId>javax.annotation-api</artifactId>
-        <version>${javax-annotation-version}</version>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>${jakarta-annotation-version}</version>
         <scope>provided</scope>
     </dependency>
 {{#useSwaggerUI}}
@@ -268,9 +268,8 @@
     <jetty-version>9.2.9.v20150224</jetty-version>
     <junit-version>4.13</junit-version>
     <logback-version>1.2.0</logback-version>
-    <servlet-api-version>2.5</servlet-api-version>
 {{#useBeanValidation}}
-    <beanvalidation-version>1.1.0.Final</beanvalidation-version>
+    <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
 {{#generateSpringApplication}}
     <spring-version>4.3.13.RELEASE</spring-version>
@@ -280,7 +279,7 @@
 {{/generateSpringBootApplication}}
     <cxf-version>3.3.0</cxf-version>
     <jackson-jaxrs-version>2.9.9</jackson-jaxrs-version>
-    <javax-annotation-version>1.3.2</javax-annotation-version>
+    <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

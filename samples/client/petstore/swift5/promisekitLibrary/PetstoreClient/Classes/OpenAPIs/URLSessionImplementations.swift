@@ -19,15 +19,26 @@ class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     }
 }
 
+public typealias PetstoreClientAPIChallengeHandler = ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))
+
+// Store the URLSession's delegate to retain its reference
+private let sessionDelegate = SessionDelegate()
+
 // Store the URLSession to retain its reference
-private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
+private let defaultURLSession = URLSession(configuration: .default, delegate: sessionDelegate, delegateQueue: nil)
+
+// Store current taskDidReceiveChallenge for every URLSessionTask
+private var challengeHandlerStore = SynchronizedDictionary<Int, PetstoreClientAPIChallengeHandler>()
+
+// Store current URLCredential for every URLSessionTask
+private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 
 open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     /**
      May be assigned if you want to control the authentication challenges.
      */
-    public var taskDidReceiveChallenge: ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))?
+    public var taskDidReceiveChallenge: PetstoreClientAPIChallengeHandler?
 
     /**
      May be assigned if you want to do any of those things:
@@ -47,12 +58,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      configuration.
      */
     open func createURLSession() -> URLSession {
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = buildHeaders()
-        let sessionDelegate = SessionDelegate()
-        sessionDelegate.credential = credential
-        sessionDelegate.taskDidReceiveChallenge = taskDidReceiveChallenge
-        return URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: nil)
+        return defaultURLSession
     }
 
     /**
@@ -93,11 +99,9 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         return modifiedRequest
     }
 
-    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
-        let urlSessionId = UUID().uuidString
-        // Create a new manager for each request to customize its request header
+    @discardableResult
+    override open func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> URLSessionTask? {
         let urlSession = createURLSession()
-        urlSessionStore[urlSessionId] = urlSession
 
         guard let xMethod = HTTPMethod(rawValue: method) else {
             fatalError("Unsupported Http method - \(method)")
@@ -123,13 +127,16 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             }
         }
 
-        let cleanupRequest = {
-            urlSessionStore[urlSessionId]?.finishTasksAndInvalidate()
-            urlSessionStore[urlSessionId] = nil
-        }
-
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
+
+            var taskIdentifier: Int?
+             let cleanupRequest = {
+                 if let taskIdentifier = taskIdentifier {
+                     challengeHandlerStore[taskIdentifier] = nil
+                     credentialStore[taskIdentifier] = nil
+                 }
+             }
 
             let dataTask = urlSession.dataTask(with: request) { data, response, error in
 
@@ -159,17 +166,23 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                 onProgressReady?(dataTask.progress)
             }
 
+            taskIdentifier = dataTask.taskIdentifier
+            challengeHandlerStore[dataTask.taskIdentifier] = taskDidReceiveChallenge
+            credentialStore[dataTask.taskIdentifier] = credential
+
             dataTask.resume()
 
+            return dataTask
         } catch {
             apiResponseQueue.async {
-                cleanupRequest()
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
+
+            return nil
         }
     }
 
-    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
 
         if let error = error {
             completion(.failure(ErrorResponse.error(-1, data, response, error)))
@@ -310,7 +323,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 }
 
 open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<T> {
-    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, Error>) -> Void) {
+    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
 
         if let error = error {
             completion(.failure(ErrorResponse.error(-1, data, response, error)))
@@ -398,25 +411,20 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
     }
 }
 
-private class SessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDelegate {
-
-    var credential: URLCredential?
-
-    var taskDidReceiveChallenge: ((URLSession, URLSessionTask, URLAuthenticationChallenge) -> (URLSession.AuthChallengeDisposition, URLCredential?))?
-
+private class SessionDelegate: NSObject, URLSessionTaskDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 
         var disposition: URLSession.AuthChallengeDisposition = .performDefaultHandling
 
         var credential: URLCredential?
 
-        if let taskDidReceiveChallenge = taskDidReceiveChallenge {
+        if let taskDidReceiveChallenge = challengeHandlerStore[task.taskIdentifier] {
             (disposition, credential) = taskDidReceiveChallenge(session, task, challenge)
         } else {
             if challenge.previousFailureCount > 0 {
                 disposition = .rejectProtectionSpace
             } else {
-                credential = self.credential ?? session.configuration.urlCredentialStorage?.defaultCredential(for: challenge.protectionSpace)
+                credential = credentialStore[task.taskIdentifier] ?? session.configuration.urlCredentialStorage?.defaultCredential(for: challenge.protectionSpace)
 
                 if credential != nil {
                     disposition = .useCredential

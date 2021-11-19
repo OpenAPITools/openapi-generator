@@ -1,0 +1,57 @@
+name: Gradle tests (Java samples)
+
+on:
+  push:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
+      - "java*"
+    paths:
+      - 'samples/client/petstore/java/**'
+  pull_request:
+    branches:
+      - master
+      - '[5-9]+.[0-9]+.x'
+    paths:
+      - 'samples/openapi3/client/petstore/java/**'
+env:
+  GRADLE_VERSION: 7.2
+
+jobs:
+  build:
+    name: Gradle tests
+    runs-on: ubuntu-latest
+    container: gradle:jdk11
+    strategy:
+      fail-fast: true
+      matrix:
+        sample:
+          - samples/client/petstore/java/jersey2-java8-localdatetime
+          - samples/client/petstore/java/jersey2-java8
+          - samples/openapi3/client/extensions/x-auth-id-alias/java/jersey2-java8
+          - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
+          - samples/openapi3/client/petstore/java/jersey2-java8
+          - samples/client/petstore/java/okhttp-gson
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: 11
+      # Cache Gradle Dependencies
+      - name: Setup Gradle Dependencies Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
+
+      # Cache Gradle Wrapper
+      - name: Setup Gradle Wrapper Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: /bin/sh gradlew build -x test
