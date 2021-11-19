@@ -22,9 +22,24 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.callbacks.Callback;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -33,7 +48,13 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class InlineModelResolver {
@@ -434,6 +455,7 @@ public class InlineModelResolver {
             } else if (model instanceof Schema) {
                 Schema m = model;
                 Map<String, Schema> properties = m.getProperties();
+                mapInlinePropertiesForBaseTypes(properties);
                 flattenProperties(openAPI, properties, modelName);
                 fixStringModel(m);
             } else if (ModelUtils.isArraySchema(model)) {
@@ -460,6 +482,89 @@ public class InlineModelResolver {
                 }
             }
         }
+    }
+
+    /**
+     * Remodel properties to use accurate base type
+     *
+     * @param properties
+     */
+    private void mapInlinePropertiesForBaseTypes(Map<String, Schema> properties) {
+        if(properties == null) {
+            return;
+        }
+        properties.entrySet().stream().forEach(entry -> {
+            if (entry.getValue() instanceof ArraySchema &&
+                    ((ArraySchema) entry.getValue()).getItems() instanceof ComposedSchema) {
+                ((ComposedSchema) ((ArraySchema) entry.getValue()).getItems()).setAllOf(
+                    ((ComposedSchema) ((ArraySchema) entry.getValue())
+                            .getItems()).getAllOf().stream().map(schema -> {
+                        if (schema instanceof ObjectSchema &&
+                                schema.getProperties().values().size() == 1) {
+                            return remodelSchema(schema);
+                        }
+                        return schema;
+                    }).collect(Collectors.toList())
+                );
+            }
+        });
+    }
+
+    /**
+     * For base types remodel the schema and cast to appropriate type
+     *
+     * @param schema initial schema
+     * @return schema - remodeled schema
+     */
+    private Schema remodelSchema(Schema schema) {
+        Schema internalSchema = (Schema) schema.getProperties().values().toArray()[0];
+        Schema remodeledSchema = schema;
+
+        try {
+            if (internalSchema instanceof NumberSchema) {
+                schema.setType("number");
+                remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), NumberSchema.class);
+                for (Object key : remodeledSchema.getProperties().keySet()) {
+                    remodeledSchema
+                            .getProperties()
+                            .put(key, structureMapper.readValue(
+                                    structureMapper.writeValueAsString(remodeledSchema.getProperties().get(key)), NumberSchema.class));
+                }
+            } else if (internalSchema instanceof IntegerSchema) {
+                schema.setType("integer");
+                remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), IntegerSchema.class);
+                for (Object key : remodeledSchema.getProperties().keySet()) {
+                    remodeledSchema
+                            .getProperties()
+                            .put(key, structureMapper.readValue(
+                                    structureMapper.writeValueAsString(remodeledSchema.getProperties().get(key)), IntegerSchema.class));
+                }
+
+            } else if (internalSchema instanceof StringSchema) {
+                schema.setType("string");
+                remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), StringSchema.class);
+                for (Object key : remodeledSchema.getProperties().keySet()) {
+                    remodeledSchema
+                            .getProperties()
+                            .put(key, structureMapper.readValue(
+                                    structureMapper.writeValueAsString(remodeledSchema.getProperties().get(key)), StringSchema.class));
+                }
+
+            } else if (internalSchema instanceof BooleanSchema) {
+                schema.setType("bool");
+                remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), BooleanSchema.class);
+                for (Object key : remodeledSchema.getProperties().keySet()) {
+                    remodeledSchema
+                            .getProperties()
+                            .put(key, structureMapper.readValue(
+                                    structureMapper.writeValueAsString(remodeledSchema.getProperties().get(key)), BooleanSchema.class));
+                }
+
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return remodeledSchema;
     }
 
     /**

@@ -37,11 +37,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -530,6 +533,56 @@ public class JavaClientCodegenTest {
         CodegenProperty header = response.headers.get(0);
         Assert.assertEquals(header.dataType, "UUID");
         Assert.assertEquals(header.baseName, "Request");
+    }
+
+    /**
+     * When - AllOf type contains base types but contains Object as root type
+     * Then - Process the code as base types
+     */
+    @Test
+    public void testGetSchemaCompareBaseTypeAllOfComparisons() {
+        final OpenAPI openAPIExpected = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOfRepeatedInternalsControl.yaml");
+        final OpenAPI openAPIActual = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOfRepeatedInternals.yaml");
+
+        JavaClientCodegen codegenExpected = new JavaClientCodegen();
+        JavaClientCodegen codegenActual = new JavaClientCodegen();
+        codegenExpected.setOpenAPI(openAPIExpected);
+        codegenActual.setOpenAPI(openAPIActual);
+        Assert.assertEquals(openAPIActual.toString(), openAPIExpected.toString());
+    }
+
+    /**
+     *  When - AllOf type contains base types but contains Object as root type
+     *  Then - Check if the generated file contains the BAse type and not Object
+     */
+    @Test
+    public void testFileGenerationForAllOfBug() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.REST_ASSURED)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/allOfRepeatedInternals.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        // tests if NPE will crash generation when path in yaml arent provided
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 4);
+        String content = new Scanner(new File(files.stream().filter(name -> name.toString().contains("InlineResponse200.java")).findFirst().get().toString())).useDelimiter("\\Z").next();
+        Assert.assertTrue(content.contains("public InlineResponse200 foo(List<BigDecimal> foo)"));
+        files.forEach(File::deleteOnExit);
     }
 
     @Test
