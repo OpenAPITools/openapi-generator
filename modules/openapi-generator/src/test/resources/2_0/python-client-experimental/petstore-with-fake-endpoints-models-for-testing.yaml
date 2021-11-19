@@ -2122,3 +2122,63 @@ definitions:
       properties:
         lovesRocks:
           type: boolean
+  Triangle:
+    allOf:
+    - $ref: '#/definitions/Polygon'
+    - type: object
+      properties:
+        type:
+          enum:
+            - 'Triangle'
+          x-enum-as-string: true
+          default: 'Triangle'
+          type: string
+        sides:
+          type: integer
+        area:
+          type: string
+  Square:
+    allOf:
+    - $ref: '#/definitions/Polygon'
+    - type: object
+      properties:
+        type:
+          enum:
+            - 'Square'
+          x-enum-as-string: true
+          default: 'Square'
+          type: string
+        sides:
+          type: integer
+        area:
+          type: string
+  Polygon:
+    allOf:
+    - $ref: '#/definitions/Shape'
+    - type: object
+      required:
+        - type
+      properties:
+        type:
+          enum:
+            - 'Triangle'
+            - 'Square'
+          x-enum-as-string: true
+          type: string
+        sides:
+          type: integer
+        area:
+          type: string
+  Shape:
+    type: object
+    required:
+      - type
+    properties:
+      type:
+        enum:
+          - 'Triangle'
+          - 'Square'
+        x-enum-as-string: true
+        type: string
+      area:
+        type: string
