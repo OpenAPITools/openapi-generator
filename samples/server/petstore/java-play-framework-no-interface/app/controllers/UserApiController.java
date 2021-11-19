@@ -49,8 +49,8 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUser(request, body);
-return ok();
+                imp.createUser(request, body);
+        return ok();
 
     }
 
@@ -68,8 +68,8 @@ return ok();
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUsersWithArrayInput(request, body);
-return ok();
+                imp.createUsersWithArrayInput(request, body);
+        return ok();
 
     }
 
@@ -87,26 +87,29 @@ return ok();
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUsersWithListInput(request, body);
-return ok();
+                imp.createUsersWithListInput(request, body);
+        return ok();
 
     }
 
     @ApiAction
     public Result deleteUser(Http.Request request, String username) throws Exception {
-        imp.deleteUser(request, username);
-return ok();
+                imp.deleteUser(request, username);
+        return ok();
 
     }
 
     @ApiAction
     public Result getUserByName(Http.Request request, String username) throws Exception {
-        User obj = imp.getUserByName(request, username);
-    if (configuration.getBoolean("useOutputBeanValidation")) {
+                User obj = imp.getUserByName(request, username);
+
+        if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
-    }
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+        }
+
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
@@ -126,16 +129,17 @@ return ok(result);
         } else {
             throw new IllegalArgumentException("'password' parameter is required");
         }
-        String obj = imp.loginUser(request, username, password);
-JsonNode result = mapper.valueToTree(obj);
-return ok(result);
+                String obj = imp.loginUser(request, username, password);
+        JsonNode result = mapper.valueToTree(obj);
+
+        return ok(result);
 
     }
 
     @ApiAction
     public Result logoutUser(Http.Request request) throws Exception {
-        imp.logoutUser(request);
-return ok();
+                imp.logoutUser(request);
+        return ok();
 
     }
 
@@ -151,8 +155,8 @@ return ok();
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.updateUser(request, username, body);
-return ok();
+                imp.updateUser(request, username, body);
+        return ok();
 
     }
 

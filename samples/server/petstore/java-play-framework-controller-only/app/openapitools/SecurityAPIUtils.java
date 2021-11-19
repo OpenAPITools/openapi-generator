@@ -54,9 +54,9 @@ public class SecurityAPIUtils {
 		clientId = configuration.getString("oauth.clientId");
 		clientSecret = configuration.getString("oauth.clientSecret");
 
-		tokenIntrospectEndpoints.put("petstore_token", "https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/token/introspect");
+		tokenIntrospectEndpoints.put("petstore_auth", "");
 
-		jwksEndpoints.put("petstore_token", "https://keycloak-dev.business.stingray.com/auth/realms/CSLocal/protocol/openid-connect/certs");
+		jwksEndpoints.put("petstore_auth", "");
 	}
 
 	private boolean isRequestTokenValidByOnlineCheck(Http.Request request, String securityMethodName) {
