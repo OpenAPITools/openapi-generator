@@ -56,13 +56,13 @@ public class SecurityAPIUtils {
 
 {{#hasOAuthMethods}}
 {{#oauthMethods}}
-        tokenIntrospectEndpoints.put("{{name}}", "{{tokenIntrospectUrl}}");
+		tokenIntrospectEndpoints.put("{{name}}", "{{tokenIntrospectUrl}}");
 {{/oauthMethods}}
 {{/hasOAuthMethods}}
 
 {{#hasOAuthMethods}}
 {{#oauthMethods}}
-        jwksEndpoints.put("{{name}}", "{{jwksUrl}}");
+		jwksEndpoints.put("{{name}}", "{{jwksUrl}}");
 {{/oauthMethods}}
 {{/hasOAuthMethods}}
 	}
