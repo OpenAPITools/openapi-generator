@@ -219,6 +219,13 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
            @Override
            public MixedPropertiesAndAdditionalPropertiesClass read(JsonReader in) throws IOException {
              JsonObject obj = elementAdapter.read(in).getAsJsonObject();
+             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+             // check to see if the JSON string contains additional fields
+             for (Entry<String, JsonElement> entry: entries) {
+               if (!MixedPropertiesAndAdditionalPropertiesClass.openapiFields.contains(entry.getKey())) {
+                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `MixedPropertiesAndAdditionalPropertiesClass` properties");
+               }
+             }
 
              return thisAdapter.fromJsonTree(obj);
            }

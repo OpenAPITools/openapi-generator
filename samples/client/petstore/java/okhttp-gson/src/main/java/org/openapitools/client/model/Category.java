@@ -176,6 +176,20 @@ public class Category {
            @Override
            public Category read(JsonReader in) throws IOException {
              JsonObject obj = elementAdapter.read(in).getAsJsonObject();
+             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+             // check to see if the JSON string contains additional fields
+             for (Entry<String, JsonElement> entry: entries) {
+               if (!Category.openapiFields.contains(entry.getKey())) {
+                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `Category` properties");
+               }
+             }
+
+             // check to make sure all required properties/fields are present in the JSON string
+             for (String requiredField : Category.openapiRequiredFields) {
+               if (obj.get(requiredField) == null) {
+                 throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON string");
+               }
+             }
 
              return thisAdapter.fromJsonTree(obj);
            }

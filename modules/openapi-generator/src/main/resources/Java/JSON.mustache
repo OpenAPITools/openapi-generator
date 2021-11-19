@@ -142,7 +142,7 @@ public class JSON {
             {{/-first}}
             {{/anyOf}}
             {{^anyOf}}
-            .registerTypeAdapter({{{classname}}}.class, new {{{classname}}}.CustomDeserializer())
+            .registerTypeAdapterFactory(new {{{classname}}}.CustomTypeAdapterFactory())
             {{/anyOf}}
             {{/oneOf}}
             {{/isEnum}}
