@@ -24,9 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 
@@ -37,6 +35,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
@@ -63,7 +63,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private List<String> photoUrls = new ArrayList<String>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
@@ -194,7 +194,7 @@ public class Pet {
   }
 
 
-  public Pet photoUrls(Set<String> photoUrls) {
+  public Pet photoUrls(List<String> photoUrls) {
     
     this.photoUrls = photoUrls;
     return this;
@@ -212,12 +212,12 @@ public class Pet {
   @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
-  public Set<String> getPhotoUrls() {
+  public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
 
-  public void setPhotoUrls(Set<String> photoUrls) {
+  public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -340,6 +340,35 @@ public class Pet {
     openapiRequiredFields = new HashSet<String>();
     openapiRequiredFields.add("name");
     openapiRequiredFields.add("photoUrls");
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!Pet.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'Pet' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<Pet> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(Pet.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<Pet>() {
+           @Override
+           public void write(JsonWriter out, Pet value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public Pet read(JsonReader in) throws IOException {
+             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
+
+             return thisAdapter.fromJsonTree(obj);
+           }
+
+       }.nullSafe();
+    }
   }
 
   public static class CustomDeserializer implements JsonDeserializer<Pet> {

@@ -1,52 +1,62 @@
 import javax.ws.rs.core.GenericType;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapter;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
-//import {{invokerPackage}}.JSON;
+import {{invokerPackage}}.JSON;
 
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
-@JsonDeserialize(using = {{classname}}.{{classname}}Deserializer.class)
-@JsonSerialize(using = {{classname}}.{{classname}}Serializer.class)
+//@JsonDeserialize(using = {{classname}}.{{classname}}Deserializer.class)
+//@JsonSerialize(using = {{classname}}.{{classname}}Serializer.class)
 public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
     private static final Logger log = Logger.getLogger({{classname}}.class.getName());
 
-    public static class {{classname}}Serializer extends StdSerializer<{{classname}}> {
-        public {{classname}}Serializer(Class<{{classname}}> t) {
-            super(t);
-        }
+    public static class CustomSerializer implements JsonSerializer<{{classname}}> {
+        public JsonElement serialize({{classname}} obj, Type type, JsonSerializationContext jsonSerializationContext) {
+            if (obj == null) {
+                return null;
+            }
 
-        public {{classname}}Serializer() {
-            this(null);
-        }
-
-        @Override
-        public void serialize({{classname}} value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
-            jgen.writeObject(value.getActualInstance());
+            Gson gson = new Gson();
+            //return gson.toJson(obj.getActualInstance());
+            return new JsonPrimitive(gson.toJson(obj.getActualInstance()));
         }
     }
 
-    public static class {{classname}}Deserializer extends StdDeserializer<{{classname}}> {
-        public {{classname}}Deserializer() {
-            this({{classname}}.class);
-        }
-
-        public {{classname}}Deserializer(Class<?> vc) {
-            super(vc);
-        }
+    public static class CustomDeserializer implements JsonDeserializer<{{classname}}> {
 
         @Override
-        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            JsonNode tree = jp.readValueAsTree();
+        public {{classname}} deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+           Object deserialized = null;
+           int match = 0;
+
+        //@Override
+        //public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        /*    JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
@@ -66,34 +76,21 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
             {{/discriminator}}
             {{/useOneOfDiscriminatorLookup}}
-            boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
+            //boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
-            JsonToken token = tree.traverse(jp.getCodec()).nextToken();
+            JsonToken token = tree.traverse(jp.getCodec()).nextToken(); */
             {{#oneOf}}
             // deserialize {{{.}}}
             try {
-                boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                //if ({{{.}}}.class.equals(Integer.class) || {{{.}}}.class.equals(Long.class) || {{{.}}}.class.equals(Float.class) || {{{.}}}.class.equals(Double.class) || {{{.}}}.class.equals(Boolean.class) || {{{.}}}.class.equals(String.class)) {
-                //    attemptParsing = typeCoercion;
-                //    if (!attemptParsing) {
-                //        attemptParsing |= (({{{.}}}.class.equals(Integer.class) || {{{.}}}.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                //        attemptParsing |= (({{{.}}}.class.equals(Float.class) || {{{.}}}.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                //        attemptParsing |= ({{{.}}}.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                //        attemptParsing |= ({{{.}}}.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                //        {{#isNullable}}
-                //        attemptParsing |= (token == JsonToken.VALUE_NULL);
-                //        {{/isNullable}}
-                //    }
-                //}
-                if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
-                    // TODO: there is no validation against JSON schema constraints
-                    // (min, max, enum, pattern...), this does not perform a strict JSON
-                    // validation, which means the 'match' count may be higher than it should be.
-                    match++;
-                    log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
-                }
+                // TODO use static gson
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapter({{.}}.class, new {{.}}.CustomDeserializer())
+                        .create();
+                deserialized = gson.fromJson(json.toString(), {{.}}.class);
+
+                //deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+                match++;
+                log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
@@ -105,12 +102,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+            throw new JsonParseException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
         }
 
         /**
          * Handle deserialization of the 'null' value.
          */
+/*
         @Override
         public {{classname}} getNullValue(DeserializationContext ctxt) throws JsonMappingException {
         {{#isNullable}}
@@ -120,6 +118,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             throw new JsonMappingException(ctxt.getParser(), "{{classname}} cannot be null");
         {{/isNullable}}
         }
+*/
     }
 
     // store a list of schema names defined in oneOf
@@ -128,7 +127,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     public {{classname}}() {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
-{{> libraries/jersey2/additional_properties }}
+/* {{> libraries/jersey2/additional_properties }} */
     {{#additionalPropertiesType}}
     /**
      * Return true if this {{name}} object is equal to o.
@@ -155,7 +154,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
         });
         {{/oneOf}}
-        JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
+        //JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
         {{#discriminator}}
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
@@ -190,7 +189,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
         {{/isNullable}}
         {{#oneOf}}
-        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class<?>>())) {
+        if (instance instanceof {{{.}}}) {
             super.setActualInstance(instance);
             return;
         }

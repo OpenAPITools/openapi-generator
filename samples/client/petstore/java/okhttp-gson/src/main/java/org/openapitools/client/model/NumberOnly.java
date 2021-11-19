@@ -32,6 +32,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
@@ -121,6 +123,35 @@ public class NumberOnly {
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!NumberOnly.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'NumberOnly' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<NumberOnly> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(NumberOnly.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<NumberOnly>() {
+           @Override
+           public void write(JsonWriter out, NumberOnly value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public NumberOnly read(JsonReader in) throws IOException {
+             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
+
+             return thisAdapter.fromJsonTree(obj);
+           }
+
+       }.nullSafe();
+    }
   }
 
   public static class CustomDeserializer implements JsonDeserializer<NumberOnly> {

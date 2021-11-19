@@ -247,6 +247,21 @@ public class JSONTest {
         assertEquals(t3.getId(), Long.valueOf(5847));
     }
 
+    /** Model tests for Pet */
+    @Test
+    public void testPet() {
+        // test Pet
+        Pet model = new Pet();
+        model.setId(1029L);
+        model.setName("Dog");
+
+        Pet model2 = new Pet();
+        model2.setId(1029L);
+        model2.setName("Dog");
+
+        Assert.assertTrue(model.equals(model2));
+    }
+
     // Obtained 22JAN2018 from stackoverflow answer by PuguaSoft
     // https://stackoverflow.com/questions/11399491/java-timezone-offset
     // Direct link https://stackoverflow.com/a/16680815/3166133
@@ -265,5 +280,27 @@ public class JSONTest {
         offset = (offsetInMillis >= 0 ? "+" : "-") + offset;
 
         return offset;
+    }
+
+    /**
+     * Validate a oneOf schema can be deserialized into the expected class.
+     * The oneOf schema does not have a discriminator. 
+     */
+    @Test
+    public void testOneOfSchemaWithoutDiscriminator() throws Exception {
+        // BananaReq and AppleReq have explicitly defined properties that are different by name.
+        // There is no discriminator property.
+        {
+            String str = "{ \"cultivar\": \"golden delicious\", \"mealy\": false }";
+            FruitReq o = json.getGson().fromJson(str, FruitReq.class);
+            assertTrue(o.getActualInstance() instanceof AppleReq);
+            AppleReq inst = (AppleReq) o.getActualInstance();
+            assertEquals(inst.getCultivar(), "golden delicious");
+            assertEquals(inst.getMealy(), false);
+
+            AppleReq inst2 = o.getAppleReq();
+            assertEquals(inst2.getCultivar(), "golden delicious");
+            assertEquals(inst2.getMealy(), false);
+        }
     }
 }

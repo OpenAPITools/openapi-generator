@@ -37,6 +37,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
@@ -194,6 +196,35 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!MixedPropertiesAndAdditionalPropertiesClass.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'MixedPropertiesAndAdditionalPropertiesClass' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<MixedPropertiesAndAdditionalPropertiesClass> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(MixedPropertiesAndAdditionalPropertiesClass.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<MixedPropertiesAndAdditionalPropertiesClass>() {
+           @Override
+           public void write(JsonWriter out, MixedPropertiesAndAdditionalPropertiesClass value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public MixedPropertiesAndAdditionalPropertiesClass read(JsonReader in) throws IOException {
+             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
+
+             return thisAdapter.fromJsonTree(obj);
+           }
+
+       }.nullSafe();
+    }
   }
 
   public static class CustomDeserializer implements JsonDeserializer<MixedPropertiesAndAdditionalPropertiesClass> {

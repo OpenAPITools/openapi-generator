@@ -126,6 +126,28 @@ public class JSON {
             .registerTypeAdapter(LocalDate.class, localDateTypeAdapter)
             {{/jsr310}}
             .registerTypeAdapter(byte[].class, byteArrayAdapter)
+            {{#models}}
+            {{#model}}
+            {{^isEnum}}
+            {{#oneOf}}
+            {{#-first}}
+            .registerTypeAdapter({{{classname}}}.class, new {{{classname}}}.CustomSerializer())
+            .registerTypeAdapter({{{classname}}}.class, new {{{classname}}}.CustomDeserializer())
+            {{/-first}}
+            {{/oneOf}}
+            {{^oneOf}}
+            {{#anyOf}}
+            {{#-first}}
+            // TODO anyof model
+            {{/-first}}
+            {{/anyOf}}
+            {{^anyOf}}
+            .registerTypeAdapter({{{classname}}}.class, new {{{classname}}}.CustomDeserializer())
+            {{/anyOf}}
+            {{/oneOf}}
+            {{/isEnum}}
+            {{/model}}
+            {{/models}}
             .create();
     }
 
@@ -535,5 +557,4 @@ public class JSON {
         sqlDateTypeAdapter.setFormat(dateFormat);
         return this;
     }
-
 }

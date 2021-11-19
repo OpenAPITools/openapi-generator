@@ -57,19 +57,9 @@ public class JSON {
                     @Override
                     public Class<? extends Animal> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("BigCat", BigCat.class);
                         classByDiscriminatorValue.put("Cat", Cat.class);
                         classByDiscriminatorValue.put("Dog", Dog.class);
                         classByDiscriminatorValue.put("Animal", Animal.class);
-                        return getClassByDiscriminator(classByDiscriminatorValue,
-                                getDiscriminatorValue(readElement, "className"));
-                    }
-          })
-                .registerTypeSelector(BigCat.class, new TypeSelector<BigCat>() {
-                    @Override
-                    public Class<? extends BigCat> getClassForElement(JsonElement readElement) {
-                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("BigCat", BigCat.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
@@ -78,7 +68,6 @@ public class JSON {
                     @Override
                     public Class<? extends Cat> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-                        classByDiscriminatorValue.put("BigCat", BigCat.class);
                         classByDiscriminatorValue.put("Cat", Cat.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
@@ -91,6 +80,104 @@ public class JSON {
                         classByDiscriminatorValue.put("Dog", Dog.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(GrandparentAnimal.class, new TypeSelector<GrandparentAnimal>() {
+                    @Override
+                    public Class<? extends GrandparentAnimal> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("ParentPet", ParentPet.class);
+                        classByDiscriminatorValue.put("GrandparentAnimal", GrandparentAnimal.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "pet_type"));
+                    }
+          })
+                .registerTypeSelector(Mammal.class, new TypeSelector<Mammal>() {
+                    @Override
+                    public Class<? extends Mammal> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("Pig", Pig.class);
+                        classByDiscriminatorValue.put("whale", Whale.class);
+                        classByDiscriminatorValue.put("zebra", Zebra.class);
+                        classByDiscriminatorValue.put("mammal", Mammal.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(NullableShape.class, new TypeSelector<NullableShape>() {
+                    @Override
+                    public Class<? extends NullableShape> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("Quadrilateral", Quadrilateral.class);
+                        classByDiscriminatorValue.put("Triangle", Triangle.class);
+                        classByDiscriminatorValue.put("NullableShape", NullableShape.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "shapeType"));
+                    }
+          })
+                .registerTypeSelector(ParentPet.class, new TypeSelector<ParentPet>() {
+                    @Override
+                    public Class<? extends ParentPet> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("ParentPet", ParentPet.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "pet_type"));
+                    }
+          })
+                .registerTypeSelector(Pig.class, new TypeSelector<Pig>() {
+                    @Override
+                    public Class<? extends Pig> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("BasquePig", BasquePig.class);
+                        classByDiscriminatorValue.put("DanishPig", DanishPig.class);
+                        classByDiscriminatorValue.put("Pig", Pig.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
+          })
+                .registerTypeSelector(Quadrilateral.class, new TypeSelector<Quadrilateral>() {
+                    @Override
+                    public Class<? extends Quadrilateral> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("ComplexQuadrilateral", ComplexQuadrilateral.class);
+                        classByDiscriminatorValue.put("SimpleQuadrilateral", SimpleQuadrilateral.class);
+                        classByDiscriminatorValue.put("Quadrilateral", Quadrilateral.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "quadrilateralType"));
+                    }
+          })
+                .registerTypeSelector(Shape.class, new TypeSelector<Shape>() {
+                    @Override
+                    public Class<? extends Shape> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("Quadrilateral", Quadrilateral.class);
+                        classByDiscriminatorValue.put("Triangle", Triangle.class);
+                        classByDiscriminatorValue.put("Shape", Shape.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "shapeType"));
+                    }
+          })
+                .registerTypeSelector(ShapeOrNull.class, new TypeSelector<ShapeOrNull>() {
+                    @Override
+                    public Class<? extends ShapeOrNull> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("Quadrilateral", Quadrilateral.class);
+                        classByDiscriminatorValue.put("Triangle", Triangle.class);
+                        classByDiscriminatorValue.put("ShapeOrNull", ShapeOrNull.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "shapeType"));
+                    }
+          })
+                .registerTypeSelector(Triangle.class, new TypeSelector<Triangle>() {
+                    @Override
+                    public Class<? extends Triangle> getClassForElement(JsonElement readElement) {
+                        Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                        classByDiscriminatorValue.put("EquilateralTriangle", EquilateralTriangle.class);
+                        classByDiscriminatorValue.put("IsoscelesTriangle", IsoscelesTriangle.class);
+                        classByDiscriminatorValue.put("ScaleneTriangle", ScaleneTriangle.class);
+                        classByDiscriminatorValue.put("Triangle", Triangle.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "triangleType"));
                     }
           })
         ;
@@ -128,6 +215,82 @@ public class JSON {
             .registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter)
             .registerTypeAdapter(LocalDate.class, localDateTypeAdapter)
             .registerTypeAdapter(byte[].class, byteArrayAdapter)
+            .registerTypeAdapter(AdditionalPropertiesClass.class, new AdditionalPropertiesClass.CustomDeserializer())
+            .registerTypeAdapter(Animal.class, new Animal.CustomDeserializer())
+            .registerTypeAdapter(Apple.class, new Apple.CustomDeserializer())
+            .registerTypeAdapter(AppleReq.class, new AppleReq.CustomDeserializer())
+            .registerTypeAdapter(ArrayOfArrayOfNumberOnly.class, new ArrayOfArrayOfNumberOnly.CustomDeserializer())
+            .registerTypeAdapter(ArrayOfNumberOnly.class, new ArrayOfNumberOnly.CustomDeserializer())
+            .registerTypeAdapter(ArrayTest.class, new ArrayTest.CustomDeserializer())
+            .registerTypeAdapter(Banana.class, new Banana.CustomDeserializer())
+            .registerTypeAdapter(BananaReq.class, new BananaReq.CustomDeserializer())
+            .registerTypeAdapter(BasquePig.class, new BasquePig.CustomDeserializer())
+            .registerTypeAdapter(Capitalization.class, new Capitalization.CustomDeserializer())
+            .registerTypeAdapter(Cat.class, new Cat.CustomDeserializer())
+            .registerTypeAdapter(CatAllOf.class, new CatAllOf.CustomDeserializer())
+            .registerTypeAdapter(Category.class, new Category.CustomDeserializer())
+            .registerTypeAdapter(ClassModel.class, new ClassModel.CustomDeserializer())
+            .registerTypeAdapter(Client.class, new Client.CustomDeserializer())
+            .registerTypeAdapter(ComplexQuadrilateral.class, new ComplexQuadrilateral.CustomDeserializer())
+            .registerTypeAdapter(DanishPig.class, new DanishPig.CustomDeserializer())
+            .registerTypeAdapter(DeprecatedObject.class, new DeprecatedObject.CustomDeserializer())
+            .registerTypeAdapter(Dog.class, new Dog.CustomDeserializer())
+            .registerTypeAdapter(DogAllOf.class, new DogAllOf.CustomDeserializer())
+            .registerTypeAdapter(Drawing.class, new Drawing.CustomDeserializer())
+            .registerTypeAdapter(EnumArrays.class, new EnumArrays.CustomDeserializer())
+            .registerTypeAdapter(EnumTest.class, new EnumTest.CustomDeserializer())
+            .registerTypeAdapter(EquilateralTriangle.class, new EquilateralTriangle.CustomDeserializer())
+            .registerTypeAdapter(FileSchemaTestClass.class, new FileSchemaTestClass.CustomDeserializer())
+            .registerTypeAdapter(Foo.class, new Foo.CustomDeserializer())
+            .registerTypeAdapter(FormatTest.class, new FormatTest.CustomDeserializer())
+            .registerTypeAdapter(Fruit.class, new Fruit.CustomSerializer())
+            .registerTypeAdapter(Fruit.class, new Fruit.CustomDeserializer())
+            .registerTypeAdapter(FruitReq.class, new FruitReq.CustomSerializer())
+            .registerTypeAdapter(FruitReq.class, new FruitReq.CustomDeserializer())
+            // TODO anyof model
+            .registerTypeAdapter(GrandparentAnimal.class, new GrandparentAnimal.CustomDeserializer())
+            .registerTypeAdapter(HasOnlyReadOnly.class, new HasOnlyReadOnly.CustomDeserializer())
+            .registerTypeAdapter(HealthCheckResult.class, new HealthCheckResult.CustomDeserializer())
+            .registerTypeAdapter(InlineResponseDefault.class, new InlineResponseDefault.CustomDeserializer())
+            .registerTypeAdapter(IsoscelesTriangle.class, new IsoscelesTriangle.CustomDeserializer())
+            .registerTypeAdapter(Mammal.class, new Mammal.CustomSerializer())
+            .registerTypeAdapter(Mammal.class, new Mammal.CustomDeserializer())
+            .registerTypeAdapter(MapTest.class, new MapTest.CustomDeserializer())
+            .registerTypeAdapter(MixedPropertiesAndAdditionalPropertiesClass.class, new MixedPropertiesAndAdditionalPropertiesClass.CustomDeserializer())
+            .registerTypeAdapter(Model200Response.class, new Model200Response.CustomDeserializer())
+            .registerTypeAdapter(ModelApiResponse.class, new ModelApiResponse.CustomDeserializer())
+            .registerTypeAdapter(ModelReturn.class, new ModelReturn.CustomDeserializer())
+            .registerTypeAdapter(Name.class, new Name.CustomDeserializer())
+            .registerTypeAdapter(NullableClass.class, new NullableClass.CustomDeserializer())
+            .registerTypeAdapter(NullableShape.class, new NullableShape.CustomSerializer())
+            .registerTypeAdapter(NullableShape.class, new NullableShape.CustomDeserializer())
+            .registerTypeAdapter(NumberOnly.class, new NumberOnly.CustomDeserializer())
+            .registerTypeAdapter(ObjectWithDeprecatedFields.class, new ObjectWithDeprecatedFields.CustomDeserializer())
+            .registerTypeAdapter(Order.class, new Order.CustomDeserializer())
+            .registerTypeAdapter(OuterComposite.class, new OuterComposite.CustomDeserializer())
+            .registerTypeAdapter(ParentPet.class, new ParentPet.CustomDeserializer())
+            .registerTypeAdapter(Pet.class, new Pet.CustomDeserializer())
+            .registerTypeAdapter(Pig.class, new Pig.CustomSerializer())
+            .registerTypeAdapter(Pig.class, new Pig.CustomDeserializer())
+            .registerTypeAdapter(Quadrilateral.class, new Quadrilateral.CustomSerializer())
+            .registerTypeAdapter(Quadrilateral.class, new Quadrilateral.CustomDeserializer())
+            .registerTypeAdapter(QuadrilateralInterface.class, new QuadrilateralInterface.CustomDeserializer())
+            .registerTypeAdapter(ReadOnlyFirst.class, new ReadOnlyFirst.CustomDeserializer())
+            .registerTypeAdapter(ScaleneTriangle.class, new ScaleneTriangle.CustomDeserializer())
+            .registerTypeAdapter(Shape.class, new Shape.CustomSerializer())
+            .registerTypeAdapter(Shape.class, new Shape.CustomDeserializer())
+            .registerTypeAdapter(ShapeInterface.class, new ShapeInterface.CustomDeserializer())
+            .registerTypeAdapter(ShapeOrNull.class, new ShapeOrNull.CustomSerializer())
+            .registerTypeAdapter(ShapeOrNull.class, new ShapeOrNull.CustomDeserializer())
+            .registerTypeAdapter(SimpleQuadrilateral.class, new SimpleQuadrilateral.CustomDeserializer())
+            .registerTypeAdapter(SpecialModelName.class, new SpecialModelName.CustomDeserializer())
+            .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
+            .registerTypeAdapter(Triangle.class, new Triangle.CustomSerializer())
+            .registerTypeAdapter(Triangle.class, new Triangle.CustomDeserializer())
+            .registerTypeAdapter(TriangleInterface.class, new TriangleInterface.CustomDeserializer())
+            .registerTypeAdapter(User.class, new User.CustomDeserializer())
+            .registerTypeAdapter(Whale.class, new Whale.CustomDeserializer())
+            .registerTypeAdapter(Zebra.class, new Zebra.CustomDeserializer())
             .create();
     }
 
@@ -439,5 +602,4 @@ public class JSON {
         sqlDateTypeAdapter.setFormat(dateFormat);
         return this;
     }
-
 }

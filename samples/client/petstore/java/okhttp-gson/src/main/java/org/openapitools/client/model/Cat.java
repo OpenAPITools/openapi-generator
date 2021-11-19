@@ -24,7 +24,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 
 import com.google.gson.Gson;
@@ -34,6 +33,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
@@ -129,6 +130,35 @@ public class Cat extends Animal {
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
     openapiRequiredFields.add("className");
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!Cat.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'Cat' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<Cat> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(Cat.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<Cat>() {
+           @Override
+           public void write(JsonWriter out, Cat value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public Cat read(JsonReader in) throws IOException {
+             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
+
+             return thisAdapter.fromJsonTree(obj);
+           }
+
+       }.nullSafe();
+    }
   }
 
   public static class CustomDeserializer implements JsonDeserializer<Cat> {

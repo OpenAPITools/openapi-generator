@@ -31,6 +31,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
@@ -46,6 +48,10 @@ public class SpecialModelName {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
   private Long $specialPropertyName;
+
+  public static final String SERIALIZED_NAME_SPECIAL_MODEL_NAME = "_special_model.name_";
+  @SerializedName(SERIALIZED_NAME_SPECIAL_MODEL_NAME)
+  private String specialModelName;
 
   public SpecialModelName() { 
   }
@@ -73,6 +79,29 @@ public class SpecialModelName {
   }
 
 
+  public SpecialModelName specialModelName(String specialModelName) {
+    
+    this.specialModelName = specialModelName;
+    return this;
+  }
+
+   /**
+   * Get specialModelName
+   * @return specialModelName
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+
+  public String getSpecialModelName() {
+    return specialModelName;
+  }
+
+
+  public void setSpecialModelName(String specialModelName) {
+    this.specialModelName = specialModelName;
+  }
+
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -81,13 +110,14 @@ public class SpecialModelName {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
+    SpecialModelName specialModelName = (SpecialModelName) o;
+    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName) &&
+        Objects.equals(this.specialModelName, specialModelName.specialModelName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash($specialPropertyName);
+    return Objects.hash($specialPropertyName, specialModelName);
   }
 
   @Override
@@ -95,6 +125,7 @@ public class SpecialModelName {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
     sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
+    sb.append("    specialModelName: ").append(toIndentedString(specialModelName)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -117,9 +148,39 @@ public class SpecialModelName {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("$special[property.name]");
+    openapiFields.add("_special_model.name_");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!SpecialModelName.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'SpecialModelName' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<SpecialModelName> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(SpecialModelName.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<SpecialModelName>() {
+           @Override
+           public void write(JsonWriter out, SpecialModelName value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public SpecialModelName read(JsonReader in) throws IOException {
+             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
+
+             return thisAdapter.fromJsonTree(obj);
+           }
+
+       }.nullSafe();
+    }
   }
 
   public static class CustomDeserializer implements JsonDeserializer<SpecialModelName> {
