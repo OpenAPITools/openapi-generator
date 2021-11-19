@@ -5,7 +5,7 @@
 import 'dart:async';
 
 import 'package:built_value/serializer.dart';
-import '';
+import 'package:dio/dio.dart';
 
 import 'package:openapi/src/model/inline_response_default.dart';
 

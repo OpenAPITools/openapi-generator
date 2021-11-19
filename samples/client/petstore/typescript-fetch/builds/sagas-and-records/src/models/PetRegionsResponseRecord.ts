@@ -34,7 +34,7 @@ import {
 export const PetRegionsResponseRecordProps = {
     recType: "PetRegionsResponseApiRecord" as "PetRegionsResponseApiRecord",
     meta: ResponseMetaRecord(),
-    data: null as List<List<number>> | null,
+    data: null as List<List<string | null>> | null,
 };
 
 export type PetRegionsResponseRecordPropsType = typeof PetRegionsResponseRecordProps;
@@ -48,16 +48,18 @@ class PetRegionsResponseRecordUtils extends ApiRecordUtils<PetRegionsResponse, P
     public normalize(apiObject: PetRegionsResponse, asEntity?: boolean): PetRegionsResponse {
         (apiObject as any).recType = PetRegionsResponseRecordProps.recType;
         responseMetaRecordUtils.normalize(apiObject.meta);
+        if (apiObject.data) { (apiObject as any).data = apiObject.data.map(item => item.map(item2 => item2?.toString())); } 
         return apiObject;
     }
 
     public toApi(record: PetRegionsResponseRecord): PetRegionsResponse {
         const apiObject = super.toApi(record);
         apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
+        if (record.data) { apiObject.data = record.data.map(item => item.toArray().map(item2 => (item2 ? parseFloat(item2) : null) as number)).toArray(); } 
         return apiObject;
     }
 
-    public fromApiPassthrough(apiObject: PetRegionsResponse): List<List<number>> {
+    public fromApiPassthrough(apiObject: PetRegionsResponse): List<List<string | null>> {
         return appFromJS(apiObject.data);
     }
 

@@ -5,7 +5,7 @@
 import 'dart:async';
 
 import 'package:built_value/serializer.dart';
-import '';
+import 'package:dio/dio.dart';
 
 import 'dart:typed_data';
 import 'package:built_collection/built_collection.dart';

@@ -67,7 +67,7 @@ export const PetRecordProps = {
     tags: (TagRecord(), List<TagRecord>()),
     optionalTags: (TagRecord(), null as List<TagRecord> | null),
     status: PetStatusEnum.Pending,
-    regions: null as List<List<number>> | null,
+    regions: null as List<List<string | null>> | null,
 };
 
 export type PetRecordPropsType = typeof PetRecordProps;
@@ -103,6 +103,7 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         if (apiObject._entries) { categoryRecordUtils.normalizeArray(apiObject._entries); } 
         tagRecordUtils.normalizeArray(apiObject.tags);
         if (apiObject.optionalTags) { tagRecordUtils.normalizeArray(apiObject.optionalTags); } 
+        if (apiObject.regions) { (apiObject as any).regions = apiObject.regions.map(item => item.map(item2 => item2?.toString())); } 
         return apiObject;
     }
 
@@ -174,6 +175,7 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
         if (record._entries) { apiObject._entries = categoryRecordUtils.toApiArray(record._entries); } 
         apiObject.tags = tagRecordUtils.toApiArray(record.tags);
         if (record.optionalTags) { apiObject.optionalTags = tagRecordUtils.toApiArray(record.optionalTags); } 
+        if (record.regions) { apiObject.regions = record.regions.map(item => item.toArray().map(item2 => (item2 ? parseFloat(item2) : null) as number)).toArray(); } 
         return apiObject;
     }
 }

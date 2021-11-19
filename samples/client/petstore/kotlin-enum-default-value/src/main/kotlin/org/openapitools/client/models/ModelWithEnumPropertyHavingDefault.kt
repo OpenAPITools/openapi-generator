@@ -33,7 +33,7 @@ import java.io.Serializable
 data class ModelWithEnumPropertyHavingDefault (
 
     @Json(name = "propertyName")
-    val propertyName: ModelWithEnumPropertyHavingDefault.PropertyName = PropertyNameEnum.vALUE
+    val propertyName: ModelWithEnumPropertyHavingDefault.PropertyName = PropertyName.vALUE
 
 ) : Serializable {
     companion object {

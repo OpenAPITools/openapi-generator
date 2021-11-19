@@ -429,7 +429,7 @@ export interface PayloadGetPetRegionsRequest {
 }
 
 export const getPetRegionsRequest = createSagaAction<PayloadGetPetRegionsRequest>("getPetRegionsRequest");
-export const getPetRegionsSuccess = createSagaAction<List<List<number>>>("getPetRegionsSuccess");
+export const getPetRegionsSuccess = createSagaAction<List<List<string | null>>>("getPetRegionsSuccess");
 export const getPetRegionsFailure = createSagaAction<{error: any, requestPayload: PayloadGetPetRegions}>("getPetRegionsFailure");
 
 export const getPetRegions = createSagaAction<PayloadGetPetRegions>("getPetRegions");
@@ -512,11 +512,11 @@ export interface PayloadUpdatePetRegions extends PayloadUpdatePetRegionsRequest,
 
 export interface PayloadUpdatePetRegionsRequest {
     petId: string;
-    newRegions: List<List<number>>;
+    newRegions: List<List<string | null>>;
 }
 
 export const updatePetRegionsRequest = createSagaAction<PayloadUpdatePetRegionsRequest>("updatePetRegionsRequest");
-export const updatePetRegionsSuccess = createSagaAction<List<List<number>>>("updatePetRegionsSuccess");
+export const updatePetRegionsSuccess = createSagaAction<List<List<string | null>>>("updatePetRegionsSuccess");
 export const updatePetRegionsFailure = createSagaAction<{error: any, requestPayload: PayloadUpdatePetRegions}>("updatePetRegionsFailure");
 
 export const updatePetRegions = createSagaAction<PayloadUpdatePetRegions>("updatePetRegions");
@@ -537,7 +537,7 @@ export function *updatePetRegionsSagaImp(_action_: Action<PayloadUpdatePetRegion
 
         const response: Required<PetRegionsResponse> = yield apiCall(Api.petApi, Api.petApi.updatePetRegions,
             parseFloat(petId),
-            newRegions.toJS(),
+            newRegions.map(p => p.toArray().map(p2 => (p2 ? parseFloat(p2) : null) as number)).toArray(),
         );
 
         let successReturnValue: any = undefined;
