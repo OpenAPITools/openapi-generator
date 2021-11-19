@@ -39,6 +39,8 @@ public class MySchemaNameCharactersAllOf {
   public static final String JSON_PROPERTY_PROP2 = "prop2";
   private String prop2;
 
+  public MySchemaNameCharactersAllOf() { 
+  }
 
   public MySchemaNameCharactersAllOf prop2(String prop2) {
     this.prop2 = prop2;

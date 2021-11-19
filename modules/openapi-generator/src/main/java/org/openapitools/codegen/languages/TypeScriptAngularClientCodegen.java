@@ -55,6 +55,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String PROVIDED_IN = "providedIn";
     public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
     public static final String HTTP_CONTEXT_IN_OPTIONS = "httpContextInOptions";
+    public static final String DELETE_ACCEPTS_BODY = "deleteAcceptsBody";
     public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String CONFIGURATION_PREFIX = "configurationPrefix";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
@@ -66,7 +67,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
 
-    protected String ngVersion = "12.0.0";
+    protected String ngVersion = "12.2.12";
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
@@ -237,6 +238,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put(HTTP_CONTEXT_IN_OPTIONS, false);
         }
 
+        if (ngVersion.atLeast("12.1.0")) {
+            additionalProperties.put(DELETE_ACCEPTS_BODY, true);
+        } else {
+            additionalProperties.put(DELETE_ACCEPTS_BODY, false);
+        }
+        
         additionalProperties.put(NG_VERSION, ngVersion);
 
         if (additionalProperties.containsKey(API_MODULE_PREFIX)) {
@@ -570,7 +577,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * Parse imports
      */
     private Set<String> parseImports(CodegenModel cm) {
-        Set<String> newImports = new HashSet<String>();
+        Set<String> newImports = new HashSet<>();
         if (cm.imports.size() > 0) {
             for (String name : cm.imports) {
                 if (name.indexOf(" | ") >= 0) {

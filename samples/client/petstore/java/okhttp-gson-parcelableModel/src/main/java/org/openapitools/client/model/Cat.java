@@ -38,7 +38,7 @@ public class Cat extends Animal implements Parcelable {
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
-  public Cat() {
+  public Cat() { 
     super();
     this.className = this.getClass().getSimpleName();
   }
