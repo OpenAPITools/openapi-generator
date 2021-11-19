@@ -227,6 +227,11 @@ public class Generate extends OpenApiGeneratorCommand {
             description = "Skips the default behavior of validating an input specification.")
     private Boolean skipValidateSpec;
 
+    @Option(name = {"--skip-case-conversion"},
+            title = "skip conversion between cases",
+            description = "Skips the conversion between cases ie. camel to snake and vice versa.")
+    private Boolean skipCaseConversion;
+
     @Option(name = {"--strict-spec"},
             title = "true/false strict behavior",
             description = "'MUST' and 'SHALL' wording in OpenAPI spec is strictly adhered to. e.g. when false, no fixes will be applied to documents which pass validation but don't follow the spec.",
@@ -286,6 +291,10 @@ public class Generate extends OpenApiGeneratorCommand {
         // now override with any specified parameters
         if (skipValidateSpec != null) {
             configurator.setValidateSpec(false);
+        }
+        
+        if (skipCaseConversion != null) {
+            configurator.setCaseConversion(false);
         }
 
         if (verbose != null) {

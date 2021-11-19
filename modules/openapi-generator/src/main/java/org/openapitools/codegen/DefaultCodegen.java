@@ -183,6 +183,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String removeOperationIdPrefixDelimiter = "_";
     protected int removeOperationIdPrefixCount = 1;
     protected boolean skipOperationExample;
+    protected boolean caseConversion = true;
 
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
     protected final static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application\\/vnd.(.*)+json(;.*)?");
@@ -1355,7 +1356,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Return the variable name in the Api
      *
      * @param name the variable name of the Api
-     * @return the snake-cased variable name
+     * @return the camel-cased variable name
      */
     @Override
     public String toApiVarName(String name) {
@@ -2109,6 +2110,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
         return ModelUtils.unaliasSchema(this.openAPI, schema, usedImportMappings);
+    }
+
+    @Override
+    public void setCaseConversion(boolean caseConversion) {
+        this.caseConversion = caseConversion;
     }
 
     /**
@@ -3930,7 +3936,7 @@ public class DefaultCodegen implements CodegenConfig {
             op.path = path;
         }
 
-        op.operationId = toOperationId(operationId);
+        op.operationId = caseConversion ? toOperationId(operationId) : operationId;
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
         op.notes = escapeText(operation.getDescription());
@@ -3939,7 +3945,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (operation.getDeprecated() != null) {
             op.isDeprecated = operation.getDeprecated();
         }
-
         addConsumesInfo(operation, op);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {

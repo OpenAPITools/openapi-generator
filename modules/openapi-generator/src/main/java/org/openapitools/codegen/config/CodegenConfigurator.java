@@ -472,6 +472,11 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setCaseConversion(final boolean caseConversion) {
+        workflowSettingsBuilder.withCaseConversion(caseConversion);
+        return this;
+    }
+
     public CodegenConfigurator setVerbose(boolean verbose) {
         workflowSettingsBuilder.withVerbose(verbose);
         return this;
@@ -590,6 +595,7 @@ public class CodegenConfigurator {
         config.setEnablePostProcessFile(workflowSettings.isEnablePostProcessFile());
         config.setEnableMinimalUpdate(workflowSettings.isEnableMinimalUpdate());
         config.setStrictSpecBehavior(workflowSettings.isStrictSpecBehavior());
+        config.setCaseConversion(workflowSettings.isCaseConversion());
 
         TemplatingEngineAdapter templatingEngine = TemplatingEngineLoader.byIdentifier(workflowSettings.getTemplatingEngineName());
         config.setTemplatingEngine(templatingEngine);

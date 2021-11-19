@@ -76,6 +76,7 @@ public class WorkflowSettingsTest {
                 .withRemoveOperationIdPrefix(true)
                 .withLogToStderr(true)
                 .withValidateSpec(false)
+                .withCaseConversion(false)
                 .withEnablePostProcessFile(true)
                 .withEnableMinimalUpdate(true)
                 .withStrictSpecBehavior(false)
@@ -98,6 +99,9 @@ public class WorkflowSettingsTest {
 
         assertNotEquals(defaults.isValidateSpec(), settings.isValidateSpec());
         assertFalse(settings.isValidateSpec());
+
+        assertNotEquals(defaults.isCaseConversion(), settings.isCaseConversion());
+        assertFalse(settings.isCaseConversion());
 
         assertNotEquals(defaults.isEnablePostProcessFile(), settings.isEnablePostProcessFile());
         assertTrue(settings.isEnablePostProcessFile());

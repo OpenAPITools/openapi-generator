@@ -42,6 +42,7 @@ public class WorkflowSettings {
     public static final boolean DEFAULT_SKIP_OPERATION_EXAMPLE = false;
     public static final boolean DEFAULT_LOG_TO_STDERR = false;
     public static final boolean DEFAULT_VALIDATE_SPEC = true;
+    public static final boolean DEFAULT_CASE_CONVERSION = true;
     public static final boolean DEFAULT_ENABLE_POST_PROCESS_FILE = false;
     public static final boolean DEFAULT_ENABLE_MINIMAL_UPDATE = false;
     public static final boolean DEFAULT_STRICT_SPEC_BEHAVIOR = true;
@@ -57,6 +58,7 @@ public class WorkflowSettings {
     private boolean skipOperationExample = DEFAULT_SKIP_OPERATION_EXAMPLE;
     private boolean logToStderr = DEFAULT_LOG_TO_STDERR;
     private boolean validateSpec = DEFAULT_VALIDATE_SPEC;
+    private boolean caseConversion = DEFAULT_CASE_CONVERSION;
     private boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
     private boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
     private boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
@@ -74,6 +76,7 @@ public class WorkflowSettings {
         this.removeOperationIdPrefix = builder.removeOperationIdPrefix;
         this.logToStderr = builder.logToStderr;
         this.validateSpec = builder.validateSpec;
+        this.caseConversion = builder.caseConversion;
         this.enablePostProcessFile = builder.enablePostProcessFile;
         this.enableMinimalUpdate = builder.enableMinimalUpdate;
         this.strictSpecBehavior = builder.strictSpecBehavior;
@@ -106,6 +109,7 @@ public class WorkflowSettings {
         builder.skipOperationExample = copy.isSkipOperationExample();
         builder.logToStderr = copy.isLogToStderr();
         builder.validateSpec = copy.isValidateSpec();
+        builder.caseConversion = copy.isCaseConversion();
         builder.enablePostProcessFile = copy.isEnablePostProcessFile();
         builder.enableMinimalUpdate = copy.isEnableMinimalUpdate();
         builder.generateAliasAsModel = copy.isGenerateAliasAsModel();
@@ -198,6 +202,16 @@ public class WorkflowSettings {
      */
     public boolean isValidateSpec() {
         return validateSpec;
+    }
+
+    /**
+     * Indicates whether or not generation should convert cases.
+     * <p>
+     *
+     * @return <code>true</code> if case conversion is enabled, otherwise <code>false</code>. Default: <code>true</code>.
+     */
+    public boolean isCaseConversion() {
+        return caseConversion;
     }
 
     /**
@@ -304,6 +318,7 @@ public class WorkflowSettings {
         private Boolean skipOperationExample = DEFAULT_SKIP_OPERATION_EXAMPLE;
         private Boolean logToStderr = DEFAULT_LOG_TO_STDERR;
         private Boolean validateSpec = DEFAULT_VALIDATE_SPEC;
+        private Boolean caseConversion = DEFAULT_CASE_CONVERSION;
         private Boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
         private Boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
         private Boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
@@ -410,6 +425,17 @@ public class WorkflowSettings {
          */
         public Builder withValidateSpec(Boolean validateSpec) {
             this.validateSpec = validateSpec != null ? validateSpec : Boolean.valueOf(DEFAULT_VALIDATE_SPEC);
+            return this;
+        }
+
+        /**
+         * Sets the {@code caseConversion} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param caseConversion the {@code caseConversion} to set
+         * @return a reference to this Builder
+         */
+        public Builder withCaseConversion(Boolean caseConversion) {
+            this.caseConversion = caseConversion != null ? caseConversion : Boolean.valueOf(DEFAULT_CASE_CONVERSION);
             return this;
         }
 
@@ -578,6 +604,7 @@ public class WorkflowSettings {
                 ", removeOperationIdPrefix=" + removeOperationIdPrefix +
                 ", logToStderr=" + logToStderr +
                 ", validateSpec=" + validateSpec +
+                ", caseConversion=" + caseConversion + 
                 ", enablePostProcessFile=" + enablePostProcessFile +
                 ", enableMinimalUpdate=" + enableMinimalUpdate +
                 ", strictSpecBehavior=" + strictSpecBehavior +
@@ -600,6 +627,7 @@ public class WorkflowSettings {
                 isSkipOperationExample() == that.isSkipOperationExample() &&
                 isLogToStderr() == that.isLogToStderr() &&
                 isValidateSpec() == that.isValidateSpec() &&
+                isCaseConversion() == that.isCaseConversion() &&
                 isEnablePostProcessFile() == that.isEnablePostProcessFile() &&
                 isEnableMinimalUpdate() == that.isEnableMinimalUpdate() &&
                 isStrictSpecBehavior() == that.isStrictSpecBehavior() &&
@@ -623,6 +651,7 @@ public class WorkflowSettings {
                 isSkipOperationExample(),
                 isLogToStderr(),
                 isValidateSpec(),
+                isCaseConversion(),
                 isGenerateAliasAsModel(),
                 isEnablePostProcessFile(),
                 isEnableMinimalUpdate(),

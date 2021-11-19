@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
+import java.io.*;
 import java.io.File;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -34,6 +35,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.*;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
@@ -485,6 +487,37 @@ public class PythonClientTest {
             Path p = output.toPath().resolve(f);
             TestUtils.assertFileContains(p, "no_proxy");
         }
+    }
+
+    @Test(description = "check skip case conversion for camel to snake case")
+    public void skipCaseConversionCamelToSnakeTest() throws Exception {
+        final String gen = "python";
+        final String spec = "src/test/resources/3_0/petstore.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(gen)
+                .setInputSpec(spec)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .setCaseConversion(false);
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        String f = "openapi_client/api/user_api.py";
+        Path p = output.toPath().resolve(f);
+        String content = new String(Files.readAllBytes(p));
+
+        // should be def createUser and not def create_user
+        Pattern pattern = Pattern.compile("def createUser");
+        Matcher matcher = pattern.matcher(content);
+        boolean matchFound = matcher.find();
+        Assert.assertTrue(matchFound);
+        pattern = Pattern.compile("def create_user");
+        matcher = pattern.matcher(content);
+        matchFound = matcher.find();
+        Assert.assertFalse(matchFound);
+
     }
 
 }

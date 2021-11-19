@@ -226,6 +226,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toOperationId(String operationId) {
+        System.out.println("HOW ABOUT THIS?");
         // throw exception if method name is empty (should not occur as an auto-generated method name will be used)
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method name (operationId) not allowed");
