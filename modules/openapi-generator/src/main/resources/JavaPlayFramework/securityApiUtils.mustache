@@ -103,28 +103,7 @@ public class SecurityAPIUtils {
 
 			if (authHeader.isPresent()) {
 				String bearerToken = authHeader.get().substring(bearerPrefix.length());
-
-				DecodedJWT jwt = JWT.decode(bearerToken);
-				String issuer = jwt.getIssuer();
-				String keyId = jwt.getKeyId();
-				if (!tokenKeyId.equals(keyId)) {
-					Jwk jwk = new UrlJwkProvider(new URL(this.jwksEndpoints.get(securityMethodName))).get(keyId);
-					final PublicKey publicKey = jwk.getPublicKey();
-
-					if (!(publicKey instanceof RSAPublicKey)) {
-						throw new IllegalArgumentException(String.format("Key with ID %s was found in JWKS but is not a RSA-key.", keyId));
-					}
-
-					Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) publicKey, null);
-					tokenVerifier = JWT.require(algorithm)
-							.withIssuer(issuer)
-							.build();
-					tokenKeyId = keyId;
-				}
-
-				DecodedJWT verifiedJWT = tokenVerifier.verify(bearerToken);
-
-				return true;
+				return isTokenValidByOfflineCheck(bearerToken, securityMethodName);
 			}
 		} catch (Exception exception) {
 			return false;
@@ -133,19 +112,59 @@ public class SecurityAPIUtils {
 		return false;
 	}
 
+	public boolean isTokenValidByOfflineCheck(String bearerToken, String securityMethodName) {
+		try {
+			DecodedJWT jwt = JWT.decode(bearerToken);
+			String issuer = jwt.getIssuer();
+			String keyId = jwt.getKeyId();
+			if (!tokenKeyId.equals(keyId)) {
+				if (securityMethodName == null) {
+					securityMethodName = jwksEndpoints.keySet().stream().findFirst().get();
+				}
+
+				Jwk jwk = new UrlJwkProvider(new URL(this.jwksEndpoints.get(securityMethodName))).get(keyId);
+				final PublicKey publicKey = jwk.getPublicKey();
+
+				if (!(publicKey instanceof RSAPublicKey)) {
+					throw new IllegalArgumentException(String.format("Key with ID %s was found in JWKS but is not a RSA-key.", keyId));
+				}
+
+				Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) publicKey, null);
+				tokenVerifier = JWT.require(algorithm)
+						.withIssuer(issuer)
+						.build();
+				tokenKeyId = keyId;
+			}
+
+			DecodedJWT verifiedJWT = tokenVerifier.verify(bearerToken);
+
+			return true;
+		} catch (Exception exception) {
+			return false;
+		}
+	}
+
 	public String getOAuthUserIdFromRequestToken(Http.Request requestWithPreviouslyVerifiedToken) {
 		try {
 			Optional<String> authHeader = requestWithPreviouslyVerifiedToken.getHeaders().get(HttpHeaders.AUTHORIZATION);
 			if (authHeader.isPresent()) {
 				String bearerToken = authHeader.get().substring(bearerPrefix.length());
-				DecodedJWT jwt = JWT.decode(bearerToken);
-				return jwt.getSubject();
+				return getOAuthUserIdFromToken(bearerToken);
 			}
 		} catch (Exception exception) {
 			return null;
 		}
 
 		return null;
+	}
+
+	public String getOAuthUserIdFromToken(String bearerToken) {
+		try {
+			DecodedJWT jwt = JWT.decode(bearerToken);
+			return jwt.getSubject();
+		} catch (Exception exception) {
+			return null;
+		}
 	}
 
 	public boolean isRequestTokenValid(Http.Request request, String securityMethodName) throws Exception {
