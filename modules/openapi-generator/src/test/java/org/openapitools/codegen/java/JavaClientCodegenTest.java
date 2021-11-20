@@ -585,6 +585,110 @@ public class JavaClientCodegenTest {
         files.forEach(File::deleteOnExit);
     }
 
+    /**
+     *
+     * @throws IOException
+     */
+    @Test
+    public void testFileGenerationForAllOfBugInt() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.REST_ASSURED)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/allOfRepeatedInteger.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        // tests if NPE will crash generation when path in yaml arent provided
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 4);
+        String content = new Scanner(new File(files.stream().filter(name -> name.toString().contains("InlineResponse200.java")).findFirst().get().toString())).useDelimiter("\\Z").next();
+        Assert.assertTrue(content.contains("public InlineResponse200 foo(List<Integer> foo)"));
+        files.forEach(File::deleteOnExit);
+    }
+
+    /**
+     *
+     * @throws IOException
+     */
+
+    @Test
+    public void testFileGenerationForAllOfBugString() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.REST_ASSURED)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/allOfRepeatedString.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        // tests if NPE will crash generation when path in yaml arent provided
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 4);
+        String content = new Scanner(new File(files.stream().filter(name -> name.toString().contains("InlineResponse200.java")).findFirst().get().toString())).useDelimiter("\\Z").next();
+        Assert.assertTrue(content.contains("public InlineResponse200 foo(List<String> foo)"));
+        files.forEach(File::deleteOnExit);
+    }
+
+    /**
+     *
+     * @throws IOException
+     */
+
+    @Test
+    public void testFileGenerationForAllOfBugBool() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.REST_ASSURED)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/allOfRepeatedBool.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        // tests if NPE will crash generation when path in yaml arent provided
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 4);
+        String content = new Scanner(new File(files.stream().filter(name -> name.toString().contains("InlineResponse200.java")).findFirst().get().toString())).useDelimiter("\\Z").next();
+        Assert.assertTrue(content.contains("public InlineResponse200 foo(List<Boolean> foo)"));
+        files.forEach(File::deleteOnExit);
+    }
+
     @Test
     public void testAuthorizationScopeValues_Issue392() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue392.yaml");

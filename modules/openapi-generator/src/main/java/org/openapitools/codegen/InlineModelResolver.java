@@ -49,6 +49,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -489,25 +490,36 @@ public class InlineModelResolver {
      *
      * @param properties
      */
-    private void mapInlinePropertiesForBaseTypes(Map<String, Schema> properties) {
+    private void mapInlinePropertiesForBaseTypes(final Map<String, Schema> properties) {
         if(properties == null) {
             return;
         }
-        properties.entrySet().stream().forEach(entry -> {
+        for (final Map.Entry<String, Schema> entry : properties.entrySet()) {
             if (entry.getValue() instanceof ArraySchema &&
                     ((ArraySchema) entry.getValue()).getItems() instanceof ComposedSchema) {
                 ((ComposedSchema) ((ArraySchema) entry.getValue()).getItems()).setAllOf(
-                    ((ComposedSchema) ((ArraySchema) entry.getValue())
-                            .getItems()).getAllOf().stream().map(schema -> {
-                        if (schema instanceof ObjectSchema &&
-                                schema.getProperties().values().size() == 1) {
-                            return remodelSchema(schema);
-                        }
-                        return schema;
-                    }).collect(Collectors.toList())
+                        collectRemodeledSchemas(entry)
                 );
             }
-        });
+        }
+    }
+
+
+    private List<Schema> collectRemodeledSchemas(final Map.Entry<String, Schema> entry) {
+        return ((ComposedSchema) ((ArraySchema) entry.getValue())
+                .getItems()).getAllOf().stream().map(schema -> {
+            if (schema instanceof ObjectSchema &&
+                    schema.getProperties().values().size() == 1) {
+                try {
+                    return remodelSchema(schema);
+                } catch (JsonProcessingException e) {
+                    if (LOGGER.isErrorEnabled()) {
+                        LOGGER.error(e.getOriginalMessage());
+                    }
+                }
+            }
+            return schema;
+        }).collect(Collectors.toList());
     }
 
     /**
@@ -516,53 +528,34 @@ public class InlineModelResolver {
      * @param schema initial schema
      * @return schema - remodeled schema
      */
-    private Schema remodelSchema(Schema schema) {
-        Schema internalSchema = (Schema) schema.getProperties().values().toArray()[0];
+    private Schema remodelSchema(final Schema schema) throws JsonProcessingException {
+        final Map properties = schema.getProperties();
+        final Collection values = properties.values();
+        final Schema internalSchema = (Schema) values.toArray()[0];
         Schema remodeledSchema = schema;
+        final Map remodeledProps = remodeledSchema.getProperties();
+        final Set propkeys = remodeledProps.keySet();
+        if (internalSchema instanceof NumberSchema) {
+            schema.setType("number");
+            remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), NumberSchema.class);
+            remodeledProps.put(propkeys.toArray()[0], structureMapper.readValue(
+                    structureMapper.writeValueAsString(remodeledProps.get(propkeys.toArray()[0])), NumberSchema.class));
+        } else if (internalSchema instanceof IntegerSchema) {
+            schema.setType("integer");
+            remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), IntegerSchema.class);
+            remodeledProps.put(propkeys.toArray()[0], structureMapper.readValue(
+                    structureMapper.writeValueAsString(remodeledProps.get(propkeys.toArray()[0])), IntegerSchema.class));
+        } else if (internalSchema instanceof StringSchema) {
+            schema.setType("string");
+            remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), StringSchema.class);
+            remodeledProps.put(propkeys.toArray()[0], structureMapper.readValue(
+                            structureMapper.writeValueAsString(remodeledProps.get(propkeys.toArray()[0])), StringSchema.class));
 
-        try {
-            if (internalSchema instanceof NumberSchema) {
-                schema.setType("number");
-                remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), NumberSchema.class);
-                for (Object key : remodeledSchema.getProperties().keySet()) {
-                    remodeledSchema
-                            .getProperties()
-                            .put(key, structureMapper.readValue(
-                                    structureMapper.writeValueAsString(remodeledSchema.getProperties().get(key)), NumberSchema.class));
-                }
-            } else if (internalSchema instanceof IntegerSchema) {
-                schema.setType("integer");
-                remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), IntegerSchema.class);
-                for (Object key : remodeledSchema.getProperties().keySet()) {
-                    remodeledSchema
-                            .getProperties()
-                            .put(key, structureMapper.readValue(
-                                    structureMapper.writeValueAsString(remodeledSchema.getProperties().get(key)), IntegerSchema.class));
-                }
-
-            } else if (internalSchema instanceof StringSchema) {
-                schema.setType("string");
-                remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), StringSchema.class);
-                for (Object key : remodeledSchema.getProperties().keySet()) {
-                    remodeledSchema
-                            .getProperties()
-                            .put(key, structureMapper.readValue(
-                                    structureMapper.writeValueAsString(remodeledSchema.getProperties().get(key)), StringSchema.class));
-                }
-
-            } else if (internalSchema instanceof BooleanSchema) {
-                schema.setType("bool");
-                remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), BooleanSchema.class);
-                for (Object key : remodeledSchema.getProperties().keySet()) {
-                    remodeledSchema
-                            .getProperties()
-                            .put(key, structureMapper.readValue(
-                                    structureMapper.writeValueAsString(remodeledSchema.getProperties().get(key)), BooleanSchema.class));
-                }
-
-            }
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        } else if (internalSchema instanceof BooleanSchema) {
+            schema.setType("bool");
+            remodeledSchema = structureMapper.readValue(structureMapper.writeValueAsString(schema), BooleanSchema.class);
+            remodeledProps.put(propkeys.toArray()[0], structureMapper.readValue(
+                    structureMapper.writeValueAsString(remodeledProps.get(propkeys.toArray()[0])), BooleanSchema.class));
         }
         return remodeledSchema;
     }

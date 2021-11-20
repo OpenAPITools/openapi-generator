@@ -1,0 +1,34 @@
+openapi: 3.0.2
+info:
+  title: ''
+  description: ''
+  version: 0.1.0
+servers:
+  - url: /v1/bar
+paths:
+  /foo:
+    get:
+      description: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  foo:
+                    description: ''
+                    type: array
+                    items:
+                      allOf:
+                        - type: object
+                          properties:
+                            first_id:
+                              type: boolean
+                              format: boolean
+                        - type: object
+                          properties:
+                            second_id:
+                              type: boolean
+                              format: boolean
