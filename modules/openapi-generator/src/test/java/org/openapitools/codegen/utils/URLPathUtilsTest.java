@@ -33,7 +33,7 @@ public class URLPathUtilsTest {
     @Test
     public void testDefaultValues() {
         OpenAPI openAPI = new OpenAPI();
-        URL serverURL = URLPathUtils.getServerURL(openAPI, null);
+        URL serverURL = URLPathUtils.getServerURL(openAPI, null, 0);
 
         Assert.assertEquals(serverURL.getHost(), "localhost");
         Assert.assertEquals(serverURL.getPort(), -1);
@@ -48,7 +48,7 @@ public class URLPathUtilsTest {
     public void testUrl() {
         OpenAPI openAPI = new OpenAPI();
         openAPI.addServersItem(new Server().url("https://abcdef.xyz:9999/some/path"));
-        URL serverURL = URLPathUtils.getServerURL(openAPI, null);
+        URL serverURL = URLPathUtils.getServerURL(openAPI, null, 0);
 
         Assert.assertEquals(serverURL.getHost(), "abcdef.xyz");
         Assert.assertEquals(serverURL.getPort(), 9999);
@@ -75,7 +75,7 @@ public class URLPathUtilsTest {
             OpenAPI openAPI = new OpenAPI();
             openAPI.addServersItem(new Server().url(t[0]));
 
-            Assert.assertEquals(URLPathUtils.getServerURL(openAPI, null).toString(), t[1]);
+            Assert.assertEquals(URLPathUtils.getServerURL(openAPI, null, 0).toString(), t[1]);
         }
     }
 

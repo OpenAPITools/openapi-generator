@@ -1,5 +1,6 @@
 package org.openapitools.codegen;
 
+import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -685,6 +686,51 @@ public class DefaultGeneratorTest {
         Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels);
         LinkedList<CodegenServer> servers = (LinkedList<CodegenServer>) bundle.get("servers");
         Assert.assertEquals(servers.get(0).url, "/relative/url");
+    }
+    
+    @Test
+    public void testServerSelection() {
+        OpenAPI openAPI = new OpenAPI();
+        List<Server> servers = new ArrayList<Server>();
+        Server first = new Server();
+        first.setUrl("/first/url");
+        servers.add(first);
+        Server second = new Server();
+        second.setUrl("/second/url");
+        servers.add(second);
+        openAPI.setServers(servers);
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        DefaultCodegen config = new DefaultCodegen();
+        config.setServerSelection(1);
+        config.setStrictSpecBehavior(true);
+        opts.config(config);
+        final DefaultGenerator generator = new DefaultGenerator(false);
+        generator.opts(opts);
+        generator.configureGeneratorProperties();
+        Assert.assertEquals(generator.getBasePath(), "/second/url");
+    }
+    
+    @Test
+    public void testServerSelectionWhenNoParameterIsSet() {
+        OpenAPI openAPI = new OpenAPI();
+        List<Server> servers = new ArrayList<Server>();
+        Server first = new Server();
+        first.setUrl("/first/url");
+        servers.add(first);
+        Server second = new Server();
+        second.setUrl("/second/url");
+        servers.add(second);
+        openAPI.setServers(servers);
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        DefaultCodegen config = new DefaultCodegen();
+        config.setStrictSpecBehavior(true);
+        opts.config(config);
+        final DefaultGenerator generator = new DefaultGenerator(false);
+        generator.opts(opts);
+        generator.configureGeneratorProperties();
+        Assert.assertEquals(generator.getBasePath(), "/first/url");
     }
 
     @Test

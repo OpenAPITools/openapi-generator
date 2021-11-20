@@ -116,6 +116,8 @@ public interface CodegenConfig {
 
     void setInputSpec(String inputSpec);
 
+    void setServerSelection(int serverSeletion);
+    
     String getOutputDir();
 
     void setOutputDir(String dir);
@@ -304,4 +306,6 @@ public interface CodegenConfig {
     void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 
     Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings);
+
+	int serverSelection();
 }

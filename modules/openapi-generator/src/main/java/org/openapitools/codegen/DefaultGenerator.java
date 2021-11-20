@@ -265,13 +265,13 @@ public class DefaultGenerator implements Generator {
 
         // TODO: Allow user to define _which_ servers object in the array to target.
         // Configures contextPath/basePath according to api document's servers
-        URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
+        URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides(), config.serverSelection());
         contextPath = removeTrailingSlash(config.escapeText(url.getPath())); // for backward compatibility
         basePathWithoutHost = contextPath;
-        if (URLPathUtils.isRelativeUrl(openAPI.getServers())) {
-            basePath = removeTrailingSlash(basePathWithoutHost);
+        if (URLPathUtils.isRelativeUrl(openAPI.getServers(), config.serverSelection())) {
+            setBasePath(removeTrailingSlash(basePathWithoutHost));
         } else {
-            basePath = removeTrailingSlash(config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides())));
+            setBasePath(removeTrailingSlash(config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides()))));
         }
     }
 
@@ -583,8 +583,8 @@ public class DefaultGenerator implements Generator {
                 List<CodegenOperation> ops = paths.get(tag);
                 ops.sort((one, another) -> ObjectUtils.compare(one.operationId, another.operationId));
                 Map<String, Object> operation = processOperations(config, tag, ops, allModels);
-                URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
-                operation.put("basePath", basePath);
+                URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides(), config.serverSelection());
+                operation.put("basePath", getBasePath());
                 operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
                 operation.put("contextPath", contextPath);
                 operation.put("baseName", tag);
@@ -771,10 +771,10 @@ public class DefaultGenerator implements Generator {
         Map<String, Object> apis = new HashMap<>();
         apis.put("apis", allOperations);
 
-        URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
+        URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides(), config.serverSelection());
 
         bundle.put("openAPI", openAPI);
-        bundle.put("basePath", basePath);
+        bundle.put("basePath", getBasePath());
         bundle.put("basePathWithoutHost", basePathWithoutHost);
         bundle.put("scheme", URLPathUtils.getScheme(url, config));
         bundle.put("host", url.getHost());
@@ -1516,6 +1516,14 @@ public class DefaultGenerator implements Generator {
 
     private String removeTrailingSlash(String value) {
         return StringUtils.removeEnd(value, "/");
+    }
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
     }
 
 }

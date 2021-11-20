@@ -71,6 +71,7 @@ public class CodegenConfigurator {
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Map<String, String> reservedWordMappings = new HashMap<>();
     private Map<String, String> serverVariables = new HashMap<>();
+    private int serverSelection = 0;
     private String auth;
 
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
@@ -213,6 +214,12 @@ public class CodegenConfigurator {
     public CodegenConfigurator setServerVariables(Map<String, String> serverVariables) {
         this.serverVariables = serverVariables;
         generatorSettingsBuilder.withServerVariables(serverVariables);
+        return this;
+    }
+
+    public CodegenConfigurator setServerSelection(int serverSelection) {
+        this.serverSelection = serverSelection;
+        generatorSettingsBuilder.withServerSelection(serverSelection);
         return this;
     }
 
@@ -601,7 +608,8 @@ public class CodegenConfigurator {
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordMappings());
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());
-
+        config.setServerSelection(generatorSettings.getServerSelection());
+        
         Map<String, String> serverVariables = generatorSettings.getServerVariables();
         if (!serverVariables.isEmpty()) {
             // This is currently experimental due to vagueness in the specification

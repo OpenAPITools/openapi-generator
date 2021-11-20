@@ -327,7 +327,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides(),serverSelection());
         String host = URLPathUtils.getProtocolAndHost(url);
         String port = URLPathUtils.getPort(url, defaultServerPort);
         String basePath = url.getPath();

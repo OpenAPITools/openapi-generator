@@ -539,7 +539,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             additionalProperties.put(TITLE, this.title);
         }
 
-        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides(), serverSelection());
         this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
 
         if (openAPI.getPaths() != null) {

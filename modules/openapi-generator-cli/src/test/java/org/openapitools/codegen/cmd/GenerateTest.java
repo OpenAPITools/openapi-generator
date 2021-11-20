@@ -23,6 +23,7 @@ import org.mockito.MockSettings;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.Generator;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GeneratorSettings;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -93,7 +94,15 @@ public class GenerateTest {
         verify(configurator).setArtifactId(value);
     }
 
-    private void setupAndRunGenericTest(String... additionalParameters) {
+    @Test
+    public void testServerSelection() {
+        final String value = "1";
+        setupAndRunGenericTest("--server", value);
+
+        verify(configurator).setServerSelection(Integer.parseInt(value));
+    }
+
+	private void setupAndRunGenericTest(String... additionalParameters) {
         setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", false, null,
                 additionalParameters);
     }

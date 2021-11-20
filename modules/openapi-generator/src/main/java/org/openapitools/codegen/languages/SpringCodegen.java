@@ -613,7 +613,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         if (!additionalProperties.containsKey(SERVER_PORT)) {
-            final URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
+            final URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides(), serverSelection());
             additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, 8080));
         }
 
