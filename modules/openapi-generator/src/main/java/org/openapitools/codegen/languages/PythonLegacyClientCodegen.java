@@ -309,6 +309,13 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
      * The OpenAPI pattern spec follows the Perl convention and style of modifiers. Python
      * does not support this in as natural a way so it needs to convert it. See
      * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
+	 *
+	 * @param pattern (the String pattern to convert from python to Perl convention)
+	 * @param vendorExtensions (custom x-* properties for extra functionality-see https://swagger.io/docs/specification/openapi-extensions/)
+	 * @return void
+	 * @throws IllegalArgumentException if pattern does not follow the Perl /pattern/modifiers convention
+	 *
+	 * Includes fix for issue #6675
      */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
@@ -318,6 +325,13 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
             if (pattern.charAt(0) != '/' || i < 2) {
                 throw new IllegalArgumentException("Pattern must follow the Perl "
                         + "/pattern/modifiers convention. " + pattern + " is not valid.");
+            }
+			
+			//check for instances of extra backslash that could cause compile issues and remove
+			int firstBackslash = pattern.indexOf("\\");
+            int bracket = pattern.indexOf("[");
+            if (firstBackslash == 0 || firstBackslash == 1 || firstBackslash == bracket+1) {
+                pattern = pattern.substring(0,firstBackslash)+pattern.substring(firstBackslash+1);
             }
 
             String regex = pattern.substring(1, i).replace("'", "\\'");
