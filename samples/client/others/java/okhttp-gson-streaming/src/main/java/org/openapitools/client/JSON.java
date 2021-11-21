@@ -111,6 +111,11 @@ public class JSON {
         return this;
     }
 
+    public JSON setLenientOnJson(boolean lenientOnJson) {
+        isLenientOnJson = lenientOnJson;
+        return this;
+    }
+
     /**
      * Serialize the given Java object into JSON string.
      *
