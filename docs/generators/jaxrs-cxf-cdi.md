@@ -57,6 +57,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/gen/java|
+|supportAsync|Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).| |false|
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useSwaggerAnnotations|Whether to generate Swagger annotations.| |true|
