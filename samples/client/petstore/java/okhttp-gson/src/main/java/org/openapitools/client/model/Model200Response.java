@@ -190,7 +190,7 @@ public class Model200Response {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<Model200Response> {
     @Override
     public Model200Response deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -206,5 +206,5 @@ public class Model200Response {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, Model200Response.class);
     }
-  }
+  }*/
 }

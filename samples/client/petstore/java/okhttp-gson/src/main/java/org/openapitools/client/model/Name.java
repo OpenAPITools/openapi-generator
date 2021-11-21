@@ -250,7 +250,7 @@ public class Name {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<Name> {
     @Override
     public Name deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -273,5 +273,5 @@ public class Name {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, Name.class);
     }
-  }
+  }*/
 }

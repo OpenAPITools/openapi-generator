@@ -293,7 +293,7 @@ public class EnumArrays {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<EnumArrays> {
     @Override
     public EnumArrays deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -309,5 +309,5 @@ public class EnumArrays {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, EnumArrays.class);
     }
-  }
+  }*/
 }

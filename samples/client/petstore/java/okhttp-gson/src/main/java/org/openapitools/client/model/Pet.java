@@ -384,7 +384,7 @@ public class Pet {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<Pet> {
     @Override
     public Pet deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -407,5 +407,5 @@ public class Pet {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, Pet.class);
     }
-  }
+  }*/
 }

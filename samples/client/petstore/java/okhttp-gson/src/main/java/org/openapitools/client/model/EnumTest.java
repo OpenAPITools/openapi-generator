@@ -662,7 +662,7 @@ public class EnumTest {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<EnumTest> {
     @Override
     public EnumTest deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -685,5 +685,5 @@ public class EnumTest {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, EnumTest.class);
     }
-  }
+  }*/
 }

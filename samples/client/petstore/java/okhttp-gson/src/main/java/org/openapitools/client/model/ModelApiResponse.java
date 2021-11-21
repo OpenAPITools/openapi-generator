@@ -219,7 +219,7 @@ public class ModelApiResponse {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<ModelApiResponse> {
     @Override
     public ModelApiResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -235,5 +235,5 @@ public class ModelApiResponse {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, ModelApiResponse.class);
     }
-  }
+  }*/
 }

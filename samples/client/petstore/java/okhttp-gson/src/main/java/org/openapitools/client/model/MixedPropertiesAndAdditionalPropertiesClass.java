@@ -233,7 +233,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<MixedPropertiesAndAdditionalPropertiesClass> {
     @Override
     public MixedPropertiesAndAdditionalPropertiesClass deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -249,5 +249,5 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, MixedPropertiesAndAdditionalPropertiesClass.class);
     }
-  }
+  }*/
 }

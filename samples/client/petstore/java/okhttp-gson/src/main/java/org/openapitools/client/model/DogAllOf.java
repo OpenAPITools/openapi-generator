@@ -159,7 +159,7 @@ public class DogAllOf {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<DogAllOf> {
     @Override
     public DogAllOf deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -175,5 +175,5 @@ public class DogAllOf {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, DogAllOf.class);
     }
-  }
+  }*/
 }

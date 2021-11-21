@@ -635,7 +635,7 @@ public class FormatTest {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<FormatTest> {
     @Override
     public FormatTest deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -658,5 +658,5 @@ public class FormatTest {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, FormatTest.class);
     }
-  }
+  }*/
 }

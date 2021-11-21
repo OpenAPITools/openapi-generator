@@ -442,7 +442,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<{{classname}}> {
     @Override
     public {{classname}} deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -469,5 +469,5 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, {{classname}}.class);
     }
-  }
+  }*/
 }

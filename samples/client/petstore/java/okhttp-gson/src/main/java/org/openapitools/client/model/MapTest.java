@@ -331,7 +331,7 @@ public class MapTest {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<MapTest> {
     @Override
     public MapTest deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -347,5 +347,5 @@ public class MapTest {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, MapTest.class);
     }
-  }
+  }*/
 }

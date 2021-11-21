@@ -159,7 +159,7 @@ public class CatAllOf {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<CatAllOf> {
     @Override
     public CatAllOf deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -175,5 +175,5 @@ public class CatAllOf {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, CatAllOf.class);
     }
-  }
+  }*/
 }

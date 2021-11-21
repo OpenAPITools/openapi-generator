@@ -83,9 +83,10 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             // deserialize {{{.}}}
             try {
                 // TODO use static gson
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter({{.}}.class, new {{.}}.CustomDeserializer())
-                        .create();
+                //Gson gson = new GsonBuilder()
+                //        .registerTypeAdapter({{.}}.class, new {{.}}.CustomDeserializer())
+                //        .create();
+                Gson gson = new JSON().getGson();
                 deserialized = gson.fromJson(json.toString(), {{.}}.class);
 
                 //deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);

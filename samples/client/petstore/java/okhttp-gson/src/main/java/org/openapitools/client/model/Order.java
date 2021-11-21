@@ -359,7 +359,7 @@ public class Order {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<Order> {
     @Override
     public Order deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -375,5 +375,5 @@ public class Order {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, Order.class);
     }
-  }
+  }*/
 }

@@ -189,7 +189,7 @@ public class Tag {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<Tag> {
     @Override
     public Tag deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -205,5 +205,5 @@ public class Tag {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, Tag.class);
     }
-  }
+  }*/
 }

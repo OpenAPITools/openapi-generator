@@ -159,7 +159,7 @@ public class Client {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<Client> {
     @Override
     public Client deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -175,5 +175,5 @@ public class Client {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, Client.class);
     }
-  }
+  }*/
 }

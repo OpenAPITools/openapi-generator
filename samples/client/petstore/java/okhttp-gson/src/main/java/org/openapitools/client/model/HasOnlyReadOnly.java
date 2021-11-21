@@ -181,7 +181,7 @@ public class HasOnlyReadOnly {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<HasOnlyReadOnly> {
     @Override
     public HasOnlyReadOnly deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -197,5 +197,5 @@ public class HasOnlyReadOnly {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, HasOnlyReadOnly.class);
     }
-  }
+  }*/
 }

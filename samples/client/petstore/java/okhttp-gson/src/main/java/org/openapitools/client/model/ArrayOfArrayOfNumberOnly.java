@@ -170,7 +170,7 @@ public class ArrayOfArrayOfNumberOnly {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<ArrayOfArrayOfNumberOnly> {
     @Override
     public ArrayOfArrayOfNumberOnly deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -186,5 +186,5 @@ public class ArrayOfArrayOfNumberOnly {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, ArrayOfArrayOfNumberOnly.class);
     }
-  }
+  }*/
 }

@@ -197,7 +197,7 @@ public class Category {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<Category> {
     @Override
     public Category deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -220,5 +220,5 @@ public class Category {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, Category.class);
     }
-  }
+  }*/
 }

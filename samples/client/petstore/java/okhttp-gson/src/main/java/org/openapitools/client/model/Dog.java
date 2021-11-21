@@ -174,7 +174,7 @@ public class Dog extends Animal {
        }.nullSafe();
     }
   }
-
+/*
   public static class CustomDeserializer implements JsonDeserializer<Dog> {
     @Override
     public Dog deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -197,5 +197,5 @@ public class Dog extends Animal {
       // all checks passed, return using the original implementation of deserialize
       return new Gson().fromJson(json, Dog.class);
     }
-  }
+  }*/
 }

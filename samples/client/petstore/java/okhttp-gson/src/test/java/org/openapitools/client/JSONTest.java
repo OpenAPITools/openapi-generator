@@ -203,9 +203,10 @@ public class JSONTest {
     @Test(expected = IllegalArgumentException.class)
     public void testRequiredFieldException() {
         // test json string missing required field(s) to ensure exception is thrown
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Pet.class, new Pet.CustomDeserializer())
-                .create();
+        Gson gson = new JSON().getGson();
+        //Gson gson = new GsonBuilder()
+        //        .registerTypeAdapter(Pet.class, new Pet.CustomDeserializer())
+        //        .create();
         String json = "{\"id\": 5847, \"name\":\"tag test 1\"}"; // missing photoUrls (required field)
         //String json = "{\"id2\": 5847, \"name\":\"tag test 1\"}";
         //String json = "{\"id\": 5847}";
@@ -215,9 +216,10 @@ public class JSONTest {
     @Test(expected = IllegalArgumentException.class)
     public void testAdditionalFieldException() {
         // test json string with additional field(s) to ensure exception is thrown
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
-                .create();
+        Gson gson = new JSON().getGson();
+        //Gson gson = new GsonBuilder()
+        //        .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
+        //        .create();
         String json = "{\"id\": 5847, \"name\":\"tag test 1\", \"new-field\": true}";
         Tag t = gson.fromJson(json, Tag.class);
     }
@@ -225,9 +227,10 @@ public class JSONTest {
     @Test
     public void testCustomDeserializer() {
         // test the custom deserializer to ensure it can deserialize json payload into objects
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
-                .create();
+        Gson gson = new JSON().getGson();
+        //Gson gson = new GsonBuilder()
+        //        .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
+        //        .create();
         // id and name
         String json = "{\"id\": 5847, \"name\":\"tag test 1\"}";
         Tag t = gson.fromJson(json, Tag.class);
