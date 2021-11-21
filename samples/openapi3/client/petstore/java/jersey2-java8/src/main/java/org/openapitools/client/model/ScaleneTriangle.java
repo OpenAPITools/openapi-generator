@@ -49,6 +49,8 @@ public class ScaleneTriangle {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
   private String triangleType;
 
+  public ScaleneTriangle() { 
+  }
 
   public ScaleneTriangle shapeType(String shapeType) {
     this.shapeType = shapeType;

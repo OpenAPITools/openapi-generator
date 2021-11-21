@@ -103,7 +103,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      * @param name The location of the template
      * @return The raw template contents
      */
-    @SuppressWarnings({"java:S112"})
+    @SuppressWarnings("java:S112")
     // ignored rule java:S112 as RuntimeException is used to match previous exception type
     public String readTemplate(String name) {
         if (name == null || name.contains("..")) {

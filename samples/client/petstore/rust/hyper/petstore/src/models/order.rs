@@ -54,3 +54,9 @@ pub enum Status {
     Delivered,
 }
 
+impl Default for Status {
+    fn default() -> Status {
+        Self::Placed
+    }
+}
+

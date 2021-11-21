@@ -39,7 +39,7 @@ public class Tag implements Parcelable {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
-  public Tag() {
+  public Tag() { 
   }
 
   public Tag id(Long id) {

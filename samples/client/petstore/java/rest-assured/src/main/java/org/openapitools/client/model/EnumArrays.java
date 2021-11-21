@@ -136,6 +136,8 @@ public class EnumArrays {
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
   private List<ArrayEnumEnum> arrayEnum = null;
 
+  public EnumArrays() { 
+  }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     

@@ -44,6 +44,8 @@ public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILES = "files";
   private List<java.io.File> files = null;
 
+  public FileSchemaTestClass() { 
+  }
 
   public FileSchemaTestClass file(java.io.File file) {
     this.file = file;
