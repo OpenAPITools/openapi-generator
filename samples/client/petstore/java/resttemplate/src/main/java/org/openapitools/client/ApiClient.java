@@ -575,10 +575,10 @@ public class ApiClient extends JavaTimeFormatter {
      */
     public String expandPath(String pathTemplate, Map<String, Object> variables) {
         // disable default URL encoding 
-        DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
-        defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
+        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
+        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+        final RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setUriTemplateHandler(uriBuilderFactory);
 
         return restTemplate.getUriTemplateHandler().expand(pathTemplate, variables).toString();
     }
@@ -594,7 +594,7 @@ public class ApiClient extends JavaTimeFormatter {
         StringBuilder queryBuilder = new StringBuilder();
         queryParams.forEach((name, values) -> {
             try {
-                String encodedName = URLEncoder.encode(name.toString(), "UTF-8");
+                final String encodedName = URLEncoder.encode(name.toString(), "UTF-8");
                 if (CollectionUtils.isEmpty(values)) {
                     if (queryBuilder.length() != 0) {
                         queryBuilder.append('&');
@@ -609,14 +609,14 @@ public class ApiClient extends JavaTimeFormatter {
                         queryBuilder.append(encodedName);
                         if (value != null) {
                             String templatizedKey = encodedName + valueItemCounter++;
-                            String encodedValue = URLEncoder.encode(value.toString(), "UTF-8");
+                            final String encodedValue = URLEncoder.encode(value.toString(), "UTF-8");
                             uriParams.put(templatizedKey, encodedValue);
                             queryBuilder.append('=').append("{").append(templatizedKey).append("}");
                         }
                     }
                 }
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+
             }
         });
         return queryBuilder.toString();
