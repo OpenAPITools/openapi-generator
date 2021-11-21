@@ -238,7 +238,7 @@ public class MicronautClientCodegenTest {
             file = linearize(generatedFile);
             assertNotNull(file);
         } catch (IOException e) {
-            fail("Unable to evaluate file " + path.toString());
+            fail("Unable to evaluate file " + path);
         }
 
         return file;

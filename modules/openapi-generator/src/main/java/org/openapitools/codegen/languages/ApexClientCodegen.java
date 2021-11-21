@@ -49,7 +49,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     private String namedCredential;
     private String srcPath = "force-app/main/default/";
     private String sfdxConfigPath = "config/";
-    private HashMap<String, Object> primitiveDefaults = new HashMap<String, Object>();
+    private HashMap<String, Object> primitiveDefaults = new HashMap<>();
 
     public ApexClientCodegen() {
         super();
@@ -113,7 +113,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
                         "virtual", "void", "webservice", "when", "where", "while"
                 ));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("Blob", "Boolean", "Date", "Datetime", "Decimal", "Double", "ID",
                         "Integer", "Long", "Object", "String", "Time"
                 ));
@@ -233,7 +233,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
             out = String.valueOf(p.getDefault());
         } else if (ModelUtils.isLongSchema(p)) {
             Long def = (Long) p.getDefault();
-            out = def == null ? out : def.toString() + "L";
+            out = def == null ? out : def + "L";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             String s = inner == null ? "Object" : getTypeDeclaration(inner);

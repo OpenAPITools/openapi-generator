@@ -22,7 +22,7 @@ open class PetAPI {
      */
     open class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let task = addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -31,7 +31,10 @@ open class PetAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                task?.cancel()
+            }
         }
     }
 
@@ -72,7 +75,7 @@ open class PetAPI {
      */
     open class func deletePet(petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result in
+            let task = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -81,7 +84,10 @@ open class PetAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                task?.cancel()
+            }
         }
     }
 
@@ -134,7 +140,7 @@ open class PetAPI {
      */
     open class func findPetsByStatus(status: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<[Pet]> {
         return Observable.create { observer -> Disposable in
-            findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
+            let task = findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -143,7 +149,10 @@ open class PetAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                task?.cancel()
+            }
         }
     }
 
@@ -188,7 +197,7 @@ open class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<[Pet]> {
         return Observable.create { observer -> Disposable in
-            findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
+            let task = findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -197,7 +206,10 @@ open class PetAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                task?.cancel()
+            }
         }
     }
 
@@ -242,7 +254,7 @@ open class PetAPI {
      */
     open class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Pet> {
         return Observable.create { observer -> Disposable in
-            getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
+            let task = getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -251,7 +263,10 @@ open class PetAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                task?.cancel()
+            }
         }
     }
 
@@ -295,7 +310,7 @@ open class PetAPI {
      */
     open class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            let task = updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -304,7 +319,10 @@ open class PetAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                task?.cancel()
+            }
         }
     }
 
@@ -346,7 +364,7 @@ open class PetAPI {
      */
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result in
+            let task = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result in
                 switch result {
                 case .success:
                     observer.onNext(())
@@ -355,7 +373,10 @@ open class PetAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                task?.cancel()
+            }
         }
     }
 
@@ -408,7 +429,7 @@ open class PetAPI {
      */
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<ApiResponse> {
         return Observable.create { observer -> Disposable in
-            uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
+            let task = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -417,7 +438,10 @@ open class PetAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                task?.cancel()
+            }
         }
     }
 
@@ -470,7 +494,7 @@ open class PetAPI {
      */
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<ApiResponse> {
         return Observable.create { observer -> Disposable in
-            uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result in
+            let task = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     observer.onNext(response.body!)
@@ -479,7 +503,10 @@ open class PetAPI {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                task?.cancel()
+            }
         }
     }
 

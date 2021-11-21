@@ -78,7 +78,8 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
         return manager.request(URLString, method: method, parameters: parameters, encoding: encoding, headers: HTTPHeaders(headers))
     }
 
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    @discardableResult
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> URLSessionTask? {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()
@@ -141,7 +142,10 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                 onProgressReady(request.uploadProgress)
             }
             processRequest(request: request, managerId, apiResponseQueue, completion)
+            return request.task
         }
+
+        return nil
     }
 
     fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {

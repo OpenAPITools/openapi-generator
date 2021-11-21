@@ -58,6 +58,8 @@ public class ByteArrayObject {
   public static final String JSON_PROPERTY_INT_FIELD = "intField";
   private BigDecimal intField;
 
+  public ByteArrayObject() { 
+  }
 
   public ByteArrayObject nullableArray(byte[] nullableArray) {
     this.nullableArray = JsonNullable.<byte[]>of(nullableArray);

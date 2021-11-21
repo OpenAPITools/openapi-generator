@@ -1055,7 +1055,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         // identifier name cannot be empty
         if (escapedName.isEmpty()) {
-            throw new RuntimeException("Empty database/table/column name for property '" + name.toString() + "' not allowed");
+            throw new RuntimeException("Empty database/table/column name for property '" + name + "' not allowed");
         }
         return escapedName;
     }

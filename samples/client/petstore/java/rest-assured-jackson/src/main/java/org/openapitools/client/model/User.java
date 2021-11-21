@@ -68,6 +68,8 @@ public class User {
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   private Integer userStatus;
 
+  public User() { 
+  }
 
   public User id(Long id) {
     
