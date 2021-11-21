@@ -91,6 +91,9 @@ public class PythonLegacyClientCodegenTest {
         Assert.assertEquals(op.allParams.get(4).pattern, "/^pattern\\/\\d{3}$/");
         // pattern_with_modifiers '/^pattern\d{3}$/i
         Assert.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
+        // pattern_with_backslash_after_bracket '/^[\pattern\d{3}$/i'
+        // added to test fix for issue #6675
+        Assert.assertEquals(op.allParams.get(6).pattern, "/^[\\pattern\\d{3}$/i");
     }
 
 
