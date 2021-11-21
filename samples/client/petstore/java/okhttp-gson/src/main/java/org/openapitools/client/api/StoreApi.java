@@ -396,7 +396,7 @@ public class StoreApi {
     }
     /**
      * Build call for placeOrder
-     * @param order order placed for purchasing the pet (required)
+     * @param body order placed for purchasing the pet (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -407,8 +407,8 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call placeOrderCall(Order order, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = order;
+    public okhttp3.Call placeOrderCall(Order body, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = body;
 
         // create path and map variables
         String localVarPath = "/store/order";
@@ -428,7 +428,7 @@ public class StoreApi {
         }
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarHeaderParams != null) {
@@ -440,15 +440,15 @@ public class StoreApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call placeOrderValidateBeforeCall(Order order, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call placeOrderValidateBeforeCall(Order body, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'order' is set
-        if (order == null) {
-            throw new ApiException("Missing the required parameter 'order' when calling placeOrder(Async)");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling placeOrder(Async)");
         }
         
 
-        okhttp3.Call localVarCall = placeOrderCall(order, _callback);
+        okhttp3.Call localVarCall = placeOrderCall(body, _callback);
         return localVarCall;
 
     }
@@ -456,7 +456,7 @@ public class StoreApi {
     /**
      * Place an order for a pet
      * 
-     * @param order order placed for purchasing the pet (required)
+     * @param body order placed for purchasing the pet (required)
      * @return Order
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -466,15 +466,15 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public Order placeOrder(Order order) throws ApiException {
-        ApiResponse<Order> localVarResp = placeOrderWithHttpInfo(order);
+    public Order placeOrder(Order body) throws ApiException {
+        ApiResponse<Order> localVarResp = placeOrderWithHttpInfo(body);
         return localVarResp.getData();
     }
 
     /**
      * Place an order for a pet
      * 
-     * @param order order placed for purchasing the pet (required)
+     * @param body order placed for purchasing the pet (required)
      * @return ApiResponse&lt;Order&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -484,8 +484,8 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Order> placeOrderWithHttpInfo(Order order) throws ApiException {
-        okhttp3.Call localVarCall = placeOrderValidateBeforeCall(order, null);
+    public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
+        okhttp3.Call localVarCall = placeOrderValidateBeforeCall(body, null);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -493,7 +493,7 @@ public class StoreApi {
     /**
      * Place an order for a pet (asynchronously)
      * 
-     * @param order order placed for purchasing the pet (required)
+     * @param body order placed for purchasing the pet (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -504,9 +504,9 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call placeOrderAsync(Order order, final ApiCallback<Order> _callback) throws ApiException {
+    public okhttp3.Call placeOrderAsync(Order body, final ApiCallback<Order> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = placeOrderValidateBeforeCall(order, _callback);
+        okhttp3.Call localVarCall = placeOrderValidateBeforeCall(body, _callback);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

@@ -25,22 +25,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.threeten.bp.OffsetDateTime;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 /**
  * Order
  */
@@ -202,7 +186,7 @@ public class Order {
    * @return shipDate
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(example = "2020-02-02T20:20:20.000222Z", value = "")
+  @ApiModelProperty(value = "")
 
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -307,73 +291,5 @@ public class Order {
     return o.toString().replace("\n", "\n    ");
   }
 
-  public static HashSet<String> openapiFields;
-  public static HashSet<String> openapiRequiredFields;
-
-  static {
-    // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("id");
-    openapiFields.add("petId");
-    openapiFields.add("quantity");
-    openapiFields.add("shipDate");
-    openapiFields.add("status");
-    openapiFields.add("complete");
-
-    // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-  }
-
-  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-       if (!Order.class.isAssignableFrom(type.getRawType())) {
-         return null; // this class only serializes 'Order' and its subtypes
-       }
-       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-       final TypeAdapter<Order> thisAdapter
-                        = gson.getDelegateAdapter(this, TypeToken.get(Order.class));
-
-       return (TypeAdapter<T>) new TypeAdapter<Order>() {
-           @Override
-           public void write(JsonWriter out, Order value) throws IOException {
-             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
-             elementAdapter.write(out, obj);
-           }
-
-           @Override
-           public Order read(JsonReader in) throws IOException {
-             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
-             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-             // check to see if the JSON string contains additional fields
-             for (Entry<String, JsonElement> entry: entries) {
-               if (!Order.openapiFields.contains(entry.getKey())) {
-                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `Order` properties");
-               }
-             }
-
-             return thisAdapter.fromJsonTree(obj);
-           }
-
-       }.nullSafe();
-    }
-  }
-/*
-  public static class CustomDeserializer implements JsonDeserializer<Order> {
-    @Override
-    public Order deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
-      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-      // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry: entries) {
-        if (!Order.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `Order` properties");
-        }
-      }
-
-      // all checks passed, return using the original implementation of deserialize
-      return new Gson().fromJson(json, Order.class);
-    }
-  }*/
 }
+

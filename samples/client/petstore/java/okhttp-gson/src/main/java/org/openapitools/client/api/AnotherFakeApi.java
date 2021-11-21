@@ -56,7 +56,7 @@ public class AnotherFakeApi {
 
     /**
      * Build call for call123testSpecialTags
-     * @param client client model (required)
+     * @param body client model (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -66,8 +66,8 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call call123testSpecialTagsCall(Client client, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = client;
+    public okhttp3.Call call123testSpecialTagsCall(Client body, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = body;
 
         // create path and map variables
         String localVarPath = "/another-fake/dummy";
@@ -99,15 +99,15 @@ public class AnotherFakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call call123testSpecialTagsValidateBeforeCall(Client client, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call call123testSpecialTagsValidateBeforeCall(Client body, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            throw new ApiException("Missing the required parameter 'client' when calling call123testSpecialTags(Async)");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling call123testSpecialTags(Async)");
         }
         
 
-        okhttp3.Call localVarCall = call123testSpecialTagsCall(client, _callback);
+        okhttp3.Call localVarCall = call123testSpecialTagsCall(body, _callback);
         return localVarCall;
 
     }
@@ -115,7 +115,7 @@ public class AnotherFakeApi {
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
-     * @param client client model (required)
+     * @param body client model (required)
      * @return Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -124,15 +124,15 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public Client call123testSpecialTags(Client client) throws ApiException {
-        ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(client);
+    public Client call123testSpecialTags(Client body) throws ApiException {
+        ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(body);
         return localVarResp.getData();
     }
 
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
-     * @param client client model (required)
+     * @param body client model (required)
      * @return ApiResponse&lt;Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -141,8 +141,8 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
-        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(client, null);
+    public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
+        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -150,7 +150,7 @@ public class AnotherFakeApi {
     /**
      * To test special tags (asynchronously)
      * To test special tags and operation ID starting with number
-     * @param client client model (required)
+     * @param body client model (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -160,9 +160,9 @@ public class AnotherFakeApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call call123testSpecialTagsAsync(Client client, final ApiCallback<Client> _callback) throws ApiException {
+    public okhttp3.Call call123testSpecialTagsAsync(Client body, final ApiCallback<Client> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(client, _callback);
+        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, _callback);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

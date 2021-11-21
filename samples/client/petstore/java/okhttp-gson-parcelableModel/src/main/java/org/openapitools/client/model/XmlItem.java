@@ -29,22 +29,6 @@ import java.util.List;
 import android.os.Parcelable;
 import android.os.Parcel;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 /**
  * XmlItem
  */
@@ -1078,96 +1062,5 @@ public class XmlItem implements Parcelable {
       return new XmlItem[size];
     }
   };
-  public static HashSet<String> openapiFields;
-  public static HashSet<String> openapiRequiredFields;
-
-  static {
-    // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("attribute_string");
-    openapiFields.add("attribute_number");
-    openapiFields.add("attribute_integer");
-    openapiFields.add("attribute_boolean");
-    openapiFields.add("wrapped_array");
-    openapiFields.add("name_string");
-    openapiFields.add("name_number");
-    openapiFields.add("name_integer");
-    openapiFields.add("name_boolean");
-    openapiFields.add("name_array");
-    openapiFields.add("name_wrapped_array");
-    openapiFields.add("prefix_string");
-    openapiFields.add("prefix_number");
-    openapiFields.add("prefix_integer");
-    openapiFields.add("prefix_boolean");
-    openapiFields.add("prefix_array");
-    openapiFields.add("prefix_wrapped_array");
-    openapiFields.add("namespace_string");
-    openapiFields.add("namespace_number");
-    openapiFields.add("namespace_integer");
-    openapiFields.add("namespace_boolean");
-    openapiFields.add("namespace_array");
-    openapiFields.add("namespace_wrapped_array");
-    openapiFields.add("prefix_ns_string");
-    openapiFields.add("prefix_ns_number");
-    openapiFields.add("prefix_ns_integer");
-    openapiFields.add("prefix_ns_boolean");
-    openapiFields.add("prefix_ns_array");
-    openapiFields.add("prefix_ns_wrapped_array");
-
-    // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-  }
-
-  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-       if (!XmlItem.class.isAssignableFrom(type.getRawType())) {
-         return null; // this class only serializes 'XmlItem' and its subtypes
-       }
-       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-       final TypeAdapter<XmlItem> thisAdapter
-                        = gson.getDelegateAdapter(this, TypeToken.get(XmlItem.class));
-
-       return (TypeAdapter<T>) new TypeAdapter<XmlItem>() {
-           @Override
-           public void write(JsonWriter out, XmlItem value) throws IOException {
-             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
-             elementAdapter.write(out, obj);
-           }
-
-           @Override
-           public XmlItem read(JsonReader in) throws IOException {
-             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
-             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-             // check to see if the JSON string contains additional fields
-             for (Entry<String, JsonElement> entry: entries) {
-               if (!XmlItem.openapiFields.contains(entry.getKey())) {
-                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `XmlItem` properties");
-               }
-             }
-
-             return thisAdapter.fromJsonTree(obj);
-           }
-
-       }.nullSafe();
-    }
-  }
-/*
-  public static class CustomDeserializer implements JsonDeserializer<XmlItem> {
-    @Override
-    public XmlItem deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
-      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-      // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry: entries) {
-        if (!XmlItem.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `XmlItem` properties");
-        }
-      }
-
-      // all checks passed, return using the original implementation of deserialize
-      return new Gson().fromJson(json, XmlItem.class);
-    }
-  }*/
 }
+

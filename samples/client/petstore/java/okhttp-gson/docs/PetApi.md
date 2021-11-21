@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(pet)
+> addPet(body)
 
 Add a new pet to the store
 
@@ -36,15 +36,14 @@ public class Example {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
     
-
     // Configure OAuth2 access token for authorization: petstore_auth
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
     PetApi apiInstance = new PetApi(defaultClient);
-    Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+    Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
     try {
-      apiInstance.addPet(pet);
+      apiInstance.addPet(body);
     } catch (ApiException e) {
       System.err.println("Exception when calling PetApi#addPet");
       System.err.println("Status code: " + e.getCode());
@@ -60,7 +59,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -68,7 +67,7 @@ null (empty response body)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -78,6 +77,7 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+**200** | successful operation |  -  |
 **405** | Invalid input |  -  |
 
 <a name="deletePet"></a>
@@ -144,6 +144,7 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+**200** | successful operation |  -  |
 **400** | Invalid pet value |  -  |
 
 <a name="findPetsByStatus"></a>
@@ -169,7 +170,6 @@ public class Example {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
     
-
     // Configure OAuth2 access token for authorization: petstore_auth
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
@@ -202,7 +202,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -217,7 +217,7 @@ Name | Type | Description  | Notes
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
-> List&lt;Pet&gt; findPetsByTags(tags)
+> Set&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -238,15 +238,14 @@ public class Example {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
     
-
     // Configure OAuth2 access token for authorization: petstore_auth
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
     PetApi apiInstance = new PetApi(defaultClient);
-    List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
+    Set<String> tags = Arrays.asList(); // Set<String> | Tags to filter by
     try {
-      List<Pet> result = apiInstance.findPetsByTags(tags);
+      Set<Pet> result = apiInstance.findPetsByTags(tags);
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling PetApi#findPetsByTags");
@@ -263,15 +262,15 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by |
+ **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by |
 
 ### Return type
 
-[**List&lt;Pet&gt;**](Pet.md)
+[**Set&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -357,7 +356,7 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(pet)
+> updatePet(body)
 
 Update an existing pet
 
@@ -376,15 +375,14 @@ public class Example {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
     
-
     // Configure OAuth2 access token for authorization: petstore_auth
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
     PetApi apiInstance = new PetApi(defaultClient);
-    Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+    Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
     try {
-      apiInstance.updatePet(pet);
+      apiInstance.updatePet(body);
     } catch (ApiException e) {
       System.err.println("Exception when calling PetApi#updatePet");
       System.err.println("Status code: " + e.getCode());
@@ -400,7 +398,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -408,7 +406,7 @@ null (empty response body)
 
 ### Authorization
 
-[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -418,6 +416,7 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+**200** | successful operation |  -  |
 **400** | Invalid ID supplied |  -  |
 **404** | Pet not found |  -  |
 **405** | Validation exception |  -  |

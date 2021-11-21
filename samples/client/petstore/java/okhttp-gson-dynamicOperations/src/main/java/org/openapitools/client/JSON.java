@@ -128,50 +128,6 @@ public class JSON {
             .registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter)
             .registerTypeAdapter(LocalDate.class, localDateTypeAdapter)
             .registerTypeAdapter(byte[].class, byteArrayAdapter)
-            .registerTypeAdapterFactory(new AdditionalPropertiesAnyType.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new AdditionalPropertiesArray.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new AdditionalPropertiesBoolean.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new AdditionalPropertiesClass.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new AdditionalPropertiesInteger.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new AdditionalPropertiesNumber.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new AdditionalPropertiesObject.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new AdditionalPropertiesString.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new Animal.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new ArrayOfArrayOfNumberOnly.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new ArrayOfNumberOnly.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new ArrayTest.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new BigCat.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new BigCatAllOf.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new Capitalization.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new Cat.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new CatAllOf.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new Category.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new ClassModel.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new Client.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new Dog.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new DogAllOf.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new EnumArrays.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new EnumTest.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new FileSchemaTestClass.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new FormatTest.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new HasOnlyReadOnly.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new MapTest.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new MixedPropertiesAndAdditionalPropertiesClass.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new Model200Response.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new ModelApiResponse.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new ModelReturn.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new Name.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new NumberOnly.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new Order.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new OuterComposite.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new Pet.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new ReadOnlyFirst.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new SpecialModelName.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new Tag.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new TypeHolderDefault.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new TypeHolderExample.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new User.CustomTypeAdapterFactory())
-            .registerTypeAdapterFactory(new XmlItem.CustomTypeAdapterFactory())
             .create();
     }
 
@@ -195,6 +151,13 @@ public class JSON {
         return this;
     }
 
+    /**
+     * Configure the parser to be liberal in what it accepts.
+     *
+     * @param lenientOnJson Set it to true to ignore some syntax errors
+     * @return JSON
+     * @see <a href="https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html">https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html</a>
+     */
     public JSON setLenientOnJson(boolean lenientOnJson) {
         isLenientOnJson = lenientOnJson;
         return this;
@@ -223,7 +186,7 @@ public class JSON {
         try {
             if (isLenientOnJson) {
                 JsonReader jsonReader = new JsonReader(new StringReader(body));
-                // see https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)
+                // see https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html
                 jsonReader.setLenient(true);
                 return gson.fromJson(jsonReader, returnType);
             } else {
@@ -483,4 +446,5 @@ public class JSON {
         sqlDateTypeAdapter.setFormat(dateFormat);
         return this;
     }
+
 }

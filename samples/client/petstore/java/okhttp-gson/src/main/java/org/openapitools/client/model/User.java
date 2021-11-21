@@ -23,23 +23,6 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.jackson.nullable.JsonNullable;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * User
@@ -77,22 +60,6 @@ public class User {
   public static final String SERIALIZED_NAME_USER_STATUS = "userStatus";
   @SerializedName(SERIALIZED_NAME_USER_STATUS)
   private Integer userStatus;
-
-  public static final String SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS = "objectWithNoDeclaredProps";
-  @SerializedName(SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS)
-  private Object objectWithNoDeclaredProps;
-
-  public static final String SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE = "objectWithNoDeclaredPropsNullable";
-  @SerializedName(SERIALIZED_NAME_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
-  private Object objectWithNoDeclaredPropsNullable;
-
-  public static final String SERIALIZED_NAME_ANY_TYPE_PROP = "anyTypeProp";
-  @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROP)
-  private Object anyTypeProp = null;
-
-  public static final String SERIALIZED_NAME_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
-  @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROP_NULLABLE)
-  private Object anyTypePropNullable = null;
 
   public User() { 
   }
@@ -281,98 +248,6 @@ public class User {
   }
 
 
-  public User objectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
-    
-    this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
-    return this;
-  }
-
-   /**
-   * test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
-   * @return objectWithNoDeclaredProps
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.")
-
-  public Object getObjectWithNoDeclaredProps() {
-    return objectWithNoDeclaredProps;
-  }
-
-
-  public void setObjectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
-    this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
-  }
-
-
-  public User objectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
-    
-    this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
-    return this;
-  }
-
-   /**
-   * test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
-   * @return objectWithNoDeclaredPropsNullable
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.")
-
-  public Object getObjectWithNoDeclaredPropsNullable() {
-    return objectWithNoDeclaredPropsNullable;
-  }
-
-
-  public void setObjectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
-    this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
-  }
-
-
-  public User anyTypeProp(Object anyTypeProp) {
-    
-    this.anyTypeProp = anyTypeProp;
-    return this;
-  }
-
-   /**
-   * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
-   * @return anyTypeProp
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389")
-
-  public Object getAnyTypeProp() {
-    return anyTypeProp;
-  }
-
-
-  public void setAnyTypeProp(Object anyTypeProp) {
-    this.anyTypeProp = anyTypeProp;
-  }
-
-
-  public User anyTypePropNullable(Object anyTypePropNullable) {
-    
-    this.anyTypePropNullable = anyTypePropNullable;
-    return this;
-  }
-
-   /**
-   * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
-   * @return anyTypePropNullable
-  **/
-  @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.")
-
-  public Object getAnyTypePropNullable() {
-    return anyTypePropNullable;
-  }
-
-
-  public void setAnyTypePropNullable(Object anyTypePropNullable) {
-    this.anyTypePropNullable = anyTypePropNullable;
-  }
-
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -389,27 +264,12 @@ public class User {
         Objects.equals(this.email, user.email) &&
         Objects.equals(this.password, user.password) &&
         Objects.equals(this.phone, user.phone) &&
-        Objects.equals(this.userStatus, user.userStatus) &&
-        Objects.equals(this.objectWithNoDeclaredProps, user.objectWithNoDeclaredProps) &&
-        Objects.equals(this.objectWithNoDeclaredPropsNullable, user.objectWithNoDeclaredPropsNullable) &&
-        Objects.equals(this.anyTypeProp, user.anyTypeProp) &&
-        Objects.equals(this.anyTypePropNullable, user.anyTypePropNullable);
-  }
-
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+        Objects.equals(this.userStatus, user.userStatus);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus, objectWithNoDeclaredProps, objectWithNoDeclaredPropsNullable, anyTypeProp, anyTypePropNullable);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
   }
 
   @Override
@@ -424,10 +284,6 @@ public class User {
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    userStatus: ").append(toIndentedString(userStatus)).append("\n");
-    sb.append("    objectWithNoDeclaredProps: ").append(toIndentedString(objectWithNoDeclaredProps)).append("\n");
-    sb.append("    objectWithNoDeclaredPropsNullable: ").append(toIndentedString(objectWithNoDeclaredPropsNullable)).append("\n");
-    sb.append("    anyTypeProp: ").append(toIndentedString(anyTypeProp)).append("\n");
-    sb.append("    anyTypePropNullable: ").append(toIndentedString(anyTypePropNullable)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -443,79 +299,5 @@ public class User {
     return o.toString().replace("\n", "\n    ");
   }
 
-  public static HashSet<String> openapiFields;
-  public static HashSet<String> openapiRequiredFields;
-
-  static {
-    // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("id");
-    openapiFields.add("username");
-    openapiFields.add("firstName");
-    openapiFields.add("lastName");
-    openapiFields.add("email");
-    openapiFields.add("password");
-    openapiFields.add("phone");
-    openapiFields.add("userStatus");
-    openapiFields.add("objectWithNoDeclaredProps");
-    openapiFields.add("objectWithNoDeclaredPropsNullable");
-    openapiFields.add("anyTypeProp");
-    openapiFields.add("anyTypePropNullable");
-
-    // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-  }
-
-  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-       if (!User.class.isAssignableFrom(type.getRawType())) {
-         return null; // this class only serializes 'User' and its subtypes
-       }
-       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-       final TypeAdapter<User> thisAdapter
-                        = gson.getDelegateAdapter(this, TypeToken.get(User.class));
-
-       return (TypeAdapter<T>) new TypeAdapter<User>() {
-           @Override
-           public void write(JsonWriter out, User value) throws IOException {
-             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
-             elementAdapter.write(out, obj);
-           }
-
-           @Override
-           public User read(JsonReader in) throws IOException {
-             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
-             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-             // check to see if the JSON string contains additional fields
-             for (Entry<String, JsonElement> entry: entries) {
-               if (!User.openapiFields.contains(entry.getKey())) {
-                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `User` properties");
-               }
-             }
-
-             return thisAdapter.fromJsonTree(obj);
-           }
-
-       }.nullSafe();
-    }
-  }
-/*
-  public static class CustomDeserializer implements JsonDeserializer<User> {
-    @Override
-    public User deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
-      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-      // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry: entries) {
-        if (!User.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `User` properties");
-        }
-      }
-
-      // all checks passed, return using the original implementation of deserialize
-      return new Gson().fromJson(json, User.class);
-    }
-  }*/
 }
+
