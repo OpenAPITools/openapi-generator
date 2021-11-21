@@ -27,6 +27,22 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 /**
  * TypeHolderDefault
  */
@@ -220,5 +236,91 @@ public class TypeHolderDefault {
     return o.toString().replace("\n", "\n    ");
   }
 
-}
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
 
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("string_item");
+    openapiFields.add("number_item");
+    openapiFields.add("integer_item");
+    openapiFields.add("bool_item");
+    openapiFields.add("array_item");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("string_item");
+    openapiRequiredFields.add("number_item");
+    openapiRequiredFields.add("integer_item");
+    openapiRequiredFields.add("bool_item");
+    openapiRequiredFields.add("array_item");
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!TypeHolderDefault.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'TypeHolderDefault' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<TypeHolderDefault> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(TypeHolderDefault.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<TypeHolderDefault>() {
+           @Override
+           public void write(JsonWriter out, TypeHolderDefault value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public TypeHolderDefault read(JsonReader in) throws IOException {
+             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
+             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+             // check to see if the JSON string contains additional fields
+             for (Entry<String, JsonElement> entry: entries) {
+               if (!TypeHolderDefault.openapiFields.contains(entry.getKey())) {
+                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `TypeHolderDefault` properties");
+               }
+             }
+
+             // check to make sure all required properties/fields are present in the JSON string
+             for (String requiredField : TypeHolderDefault.openapiRequiredFields) {
+               if (obj.get(requiredField) == null) {
+                 throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON string");
+               }
+             }
+
+             return thisAdapter.fromJsonTree(obj);
+           }
+
+       }.nullSafe();
+    }
+  }
+/*
+  public static class CustomDeserializer implements JsonDeserializer<TypeHolderDefault> {
+    @Override
+    public TypeHolderDefault deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
+      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry: entries) {
+        if (!TypeHolderDefault.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `TypeHolderDefault` properties");
+        }
+      }
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : TypeHolderDefault.openapiRequiredFields) {
+        if (obj.get(requiredField) == null) {
+          throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON string");
+        }
+      }
+
+      // all checks passed, return using the original implementation of deserialize
+      return new Gson().fromJson(json, TypeHolderDefault.class);
+    }
+  }*/
+}

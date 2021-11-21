@@ -28,6 +28,22 @@ import org.openapitools.client.model.DogAllOf;
 import android.os.Parcelable;
 import android.os.Parcel;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 /**
  * Dog
  */
@@ -127,5 +143,85 @@ public class Dog extends Animal implements Parcelable {
       return new Dog[size];
     }
   };
-}
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
 
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("className");
+    openapiFields.add("color");
+    openapiFields.add("breed");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("className");
+  }
+
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!Dog.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'Dog' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<Dog> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(Dog.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<Dog>() {
+           @Override
+           public void write(JsonWriter out, Dog value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public Dog read(JsonReader in) throws IOException {
+             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
+             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+             // check to see if the JSON string contains additional fields
+             for (Entry<String, JsonElement> entry: entries) {
+               if (!Dog.openapiFields.contains(entry.getKey())) {
+                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `Dog` properties");
+               }
+             }
+
+             // check to make sure all required properties/fields are present in the JSON string
+             for (String requiredField : Dog.openapiRequiredFields) {
+               if (obj.get(requiredField) == null) {
+                 throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON string");
+               }
+             }
+
+             return thisAdapter.fromJsonTree(obj);
+           }
+
+       }.nullSafe();
+    }
+  }
+/*
+  public static class CustomDeserializer implements JsonDeserializer<Dog> {
+    @Override
+    public Dog deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
+      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry: entries) {
+        if (!Dog.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `Dog` properties");
+        }
+      }
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : Dog.openapiRequiredFields) {
+        if (obj.get(requiredField) == null) {
+          throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON string");
+        }
+      }
+
+      // all checks passed, return using the original implementation of deserialize
+      return new Gson().fromJson(json, Dog.class);
+    }
+  }*/
+}
