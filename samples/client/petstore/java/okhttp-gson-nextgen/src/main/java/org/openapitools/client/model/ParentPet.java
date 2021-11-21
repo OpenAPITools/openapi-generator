@@ -141,28 +141,4 @@ public class ParentPet extends GrandparentAnimal {
        }.nullSafe();
     }
   }
-/*
-  public static class CustomDeserializer implements JsonDeserializer<ParentPet> {
-    @Override
-    public ParentPet deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
-      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-      // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry: entries) {
-        if (!ParentPet.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `ParentPet` properties");
-        }
-      }
-
-      // check to make sure all required properties/fields are present in the JSON string
-      for (String requiredField : ParentPet.openapiRequiredFields) {
-        if (obj.get(requiredField) == null) {
-          throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON string");
-        }
-      }
-
-      // all checks passed, return using the original implementation of deserialize
-      return new Gson().fromJson(json, ParentPet.class);
-    }
-  }*/
 }

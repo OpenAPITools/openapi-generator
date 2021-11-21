@@ -14,6 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -30,10 +32,63 @@ import com.google.gson.JsonParseException;
 import {{invokerPackage}}.JSON;
 
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
-//@JsonDeserialize(using = {{classname}}.{{classname}}Deserializer.class)
-//@JsonSerialize(using = {{classname}}.{{classname}}Serializer.class)
 public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
     private static final Logger log = Logger.getLogger({{classname}}.class.getName());
+
+    public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+        @SuppressWarnings("unchecked")
+        @Override
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (!{{classname}}.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes '{{classname}}' and its subtypes
+            }
+            final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            {{#oneOf}}
+            final TypeAdapter<{{.}}> adapter{{.}} = gson.getDelegateAdapter(this, TypeToken.get({{.}}.class));
+            {{/oneOf}}
+
+            return (TypeAdapter<T>) new TypeAdapter<{{classname}}>() {
+                @Override
+                public void write(JsonWriter out, {{classname}} value) throws IOException {
+                    {{#oneOf}}
+                    // check if the actual instance is of the type `{{.}}`
+                    if (value.getActualInstance() instanceof {{.}}) {
+                        JsonObject obj = adapter{{.}}.toJsonTree(({{.}})value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    {{/oneOf}}
+                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
+                }
+
+                @Override
+                public {{classname}} read(JsonReader in) throws IOException {
+                    Object deserialized = null;
+                    int match = 0;
+
+                    {{#oneOf}}
+                    // deserialize {{{.}}}
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, {{.}}.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
+                    }
+
+                    {{/oneOf}}
+                    if (match == 1) {
+                        {{classname}} ret = new {{classname}}();
+                        ret.setActualInstance(deserialized);
+                        return ret;
+                    }
+
+                    throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+                }
+            }.nullSafe();
+        }
+    }
 
     public static class CustomSerializer implements JsonSerializer<{{classname}}> {
         public JsonElement serialize({{classname}} obj, Type type, JsonSerializationContext jsonSerializationContext) {
@@ -49,40 +104,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
         @Override
         public {{classname}} deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-           Object deserialized = null;
-           int match = 0;
-
-        //@Override
-        //public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        /*    JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
-            {{#useOneOfDiscriminatorLookup}}
-            {{#discriminator}}
-            {{classname}} new{{classname}} = new {{classname}}();
-            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
-            String discriminatorValue = (String)result2.get("{{{propertyBaseName}}}");
-            switch (discriminatorValue) {
-            {{#mappedModels}}
-                case "{{{mappingName}}}":
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs({{{modelName}}}.class);
-                    new{{classname}}.setActualInstance(deserialized);
-                    return new{{classname}};
-            {{/mappedModels}}
-                default:
-                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
-            }
-
-            {{/discriminator}}
-            {{/useOneOfDiscriminatorLookup}}
-            //boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
-            JsonToken token = tree.traverse(jp.getCodec()).nextToken(); */
+
             {{#oneOf}}
             // deserialize {{{.}}}
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), {{.}}.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
             } catch (Exception e) {
@@ -98,21 +126,6 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             }
             throw new JsonParseException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
         }
-
-        /**
-         * Handle deserialization of the 'null' value.
-         */
-/*
-        @Override
-        public {{classname}} getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-        {{#isNullable}}
-            return null;
-        {{/isNullable}}
-        {{^isNullable}}
-            throw new JsonMappingException(ctxt.getParser(), "{{classname}} cannot be null");
-        {{/isNullable}}
-        }
-*/
     }
 
     // store a list of schema names defined in oneOf
@@ -121,21 +134,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     public {{classname}}() {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
-/* {{> libraries/jersey2/additional_properties }} */
-    {{#additionalPropertiesType}}
-    /**
-     * Return true if this {{name}} object is equal to o.
-     */
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o) && Objects.equals(this.additionalProperties, (({{classname}})o).additionalProperties);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
-    }
-    {{/additionalPropertiesType}}
     {{#oneOf}}
     public {{classname}}({{{.}}} o) {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
@@ -148,7 +147,6 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
         });
         {{/oneOf}}
-        //JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
         {{#discriminator}}
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
@@ -156,7 +154,6 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         mappings.put("{{mappingName}}", {{modelName}}.class);
         {{/mappedModels}}
         mappings.put("{{name}}", {{classname}}.class);
-        //JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
         {{/discriminator}}
     }
 

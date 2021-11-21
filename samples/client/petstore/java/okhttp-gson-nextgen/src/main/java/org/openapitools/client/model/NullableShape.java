@@ -42,6 +42,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -58,10 +60,74 @@ import com.google.gson.JsonParseException;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-//@JsonDeserialize(using = NullableShape.NullableShapeDeserializer.class)
-//@JsonSerialize(using = NullableShape.NullableShapeSerializer.class)
 public class NullableShape extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(NullableShape.class.getName());
+
+    public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+        @SuppressWarnings("unchecked")
+        @Override
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (!NullableShape.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes 'NullableShape' and its subtypes
+            }
+            final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            final TypeAdapter<Quadrilateral> adapterQuadrilateral = gson.getDelegateAdapter(this, TypeToken.get(Quadrilateral.class));
+            final TypeAdapter<Triangle> adapterTriangle = gson.getDelegateAdapter(this, TypeToken.get(Triangle.class));
+
+            return (TypeAdapter<T>) new TypeAdapter<NullableShape>() {
+                @Override
+                public void write(JsonWriter out, NullableShape value) throws IOException {
+                    // check if the actual instance is of the type `Quadrilateral`
+                    if (value.getActualInstance() instanceof Quadrilateral) {
+                        JsonObject obj = adapterQuadrilateral.toJsonTree((Quadrilateral)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    // check if the actual instance is of the type `Triangle`
+                    if (value.getActualInstance() instanceof Triangle) {
+                        JsonObject obj = adapterTriangle.toJsonTree((Triangle)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: Quadrilateral, Triangle");
+                }
+
+                @Override
+                public NullableShape read(JsonReader in) throws IOException {
+                    Object deserialized = null;
+                    int match = 0;
+
+                    // deserialize Quadrilateral
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, Quadrilateral.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'Quadrilateral'", e);
+                    }
+
+                    // deserialize Triangle
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, Triangle.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'Triangle'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'Triangle'", e);
+                    }
+
+                    if (match == 1) {
+                        NullableShape ret = new NullableShape();
+                        ret.setActualInstance(deserialized);
+                        return ret;
+                    }
+
+                    throw new IOException(String.format("Failed deserialization for NullableShape: %d classes match result, expected 1", match));
+                }
+            }.nullSafe();
+        }
+    }
 
     public static class CustomSerializer implements JsonSerializer<NullableShape> {
         public JsonElement serialize(NullableShape obj, Type type, JsonSerializationContext jsonSerializationContext) {
@@ -77,21 +143,12 @@ public class NullableShape extends AbstractOpenApiSchema {
 
         @Override
         public NullableShape deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-           Object deserialized = null;
-           int match = 0;
-
-        //@Override
-        //public NullableShape deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        /*    JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
-            //boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
-            JsonToken token = tree.traverse(jp.getCodec()).nextToken(); */
+
             // deserialize Quadrilateral
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), Quadrilateral.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(Quadrilateral.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
             } catch (Exception e) {
@@ -102,8 +159,6 @@ public class NullableShape extends AbstractOpenApiSchema {
             // deserialize Triangle
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), Triangle.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(Triangle.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Triangle'");
             } catch (Exception e) {
@@ -118,16 +173,6 @@ public class NullableShape extends AbstractOpenApiSchema {
             }
             throw new JsonParseException(String.format("Failed deserialization for NullableShape: %d classes match result, expected 1", match));
         }
-
-        /**
-         * Handle deserialization of the 'null' value.
-         */
-/*
-        @Override
-        public NullableShape getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            return null;
-        }
-*/
     }
 
     // store a list of schema names defined in oneOf
@@ -136,7 +181,7 @@ public class NullableShape extends AbstractOpenApiSchema {
     public NullableShape() {
         super("oneOf", Boolean.TRUE);
     }
-/*  */
+
     public NullableShape(Quadrilateral o) {
         super("oneOf", Boolean.TRUE);
         setActualInstance(o);
@@ -152,13 +197,11 @@ public class NullableShape extends AbstractOpenApiSchema {
         });
         schemas.put("Triangle", new GenericType<Triangle>() {
         });
-        //JSON.registerDescendants(NullableShape.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
         mappings.put("Quadrilateral", Quadrilateral.class);
         mappings.put("Triangle", Triangle.class);
         mappings.put("NullableShape", NullableShape.class);
-        //JSON.registerDiscriminator(NullableShape.class, "shapeType", mappings);
     }
 
     @Override

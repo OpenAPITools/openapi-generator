@@ -233,21 +233,4 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
        }.nullSafe();
     }
   }
-/*
-  public static class CustomDeserializer implements JsonDeserializer<MixedPropertiesAndAdditionalPropertiesClass> {
-    @Override
-    public MixedPropertiesAndAdditionalPropertiesClass deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
-      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-      // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry: entries) {
-        if (!MixedPropertiesAndAdditionalPropertiesClass.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `MixedPropertiesAndAdditionalPropertiesClass` properties");
-        }
-      }
-
-      // all checks passed, return using the original implementation of deserialize
-      return new Gson().fromJson(json, MixedPropertiesAndAdditionalPropertiesClass.class);
-    }
-  }*/
 }

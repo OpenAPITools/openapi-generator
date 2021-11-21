@@ -43,6 +43,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -59,10 +61,74 @@ import com.google.gson.JsonParseException;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-//@JsonDeserialize(using = FruitReq.FruitReqDeserializer.class)
-//@JsonSerialize(using = FruitReq.FruitReqSerializer.class)
 public class FruitReq extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FruitReq.class.getName());
+
+    public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+        @SuppressWarnings("unchecked")
+        @Override
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (!FruitReq.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes 'FruitReq' and its subtypes
+            }
+            final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            final TypeAdapter<AppleReq> adapterAppleReq = gson.getDelegateAdapter(this, TypeToken.get(AppleReq.class));
+            final TypeAdapter<BananaReq> adapterBananaReq = gson.getDelegateAdapter(this, TypeToken.get(BananaReq.class));
+
+            return (TypeAdapter<T>) new TypeAdapter<FruitReq>() {
+                @Override
+                public void write(JsonWriter out, FruitReq value) throws IOException {
+                    // check if the actual instance is of the type `AppleReq`
+                    if (value.getActualInstance() instanceof AppleReq) {
+                        JsonObject obj = adapterAppleReq.toJsonTree((AppleReq)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    // check if the actual instance is of the type `BananaReq`
+                    if (value.getActualInstance() instanceof BananaReq) {
+                        JsonObject obj = adapterBananaReq.toJsonTree((BananaReq)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: AppleReq, BananaReq");
+                }
+
+                @Override
+                public FruitReq read(JsonReader in) throws IOException {
+                    Object deserialized = null;
+                    int match = 0;
+
+                    // deserialize AppleReq
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, AppleReq.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'AppleReq'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'AppleReq'", e);
+                    }
+
+                    // deserialize BananaReq
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, BananaReq.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'BananaReq'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'BananaReq'", e);
+                    }
+
+                    if (match == 1) {
+                        FruitReq ret = new FruitReq();
+                        ret.setActualInstance(deserialized);
+                        return ret;
+                    }
+
+                    throw new IOException(String.format("Failed deserialization for FruitReq: %d classes match result, expected 1", match));
+                }
+            }.nullSafe();
+        }
+    }
 
     public static class CustomSerializer implements JsonSerializer<FruitReq> {
         public JsonElement serialize(FruitReq obj, Type type, JsonSerializationContext jsonSerializationContext) {
@@ -78,21 +144,12 @@ public class FruitReq extends AbstractOpenApiSchema {
 
         @Override
         public FruitReq deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-           Object deserialized = null;
-           int match = 0;
-
-        //@Override
-        //public FruitReq deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        /*    JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
-            //boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
-            JsonToken token = tree.traverse(jp.getCodec()).nextToken(); */
+
             // deserialize AppleReq
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), AppleReq.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(AppleReq.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'AppleReq'");
             } catch (Exception e) {
@@ -103,8 +160,6 @@ public class FruitReq extends AbstractOpenApiSchema {
             // deserialize BananaReq
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), BananaReq.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(BananaReq.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'BananaReq'");
             } catch (Exception e) {
@@ -119,16 +174,6 @@ public class FruitReq extends AbstractOpenApiSchema {
             }
             throw new JsonParseException(String.format("Failed deserialization for FruitReq: %d classes match result, expected 1", match));
         }
-
-        /**
-         * Handle deserialization of the 'null' value.
-         */
-/*
-        @Override
-        public FruitReq getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            return null;
-        }
-*/
     }
 
     // store a list of schema names defined in oneOf
@@ -137,7 +182,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     public FruitReq() {
         super("oneOf", Boolean.TRUE);
     }
-/*  */
+
     public FruitReq(AppleReq o) {
         super("oneOf", Boolean.TRUE);
         setActualInstance(o);
@@ -153,7 +198,6 @@ public class FruitReq extends AbstractOpenApiSchema {
         });
         schemas.put("BananaReq", new GenericType<BananaReq>() {
         });
-        //JSON.registerDescendants(FruitReq.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override

@@ -131,8 +131,9 @@ public class JSON {
             {{^isEnum}}
             {{#oneOf}}
             {{#-first}}
-            .registerTypeAdapter({{{classname}}}.class, new {{{classname}}}.CustomSerializer())
-            .registerTypeAdapter({{{classname}}}.class, new {{{classname}}}.CustomDeserializer())
+            .registerTypeAdapterFactory(new {{{classname}}}.CustomTypeAdapterFactory())
+            //.registerTypeAdapter({{{classname}}}.class, new {{{classname}}}.CustomSerializer())
+            //.registerTypeAdapter({{{classname}}}.class, new {{{classname}}}.CustomDeserializer())
             {{/-first}}
             {{/oneOf}}
             {{^oneOf}}

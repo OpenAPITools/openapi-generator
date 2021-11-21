@@ -43,6 +43,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -59,10 +61,91 @@ import com.google.gson.JsonParseException;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-//@JsonDeserialize(using = Mammal.MammalDeserializer.class)
-//@JsonSerialize(using = Mammal.MammalSerializer.class)
 public class Mammal extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Mammal.class.getName());
+
+    public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+        @SuppressWarnings("unchecked")
+        @Override
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (!Mammal.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes 'Mammal' and its subtypes
+            }
+            final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            final TypeAdapter<Pig> adapterPig = gson.getDelegateAdapter(this, TypeToken.get(Pig.class));
+            final TypeAdapter<Whale> adapterWhale = gson.getDelegateAdapter(this, TypeToken.get(Whale.class));
+            final TypeAdapter<Zebra> adapterZebra = gson.getDelegateAdapter(this, TypeToken.get(Zebra.class));
+
+            return (TypeAdapter<T>) new TypeAdapter<Mammal>() {
+                @Override
+                public void write(JsonWriter out, Mammal value) throws IOException {
+                    // check if the actual instance is of the type `Pig`
+                    if (value.getActualInstance() instanceof Pig) {
+                        JsonObject obj = adapterPig.toJsonTree((Pig)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    // check if the actual instance is of the type `Whale`
+                    if (value.getActualInstance() instanceof Whale) {
+                        JsonObject obj = adapterWhale.toJsonTree((Whale)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    // check if the actual instance is of the type `Zebra`
+                    if (value.getActualInstance() instanceof Zebra) {
+                        JsonObject obj = adapterZebra.toJsonTree((Zebra)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: Pig, Whale, Zebra");
+                }
+
+                @Override
+                public Mammal read(JsonReader in) throws IOException {
+                    Object deserialized = null;
+                    int match = 0;
+
+                    // deserialize Pig
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, Pig.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'Pig'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'Pig'", e);
+                    }
+
+                    // deserialize Whale
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, Whale.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'Whale'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'Whale'", e);
+                    }
+
+                    // deserialize Zebra
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, Zebra.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'Zebra'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'Zebra'", e);
+                    }
+
+                    if (match == 1) {
+                        Mammal ret = new Mammal();
+                        ret.setActualInstance(deserialized);
+                        return ret;
+                    }
+
+                    throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1", match));
+                }
+            }.nullSafe();
+        }
+    }
 
     public static class CustomSerializer implements JsonSerializer<Mammal> {
         public JsonElement serialize(Mammal obj, Type type, JsonSerializationContext jsonSerializationContext) {
@@ -78,21 +161,12 @@ public class Mammal extends AbstractOpenApiSchema {
 
         @Override
         public Mammal deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-           Object deserialized = null;
-           int match = 0;
-
-        //@Override
-        //public Mammal deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        /*    JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
-            //boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
-            JsonToken token = tree.traverse(jp.getCodec()).nextToken(); */
+
             // deserialize Pig
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), Pig.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Pig'");
             } catch (Exception e) {
@@ -103,8 +177,6 @@ public class Mammal extends AbstractOpenApiSchema {
             // deserialize Whale
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), Whale.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(Whale.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Whale'");
             } catch (Exception e) {
@@ -115,8 +187,6 @@ public class Mammal extends AbstractOpenApiSchema {
             // deserialize Zebra
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), Zebra.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(Zebra.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Zebra'");
             } catch (Exception e) {
@@ -131,16 +201,6 @@ public class Mammal extends AbstractOpenApiSchema {
             }
             throw new JsonParseException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1", match));
         }
-
-        /**
-         * Handle deserialization of the 'null' value.
-         */
-/*
-        @Override
-        public Mammal getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "Mammal cannot be null");
-        }
-*/
     }
 
     // store a list of schema names defined in oneOf
@@ -149,7 +209,7 @@ public class Mammal extends AbstractOpenApiSchema {
     public Mammal() {
         super("oneOf", Boolean.FALSE);
     }
-/*  */
+
     public Mammal(Pig o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
@@ -172,14 +232,12 @@ public class Mammal extends AbstractOpenApiSchema {
         });
         schemas.put("Zebra", new GenericType<Zebra>() {
         });
-        //JSON.registerDescendants(Mammal.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
         mappings.put("Pig", Pig.class);
         mappings.put("whale", Whale.class);
         mappings.put("zebra", Zebra.class);
         mappings.put("mammal", Mammal.class);
-        //JSON.registerDiscriminator(Mammal.class, "className", mappings);
     }
 
     @Override

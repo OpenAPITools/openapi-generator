@@ -227,28 +227,4 @@ public class Whale {
        }.nullSafe();
     }
   }
-/*
-  public static class CustomDeserializer implements JsonDeserializer<Whale> {
-    @Override
-    public Whale deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-      JsonObject obj = json.getAsJsonObject(); //since you know it's a JsonObject
-      Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-      // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry: entries) {
-        if (!Whale.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `Whale` properties");
-        }
-      }
-
-      // check to make sure all required properties/fields are present in the JSON string
-      for (String requiredField : Whale.openapiRequiredFields) {
-        if (obj.get(requiredField) == null) {
-          throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON string");
-        }
-      }
-
-      // all checks passed, return using the original implementation of deserialize
-      return new Gson().fromJson(json, Whale.class);
-    }
-  }*/
 }

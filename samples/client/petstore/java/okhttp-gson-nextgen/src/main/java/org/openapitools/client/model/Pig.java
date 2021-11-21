@@ -42,6 +42,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -58,10 +60,74 @@ import com.google.gson.JsonParseException;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-//@JsonDeserialize(using = Pig.PigDeserializer.class)
-//@JsonSerialize(using = Pig.PigSerializer.class)
 public class Pig extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Pig.class.getName());
+
+    public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+        @SuppressWarnings("unchecked")
+        @Override
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (!Pig.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes 'Pig' and its subtypes
+            }
+            final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            final TypeAdapter<BasquePig> adapterBasquePig = gson.getDelegateAdapter(this, TypeToken.get(BasquePig.class));
+            final TypeAdapter<DanishPig> adapterDanishPig = gson.getDelegateAdapter(this, TypeToken.get(DanishPig.class));
+
+            return (TypeAdapter<T>) new TypeAdapter<Pig>() {
+                @Override
+                public void write(JsonWriter out, Pig value) throws IOException {
+                    // check if the actual instance is of the type `BasquePig`
+                    if (value.getActualInstance() instanceof BasquePig) {
+                        JsonObject obj = adapterBasquePig.toJsonTree((BasquePig)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    // check if the actual instance is of the type `DanishPig`
+                    if (value.getActualInstance() instanceof DanishPig) {
+                        JsonObject obj = adapterDanishPig.toJsonTree((DanishPig)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: BasquePig, DanishPig");
+                }
+
+                @Override
+                public Pig read(JsonReader in) throws IOException {
+                    Object deserialized = null;
+                    int match = 0;
+
+                    // deserialize BasquePig
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, BasquePig.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'BasquePig'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'BasquePig'", e);
+                    }
+
+                    // deserialize DanishPig
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, DanishPig.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'DanishPig'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'DanishPig'", e);
+                    }
+
+                    if (match == 1) {
+                        Pig ret = new Pig();
+                        ret.setActualInstance(deserialized);
+                        return ret;
+                    }
+
+                    throw new IOException(String.format("Failed deserialization for Pig: %d classes match result, expected 1", match));
+                }
+            }.nullSafe();
+        }
+    }
 
     public static class CustomSerializer implements JsonSerializer<Pig> {
         public JsonElement serialize(Pig obj, Type type, JsonSerializationContext jsonSerializationContext) {
@@ -77,21 +143,12 @@ public class Pig extends AbstractOpenApiSchema {
 
         @Override
         public Pig deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-           Object deserialized = null;
-           int match = 0;
-
-        //@Override
-        //public Pig deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        /*    JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
-            //boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
-            JsonToken token = tree.traverse(jp.getCodec()).nextToken(); */
+
             // deserialize BasquePig
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), BasquePig.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(BasquePig.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'BasquePig'");
             } catch (Exception e) {
@@ -102,8 +159,6 @@ public class Pig extends AbstractOpenApiSchema {
             // deserialize DanishPig
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), DanishPig.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(DanishPig.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'DanishPig'");
             } catch (Exception e) {
@@ -118,16 +173,6 @@ public class Pig extends AbstractOpenApiSchema {
             }
             throw new JsonParseException(String.format("Failed deserialization for Pig: %d classes match result, expected 1", match));
         }
-
-        /**
-         * Handle deserialization of the 'null' value.
-         */
-/*
-        @Override
-        public Pig getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "Pig cannot be null");
-        }
-*/
     }
 
     // store a list of schema names defined in oneOf
@@ -136,7 +181,7 @@ public class Pig extends AbstractOpenApiSchema {
     public Pig() {
         super("oneOf", Boolean.FALSE);
     }
-/*  */
+
     public Pig(BasquePig o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
@@ -152,13 +197,11 @@ public class Pig extends AbstractOpenApiSchema {
         });
         schemas.put("DanishPig", new GenericType<DanishPig>() {
         });
-        //JSON.registerDescendants(Pig.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
         mappings.put("BasquePig", BasquePig.class);
         mappings.put("DanishPig", DanishPig.class);
         mappings.put("Pig", Pig.class);
-        //JSON.registerDiscriminator(Pig.class, "className", mappings);
     }
 
     @Override

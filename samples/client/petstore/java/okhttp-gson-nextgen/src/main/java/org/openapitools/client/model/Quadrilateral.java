@@ -42,6 +42,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -58,10 +60,74 @@ import com.google.gson.JsonParseException;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-//@JsonDeserialize(using = Quadrilateral.QuadrilateralDeserializer.class)
-//@JsonSerialize(using = Quadrilateral.QuadrilateralSerializer.class)
 public class Quadrilateral extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Quadrilateral.class.getName());
+
+    public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+        @SuppressWarnings("unchecked")
+        @Override
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (!Quadrilateral.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes 'Quadrilateral' and its subtypes
+            }
+            final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            final TypeAdapter<ComplexQuadrilateral> adapterComplexQuadrilateral = gson.getDelegateAdapter(this, TypeToken.get(ComplexQuadrilateral.class));
+            final TypeAdapter<SimpleQuadrilateral> adapterSimpleQuadrilateral = gson.getDelegateAdapter(this, TypeToken.get(SimpleQuadrilateral.class));
+
+            return (TypeAdapter<T>) new TypeAdapter<Quadrilateral>() {
+                @Override
+                public void write(JsonWriter out, Quadrilateral value) throws IOException {
+                    // check if the actual instance is of the type `ComplexQuadrilateral`
+                    if (value.getActualInstance() instanceof ComplexQuadrilateral) {
+                        JsonObject obj = adapterComplexQuadrilateral.toJsonTree((ComplexQuadrilateral)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    // check if the actual instance is of the type `SimpleQuadrilateral`
+                    if (value.getActualInstance() instanceof SimpleQuadrilateral) {
+                        JsonObject obj = adapterSimpleQuadrilateral.toJsonTree((SimpleQuadrilateral)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: ComplexQuadrilateral, SimpleQuadrilateral");
+                }
+
+                @Override
+                public Quadrilateral read(JsonReader in) throws IOException {
+                    Object deserialized = null;
+                    int match = 0;
+
+                    // deserialize ComplexQuadrilateral
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, ComplexQuadrilateral.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'ComplexQuadrilateral'", e);
+                    }
+
+                    // deserialize SimpleQuadrilateral
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, SimpleQuadrilateral.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'SimpleQuadrilateral'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'SimpleQuadrilateral'", e);
+                    }
+
+                    if (match == 1) {
+                        Quadrilateral ret = new Quadrilateral();
+                        ret.setActualInstance(deserialized);
+                        return ret;
+                    }
+
+                    throw new IOException(String.format("Failed deserialization for Quadrilateral: %d classes match result, expected 1", match));
+                }
+            }.nullSafe();
+        }
+    }
 
     public static class CustomSerializer implements JsonSerializer<Quadrilateral> {
         public JsonElement serialize(Quadrilateral obj, Type type, JsonSerializationContext jsonSerializationContext) {
@@ -77,21 +143,12 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
         @Override
         public Quadrilateral deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-           Object deserialized = null;
-           int match = 0;
-
-        //@Override
-        //public Quadrilateral deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        /*    JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
-            //boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
-            JsonToken token = tree.traverse(jp.getCodec()).nextToken(); */
+
             // deserialize ComplexQuadrilateral
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), ComplexQuadrilateral.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(ComplexQuadrilateral.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
             } catch (Exception e) {
@@ -102,8 +159,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             // deserialize SimpleQuadrilateral
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), SimpleQuadrilateral.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(SimpleQuadrilateral.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'SimpleQuadrilateral'");
             } catch (Exception e) {
@@ -118,16 +173,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             }
             throw new JsonParseException(String.format("Failed deserialization for Quadrilateral: %d classes match result, expected 1", match));
         }
-
-        /**
-         * Handle deserialization of the 'null' value.
-         */
-/*
-        @Override
-        public Quadrilateral getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "Quadrilateral cannot be null");
-        }
-*/
     }
 
     // store a list of schema names defined in oneOf
@@ -136,7 +181,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     public Quadrilateral() {
         super("oneOf", Boolean.FALSE);
     }
-/*  */
+
     public Quadrilateral(ComplexQuadrilateral o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
@@ -152,13 +197,11 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         });
         schemas.put("SimpleQuadrilateral", new GenericType<SimpleQuadrilateral>() {
         });
-        //JSON.registerDescendants(Quadrilateral.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
         mappings.put("ComplexQuadrilateral", ComplexQuadrilateral.class);
         mappings.put("SimpleQuadrilateral", SimpleQuadrilateral.class);
         mappings.put("Quadrilateral", Quadrilateral.class);
-        //JSON.registerDiscriminator(Quadrilateral.class, "quadrilateralType", mappings);
     }
 
     @Override

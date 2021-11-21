@@ -43,6 +43,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -59,10 +61,91 @@ import com.google.gson.JsonParseException;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-//@JsonDeserialize(using = Triangle.TriangleDeserializer.class)
-//@JsonSerialize(using = Triangle.TriangleSerializer.class)
 public class Triangle extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Triangle.class.getName());
+
+    public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+        @SuppressWarnings("unchecked")
+        @Override
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (!Triangle.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes 'Triangle' and its subtypes
+            }
+            final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            final TypeAdapter<EquilateralTriangle> adapterEquilateralTriangle = gson.getDelegateAdapter(this, TypeToken.get(EquilateralTriangle.class));
+            final TypeAdapter<IsoscelesTriangle> adapterIsoscelesTriangle = gson.getDelegateAdapter(this, TypeToken.get(IsoscelesTriangle.class));
+            final TypeAdapter<ScaleneTriangle> adapterScaleneTriangle = gson.getDelegateAdapter(this, TypeToken.get(ScaleneTriangle.class));
+
+            return (TypeAdapter<T>) new TypeAdapter<Triangle>() {
+                @Override
+                public void write(JsonWriter out, Triangle value) throws IOException {
+                    // check if the actual instance is of the type `EquilateralTriangle`
+                    if (value.getActualInstance() instanceof EquilateralTriangle) {
+                        JsonObject obj = adapterEquilateralTriangle.toJsonTree((EquilateralTriangle)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    // check if the actual instance is of the type `IsoscelesTriangle`
+                    if (value.getActualInstance() instanceof IsoscelesTriangle) {
+                        JsonObject obj = adapterIsoscelesTriangle.toJsonTree((IsoscelesTriangle)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    // check if the actual instance is of the type `ScaleneTriangle`
+                    if (value.getActualInstance() instanceof ScaleneTriangle) {
+                        JsonObject obj = adapterScaleneTriangle.toJsonTree((ScaleneTriangle)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle");
+                }
+
+                @Override
+                public Triangle read(JsonReader in) throws IOException {
+                    Object deserialized = null;
+                    int match = 0;
+
+                    // deserialize EquilateralTriangle
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, EquilateralTriangle.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'EquilateralTriangle'", e);
+                    }
+
+                    // deserialize IsoscelesTriangle
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, IsoscelesTriangle.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'IsoscelesTriangle'", e);
+                    }
+
+                    // deserialize ScaleneTriangle
+                    try {
+                        deserialized = JSON.getGson().fromJson(in, ScaleneTriangle.class);
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'ScaleneTriangle'", e);
+                    }
+
+                    if (match == 1) {
+                        Triangle ret = new Triangle();
+                        ret.setActualInstance(deserialized);
+                        return ret;
+                    }
+
+                    throw new IOException(String.format("Failed deserialization for Triangle: %d classes match result, expected 1", match));
+                }
+            }.nullSafe();
+        }
+    }
 
     public static class CustomSerializer implements JsonSerializer<Triangle> {
         public JsonElement serialize(Triangle obj, Type type, JsonSerializationContext jsonSerializationContext) {
@@ -78,21 +161,12 @@ public class Triangle extends AbstractOpenApiSchema {
 
         @Override
         public Triangle deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-           Object deserialized = null;
-           int match = 0;
-
-        //@Override
-        //public Triangle deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        /*    JsonNode tree = jp.readValueAsTree();
             Object deserialized = null;
-            //boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
-            JsonToken token = tree.traverse(jp.getCodec()).nextToken(); */
+
             // deserialize EquilateralTriangle
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), EquilateralTriangle.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
             } catch (Exception e) {
@@ -103,8 +177,6 @@ public class Triangle extends AbstractOpenApiSchema {
             // deserialize IsoscelesTriangle
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), IsoscelesTriangle.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
             } catch (Exception e) {
@@ -115,8 +187,6 @@ public class Triangle extends AbstractOpenApiSchema {
             // deserialize ScaleneTriangle
             try {
                 deserialized = JSON.getGson().fromJson(json.toString(), ScaleneTriangle.class);
-
-                //deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
             } catch (Exception e) {
@@ -131,16 +201,6 @@ public class Triangle extends AbstractOpenApiSchema {
             }
             throw new JsonParseException(String.format("Failed deserialization for Triangle: %d classes match result, expected 1", match));
         }
-
-        /**
-         * Handle deserialization of the 'null' value.
-         */
-/*
-        @Override
-        public Triangle getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "Triangle cannot be null");
-        }
-*/
     }
 
     // store a list of schema names defined in oneOf
@@ -149,7 +209,7 @@ public class Triangle extends AbstractOpenApiSchema {
     public Triangle() {
         super("oneOf", Boolean.FALSE);
     }
-/*  */
+
     public Triangle(EquilateralTriangle o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
@@ -172,14 +232,12 @@ public class Triangle extends AbstractOpenApiSchema {
         });
         schemas.put("ScaleneTriangle", new GenericType<ScaleneTriangle>() {
         });
-        //JSON.registerDescendants(Triangle.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
         Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
         mappings.put("EquilateralTriangle", EquilateralTriangle.class);
         mappings.put("IsoscelesTriangle", IsoscelesTriangle.class);
         mappings.put("ScaleneTriangle", ScaleneTriangle.class);
         mappings.put("Triangle", Triangle.class);
-        //JSON.registerDiscriminator(Triangle.class, "triangleType", mappings);
     }
 
     @Override

@@ -203,7 +203,7 @@ public class JSONTest {
     @Test(expected = IllegalArgumentException.class)
     public void testRequiredFieldException() {
         // test json string missing required field(s) to ensure exception is thrown
-        Gson gson = new JSON().getGson();
+        Gson gson = JSON.getGson();
         //Gson gson = new GsonBuilder()
         //        .registerTypeAdapter(Pet.class, new Pet.CustomDeserializer())
         //        .create();
@@ -216,7 +216,7 @@ public class JSONTest {
     @Test(expected = IllegalArgumentException.class)
     public void testAdditionalFieldException() {
         // test json string with additional field(s) to ensure exception is thrown
-        Gson gson = new JSON().getGson();
+        Gson gson = JSON.getGson();
         //Gson gson = new GsonBuilder()
         //        .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
         //        .create();
@@ -227,7 +227,7 @@ public class JSONTest {
     @Test
     public void testCustomDeserializer() {
         // test the custom deserializer to ensure it can deserialize json payload into objects
-        Gson gson = new JSON().getGson();
+        Gson gson = JSON.getGson();
         //Gson gson = new GsonBuilder()
         //        .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
         //        .create();
@@ -300,10 +300,12 @@ public class JSONTest {
             AppleReq inst = (AppleReq) o.getActualInstance();
             assertEquals(inst.getCultivar(), "golden delicious");
             assertEquals(inst.getMealy(), false);
+            assertEquals(json.getGson().toJson(inst), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
 
             AppleReq inst2 = o.getAppleReq();
             assertEquals(inst2.getCultivar(), "golden delicious");
             assertEquals(inst2.getMealy(), false);
+            assertEquals(json.getGson().toJson(inst2), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
         }
     }
 }
