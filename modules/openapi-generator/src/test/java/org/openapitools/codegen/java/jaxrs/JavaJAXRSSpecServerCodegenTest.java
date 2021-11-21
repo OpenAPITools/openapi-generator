@@ -28,6 +28,7 @@ import java.util.Map;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.JAVA8_MODE;
 import static org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.SUPPORT_ASYNC;
@@ -99,6 +100,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
         codegen.additionalProperties().put("serverPort", "8088");
         codegen.additionalProperties().put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "openapi.yml");
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true);
+        codegen.additionalProperties().put(JAVA8_MODE, false);
         codegen.processOpts();
 
         OpenAPI openAPI = new OpenAPI();
@@ -116,6 +119,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8088");
         Assert.assertEquals(codegen.getOpenApiSpecFileLocation(), "openapi.yml");
         Assert.assertEquals(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION), "openapi.yml");
+        Assert.assertEquals(codegen.additionalProperties().get(SUPPORT_ASYNC), "true");
+        Assert.assertEquals(codegen.additionalProperties().get(JAVA8_MODE), true); //overridden by supportAsync=true
     }
 
     /**
