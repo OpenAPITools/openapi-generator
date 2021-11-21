@@ -32,18 +32,13 @@ public class RetryingOAuthTest {
 
     @Before
     public void setUp() throws Exception {
-<<<<<<< HEAD
-        oauth = new RetryingOAuth("_clientId", "_clientSecret", OAuthFlow.ACCESS_CODE,
-                "https://token.example.com", Collections.<String, String>emptyMap());
-=======
         oauth =
                 new RetryingOAuth(
                         "_clientId",
                         "_clientSecret",
-                        OAuthFlow.accessCode,
+                        OAuthFlow.ACCESS_CODE,
                         "https://token.example.com",
                         Collections.<String, String>emptyMap());
->>>>>>> 5.4.x
         oauth.setAccessToken("expired-access-token");
         FieldUtils.writeField(oauth, "oAuthClient", mockOAuthClient(), true);
     }
