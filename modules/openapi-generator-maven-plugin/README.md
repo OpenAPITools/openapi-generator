@@ -48,6 +48,7 @@ mvn clean compile
 | `language` |  `openapi.generator.maven.plugin.language` | target generation language (deprecated, replaced by `generatorName` as values here don't represent only 'language' any longer)
 | `generatorName` |  `openapi.generator.maven.plugin.generatorName` | target generator name
 | `output` |  `openapi.generator.maven.plugin.output` | target output path (default is `${project.build.directory}/generated-sources/openapi`. Can also be set globally through the `openapi.generator.maven.plugin.output` property)
+| `testOutput` |  `openapi.generator.maven.plugin.testOutput` | target output path for tests (default is `${project.build.directory}/generated-sources/openapi`. Can also be set globally through the `openapi.generator.maven.plugin.testOutput` property)
 | `gitHost` | `openapi.generator.maven.plugin.gitHost` | The git host, e.g. gitlab.com
 | `gitUserId` |  `openapi.generator.maven.plugin.gitUserId` | sets git information of the project
 | `gitRepoId` | `openapi.generator.maven.plugin.gitRepoId` | sets the repo ID (e.g. openapi-generator)

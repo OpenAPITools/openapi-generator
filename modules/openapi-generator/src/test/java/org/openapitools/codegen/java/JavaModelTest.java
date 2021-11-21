@@ -1304,6 +1304,36 @@ public class JavaModelTest {
 
         File orderFile = new File(output, "src/main/java/org/openapitools/client/model/Order.java");
         Assert.assertTrue(orderFile.exists());
+        File testOrderFile = new File(output, "src/test/java/org/openapitools/client/model/OrderTest.java");
+        Assert.assertTrue(testOrderFile.exists());
+    }
+
+  @Test
+    public void generateModelInSeparateFolder() throws Exception {
+        String inputSpec = "src/test/resources/3_0/petstore.json";
+
+        final File output = Files.createTempDirectory("runtime").toFile();
+        output.deleteOnExit();
+        final File testOutput = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Assert.assertTrue(new File(inputSpec).exists());
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary("jersey2")
+                .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
+                .setInputSpec(inputSpec)
+                .setTestOutputDir(testOutput.getAbsolutePath())
+                .setOutputDir(output.getAbsolutePath());
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        new DefaultGenerator().opts(clientOptInput).generate();
+
+        File orderFile = new File(output, "src/main/java/org/openapitools/client/model/Order.java");
+        Assert.assertTrue(orderFile.exists());
+        File testOrderFile = new File(testOutput, "src/test/java/org/openapitools/client/model/OrderTest.java");
+        Assert.assertTrue(testOrderFile.exists());
     }
 
     @Test

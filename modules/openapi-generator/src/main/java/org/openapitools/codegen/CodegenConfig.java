@@ -66,6 +66,8 @@ public interface CodegenConfig {
 
     String outputFolder();
 
+    String testOutputFolder();
+
     String templateDir();
 
     String embeddedTemplateDir();
@@ -119,6 +121,10 @@ public interface CodegenConfig {
     String getOutputDir();
 
     void setOutputDir(String dir);
+
+    String getTestOutputDir();
+
+    void setTestOutputDir(String dir);
 
     CodegenModel fromModel(String name, Schema schema);
 

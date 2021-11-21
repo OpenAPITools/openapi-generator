@@ -36,6 +36,7 @@ public class WorkflowSettings {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowSettings.class);
     public static final String DEFAULT_OUTPUT_DIR = ".";
+    public static final String DEFAULT_TEST_OUTPUT_DIR = "";
     public static final boolean DEFAULT_VERBOSE = false;
     public static final boolean DEFAULT_SKIP_OVERWRITE = false;
     public static final boolean DEFAULT_REMOVE_OPERATION_ID_PREFIX = false;
@@ -51,6 +52,7 @@ public class WorkflowSettings {
 
     private String inputSpec;
     private String outputDir = DEFAULT_OUTPUT_DIR;
+    private String testOutputDir = DEFAULT_TEST_OUTPUT_DIR;
     private boolean verbose = DEFAULT_VERBOSE;
     private boolean skipOverwrite = DEFAULT_SKIP_OVERWRITE;
     private boolean removeOperationIdPrefix = DEFAULT_REMOVE_OPERATION_ID_PREFIX;
@@ -69,6 +71,7 @@ public class WorkflowSettings {
     private WorkflowSettings(Builder builder) {
         this.inputSpec = builder.inputSpec;
         this.outputDir = builder.outputDir;
+        this.testOutputDir = builder.testOutputDir;
         this.verbose = builder.verbose;
         this.skipOverwrite = builder.skipOverwrite;
         this.removeOperationIdPrefix = builder.removeOperationIdPrefix;
@@ -100,6 +103,7 @@ public class WorkflowSettings {
         Builder builder = newBuilder();
         builder.inputSpec = copy.getInputSpec();
         builder.outputDir = copy.getOutputDir();
+        builder.testOutputDir = copy.getTestOutputDir();
         builder.verbose = copy.isVerbose();
         builder.skipOverwrite = copy.isSkipOverwrite();
         builder.removeOperationIdPrefix = copy.isRemoveOperationIdPrefix();
@@ -138,6 +142,15 @@ public class WorkflowSettings {
      */
     public String getOutputDir() {
         return outputDir;
+    }
+
+    /**
+     * Gets the test output dir (where we write generated files). Defaults to the current directory.
+     *
+     * @return the output dir
+     */
+    public String getTestOutputDir() {
+        return testOutputDir;
     }
 
     /**
@@ -298,6 +311,7 @@ public class WorkflowSettings {
     public static final class Builder {
         private String inputSpec;
         private String outputDir = DEFAULT_OUTPUT_DIR;
+        private String testOutputDir = DEFAULT_TEST_OUTPUT_DIR;
         private Boolean verbose = DEFAULT_VERBOSE;
         private Boolean skipOverwrite = DEFAULT_SKIP_OVERWRITE;
         private Boolean removeOperationIdPrefix = DEFAULT_REMOVE_OPERATION_ID_PREFIX;
@@ -343,6 +357,21 @@ public class WorkflowSettings {
                 this.outputDir = Paths.get(outputDir).toAbsolutePath().toString();
             } else {
                 this.outputDir = DEFAULT_OUTPUT_DIR;
+            }
+            return this;
+        }
+
+        /**
+         * Sets the {@code testOutputDir} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param testOutputDir the {@code testOutputDir} to set
+         * @return a reference to this Builder
+         */
+        public Builder withTestOutputDir(String testOutputDir) {
+            if (testOutputDir != null ) {
+                this.testOutputDir = Paths.get(testOutputDir).toAbsolutePath().toString();
+            } else {
+                this.testOutputDir = DEFAULT_OUTPUT_DIR;
             }
             return this;
         }
@@ -573,6 +602,7 @@ public class WorkflowSettings {
         return "WorkflowSettings{" +
                 "inputSpec='" + inputSpec + '\'' +
                 ", outputDir='" + outputDir + '\'' +
+                ", testOutputDir='" + testOutputDir + '\'' +
                 ", verbose=" + verbose +
                 ", skipOverwrite=" + skipOverwrite +
                 ", removeOperationIdPrefix=" + removeOperationIdPrefix +

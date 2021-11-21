@@ -11,6 +11,7 @@ lib/*
 build/*
 generated-files/*
 generated-sources/*
+generated-test-sources/*
 generated-code/*
 *.swp
 *.swo

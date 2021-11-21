@@ -408,6 +408,11 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setTestOutputDir(String outputDir) {
+        workflowSettingsBuilder.withTestOutputDir(outputDir);
+        return this;
+    }
+
     public CodegenConfigurator setPackageName(String packageName) {
         if (StringUtils.isNotEmpty(packageName)) {
             addAdditionalProperty(CodegenConstants.PACKAGE_NAME, packageName);
@@ -593,6 +598,7 @@ public class CodegenConfigurator {
         // TODO: Work toward CodegenConfig having a "WorkflowSettings" property, or better a "Workflow" object which itself has a "WorkflowSettings" property.
         config.setInputSpec(workflowSettings.getInputSpec());
         config.setOutputDir(workflowSettings.getOutputDir());
+        config.setTestOutputDir(workflowSettings.getTestOutputDir());
         config.setSkipOverwrite(workflowSettings.isSkipOverwrite());
         config.setIgnoreFilePathOverride(workflowSettings.getIgnoreFileOverride());
         config.setRemoveOperationIdPrefix(workflowSettings.isRemoveOperationIdPrefix());

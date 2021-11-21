@@ -143,6 +143,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
     protected String outputFolder = "";
+    protected String testOutputFolder = "";
     protected Set<String> defaultIncludes;
     protected Map<String, String> typeMapping;
     protected Map<String, String> instantiationTypes;
@@ -1119,12 +1120,12 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiTestFileFolder() {
-        return outputFolder + File.separator + testPackage().replace('.', File.separatorChar);
+        return testOutputFolder + File.separator + testPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return outputFolder + File.separator + testPackage().replace('.', File.separatorChar);
+        return testOutputFolder + File.separator + testPackage().replace('.', File.separatorChar);
     }
 
     @Override
@@ -1170,6 +1171,24 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public String getOutputDir() {
         return outputFolder();
+    }
+
+    @Override
+    public String testOutputFolder() {
+        if (this.testOutputFolder.isEmpty()) {
+            return outputFolder();
+        }
+        return this.testOutputFolder;
+    }
+
+    @Override
+    public void setTestOutputDir(String dir) {
+        this.testOutputFolder = dir;
+    }
+
+    @Override
+    public String getTestOutputDir() {
+        return testOutputFolder();
     }
 
     @Override
