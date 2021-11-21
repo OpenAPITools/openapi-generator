@@ -311,7 +311,7 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
      * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
 	 *
 	 * @param pattern (the String pattern to convert from python to Perl convention)
-	 * @param vendorExtensions (custom x-* properties for extra functionality-see https://swagger.io/docs/specification/openapi-extensions/)
+	 * @param vendorExtensions (list of custom x-* properties for extra functionality-see https://swagger.io/docs/specification/openapi-extensions/)
 	 * @return void
 	 * @throws IllegalArgumentException if pattern does not follow the Perl /pattern/modifiers convention
 	 *
