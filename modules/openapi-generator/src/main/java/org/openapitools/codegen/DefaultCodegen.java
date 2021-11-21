@@ -1120,12 +1120,12 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiTestFileFolder() {
-        return testOutputFolder + File.separator + testPackage().replace('.', File.separatorChar);
+        return testOutputFolder() + File.separator + testPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return testOutputFolder + File.separator + testPackage().replace('.', File.separatorChar);
+        return testOutputFolder() + File.separator + testPackage().replace('.', File.separatorChar);
     }
 
     @Override
