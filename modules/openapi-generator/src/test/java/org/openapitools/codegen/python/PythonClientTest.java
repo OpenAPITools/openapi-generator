@@ -31,6 +31,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -506,7 +507,7 @@ public class PythonClientTest {
 
         String f = "openapi_client/api/user_api.py";
         Path p = output.toPath().resolve(f);
-        String content = new String(Files.readAllBytes(p));
+        String content = new String(Files.readAllBytes(p), StandardCharsets.UTF_8);
 
         // should be def createUser and not def create_user
         Pattern pattern = Pattern.compile("def createUser");
