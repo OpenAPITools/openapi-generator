@@ -103,7 +103,7 @@ public class CodeGenMojo extends AbstractMojo {
      * Location of the test-output directory.
      */
     @Parameter(name = "testOutput", property = "openapi.generator.maven.plugin.testOutput",
-            defaultValue = "${project.build.directory}/generated-sources/openapi")
+            defaultValue = "${project.build.directory}/generated-test-sources/openapi")
     private File testOutput;
 
     /**
