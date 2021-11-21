@@ -129,52 +129,6 @@ public class Shape extends AbstractOpenApiSchema {
         }
     }
 
-    public static class CustomSerializer implements JsonSerializer<Shape> {
-        public JsonElement serialize(Shape obj, Type type, JsonSerializationContext jsonSerializationContext) {
-            if (obj == null) {
-                return null;
-            }
-
-            return new JsonPrimitive(JSON.getGson().toJson(obj.getActualInstance()));
-        }
-    }
-
-    public static class CustomDeserializer implements JsonDeserializer<Shape> {
-
-        @Override
-        public Shape deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            Object deserialized = null;
-            int match = 0;
-
-            // deserialize Quadrilateral
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), Quadrilateral.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'Quadrilateral'", e);
-            }
-
-            // deserialize Triangle
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), Triangle.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'Triangle'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'Triangle'", e);
-            }
-
-            if (match == 1) {
-                Shape ret = new Shape();
-                ret.setActualInstance(deserialized);
-                return ret;
-            }
-            throw new JsonParseException(String.format("Failed deserialization for Shape: %d classes match result, expected 1", match));
-        }
-    }
-
     // store a list of schema names defined in oneOf
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 

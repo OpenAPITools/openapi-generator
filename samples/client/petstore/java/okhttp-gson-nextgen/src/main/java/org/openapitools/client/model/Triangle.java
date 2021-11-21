@@ -147,62 +147,6 @@ public class Triangle extends AbstractOpenApiSchema {
         }
     }
 
-    public static class CustomSerializer implements JsonSerializer<Triangle> {
-        public JsonElement serialize(Triangle obj, Type type, JsonSerializationContext jsonSerializationContext) {
-            if (obj == null) {
-                return null;
-            }
-
-            return new JsonPrimitive(JSON.getGson().toJson(obj.getActualInstance()));
-        }
-    }
-
-    public static class CustomDeserializer implements JsonDeserializer<Triangle> {
-
-        @Override
-        public Triangle deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            Object deserialized = null;
-            int match = 0;
-
-            // deserialize EquilateralTriangle
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), EquilateralTriangle.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'EquilateralTriangle'", e);
-            }
-
-            // deserialize IsoscelesTriangle
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), IsoscelesTriangle.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'IsoscelesTriangle'", e);
-            }
-
-            // deserialize ScaleneTriangle
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), ScaleneTriangle.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'ScaleneTriangle'", e);
-            }
-
-            if (match == 1) {
-                Triangle ret = new Triangle();
-                ret.setActualInstance(deserialized);
-                return ret;
-            }
-            throw new JsonParseException(String.format("Failed deserialization for Triangle: %d classes match result, expected 1", match));
-        }
-    }
-
     // store a list of schema names defined in oneOf
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 

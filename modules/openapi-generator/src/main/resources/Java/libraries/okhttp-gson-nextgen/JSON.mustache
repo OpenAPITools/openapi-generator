@@ -132,8 +132,6 @@ public class JSON {
             {{#oneOf}}
             {{#-first}}
             .registerTypeAdapterFactory(new {{{classname}}}.CustomTypeAdapterFactory())
-            //.registerTypeAdapter({{{classname}}}.class, new {{{classname}}}.CustomSerializer())
-            //.registerTypeAdapter({{{classname}}}.class, new {{{classname}}}.CustomDeserializer())
             {{/-first}}
             {{/oneOf}}
             {{^oneOf}}

@@ -129,52 +129,6 @@ public class Pig extends AbstractOpenApiSchema {
         }
     }
 
-    public static class CustomSerializer implements JsonSerializer<Pig> {
-        public JsonElement serialize(Pig obj, Type type, JsonSerializationContext jsonSerializationContext) {
-            if (obj == null) {
-                return null;
-            }
-
-            return new JsonPrimitive(JSON.getGson().toJson(obj.getActualInstance()));
-        }
-    }
-
-    public static class CustomDeserializer implements JsonDeserializer<Pig> {
-
-        @Override
-        public Pig deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            Object deserialized = null;
-            int match = 0;
-
-            // deserialize BasquePig
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), BasquePig.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'BasquePig'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'BasquePig'", e);
-            }
-
-            // deserialize DanishPig
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), DanishPig.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'DanishPig'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'DanishPig'", e);
-            }
-
-            if (match == 1) {
-                Pig ret = new Pig();
-                ret.setActualInstance(deserialized);
-                return ret;
-            }
-            throw new JsonParseException(String.format("Failed deserialization for Pig: %d classes match result, expected 1", match));
-        }
-    }
-
     // store a list of schema names defined in oneOf
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 

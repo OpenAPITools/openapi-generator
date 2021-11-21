@@ -130,52 +130,6 @@ public class FruitReq extends AbstractOpenApiSchema {
         }
     }
 
-    public static class CustomSerializer implements JsonSerializer<FruitReq> {
-        public JsonElement serialize(FruitReq obj, Type type, JsonSerializationContext jsonSerializationContext) {
-            if (obj == null) {
-                return null;
-            }
-
-            return new JsonPrimitive(JSON.getGson().toJson(obj.getActualInstance()));
-        }
-    }
-
-    public static class CustomDeserializer implements JsonDeserializer<FruitReq> {
-
-        @Override
-        public FruitReq deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            Object deserialized = null;
-            int match = 0;
-
-            // deserialize AppleReq
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), AppleReq.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'AppleReq'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'AppleReq'", e);
-            }
-
-            // deserialize BananaReq
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), BananaReq.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'BananaReq'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'BananaReq'", e);
-            }
-
-            if (match == 1) {
-                FruitReq ret = new FruitReq();
-                ret.setActualInstance(deserialized);
-                return ret;
-            }
-            throw new JsonParseException(String.format("Failed deserialization for FruitReq: %d classes match result, expected 1", match));
-        }
-    }
-
     // store a list of schema names defined in oneOf
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 

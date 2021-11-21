@@ -129,52 +129,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         }
     }
 
-    public static class CustomSerializer implements JsonSerializer<Quadrilateral> {
-        public JsonElement serialize(Quadrilateral obj, Type type, JsonSerializationContext jsonSerializationContext) {
-            if (obj == null) {
-                return null;
-            }
-
-            return new JsonPrimitive(JSON.getGson().toJson(obj.getActualInstance()));
-        }
-    }
-
-    public static class CustomDeserializer implements JsonDeserializer<Quadrilateral> {
-
-        @Override
-        public Quadrilateral deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            Object deserialized = null;
-            int match = 0;
-
-            // deserialize ComplexQuadrilateral
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), ComplexQuadrilateral.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'ComplexQuadrilateral'", e);
-            }
-
-            // deserialize SimpleQuadrilateral
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), SimpleQuadrilateral.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'SimpleQuadrilateral'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'SimpleQuadrilateral'", e);
-            }
-
-            if (match == 1) {
-                Quadrilateral ret = new Quadrilateral();
-                ret.setActualInstance(deserialized);
-                return ret;
-            }
-            throw new JsonParseException(String.format("Failed deserialization for Quadrilateral: %d classes match result, expected 1", match));
-        }
-    }
-
     // store a list of schema names defined in oneOf
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 

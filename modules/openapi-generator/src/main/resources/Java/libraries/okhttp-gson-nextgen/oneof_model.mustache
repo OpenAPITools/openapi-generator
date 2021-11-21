@@ -90,44 +90,6 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
     }
 
-    public static class CustomSerializer implements JsonSerializer<{{classname}}> {
-        public JsonElement serialize({{classname}} obj, Type type, JsonSerializationContext jsonSerializationContext) {
-            if (obj == null) {
-                return null;
-            }
-
-            return new JsonPrimitive(JSON.getGson().toJson(obj.getActualInstance()));
-        }
-    }
-
-    public static class CustomDeserializer implements JsonDeserializer<{{classname}}> {
-
-        @Override
-        public {{classname}} deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            Object deserialized = null;
-            int match = 0;
-
-            {{#oneOf}}
-            // deserialize {{{.}}}
-            try {
-                deserialized = JSON.getGson().fromJson(json.toString(), {{.}}.class);
-                match++;
-                log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
-            }
-
-            {{/oneOf}}
-            if (match == 1) {
-                {{classname}} ret = new {{classname}}();
-                ret.setActualInstance(deserialized);
-                return ret;
-            }
-            throw new JsonParseException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
-        }
-    }
-
     // store a list of schema names defined in oneOf
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
