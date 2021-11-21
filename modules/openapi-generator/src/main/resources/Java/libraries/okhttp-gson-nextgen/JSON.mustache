@@ -24,10 +24,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 {{/threetenbp}}
-
-{{#models.0}}
-import {{modelPackage}}.*;
-{{/models.0}}
+j
 import okio.ByteString;
 
 import java.io.IOException;
@@ -73,14 +70,14 @@ public class JSON {
         {{#models}}
         {{#model}}
         {{#discriminator}}
-                .registerTypeSelector({{classname}}.class, new TypeSelector<{{classname}}>() {
+                .registerTypeSelector({{modelPackage}}.{{classname}}.class, new TypeSelector<{{modelPackage}}.{{classname}}>() {
                     @Override
-                    public Class<? extends {{classname}}> getClassForElement(JsonElement readElement) {
+                    public Class<? extends {{modelPackage}}.{{classname}}> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         {{#mappedModels}}
-                        classByDiscriminatorValue.put("{{mappingName}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{modelName}}.class);
+                        classByDiscriminatorValue.put("{{mappingName}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{modelPackage}}.{{modelName}}.class);
                         {{/mappedModels}}
-                        classByDiscriminatorValue.put("{{name}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{classname}}.class);
+                        classByDiscriminatorValue.put("{{name}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{modelPackage}}.{{classname}}.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "{{{propertyBaseName}}}"));
                     }
@@ -137,7 +134,7 @@ public class JSON {
             {{^isEnum}}
             {{#oneOf}}
             {{#-first}}
-            .registerTypeAdapterFactory(new {{{classname}}}.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new {{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
             {{/-first}}
             {{/oneOf}}
             {{^oneOf}}
@@ -147,7 +144,7 @@ public class JSON {
             {{/-first}}
             {{/anyOf}}
             {{^anyOf}}
-            .registerTypeAdapterFactory(new {{{classname}}}.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new {{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
             {{/anyOf}}
             {{/oneOf}}
             {{/isEnum}}
