@@ -327,8 +327,8 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
                         + "/pattern/modifiers convention. " + pattern + " is not valid.");
             }
 			
-			//check for instances of extra backslash that could cause compile issues and remove
-			int firstBackslash = pattern.indexOf("\\");
+	    //check for instances of extra backslash that could cause compile issues and remove
+	    int firstBackslash = pattern.indexOf("\\");
             int bracket = pattern.indexOf("[");
             if (firstBackslash == 0 || firstBackslash == 1 || firstBackslash == bracket+1) {
                 pattern = pattern.substring(0,firstBackslash)+pattern.substring(firstBackslash+1);
