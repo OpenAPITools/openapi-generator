@@ -28,6 +28,10 @@ import java.util.Map;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen.USE_TAGS;
+import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.INTERFACE_ONLY;
+import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.SUPPORT_ASYNC;
+import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.RETURN_RESPONSE;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -418,5 +422,171 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Path path = Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java");
 
         assertFileContains(path, "\nimport java.util.Set;\n");
+    }
+
+    @Test
+    public void generateApiWithAsyncSupport() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate(); //When generating files
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        //And the generated class contains CompletionStage<Response>
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+                "\nimport java.util.concurrent.CompletionStage;\n",
+                "\nimport java.util.concurrent.CompletableFuture;\n",
+                "\npublic CompletionStage<Response> pingGet() {\n",
+                "\nCompletableFuture.supplyAsync(() -> Response.ok().entity(\"magic!\").build())\n"
+                );
+    }
+
+    @Test
+    public void generateApiWithAsyncSupportAndInterfaceOnly() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
+        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate(); //When generating files
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        //And the generated interface contains CompletionStage<Void>
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+                "\nimport java.util.concurrent.CompletionStage;\n",
+                "\nCompletionStage<Void> pingGet();\n");
+    }
+
+    @Test
+    public void generateApiWithAsyncSupportAndInterfaceOnlyAndResponse() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
+        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
+        codegen.additionalProperties().put(RETURN_RESPONSE, true); //And return type is Response
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate(); //When generating files
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        //And the generated interface contains CompletionStage<Response>
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileContains(output.toPath().resolve( "src/gen/java/org/openapitools/api/PingApi.java"),
+                "\nimport java.util.concurrent.CompletionStage;\n",
+                "\nCompletionStage<Response> pingGet();\n");
+    }
+
+
+    @Test
+    public void generatePetstoreAPIWithAsyncSupport() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
+        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen); //using JavaJAXRSSpecServerCodegen
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate(); //When generating files
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        //And the generated interfaces contains CompletionStage
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
+                "\nimport java.util.concurrent.CompletionStage;\n",
+                "CompletionStage<Void> deletePet", //Support empty response
+                "CompletionStage<List<Pet>> findPetsByStatus", //Support type of arrays response
+                "CompletionStage<Pet> getPetById" //Support single type response
+        );
+
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/StoreApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/StoreApi.java"),
+                "\nimport java.util.concurrent.CompletionStage;\n",
+                "CompletionStage<Map<String, Integer>>" //Support map response
+        );
+
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/UserApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/UserApi.java"),
+                "\nimport java.util.concurrent.CompletionStage;\n",
+                "CompletionStage<String>" //Support simple types
+        );
+    }
+
+    @Test
+    public void generatePingWithAsyncSupportPrimitiveType() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_4832.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
+        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
+        codegen.additionalProperties().put(USE_TAGS, true); //And use tags to generate everything in PingApi.java
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen); //using JavaJAXRSSpecServerCodegen
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate(); //When generating files
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        //And the generated interfaces contains CompletionStage with proper classes instead of primitive types
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        TestUtils.assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+                "CompletionStage<Boolean> pingGetBoolean", //Support primitive types response
+                "CompletionStage<Integer> pingGetInteger" //Support primitive types response
+        );
     }
 }
