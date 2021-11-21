@@ -290,7 +290,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 39);
+        Assert.assertEquals(files.size(), 38);
         TestUtils.ensureContainsFile(files, output, ".gitignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
@@ -359,7 +359,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 42);
+        Assert.assertEquals(files.size(), 41);
         TestUtils.ensureContainsFile(files, output, ".gitignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
@@ -988,7 +988,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 48);
+        Assert.assertEquals(files.size(), 47);
         TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/RealCommand.java");
         TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/Command.java");
 
