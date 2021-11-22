@@ -169,7 +169,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         }
 
-        if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNKNOWN)){
+        if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNKNOWN)) {
             this.startEnumsWithUnknown = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNKNOWN);
         }
 
@@ -192,9 +192,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return camelize(sanitizeName(operationId));
     }
 
-    public void addUnknownToAllowableValues(Map<String, Object> allowableValues, String name){
-        if(startEnumsWithUnknown){
-            if(allowableValues.containsKey("enumVars")){
+    public void addUnknownToAllowableValues(Map<String, Object> allowableValues, String name) {
+        if(startEnumsWithUnknown) {
+            if(allowableValues.containsKey("enumVars")) {
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
                 
                 HashMap<String, Object> unknown = new HashMap<String, Object>();
@@ -205,12 +205,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 enumVars.add(0, unknown);
             }
 
-            if(allowableValues.containsKey("values")){
+            if(allowableValues.containsKey("values")) {
                 List<String> values = (List<String>)allowableValues.get("values");           
                 values.add(0, name + "_UNKNOWN");
             }
+        }
+    }
 
-    public void addEnumIndexes(List<Map<String, Object>> enumVars){
+    public void addEnumIndexes(List<Map<String, Object>> enumVars) {
         int enumIndex = 0;
         for (Map<String, Object> enumVar : enumVars) {
             enumVar.put("protobuf-enum-index", enumIndex);
