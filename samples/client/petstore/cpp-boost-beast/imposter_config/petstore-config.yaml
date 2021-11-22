@@ -1,0 +1,16 @@
+---
+plugin: openapi
+specFile:   ./petstore.yaml
+
+security:
+  default: Permit
+
+resources:
+  - path: "/v2/pet/1"
+    method: GET
+    response:
+      statusCode: 400
+  - path: "/v2/pet/2"
+    method: GET
+    response:
+      statusCode: 404

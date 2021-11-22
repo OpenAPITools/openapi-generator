@@ -1,0 +1,273 @@
+{{>licenseInfo}}
+{{#operations}}
+
+#include <sstream>
+#include <string>
+#include <map>
+
+#include <boost/lexical_cast.hpp>
+#include <boost/beast/http/status.hpp>
+#include <boost/format.hpp>
+
+#include "{{classname}}.h"
+
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+using namespace {{modelNamespace}};
+
+
+{{classname}}Exception::{{classname}}Exception(boost::beast::http::status statusCode, std::string what)
+  : m_status(statusCode),
+    m_what(what)
+{
+}
+
+boost::beast::http::status {{classname}}Exception::getStatus() const
+{
+    return m_status;
+}
+
+const char* {{classname}}Exception::what() const noexcept
+{
+    return m_what.c_str();
+}
+
+
+{{#operation}}
+{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+    {{#allParams}}const {{{dataType}}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    std::string requestBody;
+    std::string path = m_context + "{{{path}}}";;
+    std::map<std::string, std::string> headers;
+{{#hasBodyParam}}
+    // Body params
+{{#allParams}}
+{{#isModel}}
+    requestBody = {{paramName}}->toJsonString();
+{{/isModel}}
+{{#isArray}}
+    requestBody = createJsonStringFrom{{{baseType}}}Vector({{paramName}});
+{{/isArray}}
+{{^isModel}}
+{{^isArray}}
+    requestBody = createJsonStringFrom{{{baseType}}}Vector({{paramName}});
+{{/isArray}}
+{{/isModel}}
+{{/allParams}}
+{{/hasBodyParam}}
+{{#hasPathParams}}
+    // path params
+    const auto formattedPath = boost::format(path){{#pathParams}} % {{{paramName}}}{{/pathParams}};
+    path = formattedPath.str();
+{{/hasPathParams}}
+{{#hasQueryParams}}
+    // query params
+    std::stringstream queryParamStream;
+    queryParamStream << '?';
+{{#queryParams}}
+{{#isPrimitiveType}}
+    queryParamStream << "{{{paramName}}}=" << {{paramName}};
+    {{^-last}}queryParamStream << '&';{{/-last}}
+{{/isPrimitiveType}}
+{{/queryParams}}
+    path += queryParamStream.str();
+{{/hasQueryParams}}
+{{#hasHeaderParams}}
+    // headers
+{{#headerParams}}
+{{#isPrimitiveType}}
+    headers.emplace(std::make_pair("{{{paramName}}}", boost::lexical_cast<std::string>({{{paramName}}})));
+{{/isPrimitiveType}}
+{{/headerParams}}
+{{/hasHeaderParams}}
+
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_addDefaultHeaders(headers);
+
+    auto statusCode = boost::beast::http::status::unknown;
+    std::string responseBody;
+    try {
+        std::tie(statusCode, responseBody) =
+            m_client->execute("{{httpMethod}}",
+                              path,
+                              requestBody,
+                              headers);
+    }
+    catch(const std::exception& e) {
+        {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(e);
+    }
+    catch(...) {
+        {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException();
+    }
+    {{#returnType}}
+    {{#hasDefaultResponse}}
+    {{{returnType}}} result = {{{defaultResponse}}};
+    {{/hasDefaultResponse}}
+    {{^hasDefaultResponse}}
+    {{{returnType}}} result{};
+    {{/hasDefaultResponse}}
+    {{/returnType}}
+    {{#responses}}
+    {{#returnType}}
+    {{#isModel}}
+    {{#isString}}
+        result = responseBody;
+    {{/isString}}
+    {{^isString}}
+        result->fromJsonString(responseBody);
+    {{/isString}}
+    {{/isModel}}
+    {{#isMap}}
+        /*TODO {{{.}}}
+        auto result = create{{baseType}}VectorFromJsonString(responseBody);
+        */
+    {{/isMap}}
+    {{/returnType}}
+    {{/responses}}
+    {{#returnType}}
+    return result;
+    {{/returnType}}
+}
+{{#vendorExtensions.x-codegen-other-methods}}
+
+{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+    {{#allParams}}const {{{dataType}}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    std::string requestBody;
+    std::string path = m_context + "{{{path}}}";
+    std::map<std::string, std::string> headers;
+    {{#hasBodyParam}}
+    // Body params
+    {{#allParams}}
+    {{#isModel}}
+    requestBody = {{paramName}}->toJsonString();
+    {{/isModel}}
+    {{#isArray}}
+    requestBody = createJsonStringFrom{{{baseType}}}Vector({{paramName}});
+    {{/isArray}}
+    {{#isPrimitiveType}}
+    std::stringstream {{paramName}}Stream;
+    {{paramName}}Stream << {{paramName}};
+    requestBody = {{paramName}}Stream.str();
+    {{/isPrimitiveType}}
+    {{/allParams}}
+    {{/hasBodyParam}}
+    {{#hasPathParams}}
+    // path params
+    const auto formattedPath = boost::format(path){{#pathParams}} % {{{paramName}}}{{/pathParams}};
+    path = formattedPath.str();
+    {{/hasPathParams}}
+    {{#hasQueryParams}}
+    // query params
+    std::stringstream queryParamStream;
+    queryParamStream << '?';
+    {{#queryParams}}
+    {{#isPrimitiveType}}
+    queryParamStream << "{{{paramName}}}=" << {{paramName}};
+    {{^-last}}queryParamStream << '&';{{/-last}}
+    {{/isPrimitiveType}}
+    {{/queryParams}}
+    path += queryParamStream.str();
+    {{/hasQueryParams}}
+    {{#hasHeaderParams}}
+    // headers
+    {{#headerParams}}
+    {{#isPrimitiveType}}
+    headers.emplace(std::make_pair("{{{paramName}}}", boost::lexical_cast<std::string>({{{paramName}}})));
+    {{/isPrimitiveType}}
+    {{/headerParams}}
+    {{/hasHeaderParams}}
+
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_addDefaultHeaders(headers);
+
+    auto statusCode = boost::beast::http::status::unknown;
+    std::string responseBody;
+    try {
+        std::tie(statusCode, responseBody) =
+            m_client->execute("{{httpMethod}}",
+                path,
+                requestBody,
+                headers);
+    }
+    catch(const std::exception& e) {
+        {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(e);
+    }
+    catch(...) {
+        {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException();
+    }
+
+    {{#returnType}}
+    {{{.}}} result = {{{defaultResponse}}};
+    {{/returnType}}
+    {{#responses}}
+    if (statusCode == boost::beast::http::status({{code}})) {
+        {{#is2xx}}
+        {{#returnType}}
+        {{#isModel}}
+        {{#isString}}
+        result = responseBody;
+        {{/isString}}
+        {{^isString}}
+        result->fromJsonString(responseBody);
+        {{/isString}}
+        {{/isModel}}
+        {{#isMap}}
+        // TODO result = convertMapResponse(resultObject);
+        {{/isMap}}
+        {{/returnType}}
+        {{/is2xx}}
+        {{^is2xx}}
+        throw {{classname}}Exception(statusCode, "{{{message}}}");
+        {{/is2xx}}
+    }
+    {{/responses}}
+
+    {{#returnType}}
+    return result;
+    {{/returnType}}
+}
+
+{{/vendorExtensions.x-codegen-other-methods}}
+void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_addDefaultHeaders(std::map<std::string, std::string>& headers) {
+    static const std::map<std::string, std::string> defaultHeaders{std::make_pair("Accept",
+                                                                                  "application/json"),
+                                                                   std::make_pair("Content-Type",
+                                                                                  "application/json;charset=UTF-8")};
+    headers.insert(defaultHeaders.cbegin(), defaultHeaders.cend());
+}
+
+void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
+    const std::exception& e) {
+    throw e;
+}
+
+void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException() {
+    throw;
+}
+
+{{#vendorExtensions.x-codegen-other-methods}}
+void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_addDefaultHeaders(std::map<std::string, std::string>& headers) {
+    static const std::map<std::string, std::string> defaultHeaders{std::make_pair("Accept",
+                                                                                  "application/json"),
+                                                                   std::make_pair("Content-Type",
+                                                                                  "application/json;charset=UTF-8")};
+    headers.insert(defaultHeaders.cbegin(), defaultHeaders.cend());
+}
+
+void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
+    const std::exception& e) {
+    throw e;
+}
+void {{classname}}::{{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException() {
+    throw;
+}
+{{/vendorExtensions.x-codegen-other-methods}}
+{{/operation}}
+
+{{#apiNamespaceDeclarations}}
+}  // namespace {{{.}}}
+{{/apiNamespaceDeclarations}}
+{{/operations}}

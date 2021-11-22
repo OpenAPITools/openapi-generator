@@ -1,0 +1,108 @@
+{{>licenseInfo}}
+{{#operations}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_
+#define BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_
+
+#include <memory>
+#include <string>
+#include <exception>
+
+#include <boost/beast/core.hpp>
+
+#include "api/HttpClient.h"
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+using namespace {{modelNamespace}};
+
+///
+/// Exception to flag problems in the api's
+///
+class {{classname}}Exception: public std::exception
+{
+public:
+    {{classname}}Exception(boost::beast::http::status statusCode, std::string what);
+
+    boost::beast::http::status getStatus() const;
+    const char* what() const noexcept override;
+
+private:
+    boost::beast::http::status m_status;
+    std::string m_what;
+};
+
+
+class {{classname}} {
+
+public:
+    {{classname}}(
+        std::shared_ptr<HttpClient>& client,
+        const std::string& context = "{{contextPath}}")
+      : m_client(client),
+        m_context(context)
+    {}
+
+    virtual ~{{classname}}() = default;
+
+    {{#operation}}
+    /// <summary>
+    /// {{summary}}
+    /// </summary>
+    /// <remarks>
+    /// {{notes}}
+    /// </remarks>
+    virtual {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+        {{#allParams}}const {{{dataType}}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+
+    {{#vendorExtensions.x-codegen-other-methods}}
+    /// <summary>
+    /// {{summary}}
+    /// </summary>
+    /// <remarks>
+    /// {{notes}}
+    /// </remarks>
+    virtual {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}(
+        {{#allParams}}const {{{dataType}}}& {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{/vendorExtensions.x-codegen-other-methods}}
+    {{/operation}}
+
+protected:
+    {{#operation}}
+    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
+        const std::exception& e);
+    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException();
+    {{#vendorExtensions.x-codegen-other-methods}}
+
+    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_addDefaultHeaders(std::map<std::string, std::string>& headers);
+    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleStdException(
+        const std::exception& e);
+    virtual void {{#operationId}}{{{.}}}{{/operationId}}{{^operationId}}{{httpMethod}}_{{vendorExtensions.x-codegen-resource-name}}{{/operationId}}_handleUncaughtException();
+    {{/vendorExtensions.x-codegen-other-methods}}
+
+    {{/operation}}
+private:
+    std::shared_ptr<HttpClient> m_client;
+    std::string m_context;
+};
+
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+{{/operations}}
+
+#endif /* BOOST_BEAST_OPENAPI_CLIENT_{{classname}}_ */

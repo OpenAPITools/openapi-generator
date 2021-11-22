@@ -1,0 +1,10 @@
+{
+    "id": "1",
+    "category": {
+        "id": "0",
+        "name": ""
+    },
+    "name": "MyName",
+    "status": ""
+}
+
