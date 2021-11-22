@@ -18,6 +18,7 @@ import java.io.File;
 import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
+import openapitools.SecurityAPIUtils;
 
 import javax.validation.constraints.*;
 import com.typesafe.config.Config;
