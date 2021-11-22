@@ -1314,12 +1314,14 @@ components:
         status: available
       properties:
         id:
+          x-redact: true
           format: int64
           type: integer
           x-is-unique: true
         category:
           $ref: '#/components/schemas/Category'
         name:
+          x-redact: true
           example: doggie
           type: string
         photoUrls:
@@ -1338,6 +1340,7 @@ components:
             name: tag
             wrapped: true
         status:
+          x-redact: true
           description: pet status in the store
           enum:
           - available
@@ -1364,14 +1367,14 @@ components:
         message:
           type: string
       type: object
-    $special[model.name]:
-      properties:
-        $special[property.name]:
-          format: int64
-          type: integer
-      type: object
-      xml:
-        name: $special[model.name]
+#    $special[model.name]:
+#      properties:
+#        $special[property.name]:
+#          format: int64
+#          type: integer
+#      type: object
+#      xml:
+#        name: $special[model.name]
     Return:
       description: Model for testing reserved words
       properties:
