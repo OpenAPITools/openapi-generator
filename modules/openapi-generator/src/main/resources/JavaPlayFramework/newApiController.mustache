@@ -46,9 +46,12 @@ public class {{classname}}Controller extends Controller {
     {{#useBeanValidation}}
     private final Config configuration;
     {{/useBeanValidation}}
+{{^useInterfaces}}
+    private final SecurityAPIUtils securityAPIUtils;
+{{/useInterfaces}}
 
     @Inject
-    private {{classname}}Controller({{#useBeanValidation}}Config configuration{{^controllerOnly}}, {{/controllerOnly}}{{/useBeanValidation}}{{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}) {
+    private {{classname}}Controller({{#useBeanValidation}}Config configuration{{^controllerOnly}}, {{/controllerOnly}}{{/useBeanValidation}}{{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}{{^useInterfaces}}, SecurityAPIUtils securityAPIUtils{{/useInterfaces}}) {
         {{^controllerOnly}}
         this.imp = imp;
         {{/controllerOnly}}
@@ -56,6 +59,9 @@ public class {{classname}}Controller extends Controller {
         {{#useBeanValidation}}
         this.configuration = configuration;
         {{/useBeanValidation}}
+{{^useInterfaces}}
+        this.securityAPIUtils = securityAPIUtils;
+{{/useInterfaces}}
     }
 
 {{#operation}}

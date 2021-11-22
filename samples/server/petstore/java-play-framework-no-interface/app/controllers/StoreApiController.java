@@ -29,12 +29,14 @@ public class StoreApiController extends Controller {
     private final StoreApiControllerImp imp;
     private final ObjectMapper mapper;
     private final Config configuration;
+    private final SecurityAPIUtils securityAPIUtils;
 
     @Inject
-    private StoreApiController(Config configuration, StoreApiControllerImp imp) {
+    private StoreApiController(Config configuration, StoreApiControllerImp imp, SecurityAPIUtils securityAPIUtils) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;
+        this.securityAPIUtils = securityAPIUtils;
     }
 
     @ApiAction

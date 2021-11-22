@@ -30,12 +30,14 @@ public class PetApiController extends Controller {
     private final PetApiControllerImp imp;
     private final ObjectMapper mapper;
     private final Config configuration;
+    private final SecurityAPIUtils securityAPIUtils;
 
     @Inject
-    private PetApiController(Config configuration, PetApiControllerImp imp) {
+    private PetApiController(Config configuration, PetApiControllerImp imp, SecurityAPIUtils securityAPIUtils) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;
+        this.securityAPIUtils = securityAPIUtils;
     }
 
     @ApiAction
