@@ -1,0 +1,24 @@
+{
+    "id": "11",
+    "category": {
+        "id": "0",
+        "name": "Category1"
+    },
+    "name": "Fluffy",
+    "photoUrls": [
+        "www.example.com\/photo1",
+        "www.example.com\/photo2"
+    ],
+    "tags": [
+        {
+            "id": "1",
+            "name": "tag1"
+        },
+        {
+            "id": "2",
+            "name": "tag2"
+        }
+    ],
+    "status": "available"
+}
+

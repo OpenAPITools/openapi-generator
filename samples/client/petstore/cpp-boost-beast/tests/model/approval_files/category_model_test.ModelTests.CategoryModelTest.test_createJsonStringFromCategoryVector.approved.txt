@@ -1,0 +1,4 @@
+[{"id":"1","name":"categoryA"}
+, {"id":"2","name":"categoryB"}
+, {"id":"3","name":"categoryC"}
+]
