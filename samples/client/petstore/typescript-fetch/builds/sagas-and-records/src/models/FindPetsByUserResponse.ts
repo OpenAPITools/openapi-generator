@@ -18,11 +18,13 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+} from './ResponseMeta';
+import {
     User,
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,
-} from './';
+} from './User';
 
 /**
  * 

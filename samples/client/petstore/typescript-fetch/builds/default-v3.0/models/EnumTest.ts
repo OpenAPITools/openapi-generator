@@ -18,19 +18,25 @@ import {
     OuterEnumFromJSON,
     OuterEnumFromJSONTyped,
     OuterEnumToJSON,
+} from './OuterEnum';
+import {
     OuterEnumDefaultValue,
     OuterEnumDefaultValueFromJSON,
     OuterEnumDefaultValueFromJSONTyped,
     OuterEnumDefaultValueToJSON,
+} from './OuterEnumDefaultValue';
+import {
     OuterEnumInteger,
     OuterEnumIntegerFromJSON,
     OuterEnumIntegerFromJSONTyped,
     OuterEnumIntegerToJSON,
+} from './OuterEnumInteger';
+import {
     OuterEnumIntegerDefaultValue,
     OuterEnumIntegerDefaultValueFromJSON,
     OuterEnumIntegerDefaultValueFromJSONTyped,
     OuterEnumIntegerDefaultValueToJSON,
-} from './';
+} from './OuterEnumIntegerDefaultValue';
 
 /**
  * 
