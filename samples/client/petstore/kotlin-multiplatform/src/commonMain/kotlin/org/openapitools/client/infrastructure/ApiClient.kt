@@ -16,6 +16,7 @@ import io.ktor.client.utils.EmptyContent
 import io.ktor.http.*
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.PartData
+import kotlin.Unit
 import kotlinx.serialization.json.Json
 
 import org.openapitools.client.apis.*
@@ -25,16 +26,32 @@ import org.openapitools.client.auth.*
 open class ApiClient(
         private val baseUrl: String,
         httpClientEngine: HttpClientEngine?,
+        httpClientConfig: ((HttpClientConfig<*>) -> Unit)?,
         private val json: Json
 ) {
+
+    constructor(
+        baseUrl: String,
+        httpClientEngine: HttpClientEngine?,
+        json: Json
+    ): this(
+        baseUrl = baseUrl,
+        httpClientEngine = httpClientEngine,
+        httpClientConfig = null,
+        json = json
+    )
 
     private val serializer: JsonSerializer by lazy {
         KotlinxSerializer(json).ignoreOutgoingContent()
     }
 
-    private val client: HttpClient by lazy {
+    private val defaultHttpClientConfig: (HttpClientConfig<*>) -> Unit by lazy {
         val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClient.serializer }
-        val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
+        { it.install(JsonFeature, jsonConfig) }
+    }
+
+    private val client: HttpClient by lazy {
+        val clientConfig: (HttpClientConfig<*>) -> Unit = httpClientConfig ?: defaultHttpClientConfig
         httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
     private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
