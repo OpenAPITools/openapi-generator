@@ -23,6 +23,7 @@ package org.openapitools.client.apis
 import org.openapitools.client.models.PetEnum
 
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiInfrastructureResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -53,11 +54,7 @@ class EnumApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getEnum() : PetEnum {
-        val localVariableConfig = getEnumRequestConfig()
-
-        val localVarResponse = request<Unit, PetEnum>(
-            localVariableConfig
-        )
+        val localVarResponse = getEnumWithHttpInfo()
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as PetEnum
@@ -72,6 +69,24 @@ class EnumApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    /**
+    * Get enums
+    * 
+    * @return ApiInfrastructureResponse<PetEnum?>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getEnumWithHttpInfo() : ApiInfrastructureResponse<PetEnum?> {
+        val localVariableConfig = getEnumRequestConfig()
+
+        return request<Unit, PetEnum>(
+            localVariableConfig
+        )
     }
 
     /**

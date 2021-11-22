@@ -209,6 +209,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 List<String> values = (List<String>)allowableValues.get("values");           
                 values.add(0, name + "_UNKNOWN");
             }
+
+    public void addEnumIndexes(List<Map<String, Object>> enumVars){
+        int enumIndex = 0;
+        for (Map<String, Object> enumVar : enumVars) {
+            enumVar.put("protobuf-enum-index", enumIndex);
+            enumIndex++;
         }
     }
 
@@ -223,8 +229,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
             if(cm.isEnum) {
                 Map<String, Object> allowableValues = cm.getAllowableValues();
-
                 addUnknownToAllowableValues(allowableValues, cm.getClassname());
+
+                if (allowableValues.containsKey("enumVars")) {
+                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
+                    addEnumIndexes(enumVars);
+                }
             }
 
             for (CodegenProperty var : cm.vars) {
@@ -248,11 +258,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 
                     if(var.allowableValues.containsKey("enumVars")) {
                         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
-                        int enumIndex = 0;
-                        for (Map<String, Object> enumVar : enumVars) {
-                            enumVar.put("protobuf-enum-index", enumIndex);
-                            enumIndex++;
-                        }
+                        addEnumIndexes(enumVars);
                     }
                 }
 
