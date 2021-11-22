@@ -1,0 +1,73 @@
+openapi: 3.0.0
+info:
+  description: This is a sample server with a single endpoint that accepts two files
+    via a multipart/form-data POST request.
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: Multiple Files via form-data
+  version: 1.0.0
+servers:
+- url: http://example.com
+paths:
+  /uploadFiles:
+    post:
+      operationId: uploadFiles
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                file:
+                  description: file to upload
+                  format: binary
+                  type: string
+                secondFile:
+                  description: another file to upload
+                  format: binary
+                  type: string
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: uploads two files
+components:
+  requestBodies:
+    inline_object:
+      content:
+        multipart/form-data:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+  schemas:
+    ApiResponse:
+      description: Describes the result of uploading files
+      example:
+        code: 0
+        type: type
+        message: message
+      properties:
+        code:
+          format: int32
+          type: integer
+        type:
+          type: string
+        message:
+          type: string
+      title: An uploaded response
+      type: object
+    inline_object:
+      properties:
+        file:
+          description: file to upload
+          format: binary
+          type: string
+        secondFile:
+          description: another file to upload
+          format: binary
+          type: string
+      type: object
