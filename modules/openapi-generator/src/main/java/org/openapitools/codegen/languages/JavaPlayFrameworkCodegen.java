@@ -390,11 +390,13 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         for (CodegenSecurity codegenSecurity : securities) {
             ExtendedCodegenSecurity extendedCodegenSecurity = new ExtendedCodegenSecurity(codegenSecurity);
             Object jwksUrl = extendedCodegenSecurity.vendorExtensions.get(X_JWKS_URL);
+
             if (jwksUrl instanceof String) {
                 extendedCodegenSecurity.jwksUrl = (String) jwksUrl;
             }
 
             Object tokenIntrospectUrl = extendedCodegenSecurity.vendorExtensions.get(X_TOKEN_INTROSPECT_URL);
+
             if (tokenIntrospectUrl instanceof String) {
                 extendedCodegenSecurity.tokenIntrospectUrl = (String) tokenIntrospectUrl;
             }
