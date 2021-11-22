@@ -21,6 +21,9 @@ import java.io.IOException;
 {{/handleExceptions}}
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
+{{^useInterfaces}}
+import openapitools.SecurityAPIUtils;
+{{/useInterfaces}}
 {{#supportAsync}}
 
 import java.util.concurrent.CompletionStage;
