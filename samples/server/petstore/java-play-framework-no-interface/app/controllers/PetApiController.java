@@ -18,8 +18,8 @@ import com.google.inject.Inject;
 import java.io.File;
 import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
-import com.fasterxml.jackson.core.type.TypeReference;
 import openapitools.SecurityAPIUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
 import com.typesafe.config.Config;
