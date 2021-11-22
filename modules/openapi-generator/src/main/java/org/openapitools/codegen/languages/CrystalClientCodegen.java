@@ -132,7 +132,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         // reserved word. Ref: https://github.com/crystal-lang/crystal/wiki/Crystal-for-Rubyists#available-keywords
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                        "abstract", "do", "if", "nil?", "select", "union",
+                        "abstract", "annotation", "do", "if", "nil?", "select", "union",
                         "alias", "else", "in", "of", "self", "unless",
                         "as", "elsif", "include", "out", "sizeof", "until",
                         "as?", "end", "instance", "sizeof", "pointerof", "struct", "verbatim",
