@@ -56,8 +56,9 @@ extension {{projectName}}API {
     {{#isDeprecated}}
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ data: {{{returnType}}}{{^returnType}}Void{{/returnType}}?, _ error: Error?) -> Void)) {
-        {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
+    @discardableResult
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ data: {{{returnType}}}{{^returnType}}Void{{/returnType}}?, _ error: Error?) -> Void)) -> URLSessionTask? {
+        return {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
             switch result {
             {{#returnType}}
             case let .success(response):
@@ -123,7 +124,7 @@ extension {{projectName}}API {
     {{/isDeprecated}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) -> Observable<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {
         return Observable.create { observer -> Disposable in
-            {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
+            let task = {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
                 switch result {
                 {{#returnType}}
                 case let .success(response):
@@ -138,7 +139,10 @@ extension {{projectName}}API {
                 }
                 observer.onCompleted()
             }
-            return Disposables.create()
+            
+            return Disposables.create {
+                task?.cancel()
+            }
         }
     }
 {{/useRxSwift}}
@@ -157,8 +161,9 @@ extension {{projectName}}API {
     {{/isDeprecated}}
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {
+        var task: URLSessionTask?
         return Future<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> { promise in
-            {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
+            task = {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
                 switch result {
                 {{#returnType}}
                 case let .success(response):
@@ -172,7 +177,11 @@ extension {{projectName}}API {
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            task?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 {{/useCombine}}
@@ -190,21 +199,32 @@ extension {{projectName}}API {
     {{/isDeprecated}}
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) async throws{{#returnType}} -> {{{returnType}}}{{/returnType}} {
-        return try await withCheckedThrowingContinuation { continuation in
-            {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
-                switch result {
-                {{#returnType}}
-                case let .success(response):
-                    continuation.resume(returning: response.body!)
-                {{/returnType}}
-                {{^returnType}}
-                case .success:
-                    continuation.resume(returning: ())
-                {{/returnType}}
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+        var task: URLSessionTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                task = {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
+                    switch result {
+                    {{#returnType}}
+                    case let .success(response):
+                        continuation.resume(returning: response.body!)
+                    {{/returnType}}
+                    {{^returnType}}
+                    case .success:
+                        continuation.resume(returning: ())
+                    {{/returnType}}
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
+        } onCancel: { [task] in
+            task?.cancel()
         }
     }
 {{/useAsyncAwait}}
@@ -220,8 +240,9 @@ extension {{projectName}}API {
     {{#isDeprecated}}
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
-    open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<{{{returnType}}}{{^returnType}}Void{{/returnType}}, ErrorResponse>) -> Void)) {
-        {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
+    @discardableResult
+    open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<{{{returnType}}}{{^returnType}}Void{{/returnType}}, ErrorResponse>) -> Void)) -> URLSessionTask? {
+        return {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
             switch result {
             {{#returnType}}
             case let .success(response):

@@ -7,6 +7,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|startEnumsWithUnknown|Introduces &quot;UNKNOWN&quot; as the first element of enumerations.| |false|
 
 ## IMPORT MAPPING
 

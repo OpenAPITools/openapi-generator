@@ -25,8 +25,9 @@ open class AnotherFakeAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Client, Error> {
+        var task: URLSessionTask?
         return Future<Client, Error> { promise in
-            call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            task = call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body!))
@@ -34,7 +35,11 @@ open class AnotherFakeAPI {
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            task?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 
