@@ -173,7 +173,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
 
             })
         default:
-            fatalError("Unsupported Resopnse Body Type - \(String(describing: T.self))")
+            fatalError("Unsupported Response Body Type - \(String(describing: T.self))")
         }
     }
 

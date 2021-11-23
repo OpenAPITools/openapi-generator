@@ -205,7 +205,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
             completion(.success(Response(response: httpResponse, body: () as! T)))
 
         default:
-            fatalError("Unsupported Resopnse Body Type - \(String(describing: T.self))")
+            fatalError("Unsupported Response Body Type - \(String(describing: T.self))")
         }
 
     }
