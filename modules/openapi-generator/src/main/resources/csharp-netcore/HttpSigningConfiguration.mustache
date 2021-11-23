@@ -84,7 +84,7 @@ namespace {{packageName}}.Client
         /// <param name="method">HTTP method</param>
         /// <param name="path">Path</param>
         /// <param name="requestOptions">Request options</param>
-        /// <returns></returns>
+        /// <returns>Http signed headers</returns>
         internal Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
         {
             const string HEADER_REQUEST_TARGET = "(request-target)";
@@ -314,7 +314,7 @@ namespace {{packageName}}.Client
         /// Gets the ECDSA signature
         /// </summary>
         /// <param name="dataToSign"></param>
-        /// <returns></returns>
+        /// <returns>ECDSA signature</returns>
         private string GetECDSASignature(byte[] dataToSign)
         {
             if (!File.Exists(KeyFilePath))
