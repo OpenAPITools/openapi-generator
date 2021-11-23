@@ -72,38 +72,83 @@ public class GmFruit extends AbstractOpenApiSchema {
                 return null; // this class only serializes 'GmFruit' and its subtypes
             }
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            final TypeAdapter<Apple> adapterApple = gson.getDelegateAdapter(this, TypeToken.get(Apple.class));
+            final TypeAdapter<Banana> adapterBanana = gson.getDelegateAdapter(this, TypeToken.get(Banana.class));
 
             return (TypeAdapter<T>) new TypeAdapter<GmFruit>() {
                 @Override
                 public void write(JsonWriter out, GmFruit value) throws IOException {
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: ");
+                    // check if the actual instance is of the type `Apple`
+                    if (value.getActualInstance() instanceof Apple) {
+                        JsonObject obj = adapterApple.toJsonTree((Apple)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    // check if the actual instance is of the type `Banana`
+                    if (value.getActualInstance() instanceof Banana) {
+                        JsonObject obj = adapterBanana.toJsonTree((Banana)value.getActualInstance()).getAsJsonObject();
+                        elementAdapter.write(out, obj);
+                    }
+
+                    throw new IOException("Failed to deserialize as the type doesn't match anyOf schemas: Apple, Banana");
                 }
 
                 @Override
                 public GmFruit read(JsonReader in) throws IOException {
                     Object deserialized = null;
-                    int match = 0;
 
-                    if (match == 1) {
+                    // deserialize Apple
+                    try {
+                        deserialized = gson.fromJson(in, Apple.class);
+                        log.log(Level.FINER, "Input data matches schema 'Apple'");
                         GmFruit ret = new GmFruit();
                         ret.setActualInstance(deserialized);
                         return ret;
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'Apple'", e);
                     }
 
-                    throw new IOException(String.format("Failed deserialization for GmFruit: %d classes match result, expected 1", match));
+                    // deserialize Banana
+                    try {
+                        deserialized = gson.fromJson(in, Banana.class);
+                        log.log(Level.FINER, "Input data matches schema 'Banana'");
+                        GmFruit ret = new GmFruit();
+                        ret.setActualInstance(deserialized);
+                        return ret;
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        log.log(Level.FINER, "Input data does not match schema 'Banana'", e);
+                    }
+
+                    throw new IOException("Failed deserialization for GmFruit: no match found.");
                 }
             }.nullSafe();
         }
     }
 
-    // store a list of schema names defined in oneOf
+    // store a list of schema names defined in anyOf
     public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public GmFruit() {
-        super("oneOf", Boolean.FALSE);
+        super("anyOf", Boolean.FALSE);
+    }
+
+    public GmFruit(Apple o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
+    public GmFruit(Banana o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
     }
 
     static {
+        schemas.put("Apple", new GenericType<Apple>() {
+        });
+        schemas.put("Banana", new GenericType<Banana>() {
+        });
     }
 
     @Override
@@ -112,27 +157,59 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
 
     /**
-     * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas:
-     * 
+     * Set the instance that matches the anyOf child schema, check
+     * the instance parameter is valid against the anyOf child schemas:
+     * Apple, Banana
      *
-     * It could be an instance of the 'oneOf' schemas.
-     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
+     * It could be an instance of the 'anyOf' schemas.
+     * The anyOf child schemas may themselves be a composed schema (allOf, anyOf, anyOf).
      */
     @Override
     public void setActualInstance(Object instance) {
-        throw new RuntimeException("Invalid instance type. Must be ");
+        if (instance instanceof Apple) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        if (instance instanceof Banana) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        throw new RuntimeException("Invalid instance type. Must be Apple, Banana");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * 
+     * Apple, Banana
      *
-     * @return The actual instance ()
+     * @return The actual instance (Apple, Banana)
      */
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Apple`. If the actual instance is not `Apple`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Apple`
+     * @throws ClassCastException if the instance is not `Apple`
+     */
+    public Apple getApple() throws ClassCastException {
+        return (Apple)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Banana`. If the actual instance is not `Banana`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Banana`
+     * @throws ClassCastException if the instance is not `Banana`
+     */
+    public Banana getBanana() throws ClassCastException {
+        return (Banana)super.getActualInstance();
     }
 
 }
