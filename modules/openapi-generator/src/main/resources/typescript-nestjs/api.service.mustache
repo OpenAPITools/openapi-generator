@@ -88,7 +88,7 @@ export class {{classname}} {
         {{^isListContainer}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
         {{#isDateTime}}
-            queryParameters['{{baseName}}'] = <any>{{paramName}}.toISOString();
+            queryParameters['{{baseName}}'] = (<any>{{paramName}} as any instanceof Date) ? ({{paramName}} as any).toISOString(): {{paramName}};
         {{/isDateTime}}
         {{^isDateTime}}
             queryParameters['{{baseName}}'] = <any>{{paramName}};
