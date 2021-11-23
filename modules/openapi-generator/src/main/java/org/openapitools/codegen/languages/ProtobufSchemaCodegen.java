@@ -153,6 +153,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         cliOptions.clear();
 
+        addSwitch(NUMBERED_FIELD_NUMBER_LIST, "Field numbers in order.", numberedFieldNumberList);
         addSwitch(START_ENUMS_WITH_UNKNOWN, "Introduces \"UNKNOWN\" as the first element of enumerations.", startEnumsWithUnknown);
     }
 
