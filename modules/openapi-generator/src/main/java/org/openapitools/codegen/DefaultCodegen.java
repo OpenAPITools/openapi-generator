@@ -4499,6 +4499,8 @@ public class DefaultCodegen implements CodegenConfig {
         Schema parameterSchema;
         if (parameter.getSchema() != null) {
             parameterSchema = parameter.getSchema();
+            CodegenProperty prop = fromProperty("schema", parameterSchema);
+            codegenParameter.setSchema(prop);
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
             if (content.size() > 1) {
