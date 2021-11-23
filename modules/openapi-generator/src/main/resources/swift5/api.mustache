@@ -97,7 +97,7 @@ extension {{projectName}}API {
             switch result {
             {{#returnType}}
             case let .success(response):
-                deferred.resolver.fulfill(response.body!)
+                deferred.resolver.fulfill(response.body)
             {{/returnType}}
             {{^returnType}}
             case .success:
@@ -128,7 +128,7 @@ extension {{projectName}}API {
                 switch result {
                 {{#returnType}}
                 case let .success(response):
-                    observer.onNext(response.body!)
+                    observer.onNext(response.body)
                 {{/returnType}}
                 {{^returnType}}
                 case .success:
@@ -167,7 +167,7 @@ extension {{projectName}}API {
                 switch result {
                 {{#returnType}}
                 case let .success(response):
-                    promise(.success(response.body!))
+                    promise(.success(response.body))
                 {{/returnType}}
                 {{^returnType}}
                 case .success:
@@ -212,7 +212,7 @@ extension {{projectName}}API {
                     switch result {
                     {{#returnType}}
                     case let .success(response):
-                        continuation.resume(returning: response.body!)
+                        continuation.resume(returning: response.body)
                     {{/returnType}}
                     {{^returnType}}
                     case .success:
@@ -246,7 +246,7 @@ extension {{projectName}}API {
             switch result {
             {{#returnType}}
             case let .success(response):
-                completion(.success(response.body!))
+                completion(.success(response.body))
             {{/returnType}}
             {{^returnType}}
             case .success:
