@@ -47,11 +47,15 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     private static final String IMPORTS = "imports";
 
+    public static final String NUMBERED_FIELD_NUMBER_LIST = "numberedFieldNumberList";
+
     public static final String START_ENUMS_WITH_UNKNOWN = "startEnumsWithUnknown";
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     protected String packageName = "openapitools";
+
+    private boolean numberedFieldNumberList = false;
 
     private boolean startEnumsWithUnknown = false;
 
@@ -149,6 +153,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         cliOptions.clear();
 
+        addSwitch(NUMBERED_FIELD_NUMBER_LIST, "Field numbers in order.", numberedFieldNumberList);
         addSwitch(START_ENUMS_WITH_UNKNOWN, "Introduces \"UNKNOWN\" as the first element of enumerations.", startEnumsWithUnknown);
     }
 
@@ -167,6 +172,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        }
+
+        if (additionalProperties.containsKey(this.NUMBERED_FIELD_NUMBER_LIST)) {
+            this.numberedFieldNumberList = convertPropertyToBooleanAndWriteBack(NUMBERED_FIELD_NUMBER_LIST);
         }
 
         if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNKNOWN)) {
@@ -239,6 +248,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
             }
 
+            int index = 1;
             for (CodegenProperty var : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array
                 if (Boolean.TRUE.equals(var.isArray)) {
@@ -265,11 +275,17 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
 
                 // Add x-protobuf-index, unless already specified
-                try {
-                    var.vendorExtensions.putIfAbsent("x-protobuf-index", generateFieldNumberFromString(var.getName()));
-                } catch (ProtoBufIndexComputationException e) {
-                    LOGGER.error("Exception when assigning a index to a protobuf field", e);
-                    var.vendorExtensions.putIfAbsent("x-protobuf-index", "Generated field number is in reserved range (19000, 19999)");
+                if(this.numberedFieldNumberList) {
+                    var.vendorExtensions.putIfAbsent("x-protobuf-index", index);
+                    index++;
+                }
+                else {
+                    try {
+                        var.vendorExtensions.putIfAbsent("x-protobuf-index", generateFieldNumberFromString(var.getName()));
+                    } catch (ProtoBufIndexComputationException e) {
+                        LOGGER.error("Exception when assigning a index to a protobuf field", e);
+                        var.vendorExtensions.putIfAbsent("x-protobuf-index", "Generated field number is in reserved range (19000, 19999)");
+                    }
                 }
             }
         }
