@@ -151,11 +151,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         });
         schemas.put("SimpleQuadrilateral", new GenericType<SimpleQuadrilateral>() {
         });
-        // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-        mappings.put("ComplexQuadrilateral", ComplexQuadrilateral.class);
-        mappings.put("SimpleQuadrilateral", SimpleQuadrilateral.class);
-        mappings.put("Quadrilateral", Quadrilateral.class);
     }
 
     @Override

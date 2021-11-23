@@ -151,11 +151,6 @@ public class Pig extends AbstractOpenApiSchema {
         });
         schemas.put("DanishPig", new GenericType<DanishPig>() {
         });
-        // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-        mappings.put("BasquePig", BasquePig.class);
-        mappings.put("DanishPig", DanishPig.class);
-        mappings.put("Pig", Pig.class);
     }
 
     @Override

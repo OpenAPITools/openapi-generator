@@ -151,11 +151,6 @@ public class Shape extends AbstractOpenApiSchema {
         });
         schemas.put("Triangle", new GenericType<Triangle>() {
         });
-        // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-        mappings.put("Quadrilateral", Quadrilateral.class);
-        mappings.put("Triangle", Triangle.class);
-        mappings.put("Shape", Shape.class);
     }
 
     @Override

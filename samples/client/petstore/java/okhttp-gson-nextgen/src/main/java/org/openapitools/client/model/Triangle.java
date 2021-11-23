@@ -176,12 +176,6 @@ public class Triangle extends AbstractOpenApiSchema {
         });
         schemas.put("ScaleneTriangle", new GenericType<ScaleneTriangle>() {
         });
-        // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-        mappings.put("EquilateralTriangle", EquilateralTriangle.class);
-        mappings.put("IsoscelesTriangle", IsoscelesTriangle.class);
-        mappings.put("ScaleneTriangle", ScaleneTriangle.class);
-        mappings.put("Triangle", Triangle.class);
     }
 
     @Override

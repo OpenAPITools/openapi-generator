@@ -176,12 +176,6 @@ public class Mammal extends AbstractOpenApiSchema {
         });
         schemas.put("Zebra", new GenericType<Zebra>() {
         });
-        // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-        mappings.put("Pig", Pig.class);
-        mappings.put("whale", Whale.class);
-        mappings.put("zebra", Zebra.class);
-        mappings.put("mammal", Mammal.class);
     }
 
     @Override
