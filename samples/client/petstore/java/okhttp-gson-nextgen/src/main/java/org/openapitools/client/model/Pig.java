@@ -99,7 +99,7 @@ public class Pig extends AbstractOpenApiSchema {
 
                     // deserialize BasquePig
                     try {
-                        deserialized = JSON.getGson().fromJson(in, BasquePig.class);
+                        deserialized = gson.fromJson(in, BasquePig.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'BasquePig'");
                     } catch (Exception e) {
@@ -109,7 +109,7 @@ public class Pig extends AbstractOpenApiSchema {
 
                     // deserialize DanishPig
                     try {
-                        deserialized = JSON.getGson().fromJson(in, DanishPig.class);
+                        deserialized = gson.fromJson(in, DanishPig.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'DanishPig'");
                     } catch (Exception e) {

@@ -99,7 +99,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
                     // deserialize ComplexQuadrilateral
                     try {
-                        deserialized = JSON.getGson().fromJson(in, ComplexQuadrilateral.class);
+                        deserialized = gson.fromJson(in, ComplexQuadrilateral.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
                     } catch (Exception e) {
@@ -109,7 +109,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
                     // deserialize SimpleQuadrilateral
                     try {
-                        deserialized = JSON.getGson().fromJson(in, SimpleQuadrilateral.class);
+                        deserialized = gson.fromJson(in, SimpleQuadrilateral.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'SimpleQuadrilateral'");
                     } catch (Exception e) {

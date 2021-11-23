@@ -107,7 +107,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
                     // deserialize EquilateralTriangle
                     try {
-                        deserialized = JSON.getGson().fromJson(in, EquilateralTriangle.class);
+                        deserialized = gson.fromJson(in, EquilateralTriangle.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
                     } catch (Exception e) {
@@ -117,7 +117,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
                     // deserialize IsoscelesTriangle
                     try {
-                        deserialized = JSON.getGson().fromJson(in, IsoscelesTriangle.class);
+                        deserialized = gson.fromJson(in, IsoscelesTriangle.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
                     } catch (Exception e) {
@@ -127,7 +127,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
                     // deserialize ScaleneTriangle
                     try {
-                        deserialized = JSON.getGson().fromJson(in, ScaleneTriangle.class);
+                        deserialized = gson.fromJson(in, ScaleneTriangle.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
                     } catch (Exception e) {

@@ -100,7 +100,7 @@ public class FruitReq extends AbstractOpenApiSchema {
 
                     // deserialize AppleReq
                     try {
-                        deserialized = JSON.getGson().fromJson(in, AppleReq.class);
+                        deserialized = gson.fromJson(in, AppleReq.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'AppleReq'");
                     } catch (Exception e) {
@@ -110,7 +110,7 @@ public class FruitReq extends AbstractOpenApiSchema {
 
                     // deserialize BananaReq
                     try {
-                        deserialized = JSON.getGson().fromJson(in, BananaReq.class);
+                        deserialized = gson.fromJson(in, BananaReq.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'BananaReq'");
                     } catch (Exception e) {

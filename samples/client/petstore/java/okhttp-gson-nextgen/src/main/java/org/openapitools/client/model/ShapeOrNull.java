@@ -99,7 +99,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
 
                     // deserialize Quadrilateral
                     try {
-                        deserialized = JSON.getGson().fromJson(in, Quadrilateral.class);
+                        deserialized = gson.fromJson(in, Quadrilateral.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
                     } catch (Exception e) {
@@ -109,7 +109,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
 
                     // deserialize Triangle
                     try {
-                        deserialized = JSON.getGson().fromJson(in, Triangle.class);
+                        deserialized = gson.fromJson(in, Triangle.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Triangle'");
                     } catch (Exception e) {

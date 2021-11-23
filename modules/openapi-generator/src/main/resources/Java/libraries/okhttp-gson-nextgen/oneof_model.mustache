@@ -64,12 +64,30 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 @Override
                 public {{classname}} read(JsonReader in) throws IOException {
                     Object deserialized = null;
+                    {{#useOneOfDiscriminatorLookup}}
+                    {{#discriminator}}
+                    // use discriminator value for faster oneOf lookup
+                    {{classname}} new{{classname}} = new {{classname}}();
+                    String discriminatorValue = elementAdapter.read(in).getAsJsonObject().get("{{{propertyBaseName}}}").getAsString();
+                    switch (discriminatorValue) {
+                    {{#mappedModels}}
+                        case "{{{mappingName}}}":
+                            deserialized = gson.fromJson(in, {{{modelName}}}.class);
+                            new{{classname}}.setActualInstance(deserialized);
+                            return new{{classname}};
+                    {{/mappedModels}}
+                        default:
+                            log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                    }
+
+                    {{/discriminator}}
+                    {{/useOneOfDiscriminatorLookup}}
                     int match = 0;
 
                     {{#oneOf}}
                     // deserialize {{{.}}}
                     try {
-                        deserialized = JSON.getGson().fromJson(in, {{.}}.class);
+                        deserialized = gson.fromJson(in, {{.}}.class);
                         match++;
                         log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
                     } catch (Exception e) {
