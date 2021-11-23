@@ -224,7 +224,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
                 switch voidResponse.result {
                 case .success:
-                    completion(.success(Response(response: voidResponse.response!, body: nil)))
+                    completion(.success(Response(response: voidResponse.response!, body: () as! T)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
                 }
@@ -338,7 +338,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
                 switch stringResponse.result {
                 case let .success(value):
-                    completion(.success(Response(response: stringResponse.response!, body: value as? T)))
+                    completion(.success(Response(response: stringResponse.response!, body: value as! T)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(stringResponse.response?.statusCode ?? 500, stringResponse.data, stringResponse.response, error)))
                 }
@@ -381,7 +381,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                     try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                     try data.write(to: filePath, options: .atomic)
 
-                    completion(.success(Response(response: dataResponse.response!, body: filePath as? T)))
+                    completion(.success(Response(response: dataResponse.response!, body: filePath as! T)))
 
                 } catch let requestParserError as DownloadException {
                     completion(.failure(ErrorResponse.error(400, dataResponse.data, dataResponse.response, requestParserError)))
@@ -396,7 +396,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
                 switch voidResponse.result {
                 case .success:
-                    completion(.success(Response(response: voidResponse.response!, body: nil)))
+                    completion(.success(Response(response: voidResponse.response!, body: () as! T)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(voidResponse.response?.statusCode ?? 500, voidResponse.data, voidResponse.response, error)))
                 }
@@ -408,7 +408,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 
                 switch dataResponse.result {
                 case .success:
-                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as? T)))
+                    completion(.success(Response(response: dataResponse.response!, body: dataResponse.data as! T)))
                 case let .failure(error):
                     completion(.failure(ErrorResponse.error(dataResponse.response?.statusCode ?? 500, dataResponse.data, dataResponse.response, error)))
                 }

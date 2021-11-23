@@ -245,7 +245,7 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 
         case is Void.Type:
 
-            completion(.success(Response(response: httpResponse, body: nil)))
+            completion(.success(Response(response: httpResponse, body: () as! T)))
 
         case is Data.Type:
 
@@ -345,7 +345,7 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 
             let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
 
-            completion(.success(Response<T>(response: httpResponse, body: body as? T)))
+            completion(.success(Response<T>(response: httpResponse, body: body as! T)))
 
         case is URL.Type:
             do {
@@ -376,7 +376,7 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
                 try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                 try data.write(to: filePath, options: .atomic)
 
-                completion(.success(Response(response: httpResponse, body: filePath as? T)))
+                completion(.success(Response(response: httpResponse, body: filePath as! T)))
 
             } catch let requestParserError as DownloadException {
                 completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
@@ -386,11 +386,11 @@ private var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 
         case is Void.Type:
 
-            completion(.success(Response(response: httpResponse, body: nil)))
+            completion(.success(Response(response: httpResponse, body: () as! T)))
 
         case is Data.Type:
 
-            completion(.success(Response(response: httpResponse, body: data as? T)))
+            completion(.success(Response(response: httpResponse, body: data as! T)))
 
         default:
 
