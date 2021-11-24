@@ -151,7 +151,7 @@ namespace {{packageName}}.{{apiPackage}}
             return result != null && result.IsSuccessStatusCode
                 ? result.Content
                 : null;
-        }     
+        }
 
         /// <summary>
         /// {{summary}} {{notes}}
@@ -300,7 +300,16 @@ namespace {{packageName}}.{{apiPackage}}
                 string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
                 if (ApiResponded != null)
-                    ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "{{path}}"));
+                {
+                    try
+                    {
+                        ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "{{path}}"));
+                    }
+                    catch(Exception e)
+                    {
+                        _logger.LogError(e, "An error occured while invoking ApiResponded.");
+                    }
+                }
 
                 ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> apiResponse = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}>(responseMessage, responseContent);
 
