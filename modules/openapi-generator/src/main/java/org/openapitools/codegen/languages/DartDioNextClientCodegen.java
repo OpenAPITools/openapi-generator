@@ -305,7 +305,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
-            if (property.isEnum) {
+            if (property.isEnum && property.getComposedSchemas() == null) {
                 // enums are generated with built_value and make use of BuiltSet
                 model.imports.add("BuiltSet");
             }

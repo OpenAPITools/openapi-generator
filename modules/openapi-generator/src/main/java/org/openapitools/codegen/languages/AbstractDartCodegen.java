@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -512,7 +513,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (!model.isEnum && property.isEnum) {
+        if (!model.isEnum && property.isEnum && property.getComposedSchemas() == null) {
             // These are inner enums, enums which do not exist as models, just as properties.
             // They are handled via the enum_inline template and are generated in the
             // same file as the containing class. To prevent name clashes the inline enum classes
@@ -537,21 +538,30 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
         final CodegenProperty property = super.fromProperty(name, p);
+
+        // Handle composed properties
         if (ModelUtils.isComposedSchema(p)) {
             ComposedSchema composed = (ComposedSchema) p;
 
-            Stream.of(composed.getAllOf(), composed.getAnyOf(), composed.getOneOf())
-                    .filter(list -> list != null && !list.isEmpty())
-                    .map(list -> list.get(0).get$ref())
-                    .map(ModelUtils::getSimpleRef)
-                    .filter(Objects::nonNull)
-                    .map(ref -> ModelUtils.getSchemas(this.openAPI).get(ref))
-                    .filter(Objects::nonNull)
-                    .findFirst().ifPresent(schema -> {
-                        property.vendorExtensions.put("x-composed-single-schema", new ComposedSingleSchema(
-                                property, schema.getEnum() != null, ModelUtils.isModel(schema)
-                        ));
-                    });
+            // Count the occurrences of allOf/anyOf/oneOf with exactly one child element
+            long count = Stream.of(composed.getAllOf(), composed.getAnyOf(), composed.getOneOf())
+                    .filter(list -> list != null && list.size() == 1).count();
+
+            if (count == 1) {
+                // Continue only if there is one element that matches
+                // and basically treat it as simple property.
+                Stream.of(composed.getAllOf(), composed.getAnyOf(), composed.getOneOf())
+                        .filter(list -> list != null && list.size() == 1)
+                        .findFirst()
+                        .map(list -> list.get(0).get$ref())
+                        .map(ModelUtils::getSimpleRef)
+                        .map(ref -> ModelUtils.getSchemas(this.openAPI).get(ref))
+                        .ifPresent(schema -> {
+                            property.isEnum = schema.getEnum() != null;
+                            property.isModel = true;
+                        });
+
+            }
         }
         return property;
     }
@@ -638,13 +648,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         prioritizedContentTypes.addAll(0, jsonMimeTypes);
         prioritizedContentTypes.addAll(0, jsonVendorMimeTypes);
         return prioritizedContentTypes;
-    }
-
-    private static boolean isMultipartType(String mediaType) {
-        if (mediaType != null) {
-            return "multipart/form-data".equals(mediaType);
-        }
-        return false;
     }
 
     @Override
@@ -802,28 +805,4 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.DART; }
-}
-
-class ComposedSingleSchema {
-    final CodegenProperty property;
-    final boolean isEnum;
-    final boolean isModel;
-
-    ComposedSingleSchema(CodegenProperty property, boolean isEnum, boolean isModel) {
-        this.property = property;
-        this.isEnum = isEnum;
-        this.isModel = isModel;
-    }
-
-    public CodegenProperty getProperty() {
-        return property;
-    }
-
-    public boolean isEnum() {
-        return isEnum;
-    }
-
-    public boolean isModel() {
-        return isModel;
-    }
 }
