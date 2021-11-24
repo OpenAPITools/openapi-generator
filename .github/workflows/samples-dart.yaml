@@ -23,7 +23,7 @@ jobs:
           distribution: 'adopt'
           java-version: 8
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: maven-repository
         with:
@@ -32,7 +32,7 @@ jobs:
             ~/.gradle
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Cache test dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: pub-cache
         with:
@@ -56,7 +56,7 @@ jobs:
           distribution: 'adopt'
           java-version: 8
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: maven-repository
         with:
@@ -65,7 +65,7 @@ jobs:
             ~/.gradle
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Cache test dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: pub-cache
         with:

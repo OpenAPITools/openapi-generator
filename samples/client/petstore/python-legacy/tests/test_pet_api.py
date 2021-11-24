@@ -13,7 +13,12 @@ $ nosetests -v
 
 import os
 import unittest
-from unittest.mock import patch
+
+try:
+    from unittest.mock import patch
+except ImportError:
+    # Python 2.7
+    from mock import patch
 
 import petstore_api
 from petstore_api import Configuration
