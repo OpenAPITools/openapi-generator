@@ -1482,6 +1482,7 @@ components:
         userStatus: 6
         phone: phone
         id: 0
+        userType: ""
         email: email
         username: username
       properties:
@@ -1505,9 +1506,18 @@ components:
           description: User Status
           format: int32
           type: integer
+        userType:
+          allOf:
+          - $ref: '#/components/schemas/UserType'
       type: object
       xml:
         name: User
+    UserType:
+      enum:
+      - admin
+      - user
+      title: UserType
+      type: string
     Tag:
       example:
         name: name

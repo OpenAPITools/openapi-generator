@@ -98,8 +98,14 @@ class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
                         specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}});
                     {{/isContainer}}
                     {{#isModel}}
+                    {{#vendorExtensions.x-composed-single-schema.isEnum}}
+                    result.{{{name}}} = serializers.deserialize(value,
+                        specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}};
+                    {{/vendorExtensions.x-composed-single-schema.isEnum}}
+                    {{^vendorExtensions.x-composed-single-schema}}
                     result.{{{name}}}.replace(serializers.deserialize(value,
                         specifiedType: {{{vendorExtensions.x-built-value-serializer-type}}}) as {{{datatypeWithEnum}}});
+                    {{/vendorExtensions.x-composed-single-schema}}
                     {{/isModel}}
                     {{^isContainer}}
                     {{^isModel}}

@@ -12,5 +12,6 @@ Name | Type | Description | Notes
 **password** | **string** |  | [optional]
 **phone** | **string** |  | [optional]
 **user_status** | **int** | User Status | [optional]
+**user_type** | [**UserType**](UserType.md) |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

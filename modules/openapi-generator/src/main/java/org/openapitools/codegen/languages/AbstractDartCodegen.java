@@ -3,6 +3,7 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -533,6 +535,28 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
+    public CodegenProperty fromProperty(String name, Schema p) {
+        final CodegenProperty property = super.fromProperty(name, p);
+        if (ModelUtils.isComposedSchema(p)) {
+            ComposedSchema composed = (ComposedSchema) p;
+
+            Stream.of(composed.getAllOf(), composed.getAnyOf(), composed.getOneOf())
+                    .filter(list -> list != null && !list.isEmpty())
+                    .map(list -> list.get(0).get$ref())
+                    .map(ModelUtils::getSimpleRef)
+                    .filter(Objects::nonNull)
+                    .map(ref -> ModelUtils.getSchemas(this.openAPI).get(ref))
+                    .filter(Objects::nonNull)
+                    .findFirst().ifPresent(schema -> {
+                        property.vendorExtensions.put("x-composed-single-schema", new ComposedSingleSchema(
+                                property, schema.getEnum() != null, ModelUtils.isModel(schema)
+                        ));
+                    });
+        }
+        return property;
+    }
+
+    @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         for (CodegenResponse r : op.responses) {
@@ -778,4 +802,28 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.DART; }
+}
+
+class ComposedSingleSchema {
+    final CodegenProperty property;
+    final boolean isEnum;
+    final boolean isModel;
+
+    ComposedSingleSchema(CodegenProperty property, boolean isEnum, boolean isModel) {
+        this.property = property;
+        this.isEnum = isEnum;
+        this.isModel = isModel;
+    }
+
+    public CodegenProperty getProperty() {
+        return property;
+    }
+
+    public boolean isEnum() {
+        return isEnum;
+    }
+
+    public boolean isModel() {
+        return isModel;
+    }
 }
