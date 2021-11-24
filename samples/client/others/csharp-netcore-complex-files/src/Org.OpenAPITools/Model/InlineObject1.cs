@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class InlineObject1 {\n");
             sb.Append("  File: ").Append(File).Append("\n");
             sb.Append("}\n");
@@ -100,7 +100,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.File != null)
-                    hashCode = hashCode * 59 + this.File.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.File.GetHashCode();
+                }
                 return hashCode;
             }
         }
