@@ -54,12 +54,12 @@ In your Angular project:
 
 ```
 // without configuring providers
-import { ApiModule } from '@openapitools/typescript-angular-petstore';
+import { PetStoreApiModule } from '@openapitools/typescript-angular-petstore';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     imports: [
-        ApiModule,
+        PetStoreApiModule,
         // make sure to import the HttpClientModule in the AppModule only,
         // see https://github.com/angular/angular/issues/20575
         HttpClientModule
@@ -73,17 +73,17 @@ export class AppModule {}
 
 ```
 // configuring providers
-import { ApiModule, Configuration, ConfigurationParameters } from '@openapitools/typescript-angular-petstore';
+import { PetStoreApiModule, PetStoreConfiguration, PetStoreConfigurationParameters } from '@openapitools/typescript-angular-petstore';
 
-export function apiConfigFactory (): Configuration => {
-  const params: ConfigurationParameters = {
+export function apiConfigFactory (): PetStoreConfiguration {
+  const params: PetStoreConfigurationParameters = {
     // set configuration parameters here.
   }
-  return new Configuration(params);
+  return new PetStoreConfiguration(params);
 }
 
 @NgModule({
-    imports: [ ApiModule.forRoot(apiConfigFactory) ],
+    imports: [ PetStoreApiModule.forRoot(apiConfigFactory) ],
     declarations: [ AppComponent ],
     providers: [],
     bootstrap: [ AppComponent ]
@@ -93,15 +93,15 @@ export class AppModule {}
 
 ```
 // configuring providers with an authentication service that manages your access tokens
-import { ApiModule, Configuration } from '@openapitools/typescript-angular-petstore';
+import { PetStoreApiModule, PetStoreConfiguration } from '@openapitools/typescript-angular-petstore';
 
 @NgModule({
-    imports: [ ApiModule ],
+    imports: [ PetStoreApiModule ],
     declarations: [ AppComponent ],
     providers: [
       {
-        provide: Configuration,
-        useFactory: (authService: AuthService) => new Configuration(
+        provide: PetStoreConfiguration,
+        useFactory: (authService: AuthService) => new PetStoreConfiguration(
           {
             basePath: environment.apiUrl,
             accessToken: authService.getAccessToken.bind(authService)
@@ -120,25 +120,25 @@ export class AppModule {}
 import { DefaultApi } from '@openapitools/typescript-angular-petstore';
 
 export class AppComponent {
-	 constructor(private apiGateway: DefaultApi) { }
+    constructor(private apiGateway: DefaultApi) { }
 }
 ```
 
-Note: The ApiModule is restricted to being instantiated once app wide.
+Note: The PetStoreApiModule is restricted to being instantiated once app wide.
 This is to ensure that all services are treated as singletons.
 
-#### Using multiple OpenAPI files / APIs / ApiModules
-In order to use multiple `ApiModules` generated from different OpenAPI files,
+#### Using multiple OpenAPI files / APIs / PetStoreApiModules
+In order to use multiple `PetStoreApiModules` generated from different OpenAPI files,
 you can create an alias name when importing the modules
 in order to avoid naming conflicts:
 ```
-import { ApiModule } from 'my-api-path';
-import { ApiModule as OtherApiModule } from 'my-other-api-path';
+import { PetStoreApiModule } from 'my-api-path';
+import { PetStoreApiModule as OtherApiModule } from 'my-other-api-path';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
-    ApiModule,
+    PetStoreApiModule,
     OtherApiModule,
     // make sure to import the HttpClientModule in the AppModule only,
     // see https://github.com/angular/angular/issues/20575
@@ -152,7 +152,7 @@ export class AppModule {
 
 
 ### Set service base path
-If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
+If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
 ```
 import { BASE_PATH } from '@openapitools/typescript-angular-petstore';
@@ -200,4 +200,4 @@ import { environment } from '../environments/environment';
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
-```  
+```

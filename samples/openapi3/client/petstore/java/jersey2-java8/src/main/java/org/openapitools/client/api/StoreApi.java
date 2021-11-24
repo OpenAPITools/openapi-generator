@@ -28,7 +28,7 @@ public class StoreApi {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -37,7 +37,7 @@ public class StoreApi {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -110,7 +110,7 @@ public class StoreApi {
 
     return apiClient.invokeAPI("StoreApi.deleteOrder", localVarPath, "DELETE", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * Returns pet inventories by status
@@ -170,7 +170,7 @@ public class StoreApi {
 
     return apiClient.invokeAPI("StoreApi.getInventory", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Find purchase order by ID
@@ -242,7 +242,7 @@ public class StoreApi {
 
     return apiClient.invokeAPI("StoreApi.getOrderById", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Place an order for a pet
@@ -311,6 +311,6 @@ public class StoreApi {
 
     return apiClient.invokeAPI("StoreApi.placeOrder", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
 }

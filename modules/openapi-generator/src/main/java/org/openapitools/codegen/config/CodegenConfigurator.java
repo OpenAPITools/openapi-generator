@@ -31,6 +31,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -72,6 +73,8 @@ public class CodegenConfigurator {
     private Map<String, String> serverVariables = new HashMap<>();
     private String auth;
 
+    private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
+
     public CodegenConfigurator() {
 
     }
@@ -86,6 +89,7 @@ public class CodegenConfigurator {
 
             GeneratorSettings generatorSettings = settings.getGeneratorSettings();
             WorkflowSettings workflowSettings = settings.getWorkflowSettings();
+            List<TemplateDefinition> userDefinedTemplateSettings = settings.getFiles();
 
             // We copy "cached" properties into configurator so it is appropriately configured with all settings in external files.
             // FIXME: target is to eventually move away from CodegenConfigurator properties except gen/workflow settings.
@@ -119,6 +123,10 @@ public class CodegenConfigurator {
 
             configurator.generatorSettingsBuilder = GeneratorSettings.newBuilder(generatorSettings);
             configurator.workflowSettingsBuilder = WorkflowSettings.newBuilder(workflowSettings);
+
+            if (userDefinedTemplateSettings != null) {
+                configurator.userDefinedTemplates.addAll(userDefinedTemplateSettings);
+            }
 
             return configurator;
         }
@@ -293,7 +301,7 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator setGitUserId(String gitUserId) {
         if (StringUtils.isNotEmpty(gitUserId)) {
-            addAdditionalProperty(CodegenConstants.GIT_HOST, gitUserId);
+            addAdditionalProperty(CodegenConstants.GIT_USER_ID, gitUserId);
         }
         generatorSettingsBuilder.withGitUserId(gitUserId);
         return this;
@@ -421,6 +429,11 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setSkipOperationExample(boolean skipOperationExample) {
+        workflowSettingsBuilder.withSkipOperationExample(skipOperationExample);
+        return this;
+    }
+
     public CodegenConfigurator setSkipOverwrite(boolean skipOverwrite) {
         workflowSettingsBuilder.withSkipOverwrite(skipOverwrite);
         return this;
@@ -510,7 +523,7 @@ public class CodegenConfigurator {
         SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
 
         // TODO: Move custom validations to a separate type as part of a "Workflow"
-        Set<String> validationMessages = new HashSet<>(result.getMessages());
+        Set<String> validationMessages = new HashSet<>(null != result.getMessages() ? result.getMessages() : new ArrayList<>());
         OpenAPI specification = result.getOpenAPI();
         // TODO: The line below could be removed when at least one of the issue below has been resolved.
         // https://github.com/swagger-api/swagger-parser/issues/1369
@@ -521,9 +534,17 @@ public class CodegenConfigurator {
         if (validationMessages.size() > 0) {
             Set<String> warnings = new HashSet<>();
             if (specification != null) {
-                List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
-                if (unusedModels != null) {
-                    unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+
+                // Wrap the getUnusedSchemas() in try catch block so it catches the NPE
+                // when the input spec file is not correct
+                try{
+                    List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
+                    if (unusedModels != null) {
+                        unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+                    }
+                } catch (Exception e){
+                    System.err.println("[error] There is an error with OpenAPI specification parsed from the input spec file: " + inputSpec);
+                    System.err.println("[error] Please make sure the spec file has correct format and all required fields are populated with valid value.");
                 }
             }
 
@@ -575,6 +596,7 @@ public class CodegenConfigurator {
         config.setSkipOverwrite(workflowSettings.isSkipOverwrite());
         config.setIgnoreFilePathOverride(workflowSettings.getIgnoreFileOverride());
         config.setRemoveOperationIdPrefix(workflowSettings.isRemoveOperationIdPrefix());
+        config.setSkipOperationExample(workflowSettings.isSkipOperationExample());
         config.setEnablePostProcessFile(workflowSettings.isEnablePostProcessFile());
         config.setEnableMinimalUpdate(workflowSettings.isEnableMinimalUpdate());
         config.setStrictSpecBehavior(workflowSettings.isStrictSpecBehavior());
@@ -604,7 +626,8 @@ public class CodegenConfigurator {
         }
 
         ClientOptInput input = new ClientOptInput()
-                .config(config);
+                .config(config)
+                .userDefinedTemplates(userDefinedTemplates);
 
         return input.openAPI((OpenAPI)context.getSpecDocument());
     }

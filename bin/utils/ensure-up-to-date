@@ -19,7 +19,14 @@ if [ $status -ne 0 ]; then
   exit $status
 fi
 
-# Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)
+if [[ "--skip-docs" == "${1}" ]]; then
+  # We export here rather than modify our iterable so that:
+  #  - the scripts can show they ran and echo meaningfully
+  #  - the scripts can do cleanup (if necessary) when skipped
+  export SKIP_EXPORT_DOCS=true
+fi
+
+# Some special case generators may expect to be run as a standalone process (e.g. modifying classpath)
 # Docs should always be run, regardless of batch or operation.
 declare -a always_iterate=(
 "${root}/bin/meta-codegen.sh"
@@ -46,6 +53,9 @@ if [ -n "$(git status --porcelain)" ]; then
     git --no-pager diff
     echo "Perform git status"
     git status
+    echo -e "\nThis script runs in pull requests against the anticipated merge commit (as if the PR was merged now)."
+    echo "When you see unexpected files here, it likely means that there are newer commits in master that you need to "
+    echo -e "rebase or merge into your branch.\n"
     echo "Please run 'bin/utils/ensure-up-to-date' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
     exit 1
 else

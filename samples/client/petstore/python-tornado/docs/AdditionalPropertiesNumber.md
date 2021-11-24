@@ -1,5 +1,6 @@
 # AdditionalPropertiesNumber
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

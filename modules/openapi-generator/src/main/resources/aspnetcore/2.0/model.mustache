@@ -15,7 +15,7 @@ namespace {{packageName}}.Models
     /// {{description}}
     /// </summary>
     [DataContract]
-    public partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>
+    public partial class {{classname}} : {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>
     {
         {{#vars}}
         {{#items.isEnum}}
@@ -31,24 +31,24 @@ namespace {{packageName}}.Models
         {{/complexType}}
         {{/isEnum}}
         /// <summary>
-        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>
         {{#description}}
-        /// <value>{{description}}</value>
+        /// <value>{{.}}</value>
         {{/description}}
         {{#required}}
         [Required]
         {{/required}}
         [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]
         {{#isEnum}}
-        public {{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}} {{name}} { get; set; }{{#defaultValue}} = {{{defaultValue}}};{{/defaultValue}}
+        public {{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}?{{/isContainer}}{{/isEnum}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^isEnum}}
-        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }{{#defaultValue}} = {{{defaultValue}}};{{/defaultValue}}
+        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
-        {{#hasMore}}
+        {{^-last}}
 
-        {{/hasMore}}
+        {{/-last}}
         {{/vars}}
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace {{packageName}}.Models
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public {{#parent}}{{^isMapModel}}{{^isArrayModel}}new {{/isArrayModel}}{{/isMapModel}}{{/parent}}string ToJson()
+        public {{#parent}}{{^isMap}}{{^isArray}}new {{/isArray}}{{/isMap}}{{/parent}}string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -102,13 +102,13 @@ namespace {{packageName}}.Models
                     {{name}} == other.{{name}} ||
                     {{name}} != null &&
                     {{name}}.Equals(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{#isContainer}}
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
                 (
                     {{name}} == other.{{name}} ||
                     {{name}} != null &&
                     other.{{name}} != null &&
                     {{name}}.SequenceEqual(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
         /// <summary>

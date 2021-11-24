@@ -36,7 +36,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 {{/useBeanValidation}}
 /**
- * Api implemention
+ * Api implementation
  * @author pkmst
  *
  */
@@ -79,7 +79,7 @@ public class {{classname}}Controller implements {{classname}} {
         {{/async}}
         {{/isDelegate}}
         {{#isDelegate}}
-        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         {{/isDelegate}}
 {{/useSpringCloudClient}}
 {{^useSpringCloudClient}}
@@ -104,7 +104,7 @@ public class {{classname}}Controller implements {{classname}} {
         {{/async}}
         {{/isDelegate}}
         {{#isDelegate}}
-        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        return delegate.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
         {{/isDelegate}}
 {{/useSpringCloudClient}}
     }

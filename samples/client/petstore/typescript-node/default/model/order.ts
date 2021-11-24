@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-import { RequestFile } from '../api';
+import { RequestFile } from './models';
 
 /**
 * An order for a pets from the pet store
@@ -24,7 +24,7 @@ export class Order {
     * Order Status
     */
     'status'?: Order.StatusEnum;
-    'complete'?: boolean;
+    'complete'?: boolean = false;
 
     static discriminator: string | undefined = undefined;
 

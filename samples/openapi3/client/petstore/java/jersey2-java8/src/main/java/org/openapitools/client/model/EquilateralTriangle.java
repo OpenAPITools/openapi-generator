@@ -24,6 +24,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -48,6 +49,8 @@ public class EquilateralTriangle {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
   private String triangleType;
 
+  public EquilateralTriangle() { 
+  }
 
   public EquilateralTriangle shapeType(String shapeType) {
     this.shapeType = shapeType;
@@ -58,6 +61,7 @@ public class EquilateralTriangle {
    * Get shapeType
    * @return shapeType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -67,6 +71,8 @@ public class EquilateralTriangle {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
@@ -81,6 +87,7 @@ public class EquilateralTriangle {
    * Get triangleType
    * @return triangleType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -90,6 +97,8 @@ public class EquilateralTriangle {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTriangleType(String triangleType) {
     this.triangleType = triangleType;
   }
@@ -136,7 +145,7 @@ public class EquilateralTriangle {
    * Return true if this EquilateralTriangle object is equal to o.
    */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -154,7 +163,6 @@ public class EquilateralTriangle {
     return Objects.hash(shapeType, triangleType, additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -170,7 +178,7 @@ public class EquilateralTriangle {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

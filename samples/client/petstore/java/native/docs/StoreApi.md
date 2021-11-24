@@ -5,13 +5,13 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-[**deleteOrderWithHttpInfo**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
+[**deleteOrderWithHttpInfo**](StoreApi.md#deleteOrderWithHttpInfo) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 [**getInventory**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-[**getInventoryWithHttpInfo**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
+[**getInventoryWithHttpInfo**](StoreApi.md#getInventoryWithHttpInfo) | **GET** /store/inventory | Returns pet inventories by status
 [**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
-[**getOrderByIdWithHttpInfo**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
+[**getOrderByIdWithHttpInfo**](StoreApi.md#getOrderByIdWithHttpInfo) | **GET** /store/order/{order_id} | Find purchase order by ID
 [**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
-[**placeOrderWithHttpInfo**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
+[**placeOrderWithHttpInfo**](StoreApi.md#placeOrderWithHttpInfo) | **POST** /store/order | Place an order for a pet
 
 
 
@@ -42,7 +42,6 @@ public class Example {
         String orderId = "orderId_example"; // String | ID of the order that needs to be deleted
         try {
             apiInstance.deleteOrder(orderId);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#deleteOrder");
             System.err.println("Status code: " + e.getCode());
@@ -110,12 +109,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.deleteOrderWithHttpInfo(orderId);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#deleteOrder");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -183,7 +182,6 @@ public class Example {
         StoreApi apiInstance = new StoreApi(defaultClient);
         try {
             Map<String, Integer> result = apiInstance.getInventory();
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#getInventory");
@@ -254,13 +252,13 @@ public class Example {
         try {
             ApiResponse<Map<String, Integer>> response = apiInstance.getInventoryWithHttpInfo();
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#getInventory");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -318,7 +316,6 @@ public class Example {
         Long orderId = 56L; // Long | ID of pet that needs to be fetched
         try {
             Order result = apiInstance.getOrderById(orderId);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#getOrderById");
@@ -388,13 +385,13 @@ public class Example {
         try {
             ApiResponse<Order> response = apiInstance.getOrderByIdWithHttpInfo(orderId);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#getOrderById");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -455,7 +452,6 @@ public class Example {
         Order body = new Order(); // Order | order placed for purchasing the pet
         try {
             Order result = apiInstance.placeOrder(body);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#placeOrder");
@@ -522,13 +518,13 @@ public class Example {
         try {
             ApiResponse<Order> response = apiInstance.placeOrderWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#placeOrder");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }

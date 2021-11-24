@@ -12,9 +12,11 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Category   {
   @JsonProperty("id")
+  
   private Long id;
 
   @JsonProperty("name")
+  
   private String name;
 
   public Category id(Long id) {
@@ -26,7 +28,7 @@ public class Category   {
    * Get id
    * @return id
   **/
-    public Long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -43,7 +45,7 @@ public class Category   {
    * Get name
    * @return name
   **/
-    public String getName() {
+  public String getName() {
     return name;
   }
 
@@ -53,7 +55,7 @@ public class Category   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -86,7 +88,7 @@ public class Category   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

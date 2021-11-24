@@ -5,23 +5,23 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**addPetWithHttpInfo**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
+[**addPetWithHttpInfo**](PetApi.md#addPetWithHttpInfo) | **POST** /pet | Add a new pet to the store
 [**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**deletePetWithHttpInfo**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
+[**deletePetWithHttpInfo**](PetApi.md#deletePetWithHttpInfo) | **DELETE** /pet/{petId} | Deletes a pet
 [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByStatusWithHttpInfo**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
+[**findPetsByStatusWithHttpInfo**](PetApi.md#findPetsByStatusWithHttpInfo) | **GET** /pet/findByStatus | Finds Pets by status
 [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**findPetsByTagsWithHttpInfo**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+[**findPetsByTagsWithHttpInfo**](PetApi.md#findPetsByTagsWithHttpInfo) | **GET** /pet/findByTags | Finds Pets by tags
 [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**getPetByIdWithHttpInfo**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
+[**getPetByIdWithHttpInfo**](PetApi.md#getPetByIdWithHttpInfo) | **GET** /pet/{petId} | Find pet by ID
 [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithHttpInfo**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
+[**updatePetWithHttpInfo**](PetApi.md#updatePetWithHttpInfo) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**updatePetWithFormWithHttpInfo**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**updatePetWithFormWithHttpInfo**](PetApi.md#updatePetWithFormWithHttpInfo) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithHttpInfo**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**uploadFileWithHttpInfo**](PetApi.md#uploadFileWithHttpInfo) | **POST** /pet/{petId}/uploadImage | uploads an image
 [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
-[**uploadFileWithRequiredFileWithHttpInfo**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+[**uploadFileWithRequiredFileWithHttpInfo**](PetApi.md#uploadFileWithRequiredFileWithHttpInfo) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 
@@ -55,7 +55,6 @@ public class Example {
         Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
             apiInstance.addPet(body);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             System.err.println("Status code: " + e.getCode());
@@ -126,12 +125,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.addPetWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -197,7 +196,6 @@ public class Example {
         String apiKey = "apiKey_example"; // String | 
         try {
             apiInstance.deletePet(petId, apiKey);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#deletePet");
             System.err.println("Status code: " + e.getCode());
@@ -270,12 +268,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.deletePetWithHttpInfo(petId, apiKey);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#deletePet");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -343,7 +341,6 @@ public class Example {
         List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
         try {
             List<Pet> result = apiInstance.findPetsByStatus(status);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByStatus");
@@ -417,13 +414,13 @@ public class Example {
         try {
             ApiResponse<List<Pet>> response = apiInstance.findPetsByStatusWithHttpInfo(status);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByStatus");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -490,7 +487,6 @@ public class Example {
         Set<String> tags = Arrays.asList(); // Set<String> | Tags to filter by
         try {
             Set<Pet> result = apiInstance.findPetsByTags(tags);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByTags");
@@ -564,13 +560,13 @@ public class Example {
         try {
             ApiResponse<Set<Pet>> response = apiInstance.findPetsByTagsWithHttpInfo(tags);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByTags");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -639,7 +635,6 @@ public class Example {
         Long petId = 56L; // Long | ID of pet to return
         try {
             Pet result = apiInstance.getPetById(petId);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#getPetById");
@@ -716,13 +711,13 @@ public class Example {
         try {
             ApiResponse<Pet> response = apiInstance.getPetByIdWithHttpInfo(petId);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#getPetById");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -788,7 +783,6 @@ public class Example {
         Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
             apiInstance.updatePet(body);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
             System.err.println("Status code: " + e.getCode());
@@ -861,12 +855,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.updatePetWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -935,7 +929,6 @@ public class Example {
         String status = "status_example"; // String | Updated status of the pet
         try {
             apiInstance.updatePetWithForm(petId, name, status);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePetWithForm");
             System.err.println("Status code: " + e.getCode());
@@ -1009,12 +1002,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.updatePetWithFormWithHttpInfo(petId, name, status);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePetWithForm");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -1082,7 +1075,6 @@ public class Example {
         File file = new File("/path/to/file"); // File | file to upload
         try {
             ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFile");
@@ -1157,13 +1149,13 @@ public class Example {
         try {
             ApiResponse<ModelApiResponse> response = apiInstance.uploadFileWithHttpInfo(petId, additionalMetadata, file);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFile");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -1231,7 +1223,6 @@ public class Example {
         String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
         try {
             ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFileWithRequiredFile");
@@ -1306,13 +1297,13 @@ public class Example {
         try {
             ApiResponse<ModelApiResponse> response = apiInstance.uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFileWithRequiredFile");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }

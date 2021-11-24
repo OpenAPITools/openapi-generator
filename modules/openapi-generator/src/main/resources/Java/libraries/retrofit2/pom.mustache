@@ -144,11 +144,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                {{#supportJava6}}
-                    <source>1.6</source>
-                    <target>1.6</target>
-                {{/supportJava6}}
-                {{^supportJava6}}
                 {{#java8}}
                     <source>1.8</source>
                     <target>1.8</target>
@@ -157,7 +152,6 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 {{/java8}}
-                {{/supportJava6}}
                 </configuration>
             </plugin>
             <plugin>
@@ -166,17 +160,12 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
-                    {{#supportJava6}}
-                        <source>1.6</source>
-                    {{/supportJava6}}
-                    {{^supportJava6}}
                     {{#java8}}
                         <source>1.8</source>
                     {{/java8}}
                     {{^java8}}
                         <source>1.7</source>
                     {{/java8}}
-                    {{/supportJava6}}
                 </configuration>
                 <executions>
                     <execution>
@@ -342,11 +331,13 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
+            {{#openApiNullable}}
             <dependency>
                 <groupId>org.openapitools</groupId>
                 <artifactId>jackson-databind-nullable</artifactId>
                 <version>${jackson-databind-nullable-version}</version>
             </dependency>
+            {{/openApiNullable}}
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-{{^java8}}joda{{/java8}}{{#java8}}jsr310{{/java8}}</artifactId>
@@ -381,9 +372,9 @@
                 <version>${play-version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.validation</groupId>
-                <artifactId>validation-api</artifactId>
-                <version>1.1.0.Final</version>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${beanvalidation-version}</version>
             </dependency>
             {{/play26}}
         {{/usePlayWS}}
@@ -397,9 +388,9 @@
             </dependency>
         {{/parcelableModel}}
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax-annotation-version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- test dependencies -->
@@ -412,13 +403,13 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>{{#supportJava6}}1.6{{/supportJava6}}{{^supportJava6}}{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}{{/supportJava6}}</java.version>
+        <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <gson-fire-version>1.8.3</gson-fire-version>
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
         {{#usePlayWS}}
-        <jackson-version>2.10.4</jackson-version>
+        <jackson-version>2.12.1</jackson-version>
         {{#play24}}
         <play-version>2.4.11</play-version>
         {{/play24}}
@@ -428,7 +419,9 @@
         {{#play26}}
         <play-version>2.6.7</play-version>
         {{/play26}}
+        {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        {{/openApiNullable}}
         {{/usePlayWS}}
         <retrofit-version>2.5.0</retrofit-version>
         {{#useRxJava}}
@@ -446,8 +439,11 @@
         {{#threetenbp}}
         <threetenbp-version>1.4.0</threetenbp-version>
         {{/threetenbp}}
-        <javax-annotation-version>1.3.2</javax-annotation-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+{{#useBeanValidation}}
+		<beanvalidation-version>2.0.2</beanvalidation-version>
+{{/useBeanValidation}}
         <oltu-version>1.0.1</oltu-version>
-        <junit-version>4.13</junit-version>
+        <junit-version>4.13.1</junit-version>
     </properties>
 </project>

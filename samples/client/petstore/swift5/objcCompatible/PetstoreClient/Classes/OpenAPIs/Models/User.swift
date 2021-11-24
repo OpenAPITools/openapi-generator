@@ -6,10 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-
-
-@objc public class User: NSObject, Codable { 
+@objc public class User: NSObject, Codable {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {
@@ -31,7 +32,7 @@ import Foundation
         }
     }
 
-    public init(_id: Int64?, username: String?, firstName: String?, lastName: String?, email: String?, password: String?, phone: String?, userStatus: Int?) {
+    public init(_id: Int64? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, email: String? = nil, password: String? = nil, phone: String? = nil, userStatus: Int? = nil) {
         self._id = _id
         self.username = username
         self.firstName = firstName
@@ -42,7 +43,7 @@ import Foundation
         self.userStatus = userStatus
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case username
         case firstName
@@ -53,4 +54,18 @@ import Foundation
         case userStatus
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(_id, forKey: ._id)
+        try container.encodeIfPresent(username, forKey: .username)
+        try container.encodeIfPresent(firstName, forKey: .firstName)
+        try container.encodeIfPresent(lastName, forKey: .lastName)
+        try container.encodeIfPresent(email, forKey: .email)
+        try container.encodeIfPresent(password, forKey: .password)
+        try container.encodeIfPresent(phone, forKey: .phone)
+        try container.encodeIfPresent(userStatus, forKey: .userStatus)
+    }
 }
+

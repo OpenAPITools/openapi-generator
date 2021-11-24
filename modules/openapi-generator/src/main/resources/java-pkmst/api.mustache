@@ -13,13 +13,7 @@ import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 {{/jdk8}}
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 {{^useSpringCloudClient}}
 import java.io.IOException;
@@ -48,28 +42,29 @@ import javax.validation.Valid;
 public interface {{classname}} {
 {{#operation}}
 
-    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
-        {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
-            {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
-            {{/hasMore}}{{/scopes}}
-            }{{/isOAuth}}){{#hasMore}},
-        {{/hasMore}}{{/authMethods}}
-    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
+    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
+        {{#authMethods}}{{#isOAuth}}@Authorization(value = "{{name}}", scopes = {
+            {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},
+            {{/-last}}{{/scopes}} }){{^-last}},{{/-last}}{{/isOAuth}}
+        {{^isOAuth}}@Authorization(value = "{{name}}"){{^-last}},{{/-last}}
+        {{/isOAuth}}{{/authMethods}} }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
-        @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}} })
+        @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}} })
     {{#implicitHeaders}}
     @ApiImplicitParams({
     {{#headerParams}}{{>implicitHeader}}{{/headerParams}}
     })
     {{/implicitHeaders}}
-    @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}
+    @RequestMapping(
+        method = RequestMethod.{{httpMethod}},
+        value = "{{{path}}}"{{#singleContentTypes}},
         produces = "{{{vendorExtensions.x-accepts}}}",
-        consumes = "{{{vendorExtensions.x-contentType}}}",{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
-        produces = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}{{#hasConsumes}}
-        consumes = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} },{{/hasConsumes}}{{/singleContentTypes}}
-        method = RequestMethod.{{httpMethod}})
+        consumes = "{{{vendorExtensions.x-contentType}}}"{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
+        produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
+        consumes = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }{{/hasConsumes}}{{/singleContentTypes}}
+    )
 {{#useSpringCloudClient}}
-    {{#jdk8}}default {{/jdk8}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}){{^jdk8}};{{/jdk8}}{{#jdk8}} {
+    {{#jdk8}}default {{/jdk8}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}){{^jdk8}};{{/jdk8}}{{#jdk8}} {
         // do some magic!
         return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<{{>returnTypes}}>(HttpStatus.NOT_IMPLEMENTED){{#async}}){{/async}};
     }{{/jdk8}}

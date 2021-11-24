@@ -3,16 +3,21 @@ title: Config Options for swift5
 sidebar_label: swift5
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiNamePrefix|Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet =&gt; Pet.| |null|
-|disallowAdditionalPropertiesIfNotPresent|Specify the behavior when the 'additionalProperties' keyword is not present in the OAS document. If false: the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. If true: when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.This setting is currently ignored for OAS 2.0 documents:  1) When the 'additionalProperties' keyword is not present in a 2.0 schema, additional properties are NOT allowed.  2) Boolean values of the 'additionalProperties' keyword are ignored. It's as if additional properties are NOT allowed.Note: the root cause are issues #1369 and #1371, which must be resolved in the swagger-parser project.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.</dd></dl>|true|
+|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|generateModelAdditionalProperties|Generate model additional properties (default: true)| |true|
+|hashableModels|Make hashable models (default: true)| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|legacyDiscriminatorBehavior|This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName. Note to developers supporting a language generator in OpenAPITools; to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |lenientTypeCast|Accept and cast values for simple types (string-&gt;bool, string-&gt;int, int-&gt;string)| |false|
-|library|Library template (sub-template) to use|<dl><dt>**urlsession**</dt><dd>[DEFAULT] HTTP client: URLSession</dd><dt>**alamofire**</dt><dd>HTTP client: Alamofire</dd></dl>|urlsession|
+|library|Library template (sub-template) to use|<dl><dt>**urlsession**</dt><dd>[DEFAULT] HTTP client: URLSession</dd><dt>**alamofire**</dt><dd>HTTP client: Alamofire</dd><dt>**vapor**</dt><dd>HTTP client: Vapor</dd></dl>|urlsession|
+|mapFileBinaryToData|[WARNING] This option will be removed and enabled by default in the future once we've enhanced the code to work with `Data` in all the different situations. Map File and Binary to Data (default: false)| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.(default: false)| |null|
 |objcCompatible|Add additional properties and methods for Objective-C compatibility (default: false)| |null|
 |podAuthors|Authors used for Podspec| |null|
@@ -28,10 +33,15 @@ sidebar_label: swift5
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |projectName|Project name in Xcode| |null|
 |readonlyProperties|Make properties readonly (default: false)| |null|
-|responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift, Result, Combine are available.| |null|
+|removeMigrationProjectNameClass|Make properties removeMigrationProjectNameClass (default: false)| |null|
+|responseAs|Optionally use libraries to manage response.  Currently PromiseKit, RxSwift, Result, Combine, AsyncAwait are available.| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|swiftPackagePath|Set a custom source path instead of OpenAPIClient/Classes/OpenAPIs.| |null|
 |swiftUseApiNamespace|Flag to make all the API classes inner-class of {{projectName}}API| |null|
+|useBacktickEscapes|Escape reserved words using backticks (default: false)| |false|
+|useClasses|Use final classes for models instead of structs (default: false)| |false|
+|useSPMFileStructure|Use SPM file structure and set the source path to Sources/{{projectName}} (default: false).| |null|
 
 ## IMPORT MAPPING
 
@@ -219,6 +229,7 @@ sidebar_label: swift5
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

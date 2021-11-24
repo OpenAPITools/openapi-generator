@@ -6,6 +6,7 @@ require 'date'
 require 'json'
 require 'logger'
 require 'tempfile'
+require 'time'
 {{^isFaraday}}
 require 'typhoeus'
 {{/isFaraday}}
@@ -27,7 +28,7 @@ module {{moduleName}}
     # @option config [Configuration] Configuration for initializing the object, default to Configuration.default
     def initialize(config = Configuration.default)
       @config = config
-      @user_agent = "{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/ruby{{/httpUserAgent}}"
+      @user_agent = "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/#{VERSION}/ruby{{/httpUserAgent}}"
       @default_headers = {
         'Content-Type' => 'application/json',
         'User-Agent' => @user_agent
@@ -65,7 +66,30 @@ module {{moduleName}}
 
       # handle file downloading - return the File instance processed in request callbacks
       # note that response body is empty when the file is written in chunks in request on_body callback
+      {{^isFaraday}}
       return @tempfile if return_type == 'File'
+      {{/isFaraday}}
+      {{#isFaraday}}
+      if return_type == 'File'
+        content_disposition = response.headers['Content-Disposition']
+        if content_disposition && content_disposition =~ /filename=/i
+          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
+          prefix = sanitize_filename(filename)
+        else
+          prefix = 'download-'
+        end
+        prefix = prefix + '-' unless prefix.end_with?('-')
+        encoding = body.encoding
+        @tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
+        @tempfile.write(@stream.join.force_encoding(encoding))
+        @tempfile.close
+        @config.logger.info "Temp file written to #{@tempfile.path}, please copy the file to a proper folder "\
+                            "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                            "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                            "explicitly with `tempfile.delete`"
+        return @tempfile
+      end
+      {{/isFaraday}}
 
       return nil if body.nil? || body.empty?
 
@@ -80,7 +104,7 @@ module {{moduleName}}
       begin
         data = JSON.parse("[#{body}]", :symbolize_names => true)[0]
       rescue JSON::ParserError => e
-        if %w(String Date DateTime).include?(return_type)
+        if %w(String Date Time).include?(return_type)
           data = body
         else
           raise e
@@ -105,9 +129,9 @@ module {{moduleName}}
         data.to_f
       when 'Boolean'
         data == true
-      when 'DateTime'
+      when 'Time'
         # parse date time (expecting ISO 8601 format)
-        DateTime.parse data
+        Time.parse data
       when 'Date'
         # parse date time (expecting ISO 8601 format)
         Date.parse data
@@ -125,46 +149,9 @@ module {{moduleName}}
           data.each { |k, v| hash[k] = convert_to_type(v, sub_type) }
         end
       else
-        # models, e.g. Pet
-        {{moduleName}}.const_get(return_type).build_from_hash(data)
-      end
-    end
-
-    # Save response body into a file in (the defined) temporary folder, using the filename
-    # from the "Content-Disposition" header if provided, otherwise a random filename.
-    # The response body is written to the file in chunks in order to handle files which
-    # size is larger than maximum Ruby String or even larger than the maximum memory a Ruby
-    # process can use.
-    #
-    # @see Configuration#temp_folder_path
-    def download_file(request)
-      tempfile = nil
-      encoding = nil
-      request.on_headers do |response|
-        content_disposition = response.headers['Content-Disposition']
-        if content_disposition && content_disposition =~ /filename=/i
-          filename = content_disposition[/filename=['"]?([^'"\s]+)['"]?/, 1]
-          prefix = sanitize_filename(filename)
-        else
-          prefix = 'download-'
-        end
-        prefix = prefix + '-' unless prefix.end_with?('-')
-        encoding = response.body.encoding
-        tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        @tempfile = tempfile
-      end
-      request.on_body do |chunk|
-        chunk.force_encoding(encoding)
-        tempfile.write(chunk)
-      end
-      request.on_complete do |response|
-        if tempfile
-          tempfile.close
-          @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
-                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                              "explicitly with `tempfile.delete`"
-        end
+        # models (e.g. Pet) or oneOf
+        klass = {{moduleName}}.const_get(return_type)
+        klass.respond_to?(:openapi_one_of) ? klass.build(data) : klass.build_from_hash(data)
       end
     end
 
@@ -177,13 +164,13 @@ module {{moduleName}}
       filename.gsub(/.*[\/\\]/, '')
     end
 
-    def build_request_url(path)
+    def build_request_url(path, opts = {})
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, '/')
-      @config.base_url + path
+      @config.base_url(opts[:operation]) + path
     end
 
-    # Update hearder and query params based on authentication settings.
+    # Update header and query params based on authentication settings.
     #
     # @param [Hash] header_params Header parameters
     # @param [Hash] query_params Query parameters
@@ -195,7 +182,7 @@ module {{moduleName}}
         case auth_setting[:in]
         when 'header' then header_params[auth_setting[:key]] = auth_setting[:value]
         when 'query'  then query_params[auth_setting[:key]] = auth_setting[:value]
-        else fail ArgumentError, 'Authentication token must be in `query` of `header`'
+        else fail ArgumentError, 'Authentication token must be in `query` or `header`'
         end
       end
     end
@@ -222,8 +209,8 @@ module {{moduleName}}
     # @param [Array] content_types array for Content-Type
     # @return [String] the Content-Type header  (e.g. application/json)
     def select_header_content_type(content_types)
-      # use application/json by default
-      return 'application/json' if content_types.nil? || content_types.empty?
+      # return nil by default
+      return if content_types.nil? || content_types.empty?
       # use JSON when present, otherwise use the first one
       json_content_type = content_types.find { |s| json_mime?(s) }
       json_content_type || content_types.first

@@ -1,7 +1,7 @@
 namespace {{packageName}}
 {{#imports}}
 {{#import}}
-open {{import}}
+open {{.}}
 {{/import}}
 {{/imports}}
 open {{classname}}HandlerParams
@@ -11,27 +11,27 @@ open System
 open Giraffe
 
 module {{classname}}ServiceImplementation =
-    
+
     //#region Service implementation
-    type {{classname}}ServiceImpl() = 
+    type {{classname}}ServiceImpl() =
       interface I{{classname}}Service with
-      
+
       {{#operations}}
       {{#operation}}
         member this.{{operationId}} ctx {{#allParams}}{{#-first}}args{{/-first}}{{/allParams}} =
           {{#responses}}
           {{#-first}}
-          {{#hasMore}}
-          if true then 
-          {{/hasMore}}
+          {{^-last}}
+          if true then
+          {{/-last}}
           {{/-first}}
           {{^-first}}
-          {{#hasMore}}
-          else if true then 
-          {{/hasMore}}
-          {{^hasMore}}
+          {{^-last}}
+          else if true then
+          {{/-last}}
+          {{#-last}}
           else
-          {{/hasMore}}
+          {{/-last}}
           {{/-first}}
             let content = "{{message}}" {{#dataType}}:> obj :?> {{{.}}} // this cast is obviously wrong, and is only intended to allow generated project to compile   {{/dataType}}
             {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}} { content = content }

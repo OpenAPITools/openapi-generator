@@ -1989,7 +1989,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                     }
                 }
 
-                let boundary = match swagger::multipart::boundary(&headers) {
+                let boundary = match swagger::multipart::form::boundary(&headers) {
                     Some(boundary) => boundary.to_string(),
                     None => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)

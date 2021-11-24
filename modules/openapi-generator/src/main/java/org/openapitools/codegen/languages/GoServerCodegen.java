@@ -17,31 +17,42 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GoServerCodegen extends AbstractGoCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
+    /**
+     *  Name of additional property for switching routers
+     */
+    private static final String ROUTER_SWITCH = "router";
+
+    /**
+     * Description of additional property for switching routers
+     */
+    private static final String ROUTER_SWITCH_DESC = "Specify the router which should be used.";
+
+    /**
+     * List of available routers
+     */
+    private static final String[] ROUTERS = { "mux", "chi" };
+
+    private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
     protected String packageVersion = "1.0.0";
     protected int serverPort = 8080;
     protected String projectName = "openapi-server";
     protected String sourceFolder = "go";
     protected Boolean corsFeatureEnabled = false;
+    protected Boolean addResponseHeaders = false;
 
 
     public GoServerCodegen() {
@@ -73,6 +84,13 @@ public class GoServerCodegen extends AbstractGoCodegen {
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
                 .defaultValue(sourceFolder));
 
+        CliOption frameworkOption = new CliOption(ROUTER_SWITCH, ROUTER_SWITCH_DESC);
+        for (String option: ROUTERS) {
+            frameworkOption.addEnum(option, option);
+        }
+        frameworkOption.defaultValue(ROUTERS[0]);
+        cliOptions.add(frameworkOption);
+
         CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
         optServerPort.setType("int");
         optServerPort.defaultValue(Integer.toString(serverPort));
@@ -82,6 +100,14 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optFeatureCORS.setType("bool");
         optFeatureCORS.defaultValue(corsFeatureEnabled.toString());
         cliOptions.add(optFeatureCORS);
+
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
+
+        // option to include headers in the response
+        CliOption optAddResponseHeaders = new CliOption("addResponseHeaders", "To include response headers in ImplResponse");
+        optAddResponseHeaders.setType("bool");
+        optAddResponseHeaders.defaultValue(addResponseHeaders.toString());
+        cliOptions.add(optAddResponseHeaders);
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -104,7 +130,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         /*
          * Service templates.  You can write services for each Api file with the apiTemplateFiles map.
-            These services are skeletons built to implement the logic of your api using the 
+            These services are skeletons built to implement the logic of your api using the
             expected parameters and response.
          */
         apiTemplateFiles.put(
@@ -139,8 +165,6 @@ public class GoServerCodegen extends AbstractGoCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
-
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
@@ -166,24 +190,45 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof Integer) {
             this.setServerPort((int) additionalProperties.get("serverPort"));
-        } else if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof String){
+        } else if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof String) {
             try {
                 this.setServerPort(Integer.parseInt(additionalProperties.get("serverPort").toString()));
                 additionalProperties.put("serverPort", serverPort);
-            }
-            catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 LOGGER.warn("serverPort is not a valid integer... defaulting to {}", serverPort);
                 additionalProperties.put("serverPort", serverPort);
             }
         } else {
             additionalProperties.put("serverPort", serverPort);
         }
+
         if (additionalProperties.containsKey("featureCORS")) {
             this.setFeatureCORS(convertPropertyToBooleanAndWriteBack("featureCORS"));
         } else {
             additionalProperties.put("featureCORS", corsFeatureEnabled);
         }
+
+        if (additionalProperties.containsKey("addResponseHeaders")) {
+            this.setAddResponseHeaders(convertPropertyToBooleanAndWriteBack("addResponseHeaders"));
+        } else {
+            additionalProperties.put("addResponseHeaders", addResponseHeaders);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
+            setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
+            if (enumClassPrefix) {
+                additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, true);
+            }
+        }
+
+        additionalProperties.putIfAbsent(ROUTER_SWITCH, ROUTERS[0]);
+
+        final Object propRouter = additionalProperties.get(ROUTER_SWITCH);
+        final Map<String, Boolean> routers = new HashMap<>();
+        for (String router: ROUTERS) {
+            routers.put(router, router.equals(propRouter));
+        }
+        additionalProperties.put("routers", routers);
 
         modelPackage = packageName;
         apiPackage = packageName;
@@ -199,7 +244,10 @@ public class GoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", sourceFolder, "logger.go"));
+        supportingFiles.add(new SupportingFile("impl.mustache",sourceFolder, "impl.go"));
+        supportingFiles.add(new SupportingFile("helpers.mustache", sourceFolder, "helpers.go"));
         supportingFiles.add(new SupportingFile("api.mustache", sourceFolder, "api.go"));
+        supportingFiles.add(new SupportingFile("error.mustache", sourceFolder, "error.go"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());
     }
@@ -219,19 +267,17 @@ public class GoServerCodegen extends AbstractGoCodegen {
         // override imports to only include packages for interface parameters
         imports.clear();
 
-        boolean addedOptionalImport = false;
         boolean addedTimeImport = false;
         boolean addedOSImport = false;
-        boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && "*os.File".equals(param.dataType)) {
+                if (!addedOSImport && ("*os.File".equals(param.dataType) || ("[]*os.File".equals(param.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
 
-                // import "time" if the operation has a required time parameter.
+                // import "time" if the operation has a required time parameter
                 if (param.required) {
                     if (!addedTimeImport && "time.Time".equals(param.dataType)) {
                         imports.add(createMapping("import", "time"));
@@ -311,5 +357,35 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     public void setFeatureCORS(Boolean featureCORS) {
         this.corsFeatureEnabled = featureCORS;
+    }
+
+    public void setAddResponseHeaders(Boolean addResponseHeaders) {
+        this.addResponseHeaders = addResponseHeaders;
+    }
+
+    @Override
+    protected void updateModelForObject(CodegenModel m, Schema schema) {
+        /**
+         * we have a custom version of this function so we only set isMap to true if
+         * ModelUtils.isMapSchema
+         * In other generators, isMap is true for all type object schemas
+         */
+        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+            // passing null to allProperties and allRequired as there's no parent
+            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+        }
+        if (ModelUtils.isMapSchema(schema)) {
+            // an object or anyType composed schema that has additionalProperties set
+            addAdditionPropertiesToCodeGenModel(m, schema);
+        } else {
+            m.setIsMap(false);
+            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+                // non-composed object type with no properties + additionalProperties
+                // additionalProperties must be null, ObjectSchema, or empty Schema
+                addAdditionPropertiesToCodeGenModel(m, schema);
+            }
+        }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
     }
 }

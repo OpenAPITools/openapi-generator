@@ -5,13 +5,14 @@ use futures::Stream;
 use std::error::Error;
 use std::task::{Poll, Context};
 use swagger::{ApiError, ContextWrapper};
+use serde::{Serialize, Deserialize};
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "0.0.1";
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum OpGetResponse {
     /// OK
     OK

@@ -2,18 +2,19 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**just_symbol** | **String** |  | [optional] 
-**array_enum** | **Array&lt;String&gt;** |  | [optional] 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **just_symbol** | **String** |  | [optional] |
+| **array_enum** | **Array&lt;String&gt;** |  | [optional] |
 
-## Code Sample
+## Example
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::EnumArrays.new(just_symbol: null,
-                                 array_enum: null)
+instance = Petstore::EnumArrays.new(
+  just_symbol: null,
+  array_enum: null
+)
 ```
-
 

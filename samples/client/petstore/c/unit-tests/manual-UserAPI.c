@@ -120,4 +120,6 @@ int main() {
 
 	UserAPI_deleteUser(apiClient5, "example123");
 	apiClient_free(apiClient5);
+
+	apiClient_unsetupGlobalEnv();
 }

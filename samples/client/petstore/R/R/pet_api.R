@@ -51,7 +51,7 @@
 #' Multiple status values can be provided with comma separated strings
 #'
 #' \itemize{
-#' \item \emph{ @param } status Enum < [available, pending, sold] > 
+#' \item \emph{ @param } status Enum < [available, pending, sold] >
 #' \item \emph{ @returnType } list( \link{Pet} ) \cr
 #'
 #'
@@ -406,6 +406,7 @@ PetApi <- R6::R6Class(
 
       headerParams['api_key'] <- `api.key`
 
+      body <- NULL
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
         urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)
@@ -456,6 +457,7 @@ PetApi <- R6::R6Class(
 
       queryParams['status'] <- status
 
+      body <- NULL
       urlPath <- "/pet/findByStatus"
       # OAuth token
       headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
@@ -508,6 +510,7 @@ PetApi <- R6::R6Class(
 
       queryParams['tags'] <- tags
 
+      body <- NULL
       urlPath <- "/pet/findByTags"
       # OAuth token
       headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
@@ -558,6 +561,7 @@ PetApi <- R6::R6Class(
         stop("Missing required parameter `pet.id`.")
       }
 
+      body <- NULL
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
         urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)

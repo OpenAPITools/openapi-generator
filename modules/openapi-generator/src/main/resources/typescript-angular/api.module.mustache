@@ -1,5 +1,5 @@
 import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core';
-import { Configuration } from './configuration';
+import { {{configurationClassName}} } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 {{#apiInfo}}
@@ -12,15 +12,15 @@ import { {{classname}} } from './{{importPath}}';
   imports:      [],
   declarations: [],
   exports:      [],
-  providers: [{{^providedInRoot}}
-    {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}},
-    {{/hasMore}}{{/apis}}{{/apiInfo}} {{/providedInRoot}}]
+  providers: [{{#isProvidedInNone}}
+    {{#apiInfo}}{{#apis}}{{classname}}{{^-last}},
+    {{/-last}}{{/apis}}{{/apiInfo}} {{/isProvidedInNone}}]
 })
 export class {{apiModuleClassName}} {
-    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders{{#enforceGenericModuleWithProviders}}<{{apiModuleClassName}}>{{/enforceGenericModuleWithProviders}} {
+    public static forRoot(configurationFactory: () => {{configurationClassName}}): ModuleWithProviders{{#enforceGenericModuleWithProviders}}<{{apiModuleClassName}}>{{/enforceGenericModuleWithProviders}} {
         return {
             ngModule: {{apiModuleClassName}},
-            providers: [ { provide: Configuration, useFactory: configurationFactory } ]
+            providers: [ { provide: {{configurationClassName}}, useFactory: configurationFactory } ]
         };
     }
 

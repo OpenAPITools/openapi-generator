@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.springframework.http.codec.multipart.Part;
 
 import java.util.List;
 import java.util.Map;
@@ -75,12 +76,12 @@ public interface StoreApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
                 String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
         }
@@ -103,12 +104,12 @@ public interface StoreApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
                 String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
         }

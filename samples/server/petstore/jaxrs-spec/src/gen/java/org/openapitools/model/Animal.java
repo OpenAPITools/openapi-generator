@@ -13,15 +13,17 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
-  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
+  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
 
 
+@JsonTypeName("Animal")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Animal  implements Serializable {
   
   private @Valid String className;
@@ -44,9 +46,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return className;
   }
 
+  @JsonProperty("className")
   public void setClassName(String className) {
     this.className = className;
-  }/**
+  }
+
+/**
    **/
   public Animal color(String color) {
     this.color = color;
@@ -62,12 +67,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return color;
   }
 
+  @JsonProperty("color")
   public void setColor(String color) {
     this.color = color;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -99,7 +106,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

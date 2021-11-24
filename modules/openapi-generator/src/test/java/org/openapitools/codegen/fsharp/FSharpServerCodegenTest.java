@@ -16,7 +16,6 @@
 
 package org.openapitools.codegen.fsharp;
 import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.languages.AbstractFSharpCodegen;
 import org.openapitools.codegen.languages.FsharpGiraffeServerCodegen;
 import org.testng.Assert;
@@ -26,7 +25,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Arrays;
-import java.lang.Exception;
 
 @SuppressWarnings("static-method")
 public class FSharpServerCodegenTest {
@@ -63,15 +61,15 @@ public class FSharpServerCodegenTest {
         models.put("wheel", Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", wheel))));
 
         Map<String,Object> sorted = codegen.postProcessDependencyOrders(models);
-        
+
         Object[] keys = sorted.keySet().toArray();
-        
-        Assert.assertTrue(keys[0] == "wheel");
-        Assert.assertTrue(keys[1] == "bike" || keys[1] == "car");
-        Assert.assertTrue(keys[2] == "bike" || keys[2] == "car");
+
+        Assert.assertEquals(keys[0], "wheel");
+        Assert.assertTrue("bike".equals(keys[1]) || "car".equals(keys[1]));
+        Assert.assertTrue("bike".equals(keys[2]) || "car".equals(keys[2]));
         Assert.assertEquals(keys[3], "parent");
         Assert.assertEquals(keys[4], "child");
-        
+
     }
 
     @Test(description = "modify model imports to explicit set namespace and package name")
@@ -80,10 +78,10 @@ public class FSharpServerCodegenTest {
           codegen.setPackageName("MyNamespace");
           codegen.setModelPackage("Model");
           String modified = codegen.toModelImport("Foo");
-          Assert.assertEquals(modified, "MyNamespace.Model.Foo");          
+          Assert.assertEquals(modified, "MyNamespace.Model.Foo");
     }
-    
+
     private static class P_AbstractFSharpCodegen extends AbstractFSharpCodegen {
-     
+
     }
 }

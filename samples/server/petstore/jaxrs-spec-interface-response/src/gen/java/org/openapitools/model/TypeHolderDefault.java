@@ -44,7 +44,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
@@ -63,7 +65,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault integerItem(Integer integerItem) {
     this.integerItem = integerItem;
@@ -82,7 +86,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault boolItem(Boolean boolItem) {
     this.boolItem = boolItem;
@@ -101,7 +107,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
@@ -122,8 +130,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.arrayItem = arrayItem;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -161,7 +170,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

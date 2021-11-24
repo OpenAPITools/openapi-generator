@@ -12,6 +12,9 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
 {{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+{{^threetenbp}}
+import java.time.OffsetDateTime;
+{{/threetenbp}}
 {{/java8}}
 {{#threetenbp}}
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
@@ -67,7 +70,7 @@ import {{invokerPackage}}.auth.OAuth;
 {{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
-public class ApiClient {
+public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
   private String basePath = "{{{basePath}}}";
@@ -137,7 +140,7 @@ public class ApiClient {
     dateFormat = ApiClient.buildDefaultDateFormat();
 
     // Set default User-Agent.
-    setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
+    setUserAgent("{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
@@ -277,6 +280,7 @@ public class ApiClient {
   /**
    * Helper method to set access token for the first Bearer authentication.
    * @param bearerToken Bearer token
+   * @return API client
    */
   public void setBearerToken(String bearerToken) {
     for (Authentication auth : authentications.values()) {
@@ -499,7 +503,9 @@ public class ApiClient {
       return "";
     } else if (param instanceof Date) {
       return formatDate((Date) param);
-    } else if (param instanceof Collection) {
+    } {{#jsr310}}else if (param instanceof OffsetDateTime) {
+      return formatOffsetDateTime((OffsetDateTime) param);
+    } {{/jsr310}}else if (param instanceof Collection) {
       StringBuilder b = new StringBuilder();
       for(Object o : (Collection<?>)param) {
         if(b.length() > 0) {

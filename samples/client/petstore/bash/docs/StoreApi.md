@@ -128,7 +128,7 @@ petstore-cli placeOrder
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md) | order placed for purchasing the pet |
+ **body** | [**Order**](Order.md) | order placed for purchasing the pet |
 
 ### Return type
 
@@ -140,7 +140,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not Applicable
 - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -18,7 +18,9 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import java.util.Set;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -42,6 +45,7 @@ import javax.validation.Valid;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
+@JsonTypeName("Pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
@@ -99,6 +103,8 @@ public class Pet {
   public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
+  public Pet() { 
+  }
 
   public Pet id(Long id) {
     
@@ -120,6 +126,8 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
     this.id = id;
   }
@@ -146,6 +154,8 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -161,6 +171,7 @@ public class Pet {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -171,6 +182,8 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(String name) {
     this.name = name;
   }
@@ -191,6 +204,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
@@ -201,6 +215,9 @@ public class Pet {
   }
 
 
+  @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -235,6 +252,8 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -260,13 +279,15 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -287,7 +308,6 @@ public class Pet {
     return Objects.hash(id, category, name, photoUrls, tags, status);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -306,7 +326,7 @@ public class Pet {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -44,7 +44,7 @@ To install and run `Pester`, please execute the following commands in the termin
 ```powershell
 Install-module -name Pester -force
 
-Invoker-Pester
+Invoke-Pester
 ```
 
 For troubleshooting, please run `$DebugPreference = 'Continue'` to turn on debugging and disable it with `$DebugPreference = 'SilentlyContinue'` when done with the troubleshooting.
@@ -81,8 +81,6 @@ Class | Method | HTTP request | Description
 
  - [PSPetstore/Model.ApiResponse](docs/ApiResponse.md)
  - [PSPetstore/Model.Category](docs/Category.md)
- - [PSPetstore/Model.InlineObject](docs/InlineObject.md)
- - [PSPetstore/Model.InlineObject1](docs/InlineObject1.md)
  - [PSPetstore/Model.Order](docs/Order.md)
  - [PSPetstore/Model.Pet](docs/Pet.md)
  - [PSPetstore/Model.Tag](docs/Tag.md)

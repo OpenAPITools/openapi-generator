@@ -33,13 +33,12 @@ import android.os.Parcel;
  * Cat
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-
 public class Cat extends Animal implements Parcelable {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
-  public Cat() {
+  public Cat() { 
     super();
     this.className = this.getClass().getSimpleName();
   }
@@ -68,7 +67,7 @@ public class Cat extends Animal implements Parcelable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -85,7 +84,6 @@ public class Cat extends Animal implements Parcelable {
     return Objects.hash(declawed, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -100,7 +98,7 @@ public class Cat extends Animal implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

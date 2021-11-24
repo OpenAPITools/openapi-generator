@@ -17,7 +17,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 
 
 <a name="createXmlItem"></a>
@@ -436,9 +436,9 @@ api.testEnumParameters().execute(r -> r.prettyPeek());
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [default to new ArrayList&lt;&gt;()] [enum: >, $]
+ **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [enum: >, $]
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [default to new ArrayList&lt;&gt;()] [enum: >, $]
+ **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2]
  **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
@@ -620,11 +620,11 @@ api.testQueryParameterCollectionFormat()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;&gt;()]
- **ioutil** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;&gt;()]
- **http** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;&gt;()]
- **url** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;&gt;()]
- **context** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;&gt;()]
+ **pipe** | [**List&lt;String&gt;**](String.md)|  |
+ **ioutil** | [**List&lt;String&gt;**](String.md)|  |
+ **http** | [**List&lt;String&gt;**](String.md)|  |
+ **url** | [**List&lt;String&gt;**](String.md)|  |
+ **context** | [**List&lt;String&gt;**](String.md)|  |
 
 ### Return type
 

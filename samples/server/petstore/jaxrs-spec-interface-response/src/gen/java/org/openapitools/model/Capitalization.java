@@ -41,7 +41,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
-  }/**
+  }
+
+/**
    **/
   public Capitalization capitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
@@ -59,7 +61,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
-  }/**
+  }
+
+/**
    **/
   public Capitalization smallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
@@ -77,7 +81,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
-  }/**
+  }
+
+/**
    **/
   public Capitalization capitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
@@ -95,7 +101,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
-  }/**
+  }
+
+/**
    **/
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -113,7 +121,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
-  }/**
+  }
+
+/**
    * Name of the pet 
    **/
   public Capitalization ATT_NAME(String ATT_NAME) {
@@ -134,8 +144,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.ATT_NAME = ATT_NAME;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -175,7 +186,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -35,6 +35,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -206,7 +207,7 @@ public class JsonCacheTest {
 
     private void reload() throws CacheException, UnsupportedEncodingException {
         root.unload();
-        root.load(new ByteArrayInputStream(JSON.getBytes("UTF-8")));
+        root.load(new ByteArrayInputStream(JSON.getBytes(StandardCharsets.UTF_8)));
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -347,7 +348,7 @@ public class JsonCacheTest {
 
 //    private void assertEquals(String string, float f, float float1, float minValue) {
 //        // TODO Auto-generated method stub
-//        
+//
 //    }
 
     @Test
@@ -990,7 +991,7 @@ public class JsonCacheTest {
                 + "    \"number\": 10" // split
                 + "  }" // split
                 + "}";
-        ByteArrayInputStream in = new ByteArrayInputStream(incoming.getBytes("UTF-8"));
+        ByteArrayInputStream in = new ByteArrayInputStream(incoming.getBytes(StandardCharsets.UTF_8));
 
         root.mergePolicy(MergePolicy.NO_MERGE).load(in);
         assertFalse(root.isDirty(), "cache should not be dirty after second load() in NO_MERGE mode");

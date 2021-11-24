@@ -39,7 +39,7 @@
 {{/hasAuthMethods}}
 {{#vendorExtensions}}
   {{#x-consumes-multipart}}
-                let boundary = match swagger::multipart::boundary(&headers) {
+                let boundary = match swagger::multipart::form::boundary(&headers) {
                     Some(boundary) => boundary.to_string(),
                     None => return Ok(Response::builder()
                                 .status(StatusCode::BAD_REQUEST)
@@ -126,7 +126,7 @@
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
   {{/-first}}
                 let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.to_owned())
-  {{#isListContainer}}
+  {{#isArray}}
     {{^vendorExtensions.x-consumes-json}}
                     .filter_map(|param_{{{paramName}}}| param_{{{paramName}}}.parse().ok())
                     .collect::<Vec<_>>();
@@ -165,8 +165,8 @@
                 };
       {{/required}}
     {{/vendorExtensions.x-consumes-json}}
-  {{/isListContainer}}
-  {{^isListContainer}}
+  {{/isArray}}
+  {{^isArray}}
                     .nth(0);
                 let param_{{{paramName}}} = match param_{{{paramName}}} {
                     Some(param_{{{paramName}}}) => {
@@ -197,7 +197,7 @@
                         .expect("Unable to create Bad Request response for missing query parameter {{{baseName}}}")),
                 };
     {{/required}}
-  {{/isListContainer}}
+  {{/isArray}}
   {{#-last}}
 
   {{/-last}}
@@ -355,7 +355,7 @@
 {{#-first}}
                                 // Form parameters
 {{/-first}}
-                                let param_{{{paramName}}} = {{^isContainer}}{{#vendorExtensions}}{{{x-example}}};{{/vendorExtensions}}{{/isContainer}}{{#isListContainer}}{{#required}}Vec::new();{{/required}}{{^required}}None;{{/required}}{{/isListContainer}}{{#isMapContainer}}None;{{/isMapContainer}}
+                                let param_{{{paramName}}} = {{^isContainer}}{{#vendorExtensions}}{{{x-example}}};{{/vendorExtensions}}{{/isContainer}}{{#isArray}}{{#required}}Vec::new();{{/required}}{{^required}}None;{{/required}}{{/isArray}}{{#isMap}}None;{{/isMap}}
 {{#-last}}
 
 {{/-last}}
@@ -481,7 +481,7 @@
                                           {{/x-callback-params}}
                                         {{/vendorExtensions}}
                                         {{#allParams}}
-                                            param_{{{paramName}}}{{#isListContainer}}.as_ref(){{/isListContainer}},
+                                            param_{{{paramName}}}{{#isArray}}.as_ref(){{/isArray}},
                                         {{/allParams}}
                                         &context
                                     ).await;

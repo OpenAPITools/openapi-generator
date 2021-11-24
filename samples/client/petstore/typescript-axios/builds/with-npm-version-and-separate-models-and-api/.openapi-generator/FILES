@@ -6,6 +6,7 @@ api/another/level/pet-api.ts
 api/another/level/store-api.ts
 api/another/level/user-api.ts
 base.ts
+common.ts
 configuration.ts
 git_push.sh
 index.ts

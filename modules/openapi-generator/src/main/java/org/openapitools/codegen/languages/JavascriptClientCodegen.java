@@ -31,14 +31,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
     public static final String MODULE_NAME = "moduleName";
@@ -51,17 +51,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public static final String USE_ES6 = "useES6";
     public static final String NPM_REPOSITORY = "npmRepository";
 
-    final String[][] JAVASCRIPT_SUPPORTING_FILES = new String[][]{
+    final String[][] JAVASCRIPT_SUPPORTING_FILES = {
             new String[]{"package.mustache", "package.json"},
             // new String[]{"index.mustache", "src/index.js", },
             // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
             new String[]{"git_push.sh.mustache", "git_push.sh"},
             new String[]{"README.mustache", "README.md"},
             new String[]{"mocha.opts", "mocha.opts"},
-            new String[]{"travis.yml", ".travis.yml"}
+            new String[]{"travis.yml", ".travis.yml"},
+            new String[]{"gitignore.mustache", ".gitignore"}
     };
 
-    final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = new String[][]{
+    final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = {
             new String[]{"package.mustache", "package.json"},
             // new String[]{"index.mustache", "src/index.js"},
             // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
@@ -69,7 +70,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             new String[]{"README.mustache", "README.md"},
             new String[]{"mocha.opts", "mocha.opts"},
             new String[]{"travis.yml", ".travis.yml"},
-            new String[]{".babelrc.mustache", ".babelrc"}
+            new String[]{".babelrc.mustache", ".babelrc"},
+            new String[]{"gitignore.mustache", ".gitignore"}
     };
 
     protected String projectName;
@@ -112,7 +114,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         hideGenerationTimestamp = Boolean.TRUE;
 
         // reference: http://www.w3schools.com/js/js_reserved.asp
-        setReservedWordsLowerCase(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "abstract", "arguments", "boolean", "break", "byte",
                         "case", "catch", "char", "class", "const",
@@ -133,10 +135,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                         "prototype", "String", "toString", "undefined", "valueOf")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File", "Blob")
         );
-        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
+        defaultIncludes = new HashSet<>(languageSpecificPrimitives);
 
         instantiationTypes.put("array", "Array");
         instantiationTypes.put("set", "Array");
@@ -152,7 +154,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("int", "Number");
         typeMapping.put("float", "Number");
         typeMapping.put("number", "Number");
-        typeMapping.put("BigDecimal", "Number");
+        typeMapping.put("decimal", "Number");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("date", "Date");
         typeMapping.put("long", "Number");
@@ -166,6 +168,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "String");
+        typeMapping.put("AnyType", "Object");
 
         importMapping.clear();
 
@@ -534,7 +537,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             name = "_u";
         }
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -549,6 +552,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         return name;
+    }
+
+    @Override
+    protected boolean isReservedWord(String word) {
+        return word != null && reservedWords.contains(word);
     }
 
     @Override
@@ -576,14 +584,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = "Model" + name;
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
             String modelName = "Model" + name; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    modelName);
             return modelName;
         }
 
@@ -727,10 +736,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // container
-        if (Boolean.TRUE.equals(p.isListContainer)) {
+        if (Boolean.TRUE.equals(p.isArray)) {
             example = setPropertyExampleValue(p.items);
             example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(p.isMap)) {
             example = setPropertyExampleValue(p.items);
             example = "{key: " + example + "}";
         } else if (example == null) {
@@ -828,7 +837,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             type = openAPIType;
         }
         if (null == type) {
-            LOGGER.error("No Type defined for Schema " + p);
+            LOGGER.error("No Type defined for Schema {}", p);
         }
         return toModelName(type);
     }
@@ -845,14 +854,14 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, true);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             String newOperationId = camelize("call_" + operationId, true);
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
@@ -940,9 +949,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         String dataType = trimBrackets(cp.dataType);
         if (isModelledType(cp))
             dataType = getModelledType(dataType);
-        if (Boolean.TRUE.equals(cp.isListContainer)) {
+        if (Boolean.TRUE.equals(cp.isArray)) {
             return "Array.<" + dataType + ">";
-        } else if (Boolean.TRUE.equals(cp.isMapContainer)) {
+        } else if (Boolean.TRUE.equals(cp.isMap)) {
             return "Object.<String, " + dataType + ">";
         }
         return dataType;
@@ -958,9 +967,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (returnType != null) {
             if (isModelledType(co))
                 returnType = getModelledType(returnType);
-            if (Boolean.TRUE.equals(co.isListContainer)) {
+            if (Boolean.TRUE.equals(co.isArray)) {
                 return "Array.<" + returnType + ">";
-            } else if (Boolean.TRUE.equals(co.isMapContainer)) {
+            } else if (Boolean.TRUE.equals(co.isMap)) {
                 return "Object.<String, " + returnType + ">";
             }
         }
@@ -1118,15 +1127,15 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
             // Iterate over all of the parent model properties
             boolean removedChildEnum = false;
-            for (CodegenProperty parentModelCodegenPropery : parentModelCodegenProperties) {
+            for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
                 // Look for enums
-                if (parentModelCodegenPropery.isEnum) {
+                if (parentModelCodegenProperty.isEnum) {
                     // Now that we have found an enum in the parent class,
                     // and search the child class for the same enum.
                     Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                     while (iterator.hasNext()) {
                         CodegenProperty codegenProperty = iterator.next();
-                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenPropery)) {
+                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
                             // We found an enum in the child class that is
                             // a duplicate of the one in the parent, so remove it.
                             iterator.remove();
@@ -1137,12 +1146,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
 
             if (removedChildEnum) {
-                // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-                int count = 0, numVars = codegenProperties.size();
-                for (CodegenProperty codegenProperty : codegenProperties) {
-                    count += 1;
-                    codegenProperty.hasMore = (count < numVars) ? true : false;
-                }
                 codegenModel.vars = codegenProperties;
             }
         }
@@ -1209,7 +1212,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsPostProcessFile + " " + file.toString();
+            String command = jsPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
@@ -1217,10 +1220,24 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 }
-                LOGGER.info("Successfully executed: " + command);
-            } catch (Exception e) {
+                LOGGER.info("Successfully executed: {}", command);
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
+    }
+
+    @Override
+    protected String getCollectionFormat(CodegenParameter codegenParameter) {
+        // This method will return `passthrough` when the parameter data format is binary and an array.
+        // `passthrough` is not part of the OAS spec. However, this will act like a flag that we should
+        // not do any processing on the collection type (i.e. convert to tsv, csv, etc..). This is
+        // critical to support multi file uploads correctly.
+        if (codegenParameter.isArray && Objects.equals(codegenParameter.dataFormat, "binary")) {
+            return "passthrough";
+        }
+        return super.getCollectionFormat(codegenParameter);
     }
 }

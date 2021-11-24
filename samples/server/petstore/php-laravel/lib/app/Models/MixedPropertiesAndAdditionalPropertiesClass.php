@@ -15,7 +15,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     /** @var \DateTime $dateTime */
     private $dateTime;
 
-    /** @var map[string,\app\Models\Animal] $map */
+    /** @var array<string,\app\Models\Animal> $map */
     private $map;
 
 }

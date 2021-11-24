@@ -6,15 +6,27 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-
-internal struct CatAllOf: Codable { 
-
+internal struct CatAllOf: Codable, Hashable {
 
     internal var declawed: Bool?
 
-    internal init(declawed: Bool?) {
+    internal init(declawed: Bool? = nil) {
         self.declawed = declawed
     }
 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case declawed
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(declawed, forKey: .declawed)
+    }
 }
+

@@ -27,6 +27,9 @@ class FormatTest {
     /** @var double $double */
     private $double;
 
+    /** @var float $decimal */
+    private $decimal;
+
     /** @var string $string */
     private $string;
 
@@ -48,7 +51,10 @@ class FormatTest {
     /** @var string $password */
     private $password;
 
-    /** @var BigDecimal $bigDecimal */
-    private $bigDecimal;
+    /** @var string $patternWithDigits A string that is a 10 digit number. Can have leading zeros.*/
+    private $patternWithDigits;
+
+    /** @var string $patternWithDigitsAndDelimiter A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.*/
+    private $patternWithDigitsAndDelimiter;
 
 }

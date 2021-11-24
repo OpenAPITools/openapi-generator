@@ -18,10 +18,12 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -32,6 +34,7 @@ import javax.xml.bind.annotation.*;
   Category.JSON_PROPERTY_ID,
   Category.JSON_PROPERTY_NAME
 })
+@JsonTypeName("Category")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "Category")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -45,6 +48,8 @@ public class Category {
   @XmlElement(name = "name")
   private String name = "default-name";
 
+  public Category() { 
+  }
 
   public Category id(Long id) {
     
@@ -67,6 +72,9 @@ public class Category {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
   public void setId(Long id) {
     this.id = id;
   }
@@ -82,6 +90,7 @@ public class Category {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -92,13 +101,16 @@ public class Category {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "name")
   public void setName(String name) {
     this.name = name;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -115,7 +127,6 @@ public class Category {
     return Objects.hash(id, name);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -130,7 +141,7 @@ public class Category {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

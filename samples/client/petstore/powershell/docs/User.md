@@ -3,20 +3,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **Int64** |  | [optional] [default to null]
-**Username** | **String** |  | [optional] [default to null]
-**FirstName** | **String** |  | [optional] [default to null]
-**LastName** | **String** |  | [optional] [default to null]
-**Email** | **String** |  | [optional] [default to null]
-**Password** | **String** |  | [optional] [default to null]
-**Phone** | **String** |  | [optional] [default to null]
-**UserStatus** | **Int32** | User Status | [optional] [default to null]
+**Id** | **Int64** |  | [optional] 
+**Username** | **String** |  | [optional] 
+**FirstName** | **String** |  | [optional] 
+**LastName** | **String** |  | [optional] 
+**Email** | **String** |  | [optional] 
+**Password** | **String** |  | [optional] 
+**Phone** | **String** |  | [optional] 
+**UserStatus** | **Int32** | User Status | [optional] 
 
 ## Examples
 
 - Prepare the resource
 ```powershell
-Initialize-PSPetstoreUser  -Id null `
+$User = Initialize-PSPetstoreUser  -Id null `
  -Username null `
  -FirstName null `
  -LastName null `
@@ -28,7 +28,7 @@ Initialize-PSPetstoreUser  -Id null `
 
 - Convert the resource to JSON
 ```powershell
-$ | Convert-ToJSON
+$User | ConvertTo-JSON
 ```
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

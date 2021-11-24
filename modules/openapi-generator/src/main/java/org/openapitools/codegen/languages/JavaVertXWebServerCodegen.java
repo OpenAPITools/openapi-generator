@@ -17,19 +17,14 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
@@ -63,16 +58,19 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         artifactVersion = apiVersion;
         this.setDateLibrary("java8");
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.ARTIFACT_VERSION, this.getArtifactVersion());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
         updateOption(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         // Override type mapping
         typeMapping.put("file", "FileUpload");
+        typeMapping.put("UUID", "String");
+        typeMapping.put("date", "String");
+        typeMapping.put("DateTime", "String");
     }
 
     public CodegenType getTag() {
@@ -99,6 +97,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
         importMapping.put("FileUpload", "io.vertx.ext.web.FileUpload");
+        importMapping.put("JsonObject", "io.vertx.core.json.JsonObject");
 
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
@@ -107,10 +106,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("supportFiles/openapi.mustache", resourceFolder, "openapi.yaml"));
         supportingFiles.add(new SupportingFile("supportFiles/HttpServerVerticle.mustache", sourcePackageFolder, "HttpServerVerticle.java"));
-        supportingFiles.add(new SupportingFile("supportFiles/MainVerticle.mustache", sourcePackageFolder, "MainVerticle.java"));
         supportingFiles.add(new SupportingFile("supportFiles/ApiResponse.mustache", sourcePackageFolder, "ApiResponse.java"));
-        supportingFiles.add(new SupportingFile("supportFiles/ApiException.mustache", sourcePackageFolder, "ApiException.java"));
-        supportingFiles.add(new SupportingFile("supportFiles/ParameterCast.mustache", sourcePackageFolder, "ParameterCast.java"));
         supportingFiles.add(new SupportingFile("supportFiles/pom.mustache", "", "pom.xml"));
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
@@ -129,6 +125,7 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> newObjs = super.postProcessOperationsWithModels(objs, allModels);
@@ -140,6 +137,26 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
                 if (operation.returnType == null) {
                     operation.returnType = "Void";
+                }
+                if (operation.allParams.stream().anyMatch(p -> p.isFormParam && p.isFile)) {
+                    // If there is a file upload, exclude other form params since it's not clear how the user should access to these
+                    operation.allParams = operation
+                        .allParams
+                        .stream()
+                        .filter(p -> !p.isFormParam || p.isFile)
+                        .collect(Collectors.toList());
+                } else if (operation.allParams.stream().anyMatch(p -> p.isFormParam)) {
+                    // In Vert.x 4 Web OpenAPI the forms are handled as single json object
+                    // We create a dummy param here and remove the other ones
+                    CodegenParameter dummyParam = new CodegenParameter();
+                    dummyParam.isFormParam = true;
+                    dummyParam.isFile = false;
+                    dummyParam.dataType = "JsonObject";
+                    dummyParam.paramName = "formBody";
+                    operation.allParams = Stream.concat(
+                        operation.allParams.stream().filter(p -> !p.isFormParam),
+                        Stream.of(dummyParam)
+                    ).collect(Collectors.toList());
                 }
             }
         }

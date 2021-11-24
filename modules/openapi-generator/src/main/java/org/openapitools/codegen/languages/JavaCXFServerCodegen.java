@@ -17,22 +17,24 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
 import org.openapitools.codegen.languages.features.LoggingTestFeatures;
 import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements CXFServerFeatures, GzipTestFeatures, LoggingTestFeatures, UseGenericResponseFeatures {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFServerCodegen.class);
 
     protected boolean addConsumesProducesJson = true;
 
@@ -72,13 +74,15 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         super();
 
         supportsInheritance = true;
+        useTags = true;
 
         artifactId = "openapi-cxf-server";
 
         outputFolder = "generated-code/JavaJaxRS-CXF";
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(USE_TAGS, String.valueOf(true));
 
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
 
@@ -124,7 +128,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
 
     }
-
 
     @Override
     public void processOpts() {
@@ -235,18 +238,20 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
-        co.subresourceOperation = !co.path.isEmpty();
-    }
-
-    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
         model.imports.remove("JsonSerialize");
         model.imports.remove("ToStringSerializer");
+
+        //Add imports for Jackson when model has inner enum
+        if (additionalProperties.containsKey(JACKSON)) {
+            if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
+                model.imports.add("JsonCreator");
+                model.imports.add("JsonValue");
+            }
+        }
     }
 
     @Override
@@ -327,4 +332,29 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         this.useGenericResponse = useGenericResponse;
     }
 
+    @Override
+    protected void updateModelForObject(CodegenModel m, Schema schema) {
+        /**
+         * we have a custom version of this function so we only set isMap to true if
+         * ModelUtils.isMapSchema
+         * In other generators, isMap is true for all type object schemas
+         */
+        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+            // passing null to allProperties and allRequired as there's no parent
+            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+        }
+        if (ModelUtils.isMapSchema(schema)) {
+            // an object or anyType composed schema that has additionalProperties set
+            addAdditionPropertiesToCodeGenModel(m, schema);
+        } else {
+            m.setIsMap(false);
+            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+                // non-composed object type with no properties + additionalProperties
+                // additionalProperties must be null, ObjectSchema, or empty Schema
+                addAdditionPropertiesToCodeGenModel(m, schema);
+            }
+        }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
+    }
 }

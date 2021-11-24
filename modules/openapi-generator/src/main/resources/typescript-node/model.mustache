@@ -1,25 +1,25 @@
 {{>licenseInfo}}
 {{#models}}
 {{#model}}
-import { RequestFile } from '../api';
+import { RequestFile } from './models';
 {{#tsImports}}
 import { {{classname}} } from '{{filename}}';
 {{/tsImports}}
 
 {{#description}}
 /**
-* {{{description}}}
+* {{{.}}}
 */
 {{/description}}
 {{^isEnum}}
-export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
     /**
-    * {{{description}}}
+    * {{{.}}}
     */
 {{/description}}
-    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 {{/vars}}
 
     {{#discriminator}}
@@ -29,15 +29,15 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
     static discriminator: string | undefined = undefined;
     {{/discriminator}}
 
-    {{^isArrayModel}}
+    {{^isArray}}
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {{#vars}}
         {
             "name": "{{name}}",
             "baseName": "{{baseName}}",
             "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}"
-        }{{#hasMore}},
-        {{/hasMore}}
+        }{{^-last}},
+        {{/-last}}
         {{/vars}}
     ];
 
@@ -49,7 +49,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
         return {{classname}}.attributeTypeMap;
         {{/parent}}
     }
-    {{/isArrayModel}}
+    {{/isArray}}
 }
 
 {{#hasEnums}}

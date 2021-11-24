@@ -31,6 +31,8 @@ servers:
       enum:
       - v1
       - v2
+- description: The local server without variables
+  url: https://127.0.0.1/no_variable
 tags:
 - description: Everything about your Pets
   name: pet
@@ -48,6 +50,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/inline_response_default'
           description: response
+        "4XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_default'
+          description: client error
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_default'
+          description: not found
   /pet:
     post:
       operationId: addPet
@@ -57,6 +71,7 @@ paths:
         "405":
           description: Invalid input
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -75,6 +90,7 @@ paths:
         "405":
           description: Validation exception
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -89,7 +105,8 @@ paths:
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
       parameters:
-      - description: Status values that need to be considered for filter
+      - deprecated: true
+        description: Status values that need to be considered for filter
         explode: false
         in: query
         name: status
@@ -121,6 +138,7 @@ paths:
         "400":
           description: Invalid status value
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -161,6 +179,7 @@ paths:
         "400":
           description: Invalid tag value
       security:
+      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -1059,7 +1078,7 @@ paths:
           description: Success
       tags:
       - fake
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat
@@ -1111,6 +1130,43 @@ paths:
         style: form
       responses:
         "200":
+          description: Success
+      tags:
+      - fake
+  /fake/test-unique-parameters:
+    put:
+      description: To test unique items in header and query parameters
+      operationId: testUniqueItemsHeaderAndQueryParameterCollectionFormat
+      parameters:
+      - explode: true
+        in: query
+        name: queryUnique
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        style: form
+      - explode: false
+        in: header
+        name: headerUnique
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+          uniqueItems: true
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+                uniqueItems: true
           description: Success
       tags:
       - fake
@@ -1167,36 +1223,6 @@ paths:
                 $ref: '#/components/schemas/HealthCheckResult'
           description: The instance started successfully
       summary: Health check endpoint
-      tags:
-      - fake
-  /fake/http-signature-test:
-    get:
-      operationId: fake-http-signature-test
-      parameters:
-      - description: query parameter
-        explode: true
-        in: query
-        name: query_1
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: header parameter
-        explode: false
-        in: header
-        name: header_1
-        required: false
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        $ref: '#/components/requestBodies/Pet'
-      responses:
-        "200":
-          description: The instance started successfully
-      security:
-      - http_signature_test: []
-      summary: test http signature authentication
       tags:
       - fake
 components:
@@ -1325,9 +1351,13 @@ components:
         lastName: lastName
         password: password
         userStatus: 6
+        arbitraryTypeValue: ""
+        arbitraryNullableTypeValue: ""
         phone: phone
         id: 0
+        arbitraryObject: '{}'
         email: email
+        arbitraryNullableObject: '{}'
         username: username
       properties:
         id:
@@ -1350,6 +1380,22 @@ components:
           description: User Status
           format: int32
           type: integer
+        arbitraryObject:
+          description: test code generation for objects Value must be a map of strings
+            to values. It cannot be the 'null' value.
+          type: object
+        arbitraryNullableObject:
+          description: test code generation for nullable objects. Value must be a
+            map of strings to values or the 'null' value.
+          nullable: true
+          type: object
+        arbitraryTypeValue:
+          description: test code generation for any type Value can be any type - string,
+            number, boolean, array or object.
+        arbitraryNullableTypeValue:
+          description: test code generation for any type Value can be any type - string,
+            number, boolean, array, object or the 'null' value.
+          nullable: true
       type: object
       xml:
         name: User
@@ -1407,6 +1453,7 @@ components:
             name: tag
             wrapped: true
         status:
+          deprecated: true
           description: pet status in the store
           enum:
           - available
@@ -1482,7 +1529,12 @@ components:
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
+      - $ref: '#/components/schemas/Address'
       - $ref: '#/components/schemas/Cat_allOf'
+    Address:
+      additionalProperties:
+        type: integer
+      type: object
     Animal:
       discriminator:
         propertyName: className
@@ -1867,6 +1919,7 @@ components:
           nullable: true
           type: number
         boolean_prop:
+          default: false
           nullable: true
           type: boolean
         string_prop:
@@ -1913,6 +1966,113 @@ components:
             type: object
           type: object
       type: object
+    fruit:
+      oneOf:
+      - $ref: '#/components/schemas/apple'
+      - $ref: '#/components/schemas/banana'
+      properties:
+        color:
+          type: string
+    apple:
+      properties:
+        cultivar:
+          type: string
+      type: object
+    banana:
+      additionalProperties: true
+      properties:
+        lengthCm:
+          type: number
+      type: object
+    mammal:
+      discriminator:
+        mapping:
+          whale: '#/components/schemas/whale'
+          zebra: '#/components/schemas/zebra'
+        propertyName: className
+      oneOf:
+      - $ref: '#/components/schemas/whale'
+      - $ref: '#/components/schemas/zebra'
+    whale:
+      properties:
+        hasBaleen:
+          type: boolean
+        hasTeeth:
+          type: boolean
+        className:
+          type: string
+      required:
+      - className
+      type: object
+    zebra:
+      properties:
+        type:
+          enum:
+          - plains
+          - mountain
+          - grevys
+          type: string
+        className:
+          type: string
+      required:
+      - className
+      type: object
+    gmFruit:
+      anyOf:
+      - $ref: '#/components/schemas/apple'
+      - $ref: '#/components/schemas/banana'
+      properties:
+        color:
+          type: string
+    fruitReq:
+      oneOf:
+      - $ref: '#/components/schemas/appleReq'
+      - $ref: '#/components/schemas/bananaReq'
+    appleReq:
+      properties:
+        cultivar:
+          type: string
+        mealy:
+          type: boolean
+      required:
+      - cultivar
+      type: object
+    bananaReq:
+      properties:
+        lengthCm:
+          type: number
+        sweet:
+          type: boolean
+      required:
+      - lengthCm
+      type: object
+    ReadOnlyWithDefault:
+      properties:
+        prop1:
+          readOnly: true
+          type: string
+        prop2:
+          default: defaultProp2
+          readOnly: true
+          type: string
+        prop3:
+          default: defaultProp3
+          type: string
+        boolProp1:
+          default: false
+          readOnly: true
+          type: boolean
+        boolProp2:
+          default: true
+          type: boolean
+        intProp1:
+          default: 100
+          readOnly: true
+          type: number
+        intProp2:
+          default: 120
+          type: number
+      type: object
     inline_response_default:
       example:
         string:
@@ -1920,6 +2080,7 @@ components:
       properties:
         string:
           $ref: '#/components/schemas/Foo'
+      type: object
     inline_object:
       properties:
         name:
@@ -2059,10 +2220,12 @@ components:
       properties:
         breed:
           type: string
+      type: object
     Cat_allOf:
       properties:
         declawed:
           type: boolean
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

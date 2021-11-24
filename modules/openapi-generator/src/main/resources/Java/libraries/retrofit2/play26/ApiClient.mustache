@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -13,7 +14,9 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/openApiNullable}}
 
 import play.libs.Json;
 import play.libs.ws.WSClient;
@@ -91,8 +94,10 @@ public class ApiClient {
         }
         if (defaultMapper == null) {
             defaultMapper = Json.mapper();
+            {{#openApiNullable}}
             JsonNullableModule jnm = new JsonNullableModule();
             defaultMapper.registerModule(jnm);
+            {{/openApiNullable}}
         }
 
         return new Retrofit.Builder()
@@ -198,9 +203,9 @@ public class ApiClient {
                 @Override
                 public File convert(ResponseBody value) throws IOException {
 
-                    File file = File.createTempFile("retrofit-file", ".tmp");
-                    Files.write(Paths.get(file.getPath()), value.bytes());
-                    return file;
+                    Path path = Files.createTempFile("retrofit-file", ".tmp");
+                    Files.write(path, value.bytes());
+                    return path.toFile();
                 }
             };
         }

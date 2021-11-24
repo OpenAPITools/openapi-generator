@@ -95,6 +95,7 @@ class FakeClassnameTags123Api(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -112,7 +113,8 @@ class FakeClassnameTags123Api(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -148,11 +150,17 @@ class FakeClassnameTags123Api(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json'],
+                'PATCH', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = ['api_key_query']  # noqa: E501
+
+        response_types_map = {
+            200: "Client",
+        }
 
         return self.api_client.call_api(
             '/fake_classname_test', 'PATCH',
@@ -162,7 +170,7 @@ class FakeClassnameTags123Api(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Client',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

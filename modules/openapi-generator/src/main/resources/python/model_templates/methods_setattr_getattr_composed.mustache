@@ -1,0 +1,103 @@
+    def __setitem__(self, name, value):
+        """set the value of an attribute using square-bracket notation: `instance[attr] = val`"""
+        if name in self.required_properties:
+            self.__dict__[name] = value
+            return
+
+        """
+        Use cases:
+        1. additional_properties_type is None (additionalProperties == False in spec)
+            Check for property presence in self.openapi_types
+            if not present then throw an error
+            if present set in self, set attribute
+            always set on composed schemas
+        2.  additional_properties_type exists
+            set attribute on self
+            always set on composed schemas
+        """
+        if self.additional_properties_type is None:
+            """
+            For an attribute to exist on a composed schema it must:
+            - fulfill schema_requirements in the self composed schema not considering oneOf/anyOf/allOf schemas AND
+            - fulfill schema_requirements in each oneOf/anyOf/allOf schemas
+
+            schema_requirements:
+            For an attribute to exist on a schema it must:
+            - be present in properties at the schema OR
+            - have additionalProperties unset (defaults additionalProperties = any type) OR
+            - have additionalProperties set
+            """
+            if name not in self.openapi_types:
+                raise ApiAttributeError(
+                    "{0} has no attribute '{1}'".format(
+                        type(self).__name__, name),
+                    [e for e in [self._path_to_item, name] if e]
+                )
+        # attribute must be set on self and composed instances
+        self.set_attribute(name, value)
+        for model_instance in self._composed_instances:
+            setattr(model_instance, name, value)
+        if name not in self._var_name_to_model_instances:
+            # we assigned an additional property
+            self.__dict__['_var_name_to_model_instances'][name] = self._composed_instances + [self]
+        return None
+
+    __unset_attribute_value__ = object()
+
+    def get(self, name, default=None):
+        """returns the value of an attribute or some default value if the attribute was not set"""
+        if name in self.required_properties:
+            return self.__dict__[name]
+
+        # get the attribute from the correct instance
+        model_instances = self._var_name_to_model_instances.get(name)
+        values = []
+        # A composed model stores self and child (oneof/anyOf/allOf) models under
+        # self._var_name_to_model_instances.
+        # Any property must exist in self and all model instances
+        # The value stored in all model instances must be the same
+        if model_instances:
+            for model_instance in model_instances:
+                if name in model_instance._data_store:
+                    v = model_instance._data_store[name]
+                    if v not in values:
+                        values.append(v)
+        len_values = len(values)
+        if len_values == 0:
+            return default
+        elif len_values == 1:
+            return values[0]
+        elif len_values > 1:
+            raise ApiValueError(
+                "Values stored for property {0} in {1} differ when looking "
+                "at self and self's composed instances. All values must be "
+                "the same".format(name, type(self).__name__),
+                [e for e in [self._path_to_item, name] if e]
+            )
+
+    def __getitem__(self, name):
+        """get the value of an attribute using square-bracket notation: `instance[attr]`"""
+        value = self.get(name, self.__unset_attribute_value__)
+        if value is self.__unset_attribute_value__:
+            raise ApiAttributeError(
+                "{0} has no attribute '{1}'".format(
+                    type(self).__name__, name),
+                    [e for e in [self._path_to_item, name] if e]
+            )
+        return value
+
+    def __contains__(self, name):
+        """used by `in` operator to check if an attribute value was set in an instance: `'attr' in instance`"""
+
+        if name in self.required_properties:
+            return name in self.__dict__
+
+        model_instances = self._var_name_to_model_instances.get(
+            name, self._additional_properties_model_instances)
+
+        if model_instances:
+            for model_instance in model_instances:
+                if name in model_instance._data_store:
+                    return True
+
+        return False

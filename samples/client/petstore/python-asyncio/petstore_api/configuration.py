@@ -68,6 +68,17 @@ class Configuration(object):
       disabled. This can be useful to troubleshoot data validation problem, such as
       when the OpenAPI document validation rules do not match the actual API data
       received by the server.
+    :param server_index: Index to servers configuration.
+    :param server_variables: Mapping with string values to replace variables in
+      templated server configuration. The validation of enums is performed for
+      variables with defined enum values before.
+    :param server_operation_index: Mapping from operation ID to an index to server
+      configuration.
+    :param server_operation_variables: Mapping from operation ID to a mapping with
+      string values to replace variables in templated server configuration.
+      The validation of enums is performed for variables with defined enum values before.
+    :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
+      in PEM format
 
     :Example:
 
@@ -109,16 +120,27 @@ conf = petstore_api.Configuration(
 
     _default = None
 
-    def __init__(self, host="http://petstore.swagger.io:80/v2",
+    def __init__(self, host=None,
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
                  discard_unknown_keys=False,
                  disabled_client_side_validations="",
+                 server_index=None, server_variables=None,
+                 server_operation_index=None, server_operation_variables=None,
+                 ssl_ca_cert=None,
                  ):
         """Constructor
         """
-        self.host = host
+        self._base_path = "http://petstore.swagger.io:80/v2" if host is None else host
         """Default Base url
+        """
+        self.server_index = 0 if server_index is None and host is None else server_index
+        self.server_operation_index = server_operation_index or {}
+        """Default server index
+        """
+        self.server_variables = server_variables or {}
+        self.server_operation_variables = server_operation_variables or {}
+        """Default server variables
         """
         self.temp_folder_path = None
         """Temp file folder for downloading files
@@ -174,7 +196,7 @@ conf = petstore_api.Configuration(
            Set this to false to skip verifying SSL certificate when calling API
            from https server.
         """
-        self.ssl_ca_cert = None
+        self.ssl_ca_cert = ssl_ca_cert
         """Set this to customize the certificate file to verify the peer.
         """
         self.cert_file = None
@@ -204,8 +226,12 @@ conf = petstore_api.Configuration(
         self.retries = None
         """Adding retries to override urllib3 default value 3
         """
-        # Disable client side validation
+        # Enable client side validation
         self.client_side_validation = True
+
+        self.socket_options = None
+        """Options to pass down to the underlying urllib3 socket
+        """
 
     def __deepcopy__(self, memo):
         cls = self.__class__
@@ -437,14 +463,18 @@ conf = petstore_api.Configuration(
             }
         ]
 
-    def get_host_from_settings(self, index, variables=None):
+    def get_host_from_settings(self, index, variables=None, servers=None):
         """Gets host URL based on the index and variables
         :param index: array index of the host settings
         :param variables: hash of variable and the corresponding value
+        :param servers: an array of host settings or None
         :return: URL based on host settings
         """
+        if index is None:
+            return self._base_path
+
         variables = {} if variables is None else variables
-        servers = self.get_host_settings()
+        servers = self.get_host_settings() if servers is None else servers
 
         try:
             server = servers[index]
@@ -456,7 +486,7 @@ conf = petstore_api.Configuration(
         url = server['url']
 
         # go through variables and replace placeholders
-        for variable_name, variable in server['variables'].items():
+        for variable_name, variable in server.get('variables', {}).items():
             used_value = variables.get(
                 variable_name, variable['default_value'])
 
@@ -471,3 +501,14 @@ conf = petstore_api.Configuration(
             url = url.replace("{" + variable_name + "}", used_value)
 
         return url
+
+    @property
+    def host(self):
+        """Return generated host."""
+        return self.get_host_from_settings(self.server_index, variables=self.server_variables)
+
+    @host.setter
+    def host(self, value):
+        """Fix base path."""
+        self._base_path = value
+        self.server_index = None

@@ -1,22 +1,23 @@
 # FormatTest
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**number** | **float** |  | 
+**byte** | **str** |  | 
+**date** | **date** |  | 
+**password** | **str** |  | 
 **integer** | **int** |  | [optional] 
 **int32** | **int** |  | [optional] 
 **int64** | **int** |  | [optional] 
-**number** | **float** |  | 
 **float** | **float** |  | [optional] 
 **double** | **float** |  | [optional] 
 **string** | **str** |  | [optional] 
-**byte** | **str** |  | 
-**binary** | **file** |  | [optional] 
-**date** | **date** |  | 
+**binary** | **file_type** |  | [optional] 
 **date_time** | **datetime** |  | [optional] 
 **uuid** | **str** |  | [optional] 
-**password** | **str** |  | 
-**big_decimal** | [**BigDecimal**](BigDecimal.md) |  | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

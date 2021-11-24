@@ -1,0 +1,16 @@
+.gitignore
+Org.OpenAPITools.sln
+src/Org.OpenAPITools/Models/ApiResponse.cs
+src/Org.OpenAPITools/Models/Category.cs
+src/Org.OpenAPITools/Models/Order.cs
+src/Org.OpenAPITools/Models/Pet.cs
+src/Org.OpenAPITools/Models/Tag.cs
+src/Org.OpenAPITools/Models/User.cs
+src/Org.OpenAPITools/Modules/PetModule.cs
+src/Org.OpenAPITools/Modules/StoreModule.cs
+src/Org.OpenAPITools/Modules/UserModule.cs
+src/Org.OpenAPITools/Org.OpenAPITools.csproj
+src/Org.OpenAPITools/Org.OpenAPITools.nuspec
+src/Org.OpenAPITools/Utils/LocalDateConverter.cs
+src/Org.OpenAPITools/Utils/Parameters.cs
+src/Org.OpenAPITools/packages.config

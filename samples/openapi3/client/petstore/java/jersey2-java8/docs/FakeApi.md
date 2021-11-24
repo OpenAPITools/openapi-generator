@@ -18,7 +18,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 
 
 
@@ -35,7 +35,7 @@ Health check endpoint
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -96,7 +96,7 @@ Test serialization of outer boolean types
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -161,7 +161,7 @@ Test serialization of object with outer number type
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -222,11 +222,12 @@ Test serialization of outer number types
 ### Example
 
 ```java
+import java.math.BigDecimal;
 // Import classes:
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -235,7 +236,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
+        BigDecimal body = new BigDecimal(78); // BigDecimal | Input number as post body
         try {
             BigDecimal result = apiInstance.fakeOuterNumberSerialize(body);
             System.out.println(result);
@@ -291,7 +292,7 @@ Test serialization of outer string types
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -354,7 +355,7 @@ Array of Enums
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -415,7 +416,7 @@ For this test, the body for this request much reference a schema named `File`.
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -477,7 +478,7 @@ No authorization required
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -543,7 +544,7 @@ To test "client" model
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -608,12 +609,16 @@ Fake endpoint for testing various parameters
 ### Example
 
 ```java
+import java.io.File;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 // Import classes:
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -627,7 +632,7 @@ public class Example {
         http_basic_test.setPassword("YOUR PASSWORD");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal number = new BigDecimal(); // BigDecimal | None
+        BigDecimal number = new BigDecimal(78); // BigDecimal | None
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
@@ -637,8 +642,8 @@ public class Example {
         Float _float = 3.4F; // Float | None
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
-        LocalDate date = new LocalDate(); // LocalDate | None
-        OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
+        LocalDate date = LocalDate.now(); // LocalDate | None
+        OffsetDateTime dateTime = OffsetDateTime.parse("OffsetDateTime.parse("2010-02-01T09:20:10.111110Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))"); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
@@ -709,7 +714,7 @@ To test enum parameters
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -719,13 +724,13 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
-        String enumHeaderString = "-efg"; // String | Header parameter enum test (string)
+        String enumHeaderString = "_abc"; // String | Header parameter enum test (string)
         List<String> enumQueryStringArray = Arrays.asList("$"); // List<String> | Query parameter enum test (string array)
-        String enumQueryString = "-efg"; // String | Query parameter enum test (string)
-        Integer enumQueryInteger = 56; // Integer | Query parameter enum test (double)
-        Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
-        List<String> enumFormStringArray = "$"; // List<String> | Form parameter enum test (string array)
-        String enumFormString = "-efg"; // String | Form parameter enum test (string)
+        String enumQueryString = "_abc"; // String | Query parameter enum test (string)
+        Integer enumQueryInteger = 1; // Integer | Query parameter enum test (double)
+        Double enumQueryDouble = 1.1D; // Double | Query parameter enum test (double)
+        List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
+        String enumFormString = "_abc"; // String | Form parameter enum test (string)
         try {
             apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
         } catch (ApiException e) {
@@ -744,13 +749,13 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [enum: >, $]
+ **enumHeaderStringArray** | **List&lt;String&gt;**| Header parameter enum test (string array) | [optional] [enum: >, $]
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
+ **enumQueryStringArray** | **List&lt;String&gt;**| Query parameter enum test (string array) | [optional] [enum: >, $]
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2]
  **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
- **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $]
+ **enumFormStringArray** | **List&lt;String&gt;**| Form parameter enum test (string array) | [optional] [enum: >, $]
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
 
 ### Return type
@@ -789,7 +794,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -872,7 +877,7 @@ test inline additionalProperties
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -900,7 +905,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body |
+ **requestBody** | **Map&lt;String,String&gt;**| request body |
 
 ### Return type
 
@@ -934,7 +939,7 @@ test json serialization of form data
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -1000,7 +1005,7 @@ To test the collection format in query parameters
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.FakeApi;
 
 public class Example {
@@ -1032,11 +1037,11 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pipe** | [**List&lt;String&gt;**](String.md)|  |
- **ioutil** | [**List&lt;String&gt;**](String.md)|  |
- **http** | [**List&lt;String&gt;**](String.md)|  |
- **url** | [**List&lt;String&gt;**](String.md)|  |
- **context** | [**List&lt;String&gt;**](String.md)|  |
+ **pipe** | **List&lt;String&gt;**|  |
+ **ioutil** | **List&lt;String&gt;**|  |
+ **http** | **List&lt;String&gt;**|  |
+ **url** | **List&lt;String&gt;**|  |
+ **context** | **List&lt;String&gt;**|  |
 
 ### Return type
 

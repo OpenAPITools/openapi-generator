@@ -46,7 +46,6 @@ export type FetchArgs = {
     options: {};
 }
 
-
 /**
  *
  * @export
@@ -94,7 +93,6 @@ export type ApiResponse = {
     message?: string;
 }
 
-
 /**
  * A category for a pet
  * @export
@@ -113,7 +111,6 @@ export type Category = {
      */
     name?: string;
 }
-
 
 
             export type OrderStatusEnum = 'placed' | 'approved' | 'delivered';
@@ -161,7 +158,6 @@ export type Order = {
 }
 
 
-
             export type PetStatusEnum = 'available' | 'pending' | 'sold';
 /**
  * A pet for sale in the pet store
@@ -206,7 +202,6 @@ export type Pet = {
     status?: PetStatusEnum;
 }
 
-
 /**
  * A tag for a pet
  * @export
@@ -225,7 +220,6 @@ export type Tag = {
      */
     name?: string;
 }
-
 
 /**
  * A User who is purchasing from the pet store
@@ -284,7 +278,6 @@ export type User = {
 
 
 
-
 /**
  * PetApi - fetch parameter creator
  * @export
@@ -310,9 +303,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -320,7 +313,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body != null ? body : {}) : (((body:any):string) || "");
@@ -350,9 +343,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -362,7 +355,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
@@ -389,9 +382,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -401,7 +394,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
@@ -428,9 +421,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -440,7 +433,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
@@ -468,14 +461,14 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication api_key required
             if (configuration && configuration.apiKey) {
                 const localVarApiKeyValue = typeof configuration.apiKey === 'function'
-					? configuration.apiKey("api_key")
-					: configuration.apiKey;
+                    ? configuration.apiKey("api_key")
+                    : configuration.apiKey;
                 localVarHeaderParameter["api_key"] = localVarApiKeyValue;
             }
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
@@ -502,9 +495,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -512,7 +505,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body != null ? body : {}) : (((body:any):string) || "");
@@ -543,9 +536,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -559,7 +552,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             localVarRequestOptions.body = localVarFormParams;
 
@@ -589,9 +582,9 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
             // authentication petstore_auth required
             // oauth required
             if (configuration && configuration.accessToken) {
-				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
-					: configuration.accessToken;
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+                    : configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
 
@@ -605,7 +598,7 @@ export const PetApiFetchParamCreator = function (configuration?: Configuration) 
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             localVarRequestOptions.body = localVarFormParams;
 
@@ -765,6 +758,7 @@ export const PetApi = function(configuration?: Configuration, fetch: FetchAPI = 
     }
 };
 
+
 /**
  * StoreApi - fetch parameter creator
  * @export
@@ -790,7 +784,7 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
@@ -813,14 +807,14 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
             // authentication api_key required
             if (configuration && configuration.apiKey) {
                 const localVarApiKeyValue = typeof configuration.apiKey === 'function'
-					? configuration.apiKey("api_key")
-					: configuration.apiKey;
+                    ? configuration.apiKey("api_key")
+                    : configuration.apiKey;
                 localVarHeaderParameter["api_key"] = localVarApiKeyValue;
             }
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
@@ -847,7 +841,7 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
@@ -875,7 +869,7 @@ export const StoreApiFetchParamCreator = function (configuration?: Configuration
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body != null ? body : {}) : (((body:any):string) || "");
@@ -968,6 +962,7 @@ export const StoreApi = function(configuration?: Configuration, fetch: FetchAPI 
     }
 };
 
+
 /**
  * UserApi - fetch parameter creator
  * @export
@@ -994,7 +989,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body != null ? body : {}) : (((body:any):string) || "");
@@ -1024,7 +1019,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body != null ? body : {}) : (((body:any):string) || "");
@@ -1054,7 +1049,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body != null ? body : {}) : (((body:any):string) || "");
@@ -1083,7 +1078,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
@@ -1110,7 +1105,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
@@ -1148,7 +1143,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
@@ -1170,7 +1165,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
 
             return {
@@ -1203,7 +1198,7 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            localVarUrlObj.search = null;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.body =  needsSerialization ? JSON.stringify(body != null ? body : {}) : (((body:any):string) || "");
@@ -1363,6 +1358,7 @@ export const UserApi = function(configuration?: Configuration, fetch: FetchAPI =
         },
     }
 };
+
 
 export type ApiTypes = { 
     PetApi: PetApiType,

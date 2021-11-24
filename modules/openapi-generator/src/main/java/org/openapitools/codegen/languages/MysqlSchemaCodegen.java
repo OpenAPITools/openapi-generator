@@ -31,7 +31,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 @SuppressWarnings("unchecked")
 public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(MysqlSchemaCodegen.class);
 
     public static final String VENDOR_EXTENSION_MYSQL_SCHEMA = "x-mysql-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
@@ -41,19 +41,19 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public static final Integer ENUM_MAX_ELEMENTS = 65535;
     public static final Integer IDENTIFIER_MAX_LENGTH = 64;
 
-    protected Vector<String> mysqlNumericTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlNumericTypes = new Vector<>(Arrays.asList(
             "BIGINT", "BIT", "BOOL", "BOOLEAN", "DEC", "DECIMAL", "DOUBLE", "DOUBLE PRECISION", "FIXED", "FLOAT", "INT", "INTEGER", "MEDIUMINT", "NUMERIC", "REAL", "SMALLINT", "TINYINT"
     ));
 
-    protected Vector<String> mysqlDateAndTimeTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlDateAndTimeTypes = new Vector<>(Arrays.asList(
             "DATE", "DATETIME", "TIME", "TIMESTAMP", "YEAR"
     ));
 
-    protected Vector<String> mysqlStringTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlStringTypes = new Vector<>(Arrays.asList(
             "BINARY", "BLOB", "CHAR", "CHAR BYTE", "CHARACTER", "ENUM", "LONGBLOB", "LONGTEXT", "MEDIUMBLOB", "MEDIUMTEXT", "SET", "TEXT", "TINYBLOB", "TINYTEXT", "VARBINARY", "VARCHAR"
     ));
 
-    protected Vector<String> mysqlSpatialTypes = new Vector<String>(Arrays.asList(
+    protected Vector<String> mysqlSpatialTypes = new Vector<>(Arrays.asList(
             "GEOMETRY", "GEOMETRYCOLLECTION", "LINESTRING", "MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON", "POINT", "POLYGON"
     ));
 
@@ -125,7 +125,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         );
 
         // all types can be threaded as primitives except array, object and refs
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "bool",
                         "boolean",
@@ -263,8 +263,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             String tableName = this.toTableName(modelName);
             String modelDescription = model.getDescription();
             Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
-            Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-            Map<String, Object> tableDefinition = new HashMap<String, Object>();
+            Map<String, Object> mysqlSchema = new HashMap<>();
+            Map<String, Object> tableDefinition = new HashMap<>();
 
             if (this.getIdentifierNamingConvention().equals("snake_case") && !modelName.equals(tableName)) {
                 // add original name in table comment
@@ -274,7 +274,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
             if (modelVendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
                 // user already specified schema values
-                LOGGER.info("Found vendor extension in '" + modelName + "' model, autogeneration skipped");
+                LOGGER.info("Found vendor extension in '{}' model, autogeneration skipped", modelName);
             } else {
                 modelVendorExtensions.put(VENDOR_EXTENSION_MYSQL_SCHEMA, mysqlSchema);
                 mysqlSchema.put("tableDefinition", tableDefinition);
@@ -325,8 +325,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processIntegerTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -345,7 +345,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
-            LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
+            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
             return;
         }
 
@@ -364,11 +364,13 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
             for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn("ENUM column can have maximum of " + ENUM_MAX_ELEMENTS.toString() + " distinct elements, following value will be skipped: " + (String) enumValues.get(i));
+                    LOGGER.warn(
+                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
+                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value, (Boolean) (i + 1 < enumValues.size())));
+                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value));
             }
             columnDefinition.put("colDataType", "ENUM");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
@@ -395,7 +397,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             try {
                 columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
-                LOGGER.warn("Property '" + baseName + "' of model '" + model.getName() + "' mapped to MySQL data type which doesn't support default value");
+                LOGGER.warn(
+                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
+                        baseName, model.getName());
                 columnDefinition.put("colDefault", null);
             }
         }
@@ -413,8 +417,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processDecimalTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -432,7 +436,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
-            LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
+            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
             return;
         }
 
@@ -451,11 +455,13 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
             for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn("ENUM column can have maximum of " + ENUM_MAX_ELEMENTS.toString() + " distinct elements, following value will be skipped: " + (String) enumValues.get(i));
+                    LOGGER.warn(
+                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
+                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value, (Boolean) (i + 1 < enumValues.size())));
+                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value));
             }
             columnDefinition.put("colDataType", "ENUM");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
@@ -470,8 +476,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             columnDefinition.put("colDataType", "DECIMAL");
             columnDefinition.put("colUnsigned", unsigned);
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
-            columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(20, true));
-            columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(9, false));
+            columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(20));
+            columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(9));
         }
 
         if (Boolean.TRUE.equals(required)) {
@@ -481,7 +487,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             try {
                 columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
-                LOGGER.warn("Property '" + baseName + "' of model '" + model.getName() + "' mapped to MySQL data type which doesn't support default value");
+                LOGGER.warn(
+                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
+                        baseName, model.getName());
                 columnDefinition.put("colDefault", null);
             }
         }
@@ -499,8 +507,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processBooleanTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -510,7 +518,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
-            LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
+            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
             return;
         }
 
@@ -525,7 +533,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         columnDefinition.put("colName", colName);
         columnDefinition.put("colDataType", "TINYINT");
         columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
-        columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(1, false));
+        columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(1));
 
         if (Boolean.TRUE.equals(required)) {
             columnDefinition.put("colNotNull", true);
@@ -534,7 +542,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             try {
                 columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
-                LOGGER.warn("Property '" + baseName + "' of model '" + model.getName() + "' mapped to MySQL data type which doesn't support default value");
+                LOGGER.warn(
+                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
+                        baseName, model.getName());
                 columnDefinition.put("colDefault", null);
             }
         }
@@ -552,8 +562,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processStringTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
@@ -568,7 +578,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
-            LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
+            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
             return;
         }
 
@@ -589,11 +599,13 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
             for (int i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn("ENUM column can have maximum of " + ENUM_MAX_ELEMENTS.toString() + " distinct elements, following value will be skipped: " + (String) enumValues.get(i));
+                    LOGGER.warn(
+                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
+                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
                     break;
                 }
                 String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value, (Boolean) (i + 1 < enumValues.size())));
+                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value));
             }
         } else if (dataType.equals("MEDIUMBLOB")) {
             columnDefinition.put("colDataType", "MEDIUMBLOB");
@@ -602,7 +614,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             columnDefinition.put("colDataType", matchedStringType);
             if (matchedStringType.equals("CHAR") || matchedStringType.equals("VARCHAR")) {
                 columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
-                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument((maxLength != null) ? maxLength : 255, false));
+                columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument((maxLength != null) ? maxLength : 255));
             }
         }
 
@@ -613,7 +625,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             try {
                 columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
-                LOGGER.warn("Property '" + baseName + "' of model '" + model.getName() + "' mapped to MySQL data type which doesn't support default value");
+                LOGGER.warn(
+                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
+                        baseName, model.getName());
                 columnDefinition.put("colDefault", null);
             }
         }
@@ -631,8 +645,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processDateTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
@@ -642,7 +656,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
-            LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
+            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
             return;
         }
 
@@ -664,7 +678,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             try {
                 columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
-                LOGGER.warn("Property '" + baseName + "' of model '" + model.getName() + "' mapped to MySQL data type which doesn't support default value");
+                LOGGER.warn(
+                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
+                        baseName, model.getName());
                 columnDefinition.put("colDefault", null);
             }
         }
@@ -682,8 +698,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processJsonTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
@@ -693,7 +709,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
-            LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
+            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
             return;
         }
 
@@ -718,7 +734,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             try {
                 columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
-                LOGGER.warn("Property '" + baseName + "' of model '" + model.getName() + "' mapped to MySQL data type which doesn't support default value");
+                LOGGER.warn(
+                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
+                        baseName, model.getName());
                 columnDefinition.put("colDefault", null);
             }
         }
@@ -737,8 +755,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public void processUnknownTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> mysqlSchema = new HashMap<String, Object>();
-        Map<String, Object> columnDefinition = new HashMap<String, Object>();
+        Map<String, Object> mysqlSchema = new HashMap<>();
+        Map<String, Object> columnDefinition = new HashMap<>();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         Boolean required = property.getRequired();
@@ -747,7 +765,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
             // user already specified schema values
-            LOGGER.info("Found vendor extension in '" + baseName + "' property, autogeneration skipped");
+            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
             return;
         }
 
@@ -769,7 +787,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             try {
                 columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
             } catch (RuntimeException exception) {
-                LOGGER.warn("Property '" + baseName + "' of model '" + model.getName() + "' mapped to MySQL data type which doesn't support default value");
+                LOGGER.warn(
+                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
+                        baseName, model.getName());
                 columnDefinition.put("colDefault", null);
             }
         }
@@ -783,11 +803,10 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      * Generates codegen property for MySQL data type argument
      *
      * @param value   argument value
-     * @param hasMore shows whether codegen has more arguments or not
      * @return generated codegen property
      */
-    public HashMap<String, Object> toCodegenMysqlDataTypeArgument(Object value, Boolean hasMore) {
-        HashMap<String, Object> arg = new HashMap<String, Object>();
+    public HashMap<String, Object> toCodegenMysqlDataTypeArgument(Object value) {
+        HashMap<String, Object> arg = new HashMap<>();
         if (value instanceof String) {
             arg.put("isString", true);
             arg.put("isFloat", false);
@@ -804,10 +823,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             arg.put("isInteger", false);
             arg.put("isNumeric", true);
         } else {
-            LOGGER.warn("MySQL data type argument can be primitive type only. Class '" + value.getClass() + "' is provided");
+            LOGGER.warn("MySQL data type argument can be primitive type only. Class '{}' is provided", value.getClass());
         }
         arg.put("argumentValue", value);
-        arg.put("hasMore", hasMore);
         return arg;
     }
 
@@ -820,7 +838,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      * @return generated codegen property
      */
     public HashMap<String, Object> toCodegenMysqlDataTypeDefault(String defaultValue, String mysqlDataType) {
-        HashMap<String, Object> defaultMap = new HashMap<String, Object>();
+        HashMap<String, Object> defaultMap = new HashMap<>();
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
             defaultMap.put("defaultValue", "NULL");
             defaultMap.put("isString", false);
@@ -989,7 +1007,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public String toDatabaseName(String name) {
         String identifier = toMysqlIdentifier(name, databaseNamePrefix, databaseNameSuffix);
         if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
-            LOGGER.warn("Database name cannot exceed 64 chars. Name '" + name + "' will be truncated");
+            LOGGER.warn("Database name cannot exceed 64 chars. Name '{}' will be truncated", name);
             identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
         }
         return identifier;
@@ -1008,7 +1026,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             identifier = underscore(identifier);
         }
         if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
-            LOGGER.warn("Table name cannot exceed 64 chars. Name '" + name + "' will be truncated");
+            LOGGER.warn("Table name cannot exceed 64 chars. Name '{}' will be truncated", name);
             identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
         }
         return identifier;
@@ -1027,7 +1045,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             identifier = underscore(identifier);
         }
         if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
-            LOGGER.warn("Column name cannot exceed 64 chars. Name '" + name + "' will be truncated");
+            LOGGER.warn("Column name cannot exceed 64 chars. Name '{}' will be truncated", name);
             identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
         }
         return identifier;
@@ -1046,19 +1064,19 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         String escapedName = escapeMysqlQuotedIdentifier(name);
         // Database, table, and column names cannot end with space characters.
         if (escapedName.matches(".*\\s$")) {
-            LOGGER.warn("Database, table, and column names cannot end with space characters. Check '" + name + "' name");
+            LOGGER.warn("Database, table, and column names cannot end with space characters. Check '{}' name", name);
             escapedName = escapedName.replaceAll("\\s+$", "");
         }
 
         // Identifiers may begin with a digit but unless quoted may not consist solely of digits.
         if (escapedName.matches("^\\d+$")) {
-            LOGGER.warn("Database, table, and column names cannot consist solely of digits. Check '" + name + "' name");
+            LOGGER.warn("Database, table, and column names cannot consist solely of digits. Check '{}' name", name);
             escapedName = prefix + escapedName + suffix;
         }
 
         // identifier name cannot be empty
         if (escapedName.isEmpty()) {
-            throw new RuntimeException("Empty database/table/column name for property '" + name.toString() + "' not allowed");
+            throw new RuntimeException("Empty database/table/column name for property '" + name + "' not allowed");
         }
         return escapedName;
     }
@@ -1075,7 +1093,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         Pattern regexp = Pattern.compile("[^0-9a-zA-z$_\\u0080-\\uFFFF]");
         Matcher matcher = regexp.matcher(identifier);
         if (matcher.find()) {
-            LOGGER.warn("Identifier '" + identifier + "' contains unsafe characters out of [0-9,a-z,A-Z$_] and U+0080..U+FFFF range");
+            LOGGER.warn("Identifier '{}' contains unsafe characters out of [0-9,a-z,A-Z$_] and U+0080..U+FFFF range",
+                    identifier);
             identifier = identifier.replaceAll("[^0-9a-zA-z$_\\u0080-\\uFFFF]", "");
         }
 
@@ -1097,7 +1116,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         Pattern regexp = Pattern.compile("[^\\u0001-\\u007F\\u0080-\\uFFFF]");
         Matcher matcher = regexp.matcher(identifier);
         if (matcher.find()) {
-            LOGGER.warn("Identifier '" + identifier + "' contains unsafe characters out of U+0001..U+007F and U+0080..U+FFFF range");
+            LOGGER.warn("Identifier '{}' contains unsafe characters out of U+0001..U+007F and U+0080..U+FFFF range",
+                    identifier);
             identifier = identifier.replaceAll("[^\\u0001-\\u007F\\u0080-\\uFFFF]", "");
         }
 
@@ -1109,7 +1129,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String escapeReservedWord(String name) {
-        LOGGER.warn("'" + name + "' is MySQL reserved word. Do not use that word or properly escape it with backticks in mustache template");
+        LOGGER.warn(
+                "'{}' is MySQL reserved word. Do not use that word or properly escape it with backticks in mustache template",
+                name);
         return name;
     }
 
@@ -1133,7 +1155,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public void setDefaultDatabaseName(String databaseName) {
         String escapedName = toDatabaseName(databaseName);
         if (!escapedName.equals(databaseName)) {
-            LOGGER.error("Invalid database name. '" + databaseName + "' cannot be used as MySQL identifier. Escaped value '" + escapedName + "' will be used instead.");
+            LOGGER.error(
+                    "Invalid database name. '{}' cannot be used as MySQL identifier. Escaped value '{}' will be used instead.",
+                    databaseName, escapedName);
         }
         this.defaultDatabaseName = escapedName;
     }
@@ -1198,7 +1222,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 this.identifierNamingConvention = naming;
                 break;
             default:
-                LOGGER.warn("\"" + (String) naming + "\" is invalid \"identifierNamingConvention\" argument. Current \"" + (String) this.identifierNamingConvention + "\" used instead.");
+                LOGGER.warn("\"{}\" is invalid \"identifierNamingConvention\" argument. Current \"{}\" used instead.",
+                        naming, this.identifierNamingConvention);
         }
     }
 

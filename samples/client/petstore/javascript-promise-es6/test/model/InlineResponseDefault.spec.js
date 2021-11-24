@@ -56,7 +56,7 @@
 
     it('should have the property _string (base name: "string")', function() {
       // uncomment below and update the code to test the property _string
-      //var instane = new OpenApiPetstore.InlineResponseDefault();
+      //var instance = new OpenApiPetstore.InlineResponseDefault();
       //expect(instance).to.be();
     });
 

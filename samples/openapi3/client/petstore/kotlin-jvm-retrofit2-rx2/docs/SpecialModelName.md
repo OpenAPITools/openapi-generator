@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket** | **kotlin.Long** |  |  [optional]
+**dollarSpecialPropertyName** | **kotlin.Long** |  |  [optional]
 
 
 

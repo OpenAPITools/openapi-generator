@@ -37,7 +37,7 @@ public class FakeApi {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -46,7 +46,7 @@ public class FakeApi {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -112,7 +112,7 @@ public class FakeApi {
 
     return apiClient.invokeAPI("FakeApi.fakeHealthGet", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * 
@@ -174,7 +174,7 @@ public class FakeApi {
 
     return apiClient.invokeAPI("FakeApi.fakeOuterBooleanSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * 
@@ -236,7 +236,7 @@ public class FakeApi {
 
     return apiClient.invokeAPI("FakeApi.fakeOuterCompositeSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * 
@@ -298,7 +298,7 @@ public class FakeApi {
 
     return apiClient.invokeAPI("FakeApi.fakeOuterNumberSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * 
@@ -360,7 +360,7 @@ public class FakeApi {
 
     return apiClient.invokeAPI("FakeApi.fakeOuterStringSerialize", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Array of Enums
@@ -420,7 +420,7 @@ public class FakeApi {
 
     return apiClient.invokeAPI("FakeApi.getArrayOfEnums", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * 
@@ -484,7 +484,7 @@ public class FakeApi {
 
     return apiClient.invokeAPI("FakeApi.testBodyWithFileSchema", localVarPath, "PUT", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * 
@@ -556,7 +556,7 @@ public class FakeApi {
 
     return apiClient.invokeAPI("FakeApi.testBodyWithQueryParams", localVarPath, "PUT", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * To test \&quot;client\&quot; model
@@ -623,7 +623,7 @@ public class FakeApi {
 
     return apiClient.invokeAPI("FakeApi.testClientModel", localVarPath, "PATCH", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -758,14 +758,14 @@ if (paramCallback != null)
 
     return apiClient.invokeAPI("FakeApi.testEndpointParameters", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * To test enum parameters
    * To test enum parameters
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -786,9 +786,9 @@ if (paramCallback != null)
   /**
    * To test enum parameters
    * To test enum parameters
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -845,7 +845,7 @@ if (enumFormString != null)
 
     return apiClient.invokeAPI("FakeApi.testEnumParameters", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
 
 private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
@@ -901,7 +901,7 @@ if (booleanGroup != null)
 
     return apiClient.invokeAPI("FakeApi.testGroupParameters", localVarPath, "DELETE", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
 
   public class APItestGroupParametersRequest {
@@ -1080,7 +1080,7 @@ if (booleanGroup != null)
 
     return apiClient.invokeAPI("FakeApi.testInlineAdditionalProperties", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * test json serialization of form data
@@ -1155,7 +1155,7 @@ if (param2 != null)
 
     return apiClient.invokeAPI("FakeApi.testJsonFormData", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * 
@@ -1221,7 +1221,7 @@ if (param2 != null)
     }
     
     // create path and map variables
-    String localVarPath = "/fake/test-query-paramters";
+    String localVarPath = "/fake/test-query-parameters";
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -1252,6 +1252,6 @@ if (param2 != null)
 
     return apiClient.invokeAPI("FakeApi.testQueryParameterCollectionFormat", localVarPath, "PUT", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
 }

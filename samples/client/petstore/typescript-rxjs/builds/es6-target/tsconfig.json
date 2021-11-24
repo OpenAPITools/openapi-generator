@@ -6,6 +6,10 @@
     "moduleResolution": "node",
     "outDir": "dist",
     "rootDir": ".",
+    "lib": [
+      "dom",
+      "es2017"
+    ],
     "typeRoots": [
       "node_modules/@types"
     ]

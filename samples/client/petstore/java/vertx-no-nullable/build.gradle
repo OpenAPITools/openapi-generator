@@ -1,0 +1,54 @@
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+group = 'org.openapitools'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'petstore-vertx-no-nullable'
+            from components.java
+        }
+    }
+}
+
+task execute(type:JavaExec) {
+   main = System.getProperty('mainClass')
+   classpath = sourceSets.main.runtimeClasspath
+}
+
+ext {
+    swagger_annotations_version = "1.5.21"
+    jackson_version = "2.10.5"
+    jackson_databind_version = "2.10.5.1"
+    vertx_version = "3.4.2"
+    junit_version = "4.13.1"
+    jakarta_annotation_version = "1.3.5"
+    jackson_threeten_version = "2.9.10"
+}
+
+dependencies {
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+    implementation "io.vertx:vertx-web-client:$vertx_version"
+    implementation "io.vertx:vertx-rx-java:$vertx_version"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    implementation "com.github.joschi.jackson:jackson-datatype-threetenbp:jackson_threeten_version"
+    implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "io.vertx:vertx-unit:$vertx_version"
+}

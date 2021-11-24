@@ -20,18 +20,23 @@ defmodule {{moduleName}}.Api.{{classname}} do
 
   ## Parameters
 
-  - connection ({{moduleName}}.Connection): Connection to server
+  - connection ({{&moduleName}}.Connection): Connection to server
 {{#requiredParams}}
-  - {{#underscored}}{{paramName}}{{/underscored}} ({{dataType}}): {{&description}}
+  - {{#underscored}}{{&paramName}}{{/underscored}} ({{&dataType}}): {{&description}}
 {{/requiredParams}}
   - opts (KeywordList): [optional] Optional parameters
 {{#optionalParams}}
-    - {{#underscored}}:{{paramName}}{{/underscored}} ({{dataType}}): {{&description}}
+{{#isBodyParam}}
+    - :body ({{dataType}}): {{&description}}
+{{/isBodyParam}}
+{{^isBodyParam}}
+    - {{#underscored}}:{{&paramName}}{{/underscored}} ({{&dataType}}): {{&description}}
+{{/isBodyParam}}
 {{/optionalParams}}
   ## Returns
 
-  {:ok, {{#isListContainer}}[%{{returnBaseType}}{}, ...]{{/isListContainer}}{{#isMapContainer}}%{}{{/isMapContainer}}{{^returnType}}%{}{{/returnType}}{{#returnSimpleType}}%{{#returnType}}{{#isMapContainer}}{{/isMapContainer}}{{{moduleName}}}.Model.{{{returnType}}}{{/returnType}}{}{{/returnSimpleType}}} on success
-  {:error, info} on failure
+  {:ok, {{#isArray}}[%{{&returnBaseType}}{}, ...]{{/isArray}}{{#isMap}}%{}{{/isMap}}{{^returnType}}nil{{/returnType}}{{#returnSimpleType}}{{#returnType}}{{{.}}}{{/returnType}}{{/returnSimpleType}}} on success
+  {:error, Tesla.Env.t} on failure
   """
   {{{typespec}}}
   def {{{operationId}}}(connection, {{#requiredParams}}{{#underscored}}{{{paramName}}}{{/underscored}}, {{/requiredParams}}{{^hasOptionalParams}}_{{/hasOptionalParams}}opts \\ []) do
@@ -39,7 +44,12 @@ defmodule {{moduleName}}.Api.{{classname}} do
 {{#-first}}
     optional_params = %{
 {{/-first}}
-      :"{{baseName}}" => {{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{#hasMore}},{{/hasMore}}
+{{#isBodyParam}}
+      :body => :body
+{{/isBodyParam}}
+{{^isBodyParam}}
+      :"{{baseName}}" => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{^-last}},{{/-last}}
+{{/isBodyParam}}
 {{#-last}}
     }
 {{/-last}}
@@ -57,11 +67,14 @@ defmodule {{moduleName}}.Api.{{classname}} do
     |> add_optional_params(optional_params, opts)
 {{/-first}}
 {{/optionalParams}}
+{{#requiresHttpcWorkaround}}
+    |> ensure_body()
+{{/requiresHttpcWorkaround}}
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response({{#responses}}{{#-first}}[
 {{/-first}}
-      { {{& codeMappingKey}}, {{decodedStruct}}}{{#hasMore}},{{/hasMore}}
+      { {{& codeMappingKey}}, {{decodedStruct}}}{{^-last}},{{/-last}}
 {{#-last}}    ]{{/-last}}{{/responses}})
   end
   {{/operation}}

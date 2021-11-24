@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.User;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -45,6 +47,7 @@ public class UserApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public UserApi() {
     this(new ApiClient());
@@ -57,6 +60,19 @@ public class UserApi {
     memberVarInterceptor = apiClient.getRequestInterceptor();
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
+    memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
+  }
+
+  private ApiException getApiException(String operationId, HttpResponse<String> response) {
+    String message = formatExceptionMessage(operationId, response.statusCode(), response.body());
+    return new ApiException(response.statusCode(), message, response.headers(), response.body());
+  }
+
+  private String formatExceptionMessage(String operationId, int statusCode, String body) {
+    if (body == null || body.isEmpty()) {
+      body = "[no body]";
+    }
+    return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
   /**
@@ -69,18 +85,43 @@ public class UserApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = createUserRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "createUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-              return CompletableFuture.completedFuture(null);
-          }
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("createUser", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(null);
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Create user
+   * This can only be done by the logged in user.
+   * @param body Created user object (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> createUserWithHttpInfo(User body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = createUserRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("createUser", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -126,18 +167,43 @@ public class UserApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = createUsersWithArrayInputRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "createUsersWithArrayInput call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-              return CompletableFuture.completedFuture(null);
-          }
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("createUsersWithArrayInput", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(null);
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Creates list of users with given input array
+   * 
+   * @param body List of user object (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = createUsersWithArrayInputRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("createUsersWithArrayInput", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -183,18 +249,43 @@ public class UserApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = createUsersWithListInputRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "createUsersWithListInput call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-              return CompletableFuture.completedFuture(null);
-          }
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("createUsersWithListInput", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(null);
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Creates list of users with given input array
+   * 
+   * @param body List of user object (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = createUsersWithListInputRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("createUsersWithListInput", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -240,18 +331,43 @@ public class UserApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = deleteUserRequestBuilder(username);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "deleteUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-              return CompletableFuture.completedFuture(null);
-          }
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("deleteUser", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(null);
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username The name that needs to be deleted (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> deleteUserWithHttpInfo(String username) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = deleteUserRequestBuilder(username);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("deleteUser", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -286,31 +402,63 @@ public class UserApi {
    * Get user by user name
    * 
    * @param username The name that needs to be fetched. Use user1 for testing. (required)
-   * @return User
+   * @return CompletableFuture&lt;User&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<User> getUserByName(String username) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = getUserByNameRequestBuilder(username);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "getUserByName call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("getUserByName", localVarResponse));
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<User>() {})
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<User>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;User&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<User>> getUserByNameWithHttpInfo(String username) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = getUserByNameRequestBuilder(username);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("getUserByName", localVarResponse));
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<User>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<User>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -346,31 +494,64 @@ public class UserApi {
    * 
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
-   * @return String
+   * @return CompletableFuture&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<String> loginUser(String username, String password) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = loginUserRequestBuilder(username, password);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "loginUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("loginUser", localVarResponse));
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {})
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Logs user into the system
+   * 
+   * @param username The user name for login (required)
+   * @param password The password for login in clear text (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;String&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<String>> loginUserWithHttpInfo(String username, String password) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = loginUserRequestBuilder(username, password);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("loginUser", localVarResponse));
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<String>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -423,18 +604,42 @@ public class UserApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = logoutUserRequestBuilder();
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "logoutUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-              return CompletableFuture.completedFuture(null);
-          }
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("logoutUser", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(null);
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Logs out current logged in user session
+   * 
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> logoutUserWithHttpInfo() throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = logoutUserRequestBuilder();
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("logoutUser", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -471,18 +676,44 @@ public class UserApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = updateUserRequestBuilder(username, body);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "updateUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-              return CompletableFuture.completedFuture(null);
-          }
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("updateUser", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(null);
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Updated user
+   * This can only be done by the logged in user.
+   * @param username name that need to be deleted (required)
+   * @param body Updated user object (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> updateUserWithHttpInfo(String username, User body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = updateUserRequestBuilder(username, body);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("updateUser", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);

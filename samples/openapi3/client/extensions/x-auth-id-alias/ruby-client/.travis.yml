@@ -1,0 +1,14 @@
+language: ruby
+cache: bundler
+rvm:
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - 2.7
+  - 3.0
+script:
+  - bundle install --path vendor/bundle
+  - bundle exec rspec
+  - gem build x_auth_id_alias.gemspec
+  - gem install ./x_auth_id_alias-1.0.0.gem

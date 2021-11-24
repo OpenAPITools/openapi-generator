@@ -17,20 +17,23 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Order;
 import org.junit.Test;
 import org.junit.Ignore;
-import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * API tests for StoreApi
  */
+@Ignore
 public class StoreApiTest {
 
     private final StoreApi api = new StoreApi();
 
+    
     /**
      * Delete purchase order by ID
      *
@@ -41,13 +44,13 @@ public class StoreApiTest {
      */
     @Test
     public void deleteOrderTest() throws ApiException {
-        //
-        //String orderId = null;
-        //
-        //api.deleteOrder(orderId);
-
+        String orderId = null;
+        
+        CompletableFuture<Void> response = api.deleteOrder(orderId);
+        
         // TODO: test validations
     }
+    
     /**
      * Returns pet inventories by status
      *
@@ -58,11 +61,12 @@ public class StoreApiTest {
      */
     @Test
     public void getInventoryTest() throws ApiException {
-        //
-        //Map<String, Integer> response = api.getInventory();
-
+        CompletableFuture<Map<String, Integer>> response = 
+        api.getInventory();
+        
         // TODO: test validations
     }
+    
     /**
      * Find purchase order by ID
      *
@@ -73,26 +77,28 @@ public class StoreApiTest {
      */
     @Test
     public void getOrderByIdTest() throws ApiException {
-        //
-        //Long orderId = null;
-        //
-        //Order response = api.getOrderById(orderId);
-
+        Long orderId = null;
+        CompletableFuture<Order> response = 
+        api.getOrderById(orderId);
+        
         // TODO: test validations
     }
+    
     /**
      * Place an order for a pet
+     *
+     * 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void placeOrderTest() throws ApiException {
-        //
-        //Order body = null;
-        //
-        //Order response = api.placeOrder(body);
-
+        Order body = null;
+        CompletableFuture<Order> response = 
+        api.placeOrder(body);
+        
         // TODO: test validations
     }
+    
 }

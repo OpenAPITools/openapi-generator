@@ -111,7 +111,7 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     if (apiClient->response_code == 200) {
         printf("%s\n","successful operation");
     }
-    //primitive reutrn type not simple
+    //primitive return type not simple
     cJSON *localVarJSON = cJSON_Parse(apiClient->dataReceived);
     cJSON *VarJSON;
     list_t *elementToReturn = list_create();
@@ -134,6 +134,7 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     free(localVarPath);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -217,6 +218,7 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
     free(localVarToReplace_orderId);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -242,7 +244,7 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_body;
+    cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
         //string
@@ -287,10 +289,14 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
     list_free(localVarHeaderType);
     
     free(localVarPath);
-    cJSON_Delete(localVarSingleItemJSON_body);
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
+    }
     free(localVarBodyParameters);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }

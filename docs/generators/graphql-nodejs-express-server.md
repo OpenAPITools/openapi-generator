@@ -3,6 +3,8 @@ title: Config Options for graphql-nodejs-express-server
 sidebar_label: graphql-nodejs-express-server
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
@@ -13,23 +15,6 @@ sidebar_label: graphql-nodejs-express-server
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|Array|java.util.List|
-|ArrayList|java.util.ArrayList|
-|BigDecimal|java.math.BigDecimal|
-|Date|java.util.Date|
-|DateTime|org.joda.time.*|
-|File|java.io.File|
-|HashMap|java.util.HashMap|
-|LinkedHashSet|java.util.LinkedHashSet|
-|List|java.util.*|
-|LocalDate|org.joda.time.*|
-|LocalDateTime|org.joda.time.*|
-|LocalTime|org.joda.time.*|
-|Map|java.util.Map|
-|Set|java.util.*|
-|Timestamp|java.sql.Timestamp|
-|URI|java.net.URI|
-|UUID|java.util.UUID|
 
 
 ## INSTANTIATION TYPES
@@ -74,6 +59,7 @@ sidebar_label: graphql-nodejs-express-server
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

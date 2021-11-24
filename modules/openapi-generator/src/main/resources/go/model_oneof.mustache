@@ -1,0 +1,109 @@
+// {{classname}} - {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
+type {{classname}} struct {
+	{{#oneOf}}
+	{{{.}}} *{{{.}}}
+	{{/oneOf}}
+}
+
+{{#oneOf}}
+// {{{.}}}As{{classname}} is a convenience function that returns {{{.}}} wrapped in {{classname}}
+func {{{.}}}As{{classname}}(v *{{{.}}}) {{classname}} {
+	return {{classname}}{ {{{.}}}: v}
+}
+
+{{/oneOf}}
+
+// Unmarshal JSON data into one of the pointers in the struct
+func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
+	var err error
+	{{#isNullable}}
+	// this object is nullable so check if the payload is null or empty string
+	if string(data) == "" || string(data) == "{}" {
+		return nil
+	}
+
+	{{/isNullable}}
+	{{#useOneOfDiscriminatorLookup}}
+	{{#discriminator}}
+	{{#mappedModels}}
+	{{#-first}}
+	// use discriminator value to speed up the lookup
+	var jsonDict map[string]interface{}
+	err = json.Unmarshal(data, &jsonDict)
+	if err != nil {
+		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
+	}
+
+	{{/-first}}
+	// check if the discriminator value is '{{{mappingName}}}'
+	if jsonDict["{{{propertyBaseName}}}"] == "{{{mappingName}}}" {
+		// try to unmarshal JSON data into {{{modelName}}}
+		err = json.Unmarshal(data, &dst.{{{modelName}}})
+		if err == nil {
+			return nil // data stored in dst.{{{modelName}}}, return on the first match
+		} else {
+			dst.{{{modelName}}} = nil
+			return fmt.Errorf("Failed to unmarshal {{classname}} as {{{modelName}}}: %s", err.Error())
+		}
+	}
+
+	{{/mappedModels}}
+	{{/discriminator}}
+	return nil
+	{{/useOneOfDiscriminatorLookup}}
+	{{^useOneOfDiscriminatorLookup}}
+	match := 0
+	{{#oneOf}}
+	// try to unmarshal data into {{{.}}}
+	err = json.Unmarshal(data, &dst.{{{.}}})
+	if err == nil {
+		json{{{.}}}, _ := json.Marshal(dst.{{{.}}})
+		if string(json{{{.}}}) == "{}" { // empty struct
+			dst.{{{.}}} = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.{{{.}}} = nil
+	}
+
+	{{/oneOf}}
+	if match > 1 { // more than 1 match
+		// reset to nil
+		{{#oneOf}}
+		dst.{{{.}}} = nil
+		{{/oneOf}}
+
+		return fmt.Errorf("Data matches more than one schema in oneOf({{classname}})")
+	} else if match == 1 {
+		return nil // exactly one match
+	} else { // no match
+		return fmt.Errorf("Data failed to match schemas in oneOf({{classname}})")
+	}
+	{{/useOneOfDiscriminatorLookup}}
+}
+
+// Marshal data from the first non-nil pointers in the struct to JSON
+func (src {{classname}}) MarshalJSON() ([]byte, error) {
+{{#oneOf}}
+	if src.{{{.}}} != nil {
+		return json.Marshal(&src.{{{.}}})
+	}
+
+{{/oneOf}}
+	return nil, nil // no data in oneOf schemas
+}
+
+// Get the actual instance
+func (obj *{{classname}}) GetActualInstance() (interface{}) {
+{{#oneOf}}
+	if obj.{{{.}}} != nil {
+		return obj.{{{.}}}
+	}
+
+{{/oneOf}}
+	// all schemas are nil
+	return nil
+}
+
+{{>nullable_model}}

@@ -41,8 +41,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.io.FileUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -65,13 +67,15 @@ public class ModelUtils {
     // A vendor extension to track the value of the 'disallowAdditionalPropertiesIfNotPresent' CLI
     private static final String disallowAdditionalPropertiesIfNotPresent = "x-disallow-additional-properties-if-not-present";
 
+    private static final String freeFormExplicit = "x-is-free-form";
+
     private static ObjectMapper JSON_MAPPER, YAML_MAPPER;
 
     static {
         JSON_MAPPER = ObjectMapperFactory.createJson();
         YAML_MAPPER = ObjectMapperFactory.createYaml();
     }
-    
+
     public static void setDisallowAdditionalPropertiesIfNotPresent(boolean value) {
         GlobalSettings.setProperty(disallowAdditionalPropertiesIfNotPresent, Boolean.toString(value));
     }
@@ -86,6 +90,10 @@ public class ModelUtils {
 
     public static boolean isGenerateAliasAsModel() {
         return Boolean.parseBoolean(GlobalSettings.getProperty(generateAliasAsModelKey, "false"));
+    }
+
+    public static boolean isGenerateAliasAsModel(Schema schema) {
+        return isGenerateAliasAsModel() || (schema.getExtensions() != null && schema.getExtensions().getOrDefault("x-generate-alias-as-model", false).equals(true));
     }
 
     /**
@@ -164,18 +172,20 @@ public class ModelUtils {
         childrenMap = tmpChildrenMap;
         List<String> unusedSchemas = new ArrayList<String>();
 
-        Map<String, Schema> schemas = getSchemas(openAPI);
-        unusedSchemas.addAll(schemas.keySet());
+        if (openAPI != null) {
+            Map<String, Schema> schemas = getSchemas(openAPI);
+            unusedSchemas.addAll(schemas.keySet());
 
-        visitOpenAPI(openAPI, (s, t) -> {
-            if (s.get$ref() != null) {
-                String ref = getSimpleRef(s.get$ref());
-                unusedSchemas.remove(ref);
-                if (childrenMap.containsKey(ref)) {
-                    unusedSchemas.removeAll(childrenMap.get(ref));
+            visitOpenAPI(openAPI, (s, t) -> {
+                if (s.get$ref() != null) {
+                    String ref = getSimpleRef(s.get$ref());
+                    unusedSchemas.remove(ref);
+                    if (childrenMap.containsKey(ref)) {
+                        unusedSchemas.removeAll(childrenMap.get(ref));
+                    }
                 }
-            }
-        });
+            });
+        }
         return unusedSchemas;
     }
 
@@ -382,7 +392,34 @@ public class ModelUtils {
 
         }
 
+        try {
+            ref = URLDecoder.decode(ref, "UTF-8");
+        } catch (UnsupportedEncodingException ignored) {
+        }
+
+        // see https://tools.ietf.org/html/rfc6901#section-3
+        // Because the characters '~' (%x7E) and '/' (%x2F) have special meanings in
+        // JSON Pointer, '~' needs to be encoded as '~0' and '/' needs to be encoded
+        // as '~1' when these characters appear in a reference token.
+        // This reverses that encoding.
+        ref = ref.replace("~1", "/").replace("~0", "~");
+
         return ref;
+    }
+
+    /**
+     * Return true if the specified schema is type object
+     * We can't use isObjectSchema because it requires properties to exist which is not required
+     * We can't use isMap because it is true for AnyType use cases
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is an Object schema.
+     */
+    public static boolean isTypeObjectSchema(Schema schema) {
+        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType())) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -667,26 +704,50 @@ public class ModelUtils {
         return false;
     }
 
+    public static boolean isDecimalSchema(Schema schema) {
+        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType()) // type: string
+                && "number".equals(schema.getFormat())) { // format: number
+            return true;
+        }
+        return false;
+    }
+
     /**
-     * Check to see if the schema is a model with at least one property.
+     * Check to see if the schema is a model
      *
      * @param schema potentially containing a '$ref'
      * @return true if it's a model with at least one properties
      */
     public static boolean isModel(Schema schema) {
         if (schema == null) {
-            // TODO: Is this message necessary? A null schema is not a model, so the result is correct.
-            once(LOGGER).error("Schema cannot be null in isModel check");
             return false;
         }
 
-        // has at least one property
-        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        // has properties
+        if (null != schema.getProperties()) {
             return true;
         }
 
-        // composed schema is a model
-        return schema instanceof ComposedSchema;
+        // composed schema is a model, consider very simple ObjectSchema a model
+        return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
+    }
+
+    public static boolean hasValidation(Schema sc) {
+        return (
+                sc.getMaxItems() != null ||
+                        sc.getMinProperties() != null ||
+                        sc.getMaxProperties() != null ||
+                        sc.getMinLength() != null ||
+                        sc.getMinItems() != null ||
+                        sc.getMultipleOf() != null ||
+                        sc.getPattern() != null ||
+                        sc.getMaxLength() != null ||
+                        sc.getMinimum() != null ||
+                        sc.getMaximum() != null ||
+                        sc.getExclusiveMaximum() != null ||
+                        sc.getExclusiveMinimum() != null ||
+                        sc.getUniqueItems() != null
+        );
     }
 
     /**
@@ -741,6 +802,16 @@ public class ModelUtils {
             // no properties
             if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
                 Schema addlProps = getAdditionalProperties(openAPI, schema);
+
+                if (schema.getExtensions() != null && schema.getExtensions().containsKey(freeFormExplicit)) {
+                    // User has hard-coded vendor extension to handle free-form evaluation.
+                    boolean isFreeFormExplicit = Boolean.parseBoolean(String.valueOf(schema.getExtensions().get(freeFormExplicit)));
+                    if (!isFreeFormExplicit && addlProps != null && addlProps.getProperties() != null && !addlProps.getProperties().isEmpty()) {
+                        once(LOGGER).error(String.format(Locale.ROOT, "Potentially confusing usage of %s within model which defines additional properties", freeFormExplicit));
+                    }
+                    return isFreeFormExplicit;
+                }
+
                 // additionalProperties not defined
                 if (addlProps == null) {
                     return true;
@@ -753,7 +824,7 @@ public class ModelUtils {
                         }
                     } else if (addlProps instanceof Schema) {
                         // additionalProperties defined as {}
-                        if (addlProps.getType() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
+                        if (addlProps.getType() == null && addlProps.get$ref() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
                             return true;
                         }
                     }
@@ -1002,13 +1073,13 @@ public class ModelUtils {
      */
     public static Schema unaliasSchema(OpenAPI openAPI,
                                        Schema schema) {
-        return unaliasSchema(openAPI, schema, Collections.<String, String>emptyMap());
+        return unaliasSchema(openAPI, schema, Collections.emptyMap());
     }
 
     /**
      * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
      *
-     * @param openAPI        specification being checked
+     * @param openAPI        OpenAPI document containing the schemas.
      * @param schema         schema (alias or direct reference)
      * @param importMappings mappings of external types to be omitted by unaliasing
      * @return actual schema
@@ -1037,7 +1108,7 @@ public class ModelUtils {
                 // top-level enum class
                 return schema;
             } else if (isArraySchema(ref)) {
-                if (isGenerateAliasAsModel()) {
+                if (isGenerateAliasAsModel(ref)) {
                     return schema; // generate a model extending array
                 } else {
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
@@ -1049,7 +1120,7 @@ public class ModelUtils {
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
                     return schema; // treat it as model
                 else {
-                    if (isGenerateAliasAsModel()) {
+                    if (isGenerateAliasAsModel(ref)) {
                         return schema; // generate a model extending map
                     } else {
                         // treat it as a typical map
@@ -1073,7 +1144,7 @@ public class ModelUtils {
 
     /**
      * Returns the additionalProperties Schema for the specified input schema.
-     * 
+     *
      * The additionalProperties keyword is used to control the handling of additional, undeclared
      * properties, that is, properties whose names are not listed in the properties keyword.
      * The additionalProperties keyword may be either a boolean or an object.
@@ -1081,7 +1152,7 @@ public class ModelUtils {
      * By default when the additionalProperties keyword is not specified in the input schema,
      * any additional properties are allowed. This is equivalent to setting additionalProperties
      * to the boolean value True or setting additionalProperties: {}
-     * 
+     *
      * @param openAPI the object that encapsulates the OAS document.
      * @param schema the input schema that may or may not have the additionalProperties keyword.
      * @return the Schema of the additionalProperties. The null value is returned if no additional
@@ -1137,7 +1208,7 @@ public class ModelUtils {
         }
         return null;
     }
-    
+
     public static Header getReferencedHeader(OpenAPI openAPI, Header header) {
         if (header != null && StringUtils.isNotEmpty(header.get$ref())) {
             String name = getSimpleRef(header.get$ref());
@@ -1187,7 +1258,7 @@ public class ModelUtils {
         } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
             return composed.getOneOf();
         } else {
-            return Collections.<Schema>emptyList();
+            return Collections.emptyList();
         }
     }
 
@@ -1260,14 +1331,12 @@ public class ModelUtils {
             }
         }
 
-        // parent name only makes sense when there is a single obvious parent
-        if (refedWithoutDiscriminator.size() == 1) {
-            if (hasAmbiguousParents) {
-                LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
-                                "and will be removed in a future release. Generating model for composed schema name: {}. Title: {}",
-                        composedSchema.getName(), composedSchema.getTitle());
-            }
-            return refedWithoutDiscriminator.get(0);
+        if (refedWithoutDiscriminator.size() == 1 && hasAmbiguousParents) {
+            // allOf with a single $ref (no discriminator)
+            // TODO to be removed in 5.x or 6.x release
+            LOGGER.info("[deprecated] inheritance without use of 'discriminator.propertyName' has been deprecated" +
+                    " in the 5.x release. Composed schema name: {}. Title: {}",
+                    composedSchema.getName(), composedSchema.getTitle());
         }
 
         return null;
@@ -1372,7 +1441,7 @@ public class ModelUtils {
         }
 
         if (schema.getExtensions() != null && schema.getExtensions().get("x-nullable") != null) {
-            return Boolean.valueOf(schema.getExtensions().get("x-nullable").toString());
+            return Boolean.parseBoolean(schema.getExtensions().get("x-nullable").toString());
         }
         // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.
         if (schema instanceof ComposedSchema) {
@@ -1433,32 +1502,96 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * For when a type is not defined on a schema
+     * Note: properties, additionalProperties, enums, validations, items, and composed schemas (oneOf/anyOf/allOf)
+     * can be defined or omitted on these any type schemas
+     * @param schema the schema that we are checking
+     * @return boolean
+     */
+    public static boolean isAnyType(Schema schema) {
+        return (schema.get$ref() == null && schema.getType() == null);
+    }
+
     public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target) {
+        // TODO move this method to IJsonSchemaValidationProperties
         if (schema != null && target != null) {
-            target.setPattern(schema.getPattern());
-            BigDecimal minimum = schema.getMinimum();
-            BigDecimal maximum = schema.getMaximum();
-            Boolean exclusiveMinimum = schema.getExclusiveMinimum();
-            Boolean exclusiveMaximum = schema.getExclusiveMaximum();
-            Integer minLength = schema.getMinLength();
-            Integer maxLength = schema.getMaxLength();
+            if (isNullType(schema) || schema.get$ref() != null || isBooleanSchema(schema)) {
+                return;
+            }
             Integer minItems = schema.getMinItems();
             Integer maxItems = schema.getMaxItems();
             Boolean uniqueItems = schema.getUniqueItems();
             Integer minProperties = schema.getMinProperties();
             Integer maxProperties = schema.getMaxProperties();
+            Integer minLength = schema.getMinLength();
+            Integer maxLength = schema.getMaxLength();
+            String pattern = schema.getPattern();
+            BigDecimal multipleOf = schema.getMultipleOf();
+            BigDecimal minimum = schema.getMinimum();
+            BigDecimal maximum = schema.getMaximum();
+            Boolean exclusiveMinimum = schema.getExclusiveMinimum();
+            Boolean exclusiveMaximum = schema.getExclusiveMaximum();
 
-            if (minimum != null) target.setMinimum(String.valueOf(minimum));
-            if (maximum != null) target.setMaximum(String.valueOf(maximum));
+            if (isArraySchema(schema)) {
+                setArrayValidations(minItems, maxItems, uniqueItems, target);
+            } else if (isTypeObjectSchema(schema)) {
+                setObjectValidations(minProperties, maxProperties, target);
+            } else if (isStringSchema(schema)) {
+                setStringValidations(minLength, maxLength, pattern, target);
+                if (isDecimalSchema(schema)) {
+                    setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
+                }
+            } else if (isNumberSchema(schema) || isIntegerSchema(schema)) {
+                setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
+            } else if (isAnyType(schema)) {
+                // anyType can have any validations set on it
+                setArrayValidations(minItems, maxItems, uniqueItems, target);
+                setObjectValidations(minProperties, maxProperties, target);
+                setStringValidations(minLength, maxLength, pattern, target);
+                setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
+            }
+
+            if (maxItems != null || minItems != null || minProperties != null || maxProperties != null || minLength != null || maxLength != null || multipleOf != null || pattern != null || minimum != null || maximum != null || exclusiveMinimum != null || exclusiveMaximum != null || uniqueItems != null) {
+                target.setHasValidation(true);
+            }
+        }
+    }
+
+    private static void setArrayValidations(Integer minItems, Integer maxItems, Boolean uniqueItems, IJsonSchemaValidationProperties target) {
+        if (minItems != null) target.setMinItems(minItems);
+        if (maxItems != null) target.setMaxItems(maxItems);
+        if (uniqueItems != null) target.setUniqueItems(uniqueItems);
+    }
+
+    private static void setObjectValidations(Integer minProperties, Integer maxProperties, IJsonSchemaValidationProperties target) {
+        if (minProperties != null) target.setMinProperties(minProperties);
+        if (maxProperties != null) target.setMaxProperties(maxProperties);
+    }
+
+    private static void setStringValidations(Integer minLength, Integer maxLength, String pattern, IJsonSchemaValidationProperties target) {
+        if (minLength != null) target.setMinLength(minLength);
+        if (maxLength != null) target.setMaxLength(maxLength);
+        if (pattern != null) target.setPattern(pattern);
+    }
+
+    private static void setNumericValidations(Schema schema, BigDecimal multipleOf, BigDecimal minimum, BigDecimal maximum, Boolean exclusiveMinimum, Boolean exclusiveMaximum, IJsonSchemaValidationProperties target) {
+        if (multipleOf != null) target.setMultipleOf(multipleOf);
+        if (minimum != null) {
+            if (isIntegerSchema(schema)) {
+                target.setMinimum(String.valueOf(minimum.longValue()));
+            } else {
+                target.setMinimum(String.valueOf(minimum));
+            }
             if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
+        }
+        if (maximum != null) {
+            if (isIntegerSchema(schema)) {
+                target.setMaximum(String.valueOf(maximum.longValue()));
+            } else {
+                target.setMaximum(String.valueOf(maximum));
+            }
             if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
-            if (minLength != null) target.setMinLength(minLength);
-            if (maxLength != null) target.setMaxLength(maxLength);
-            if (minItems != null) target.setMinItems(minItems);
-            if (maxItems != null) target.setMaxItems(maxItems);
-            if (uniqueItems != null) target.setUniqueItems(uniqueItems);
-            if (minProperties != null) target.setMinProperties(minProperties);
-            if (maxProperties != null) target.setMaxProperties(maxProperties);
         }
     }
 
@@ -1474,12 +1607,12 @@ public class ModelUtils {
 
     /**
      * Parse and return a JsonNode representation of the input OAS document.
-     * 
+     *
      * @param location the URL of the OAS document.
      * @param auths the list of authorization values to access the remote URL.
-     * 
+     *
      * @throws java.lang.Exception if an error occurs while retrieving the OpenAPI document.
-     * 
+     *
      * @return A JsonNode representation of the input OAS document.
      */
     public static JsonNode readWithInfo(String location, List<AuthorizationValue> auths) throws Exception {
@@ -1507,14 +1640,14 @@ public class ModelUtils {
     /**
      * Parse the OAS document at the specified location, get the swagger or openapi version
      * as specified in the source document, and return the version.
-     * 
+     *
      * For OAS 2.0 documents, return the value of the 'swagger' attribute.
      * For OAS 3.x documents, return the value of the 'openapi' attribute.
-     * 
+     *
      * @param openAPI the object that encapsulates the OAS document.
      * @param location the URL of the OAS document.
      * @param auths the list of authorization values to access the remote URL.
-     * 
+     *
      * @return the version of the OpenAPI document.
      */
     public static SemVer getOpenApiVersion(OpenAPI openAPI, String location, List<AuthorizationValue> auths) {

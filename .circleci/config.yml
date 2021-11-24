@@ -1,0 +1,102 @@
+version: 2
+jobs:
+  build:
+    #    docker:
+    #      #- image: openapitools/openapi-generator
+    #      - image: swaggerapi/petstore
+    #        environment:
+    #          SWAGGER_HOST=http://petstore.swagger.io
+    #          SWAGGER_BASE_PATH=/v2
+    machine:
+      image: circleci/classic:latest
+    working_directory: ~/OpenAPITools/openapi-generator
+    parallelism: 4
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
+      DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
+    steps:
+    # Restore the dependency cache
+    - restore_cache:
+        keys:
+        # Default branch if not
+        - source-v2-{{ .Branch }}-{{ .Revision }}
+        - source-v2-{{ .Branch }}-
+        - source-v2-
+    # Machine Setup
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # The following `checkout` command checks out your code to your working directory. In 1.0 we did this implicitly. In 2.0 you can choose where in the course of a job your code should be checked out.
+    - checkout
+    # Prepare for artifact and test results  collection equivalent to how it was done on 1.0.
+    # In many cases you can simplify this from what is generated here.
+    # 'See docs on artifact collection here https://circleci.com/docs/2.0/artifacts/'
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+    # This is based on your 1.0 configuration file or project settings
+    - run:
+        command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+    - run:
+        command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
+    - run:
+       command: |-
+         printf '127.0.0.1       petstore.swagger.io
+         ' | sudo tee -a /etc/hosts
+#    - run: docker pull openapitools/openapi-petstore
+#    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
+    - run: docker pull swaggerapi/petstore
+    - run: docker run --name petstore.swagger -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+    - run: docker ps -a
+    - run: sleep 30
+    - run: cat /etc/hosts
+    # Test
+    - run: mvn --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+    - run: ./CI/circle_parallel.sh 
+    # Save dependency cache
+    - save_cache:
+        key: source-v2-{{ .Branch }}-{{ .Revision }}
+        paths:
+        # This is a broad list of cache paths to include many possible development environments
+        # You can probably delete some of these entries
+        - vendor/bundle
+        - ~/virtualenvs
+        - ~/.m2
+        - ~/.ivy2
+        - ~/.sbt
+        - ~/.bundle
+        - ~/.go_workspace
+        - ~/.gradle
+        - ~/.cache/bower
+        - ".git"
+        - ~/.stack
+        - /home/circleci/OpenAPITools/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work
+        - ~/R
+    # save "default" cache using the key "source-v2-"
+    - save_cache:
+        key: source-v2-
+        paths:
+        # This is a broad list of cache paths to include many possible development environments
+        # You can probably delete some of these entries
+        - vendor/bundle
+        - ~/virtualenvs
+        - ~/.m2
+        - ~/.ivy2
+        - ~/.sbt
+        - ~/.bundle
+        - ~/.go_workspace
+        - ~/.gradle
+        - ~/.cache/bower
+        - ".git"
+        - ~/.stack
+        - /home/circleci/OpenAPITools/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work
+        - ~/R
+    # Teardown
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # Save test results
+    - store_test_results:
+        path: /tmp/circleci-test-results
+    # Save artifacts
+    - store_artifacts:
+        path: /tmp/circleci-artifacts
+    - store_artifacts:
+        path: /tmp/circleci-test-results

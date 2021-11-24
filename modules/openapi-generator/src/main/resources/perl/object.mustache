@@ -52,13 +52,13 @@ __PACKAGE__->method_documentation({
 });
 
 __PACKAGE__->openapi_types( {
-    {{#vars}}'{{name}}' => '{{{dataType}}}'{{#hasMore}},
-    {{/hasMore}}{{/vars}}
+    {{#vars}}'{{name}}' => '{{{dataType}}}'{{^-last}},
+    {{/-last}}{{/vars}}
 } );
 
 __PACKAGE__->attribute_map( {
-    {{#vars}}'{{name}}' => '{{baseName}}'{{#hasMore}},
-    {{/hasMore}}{{/vars}}
+    {{#vars}}'{{name}}' => '{{baseName}}'{{^-last}},
+    {{/-last}}{{/vars}}
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});

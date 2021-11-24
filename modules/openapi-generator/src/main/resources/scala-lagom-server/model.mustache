@@ -10,13 +10,13 @@ import {{import}}
 case class {{classname}} (
 {{#vars}}
     {{#isEnum}}
-                  {{{name}}}:  Option[{{classname}}{{datatypeWithEnum}}.{{classname}}{{datatypeWithEnum}}]{{#hasMore}},{{/hasMore}}
+                  {{{name}}}:  Option[{{classname}}{{datatypeWithEnum}}.{{classname}}{{datatypeWithEnum}}]{{^-last}},{{/-last}}
     {{/isEnum}}
     {{^isEnum}}
         {{#description}}
-            /* {{{description}}} */
+            /* {{{.}}} */
         {{/description}}
-                  {{{name}}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}
+                  {{{name}}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}{{^-last}},{{/-last}}
     {{/isEnum}}
 {{/vars}}
 )

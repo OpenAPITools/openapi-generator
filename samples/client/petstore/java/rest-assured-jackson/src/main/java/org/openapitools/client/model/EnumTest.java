@@ -18,11 +18,13 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.OuterEnum;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -37,6 +39,7 @@ import org.hibernate.validator.constraints.*;
   EnumTest.JSON_PROPERTY_ENUM_NUMBER,
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
+@JsonTypeName("Enum_Test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumTest {
   /**
@@ -198,6 +201,8 @@ public class EnumTest {
   public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
   private OuterEnum outerEnum;
 
+  public EnumTest() { 
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     
@@ -219,6 +224,8 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
@@ -234,6 +241,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
@@ -244,6 +252,8 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
@@ -269,6 +279,8 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
@@ -294,6 +306,8 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
@@ -320,13 +334,15 @@ public class EnumTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -346,7 +362,6 @@ public class EnumTest {
     return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -364,7 +379,7 @@ public class EnumTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

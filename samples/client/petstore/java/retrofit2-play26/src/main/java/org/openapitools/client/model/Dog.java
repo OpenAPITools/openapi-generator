@@ -20,12 +20,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.DogAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -35,15 +37,16 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Dog.JSON_PROPERTY_BREED
 })
+@JsonTypeName("Dog")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
-@JsonSubTypes({
-})
 
 public class Dog extends Animal {
   public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;
 
+  public Dog() { 
+  }
 
   public Dog breed(String breed) {
     
@@ -65,13 +68,15 @@ public class Dog extends Animal {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBreed(String breed) {
     this.breed = breed;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -88,7 +93,6 @@ public class Dog extends Animal {
     return Objects.hash(breed, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -103,7 +107,7 @@ public class Dog extends Animal {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -14,8 +14,9 @@
 import { Observable, of } from 'rxjs';
 import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
 import { map, concatMap } from 'rxjs/operators';
+import { servers } from './servers';
 
-export const BASE_PATH = 'http://petstore.swagger.io/v2'.replace(/\/+$/, '');
+export const BASE_PATH = servers[0].getUrl();
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path
@@ -30,11 +31,11 @@ export class Configuration {
     constructor(private configuration: ConfigurationParameters = {}) {}
 
     get basePath(): string {
-        return this.configuration.basePath || BASE_PATH;
+        return this.configuration.basePath ?? BASE_PATH;
     }
 
     get middleware(): Middleware[] {
-        return this.configuration.middleware || [];
+        return this.configuration.middleware ?? [];
     }
 
     get username(): string | undefined {
@@ -47,18 +48,12 @@ export class Configuration {
 
     get apiKey(): ((name: string) => string) | undefined {
         const { apiKey } = this.configuration;
-        if (!apiKey) {
-            return undefined;
-        }
-        return typeof apiKey === 'string' ? () => apiKey : apiKey;
+        return apiKey ? (typeof apiKey === 'string' ? () => apiKey : apiKey) : undefined;
     }
 
     get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
         const { accessToken } = this.configuration;
-        if (!accessToken) {
-            return undefined;
-        }
-        return typeof accessToken === 'string' ? () => accessToken : accessToken;
+        return accessToken ? (typeof accessToken === 'string' ? () => accessToken : accessToken) : undefined;
     }
 }
 
@@ -84,31 +79,32 @@ export class BaseAPI {
     withPostMiddleware = (postMiddlewares: Array<Middleware['post']>) =>
         this.withMiddleware(postMiddlewares.map((post) => ({ post })));
 
-    protected request = <T>(requestOpts: RequestOpts): Observable<T> =>
-        this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
+    protected request<T>(requestOpts: RequestOpts): Observable<T>
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<RawAjaxResponse<T>>
+    protected request<T>(requestOpts: RequestOpts, responseOpts?: ResponseOpts): Observable<T | RawAjaxResponse<T>> {
+        return this.rxjsRequest(this.createRequestArgs(requestOpts)).pipe(
             map((res) => {
-                if (res.status >= 200 && res.status < 300) {
-                    return res.response as T;
+                const { status, response } = res;
+                if (status >= 200 && status < 300) {
+                    return responseOpts?.response === 'raw' ? res : response;
                 }
                 throw res;
             })
         );
+    }
 
-    private createRequestArgs = (requestOpts: RequestOpts): RequestArgs => {
-        let url = this.configuration.basePath + requestOpts.path;
-        if (requestOpts.query !== undefined && Object.keys(requestOpts.query).length !== 0) {
-            // only add the queryString to the URL if there are query parameters.
-            // this is done to avoid urls ending with a '?' character which buggy webservers
-            // do not handle correctly sometimes.
-            url += '?' + queryString(requestOpts.query);
-        }
+    private createRequestArgs = ({ url: baseUrl, query, method, headers, body, responseType }: RequestOpts): RequestArgs => {
+        // only add the queryString to the URL if there are query parameters.
+        // this is done to avoid urls ending with a '?' character which buggy webservers
+        // do not handle correctly sometimes.
+        const url = `${this.configuration.basePath}${baseUrl}${query && Object.keys(query).length ? `?${queryString(query)}`: ''}`;
 
         return {
             url,
-            method: requestOpts.method,
-            headers: requestOpts.headers,
-            body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
-            responseType: requestOpts.responseType || 'json',
+            method,
+            headers,
+            body: body instanceof FormData ? body : JSON.stringify(body),
+            responseType: responseType ?? 'json',
         };
     }
 
@@ -157,24 +153,35 @@ export type HttpHeaders = { [key: string]: string };
 export type HttpQuery = Partial<{ [key: string]: string | number | null | boolean | Array<string | number | null | boolean> }>; // partial is needed for strict mode
 export type HttpBody = Json | FormData;
 
-export interface RequestOpts {
-    path: string;
+export interface RequestOpts extends AjaxRequest {
+    query?: HttpQuery; // additional prop
+    // the following props have improved types over AjaxRequest
     method: HttpMethod;
     headers?: HttpHeaders;
-    query?: HttpQuery;
     body?: HttpBody;
     responseType?: 'json' | 'blob' | 'arraybuffer' | 'text';
 }
 
-export const encodeURI = (value: any) => encodeURIComponent(String(value));
+export interface ResponseOpts {
+    response?: 'raw';
+}
 
-const queryString = (params: HttpQuery): string => Object.keys(params)
-    .map((key) => {
-        const value = params[key];
-        return (value instanceof Array)
-            ? value.map((val) => `${encodeURI(key)}=${encodeURI(val)}`).join('&')
-            : `${encodeURI(key)}=${encodeURI(value)}`;
-    })
+export interface OperationOpts {
+    responseOpts?: ResponseOpts;
+}
+
+// AjaxResponse with typed response
+export interface RawAjaxResponse<T> extends AjaxResponse {
+    response: T;
+}
+
+export const encodeURI = (value: any) => encodeURIComponent(`${value}`);
+
+const queryString = (params: HttpQuery): string => Object.entries(params)
+    .map(([key, value]) => value instanceof Array
+        ? value.map((val) => `${encodeURI(key)}=${encodeURI(val)}`).join('&')
+        : `${encodeURI(key)}=${encodeURI(value)}`
+    )
     .join('&');
 
 // alias fallback for not being a breaking change

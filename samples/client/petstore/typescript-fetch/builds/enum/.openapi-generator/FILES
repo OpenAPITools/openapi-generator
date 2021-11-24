@@ -1,0 +1,10 @@
+apis/DefaultApi.ts
+apis/index.ts
+index.ts
+models/EnumPatternObject.ts
+models/InlineObject.ts
+models/InlineResponse200.ts
+models/NumberEnum.ts
+models/StringEnum.ts
+models/index.ts
+runtime.ts

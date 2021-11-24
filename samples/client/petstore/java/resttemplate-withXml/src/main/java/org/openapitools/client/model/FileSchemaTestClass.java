@@ -18,12 +18,14 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -34,6 +36,7 @@ import javax.xml.bind.annotation.*;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
+@JsonTypeName("FileSchemaTestClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "FileSchemaTestClass")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -50,6 +53,8 @@ public class FileSchemaTestClass {
   @XmlElement(name = "files")
   private List<java.io.File> files = null;
 
+  public FileSchemaTestClass() { 
+  }
 
   public FileSchemaTestClass file(java.io.File file) {
     
@@ -72,6 +77,9 @@ public class FileSchemaTestClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "file")
   public void setFile(java.io.File file) {
     this.file = file;
   }
@@ -85,7 +93,7 @@ public class FileSchemaTestClass {
 
   public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<java.io.File>();
+      this.files = new ArrayList<>();
     }
     this.files.add(filesItem);
     return this;
@@ -105,13 +113,15 @@ public class FileSchemaTestClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFiles(List<java.io.File> files) {
     this.files = files;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -128,7 +138,6 @@ public class FileSchemaTestClass {
     return Objects.hash(file, files);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -143,7 +152,7 @@ public class FileSchemaTestClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

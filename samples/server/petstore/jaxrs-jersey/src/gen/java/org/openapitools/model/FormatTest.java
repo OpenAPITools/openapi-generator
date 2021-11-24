@@ -36,6 +36,7 @@ import javax.validation.Valid;
   FormatTest.JSON_PROPERTY_NUMBER,
   FormatTest.JSON_PROPERTY_FLOAT,
   FormatTest.JSON_PROPERTY_DOUBLE,
+  FormatTest.JSON_PROPERTY_DECIMAL,
   FormatTest.JSON_PROPERTY_STRING,
   FormatTest.JSON_PROPERTY_BYTE,
   FormatTest.JSON_PROPERTY_BINARY,
@@ -71,6 +72,10 @@ public class FormatTest   {
   public static final String JSON_PROPERTY_DOUBLE = "double";
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   private Double _double;
+
+  public static final String JSON_PROPERTY_DECIMAL = "decimal";
+  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  private BigDecimal decimal;
 
   public static final String JSON_PROPERTY_STRING = "string";
   @JsonProperty(JSON_PROPERTY_STRING)
@@ -119,7 +124,7 @@ public class FormatTest   {
    * maximum: 100
    * @return integer
    **/
-  @JsonProperty("integer")
+  @JsonProperty(value = "integer")
   @ApiModelProperty(value = "")
    @Min(10) @Max(100)
   public Integer getInteger() {
@@ -141,7 +146,7 @@ public class FormatTest   {
    * maximum: 200
    * @return int32
    **/
-  @JsonProperty("int32")
+  @JsonProperty(value = "int32")
   @ApiModelProperty(value = "")
    @Min(20) @Max(200)
   public Integer getInt32() {
@@ -161,7 +166,7 @@ public class FormatTest   {
    * Get int64
    * @return int64
    **/
-  @JsonProperty("int64")
+  @JsonProperty(value = "int64")
   @ApiModelProperty(value = "")
   
   public Long getInt64() {
@@ -183,7 +188,7 @@ public class FormatTest   {
    * maximum: 543.2
    * @return number
    **/
-  @JsonProperty("number")
+  @JsonProperty(value = "number")
   @ApiModelProperty(required = true, value = "")
   @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
   public BigDecimal getNumber() {
@@ -205,7 +210,7 @@ public class FormatTest   {
    * maximum: 987.6
    * @return _float
    **/
-  @JsonProperty("float")
+  @JsonProperty(value = "float")
   @ApiModelProperty(value = "")
    @DecimalMin("54.3") @DecimalMax("987.6")
   public Float getFloat() {
@@ -227,7 +232,7 @@ public class FormatTest   {
    * maximum: 123.4
    * @return _double
    **/
-  @JsonProperty("double")
+  @JsonProperty(value = "double")
   @ApiModelProperty(value = "")
    @DecimalMin("67.8") @DecimalMax("123.4")
   public Double getDouble() {
@@ -236,6 +241,26 @@ public class FormatTest   {
 
   public void setDouble(Double _double) {
     this._double = _double;
+  }
+
+  public FormatTest decimal(BigDecimal decimal) {
+    this.decimal = decimal;
+    return this;
+  }
+
+  /**
+   * Get decimal
+   * @return decimal
+   **/
+  @JsonProperty(value = "decimal")
+  @ApiModelProperty(value = "")
+  @Valid 
+  public BigDecimal getDecimal() {
+    return decimal;
+  }
+
+  public void setDecimal(BigDecimal decimal) {
+    this.decimal = decimal;
   }
 
   public FormatTest string(String string) {
@@ -247,7 +272,7 @@ public class FormatTest   {
    * Get string
    * @return string
    **/
-  @JsonProperty("string")
+  @JsonProperty(value = "string")
   @ApiModelProperty(value = "")
    @Pattern(regexp="/[a-z]/i")
   public String getString() {
@@ -267,7 +292,7 @@ public class FormatTest   {
    * Get _byte
    * @return _byte
    **/
-  @JsonProperty("byte")
+  @JsonProperty(value = "byte")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public byte[] getByte() {
@@ -287,7 +312,7 @@ public class FormatTest   {
    * Get binary
    * @return binary
    **/
-  @JsonProperty("binary")
+  @JsonProperty(value = "binary")
   @ApiModelProperty(value = "")
   
   public File getBinary() {
@@ -307,7 +332,7 @@ public class FormatTest   {
    * Get date
    * @return date
    **/
-  @JsonProperty("date")
+  @JsonProperty(value = "date")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public Date getDate() {
@@ -327,7 +352,7 @@ public class FormatTest   {
    * Get dateTime
    * @return dateTime
    **/
-  @JsonProperty("dateTime")
+  @JsonProperty(value = "dateTime")
   @ApiModelProperty(value = "")
   
   public Date getDateTime() {
@@ -347,7 +372,7 @@ public class FormatTest   {
    * Get uuid
    * @return uuid
    **/
-  @JsonProperty("uuid")
+  @JsonProperty(value = "uuid")
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   
   public UUID getUuid() {
@@ -367,7 +392,7 @@ public class FormatTest   {
    * Get password
    * @return password
    **/
-  @JsonProperty("password")
+  @JsonProperty(value = "password")
   @ApiModelProperty(required = true, value = "")
   @NotNull  @Size(min=10,max=64)
   public String getPassword() {
@@ -387,7 +412,7 @@ public class FormatTest   {
    * A string that is a 10 digit number. Can have leading zeros.
    * @return patternWithDigits
    **/
-  @JsonProperty("pattern_with_digits")
+  @JsonProperty(value = "pattern_with_digits")
   @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
    @Pattern(regexp="^\\d{10}$")
   public String getPatternWithDigits() {
@@ -407,7 +432,7 @@ public class FormatTest   {
    * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
    * @return patternWithDigitsAndDelimiter
    **/
-  @JsonProperty("pattern_with_digits_and_delimiter")
+  @JsonProperty(value = "pattern_with_digits_and_delimiter")
   @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
    @Pattern(regexp="/^image_\\d{1,3}$/i")
   public String getPatternWithDigitsAndDelimiter() {
@@ -420,7 +445,7 @@ public class FormatTest   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -434,6 +459,7 @@ public class FormatTest   {
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.decimal, formatTest.decimal) &&
         Objects.equals(this.string, formatTest.string) &&
         Objects.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
@@ -447,7 +473,7 @@ public class FormatTest   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, _byte, binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
 
@@ -462,6 +488,7 @@ public class FormatTest   {
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
+    sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
     sb.append("    string: ").append(toIndentedString(string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
@@ -479,7 +506,7 @@ public class FormatTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

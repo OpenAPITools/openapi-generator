@@ -20,12 +20,14 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
@@ -72,6 +74,8 @@ public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING = "map_with_undeclared_properties_string";
   private Map<String, String> mapWithUndeclaredPropertiesString = null;
 
+  public AdditionalPropertiesClass() { 
+  }
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
@@ -100,6 +104,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
   }
@@ -132,6 +138,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
   }
@@ -190,6 +198,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
     this.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
   }
@@ -214,6 +224,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
     this.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
   }
@@ -246,6 +258,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
+  @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
     this.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
   }
@@ -270,6 +284,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_EMPTY_MAP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setEmptyMap(Object emptyMap) {
     this.emptyMap = emptyMap;
   }
@@ -302,6 +318,8 @@ public class AdditionalPropertiesClass {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
   }
@@ -311,7 +329,7 @@ public class AdditionalPropertiesClass {
    * Return true if this AdditionalPropertiesClass object is equal to o.
    */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -321,7 +339,7 @@ public class AdditionalPropertiesClass {
     AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
     return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
         Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty) &&
-        Objects.equals(this.anytype1, additionalPropertiesClass.anytype1) &&
+        equalsNullable(this.anytype1, additionalPropertiesClass.anytype1) &&
         Objects.equals(this.mapWithUndeclaredPropertiesAnytype1, additionalPropertiesClass.mapWithUndeclaredPropertiesAnytype1) &&
         Objects.equals(this.mapWithUndeclaredPropertiesAnytype2, additionalPropertiesClass.mapWithUndeclaredPropertiesAnytype2) &&
         Objects.equals(this.mapWithUndeclaredPropertiesAnytype3, additionalPropertiesClass.mapWithUndeclaredPropertiesAnytype3) &&
@@ -329,11 +347,21 @@ public class AdditionalPropertiesClass {
         Objects.equals(this.mapWithUndeclaredPropertiesString, additionalPropertiesClass.mapWithUndeclaredPropertiesString);
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(mapProperty, mapOfMapProperty, anytype1, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, emptyMap, mapWithUndeclaredPropertiesString);
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
   }
 
+  @Override
+  public int hashCode() {
+    return Objects.hash(mapProperty, mapOfMapProperty, hashCodeNullable(anytype1), mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, emptyMap, mapWithUndeclaredPropertiesString);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+  }
 
   @Override
   public String toString() {
@@ -355,7 +383,7 @@ public class AdditionalPropertiesClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -3,6 +3,8 @@ title: Config Options for rust-server
 sidebar_label: rust-server
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |packageName|Rust crate name (convention: snake_case).| |openapi_client|
@@ -108,6 +110,7 @@ sidebar_label: rust-server
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |
@@ -183,7 +186,7 @@ sidebar_label: rust-server
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
-|Composite|✗|OAS2,OAS3
+|Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
 
@@ -193,7 +196,7 @@ sidebar_label: rust-server
 |BasicAuth|✓|OAS2,OAS3
 |ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
+|BearerToken|✓|OAS3
 |OAuth2_Implicit|✓|OAS2,OAS3
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3

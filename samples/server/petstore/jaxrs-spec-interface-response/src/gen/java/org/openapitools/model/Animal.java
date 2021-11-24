@@ -16,9 +16,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
-  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
+  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
 
 
@@ -46,7 +46,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setClassName(String className) {
     this.className = className;
-  }/**
+  }
+
+/**
    **/
   public Animal color(String color) {
     this.color = color;
@@ -66,8 +68,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.color = color;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -99,7 +102,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

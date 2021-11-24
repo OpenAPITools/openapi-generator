@@ -16,10 +16,8 @@ No description available.
 
 .PARAMETER Name
 Updated name of the pet
-
 .PARAMETER Status
 Updated status of the pet
-
 .OUTPUTS
 
 InlineObject<PSCustomObject>
@@ -40,10 +38,12 @@ function Initialize-PSInlineObject {
         'Creating PSCustomObject: PSPetstore => PSInlineObject' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
+
         $PSO = [PSCustomObject]@{
             "name" = ${Name}
             "status" = ${Status}
         }
+
 
         return $PSO
     }

@@ -19,16 +19,13 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.exceptions.ProtoBufIndexComputationException;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
-import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -45,13 +43,25 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
+    private static final String IMPORT = "import";
+
+    private static final String IMPORTS = "imports";
+
+    public static final String NUMBERED_FIELD_NUMBER_LIST = "numberedFieldNumberList";
+
+    public static final String START_ENUMS_WITH_UNKNOWN = "startEnumsWithUnknown";
+
+    private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     protected String packageName = "openapitools";
 
+    private boolean numberedFieldNumberList = false;
+
+    private boolean startEnumsWithUnknown = false;
+
     @Override
     public CodegenType getTag() {
-        return CodegenType.CONFIG;
+        return CodegenType.SCHEMA;
     }
 
     public String getName() {
@@ -84,27 +94,13 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         modelPackage = "messages";
         apiPackage = "services";
 
-        /*setReservedWordsLowerCase(
-                Arrays.asList(
-                        // data type
-                        "nil", "string", "boolean", "number", "userdata", "thread",
-                        "table",
-
-                        // reserved words: http://www.lua.org/manual/5.1/manual.html#2.1
-                        "and", "break", "do", "else", "elseif",
-                        "end", "false", "for", "function", "if",
-                        "in", "local", "nil", "not", "or",
-                        "repeat", "return", "then", "true", "until", "while"
-                )
-        );*/
-
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array",
@@ -127,7 +123,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         instantiationTypes.clear();
         instantiationTypes.put("array", "repeat");
-        //instantiationTypes.put("map", "map");
 
         // ref: https://developers.google.com/protocol-buffers/docs/proto
         typeMapping.clear();
@@ -151,25 +146,15 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("ByteArray", "bytes");
         typeMapping.put("object", "TODO_OBJECT_MAPPING");
 
-        importMapping.clear(); 
-        /* 
-        importMapping = new HashMap<String, String>();
-        importMapping.put("time.Time", "time");
-        importMapping.put("*os.File", "os");
-        importMapping.put("os", "io/ioutil");
-        */
+        importMapping.clear();
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         cliOptions.clear();
-        /*cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "GraphQL package name (convention: lowercase).")
-                .defaultValue("openapi2graphql"));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "GraphQL package version.")
-                .defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));*/
 
+        addSwitch(NUMBERED_FIELD_NUMBER_LIST, "Field numbers in order.", numberedFieldNumberList);
+        addSwitch(START_ENUMS_WITH_UNKNOWN, "Introduces \"UNKNOWN\" as the first element of enumerations.", startEnumsWithUnknown);
     }
 
     @Override
@@ -189,11 +174,15 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         }
 
+        if (additionalProperties.containsKey(this.NUMBERED_FIELD_NUMBER_LIST)) {
+            this.numberedFieldNumberList = convertPropertyToBooleanAndWriteBack(NUMBERED_FIELD_NUMBER_LIST);
+        }
+
+        if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNKNOWN)) {
+            this.startEnumsWithUnknown = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNKNOWN);
+        }
+
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        //supportingFiles.add(new SupportingFile("root.mustache", "", packageName + ".proto"));
-        //supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        //supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"))
-        //supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
     }
 
     @Override
@@ -205,51 +194,155 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         return camelize(sanitizeName(operationId));
     }
 
+    public void addUnknownToAllowableValues(Map<String, Object> allowableValues, String name) {
+        if(startEnumsWithUnknown) {
+            if(allowableValues.containsKey("enumVars")) {
+                List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
+                
+                HashMap<String, Object> unknown = new HashMap<String, Object>();
+                unknown.put("name", name + "_UNKNOWN");
+                unknown.put("isString", "false");
+                unknown.put("value", "\"" + name + "_UNKNOWN\"");
+
+                enumVars.add(0, unknown);
+            }
+
+            if(allowableValues.containsKey("values")) {
+                List<String> values = (List<String>)allowableValues.get("values");           
+                values.add(0, name + "_UNKNOWN");
+            }
+        }
+    }
+
+    public void addEnumIndexes(List<Map<String, Object>> enumVars) {
+        int enumIndex = 0;
+        for (Map<String, Object> enumVar : enumVars) {
+            enumVar.put("protobuf-enum-index", enumIndex);
+            enumIndex++;
+        }
+    }
+
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = postProcessModelsEnum(objs);
         List<Object> models = (List<Object>) objs.get("models");
-        // add x-index to properties
-        ProcessUtils.addIndexToProperties(models, 1);
 
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
+            if(cm.isEnum) {
+                Map<String, Object> allowableValues = cm.getAllowableValues();
+                addUnknownToAllowableValues(allowableValues, cm.getClassname());
+
+                if (allowableValues.containsKey("enumVars")) {
+                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>)allowableValues.get("enumVars");
+                    addEnumIndexes(enumVars);
+                }
+            }
+
+            int index = 1;
             for (CodegenProperty var : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array
-                if (Boolean.TRUE.equals(var.isListContainer)) {
+                if (Boolean.TRUE.equals(var.isArray)) {
                     var.vendorExtensions.put("x-protobuf-type", "repeated");
                 }
 
                 // add x-protobuf-data-type
                 // ref: https://developers.google.com/protocol-buffers/docs/proto3
                 if (!var.vendorExtensions.containsKey("x-protobuf-data-type")) {
-                    if (var.isListContainer) {
+                    if (var.isArray) {
                         var.vendorExtensions.put("x-protobuf-data-type", var.items.dataType);
                     } else {
                         var.vendorExtensions.put("x-protobuf-data-type", var.dataType);
                     }
                 }
 
-                if (var.isEnum && var.allowableValues.containsKey("enumVars")) {
-                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
-                    int enumIndex = 0;
-                    for (Map<String, Object> enumVar : enumVars) {
-                        enumVar.put("protobuf-enum-index", enumIndex);
-                        enumIndex++;
+                if (var.isEnum) {
+                    addUnknownToAllowableValues(var.allowableValues, var.getEnumName());
+                
+                    if(var.allowableValues.containsKey("enumVars")) {
+                        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
+                        addEnumIndexes(enumVars);
+                    }
+                }
+
+                // Add x-protobuf-index, unless already specified
+                if(this.numberedFieldNumberList) {
+                    var.vendorExtensions.putIfAbsent("x-protobuf-index", index);
+                    index++;
+                }
+                else {
+                    try {
+                        var.vendorExtensions.putIfAbsent("x-protobuf-index", generateFieldNumberFromString(var.getName()));
+                    } catch (ProtoBufIndexComputationException e) {
+                        LOGGER.error("Exception when assigning a index to a protobuf field", e);
+                        var.vendorExtensions.putIfAbsent("x-protobuf-index", "Generated field number is in reserved range (19000, 19999)");
                     }
                 }
             }
         }
         return objs;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        super.postProcessAllModels(objs);
+
+        Map<String, CodegenModel> allModels = this.getAllModels(objs);
+
+        for (CodegenModel cm : allModels.values()) {
+            // Replicate all attributes from children to parents in case of allof, as there is no inheritance
+            if (!cm.allOf.isEmpty() && cm.getParentModel() != null) {
+                CodegenModel parentCM = cm.getParentModel();
+                for (CodegenProperty var : cm.getVars()) {
+                    if (!parentVarsContainsVar(parentCM.vars, var)) {
+                        parentCM.vars.add(var);
+                    }
+                }
+                // add all imports from child
+                cm.getImports().stream()
+                        // Filter self import && child import
+                        .filter(importFromList -> !parentCM.getClassname().equalsIgnoreCase(importFromList) && !cm.getClassname().equalsIgnoreCase(importFromList))
+                        .forEach(importFromList -> this.addImport(objs, parentCM, importFromList));
+            }
+        }
+        return objs;
+    }
+
+    public void addImport(Map<String, Object> objs, CodegenModel cm, String importValue) {
+        String modelFileName = this.toModelFilename(importValue);
+        boolean skipImport = isImportAlreadyPresentInModel(objs, cm, modelFileName);
+        if (!skipImport) {
+            this.addImport(cm, importValue);
+            Map<String, Object> importItem = new HashMap<>();
+            importItem.put(IMPORT, modelFileName);
+            ((List<Map<String, Object>>) ((Map<String, Object>) objs.get(cm.getName())).get(IMPORTS)).add(importItem);
+        }
+    }
+
+    private boolean isImportAlreadyPresentInModel(Map<String, Object> objs, CodegenModel cm, String importValue) {
+        boolean skipImport = false;
+        List<Map<String, Object>> cmImports = ((List<Map<String, Object>>) ((Map<String, Object>) objs.get(cm.getName())).get(IMPORTS));
+        for (Map<String, Object> cmImportItem : cmImports) {
+            for (Entry<String, Object> cmImportItemEntry : cmImportItem.entrySet()) {
+                if (importValue.equals(cmImportItemEntry.getValue())) {
+                    skipImport = true;
+                    break;
+                }
+            }
+        }
+        return skipImport;
     }
 
     @Override
@@ -360,13 +453,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -406,23 +500,23 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             int index = 1;
             for (CodegenParameter p : op.allParams) {
                 // add x-protobuf-type: repeated if it's an array
-                if (Boolean.TRUE.equals(p.isListContainer)) {
+                if (Boolean.TRUE.equals(p.isArray)) {
                     p.vendorExtensions.put("x-protobuf-type", "repeated");
-                } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+                } else if (Boolean.TRUE.equals(p.isMap)) {
                     LOGGER.warn("Map parameter (name: {}, operation ID: {}) not yet supported", p.paramName, op.operationId);
                 }
 
                 // add x-protobuf-data-type
                 // ref: https://developers.google.com/protocol-buffers/docs/proto3
                 if (!p.vendorExtensions.containsKey("x-protobuf-data-type")) {
-                    if (Boolean.TRUE.equals(p.isListContainer)) {
+                    if (Boolean.TRUE.equals(p.isArray)) {
                         p.vendorExtensions.put("x-protobuf-data-type", p.items.dataType);
                     } else {
                         p.vendorExtensions.put("x-protobuf-data-type", p.dataType);
                     }
                 }
 
-                p.vendorExtensions.put("x-index", index);
+                p.vendorExtensions.putIfAbsent("x-protobuf-index", index);
                 index++;
             }
 
@@ -460,8 +554,37 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-            return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
+            return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
+    }
+
+    private int generateFieldNumberFromString(String name) throws ProtoBufIndexComputationException {
+        // Max value from developers.google.com/protocol-buffers/docs/proto3#assigning_field_numbers
+        int fieldNumber = Math.abs(name.hashCode() % 536870911);
+        if (19000 <= fieldNumber && fieldNumber <= 19999) {
+            LOGGER.error("Generated field number is in reserved range (19000, 19999) for %s, %d", name, fieldNumber);
+            throw new ProtoBufIndexComputationException("Generated field number is in reserved range (19000, 19999).");
+        }
+        return fieldNumber;
+    }
+
+    /**
+     * Checks if the var provided is already in the list of the parent's vars, matching the type and the name
+     *
+     * @param parentVars list of parent's vars
+     * @param var        var to compare
+     * @return true if the var is already in the parent's list, false otherwise
+     */
+    private boolean parentVarsContainsVar(List<CodegenProperty> parentVars, CodegenProperty var) {
+        boolean containsVar = false;
+        for (CodegenProperty parentVar : parentVars) {
+            if (var.getDataType().equals(parentVar.getDataType())
+                    && var.getName().equals(parentVar.getName())) {
+                containsVar = true;
+                break;
+            }
+        }
+        return containsVar;
     }
 }

@@ -1,0 +1,1237 @@
+swagger: '2.0'
+info:
+  description: 'This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.'
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+host: petstore.swagger.io
+basePath: /v2
+tags:
+  - name: pet
+    description: Everything about your Pets
+  - name: store
+    description: Access to Petstore orders
+  - name: user
+    description: Operations about user
+schemes:
+  - http
+parameters:
+  fake_petPart-id:
+    in: path
+    name: fake_petPart-id
+    required: true
+    type: integer
+    format: int64
+paths:
+  /fake_behavior/{behavior-id}/type:
+    get:
+      tags:
+        - Behavior
+      summary: Get the type of behavior
+      operationId: getBehaviorType
+      parameters:
+        - in: path
+          name: behavior-id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetBehaviorTypeResponse"
+  /fake_behavior/{behavior-id}/permissions:
+    get:
+      tags:
+        - Behavior
+      summary: Get permissions for the behavior
+      operationId: getBehaviorPermissions
+      parameters:
+        - in: path
+          name: behavior-id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetBehaviorPermissionsResponse"
+
+  /fake_petParts/{fake_petPart-id}/part-type:
+    get:
+      tags:
+        - PetPart
+      summary: Returns single pet part type for the petPart id.
+      operationId: getFakePetPartType
+      parameters:
+        - $ref: "#/definitions/fake_petPart-id"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetPetPartTypeResponse"
+  /fake_petParts/{fake_petPart-id}/matching-parts:
+    get:
+      tags:
+        - PetPart
+      summary: Get the matching parts for the given pet part.
+      operationId: getMatchingParts
+      parameters:
+        - $ref: "#/parameters/fake_petPart-id"
+        - in: query
+          name: long
+          required: true
+          type: boolean
+        - in: query
+          name: smooth
+          required: true
+          type: boolean
+        - in: query
+          name: name
+          required: false
+          type: string
+        - in: query
+          name: connected-part
+          required: false
+          type: string
+        - in: query
+          name: short
+          required: true
+          type: boolean
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/GetMatchingPartsResponse"
+  /pet:
+    post:
+      tags:
+        - pet
+      summary: Add a new pet to the store
+      description: ''
+      operationId: addPet
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: dummyCat
+          description: dummy category for testing
+          required: true
+          schema:
+            $ref: "#/definitions/Category"
+      responses:
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+    put:
+      tags:
+        - pet
+      summary: Update an existing pet
+      description: ''
+      operationId: updatePet
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Pet object that needs to be updated in the store
+          required: true
+          schema:
+            $ref: '#/definitions/Pet'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+  /pet/findByStatus:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by status
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findPetsByStatus
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: status
+          in: query
+          description: Status values that need to be considered for filter
+          required: true
+          type: array
+          items:
+            type: string
+            enum:
+              - available
+              - pending
+              - sold
+            default: available
+          collectionFormat: csv
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/FindPetsByStatusResponse"
+        '400':
+          description: Invalid status value
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+  /pet/findByUserIds:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by user ids
+      description: 'Multiple ids can be provided with comma separated strings.'
+      operationId: findPetsByUserIds
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: Ids to filter by
+          required: true
+          type: array
+          items:
+            type: number
+          collectionFormat: csv
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/FindPetsByUserResponse"
+        '400':
+          description: Invalid status value
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      deprecated: true
+  /pet/findByTags:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by tags
+      description: 'Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.'
+      operationId: findPetsByTags
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: tags
+          in: query
+          description: Tags to filter by
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
+        '400':
+          description: Invalid tag value
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      deprecated: true
+  /pet/findByIds:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets by ids
+      description: 'Multiple ids can be provided with comma separated strings.'
+      operationId: findPetsByIds
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: ids
+          in: query
+          description: Ids to filter by
+          required: true
+          type: array
+          items:
+            type: number
+          collectionFormat: csv
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
+        '400':
+          description: Invalid tag value
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      deprecated: true
+  '/pet/{petId}/regions':
+    get:
+      tags:
+        - pet
+      summary: Gets regions for a single pet.
+      operationId: getPetRegions
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/PetRegionsResponse"
+    put:
+      tags:
+        - pet
+      summary: Updates the pet regions.
+      operationId: updatePetRegions
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet
+          required: true
+          type: integer
+          format: int64
+        - in: body
+          name: new-regions
+          required: true
+          schema:
+            $ref: "#/definitions/PetRegions"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/PetRegionsResponse"
+  '/pet/{petId}':
+    get:
+      tags:
+        - pet
+      summary: Find pet by ID
+      description: Returns a single pet
+      operationId: getPetById
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to return
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Pet'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+      security:
+        - api_key: []
+    post:
+      tags:
+        - pet
+      summary: Updates a pet in the store with form data
+      description: ''
+      operationId: updatePetWithForm
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet that needs to be updated
+          required: true
+          type: integer
+          format: int64
+        - name: name
+          in: formData
+          description: Updated name of the pet
+          required: false
+          type: string
+        - name: status
+          in: formData
+          description: Updated status of the pet
+          required: false
+          type: string
+      responses:
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+    delete:
+      tags:
+        - pet
+      summary: Deletes a pet
+      description: ''
+      operationId: deletePet
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: api_key
+          in: header
+          required: false
+          type: string
+        - name: petId
+          in: path
+          description: Pet id to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: Invalid pet value
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+  '/pet/{petId}/uploadImage':
+    post:
+      tags:
+        - pet
+      summary: uploads an image
+      description: ''
+      operationId: uploadFile
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          type: integer
+          format: int64
+        - name: additionalMetadata
+          in: formData
+          description: Additional data to pass to server
+          required: false
+          type: string
+        - name: file
+          in: formData
+          description: file to upload
+          required: false
+          type: file
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+  /store/inventory:
+    get:
+      tags:
+        - store
+      summary: Returns pet inventories by status
+      description: Returns a map of status codes to quantities
+      operationId: getInventory
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int32
+      security:
+        - api_key: []
+  /store/order:
+    post:
+      tags:
+        - store
+      summary: Place an order for a pet
+      description: ''
+      operationId: placeOrder
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: order placed for purchasing the pet
+          required: true
+          schema:
+            $ref: '#/definitions/Order'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Order'
+        '400':
+          description: Invalid Order
+  '/store/order/{orderId}':
+    get:
+      tags:
+        - store
+      summary: Find purchase order by ID
+      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions'
+      operationId: getOrderById
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of pet that needs to be fetched
+          required: true
+          type: integer
+          maximum: 5
+          minimum: 1
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Order'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Order not found
+    delete:
+      tags:
+        - store
+      summary: Delete purchase order by ID
+      description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+      operationId: deleteOrder
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of the order that needs to be deleted
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Order not found
+  /user:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        default:
+          description: successful operation
+  /user/createWithArray:
+    post:
+      tags:
+        - user
+      summary: Creates list of users with given input array
+      description: ''
+      operationId: createUsersWithArrayInput
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+      responses:
+        default:
+          description: successful operation
+  /user/createWithList:
+    post:
+      tags:
+        - user
+      summary: Creates list of users with given input array
+      description: ''
+      operationId: createUsersWithListInput
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+      responses:
+        default:
+          description: successful operation
+  /user/login:
+    get:
+      tags:
+        - user
+      summary: Logs user into the system
+      description: ''
+      operationId: loginUser
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+          headers:
+            X-Rate-Limit:
+              type: integer
+              format: int32
+              description: calls per hour allowed by the user
+            X-Expires-After:
+              type: string
+              format: date-time
+              description: date in UTC when token expires
+        '400':
+          description: Invalid username/password supplied
+  /user/logout:
+    get:
+      tags:
+        - user
+      summary: Logs out current logged in user session
+      description: ''
+      operationId: logoutUser
+      produces:
+        - application/xml
+        - application/json
+      parameters: []
+      responses:
+        default:
+          description: successful operation
+  '/user/{username}':
+    get:
+      tags:
+        - user
+      summary: Get user by user name
+      description: ''
+      operationId: getUserByName
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: username
+          in: path
+          description: 'The name that needs to be fetched. Use user1 for testing.'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+    put:
+      tags:
+        - user
+      summary: Updated user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: username
+          in: path
+          description: name that need to be deleted
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Updated user object
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/DefaultMetaOnlyResponse'
+        '400':
+          description: Invalid user supplied
+        '404':
+          description: User not found
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          type: string
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+securityDefinitions:
+  petstore_auth:
+    type: oauth2
+    authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
+    flow: implicit
+    scopes:
+      'write:pets': modify pets in your account
+      'read:pets': read your pets
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+definitions:
+  Order:
+    title: Pet Order
+    description: An order for a pets from the pet store
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      petId:
+        type: integer
+        format: int64
+        x-isUniqueId: false
+      quantity:
+        type: integer
+        format: int32
+      shipDate:
+        type: string
+        format: date-time
+      status:
+        type: string
+        description: Order Status
+        enum:
+          - placed
+          - approved
+          - delivered
+        default: approved
+      complete:
+        type: boolean
+        default: false
+    xml:
+      name: Order
+  Category:
+    title: Pet category
+    description: A category for a pet
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+    xml:
+      name: Category
+  User:
+    title: a User
+    description: A User who is purchasing from the pet store
+    type: object
+    x-keepAsJSObject: "subUser,subUser2"
+    required:
+      - id
+      - subUser2
+    properties:
+      id:
+        type: integer
+        format: int64
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      userStatus:
+        type: integer
+        format: int32
+        description: User Status
+      subUser:
+        $ref: '#/definitions/User'
+      subUser2:
+        $ref: '#/definitions/User'
+    xml:
+      name: User
+  Tag:
+    title: Pet Tag
+    description: A tag for a pet
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+    xml:
+      name: Tag
+  Pet:
+    title: a Pet
+    description: A pet for sale in the pet store
+    type: object
+    required:
+      - id
+      - category
+      - name
+      - photoUrls
+      - tags
+      - status
+      - alternateStatus
+      - otherDepStatuses
+      - friendAge
+      - age
+      - isHappy
+      - isTall
+      - warningStatus
+      - otherFriendIds
+    properties:
+      id:
+        type: integer
+        format: int64
+      friendId:
+        type: integer
+        format: int64
+      otherFriendIds:
+        type: array
+        items:
+          type: integer
+          format: int64
+      friendAge:
+        type: integer
+        format: int64
+      age:
+        type: integer
+        format: int64
+        default: 2
+      isHappy:
+        type: boolean
+        default: true
+      isTall:
+        type: boolean
+      category:
+        $ref: '#/definitions/Category'
+      optionalCategory:
+        $ref: '#/definitions/Category'
+      name:
+        type: string
+        example: doggie
+      entries:
+        type: array
+        items:
+          $ref: "#/definitions/Category"
+      surname:
+        type: string
+        example: woofy
+      photoUrls:
+        type: array
+        xml:
+          name: photoUrl
+          wrapped: true
+        items:
+          type: string
+      warningStatus:
+        $ref: "#/definitions/WarningCode"
+      depStatus:
+        $ref: "#/definitions/DeploymentRequestStatus"
+      alternateStatus:
+        $ref: "#/definitions/DeploymentRequestStatus"
+      otherDepStatuses:
+        type: array
+        items:
+          $ref: "#/definitions/DeploymentRequestStatus"
+      tags:
+        type: array
+        xml:
+          name: tag
+          wrapped: true
+        items:
+          $ref: '#/definitions/Tag'
+      optionalTags:
+        type: array
+        xml:
+          name: tag
+          wrapped: true
+        items:
+          $ref: '#/definitions/Tag'
+      status:
+        type: string
+        description: pet status in the store
+        enum:
+          - available
+          - pending
+          - sold
+        default: pending
+      regions:
+        $ref: "#/definitions/PetRegions"
+    xml:
+      name: Pet
+  ApiResponse:
+    title: An uploaded response
+    description: Describes the result of uploading an image resource
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+  WarningCode:
+    type: string
+    description: "Warning code returned when a potential problem is detected"
+    enum:
+      - Reduce_Volume_Range_To_Avoid_Large_Steps
+      - Raise_Amplifier_Volume
+      - No_Volume_Range_Specified
+  DeploymentRequestStatus:
+    type: string
+    enum:
+      - New
+      - Prepared
+      - Printed
+      - Tested
+      - Completed
+      - Cancelled
+      - Promoted
+      - Assigned
+      - Ready
+      - Packaged
+      - Pairing
+      - Paired
+    description: "Status of the deployment request"
+    example: New
+################ Responses ################
+  ResponseMeta:
+    type: object
+    description: "Mandatory part of each response given by our API"
+    x-keepAsJSObject: "errors"
+    required:
+      - code
+    properties:
+      code:
+        type: string
+        description: "Code returned by the function"
+        default: Ok
+        enum:
+          - Ok
+          - Generic_Exception
+          - Field_Error_Exception
+          - Image_Validation_Exception
+          - Invalid_Container_Creation_With_No_Default_Asset_Exception
+          - Invalid_Override_Mode_Exception
+          - Invalid_Tag_Exception
+          - Item_Use_Exception
+          - Missing_Platform_For_Software_Exception
+          - Missing_Software_For_Platform_Exception
+          - Platform_Not_Supported_Exception
+          - Refresh_Data_Exception
+          - Role_Assignment_Exception
+          - Task_Already_Running_Exception
+          - Logged_Out_Exception
+          - Authorization_Exception
+          - Unauthorized_Action_For_Current_User_Exception
+          - User_Already_Exists_But_Is_Not_Authenticated_Exception
+          - User_Already_Has_Active_Or_Closed_Galaxie_Api_Product_Exception
+          - User_Already_Has_Multiple_Galaxie_Api_Products_Exception
+          - Recurly_Api_Exception
+          - Recurly_Transaction_Error_Exception
+          - Galaxie_Api_Exception
+        example: Ok
+      detail:
+        type: string
+        description: "Explanation of what went wrong"
+        example: "this is some detail about the error or the success"
+      exception:
+        type: string
+        description: "Message of the exception that will help developer to debug this problem if needed"
+        example: "IOException + stack trace"
+      type:
+        type: string
+        description: "Type of error"
+        example: "Invalid Token"
+      errorCode:
+        $ref: "#/definitions/ErrorCode"
+      errors:
+        type: array
+        description: "An array of all the specific error encountered during the request"
+        items:
+          $ref: "#/definitions/Error"
+  Error:
+    type: object
+    description: "This represent an error normally linked to a specific item from a previous request"
+    required:
+      - type
+    properties:
+      type:
+        type: string
+        description: "Usually contains the simple name of the exception"
+        default: "GenericException"
+        example: "GenericException"
+      itemInfo:
+        $ref: "#/definitions/ItemId"
+      details:
+        type: string
+        description: "Simple explanation of the error"
+        example: "Could not update that field"
+      exception:
+        type: string
+        description: "Message of the exception that will help developer to debug this problem if needed"
+        example: "DBException + stack trace"
+  ErrorCode:
+    type: string
+    description: "Error code returned when an error occurs"
+    enum:
+      - Volume_Range_At_Lowest_Value
+      - Music_Volume_Blocks_Volume_Range_Decrease
+      - Volume_Range_At_Highest_Value
+      - Maximum_Volume_Blocks_Volume_Range_Increase
+      - Music_Volume_Blocks_Maximum_Volume_Decrease
+      - Maximum_Volume_At_Lowest_Value
+      - Volume_Range_Blocks_Maximum_Volume_Decrease
+      - Maximum_Volume_At_Highest_Value
+      - Message_Gain_Blocks_Maximum_Volume_Increase
+      - Music_Volume_Blocks_Maximum_Volume_Increase
+      - Maximum_Volume_Blocks_Message_Gain_Decrease
+      - Message_Gain_At_Highest_Value
+      - Music_Volume_Blocks_Message_Gain
+      - Maximum_Message_Gain_Lower_Than_Minimum
+      - Maximum_Message_Gain_Higher_Than_Maximum
+      - Maximum_Message_Gain_Lower_Than_Message_Gain
+      - Minimum_Volume_Blocks_Music_Volume_Decrease
+      - Maximum_Volume_Blocks_Music_Volume_Increase
+  ItemId:
+    type: object
+    description: "Simplified identifier of an item"
+    required:
+      - id
+      - type
+    properties:
+      id:
+        type: string
+        description: "Unique identifier of the item"
+        example: "45"
+      type:
+        type: string
+        description: "playlist"
+        example: "5667"
+  DefaultMetaOnlyResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+  FindPetsByStatusResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/Pet"
+  FindPetsByUserResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/User"
+  GetBehaviorTypeResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/BehaviorType"
+  BehaviorType:
+    type: string
+    enum:
+      - Voluntary
+      - Involuntary
+      - Overt
+    description: "Behavior type of a pet"
+    example: Published
+  GetBehaviorPermissionsResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/StringBooleanMap"
+  GetPetPartTypeResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/PetPartType"
+
+  PetPartType:
+    type: string
+    enum:
+      - Curved
+      - Smooth
+      - Long
+    description: "Type of pet part"
+    example: Linear
+  PetRegionsResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/PetRegions"
+  GetMatchingPartsResponse:
+    type: object
+    required:
+      - meta
+    properties:
+      meta:
+        $ref: "#/definitions/ResponseMeta"
+      data:
+        $ref: "#/definitions/MatchingParts"
+  MatchingParts:
+    type: object
+    description: "Contains all the matching parts"
+    required:
+      - connected
+      - related
+    properties:
+      connected:
+        type: array
+        items:
+          $ref: "#/definitions/Part"
+        description: "List of all the connected parts"
+      related:
+        type: array
+        items:
+          $ref: "#/definitions/Part"
+        description: "List of all the related parts"
+  Part:
+    type: object
+    description: "Contains all the info about a pet part"
+    x-entityId: ""
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: "Unique identifier from the database"
+        example: 1
+      name:
+        type: string
+        description: "Name of the part"
+        example: "head"
+  StringBooleanMap:
+    additionalProperties:
+      type: boolean
+  PetRegions:
+    type: array
+    description: "An array of all 15-minute time slots in 24 hours."
+    items:
+      type: array
+      items:
+        description: "array of values entity id or null."
+        x-nullable: true
+        x-isUniqueId: true
+        type: integer
+        format: int64

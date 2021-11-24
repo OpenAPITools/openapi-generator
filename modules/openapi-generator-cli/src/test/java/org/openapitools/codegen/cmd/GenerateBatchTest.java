@@ -28,6 +28,12 @@ public class GenerateBatchTest {
     private static final String JAXRS_DATELIB_J8_YAML = "jaxrs-datelib-j8.yaml";
     private static final String JAXRS_DATELIB_J8_YAML_INCLUDE_JSON = "jaxrs-datelib-j8-yaml-include.json";
     private static final String JAXRS_DATELIB_J8_JSON_INCLUDE_YAML = "jaxrs-datelib-j8-json-include.yaml";
+    private static final String JAXRS_DATELIB_J8_DOUBLE_JSON = "jaxrs-datelib-j8-double.json";
+    private static final String JAXRS_DATELIB_J8_DOUBLE_YAML = "jaxrs-datelib-j8-double.yaml";
+    private static final String JAXRS_DATELIB_J8_NESTED_JSON = "jaxrs-datelib-j8-nested.json";
+    private static final String JAXRS_DATELIB_J8_NESTED_YAML = "jaxrs-datelib-j8-nested.yaml";
+    private static final String JAXRS_DATELIB_J8_NESTED_PROPERTY_MERGE_YAML = "jaxrs-datelib-j8-nested-property-merge.yaml";
+
     Path workingDirectory;
 
     @BeforeTest
@@ -40,7 +46,12 @@ public class GenerateBatchTest {
         return new Object[][] {
                 {JAXRS_DATELIB_J8_JSON},
                 {JAXRS_DATELIB_J8_YAML},
-                {JAXRS_DATELIB_J8_JSON_INCLUDE_YAML}
+                {JAXRS_DATELIB_J8_JSON_INCLUDE_YAML},
+                {JAXRS_DATELIB_J8_DOUBLE_JSON},
+                {JAXRS_DATELIB_J8_DOUBLE_YAML},
+                {JAXRS_DATELIB_J8_NESTED_JSON},
+                {JAXRS_DATELIB_J8_NESTED_YAML},
+                {JAXRS_DATELIB_J8_NESTED_PROPERTY_MERGE_YAML}
         };
     }
 

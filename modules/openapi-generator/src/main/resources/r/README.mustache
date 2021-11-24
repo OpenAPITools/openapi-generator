@@ -1,7 +1,7 @@
 # R API client for {{packageName}}
 
 {{#appDescriptionWithNewLines}}
-{{{appDescriptionWithNewLines}}}
+{{{.}}}
 {{/appDescriptionWithNewLines}}
 
 ## Overview
@@ -35,7 +35,7 @@ install.packages("base64enc")
 git clone https://{{gitHost}}/{{{gitUserId}}}/{{{gitRepoId}}}
 cd {{{gitRepoId}}}
 R CMD build .
-R CMD check {{{packageName}}}_{{{packageVersion}}}.tar.gz
+R CMD check {{{packageName}}}_{{{packageVersion}}}.tar.gz --no-manual
 R CMD INSTALL {{{packageName}}}_{{{packageVersion}}}.tar.gz
 ```
 
@@ -64,7 +64,7 @@ All URIs are relative to *{{basePath}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{{summary}}}
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 ## Documentation for Models
@@ -97,5 +97,5 @@ Class | Method | HTTP request | Description
 
 ## Author
 
-{{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
+{{/-last}}{{/apis}}{{/apiInfo}}

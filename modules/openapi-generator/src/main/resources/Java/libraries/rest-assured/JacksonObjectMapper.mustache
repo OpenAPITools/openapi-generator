@@ -7,7 +7,9 @@ import org.threeten.bp.*;
 {{/threetenbp}}
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/openApiNullable}}
 {{#java8}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 {{/java8}}
@@ -52,8 +54,10 @@ public class JacksonObjectMapper extends Jackson2Mapper {
             module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
             mapper.registerModule(module);
             {{/threetenbp}}
+            {{#openApiNullable}}
             JsonNullableModule jnm = new JsonNullableModule();
             mapper.registerModule(jnm);
+            {{/openApiNullable}}
             return mapper;
         };
     }

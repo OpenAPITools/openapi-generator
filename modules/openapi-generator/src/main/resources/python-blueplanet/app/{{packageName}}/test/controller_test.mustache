@@ -23,16 +23,16 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{paramName}} = {{{example}}}
         {{/bodyParam}}
         {{#queryParams}}
-        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{paramName}}', {{{example}}}){{#hasMore}},{{/hasMore}}{{#-last}}]{{/-last}}
+        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{paramName}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/queryParams}}
         {{#headerParams}}
-        {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{paramName}}', {{{example}}}){{#hasMore}},{{/hasMore}}{{#-last}}]{{/-last}}
+        {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{paramName}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/headerParams}}
         {{#formParams}}
-        {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{#hasMore}},{{/hasMore}}{{#-last}}){{/-last}}
+        {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}
         {{/formParams}}
         response = self.client.open(
-            '{{#contextPath}}{{{.}}}{{/contextPath}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/pathParams}},
+            '{{{contextPath}}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
             method='{{httpMethod}}'{{#bodyParam}},
             data=json.dumps({{paramName}}){{^consumes}},
             content_type='application/json'{{/consumes}}{{/bodyParam}}{{#headerParams}}{{#-first}},

@@ -103,6 +103,28 @@ defmodule {{moduleName}}.RequestBuilder do
   end
 
   @doc """
+  Due to a bug in httpc, POST, PATCH and PUT requests will fail, if the body is empty
+
+  This function will ensure, that the body param is always set
+
+  ## Parameters
+
+  - request (Map) - Collected request options
+
+  ## Returns
+
+  Map
+  """
+  @spec ensure_body(map()) :: map()
+  def ensure_body(%{body: nil} = request) do
+    %{request | body: ""}
+  end
+
+  def ensure_body(request) do
+    Map.put_new(request, :body, "")
+  end
+
+  @doc """
   Handle the response for a Tesla request
 
   ## Parameters

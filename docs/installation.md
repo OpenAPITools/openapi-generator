@@ -22,7 +22,7 @@ npm install @openapitools/openapi-generator-cli -g
 To install a specific version of the tool, pass the version during installation:
 <!-- RELEASE_VERSION -->
 ```bash
-npm install @openapitools/openapi-generator-cli@cli-4.3.1 -g
+openapi-generator-cli version-manager set 5.3.0
 ```
 <!-- /RELEASE_VERSION -->
 To install the tool as a dev dependency in your current project:
@@ -30,7 +30,7 @@ To install the tool as a dev dependency in your current project:
 ```bash
 npm install @openapitools/openapi-generator-cli -D
 ```
-Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) doc:
+Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml) doc:
 
 ```bash
 npx @openapitools/openapi-generator-cli generate -i petstore.yaml -g ruby -o /tmp/test/
@@ -48,7 +48,7 @@ npx @openapitools/openapi-generator-cli generate -i petstore.yaml -g ruby -o /tm
 brew install openapi-generator
 ```
 
-Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) doc:
+Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml) doc:
 
 ```bash
 openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
@@ -60,7 +60,7 @@ openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
 
 The OpenAPI Generator Docker image acts as a standalone executable. It can be used as an alternative to installing via homebrew, or for developers who are unable to install Java or upgrade the installed version.
 
-To generate code from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) doc with this image, you'll need to mount a local location as a volume.
+To generate code from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml) doc with this image, you'll need to mount a local location as a volume.
 You'll then need to output the generated code to this mapped volume. Everything else works the same as if you ran the command on your host machine.
 
 Here's an example generating a Go client:
@@ -80,18 +80,18 @@ docker run --rm \
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar`
 
 For **Mac/Linux** users:
 
 ```bash
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 
 ```powershell
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.3.0/openapi-generator-cli-5.3.0.jar
 ```
 <!-- /RELEASE_VERSION -->
 

@@ -6,25 +6,35 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-
-internal struct ArrayTest: Codable { 
-
+internal struct ArrayTest: Codable, Hashable {
 
     internal var arrayOfString: [String]?
     internal var arrayArrayOfInteger: [[Int64]]?
     internal var arrayArrayOfModel: [[ReadOnlyFirst]]?
 
-    internal init(arrayOfString: [String]?, arrayArrayOfInteger: [[Int64]]?, arrayArrayOfModel: [[ReadOnlyFirst]]?) {
+    internal init(arrayOfString: [String]? = nil, arrayArrayOfInteger: [[Int64]]? = nil, arrayArrayOfModel: [[ReadOnlyFirst]]? = nil) {
         self.arrayOfString = arrayOfString
         self.arrayArrayOfInteger = arrayArrayOfInteger
         self.arrayArrayOfModel = arrayArrayOfModel
     }
 
-    internal enum CodingKeys: String, CodingKey, CaseIterable { 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayOfString = "array_of_string"
         case arrayArrayOfInteger = "array_array_of_integer"
         case arrayArrayOfModel = "array_array_of_model"
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(arrayOfString, forKey: .arrayOfString)
+        try container.encodeIfPresent(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
+        try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
+    }
 }
+

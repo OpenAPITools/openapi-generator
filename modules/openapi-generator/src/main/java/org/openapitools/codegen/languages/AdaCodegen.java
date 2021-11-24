@@ -97,10 +97,10 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         String srcPrefix = "src" + File.separator;
         String modelPrefix = srcPrefix + "model" + File.separator + toFilename(modelPackage);
         String clientPrefix = srcPrefix + "client" + File.separator + toFilename(modelPackage);
-        supportingFiles.add(new SupportingFile("model-spec.mustache", null, modelPrefix + "-models.ads"));
-        supportingFiles.add(new SupportingFile("model-body.mustache", null, modelPrefix + "-models.adb"));
-        supportingFiles.add(new SupportingFile("client-spec.mustache", null, clientPrefix + "-clients.ads"));
-        supportingFiles.add(new SupportingFile("client-body.mustache", null, clientPrefix + "-clients.adb"));
+        supportingFiles.add(new SupportingFile("model-spec.mustache", "", modelPrefix + "-models.ads"));
+        supportingFiles.add(new SupportingFile("model-body.mustache", "", modelPrefix + "-models.adb"));
+        supportingFiles.add(new SupportingFile("client-spec.mustache", "", clientPrefix + "-clients.ads"));
+        supportingFiles.add(new SupportingFile("client-body.mustache", "", clientPrefix + "-clients.adb"));
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
             projectName = (String) additionalProperties.get(CodegenConstants.PROJECT_NAME);
@@ -125,20 +125,20 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         additionalProperties.put("isServer", false);
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
 
-        String names[] = this.modelPackage.split("\\.");
+        String[] names = this.modelPackage.split("\\.");
         String pkgName = names[0];
         additionalProperties.put("packageLevel1", pkgName);
-        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", null,
+        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", "",
                 "src" + File.separator + toFilename(names[0]) + ".ads"));
         if (names.length > 1) {
             String fileName = toFilename(names[0]) + "-" + toFilename(names[1]) + ".ads";
             pkgName = names[0] + "." + names[1];
             additionalProperties.put("packageLevel2", pkgName);
-            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", null,
+            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", "",
                     "src" + File.separator + fileName));
         }
         pkgName = this.modelPackage;
-        supportingFiles.add(new SupportingFile("client.mustache", null,
+        supportingFiles.add(new SupportingFile("client.mustache", "",
                 "src" + File.separator + toFilename(pkgName) + "-client.adb"));
         additionalProperties.put("packageName", toFilename(pkgName));
 

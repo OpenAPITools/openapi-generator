@@ -2,20 +2,21 @@
 {{#models}}
 {{#model}}
 {{#tsImports}}
-import { {{classname}} } from './{{filename}}';
+import { {{classname}} } from './{{filename}}{{extensionForDeno}}';
 {{/tsImports}}
-import { HttpFile } from '../http/http';
+import { HttpFile } from '../http/http{{extensionForDeno}}';
 
 {{#description}}
 /**
-* {{{description}}}
+* {{{.}}}
 */
 {{/description}}
-export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+{{^isEnum}}
+export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
     /**
-    * {{{description}}}
+    * {{{.}}}
     */
 {{/description}}
     '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
@@ -28,7 +29,7 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
     static readonly discriminator: string | undefined = undefined;
     {{/discriminator}}
 
-    {{^isArrayModel}}
+    {{^isArray}}
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {{#vars}}
         {
@@ -36,8 +37,8 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
             "baseName": "{{baseName}}",
             "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}",
             "format": "{{dataFormat}}"
-        }{{#hasMore}},
-        {{/hasMore}}
+        }{{^-last}},
+        {{/-last}}
         {{/vars}}
     ];
 
@@ -49,8 +50,8 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
         return {{classname}}.attributeTypeMap;
         {{/parent}}
     }
-    {{/isArrayModel}}    
-    
+    {{/isArray}}
+
     public constructor() {
         {{#parent}}
         super();
@@ -75,5 +76,9 @@ export type {{classname}}{{enumName}} ={{#allowableValues}}{{#values}} "{{.}}" {
 {{/vars}}
 
 {{/hasEnums}}
+{{/isEnum}}
+{{#isEnum}}
+export type {{classname}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
+{{/isEnum}}
 {{/model}}
 {{/models}}

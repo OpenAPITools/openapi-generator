@@ -23,7 +23,7 @@ $api_instance = new OpenAPITools\Client\Api\{{classname}}();
 {{/allParams}}
 
 try {
-    {{#returnType}}$result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+    {{#returnType}}$result = {{/returnType}}$api_instance->{{{operationId}}}({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
     print_r($result);{{/returnType}}
 } catch (Exception $e) {
     echo 'Exception when calling {{classname}}->{{operationId}}: ', $e->getMessage(), PHP_EOL;

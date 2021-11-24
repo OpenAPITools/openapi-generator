@@ -27,13 +27,14 @@ $Id = 38369
     ) -Status Available
     
     #Write-Host $pet
-    $Result = Add-PSPet -Pet $pet
+    #$Result = Add-PSPet -Pet $pet
+    $Result = Add-PSPet -Pet $null
     Set-PSConfigurationApiKey -Id "api_key" -ApiKey "zzZZZZZZZZZZZZZ"
     $Result2 = Get-PSPetById -petId ($Id) -Verbose -WithHttpInfo #-testHeader "testing only" -testQuery "testing something here"
     Write-Host $Result2["Headers"]["Content-Type"]
-    $Result3 = Get-PSPetById -petId ($Id) -Verbose -WithHttpInfo -ReturnType "application/xml" #-testHeader "testing only" -testQuery "testing something here"
-    Write-Host $Result3["Headers"]["Content-Type"]
-    Write-Host $Result3["Response"]
+    #$Result3 = Get-PSPetById -petId ($Id) -Verbose -WithHttpInfo -ReturnType "application/xml" #-testHeader "testing only" -testQuery "testing something here"
+    #Write-Host $Result3["Headers"]["Content-Type"]
+    #Write-Host $Result3["Response"]
 #} catch {
 #    Write-Host ("Exception occured when calling '': {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
 #    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))

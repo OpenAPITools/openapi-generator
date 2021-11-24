@@ -5,21 +5,21 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**createUser**](UserApi.md#createUser) | **POST** /user | Create user
-[**createUserWithHttpInfo**](UserApi.md#createUser) | **POST** /user | Create user
+[**createUserWithHttpInfo**](UserApi.md#createUserWithHttpInfo) | **POST** /user | Create user
 [**createUsersWithArrayInput**](UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**createUsersWithArrayInputWithHttpInfo**](UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
+[**createUsersWithArrayInputWithHttpInfo**](UserApi.md#createUsersWithArrayInputWithHttpInfo) | **POST** /user/createWithArray | Creates list of users with given input array
 [**createUsersWithListInput**](UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-[**createUsersWithListInputWithHttpInfo**](UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
+[**createUsersWithListInputWithHttpInfo**](UserApi.md#createUsersWithListInputWithHttpInfo) | **POST** /user/createWithList | Creates list of users with given input array
 [**deleteUser**](UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user
-[**deleteUserWithHttpInfo**](UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user
+[**deleteUserWithHttpInfo**](UserApi.md#deleteUserWithHttpInfo) | **DELETE** /user/{username} | Delete user
 [**getUserByName**](UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name
-[**getUserByNameWithHttpInfo**](UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name
+[**getUserByNameWithHttpInfo**](UserApi.md#getUserByNameWithHttpInfo) | **GET** /user/{username} | Get user by user name
 [**loginUser**](UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
-[**loginUserWithHttpInfo**](UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
+[**loginUserWithHttpInfo**](UserApi.md#loginUserWithHttpInfo) | **GET** /user/login | Logs user into the system
 [**logoutUser**](UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
-[**logoutUserWithHttpInfo**](UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
+[**logoutUserWithHttpInfo**](UserApi.md#logoutUserWithHttpInfo) | **GET** /user/logout | Logs out current logged in user session
 [**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
-[**updateUserWithHttpInfo**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
+[**updateUserWithHttpInfo**](UserApi.md#updateUserWithHttpInfo) | **PUT** /user/{username} | Updated user
 
 
 
@@ -50,7 +50,6 @@ public class Example {
         User body = new User(); // User | Created user object
         try {
             apiInstance.createUser(body);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUser");
             System.err.println("Status code: " + e.getCode());
@@ -117,12 +116,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.createUserWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUser");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -181,7 +180,6 @@ public class Example {
         List<User> body = Arrays.asList(); // List<User> | List of user object
         try {
             apiInstance.createUsersWithArrayInput(body);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
             System.err.println("Status code: " + e.getCode());
@@ -246,12 +244,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.createUsersWithArrayInputWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -310,7 +308,6 @@ public class Example {
         List<User> body = Arrays.asList(); // List<User> | List of user object
         try {
             apiInstance.createUsersWithListInput(body);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithListInput");
             System.err.println("Status code: " + e.getCode());
@@ -375,12 +372,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.createUsersWithListInputWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithListInput");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -441,7 +438,6 @@ public class Example {
         String username = "username_example"; // String | The name that needs to be deleted
         try {
             apiInstance.deleteUser(username);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#deleteUser");
             System.err.println("Status code: " + e.getCode());
@@ -509,12 +505,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.deleteUserWithHttpInfo(username);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#deleteUser");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -574,7 +570,6 @@ public class Example {
         String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
         try {
             User result = apiInstance.getUserByName(username);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#getUserByName");
@@ -642,13 +637,13 @@ public class Example {
         try {
             ApiResponse<User> response = apiInstance.getUserByNameWithHttpInfo(username);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#getUserByName");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -710,7 +705,6 @@ public class Example {
         String password = "password_example"; // String | The password for login in clear text
         try {
             String result = apiInstance.loginUser(username, password);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#loginUser");
@@ -779,13 +773,13 @@ public class Example {
         try {
             ApiResponse<String> response = apiInstance.loginUserWithHttpInfo(username, password);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#loginUser");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -845,7 +839,6 @@ public class Example {
         UserApi apiInstance = new UserApi(defaultClient);
         try {
             apiInstance.logoutUser();
-
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#logoutUser");
             System.err.println("Status code: " + e.getCode());
@@ -906,12 +899,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.logoutUserWithHttpInfo();
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#logoutUser");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -970,7 +963,6 @@ public class Example {
         User body = new User(); // User | Updated user object
         try {
             apiInstance.updateUser(username, body);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#updateUser");
             System.err.println("Status code: " + e.getCode());
@@ -1040,12 +1032,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.updateUserWithHttpInfo(username, body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#updateUser");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }

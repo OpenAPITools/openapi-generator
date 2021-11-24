@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CSharpDotNet2ClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpDotNet2ClientCodegen.class);
 
     public static final String CLIENT_PACKAGE = "clientPackage";
     protected String clientPackage = "Org.OpenAPITools.Client";
@@ -101,7 +101,7 @@ public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("packages.config.mustache", "vendor", "packages.config"));
         supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "compile-mono.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
     @Override

@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -48,10 +49,12 @@ import java.util.HashSet;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -109,15 +112,30 @@ public class Pig extends AbstractOpenApiSchema {
                     log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
             }
 
+            boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
+            JsonToken token = tree.traverse(jp.getCodec()).nextToken();
             // deserialize BasquePig
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(BasquePig.class);
-                // TODO: there is no validation against JSON schema constraints
-                // (min, max, enum, pattern...), this does not perform a strict JSON
-                // validation, which means the 'match' count may be higher than it should be.
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'BasquePig'");
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (BasquePig.class.equals(Integer.class) || BasquePig.class.equals(Long.class) || BasquePig.class.equals(Float.class) || BasquePig.class.equals(Double.class) || BasquePig.class.equals(Boolean.class) || BasquePig.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((BasquePig.class.equals(Integer.class) || BasquePig.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((BasquePig.class.equals(Float.class) || BasquePig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (BasquePig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (BasquePig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(BasquePig.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'BasquePig'");
+                }
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'BasquePig'", e);
@@ -125,12 +143,25 @@ public class Pig extends AbstractOpenApiSchema {
 
             // deserialize DanishPig
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(DanishPig.class);
-                // TODO: there is no validation against JSON schema constraints
-                // (min, max, enum, pattern...), this does not perform a strict JSON
-                // validation, which means the 'match' count may be higher than it should be.
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'DanishPig'");
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (DanishPig.class.equals(Integer.class) || DanishPig.class.equals(Long.class) || DanishPig.class.equals(Float.class) || DanishPig.class.equals(Double.class) || DanishPig.class.equals(Boolean.class) || DanishPig.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((DanishPig.class.equals(Integer.class) || DanishPig.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((DanishPig.class.equals(Float.class) || DanishPig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (DanishPig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (DanishPig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(DanishPig.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'DanishPig'");
+                }
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'DanishPig'", e);
@@ -154,7 +185,7 @@ public class Pig extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public Pig() {
         super("oneOf", Boolean.FALSE);
@@ -240,7 +271,8 @@ public class Pig extends AbstractOpenApiSchema {
 
     /**
      * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas.
+     * the instance parameter is valid against the oneOf child schemas:
+     * BasquePig, DanishPig
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -260,7 +292,38 @@ public class Pig extends AbstractOpenApiSchema {
         throw new RuntimeException("Invalid instance type. Must be BasquePig, DanishPig");
     }
 
+    /**
+     * Get the actual instance, which can be the following:
+     * BasquePig, DanishPig
+     *
+     * @return The actual instance (BasquePig, DanishPig)
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
 
+    /**
+     * Get the actual instance of `BasquePig`. If the actual instance is not `BasquePig`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `BasquePig`
+     * @throws ClassCastException if the instance is not `BasquePig`
+     */
+    public BasquePig getBasquePig() throws ClassCastException {
+        return (BasquePig)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `DanishPig`. If the actual instance is not `DanishPig`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `DanishPig`
+     * @throws ClassCastException if the instance is not `DanishPig`
+     */
+    public DanishPig getDanishPig() throws ClassCastException {
+        return (DanishPig)super.getActualInstance();
+    }
 
 }
 

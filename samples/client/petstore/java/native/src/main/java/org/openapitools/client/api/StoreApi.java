@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class StoreApi {
@@ -44,6 +45,7 @@ public class StoreApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public StoreApi() {
     this(new ApiClient());
@@ -56,6 +58,20 @@ public class StoreApi {
     memberVarInterceptor = apiClient.getRequestInterceptor();
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
+    memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
+  }
+
+  protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
+    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    String message = formatExceptionMessage(operationId, response.statusCode(), body);
+    return new ApiException(response.statusCode(), message, response.headers(), body);
+  }
+
+  private String formatExceptionMessage(String operationId, int statusCode, String body) {
+    if (body == null || body.isEmpty()) {
+      body = "[no body]";
+    }
+    return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
   /**
@@ -85,10 +101,7 @@ public class StoreApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "deleteOrder call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("deleteOrder", localVarResponse);
       }
       return new ApiResponse<Void>(
           localVarResponse.statusCode(),
@@ -155,10 +168,7 @@ public class StoreApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "getInventory call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("getInventory", localVarResponse);
       }
       return new ApiResponse<Map<String, Integer>>(
           localVarResponse.statusCode(),
@@ -222,10 +232,7 @@ public class StoreApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "getOrderById call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("getOrderById", localVarResponse);
       }
       return new ApiResponse<Order>(
           localVarResponse.statusCode(),
@@ -294,10 +301,7 @@ public class StoreApi {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "placeOrder call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+        throw getApiException("placeOrder", localVarResponse);
       }
       return new ApiResponse<Order>(
           localVarResponse.statusCode(),

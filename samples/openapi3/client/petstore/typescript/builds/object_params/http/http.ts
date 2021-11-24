@@ -1,7 +1,8 @@
 // TODO: evaluate if we can easily get rid of this library
 import * as FormData from "form-data";
+import { URLSearchParams } from 'url';
 // typings of url-parse are incorrect...
-// @ts-ignore 
+// @ts-ignore
 import * as URLParse from "url-parse";
 import { Observable, from } from '../rxjsStub';
 
@@ -40,7 +41,7 @@ export class HttpException extends Error {
 /**
  * Represents the body of an outgoing HTTP request.
  */
-export type RequestBody = undefined | string | FormData;
+export type RequestBody = undefined | string | FormData | URLSearchParams;
 
 /**
  * Represents an HTTP request context
@@ -50,30 +51,30 @@ export class RequestContext {
     private body: RequestBody = undefined;
     private url: URLParse;
 
-	/**
-	 * Creates the request context using a http method and request resource url
-	 *
-	 * @param url url of the requested resource
-	 * @param httpMethod http method
-	 */
+    /**
+     * Creates the request context using a http method and request resource url
+     *
+     * @param url url of the requested resource
+     * @param httpMethod http method
+     */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = URLParse(url, true);
+        this.url = new URLParse(url, true);
     }
-    
+
     /*
      * Returns the url set in the constructor including the query string
      *
      */
     public getUrl(): string {
-    	return this.url.toString();
+        return this.url.toString();
     }
-    
+
     /**
      * Replaces the url set in the constructor with this url.
      *
      */
     public setUrl(url: string) {
-    	this.url = URLParse(url, true);
+        this.url = new URLParse(url, true);
     }
 
     /**
@@ -90,27 +91,27 @@ export class RequestContext {
     }
 
     public getHttpMethod(): HttpMethod {
-    	return this.httpMethod;
+        return this.httpMethod;
     }
-    
+
     public getHeaders(): { [key: string]: string } {
-    	return this.headers;
+        return this.headers;
     }
 
     public getBody(): RequestBody {
         return this.body;
     }
 
-	public setQueryParam(name: string, value: string) {
+    public setQueryParam(name: string, value: string) {
         let queryObj = this.url.query;
         queryObj[name] = value;
         this.url.set("query", queryObj);
     }
 
-	/**
-	 *	Sets a cookie with the name and value. NO check  for duplicate cookies is performed
-	 *
-	 */
+    /**
+     * Sets a cookie with the name and value. NO check  for duplicate cookies is performed
+     *
+     */
     public addCookie(name: string, value: string): void {
         if (!this.headers["Cookie"]) {
             this.headers["Cookie"] = "";
@@ -118,7 +119,7 @@ export class RequestContext {
         this.headers["Cookie"] += name + "=" + value + "; ";
     }
 
-    public setHeaderParam(key: string, value: string): void  { 
+    public setHeaderParam(key: string, value: string): void  {
         this.headers[key] = value;
     }
 }
@@ -127,7 +128,6 @@ export interface ResponseBody {
     text(): Promise<string>;
     binary(): Promise<Buffer>;
 }
-
 
 /**
  * Helper class to generate a `ResponseBody` from binary data
@@ -186,6 +186,22 @@ export class ResponseContext {
         const data = await this.body.binary();
         const fileName = this.getParsedHeader("content-disposition")["filename"] || "";
         return { data, name: fileName };
+    }
+
+    /**
+     * Use a heuristic to get a body of unknown data structure.
+     * Return as string if possible, otherwise as binary.
+     */
+    public getBodyAsAny(): Promise<string | Buffer | undefined> {
+        try {
+            return this.body.text();
+        } catch {}
+
+        try {
+            return this.body.binary();
+        } catch {}
+
+        return Promise.resolve(undefined);
     }
 }
 

@@ -1,0 +1,227 @@
+    /// <summary>
+    /// {{description}}{{^description}}{{classname}}{{/description}}
+    /// </summary>
+    [JsonConverter(typeof({{classname}}JsonConverter))]
+    [DataContract(Name = "{{{name}}}")]
+    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {
+        {{#isNullable}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        public {{classname}}()
+        {
+            this.IsNullable = true;
+            this.SchemaType= "anyOf";
+        }
+
+        {{/isNullable}}
+        {{#anyOf}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class
+        /// with the <see cref="{{{.}}}" /> class
+        /// </summary>
+        /// <param name="actualInstance">An instance of {{{.}}}.</param>
+        public {{classname}}({{{.}}} actualInstance)
+        {
+            this.IsNullable = {{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}};
+            this.SchemaType= "anyOf";
+            this.ActualInstance = actualInstance{{^isNullable}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isNullable}};
+        }
+
+        {{/anyOf}}
+
+        private Object _actualInstance;
+
+        /// <summary>
+        /// Gets or Sets ActualInstance
+        /// </summary>
+        public override Object ActualInstance
+        {
+            get
+            {
+                return _actualInstance;
+            }
+            set
+            {
+                {{#anyOf}}
+                {{^-first}}else {{/-first}}if (value.GetType() == typeof({{{.}}}))
+                {
+                    this._actualInstance = value;
+                }
+                {{/anyOf}}
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types:{{#anyOf}} {{{.}}}{{^-last}},{{/-last}}{{/anyOf}}");
+                }
+            }
+        }
+        {{#anyOf}}
+
+        /// <summary>
+        /// Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of {{{.}}}</returns>
+        public {{{.}}} Get{{{.}}}()
+        {
+            return ({{{.}}})this.ActualInstance;
+        }
+        {{/anyOf}}
+
+        /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("class {{classname}} {\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
+            sb.Append("}\n");
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns the JSON string presentation of the object
+        /// </summary>
+        /// <returns>JSON string presentation of the object</returns>
+        public override string ToJson()
+        {
+            return JsonConvert.SerializeObject(this.ActualInstance, {{classname}}.SerializerSettings);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into an instance of {{classname}}
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        /// <returns>An instance of {{classname}}</returns>
+        public static {{classname}} FromJson(string jsonString)
+        {
+            {{classname}} new{{classname}} = null;
+
+            if (string.IsNullOrEmpty(jsonString))
+            {
+                return new{{classname}};
+            }
+            {{#anyOf}}
+
+            try
+            {
+                new{{classname}} = new {{classname}}(JsonConvert.DeserializeObject<{{{.}}}>(jsonString, {{classname}}.SerializerSettings));
+                // deserialization is considered successful at this point if no exception has been thrown.
+                return new{{classname}};
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to deserialize `{0}` into {{{.}}}: {1}", jsonString, exception.ToString()));
+            }
+            {{/anyOf}}
+
+            // no match found, throw an exception
+            throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as {{classname}}).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            return this.Equals(input as {{classname}});
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Returns true if {{classname}} instances are equal
+        /// </summary>
+        /// <param name="input">Instance of {{classname}} to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals({{classname}} input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            if (input == null)
+                return false;
+
+            return this.ActualInstance.Equals(input.ActualInstance);
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            yield break;
+        }
+    }
+
+    /// <summary>
+    /// Custom JSON converter for {{classname}}
+    /// </summary>
+    public class {{classname}}JsonConverter : JsonConverter
+    {
+        /// <summary>
+        /// To write the JSON string
+        /// </summary>
+        /// <param name="writer">JSON writer</param>
+        /// <param name="value">Object to be converted into a JSON string</param>
+        /// <param name="serializer">JSON Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            writer.WriteRawValue((string)(typeof({{classname}}).GetMethod("ToJson").Invoke(value, null)));
+        }
+
+        /// <summary>
+        /// To convert a JSON string into an object
+        /// </summary>
+        /// <param name="reader">JSON reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Existing value</param>
+        /// <param name="serializer">JSON Serializer</param>
+        /// <returns>The object converted from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            if(reader.TokenType != JsonToken.Null)
+            {
+                return {{classname}}.FromJson(JObject.Load(reader).ToString(Formatting.None));
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Check if the object can be converted
+        /// </summary>
+        /// <param name="objectType">Object type</param>
+        /// <returns>True if the object can be converted</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return false;
+        }
+    }

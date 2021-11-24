@@ -1,7 +1,7 @@
 # C++ API client
 
 {{#appDescriptionWithNewLines}}
-{{{appDescriptionWithNewLines}}}
+{{{.}}}
 {{/appDescriptionWithNewLines}}
 
 ## Overview
@@ -54,5 +54,5 @@ Also be sure to review the CMakeLists.txt file. Edits are likely required.*
 
 ## Author
 
-{{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{#apiInfo}}{{#apis}}{{#-last}}{{infoEmail}}
+{{/-last}}{{/apis}}{{/apiInfo}}

@@ -183,7 +183,7 @@ public class OAS {
 
         @TestVisible
         protected virtual Object toReturnValue(String body, Type returnType, String contentType) {
-            if (contentType == 'application/json') {
+            if (contentType.contains('application/json')) {
                 Object o = returnType.newInstance();
                 if (o instanceof MappedProperties) {
                     Map<String, String> propertyMappings = ((MappedProperties) o).getPropertyMappings();

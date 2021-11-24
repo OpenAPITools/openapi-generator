@@ -1,0 +1,9 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-spring-pageable-delegatePattern
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing-with-spring-pageable.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+delegatePattern: true
+additionalProperties:
+  artifactId: springboot-spring-pageable-delegatePattern
+  hideGenerationTimestamp: 'true'

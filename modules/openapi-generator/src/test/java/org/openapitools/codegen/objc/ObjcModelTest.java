@@ -44,12 +44,12 @@ public class ObjcModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
-        
+
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
-        
+
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "translations");
         Assert.assertEquals(property1.dataType, "NSDictionary<NSString*, NSDictionary<NSString*, NSString*>*>*");
@@ -59,7 +59,7 @@ public class ObjcModelTest {
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
-    
+
     @Test(description = "convert a simple java model")
     public void simpleModelTest() {
         final Schema model = new Schema()
@@ -85,7 +85,6 @@ public class ObjcModelTest {
         Assert.assertEquals(property1.name, "_id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "NSNumber");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
@@ -96,7 +95,6 @@ public class ObjcModelTest {
         Assert.assertEquals(property2.name, "name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "NSString");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertFalse(property2.isContainer);
@@ -107,7 +105,6 @@ public class ObjcModelTest {
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "NSDate");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
     }
@@ -136,7 +133,6 @@ public class ObjcModelTest {
         Assert.assertEquals(property1.name, "_id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "NSNumber");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
@@ -147,7 +143,6 @@ public class ObjcModelTest {
         Assert.assertEquals(property2.name, "urls");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "NSArray");
-        Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -182,7 +177,7 @@ public class ObjcModelTest {
         Assert.assertTrue(property1.isPrimitiveType);
     }
 
-    
+
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
         final Schema model = new Schema()
@@ -300,8 +295,8 @@ public class ObjcModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
     }
 
-    @Test(description = "test udid")
-    public void udidAndPasswordDataModelTest() {
+    @Test(description = "test uuid")
+    public void uuidAndPasswordDataModelTest() {
         final OpenAPI openAPI =  TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         codegen.setOpenAPI(openAPI);
@@ -327,15 +322,15 @@ public class ObjcModelTest {
         Assert.assertEquals(prope.baseType, "NSDictionary");
     }
 
-    @Test(description = "test isArrayModel")
-    public void isArrayModelModelTest() {
+    @Test(description = "test isArray")
+    public void isArrayModelTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final Schema definition = openAPI.getComponents().getSchemas().get("AnimalFarm");
         codegen.setOpenAPI(openAPI);
         final CodegenModel codegenModel = codegen.fromModel("AnimalFarm", definition);
 
-        Assert.assertEquals(codegenModel.isArrayModel, true);
+        Assert.assertEquals(codegenModel.isArray, true);
         Assert.assertEquals(codegenModel.arrayModelType,"OAIAnimal");
     }
 

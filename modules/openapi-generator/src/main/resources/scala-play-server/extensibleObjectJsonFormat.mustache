@@ -1,6 +1,6 @@
 {{#hasVars}}
 val realJsonFormat = Json.format[{{classname}}]
-val declaredPropNames = Set({{#vars}}"{{&name}}"{{#hasMore}}, {{/hasMore}}{{/vars}})
+val declaredPropNames = Set({{#vars}}"{{&name}}"{{^-last}}, {{/-last}}{{/vars}})
 
 Format(
   Reads {

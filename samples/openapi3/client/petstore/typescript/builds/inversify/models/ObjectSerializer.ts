@@ -1,7 +1,5 @@
 export * from './ApiResponse';
 export * from './Category';
-export * from './InlineObject';
-export * from './InlineObject1';
 export * from './Order';
 export * from './Pet';
 export * from './Tag';
@@ -9,8 +7,6 @@ export * from './User';
 
 import { ApiResponse } from './ApiResponse';
 import { Category } from './Category';
-import { InlineObject } from './InlineObject';
-import { InlineObject1 } from './InlineObject1';
 import { Order    , OrderStatusEnum    } from './Order';
 import { Pet     , PetStatusEnum   } from './Pet';
 import { Tag } from './Tag';
@@ -30,20 +26,19 @@ let primitives = [
 
 const supportedMediaTypes: { [mediaType: string]: number } = {
   "application/json": Infinity,
-  "application/octet-stream": 0
+  "application/octet-stream": 0,
+  "application/x-www-form-urlencoded": 0
 }
 
-                 
+
 let enumsMap: Set<string> = new Set<string>([
-					"OrderStatusEnum",
-					"PetStatusEnum",
+    "OrderStatusEnum",
+    "PetStatusEnum",
 ]);
 
 let typeMap: {[index: string]: any} = {
     "ApiResponse": ApiResponse,
     "Category": Category,
-    "InlineObject": InlineObject,
-    "InlineObject1": InlineObject1,
     "Order": Order,
     "Pet": Pet,
     "Tag": Tag,
@@ -118,7 +113,7 @@ export class ObjectSerializer {
             if (!typeMap[type]) { // in case we dont know the type
                 return data;
             }
-            
+
             // Get the actual type of this object
             type = this.findCorrectType(data, type);
 

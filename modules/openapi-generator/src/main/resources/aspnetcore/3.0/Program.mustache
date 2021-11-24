@@ -14,7 +14,7 @@ namespace {{packageName}}
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         /// <summary>
@@ -22,12 +22,12 @@ namespace {{packageName}}
         /// </summary>
         /// <param name="args"></param>
         /// <returns>IHostBuilder</returns>
-        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                    webBuilder.UseStartup<Startup>()
-                             .UseUrls("http://0.0.0.0:{{#serverPort}}{{serverPort}}{{/serverPort}}{{^serverPort}}8080{{/serverPort}}/");
+                             .UseUrls("http://0.0.0.0:{{serverPort}}{{^serverPort}}8080{{/serverPort}}/");
                 });
     }
 }

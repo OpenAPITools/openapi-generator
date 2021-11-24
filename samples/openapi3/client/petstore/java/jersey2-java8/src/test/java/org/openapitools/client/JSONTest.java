@@ -1,6 +1,7 @@
 package org.openapitools.client;
 
 import org.openapitools.client.model.Order;
+import org.openapitools.client.model.SpecialModelName;
 
 import java.lang.Exception;
 import java.util.Date;
@@ -46,7 +47,7 @@ public class JSONTest {
             StringBuffer sb = new StringBuffer();
             String s = df.format(date);
             System.out.println("DATE: " + s);
-            assertEquals("2011-01-18T00:00:00.000Z", s);
+            assertEquals("2011-01-18T00:00:00.000+00:00", s);
         }
         {
             String dateStr = "2011-01-18 00:00:00.0";
@@ -57,7 +58,7 @@ public class JSONTest {
             RFC3339DateFormat df = new RFC3339DateFormat();
             StringBuffer sb = new StringBuffer();
             String s = df.format(date);
-            assertEquals("2011-01-18T08:00:00.000Z", s);
+            assertEquals("2011-01-18T08:00:00.000+00:00", s);
         }
     }
 
@@ -71,4 +72,19 @@ public class JSONTest {
         Order o = json.getContext(null).readValue(str, Order.class);
         assertEquals(dateStr, dateFormat.format(o.getShipDate()));
     }
+
+    /**
+     * Validate a schema with special characters can be deserialized. 
+     */
+    @Test
+    public void testSchemaWithSpecialCharacters() throws Exception {
+        String str = "{ \"$special[property.name]\": 12345 }";
+        // The name of the OpenAPI schema is '_special_model.name_'.
+        // After sanitization rules are applied the name of the class is 'SpecialModelName'.
+        // The class deserialization should be successful because
+        // of the @JsonSubTypes annotation.
+        SpecialModelName o = json.getContext(null).readValue(str, SpecialModelName.class);
+        assertNotNull(o);
+        assertEquals((long)12345, (long)o.get$SpecialPropertyName());
+    }    
 }

@@ -83,6 +83,7 @@ paths:
           required: true
           style: form
           explode: false
+          deprecated: true
           schema:
             type: array
             items:
@@ -995,7 +996,7 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -1135,6 +1136,8 @@ servers:
           - 'v1'
           - 'v2'
         default: 'v2'
+  - url: https://127.0.0.1/no_variable
+    description: The local server without variables
 components:
   requestBodies:
     UserArray:
@@ -1144,6 +1147,13 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/User'
+          examples:
+            simple-list:
+              summary: Simple list example
+              description: Should not get into code examples
+              value:
+                - username: foo
+                - username: bar
       description: List of user object
       required: true
     Client:
@@ -1470,6 +1480,9 @@ components:
           format: double
           maximum: 123.4
           minimum: 67.8
+        decimal:
+          type: string
+          format: number
         string:
           type: string
           pattern: '/[a-z]/i'
@@ -1534,6 +1547,11 @@ components:
           enum:
             - 1
             - -1
+        enum_integer_only:
+          type: integer
+          enum:
+            - 2
+            - -2
         enum_number:
           type: number
           format: double
@@ -1781,6 +1799,8 @@ components:
         '$special[property.name]':
           type: integer
           format: int64
+        '_special_model.name_':
+          type: string
       xml:
         name: '$special[model.name]'
     HealthCheckResult:
@@ -2087,6 +2107,12 @@ components:
           properties:
             name:
               type: string
+            pet_type:
+              x-enum-as-string: true
+              type: string
+              enum:
+              - ChildCat
+              default: ChildCat
     ArrayOfEnums:
       type: array
       items:
@@ -2096,3 +2122,24 @@ components:
       default: '2010-01-01T10:10:10.000111+01:00'
       example: '2010-01-01T10:10:10.000111+01:00'
       format: date-time
+    DeprecatedObject:
+      type: object
+      deprecated: true
+      properties:
+        name:
+          type: string
+    ObjectWithDeprecatedFields:
+      type: object
+      properties:
+        uuid:
+          type: string
+        id:
+          type: number
+          deprecated: true
+        deprecatedRef:
+          $ref: '#/components/schemas/DeprecatedObject'
+        bars:
+          type: array
+          deprecated: true
+          items:
+            $ref: '#/components/schemas/Bar'

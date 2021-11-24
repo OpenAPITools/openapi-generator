@@ -26,7 +26,7 @@ import javax.validation.Valid;
  * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  */
-@Path("/")
+@Path("/store")
 @Api(value = "/", description = "")
 public interface StoreApi  {
 
@@ -37,8 +37,8 @@ public interface StoreApi  {
      *
      */
     @DELETE
-    @Path("/store/order/{order_id}")
-    @ApiOperation(value = "Delete purchase order by ID", tags={ "store",  })
+    @Path("/order/{order_id}")
+    @ApiOperation(value = "Delete purchase order by ID", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
@@ -51,9 +51,9 @@ public interface StoreApi  {
      *
      */
     @GET
-    @Path("/store/inventory")
+    @Path("/inventory")
     @Produces({ "application/json" })
-    @ApiOperation(value = "Returns pet inventories by status", tags={ "store",  })
+    @ApiOperation(value = "Returns pet inventories by status", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
     public Map<String, Integer> getInventory();
@@ -65,9 +65,9 @@ public interface StoreApi  {
      *
      */
     @GET
-    @Path("/store/order/{order_id}")
+    @Path("/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Find purchase order by ID", tags={ "store",  })
+    @ApiOperation(value = "Find purchase order by ID", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -79,12 +79,11 @@ public interface StoreApi  {
      *
      */
     @POST
-    @Path("/store/order")
+    @Path("/order")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Place an order for a pet", tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order") })
-    public Order placeOrder(@Valid Order body);
+    public Order placeOrder(@Valid @NotNull Order body);
 }
-

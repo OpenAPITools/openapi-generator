@@ -93,6 +93,8 @@ public class FormatTest {
   @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
   private BigDecimal bigDecimal;
 
+  public FormatTest() { 
+  }
 
   public FormatTest integer(Integer integer) {
     
@@ -179,6 +181,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @Valid
  @DecimalMin("32.1") @DecimalMax("543.2")  @ApiModelProperty(required = true, value = "")
@@ -276,8 +279,9 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
+  @javax.annotation.Nonnull
   @NotNull
- @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
 
   public byte[] getByte() {
     return _byte;
@@ -323,6 +327,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
+  @javax.annotation.Nonnull
   @NotNull
   @Valid
   @ApiModelProperty(required = true, value = "")
@@ -395,6 +400,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
+  @javax.annotation.Nonnull
   @NotNull
  @Size(min=10,max=64)  @ApiModelProperty(required = true, value = "")
 
@@ -433,7 +439,7 @@ public class FormatTest {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -462,7 +468,6 @@ public class FormatTest {
     return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -489,7 +494,7 @@ public class FormatTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

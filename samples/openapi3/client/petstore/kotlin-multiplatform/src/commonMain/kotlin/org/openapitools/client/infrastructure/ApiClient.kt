@@ -46,7 +46,6 @@ open class ApiClient(
         val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
         httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
-
     private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
         mapOf(
                 "api_key" to ApiKeyAuth("header", "api_key"), 
@@ -98,12 +97,6 @@ open class ApiClient(
             serializer.setMapper(org.openapitools.client.models.FormatTest::class, org.openapitools.client.models.FormatTest.serializer())
             serializer.setMapper(org.openapitools.client.models.HasOnlyReadOnly::class, org.openapitools.client.models.HasOnlyReadOnly.serializer())
             serializer.setMapper(org.openapitools.client.models.HealthCheckResult::class, org.openapitools.client.models.HealthCheckResult.serializer())
-            serializer.setMapper(org.openapitools.client.models.InlineObject::class, org.openapitools.client.models.InlineObject.serializer())
-            serializer.setMapper(org.openapitools.client.models.InlineObject1::class, org.openapitools.client.models.InlineObject1.serializer())
-            serializer.setMapper(org.openapitools.client.models.InlineObject2::class, org.openapitools.client.models.InlineObject2.serializer())
-            serializer.setMapper(org.openapitools.client.models.InlineObject3::class, org.openapitools.client.models.InlineObject3.serializer())
-            serializer.setMapper(org.openapitools.client.models.InlineObject4::class, org.openapitools.client.models.InlineObject4.serializer())
-            serializer.setMapper(org.openapitools.client.models.InlineObject5::class, org.openapitools.client.models.InlineObject5.serializer())
             serializer.setMapper(org.openapitools.client.models.InlineResponseDefault::class, org.openapitools.client.models.InlineResponseDefault.serializer())
             serializer.setMapper(org.openapitools.client.models.List::class, org.openapitools.client.models.List.serializer())
             serializer.setMapper(org.openapitools.client.models.MapTest::class, org.openapitools.client.models.MapTest.serializer())
@@ -133,7 +126,7 @@ open class ApiClient(
      * @param username Username
      */
     fun setUsername(username: String) {
-        val auth = authentications.values.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
+        val auth = authentications?.values?.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
                 ?: throw Exception("No HTTP basic authentication configured")
         auth.username = username
     }
@@ -144,7 +137,7 @@ open class ApiClient(
      * @param password Password
      */
     fun setPassword(password: String) {
-        val auth = authentications.values.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
+        val auth = authentications?.values?.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
                 ?: throw Exception("No HTTP basic authentication configured")
         auth.password = password
     }
@@ -156,7 +149,7 @@ open class ApiClient(
      * @param paramName The name of the API key parameter, or null or set the first key.
      */
     fun setApiKey(apiKey: String, paramName: String? = null) {
-        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName)} as ApiKeyAuth?
+        val auth = authentications?.values?.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName)} as ApiKeyAuth?
                 ?: throw Exception("No API key authentication configured")
         auth.apiKey = apiKey
     }
@@ -168,7 +161,7 @@ open class ApiClient(
      * @param paramName The name of the API key parameter, or null or set the first key.
      */
     fun setApiKeyPrefix(apiKeyPrefix: String, paramName: String? = null) {
-        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName) } as ApiKeyAuth?
+        val auth = authentications?.values?.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName) } as ApiKeyAuth?
                 ?: throw Exception("No API key authentication configured")
         auth.apiKeyPrefix = apiKeyPrefix
     }
@@ -179,7 +172,7 @@ open class ApiClient(
      * @param accessToken Access token
      */
     fun setAccessToken(accessToken: String) {
-        val auth = authentications.values.firstOrNull { it is OAuth } as OAuth?
+        val auth = authentications?.values?.firstOrNull { it is OAuth } as OAuth?
                 ?: throw Exception("No OAuth2 authentication configured")
         auth.accessToken = accessToken
     }
@@ -190,7 +183,7 @@ open class ApiClient(
      * @param bearerToken The bearer token.
      */
     fun setBearerToken(bearerToken: String) {
-        val auth = authentications.values.firstOrNull { it is HttpBearerAuth } as HttpBearerAuth?
+        val auth = authentications?.values?.firstOrNull { it is HttpBearerAuth } as HttpBearerAuth?
                 ?: throw Exception("No Bearer authentication configured")
         auth.bearerToken = bearerToken
     }
@@ -234,7 +227,7 @@ open class ApiClient(
 
     private fun RequestConfig.updateForAuth(authNames: kotlin.collections.List<String>) {
         for (authName in authNames) {
-            val auth = authentications[authName] ?: throw Exception("Authentication undefined: $authName")
+            val auth = authentications?.get(authName) ?: throw Exception("Authentication undefined: $authName")
             auth.apply(query, headers)
         }
     }

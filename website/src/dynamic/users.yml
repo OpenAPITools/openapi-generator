@@ -1,7 +1,17 @@
 -
+  caption: "Aalborg University"
+  image: "img/companies/aalborg_university.png"
+  infoLink: "https://www.aau.dk/"
+  pinned: false
+-
   caption: "Adaptant Solutions AG"
   image: "img/companies/adaptant.png"
   infoLink: "https://www.adaptant.io/"
+  pinned: false
+-
+  caption: "adesso SE"
+  image: "img/companies/adesso.png"
+  infoLink: "https://www.adesso.de/"
   pinned: false
 -
   caption: "Agoda"
@@ -64,6 +74,11 @@
   infoLink: "https://www.boxever.com/"
   pinned: false
 -
+  caption: Bunker Holding Group
+  image: "img/companies/bunker-holding.png"
+  infoLink: "https://www.bunker-holding.com/"
+  pinned: false
+-
   caption: "California State University, Northridge"
   image: "img/companies/CSUNS.png"
   infoLink: "https://www.csun.edu/"
@@ -87,6 +102,11 @@
   caption: "codecentric AG"
   image: "img/companies/codecentric.png"
   infoLink: "https://www.codecentric.de/"
+  pinned: false
+-
+  caption: "CoinAPI"
+  image: "img/companies/coinapi.png"
+  infoLink: "https://www.coinapi.io/"
   pinned: false
 -
   caption: Commencis
@@ -127,6 +147,11 @@
   caption: "Edge Impulse"
   image: "img/companies/edge_impulse.png"
   infoLink: "https://www.edgeimpulse.com/"
+  pinned: false
+-
+  caption: "Elastic Email"
+  image: "img/companies/elasticemail.png"
+  infoLink: "https://elasticemail.com/"
   pinned: false
 -
   caption: "Element AI"
@@ -174,6 +199,11 @@
   infoLink: "https://www.getyourguide.com/"
   pinned: false
 -
+  caption: Giant Monkey GmbH
+  image: "img/companies/gm.png"
+  infoLink: "https://www.giantmonkey.de/"
+  pinned: true
+-
   caption: "GMO Pepabo"
   image: "img/companies/pepabo.png"
   infoLink: "https://pepabo.com/en/"
@@ -182,6 +212,11 @@
   caption: "GoDaddy"
   image: "img/companies/godaddy.png"
   infoLink: "https://www.godaddy.com/"
+  pinned: false
+-
+  caption: "Gumtree"
+  image: "img/companies/gumtree.png"
+  infoLink: "https://gumtree.com/"
   pinned: false
 -
   caption: "Here"
@@ -229,6 +264,16 @@
   infoLink: "https://www.kurusugawa.jp/"
   pinned: false
 -
+  caption: "LVM Versicherungen"
+  image: "img/companies/lvm_versicherungen.png"
+  infoLink: "https://www.lvm.de"
+  pinned: false
+-
+  caption: "Lumeris"
+  image: "img/companies/lumeris.png"
+  infoLink: "https://www.lumeris.com"
+  pinned: false
+-
   caption: M3, Inc.
   image: "img/companies/m3.png"
   infoLink: "https://jobs.m3.com/engineer/"
@@ -264,6 +309,16 @@
   infoLink: "https://www.namsor.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
   pinned: false
 -
+  caption: Nokia 
+  image: "img/companies/nokia.png"
+  infoLink: "https://www.nokia.com/"
+  pinned: false
+-
+  caption: Options Clearing Corporation (OCC)
+  image: "img/companies/occ.jpg"
+  infoLink: "https://www.theocc.com/"
+  pinned: false
+-
   caption: Openet
   image: "img/companies/openet.jpg"
   infoLink: "https://www.openet.com/"
@@ -282,6 +337,16 @@
   caption: Paxos
   image: "img/companies/paxos.png"
   infoLink: "https://www.paxos.com/"
+  pinned: false
+-
+  caption: "PLAID, Inc."
+  image: "img/companies/plaidcojp.jpg"
+  infoLink: "https://plaid.co.jp/"
+  pinned: false
+-
+  caption: Plaid
+  image: "img/companies/plaid.png"
+  infoLink: "https://www.plaid.com/"
   pinned: false
 -
   caption: Ponicode
@@ -304,6 +369,11 @@
   infoLink: "https://www.qulix.com"
   pinned: false
 -
+  caption: Raksul
+  image: "img/companies/raksul-corporate.svg"
+  infoLink: "https://corp.raksul.com"
+  pinned: false
+-
   caption: "Raiffeisen Schweiz Genossenschaft"
   image: "img/companies/raiffeisen.png"
   infoLink: "https://www.raiffeisen.ch/"
@@ -324,9 +394,24 @@
   infoLink: "https://restunited.com/"
   pinned: false
 -
+  caption: "Shotstack"
+  image: "img/companies/shotstack.svg"
+  infoLink: "https://shotstack.io"
+  pinned: false
+-
+  caption: "SmartHR"
+  image: "img/companies/smarthr.png"
+  infoLink: "https://smarthr.co.jp/"
+  pinned: false
+-
   caption: "Sony Interactive Entertainment"
   image: "img/companies/sie.jpeg"
   infoLink: "https://www.sie.com/en/index.html"
+  pinned: false
+-
+  caption: "Splitit"
+  image: "img/companies/splitit.png"
+  infoLink: "https://www.splitit.com/"
   pinned: false
 -
   caption: Stingray
@@ -344,14 +429,29 @@
   infoLink: "https://dev.telstra.com/"
   pinned: true
 -
+  caption: The University of Aizu
+  image: "img/companies/uoa.png"
+  infoLink: "https://www.u-aizu.ac.jp/en/"
+  pinned: false
+-
   caption: "TravelTime platform"
   image: "img/companies/traveltime.jpg"
   infoLink: "https://www.traveltimeplatform.com/"
   pinned: false
 -
+  caption: "TribalScale"
+  image: "img/companies/tribalscale.png"
+  infoLink: "https://www.tribalscale.com"
+  pinned: false
+-
   caption: "TUI InfoTec GmbH"
   image: "img/companies/infotec.png"
   infoLink: "http://www.tui-infotec.com/"
+  pinned: false
+-
+  caption: "Twitter"
+  image: "img/companies/twitter.png"
+  infoLink: "https://twitter.com"
   pinned: false
 -
   caption: "unblu inc."
@@ -364,6 +464,31 @@
   infoLink: "https://www.veamly.com/"
   pinned: false
 -
+  caption: "viadee"
+  image: "img/companies/viadee.jpg"
+  infoLink: "https://www.viadee.de"
+  pinned: false
+-
+  caption: "VMware"
+  image: "img/companies/vmware.png"
+  infoLink: "https://www.vmware.com/"
+  pinned: false
+-
+  caption: Vonage
+  image: "img/companies/vonage.png"
+  infoLink: "https://vonage.com"
+  pinned: false
+-
+  caption: Vouchery.io
+  image: "img/companies/voucheryio.png"
+  infoLink: "https://vouchery.io"
+  pinned: false
+-
+  caption: wbt-solutions
+  image: "img/companies/wbt_solutions.png"
+  infoLink: "https://www.wbt-solutions.de/"
+  pinned: false
+-
   caption: Woleet
   image: "img/companies/woleet.png"
   infoLink: "https://woleet.io"
@@ -374,11 +499,6 @@
   infoLink: "https://wso2.com/"
   pinned: true
 -
-  caption: Vouchery.io
-  image: "img/companies/voucheryio.png"
-  infoLink: "https://vouchery.io"
-  pinned: false
--
   caption: Xero
   image: "img/companies/xero.png"
   infoLink: "https://www.xero.com/"
@@ -387,11 +507,6 @@
   caption: Yahoo! Japan
   image: "img/companies/yahoo_japan.png"
   infoLink: "https://www.yahoo.co.jp"
-  pinned: false
--
-  caption: Vonage
-  image: "img/companies/vonage.jpg"
-  infoLink: "https://vonage.com"
   pinned: false
 -
   caption: YITU Technology

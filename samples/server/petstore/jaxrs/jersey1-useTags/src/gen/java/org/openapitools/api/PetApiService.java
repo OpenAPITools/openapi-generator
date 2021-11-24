@@ -15,8 +15,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.sun.jersey.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -37,8 +37,8 @@ public abstract class PetApiService {
       throws NotFoundException;
       public abstract Response updatePetWithForm(Long petId,String name,String status,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response uploadFile(Long petId,String additionalMetadata,InputStream fileInputStream, FormDataContentDisposition fileDetail,SecurityContext securityContext)
+      public abstract Response uploadFile(Long petId,String additionalMetadata,FormDataBodyPart fileBodypart,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response uploadFileWithRequiredFile(Long petId,InputStream requiredFileInputStream, FormDataContentDisposition requiredFileDetail,String additionalMetadata,SecurityContext securityContext)
+      public abstract Response uploadFileWithRequiredFile(Long petId,FormDataBodyPart requiredFileBodypart,String additionalMetadata,SecurityContext securityContext)
       throws NotFoundException;
 }

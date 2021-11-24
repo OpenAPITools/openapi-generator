@@ -234,6 +234,11 @@
         }
       }
     },
+    "any": {
+      "description": "map model with key property names to any type",
+      "properties": {},
+      "additionalProperties": {}
+    },
     "v1beta3.ObjectReference": {
       "id": "v1beta3.ObjectReference",
       "properties": {
@@ -271,7 +276,7 @@
       "id": "v1beta3.ObjectMeta",
       "properties": {
         "annotations": {
-          "type": "any",
+          "$ref": "any",
           "description": "map of string keys and values that can be used by external tooling to store and retrieve arbitrary metadata about objects"
         },
         "creationTimestamp": {
@@ -287,7 +292,7 @@
           "description": "an optional prefix to use to generate a unique name; has the same validation rules as name; optional, and is applied only name if is not specified"
         },
         "labels": {
-          "type": "any",
+          "$ref": "any",
           "description": "map of string keys and values that can be used to organize and categorize objects; may match selectors of replication controllers and services"
         },
         "name": {

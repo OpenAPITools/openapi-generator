@@ -28,7 +28,7 @@ public class AnotherFakeApi {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -37,7 +37,7 @@ public class AnotherFakeApi {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -110,6 +110,6 @@ public class AnotherFakeApi {
 
     return apiClient.invokeAPI("AnotherFakeApi.call123testSpecialTags", localVarPath, "PATCH", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
 }

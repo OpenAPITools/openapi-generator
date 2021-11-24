@@ -3,6 +3,8 @@ title: Config Options for csharp
 sidebar_label: csharp
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
@@ -23,7 +25,7 @@ sidebar_label: csharp
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
-|targetFramework|The target .NET framework version.|<dl><dt>**v3.5**</dt><dd>.NET Framework 3.5 compatible</dd><dt>**v4.0**</dt><dd>.NET Framework 4.0 compatible</dd><dt>**v4.5**</dt><dd>.NET Framework 4.5 compatible</dd><dt>**v4.5.2**</dt><dd>.NET Framework 4.5.2+ compatible</dd><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3 compatible (DEPRECATED. Please use `csharp-netcore` generator instead)</dd><dt>**uwp**</dt><dd>Universal Windows Platform (DEPRECATED. Please use `csharp-netcore` generator instead)</dd></dl>|v4.5|
+|targetFramework|The target .NET framework version. To target multiple frameworks, use `;` as the separator, e.g. `netstandard2.1;netcoreapp3.0`|<dl><dt>**v3.5**</dt><dd>.NET Framework 3.5 compatible</dd><dt>**v4.0**</dt><dd>.NET Framework 4.0 compatible</dd><dt>**v4.5**</dt><dd>.NET Framework 4.5 compatible</dd><dt>**v4.5.2**</dt><dd>.NET Framework 4.5.2+ compatible</dd><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3 compatible (DEPRECATED. Please use `csharp-netcore` generator instead)</dd><dt>**uwp**</dt><dd>Universal Windows Platform (DEPRECATED. Please use `csharp-netcore` generator instead)</dd></dl>|v4.5|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useCompareNetObjects|Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
@@ -53,6 +55,7 @@ sidebar_label: csharp
 <li>DateTime?</li>
 <li>DateTimeOffset</li>
 <li>DateTimeOffset?</li>
+<li>Decimal</li>
 <li>Dictionary</li>
 <li>Double</li>
 <li>Float</li>
@@ -85,6 +88,8 @@ sidebar_label: csharp
 
 <ul class="column-ul">
 <li>Client</li>
+<li>Configuration</li>
+<li>Version</li>
 <li>abstract</li>
 <li>as</li>
 <li>base</li>
@@ -188,6 +193,7 @@ sidebar_label: csharp
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✓|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

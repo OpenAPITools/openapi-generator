@@ -24,8 +24,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.EnumSet;
 
-public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServerCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
+public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServerCodegen {
+    private final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
 
     protected String modelDocPath = "";
     protected String modelTestPath = "";
@@ -236,7 +236,8 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + File.separator + modelDocPath).replace('.', File.separatorChar);
+        // character replaces should _only_ occur on paths we define. Don't replace on outputFolder (which is supplied by the user and should always be considered correct)
+        return outputFolder + File.separator + modelDocPath.replace('.', File.separatorChar);
     }
 
     @Override

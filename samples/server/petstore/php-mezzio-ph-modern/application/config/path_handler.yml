@@ -1,0 +1,58 @@
+dependencies:
+  factories:
+    Mezzio\Router\RouterInterface: Articus\PathHandler\RouteInjectionFactory
+    Articus\PathHandler\MetadataProviderInterface: Articus\PathHandler\MetadataProvider\Factory\PhpAttribute
+    Articus\PathHandler\Handler\PluginManager: Articus\PathHandler\Handler\Factory\PluginManager
+    Articus\PathHandler\Consumer\PluginManager: Articus\PathHandler\Consumer\Factory\PluginManager
+    Articus\PathHandler\Attribute\PluginManager: Articus\PathHandler\Attribute\Factory\PluginManager
+    Articus\PathHandler\Producer\PluginManager: Articus\PathHandler\Producer\Factory\PluginManager
+
+Articus\PathHandler\RouteInjectionFactory:
+  paths:
+    '/v2':
+    - App\Handler\Pet
+    - App\Handler\PetFindByStatus
+    - App\Handler\PetFindByTags
+    - App\Handler\PetPetId
+    - App\Handler\PetPetIdUploadImage
+    - App\Handler\StoreInventory
+    - App\Handler\StoreOrder
+    - App\Handler\StoreOrderOrderId
+    - App\Handler\User
+    - App\Handler\UserCreateWithArray
+    - App\Handler\UserCreateWithList
+    - App\Handler\UserLogin
+    - App\Handler\UserLogout
+    - App\Handler\UserUsername
+
+Articus\PathHandler\Handler\PluginManager:
+  abstract_factories:
+  - Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory
+
+#Articus\PathHandler\Consumer\PluginManager:
+#  factories:
+#  invokables:
+
+#Articus\PathHandler\Attribute\PluginManager:
+#  factories:
+#  invokables:
+
+#Articus\PathHandler\Producer\PluginManager:
+#  factories:
+#  invokables:
+
+Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory:
+  App\Handler\Pet: []
+  App\Handler\PetFindByStatus: []
+  App\Handler\PetFindByTags: []
+  App\Handler\PetPetId: []
+  App\Handler\PetPetIdUploadImage: []
+  App\Handler\StoreInventory: []
+  App\Handler\StoreOrder: []
+  App\Handler\StoreOrderOrderId: []
+  App\Handler\User: []
+  App\Handler\UserCreateWithArray: []
+  App\Handler\UserCreateWithList: []
+  App\Handler\UserLogin: []
+  App\Handler\UserLogout: []
+  App\Handler\UserUsername: []

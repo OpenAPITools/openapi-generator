@@ -93,6 +93,7 @@ class PetApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -110,7 +111,8 @@ class PetApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -142,11 +144,15 @@ class PetApi(object):
         if 'body' in local_var_params:
             body_params = local_var_params['body']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'application/xml'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json', 'application/xml'],
+                'POST', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
+
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/pet', 'POST',
@@ -156,7 +162,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -226,6 +232,7 @@ class PetApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -244,7 +251,8 @@ class PetApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -280,6 +288,8 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
+        response_types_map = {}
+
         return self.api_client.call_api(
             '/pet/{petId}', 'DELETE',
             path_params,
@@ -288,7 +298,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -356,6 +366,7 @@ class PetApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -373,7 +384,8 @@ class PetApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -412,6 +424,11 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
+        response_types_map = {
+            200: "list[Pet]",
+            400: None,
+        }
+
         return self.api_client.call_api(
             '/pet/findByStatus', 'GET',
             path_params,
@@ -420,7 +437,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='list[Pet]',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -488,6 +505,7 @@ class PetApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -505,7 +523,8 @@ class PetApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -544,6 +563,11 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
 
+        response_types_map = {
+            200: "list[Pet]",
+            400: None,
+        }
+
         return self.api_client.call_api(
             '/pet/findByTags', 'GET',
             path_params,
@@ -552,7 +576,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='list[Pet]',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -620,6 +644,7 @@ class PetApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -637,7 +662,8 @@ class PetApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -675,6 +701,12 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['api_key']  # noqa: E501
 
+        response_types_map = {
+            200: "Pet",
+            400: None,
+            404: None,
+        }
+
         return self.api_client.call_api(
             '/pet/{petId}', 'GET',
             path_params,
@@ -683,7 +715,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Pet',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -749,6 +781,7 @@ class PetApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -766,7 +799,8 @@ class PetApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -798,11 +832,15 @@ class PetApi(object):
         if 'body' in local_var_params:
             body_params = local_var_params['body']
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'application/xml'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/json', 'application/xml'],
+                'PUT', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
+
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/pet', 'PUT',
@@ -812,7 +850,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -886,6 +924,7 @@ class PetApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -905,7 +944,8 @@ class PetApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -941,11 +981,15 @@ class PetApi(object):
 
         body_params = None
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/x-www-form-urlencoded'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['application/x-www-form-urlencoded'],
+                'POST', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
+
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/pet/{petId}', 'POST',
@@ -955,7 +999,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -1029,6 +1073,7 @@ class PetApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1048,7 +1093,8 @@ class PetApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -1088,11 +1134,17 @@ class PetApi(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['multipart/form-data'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['multipart/form-data'],
+                'POST', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
+
+        response_types_map = {
+            200: "ApiResponse",
+        }
 
         return self.api_client.call_api(
             '/pet/{petId}/uploadImage', 'POST',
@@ -1102,7 +1154,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='ApiResponse',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -1176,6 +1228,7 @@ class PetApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1195,7 +1248,8 @@ class PetApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -1239,11 +1293,17 @@ class PetApi(object):
             ['application/json'])  # noqa: E501
 
         # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['multipart/form-data'])  # noqa: E501
+        header_params['Content-Type'] = local_var_params.get('_content_type',
+            self.api_client.select_header_content_type(
+                ['multipart/form-data'],
+                'POST', body_params))  # noqa: E501
 
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
+
+        response_types_map = {
+            200: "ApiResponse",
+        }
 
         return self.api_client.call_api(
             '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
@@ -1253,7 +1313,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='ApiResponse',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

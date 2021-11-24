@@ -25,7 +25,10 @@ void category_free(category_t *category) {
         return ;
     }
     listEntry_t *listEntry;
-    free(category->name);
+    if (category->name) {
+        free(category->name);
+        category->name = NULL;
+    }
     free(category);
 }
 

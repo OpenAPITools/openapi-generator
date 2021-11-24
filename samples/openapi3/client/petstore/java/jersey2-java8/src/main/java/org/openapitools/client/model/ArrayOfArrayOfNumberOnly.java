@@ -20,6 +20,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -41,6 +42,8 @@ public class ArrayOfArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   private List<List<BigDecimal>> arrayArrayNumber = null;
 
+  public ArrayOfArrayOfNumberOnly() { 
+  }
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
@@ -69,6 +72,8 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
@@ -78,7 +83,7 @@ public class ArrayOfArrayOfNumberOnly {
    * Return true if this ArrayOfArrayOfNumberOnly object is equal to o.
    */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -94,7 +99,6 @@ public class ArrayOfArrayOfNumberOnly {
     return Objects.hash(arrayArrayNumber);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -108,7 +112,7 @@ public class ArrayOfArrayOfNumberOnly {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

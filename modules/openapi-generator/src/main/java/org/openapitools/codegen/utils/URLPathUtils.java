@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.utils;
 
-import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
@@ -59,7 +58,7 @@ public class URLPathUtils {
             variables = new ServerVariables();
         }
 
-        Map<String, String> userVariables = userDefinedVariables == null ? new HashMap<>() : ImmutableMap.copyOf(userDefinedVariables);
+        Map<String, String> userVariables = userDefinedVariables == null ? new HashMap<>() : Collections.unmodifiableMap(userDefinedVariables);
 
         if (StringUtils.isNotBlank(url)) {
             url = extractUrl(server, url, variables, userVariables);
@@ -210,7 +209,7 @@ public class URLPathUtils {
                 once(LOGGER).warn("'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]", url);
             } else if (url.startsWith("/")) {
                 url = LOCAL_HOST + url;
-                once(LOGGER).warn("'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [{}] for server URL [{}]", LOCAL_HOST, url);
+                once(LOGGER).info("'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [{}] for server URL [{}]", LOCAL_HOST, url);
             } else if (!url.matches("[a-zA-Z][0-9a-zA-Z.+\\-]+://.+")) {
                 // Add http scheme for urls without a scheme.
                 // 2.0 spec is restricted to the following schemes: "http", "https", "ws", "wss"
@@ -231,5 +230,13 @@ public class URLPathUtils {
         } catch (MalformedURLException e) {
             return null;
         }
+    }
+
+    public static boolean isRelativeUrl(List<Server> servers) {
+        if (servers != null && servers.size() > 0) {
+            final Server firstServer = servers.get(0);
+            return Pattern.matches("^(\\/[\\w\\d]+)+", firstServer.getUrl());
+        }
+        return false;
     }
 }

@@ -5,50 +5,67 @@ use futures::Stream;
 use std::error::Error;
 use std::task::{Poll, Context};
 use swagger::{ApiError, ContextWrapper};
+use serde::{Serialize, Deserialize};
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "1.0.7";
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+pub enum AnyOfGetResponse {
+    /// Success
+    Success
+    (models::AnyOfObject)
+    ,
+    /// AlternateSuccess
+    AlternateSuccess
+    (models::Model12345AnyOfObject)
+    ,
+    /// AnyOfSuccess
+    AnyOfSuccess
+    (swagger::AnyOf2<models::StringObject,models::UuidObject>)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CallbackWithHeaderPostResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ComplexQueryParamGetResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum EnumInPathPathParamGetResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum JsonComplexQueryParamGetResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MandatoryRequestHeaderGetResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MergePatchJsonGetResponse {
     /// merge-patch+json-encoded response
     Merge
     (models::AnotherXmlObject)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum MultigetGetResponse {
     /// JSON rsp
@@ -80,44 +97,51 @@ pub enum MultigetGetResponse {
     (models::AnotherXmlObject)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MultipleAuthSchemeGetResponse {
     /// Check that limiting to multiple required auth schemes works
     CheckThatLimitingToMultipleRequiredAuthSchemesWorks
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub enum OneOfGetResponse {
+    /// Success
+    Success
+    (swagger::OneOf2<i32,Vec<String>>)
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum OverrideServerGetResponse {
     /// Success.
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ParamgetGetResponse {
     /// JSON rsp
     JSONRsp
     (models::AnotherXmlObject)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum ReadonlyAuthSchemeGetResponse {
     /// Check that limiting to a single required auth scheme works
     CheckThatLimitingToASingleRequiredAuthSchemeWorks
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum RegisterCallbackPostResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum RequiredOctetStreamPutResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum ResponsesWithHeadersGetResponse {
     /// Success
@@ -153,7 +177,7 @@ pub enum ResponsesWithHeadersGetResponse {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum Rfc7807GetResponse {
     /// OK
@@ -169,20 +193,20 @@ pub enum Rfc7807GetResponse {
     (models::ObjectWithArrayOfObjects)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UntypedPropertyGetResponse {
     /// Check that untyped properties works
     CheckThatUntypedPropertiesWorks
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum UuidGetResponse {
     /// Duplicate Response long text. One.
     DuplicateResponseLongText
     (uuid::Uuid)
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlExtraPostResponse {
     /// OK
@@ -192,7 +216,7 @@ pub enum XmlExtraPostResponse {
     BadRequest
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlOtherPostResponse {
     /// OK
@@ -203,7 +227,7 @@ pub enum XmlOtherPostResponse {
     BadRequest
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlOtherPutResponse {
     /// OK
@@ -213,7 +237,7 @@ pub enum XmlOtherPutResponse {
     BadRequest
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlPostResponse {
     /// OK
@@ -223,7 +247,7 @@ pub enum XmlPostResponse {
     BadRequest
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 pub enum XmlPutResponse {
     /// OK
@@ -233,13 +257,13 @@ pub enum XmlPutResponse {
     BadRequest
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CreateRepoResponse {
     /// Success
     Success
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum GetRepoInfoResponse {
     /// OK
     OK
@@ -252,6 +276,11 @@ pub trait Api<C: Send + Sync> {
     fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
         Poll::Ready(Ok(()))
     }
+
+    async fn any_of_get(
+        &self,
+        any_of: Option<&Vec<models::AnyOfObject>>,
+        context: &C) -> Result<AnyOfGetResponse, ApiError>;
 
     async fn callback_with_header_post(
         &self,
@@ -290,6 +319,10 @@ pub trait Api<C: Send + Sync> {
     async fn multiple_auth_scheme_get(
         &self,
         context: &C) -> Result<MultipleAuthSchemeGetResponse, ApiError>;
+
+    async fn one_of_get(
+        &self,
+        context: &C) -> Result<OneOfGetResponse, ApiError>;
 
     async fn override_server_get(
         &self,
@@ -380,6 +413,11 @@ pub trait ApiNoContext<C: Send + Sync> {
 
     fn context(&self) -> &C;
 
+    async fn any_of_get(
+        &self,
+        any_of: Option<&Vec<models::AnyOfObject>>,
+        ) -> Result<AnyOfGetResponse, ApiError>;
+
     async fn callback_with_header_post(
         &self,
         url: String,
@@ -417,6 +455,10 @@ pub trait ApiNoContext<C: Send + Sync> {
     async fn multiple_auth_scheme_get(
         &self,
         ) -> Result<MultipleAuthSchemeGetResponse, ApiError>;
+
+    async fn one_of_get(
+        &self,
+        ) -> Result<OneOfGetResponse, ApiError>;
 
     async fn override_server_get(
         &self,
@@ -522,6 +564,15 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         ContextWrapper::context(self)
     }
 
+    async fn any_of_get(
+        &self,
+        any_of: Option<&Vec<models::AnyOfObject>>,
+        ) -> Result<AnyOfGetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().any_of_get(any_of, &context).await
+    }
+
     async fn callback_with_header_post(
         &self,
         url: String,
@@ -590,6 +641,14 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().multiple_auth_scheme_get(&context).await
+    }
+
+    async fn one_of_get(
+        &self,
+        ) -> Result<OneOfGetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().one_of_get(&context).await
     }
 
     async fn override_server_get(
@@ -738,13 +797,13 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 }
 
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CallbackCallbackWithHeaderPostResponse {
     /// OK
     OK
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum CallbackCallbackPostResponse {
     /// OK
     OK

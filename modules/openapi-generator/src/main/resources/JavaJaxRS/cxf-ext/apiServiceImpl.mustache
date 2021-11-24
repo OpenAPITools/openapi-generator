@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
  * {{{appName}}}
  *
  {{#appDescription}}
- * <p>{{{appDescription}}}
+ * <p>{{{.}}}
  {{/appDescription}}
  *
  */
@@ -68,13 +68,13 @@ public class {{classname}}ServiceImpl implements {{classname}} {
      * {{summary}}
      *
      {{#notes}}
-     * {{notes}}
+     * {{.}}
      *
      {{/notes}}
      */
     {{/summary}}
     @Override
-    public {{>returnTypes}} {{operationId}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParamsImpl}}{{>formParamsImpl}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    public {{>returnTypes}} {{operationId}}({{#allParams}}{{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>bodyParamsImpl}}{{>formParamsImpl}}{{^-last}}, {{/-last}}{{/allParams}}) {
     {{^loadTestDataFromFile}}
         // TODO: Implement...
     {{/loadTestDataFromFile}}

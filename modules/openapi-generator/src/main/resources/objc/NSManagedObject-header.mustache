@@ -10,37 +10,37 @@
 {{#model}}
 
 NS_ASSUME_NONNULL_BEGIN
-{{#isArrayModel}}
+{{#isArray}}
 
 @interface {{classname}}ManagedObject : NSManagedObject
 
 @property (nullable, nonatomic, retain) NSOrderedSet<{{{arrayModelType}}}ManagedObject*>* entries;
 
-{{/isArrayModel}}{{^isArrayModel}}
-@interface {{classname}}ManagedObject : {{#parent}}{{{parent}}}ManagedObject{{/parent}}{{^parent}}NSManagedObject{{/parent}}
+{{/isArray}}{{^isArray}}
+@interface {{classname}}ManagedObject : {{#parent}}{{{.}}}ManagedObject{{/parent}}{{^parent}}NSManagedObject{{/parent}}
 
 {{#vars}}
 {{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}
  */{{/description}}
-@property (nullable, nonatomic, retain) {{^complexType}}{{{ datatype }}}{{/complexType}}{{#complexType}}{{#isListContainer}}NSOrderedSet<{{{complexType}}}ManagedObject*>*{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{{ datatype }}}{{/isMapContainer}}{{^isMapContainer}}{{{complexType}}}ManagedObject*{{/isMapContainer}}{{/isListContainer}}{{/complexType}} {{name}};
+@property (nullable, nonatomic, retain) {{^complexType}}{{{ datatype }}}{{/complexType}}{{#complexType}}{{#isArray}}NSOrderedSet<{{{complexType}}}ManagedObject*>*{{/isArray}}{{^isArray}}{{#isMap}}{{{ datatype }}}{{/isMap}}{{^isMap}}{{{complexType}}}ManagedObject*{{/isMap}}{{/isArray}}{{/complexType}} {{name}};
 {{/vars}}
-{{/isArrayModel}}
+{{/isArray}}
 @end
 
 @interface {{classname}}ManagedObject (GeneratedAccessors)
-{{#isArrayModel}}
+{{#isArray}}
 - (void)addEntriesObject:({{arrayModelType}}ManagedObject *)value;
 - (void)removeEntriesObject:({{arrayModelType}}ManagedObject *)value;
 - (void)addEntries:(NSOrderedSet<{{{arrayModelType}}}ManagedObject*> *)values;
 - (void)removeEntries:(NSOrderedSet<{{{arrayModelType}}}ManagedObject*> *)values;
-{{/isArrayModel}}
-{{^isArrayModel}}
-{{#vars}}{{#isListContainer}}{{#complexType}}- (void)add{{vendorExtensions.x-uppercase-name}}Object:({{complexType}}ManagedObject *)value;
+{{/isArray}}
+{{^isArray}}
+{{#vars}}{{#isArray}}{{#complexType}}- (void)add{{vendorExtensions.x-uppercase-name}}Object:({{complexType}}ManagedObject *)value;
 - (void)remove{{vendorExtensions.x-uppercase-name}}Object:({{complexType}}ManagedObject *)value;
 - (void)add{{vendorExtensions.x-uppercase-name}}:(NSOrderedSet<{{{complexType}}}ManagedObject*> *)values;
 - (void)remove{{vendorExtensions.x-uppercase-name}}:(NSOrderedSet<{{{complexType}}}ManagedObject*> *)values;
-{{/complexType}}{{/isListContainer}}{{/vars}}
-{{/isArrayModel}}
+{{/complexType}}{{/isArray}}{{/vars}}
+{{/isArray}}
 @end
 
 

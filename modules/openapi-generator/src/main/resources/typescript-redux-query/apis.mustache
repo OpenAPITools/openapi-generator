@@ -3,7 +3,6 @@
 
 import { HttpMethods, QueryConfig, ResponseBody, ResponseText } from 'redux-query';
 import * as runtime from '../runtime';
-
 {{#imports.0}}
 import {
     {{#imports}}
@@ -37,7 +36,7 @@ export interface {{operationIdCamelCase}}Request {
  * {{&summary}}
  {{/summary}}
  */
-function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request,{{/allParams.0}} requestConfig: runtime.TypedQueryConfig<T, {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> = {}): QueryConfig<T> {
+function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request,{{/allParams.0}} requestConfig: runtime.TypedQueryConfig<T, {{{returnType}}}{{^returnType}}void{{/returnType}}> = {}): QueryConfig<T> {
     {{#allParams}}
     {{#required}}
     if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
@@ -54,18 +53,18 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
 
     {{#queryParams}}
 
-    {{#isListContainer}}
+    {{#isArray}}
     if (requestParameters.{{paramName}}) {
         {{#isCollectionFormatMulti}}
         queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-        queryParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+        queryParameters['{{baseName}}'] = requestParameters.{{paramName}}?.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
         {{/isCollectionFormatMulti}}
     }
 
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     if (requestParameters.{{paramName}} !== undefined) {
         {{#isDateTime}}
         queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
@@ -80,9 +79,9 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{/isDateTime}}
     }
 
-    {{/isListContainer}}
+    {{/isArray}}
     {{/queryParams}}
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     {{#bodyParam}}
     {{^consumes}}
@@ -95,18 +94,18 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
     {{/consumes.0}}
     {{/bodyParam}}
     {{#headerParams}}
-    {{#isListContainer}}
+    {{#isArray}}
     if (requestParameters.{{paramName}}) {
-        headerParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+        headerParameters['{{baseName}}'] = requestParameters.{{paramName}}?.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
     }
 
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
         headerParameters['{{baseName}}'] = String(requestParameters.{{paramName}});
     }
 
-    {{/isListContainer}}
+    {{/isArray}}
     {{/headerParams}}
 
     const { meta = {} } = requestConfig;
@@ -136,7 +135,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
     const formData = new FormData();
     {{/hasFormParams}}
     {{#formParams}}
-    {{#isListContainer}}
+    {{#isArray}}
     if (requestParameters.{{paramName}}) {
         {{#isCollectionFormatMulti}}
         requestParameters.{{paramName}}.forEach((element) => {
@@ -144,20 +143,20 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-        formData.append('{{baseName}}', requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
+        formData.append('{{baseName}}', requestParameters.{{paramName}}?.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
         {{/isCollectionFormatMulti}}
     }
 
-    {{/isListContainer}}
-    {{^isListContainer}}
+    {{/isArray}}
+    {{^isArray}}
     if (requestParameters.{{paramName}} !== undefined) {
         formData.append('{{baseName}}', requestParameters.{{paramName}} as any);
     }
 
-    {{/isListContainer}}
+    {{/isArray}}
     {{/formParams}}
     const config: QueryConfig<T> = {
-        url: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+        url: `${runtime.Configuration.basePath}{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -171,7 +170,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{#hasBodyParam}}
         {{#bodyParam}}
         {{#isContainer}}
-        body: queryParameters || requestParameters.{{paramName}}{{#isListContainer}}{{#items}}{{^isPrimitiveType}}.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isListContainer}},
+        body: queryParameters || requestParameters.{{paramName}}{{#isArray}}{{#items}}{{^isPrimitiveType}}?.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}},
         {{/isContainer}}
         {{^isContainer}}
         {{^isPrimitiveType}}
@@ -202,12 +201,12 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{/returnSimpleType}}
         {{/returnTypeIsPrimitive}}
         {{^returnTypeIsPrimitive}}
-        {{#isListContainer}}
+        {{#isArray}}
         config.transform = (body: ResponseBody, text: ResponseBody) => requestTransform(body.map({{returnBaseType}}FromJSON), text);
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         config.transform = (body: ResponseBody, text: ResponseBody) => requestTransform({{returnBaseType}}FromJSON(body), text);
-        {{/isListContainer}}
+        {{/isArray}}
         {{/returnTypeIsPrimitive}}
         {{/returnType}}
     }
@@ -224,12 +223,12 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
 {{/summary}}
 */
 {{^useSingleRequestParameter}}
-export function {{nickname}}<T>({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#hasMore}}, {{/hasMore}}, {{/allParams}}requestConfig?: runtime.TypedQueryConfig<T, {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>): QueryConfig<T> {
-    return {{nickname}}Raw({{#allParams.0}}{ {{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} }, {{/allParams.0}} requestConfig);
+export function {{nickname}}<T>({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^-last}}, {{/-last}}, {{/allParams}}requestConfig?: runtime.TypedQueryConfig<T, {{{returnType}}}{{^returnType}}void{{/returnType}}>): QueryConfig<T> {
+    return {{nickname}}Raw({{#allParams.0}}{ {{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}} }, {{/allParams.0}} requestConfig);
 }
 {{/useSingleRequestParameter}}
 {{#useSingleRequestParameter}}
-export function {{nickname}}<T>({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request,{{/allParams.0}} requestConfig?: runtime.TypedQueryConfig<T, {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>): QueryConfig<T> {
+export function {{nickname}}<T>({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request,{{/allParams.0}} requestConfig?: runtime.TypedQueryConfig<T, {{{returnType}}}{{^returnType}}void{{/returnType}}>): QueryConfig<T> {
     return {{nickname}}Raw({{#allParams.0}}requestParameters,{{/allParams.0}} requestConfig);
 }
 {{/useSingleRequestParameter}}

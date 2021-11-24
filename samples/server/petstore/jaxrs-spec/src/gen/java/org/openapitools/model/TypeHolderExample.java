@@ -14,9 +14,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("TypeHolderExample")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TypeHolderExample  implements Serializable {
   
   private @Valid String stringItem;
@@ -43,9 +45,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return stringItem;
   }
 
+  @JsonProperty("string_item")
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
@@ -62,9 +67,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return numberItem;
   }
 
+  @JsonProperty("number_item")
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderExample floatItem(Float floatItem) {
     this.floatItem = floatItem;
@@ -81,9 +89,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return floatItem;
   }
 
+  @JsonProperty("float_item")
   public void setFloatItem(Float floatItem) {
     this.floatItem = floatItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderExample integerItem(Integer integerItem) {
     this.integerItem = integerItem;
@@ -100,9 +111,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return integerItem;
   }
 
+  @JsonProperty("integer_item")
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderExample boolItem(Boolean boolItem) {
     this.boolItem = boolItem;
@@ -119,9 +133,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return boolItem;
   }
 
+  @JsonProperty("bool_item")
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
-  }/**
+  }
+
+/**
    **/
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
@@ -138,12 +155,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return arrayItem;
   }
 
+  @JsonProperty("array_item")
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -183,7 +202,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

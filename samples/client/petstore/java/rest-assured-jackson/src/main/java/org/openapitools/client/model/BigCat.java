@@ -20,12 +20,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -36,10 +38,9 @@ import org.hibernate.validator.constraints.*;
 @JsonPropertyOrder({
   BigCat.JSON_PROPERTY_KIND
 })
+@JsonTypeName("BigCat")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
-@JsonSubTypes({
-})
 
 public class BigCat extends Cat {
   /**
@@ -84,6 +85,8 @@ public class BigCat extends Cat {
   public static final String JSON_PROPERTY_KIND = "kind";
   private KindEnum kind;
 
+  public BigCat() { 
+  }
 
   public BigCat kind(KindEnum kind) {
     
@@ -105,13 +108,15 @@ public class BigCat extends Cat {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_KIND)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -128,7 +133,6 @@ public class BigCat extends Cat {
     return Objects.hash(kind, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -143,7 +147,7 @@ public class BigCat extends Cat {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

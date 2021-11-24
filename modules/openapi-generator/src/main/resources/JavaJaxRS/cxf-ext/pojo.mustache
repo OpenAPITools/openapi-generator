@@ -1,4 +1,5 @@
 import io.swagger.annotations.ApiModelProperty;
+{{#withXml}}
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -6,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+{{/withXml}}
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,19 +25,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @ApiModel(description="{{{description}}}")
 {{/description}}{{>additionalModelTypeAnnotations}}
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#serializableModel}} implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
 {{#description}}
  /**
-  * {{{description}}}
+  * {{{.}}}
   */
 {{/description}}
 {{#withXml}}
   @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
 {{/withXml}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
   @Valid{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
 {{#isDate}}
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -53,16 +55,16 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
   {{#vars}}
  /**
   {{#description}}
-  * {{description}}
+  * {{.}}
   {{/description}}
   {{^description}}
   * Get {{name}}
   {{/description}}
   {{#minimum}}
-  * minimum: {{minimum}}
+  * minimum: {{.}}
   {{/minimum}}
   {{#maximum}}
-  * maximum: {{maximum}}
+  * maximum: {{.}}
   {{/maximum}}
   * @return {{name}}
   */
@@ -70,13 +72,13 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isArray}}{{^isMap}}public {{dataType}} {{getter}}() {
     return {{name}} == null ? null : {{name}}.value();
-  }{{/isMapContainer}}{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isListContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMap}}{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isListContainer}}{{/isEnum}}{{#isEnum}}{{#isMapContainer}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
-  }{{/isMapContainer}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }{{/isEnum}}
 
@@ -86,7 +88,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
    * <br><em>N.B. <code>{{name}}</code> is <b>read only</b>; client code should not call this method</em>.
 {{/isReadOnly}}
    */
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+ {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+ {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
@@ -100,7 +103,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
     this.{{name}} = {{name}};
     return this;
   }
-  {{#isListContainer}}
+  {{#isArray}}
 
   /**
    * Adds a new item to the <code>{{name}}</code> list.
@@ -112,8 +115,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
     this.{{name}}.add({{name}}Item);
     return this;
   }
-  {{/isListContainer}}
-  {{#isMapContainer}}
+  {{/isArray}}
+  {{#isMap}}
 
   /**
    * Puts a new item into the <code>{{name}}</code> map.
@@ -125,7 +128,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
-  {{/isMapContainer}}
+  {{/isMap}}
 
   {{/vars}}
 
@@ -143,7 +146,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{#serializ
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

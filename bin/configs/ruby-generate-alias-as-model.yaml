@@ -1,0 +1,12 @@
+generatorName: ruby
+outputDir: samples/openapi3/client/features/generate-alias-as-model/ruby-client/
+library: typhoeus
+inputSpec: modules/openapi-generator/src/test/resources/3_0/features/generate-alias-as-model.yaml
+templateDir: modules/openapi-generator/src/main/resources/ruby-client
+additionalProperties:
+  gemVersion: 1.0.0
+  moduleName: Petstore
+  gemName: petstore
+  skipFormModel: "true"
+strictSpecBehavior: false
+generateAliasAsModel: true

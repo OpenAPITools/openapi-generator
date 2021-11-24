@@ -1,7 +1,7 @@
 /**
- * {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+ * {{description}}{{^description}}{{classname}}{{/description}}
  */{{#description}}
-@ApiModel(description = "{{{description}}}"){{/description}}
+@ApiModel(description = "{{{.}}}"){{/description}}
 {{#jackson}}
 @JsonPropertyOrder({
 {{#vars}}
@@ -10,7 +10,7 @@
 })
 {{/jackson}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
@@ -43,7 +43,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     this.{{name}} = {{name}};
     return this;
   }
-  {{#isListContainer}}
+  {{#isArray}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
@@ -54,8 +54,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     this.{{name}}.add({{name}}Item);
     return this;
   }
-  {{/isListContainer}}
-  {{#isMapContainer}}
+  {{/isArray}}
+  {{#isMap}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
@@ -66,20 +66,20 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
-  {{/isMapContainer}}
+  {{/isMap}}
 
   /**
   {{#description}}
-   * {{description}}
+   * {{.}}
   {{/description}}
   {{^description}}
    * Get {{name}}
   {{/description}}
   {{#minimum}}
-   * minimum: {{minimum}}
+   * minimum: {{.}}
   {{/minimum}}
   {{#maximum}}
-   * maximum: {{maximum}}
+   * maximum: {{.}}
   {{/maximum}}
    * @return {{name}}
    **/
@@ -87,15 +87,16 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{{vendorExtensions.x-extra-annotation}}}
   {{/vendorExtensions.x-extra-annotation}}
   {{#jackson}}
-  @JsonProperty("{{baseName}}")
+  @JsonProperty(value = "{{baseName}}"{{#isReadOnly}}, access = JsonProperty.Access.READ_ONLY{{/isReadOnly}}{{#isWriteOnly}}, access = JsonProperty.Access.WRITE_ONLY{{/isWriteOnly}})
   {{/jackson}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
 
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
@@ -103,7 +104,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 
 {{^supportJava6}}
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -111,21 +112,21 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
       return false;
     }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
-        {{/hasMore}}{{/vars}}{{#parent}} &&
+    return {{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{/vars}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return true;{{/hasVars}}
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
 
 {{/supportJava6}}
 {{#supportJava6}}
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
   if (this == o) {
     return true;
   }
@@ -133,15 +134,15 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     return false;
   }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
-    return {{#vars}}ObjectUtils.equals(this.{{name}}, {{classVarName}}.{{name}}){{#hasMore}} &&
-    {{/hasMore}}{{/vars}}{{#parent}} &&
+    return {{#vars}}ObjectUtils.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+    {{/-last}}{{/vars}}{{#parent}} &&
     super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return true;{{/hasVars}}
   }
 
   @Override
   public int hashCode() {
-    return ObjectUtils.hashCodeMulti({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    return ObjectUtils.hashCodeMulti({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
   }
 
 {{/supportJava6}}
@@ -160,7 +161,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

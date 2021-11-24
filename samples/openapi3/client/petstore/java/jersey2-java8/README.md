@@ -14,7 +14,7 @@ This spec is mainly for testing Petstore server and contains fake endpoints, mod
 Building the API client library requires:
 
 1. Java 1.8+
-2. Maven/Gradle
+2. Maven (3.8.3+)/Gradle (7.2+)
 
 ## Installation
 
@@ -50,7 +50,14 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:petstore-openapi3-jersey2-java8:1.0.0"
+  repositories {
+    mavenCentral()     // Needed if the 'petstore-openapi3-jersey2-java8' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'petstore-openapi3-jersey2-java8' jar has been published to the local maven repo.
+  }
+
+  dependencies {
+     implementation "org.openapitools:petstore-openapi3-jersey2-java8:1.0.0"
+  }
 ```
 
 ### Others
@@ -65,6 +72,31 @@ Then manually install the following JARs:
 
 - `target/petstore-openapi3-jersey2-java8-1.0.0.jar`
 - `target/lib/*.jar`
+
+## Usage
+
+To add a HTTP proxy for the API client, use `ClientConfig`:
+```java
+
+import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
+import org.openapitools.client.*;
+import org.openapitools.client.api.AnotherFakeApi;
+
+...
+
+ApiClient defaultClient = Configuration.getDefaultApiClient();
+ClientConfig clientConfig = defaultClient.getClientConfig();
+clientConfig.connectorProvider(new ApacheConnectorProvider());
+clientConfig.property(ClientProperties.PROXY_URI, "http://proxy_url_here");
+clientConfig.property(ClientProperties.PROXY_USERNAME, "proxy_username");
+clientConfig.property(ClientProperties.PROXY_PASSWORD, "proxy_password");
+defaultClient.setClientConfig(clientConfig);
+
+AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
+
+```
 
 ## Getting Started
 
@@ -122,7 +154,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -169,6 +201,7 @@ Class | Method | HTTP request | Description
  - [Client](docs/Client.md)
  - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [DanishPig](docs/DanishPig.md)
+ - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
  - [DogAllOf](docs/DogAllOf.md)
  - [Drawing](docs/Drawing.md)
@@ -185,12 +218,6 @@ Class | Method | HTTP request | Description
  - [GrandparentAnimal](docs/GrandparentAnimal.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
- - [InlineObject](docs/InlineObject.md)
- - [InlineObject1](docs/InlineObject1.md)
- - [InlineObject2](docs/InlineObject2.md)
- - [InlineObject3](docs/InlineObject3.md)
- - [InlineObject4](docs/InlineObject4.md)
- - [InlineObject5](docs/InlineObject5.md)
  - [InlineResponseDefault](docs/InlineResponseDefault.md)
  - [IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [Mammal](docs/Mammal.md)
@@ -203,6 +230,7 @@ Class | Method | HTTP request | Description
  - [NullableClass](docs/NullableClass.md)
  - [NullableShape](docs/NullableShape.md)
  - [NumberOnly](docs/NumberOnly.md)
+ - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)

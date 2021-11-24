@@ -65,7 +65,7 @@ import qualified Prelude as P
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
-addPet 
+addPet
   :: (Consumes AddPet contentType, MimeRender contentType Pet)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Pet -- ^ "body" -  Pet object that needs to be added to the store
@@ -96,7 +96,7 @@ instance Produces AddPet MimeNoContent
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
-deletePet 
+deletePet
   :: PetId -- ^ "petId" -  Pet id to delete
   -> OpenAPIPetstoreRequest DeletePet MimeNoContent NoContent MimeNoContent
 deletePet (PetId petId) =
@@ -106,7 +106,7 @@ deletePet (PetId petId) =
 data DeletePet  
 instance HasOptionalParam DeletePet ApiKey where
   applyOptionalParam req (ApiKey xs) =
-    req `setHeader` toHeader ("api_key", xs)
+    req `addHeader` toHeader ("api_key", xs)
 instance Produces DeletePet MimeNoContent
 
 
@@ -120,14 +120,14 @@ instance Produces DeletePet MimeNoContent
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
-findPetsByStatus 
+findPetsByStatus
   :: Accept accept -- ^ request accept ('MimeType')
   -> Status -- ^ "status" -  Status values that need to be considered for filter
   -> OpenAPIPetstoreRequest FindPetsByStatus MimeNoContent [Pet] accept
 findPetsByStatus  _ (Status status) =
   _mkRequest "GET" ["/pet/findByStatus"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
-    `setQuery` toQueryColl CommaSeparated ("status", Just status)
+    `addQuery` toQueryColl CommaSeparated ("status", Just status)
 
 data FindPetsByStatus  
 -- | @application/xml@
@@ -146,14 +146,14 @@ instance Produces FindPetsByStatus MimeJSON
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
-findPetsByTags 
+findPetsByTags
   :: Accept accept -- ^ request accept ('MimeType')
   -> Tags -- ^ "tags" -  Tags to filter by
   -> OpenAPIPetstoreRequest FindPetsByTags MimeNoContent [Pet] accept
 findPetsByTags  _ (Tags tags) =
   _mkRequest "GET" ["/pet/findByTags"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
-    `setQuery` toQueryColl CommaSeparated ("tags", Just tags)
+    `addQuery` toQueryColl CommaSeparated ("tags", Just tags)
 
 {-# DEPRECATED findPetsByTags "" #-}
 
@@ -174,7 +174,7 @@ instance Produces FindPetsByTags MimeJSON
 -- 
 -- AuthMethod: 'AuthApiKeyApiKey'
 -- 
-getPetById 
+getPetById
   :: Accept accept -- ^ request accept ('MimeType')
   -> PetId -- ^ "petId" -  ID of pet to return
   -> OpenAPIPetstoreRequest GetPetById MimeNoContent Pet accept
@@ -197,7 +197,7 @@ instance Produces GetPetById MimeJSON
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
-updatePet 
+updatePet
   :: (Consumes UpdatePet contentType, MimeRender contentType Pet)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Pet -- ^ "body" -  Pet object that needs to be added to the store
@@ -228,7 +228,7 @@ instance Produces UpdatePet MimeNoContent
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
-updatePetWithForm 
+updatePetWithForm
   :: (Consumes UpdatePetWithForm MimeFormUrlEncoded)
   => PetId -- ^ "petId" -  ID of pet that needs to be updated
   -> OpenAPIPetstoreRequest UpdatePetWithForm MimeFormUrlEncoded NoContent MimeNoContent
@@ -262,7 +262,7 @@ instance Produces UpdatePetWithForm MimeNoContent
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
-uploadFile 
+uploadFile
   :: (Consumes UploadFile MimeMultipartFormData)
   => PetId -- ^ "petId" -  ID of pet to update
   -> OpenAPIPetstoreRequest UploadFile MimeMultipartFormData ApiResponse MimeJSON
@@ -297,7 +297,7 @@ instance Produces UploadFile MimeJSON
 -- 
 -- AuthMethod: 'AuthOAuthPetstoreAuth'
 -- 
-uploadFileWithRequiredFile 
+uploadFileWithRequiredFile
   :: (Consumes UploadFileWithRequiredFile MimeMultipartFormData)
   => RequiredFile -- ^ "requiredFile" -  file to upload
   -> PetId -- ^ "petId" -  ID of pet to update

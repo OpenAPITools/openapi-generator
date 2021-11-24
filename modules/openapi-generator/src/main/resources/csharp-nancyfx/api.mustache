@@ -7,8 +7,6 @@ using {{packageName}}.{{packageContext}}.Models;
 using {{packageName}}.{{packageContext}}.Utils;
 using NodaTime;{{#asyncServer}}
 using System.Threading.Tasks;{{/asyncServer}}
-{{#imports}}using {{import}};
-{{/imports}}
 
 namespace {{packageName}}.{{packageContext}}.Modules
 { {{#operations}}{{#operation}}{{#allParams}}{{#isEnum}}
@@ -27,11 +25,11 @@ namespace {{packageName}}.{{packageContext}}.Modules
         { {{#operation}}
             {{httpMethod}}["{{{path}}}"{{#asyncServer}}, true{{/asyncServer}}] = {{#asyncServer}}async (parameters, ct){{/asyncServer}}{{^asyncServer}}parameters{{/asyncServer}} =>
             {
-                {{#allParams}}{{#isBodyParam}}var {{paramName}} = this.Bind<{{&dataType}}>();{{/isBodyParam}}{{^isBodyParam}}{{#isEnum}}var {{paramName}} = Parameters.ValueOf<{{>innerApiEnumName}}?>({{>innerParameterValueOfArgs}});{{/isEnum}}{{^isEnum}}var {{paramName}} = Parameters.ValueOf<{{&dataType}}>({{>innerParameterValueOfArgs}});{{/isEnum}}{{#hasMore}}
-                {{/hasMore}}{{/isBodyParam}}{{/allParams}}{{#allParams}}{{#required}}
+                {{#allParams}}{{#isBodyParam}}var {{paramName}} = this.Bind<{{&dataType}}>();{{/isBodyParam}}{{^isBodyParam}}{{#isEnum}}var {{paramName}} = Parameters.ValueOf<{{>innerApiEnumName}}?>({{>innerParameterValueOfArgs}});{{/isEnum}}{{^isEnum}}var {{paramName}} = Parameters.ValueOf<{{&dataType}}>({{>innerParameterValueOfArgs}});{{/isEnum}}{{^-last}}
+                {{/-last}}{{/isBodyParam}}{{/allParams}}{{#allParams}}{{#required}}
                 Preconditions.IsNotNull({{paramName}}, "Required parameter: '{{paramName}}' is missing at '{{operationId}}'");
                 {{/required}}{{/allParams}}
-                {{#returnType}}return {{/returnType}}{{#asyncServer}}await {{/asyncServer}}service.{{operationId}}(Context{{#allParams.0}}, {{/allParams.0}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}{{#isListContainer}}.ToArray(){{/isListContainer}}{{/returnType}};{{^returnType}}
+                {{#returnType}}return {{/returnType}}{{#asyncServer}}await {{/asyncServer}}service.{{operationId}}(Context{{#allParams.0}}, {{/allParams.0}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}{{#isArray}}.ToArray(){{/isArray}}{{/returnType}};{{^returnType}}
                 return new Response { ContentType = "{{produces.0.mediaType}}"};{{/returnType}}
             };
 {{/operation}}
@@ -47,11 +45,14 @@ namespace {{packageName}}.{{packageContext}}.Modules
         /// {{notes}}
         /// </summary>
         /// <param name="context">Context of request</param>
-        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
-        {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
-        {{#asyncServer}}{{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}});{{#hasMore}}
+        {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
+        {{/allParams}}/// <returns>{{returnType}}</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
+        {{#asyncServer}}{{#returnType}}Task<{{{.}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}});{{^-last}}
 
-        {{/hasMore}}{{/operation}}
+        {{/-last}}{{/operation}}
     }
 
     /// <summary>
@@ -59,16 +60,18 @@ namespace {{packageName}}.{{packageContext}}.Modules
     /// </summary>
     public abstract class Abstract{{classname}}Service: {{interfacePrefix}}{{classname}}Service
     {
-        {{#operation}}public virtual {{#asyncServer}}{{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}})
+        {{#operation}}{{#isDeprecated}}[Obsolete]
+        {{/isDeprecated}}public virtual {{#asyncServer}}{{#returnType}}Task<{{{.}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}(NancyContext context{{#allParams.0}}, {{/allParams.0}}{{>paramsList}})
         {
-            {{^asyncServer}}{{#returnType}}return {{/returnType}}{{/asyncServer}}{{#asyncServer}}return {{/asyncServer}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
-        }{{#hasMore}}
+            {{^asyncServer}}{{#returnType}}return {{/returnType}}{{/asyncServer}}{{#asyncServer}}return {{/asyncServer}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        }{{^-last}}
 
-        {{/hasMore}}{{/operation}}
+        {{/-last}}{{/operation}}
 
-        {{#operation}}protected abstract {{#asyncServer}}{{#returnType}}Task<{{{returnType}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}({{>paramsList}});{{#hasMore}}
+        {{#operation}}{{#isDeprecated}}[Obsolete]
+        {{/isDeprecated}}protected abstract {{#asyncServer}}{{#returnType}}Task<{{{.}}}>{{/returnType}}{{^returnType}}Task{{/returnType}}{{/asyncServer}}{{^asyncServer}}{{#returnType}}{{&returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}{{/asyncServer}} {{operationId}}({{>paramsList}});{{^-last}}
 
-        {{/hasMore}}{{/operation}}
+        {{/-last}}{{/operation}}
     }
 
 {{/operations}}

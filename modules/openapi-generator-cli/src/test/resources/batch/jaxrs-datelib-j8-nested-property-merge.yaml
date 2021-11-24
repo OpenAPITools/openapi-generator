@@ -1,0 +1,7 @@
+---
+"!include": jaxrs-datelib-j8-nested-include-property-merge.yaml
+# We expect this one to "win"
+outputDir: outputDir
+additionalProperties:
+  hideGenerationTimestamp: true
+  serverPort: '8082'

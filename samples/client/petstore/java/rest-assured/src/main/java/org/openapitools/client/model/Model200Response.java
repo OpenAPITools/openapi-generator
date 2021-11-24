@@ -41,6 +41,8 @@ public class Model200Response {
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;
 
+  public Model200Response() { 
+  }
 
   public Model200Response name(Integer name) {
     
@@ -89,7 +91,7 @@ public class Model200Response {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -106,7 +108,6 @@ public class Model200Response {
     return Objects.hash(name, propertyClass);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -121,7 +122,7 @@ public class Model200Response {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

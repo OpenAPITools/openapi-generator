@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,7 +39,7 @@ public class DartClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -48,7 +49,7 @@ public class DartClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -58,7 +59,7 @@ public class DartClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -66,20 +67,22 @@ public class DartClientCodegenTest {
         final DartClientCodegen codegen = new DartClientCodegen();
 
         List<String> reservedWordsList = new ArrayList<String>();
-        try {                                                                                   
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), Charset.forName("UTF-8")));
-            while(reader.ready()) { reservedWordsList.add(reader.readLine()); }
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), StandardCharsets.UTF_8));
+            while(reader.ready()) {
+                reservedWordsList.add(reader.readLine());
+            }
             reader.close();
         } catch (Exception e) {
             String errorString = String.format(Locale.ROOT, "Error reading dart keywords: %s", e);
             Assert.fail(errorString, e);
         }
-        
-        Assert.assertEquals(reservedWordsList.size() > 20, true);
-        Assert.assertEquals(codegen.reservedWords().size() == reservedWordsList.size(), true);
+
+        Assert.assertTrue(reservedWordsList.size() > 20);
+        Assert.assertEquals(codegen.reservedWords().size(), reservedWordsList.size());
         for(String keyword : reservedWordsList) {
-            // reserved words are stored in lowercase 
-            Assert.assertEquals(codegen.reservedWords().contains(keyword.toLowerCase(Locale.ROOT)), true, String.format(Locale.ROOT, "%s, part of %s, was not found in %s", keyword, reservedWordsList, codegen.reservedWords().toString()));
+            // reserved words are stored in lowercase
+            Assert.assertTrue(codegen.reservedWords().contains(keyword.toLowerCase(Locale.ROOT)), String.format(Locale.ROOT, "%s, part of %s, was not found in %s", keyword, reservedWordsList, codegen.reservedWords().toString()));
         }
     }
 

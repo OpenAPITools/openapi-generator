@@ -1,0 +1,124 @@
+{{!
+This template generates the validation logic for a model.
+This template file calls itself recursively for arrays.
+}}
+{{! Check for eunm properties that are their own schema }}
+{{! These are in their own class with a validate function, the way to check for this is quite a hack
+since isEnum, isString and isModel are all false. }}
+        {{^isString}}{{#allowableValues.enumVars.0.value}}
+        success = value.validate(msg, currentValuePath) && success;
+        {{/allowableValues.enumVars.0.value}}{{/isString}}
+        {{#isModel}}success = value.validate(msg, currentValuePath + ".{{nameInCamelCase}}") && success;{{/isModel}}
+{{! Date validation }}
+        {{#isDate}}
+        if (!{{helpersNamespace}}::validateRfc3339_date(value))
+        {
+            success = false;
+            msg << currentValuePath << ": must be a valid RFC 3339 date-full string;";
+        }
+        {{/isDate}}
+{{! Date-Time validation }}
+        {{#isDateTime}}
+        if (!{{helpersNamespace}}::validateRfc3339_date_time(value))
+        {
+            success = false;
+            msg << currentValuePath << ": must be a valid RFC 3339 date-time string;";
+        }
+        {{/isDateTime}}
+{{! string validation }}
+        {{#isString}}
+        {{#minLength}}
+        if (value.length() < {{minLength}})
+        {
+            success = false;
+            msg << currentValuePath << ": must be at least {{minLength}} characters long;";
+        }
+        {{/minLength}}
+        {{#maxLength}}
+        if (value.length() > {{maxLength}})
+        {
+            success = false;
+            msg << currentValuePath << ": must be at most {{maxLength}} characters long;";
+        }
+        {{/maxLength}}
+{{!
+TODO validate regex of string using pattern variable. This has two challenges
+    - Is compatibility with the given regex pattern guaranteed?
+    - Creating the std::regex on every validation would be rather slow. Ideally one would
+    initialize them for the class once as a static const and use them.
+}}
+{{! string encoded enum validation }}
+        {{#isEnum}}
+        {{#allowableValues}}
+        if ({{#enumVars}}
+            value != "{{value}}"{{^-last}} &&{{/-last}}{{/enumVars}}
+        ) {
+            success = false;
+            msg << currentValuePath << ": has invalid value \"" << value << "\";";
+        }
+        {{/allowableValues}}
+        {{/isEnum}}
+        {{/isString}}
+{{! numeric validation }}
+        {{#isNumeric}}
+        {{#minimum}}
+        if (value <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{#isFloat}}static_cast<float>({{/isFloat}}{{minimum}}{{#isFloat}}){{/isFloat}}{{#isLong}}ll{{/isLong}})
+        {
+            success = false;
+            msg << currentValuePath << ": must be greater than{{^exclusiveMinimum}} or equal to{{/exclusiveMinimum}} {{minimum}};";
+        }
+        {{/minimum}}
+        {{#maximum}}
+        if (value >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{#isFloat}}static_cast<float>({{/isFloat}}{{maximum}}{{#isFloat}}){{/isFloat}}{{#isLong}}ll{{/isLong}})
+        {
+            success = false;
+            msg << currentValuePath << ": must be less than{{^exclusiveMaximum}} or equal to{{/exclusiveMaximum}} {{maximum}};";
+        }
+        {{/maximum}}
+        {{#multipleOf}}
+        {{#isInteger}}if (value % {{multipleOf}}{{#isLong}}ll{{/isLong}} != 0){{/isInteger}}
+        {{#isFloat}}if (std::fmod(value, static_cast<float>({{multipleOf}})) != 0){{/isFloat}}
+        {{#isDouble}}if (std::fmod(value, {{multipleOf}}) != 0){{/isDouble}}
+        {
+            success = false;
+            msg << currentValuePath << ": must be a multiple of {{multipleOf}};";
+        }
+        {{/multipleOf}}
+        {{/isNumeric}}
+{{! Array validation }}
+        {{#isArray}}
+        {{#minItems}}
+        if (value.size() < {{minItems}})
+        {
+            success = false;
+            msg << currentValuePath << ": must have at least {{minItems}} elements;";
+        }
+        {{/minItems}}
+        {{#maxItems}}
+        if (value.size() > {{maxItems}})
+        {
+            success = false;
+            msg << currentValuePath << ": must have at most {{maxItems}} elements;";
+        }
+        {{/maxItems}}
+        {{#uniqueItems}}
+        if (!{{helpersNamespace}}::hasOnlyUniqueItems(value))
+        {
+            success = false;
+            msg << currentValuePath << ": may not contain the same item more than once;";
+        }
+        {{/uniqueItems}}
+        { // Recursive validation of array elements
+            const std::string oldValuePath = currentValuePath;
+            int i = 0;
+            {{! the element var has the same name as the vector, so that the recursive template works - what a wonderful hack }}
+            for (const {{{items.dataType}}}& value : value)
+            { {{! and I do a similar hack with currentValuePath... }}
+                const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
+                {{#items}}
+                {{> model-validation-body }} {{! Recursively apply template to array - this is where things will probbaly go wrong }}
+                {{/items}}
+                i++;
+            }
+        }
+        {{/isArray}}

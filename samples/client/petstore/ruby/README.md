@@ -83,6 +83,8 @@ Class | Method | HTTP request | Description
 *Petstore::FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *Petstore::FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*Petstore::FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+*Petstore::FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 *Petstore::FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *Petstore::FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *Petstore::FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \"client\" model
@@ -91,7 +93,7 @@ Class | Method | HTTP request | Description
 *Petstore::FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *Petstore::FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *Petstore::FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
-*Petstore::FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
+*Petstore::FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *Petstore::FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *Petstore::PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *Petstore::PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -130,6 +132,7 @@ Class | Method | HTTP request | Description
  - [Petstore::Category](docs/Category.md)
  - [Petstore::ClassModel](docs/ClassModel.md)
  - [Petstore::Client](docs/Client.md)
+ - [Petstore::DeprecatedObject](docs/DeprecatedObject.md)
  - [Petstore::Dog](docs/Dog.md)
  - [Petstore::DogAllOf](docs/DogAllOf.md)
  - [Petstore::EnumArrays](docs/EnumArrays.md)
@@ -141,12 +144,6 @@ Class | Method | HTTP request | Description
  - [Petstore::FormatTest](docs/FormatTest.md)
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Petstore::HealthCheckResult](docs/HealthCheckResult.md)
- - [Petstore::InlineObject](docs/InlineObject.md)
- - [Petstore::InlineObject1](docs/InlineObject1.md)
- - [Petstore::InlineObject2](docs/InlineObject2.md)
- - [Petstore::InlineObject3](docs/InlineObject3.md)
- - [Petstore::InlineObject4](docs/InlineObject4.md)
- - [Petstore::InlineObject5](docs/InlineObject5.md)
  - [Petstore::InlineResponseDefault](docs/InlineResponseDefault.md)
  - [Petstore::List](docs/List.md)
  - [Petstore::MapTest](docs/MapTest.md)
@@ -156,12 +153,14 @@ Class | Method | HTTP request | Description
  - [Petstore::Name](docs/Name.md)
  - [Petstore::NullableClass](docs/NullableClass.md)
  - [Petstore::NumberOnly](docs/NumberOnly.md)
+ - [Petstore::ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [Petstore::Order](docs/Order.md)
  - [Petstore::OuterComposite](docs/OuterComposite.md)
  - [Petstore::OuterEnum](docs/OuterEnum.md)
  - [Petstore::OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [Petstore::OuterEnumInteger](docs/OuterEnumInteger.md)
  - [Petstore::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [Petstore::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)

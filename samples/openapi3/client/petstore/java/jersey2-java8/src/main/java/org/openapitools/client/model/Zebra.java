@@ -24,6 +24,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -83,6 +84,8 @@ public class Zebra {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;
 
+  public Zebra() { 
+  }
 
   public Zebra type(TypeEnum type) {
     this.type = type;
@@ -103,6 +106,8 @@ public class Zebra {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setType(TypeEnum type) {
     this.type = type;
   }
@@ -117,6 +122,7 @@ public class Zebra {
    * Get className
    * @return className
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -126,6 +132,8 @@ public class Zebra {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(String className) {
     this.className = className;
   }
@@ -172,7 +180,7 @@ public class Zebra {
    * Return true if this zebra object is equal to o.
    */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -190,7 +198,6 @@ public class Zebra {
     return Objects.hash(type, className, additionalProperties);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -206,7 +213,7 @@ public class Zebra {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

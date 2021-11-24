@@ -3,6 +3,8 @@ title: Config Options for kotlin-spring
 sidebar_label: kotlin-spring
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiPackage|api package for generated code| |org.openapitools.api|
@@ -55,7 +57,7 @@ sidebar_label: kotlin-spring
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.Array|
+|array|kotlin.collections.ArrayList|
 |list|kotlin.collections.ArrayList|
 |map|kotlin.collections.HashMap|
 
@@ -85,24 +87,64 @@ sidebar_label: kotlin-spring
 <li>ApiClient</li>
 <li>ApiException</li>
 <li>ApiResponse</li>
+<li>abstract</li>
+<li>actual</li>
+<li>annotation</li>
 <li>as</li>
 <li>break</li>
 <li>class</li>
+<li>companion</li>
+<li>const</li>
+<li>constructor</li>
 <li>continue</li>
+<li>crossinline</li>
+<li>data</li>
+<li>delegate</li>
 <li>do</li>
+<li>dynamic</li>
 <li>else</li>
+<li>enum</li>
+<li>expect</li>
+<li>external</li>
 <li>false</li>
+<li>field</li>
+<li>final</li>
+<li>finally</li>
 <li>for</li>
 <li>fun</li>
 <li>if</li>
+<li>import</li>
 <li>in</li>
+<li>infix</li>
+<li>init</li>
+<li>inline</li>
+<li>inner</li>
 <li>interface</li>
+<li>internal</li>
 <li>is</li>
+<li>it</li>
+<li>lateinit</li>
+<li>noinline</li>
 <li>null</li>
 <li>object</li>
+<li>open</li>
+<li>operator</li>
+<li>out</li>
+<li>override</li>
 <li>package</li>
+<li>param</li>
+<li>private</li>
+<li>property</li>
+<li>protected</li>
+<li>public</li>
+<li>receiver</li>
+<li>reified</li>
 <li>return</li>
+<li>sealed</li>
+<li>setparam</li>
 <li>super</li>
+<li>suspend</li>
+<li>tailrec</li>
 <li>this</li>
 <li>throw</li>
 <li>true</li>
@@ -110,8 +152,11 @@ sidebar_label: kotlin-spring
 <li>typealias</li>
 <li>typeof</li>
 <li>val</li>
+<li>value</li>
 <li>var</li>
+<li>vararg</li>
 <li>when</li>
+<li>where</li>
 <li>while</li>
 </ul>
 
@@ -124,6 +169,7 @@ sidebar_label: kotlin-spring
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

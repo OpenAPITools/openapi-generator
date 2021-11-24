@@ -23,6 +23,7 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.context.FieldValueResolver;
 import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.context.MapValueResolver;
+import com.github.jknack.handlebars.context.MethodValueResolver;
 import com.github.jknack.handlebars.helper.ConditionalHelpers;
 import com.github.jknack.handlebars.helper.StringHelpers;
 import com.github.jknack.handlebars.io.AbstractTemplateLoader;
@@ -35,12 +36,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
-    static Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
-    private final String[] extensions = new String[]{"handlebars", "hbs"};
+     final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
+    private final String[] extensions = {"handlebars", "hbs"};
+
+    // We use this as a simple lookup for valid file name extensions. This adapter will inspect .mustache (built-in) and infer the relevant handlebars filename
+    private final String[] canCompileFromExtensions = {".handlebars",".hbs",".mustache"};
+    private boolean infiniteLoops = false;
+    private boolean prettyPrint = false;
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
@@ -66,22 +73,26 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
                 .resolver(
                         MapValueResolver.INSTANCE,
                         JavaBeanValueResolver.INSTANCE,
-                        FieldValueResolver.INSTANCE)
+                        FieldValueResolver.INSTANCE,
+                        MethodValueResolver.INSTANCE)
                 .build();
 
         Handlebars handlebars = new Handlebars(loader);
         handlebars.registerHelperMissing((obj, options) -> {
-            LOGGER.warn(String.format(Locale.ROOT, "Unregistered helper name '%s', processing template:\n%s", options.helperName, options.fn.text()));
+            LOGGER.warn(String.format(Locale.ROOT, "Unregistered helper name '%s', processing template:%n%s", options.helperName, options.fn.text()));
             return "";
         });
         handlebars.registerHelper("json", Jackson2Helper.INSTANCE);
         StringHelpers.register(handlebars);
         handlebars.registerHelpers(ConditionalHelpers.class);
         handlebars.registerHelpers(org.openapitools.codegen.templating.handlebars.StringHelpers.class);
+        handlebars.setInfiniteLoops(infiniteLoops);
+        handlebars.setPrettyPrint(prettyPrint);
         Template tmpl = handlebars.compile(templateFile);
         return tmpl.apply(context);
     }
 
+    @SuppressWarnings("java:S108")
     public TemplateSource findTemplate(TemplatingExecutor generator, String templateFile) {
         String[] possibilities = getModifiedFileLocation(templateFile);
         for (String file : possibilities) {
@@ -103,6 +114,33 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     @Override
     public String[] getFileExtensions() {
         return extensions;
+    }
+
+    /**
+     * Determine if the adapter handles compilation of the file
+     *
+     * @param filename The template filename
+     * @return True if the file should be compiled by this adapter, else false.
+     */
+    @Override
+    public boolean handlesFile(String filename) {
+        // disallow any extension-only files like ".hbs" or ".mustache", and only consider a file compilable if it's handlebars or mustache (from which we later infer the handlebars filename)
+        return Arrays.stream(canCompileFromExtensions).anyMatch(suffix -> !suffix.equalsIgnoreCase(filename) && filename.endsWith(suffix));
+    }
+
+    /**
+     * Enable/disable infiniteLoops setting for the Handlebars engine. Enabling this allows for recursive partial inclusion.
+     *
+     * @param infiniteLoops Whether to enable (true) or disable (false)
+     * @return this object
+     */
+    public HandlebarsEngineAdapter infiniteLoops(boolean infiniteLoops) {
+        this.infiniteLoops = infiniteLoops;
+        return this;
+    }
+
+    public void setPrettyPrint(boolean prettyPrint) {
+        this.prettyPrint = prettyPrint;
     }
 }
 

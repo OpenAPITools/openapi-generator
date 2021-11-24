@@ -23,8 +23,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.utils.ModelUtils;
-
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.dashize;
@@ -66,7 +64,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
                 "Math", "NaN", "Number", "Object",
                 "prototype", "String", "toString", "undefined", "valueOf"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("string", "boolean", "number", "Array", "Object", "Date", "File", "Blob")
         );
 
@@ -97,7 +95,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
 
-        defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
+        defaultIncludes = new HashSet<>(languageSpecificPrimitives);
         outputFolder = "generated-code/javascript-flowtyped";
         embeddedTemplateDir = templateDir = "Javascript-Flowtyped";
 
@@ -175,14 +173,14 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "" + var.enumName);
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
                         var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + "" + var.enumName);
+                                .replace(var.enumName, cm.classname + var.enumName);
                     }
                 }
             }

@@ -18,10 +18,12 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -31,6 +33,7 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   BigCatAllOf.JSON_PROPERTY_KIND
 })
+@JsonTypeName("BigCat_allOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "BigCatAllOf")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -39,13 +42,19 @@ public class BigCatAllOf {
   /**
    * Gets or Sets kind
    */
+  @XmlType(name="KindEnum")
+  @XmlEnum(String.class)
   public enum KindEnum {
+    @XmlEnumValue("lions")
     LIONS("lions"),
     
+    @XmlEnumValue("tigers")
     TIGERS("tigers"),
     
+    @XmlEnumValue("leopards")
     LEOPARDS("leopards"),
     
+    @XmlEnumValue("jaguars")
     JAGUARS("jaguars");
 
     private String value;
@@ -79,6 +88,8 @@ public class BigCatAllOf {
   @XmlElement(name = "kind")
   private KindEnum kind;
 
+  public BigCatAllOf() { 
+  }
 
   public BigCatAllOf kind(KindEnum kind) {
     
@@ -101,13 +112,16 @@ public class BigCatAllOf {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_KIND)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "kind")
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -123,7 +137,6 @@ public class BigCatAllOf {
     return Objects.hash(kind);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -137,7 +150,7 @@ public class BigCatAllOf {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

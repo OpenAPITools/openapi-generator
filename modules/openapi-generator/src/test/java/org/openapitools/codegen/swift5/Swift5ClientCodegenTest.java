@@ -22,10 +22,17 @@ import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 public class Swift5ClientCodegenTest {
 
@@ -142,6 +149,70 @@ public class Swift5ClientCodegenTest {
         // Then
         final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5ClientCodegen.POD_AUTHORS);
         Assert.assertEquals(podAuthors, openAPIDevs);
+    }
+
+    @Test(description = "Bug example code generation", enabled = true)
+    public void crashSwift5ExampleCodeGenerationStackOverflowTest() throws IOException {
+        //final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/Swift5CodeGenerationStackOverflow#2966.yaml");
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift5")
+                    .setValidateSpec(false)
+                    .setInputSpec("src/test/resources/bugs/Swift5CodeGenerationStackOverflow#2966.yaml")
+                    .setEnablePostProcessFile(true)
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.ENABLE_POST_PROCESS_FILE, "true");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+            Assert.assertTrue(files.size() > 0, "No files generated");
+        } finally {
+           output.delete();
+        }
+    }
+
+    @Test(description = "Bug example code generation 2", enabled = true)
+    public void crashSwift5ExampleCodeGenerationStackOverflowBug_2Test() throws IOException {
+        //final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/Swift5CodeGenerationStackOverflow#2966.yaml");
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift5")
+                    .setValidateSpec(false)
+//                    .setInputSpec("http://localhost:8080/api/openapi.yaml")
+                    .setInputSpec("src/test/resources/bugs/Swift5CodeGenerationBug2.yaml")
+                    //.setInputSpec("http://localhost:8080/api/openapi.yaml")
+                    .setEnablePostProcessFile(true)
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.ENABLE_POST_PROCESS_FILE, "true");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+            Assert.assertTrue(files.size() > 0, "No files generated");
+        } finally {
+            output.delete();
+        }
     }
 
 }

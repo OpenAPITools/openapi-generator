@@ -57,6 +57,16 @@ export interface Order {
     complete?: boolean;
 }
 
+/**
+* @export
+* @enum {string}
+*/
+export enum OrderStatusEnum {
+    Placed = 'placed',
+    Approved = 'approved',
+    Delivered = 'delivered'
+}
+
 export function OrderFromJSON(json: any): Order {
     return OrderFromJSONTyped(json, false);
 }
@@ -93,15 +103,4 @@ export function OrderToJSON(value?: Order | null): any {
         'complete': value.complete,
     };
 }
-
-/**
-* @export
-* @enum {string}
-*/
-export enum OrderStatusEnum {
-    Placed = 'placed',
-    Approved = 'approved',
-    Delivered = 'delivered'
-}
-
 

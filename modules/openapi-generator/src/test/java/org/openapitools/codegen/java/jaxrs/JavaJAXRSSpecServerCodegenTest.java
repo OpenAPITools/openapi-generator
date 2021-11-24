@@ -4,9 +4,6 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
@@ -119,19 +116,40 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
     /**
      * Test
-     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path "/" and set tag.
+     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path "/" without "useTags"
      */
     @Test
-    public void testAddOperationToGroupForRootResource() {
+    public void testAddOperationToGroupForRootResourceAndUseTagsFalse() {
         CodegenOperation codegenOperation = new CodegenOperation();
         codegenOperation.operationId = "findPrimaryresource";
+        codegenOperation.path = "/";
         Operation operation = new Operation();
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
 
         codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
 
         Assert.assertEquals(operationList.size(), 1);
-        assertTrue(operationList.containsKey(""));
+        Assert.assertTrue(operationList.containsKey("default"));
+        Assert.assertEquals(codegenOperation.baseName, "default");
+    }
+
+    /**
+     * Test
+     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path "/" with "useTags"
+     */
+    @Test
+    public void testAddOperationToGroupForRootResourceAndUseTagsTrue() {
+        CodegenOperation codegenOperation = new CodegenOperation();
+        codegenOperation.operationId = "findPrimaryresource";
+        codegenOperation.path = "/";
+        Operation operation = new Operation();
+        Map<String, List<CodegenOperation>> operationList = new HashMap<>();
+        codegen.setUseTags(true);
+
+        codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
+
+        Assert.assertEquals(operationList.size(), 1);
+        Assert.assertTrue(operationList.containsKey("Primaryresource"));
         Assert.assertEquals(codegenOperation.baseName, "Primaryresource");
     }
 
@@ -140,16 +158,36 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
      * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path param.
      */
     @Test
-    public void testAddOperationToGroupForRootResourcePathParam() {
+    public void testAddOperationToGroupForRootResourcePathParamAndUseTagsFalse() {
         CodegenOperation codegenOperation = new CodegenOperation();
         codegenOperation.operationId = "getPrimaryresource";
+        codegenOperation.path = "/{uuid}";
         Operation operation = new Operation();
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
 
         codegen.addOperationToGroup("Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
 
         Assert.assertEquals(operationList.size(), 1);
-        assertTrue(operationList.containsKey(""));
+        Assert.assertTrue(operationList.containsKey("default"));
+    }
+
+    /**
+     * Test
+     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path param.
+     */
+    @Test
+    public void testAddOperationToGroupForRootResourcePathParamAndUseTagsTrue() {
+        CodegenOperation codegenOperation = new CodegenOperation();
+        codegenOperation.operationId = "getPrimaryresource";
+        codegenOperation.path = "/{uuid}";
+        Operation operation = new Operation();
+        Map<String, List<CodegenOperation>> operationList = new HashMap<>();
+        codegen.setUseTags(true);
+
+        codegen.addOperationToGroup("Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
+
+        Assert.assertEquals(operationList.size(), 1);
+        Assert.assertTrue(operationList.containsKey("Primaryresource"));
         Assert.assertEquals(codegenOperation.baseName, "Primaryresource");
     }
 
@@ -179,21 +217,6 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     public void testToApiNameForSubresource() {
         final String subresource = codegen.toApiName("subresource");
         Assert.assertEquals(subresource, "SubresourceApi");
-    }
-
-    /**
-     * Test {@link JavaJAXRSSpecServerCodegen#toApiName(String)} with primary resource.
-     */
-    @Test
-    public void testToApiNameForPrimaryResource() {
-        CodegenOperation codegenOperation = new CodegenOperation();
-        codegenOperation.operationId = "findPrimaryresource";
-        Operation operation = new Operation();
-        Map<String, List<CodegenOperation>> operationList = new HashMap<>();
-        codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
-
-        final String subresource = codegen.toApiName("");
-        Assert.assertEquals(subresource, "PrimaryresourceApi");
     }
 
     @Test
@@ -294,7 +317,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
-    public void testGenerateApiWithPreceedingPathParameter_issue1347() throws Exception {
+    public void testGenerateApiWithPrecedingPathParameter_issue1347() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.JAVA8_MODE, true);
         properties.put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "openapi.yml");
@@ -315,6 +338,33 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         TestUtils.ensureContainsFile(files, output, "openapi.yml");
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/DefaultApi.java");
+
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testGenerateApiWithCookieParameter_issue2908() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "openapi.yml");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_2908.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator(false);
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.ensureContainsFile(files, output, "openapi.yml");
+        files.stream().forEach(System.out::println);
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/SomethingApi.java");
+        TestUtils.assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/SomethingApi.java"), "@CookieParam");
 
         output.deleteOnExit();
     }

@@ -28,7 +28,7 @@ public class UserApi {
   }
 
   /**
-   * Get the API cilent
+   * Get the API client
    *
    * @return API client
    */
@@ -37,7 +37,7 @@ public class UserApi {
   }
 
   /**
-   * Set the API cilent
+   * Set the API client
    *
    * @param apiClient an instance of API client
    */
@@ -107,7 +107,7 @@ public class UserApi {
 
     return apiClient.invokeAPI("UserApi.createUser", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * Creates list of users with given input array
@@ -171,7 +171,7 @@ public class UserApi {
 
     return apiClient.invokeAPI("UserApi.createUsersWithArrayInput", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * Creates list of users with given input array
@@ -235,7 +235,7 @@ public class UserApi {
 
     return apiClient.invokeAPI("UserApi.createUsersWithListInput", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * Delete user
@@ -302,7 +302,7 @@ public class UserApi {
 
     return apiClient.invokeAPI("UserApi.deleteUser", localVarPath, "DELETE", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * Get user by user name
@@ -374,7 +374,7 @@ public class UserApi {
 
     return apiClient.invokeAPI("UserApi.getUserByName", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Logs user into the system
@@ -452,7 +452,7 @@ public class UserApi {
 
     return apiClient.invokeAPI("UserApi.loginUser", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Logs out current logged in user session
@@ -509,7 +509,7 @@ public class UserApi {
 
     return apiClient.invokeAPI("UserApi.logoutUser", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * Updated user
@@ -583,6 +583,6 @@ public class UserApi {
 
     return apiClient.invokeAPI("UserApi.updateUser", localVarPath, "PUT", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null);
+                               localVarAuthNames, null, false);
   }
 }

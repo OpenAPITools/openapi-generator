@@ -16,8 +16,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.sun.jersey.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -26,7 +26,7 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/Store")
+@Path("/store")
 
 
 @io.swagger.annotations.Api(description = "the Store API")
@@ -38,7 +38,7 @@ public class StoreApi  {
     @Path("/order/{order_id}")
     
     
-    @io.swagger.annotations.ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", response = Void.class, tags={ "store",  })
+    @io.swagger.annotations.ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", response = Void.class, tags={ "store" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
@@ -54,7 +54,7 @@ public class StoreApi  {
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
         @io.swagger.annotations.Authorization(value = "api_key")
-    }, tags={ "store",  })
+    }, tags={ "store" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
     public Response getInventory(
@@ -66,7 +66,7 @@ public class StoreApi  {
     @Path("/order/{order_id}")
     
     @Produces({ "application/xml", "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Find purchase order by ID", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", response = Order.class, tags={ "store",  })
+    @io.swagger.annotations.ApiOperation(value = "Find purchase order by ID", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", response = Order.class, tags={ "store" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),

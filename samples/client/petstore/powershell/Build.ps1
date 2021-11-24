@@ -28,17 +28,17 @@ function Get-FunctionsToExport {
             throw $ParserErr
         } else {
             foreach ($name in 'Begin', 'Process', 'End') {
-	            foreach ($Statement in $Ast."${name}Block".Statements) {
-		            if (
+                foreach ($Statement in $Ast."${name}Block".Statements) {
+                    if (
                         [String]::IsNullOrWhiteSpace($Statement.Name) -or
                         $Statement.Extent.ToString() -notmatch
                         ('function\W+{0}' -f $Statement.Name)
                     ) {
-			            continue
-		            }
+                        continue
+                    }
 
-		            $Statement.Name
-	            }
+                    $Statement.Name
+                }
             }
         }
     }
@@ -53,13 +53,17 @@ $Manifest = @{
     Author = 'OpenAPI Generator Team'
     CompanyName = 'openapitools.org'
     Description = 'PSPetstore - the PowerShell module for OpenAPI Petstore'
+    Tags = @('PetStore' ,'powershell' ,'sdk' )
+    ProjectUri = 'https://github.com/OpenAPITools/openapi-generator'
+    LicenseUri = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+    ReleaseNotes = 'This is a sample project'
 
     ModuleVersion = '0.1.2'
 
     RootModule = 'PSPetstore.psm1'
     Guid = 'a27b908d-2a20-467f-bc32-af6f3a654ac5' # Has to be static, otherwise each new build will be considered different module
 
-    PowerShellVersion = '3.0'
+    PowerShellVersion = '5.0'
 
     FunctionsToExport = $FunctionPath | Get-ChildItem -Filter *.ps1 | Get-FunctionsToExport
 

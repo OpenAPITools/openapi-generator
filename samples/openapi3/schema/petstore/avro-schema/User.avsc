@@ -7,42 +7,51 @@
     {
       "name": "id",
       "type": ["null", "long"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "username",
       "type": ["null", "string"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "firstName",
       "type": ["null", "string"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "lastName",
       "type": ["null", "string"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "email",
       "type": ["null", "string"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "password",
       "type": ["null", "string"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "phone",
       "type": ["null", "string"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "userStatus",
       "type": ["null", "int"],
-      "doc": "User Status"
+      "doc": "User Status",
+      "default": null
     }
   ]
+
 }

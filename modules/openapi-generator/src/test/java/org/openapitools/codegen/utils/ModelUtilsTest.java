@@ -34,7 +34,7 @@ public class ModelUtilsTest {
     public void testGetAllUsedSchemas() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
-        List<String> expectedallUsedSchemas = Arrays.asList(
+        List<String> expectedAllUsedSchemas = Arrays.asList(
                 "SomeObj1",
                 "SomeObj2",
                 "SomeObj3",
@@ -78,8 +78,8 @@ public class ModelUtilsTest {
                 "AChild30",
                 "BChild30"
         );
-        Assert.assertEquals(allUsedSchemas.size(), expectedallUsedSchemas.size());
-        Assert.assertTrue(allUsedSchemas.containsAll(expectedallUsedSchemas));
+        Assert.assertEquals(allUsedSchemas.size(), expectedAllUsedSchemas.size());
+        Assert.assertTrue(allUsedSchemas.containsAll(expectedAllUsedSchemas));
     }
 
     @Test
@@ -126,6 +126,15 @@ public class ModelUtilsTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/globalProducesConsumesTest.yaml");
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 0);
+    }
+
+    @Test
+    public void testIsModelAllowsEmptyBaseModel() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/emptyBaseModel.yaml");
+        Schema commandSchema = ModelUtils.getSchema(openAPI, "Command");
+
+        Assert.assertTrue(ModelUtils.isModel(commandSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, commandSchema));
     }
 
     @Test
@@ -270,5 +279,11 @@ public class ModelUtilsTest {
     public void testIsSetFailsForNullSchema() {
         ArraySchema as = null;
         Assert.assertFalse(ModelUtils.isSet(as));
+    }
+
+    @Test
+    public void testSimpleRefDecoding() {
+        String decoded = ModelUtils.getSimpleRef("#/components/~01%20Hallo~1Welt");
+        Assert.assertEquals(decoded, "~1 Hallo/Welt");
     }
 }

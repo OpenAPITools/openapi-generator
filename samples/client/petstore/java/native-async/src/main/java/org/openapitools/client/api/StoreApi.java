@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Order;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -45,6 +47,7 @@ public class StoreApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public StoreApi() {
     this(new ApiClient());
@@ -57,6 +60,19 @@ public class StoreApi {
     memberVarInterceptor = apiClient.getRequestInterceptor();
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
+    memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
+  }
+
+  private ApiException getApiException(String operationId, HttpResponse<String> response) {
+    String message = formatExceptionMessage(operationId, response.statusCode(), response.body());
+    return new ApiException(response.statusCode(), message, response.headers(), response.body());
+  }
+
+  private String formatExceptionMessage(String operationId, int statusCode, String body) {
+    if (body == null || body.isEmpty()) {
+      body = "[no body]";
+    }
+    return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
   /**
@@ -69,18 +85,43 @@ public class StoreApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = deleteOrderRequestBuilder(orderId);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "deleteOrder call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-              return CompletableFuture.completedFuture(null);
-          }
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("deleteOrder", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(null);
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Delete purchase order by ID
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param orderId ID of the order that needs to be deleted (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> deleteOrderWithHttpInfo(String orderId) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = deleteOrderRequestBuilder(orderId);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("deleteOrder", localVarResponse));
+            }
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -114,31 +155,62 @@ public class StoreApi {
   /**
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
-   * @return Map&lt;String, Integer&gt;
+   * @return CompletableFuture&lt;Map&lt;String, Integer&gt;&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Map<String, Integer>> getInventory() throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = getInventoryRequestBuilder();
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "getInventory call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("getInventory", localVarResponse));
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {})
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Returns pet inventories by status
+   * Returns a map of status codes to quantities
+   * @return CompletableFuture&lt;ApiResponse&lt;Map&lt;String, Integer&gt;&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Map<String, Integer>>> getInventoryWithHttpInfo() throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = getInventoryRequestBuilder();
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("getInventory", localVarResponse));
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<Map<String, Integer>>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -168,31 +240,63 @@ public class StoreApi {
    * Find purchase order by ID
    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
    * @param orderId ID of pet that needs to be fetched (required)
-   * @return Order
+   * @return CompletableFuture&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Order> getOrderById(Long orderId) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = getOrderByIdRequestBuilder(orderId);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "getOrderById call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("getOrderById", localVarResponse));
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Find purchase order by ID
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   * @param orderId ID of pet that needs to be fetched (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Order&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Order>> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = getOrderByIdRequestBuilder(orderId);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("getOrderById", localVarResponse));
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<Order>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -227,31 +331,63 @@ public class StoreApi {
    * Place an order for a pet
    * 
    * @param body order placed for purchasing the pet (required)
-   * @return Order
+   * @return CompletableFuture&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Order> placeOrder(Order body) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "placeOrder call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("placeOrder", localVarResponse));
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Place an order for a pet
+   * 
+   * @param body order placed for purchasing the pet (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Order&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Order>> placeOrderWithHttpInfo(Order body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("placeOrder", localVarResponse));
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<Order>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);

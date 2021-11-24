@@ -131,7 +131,7 @@
 #'
 #' \tabular{ll}{
 #' X-Rate-Limit \tab calls per hour allowed by the user \cr
-#' X-Expires-After \tab date in UTC when toekn expires \cr
+#' X-Expires-After \tab date in UTC when token expires \cr
 #' }
 #' \item status code : 400 | Invalid username/password supplied
 #'
@@ -460,6 +460,7 @@ UserApi <- R6::R6Class(
         stop("Missing required parameter `username`.")
       }
 
+      body <- NULL
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
         urlPath <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), urlPath)
@@ -506,6 +507,7 @@ UserApi <- R6::R6Class(
         stop("Missing required parameter `username`.")
       }
 
+      body <- NULL
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
         urlPath <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), urlPath)
@@ -566,6 +568,7 @@ UserApi <- R6::R6Class(
 
       queryParams['password'] <- password
 
+      body <- NULL
       urlPath <- "/user/login"
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
@@ -610,6 +613,7 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- c()
 
+      body <- NULL
       urlPath <- "/user/logout"
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),

@@ -16,8 +16,8 @@ import {{package}}.NotFoundException;
 
 import java.io.InputStream;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.sun.jersey.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -28,9 +28,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 {{/useBeanValidation}}
 
-@Path("/{{{baseName}}}")
-{{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
-{{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
+@Path("{{commonPath}}")
+{{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}
+{{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
 @io.swagger.annotations.Api(description = "the {{{baseName}}} API")
 {{>generatedAnnotation}}
 {{#operations}}
@@ -40,22 +40,22 @@ public class {{classname}}  {
 {{#operation}}
     @{{httpMethod}}
     {{#subresourceOperation}}@Path("{{{path}}}"){{/subresourceOperation}}
-    {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
-    {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
-    @io.swagger.annotations.ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnBaseType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
+    {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}
+    {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
+    @io.swagger.annotations.ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}", response = {{{returnBaseType}}}.class{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
         {{#authMethods}}@io.swagger.annotations.Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
-            {{#scopes}}@io.swagger.annotations.AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
-            {{/hasMore}}{{/scopes}}
-        }{{/isOAuth}}){{#hasMore}},
-        {{/hasMore}}{{/authMethods}}
-    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} })
+            {{#scopes}}@io.swagger.annotations.AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},
+            {{/-last}}{{/scopes}}
+        }{{/isOAuth}}){{^-last}},
+        {{/-last}}{{/authMethods}}
+    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} })
     @io.swagger.annotations.ApiResponses(value = { {{#responses}}
-        @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}} })
+        @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}} })
     public Response {{nickname}}(
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}},
         {{/allParams}}@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.{{nickname}}({{#allParams}}{{#isFile}}inputStream, fileDetail{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}},{{/allParams}}securityContext);
+        return delegate.{{nickname}}({{#allParams}}{{#isFile}}{{paramName}}Bodypart{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}},{{/allParams}}securityContext);
     }
 {{/operation}}
 }

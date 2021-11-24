@@ -38,6 +38,8 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
+  public AdditionalPropertiesString() { 
+  }
 
   public AdditionalPropertiesString name(String name) {
     
@@ -63,7 +65,7 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -80,7 +82,6 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
     return Objects.hash(name, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -95,7 +96,7 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

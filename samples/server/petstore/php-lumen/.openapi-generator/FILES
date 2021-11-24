@@ -1,5 +1,7 @@
-.gitignore
+lib/.editorconfig
 lib/.env.example
+lib/.gitignore
+lib/.styleci.yml
 lib/app/Console/Commands/.gitkeep
 lib/app/Console/Kernel.php
 lib/app/Events/Event.php
@@ -7,6 +9,7 @@ lib/app/Events/ExampleEvent.php
 lib/app/Exceptions/Handler.php
 lib/app/Http/Controllers/AnotherFakeApi.php
 lib/app/Http/Controllers/Controller.php
+lib/app/Http/Controllers/DefaultApi.php
 lib/app/Http/Controllers/ExampleController.php
 lib/app/Http/Controllers/FakeApi.php
 lib/app/Http/Controllers/FakeClassnameTags123Api.php
@@ -28,11 +31,16 @@ lib/composer.json
 lib/database/factories/ModelFactory.php
 lib/database/migrations/.gitkeep
 lib/database/seeds/DatabaseSeeder.php
+lib/phpunit.xml
 lib/public/.htaccess
 lib/public/index.php
 lib/readme.md
 lib/resources/views/.gitkeep
 lib/routes/web.php
+lib/storage/app/.gitignore
+lib/storage/framework/cache/.gitignore
+lib/storage/framework/cache/data/.gitignore
+lib/storage/framework/views/.gitignore
 lib/storage/logs/.gitignore
 lib/tests/ExampleTest.php
 lib/tests/TestCase.php

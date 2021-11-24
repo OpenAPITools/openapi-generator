@@ -1,0 +1,14 @@
+[tox]
+{{^asyncio}}
+envlist = py27, py3
+{{/asyncio}}
+{{#asyncio}}
+envlist = py3
+{{/asyncio}}
+
+[testenv]
+deps=-r{toxinidir}/requirements.txt
+     -r{toxinidir}/test-requirements.txt
+
+commands=
+   {{^useNose}}pytest --cov={{{packageName}}}{{/useNose}}{{#useNose}}nosetests{{/useNose}}

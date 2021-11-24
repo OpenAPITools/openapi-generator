@@ -36,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
@@ -44,8 +45,9 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NodeJSExpressServerCodegen extends DefaultCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NodeJSExpressServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(NodeJSExpressServerCodegen.class);
     public static final String EXPORTED_NAME = "exportedName";
+    public static final String SERVER_HOST = "serverHost";
     public static final String SERVER_PORT = "serverPort";
 
     protected String apiVersion = "1.0.0";
@@ -294,10 +296,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             opsByPathEntry.put("path", entry.getKey());
             opsByPathEntry.put("operation", entry.getValue());
             List<CodegenOperation> operationsForThisPath = Lists.newArrayList(entry.getValue());
-            operationsForThisPath.get(operationsForThisPath.size() - 1).hasMore = false;
-            if (opsByPathList.size() < opsByPath.asMap().size()) {
-                opsByPathEntry.put("hasMore", "true");
-            }
         }
 
         return opsByPathList;
@@ -334,6 +332,11 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         String port = URLPathUtils.getPort(url, defaultServerPort);
         String basePath = url.getPath();
 
+        if (additionalProperties.containsKey(SERVER_HOST)) {
+            host = additionalProperties.get(SERVER_HOST).toString();
+        }
+        this.additionalProperties.put(SERVER_HOST, host);
+
         if (additionalProperties.containsKey(SERVER_PORT)) {
             port = additionalProperties.get(SERVER_PORT).toString();
         }
@@ -357,12 +360,14 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         // need vendor extensions
         Paths paths = openAPI.getPaths();
         if (paths != null) {
-            for (String pathname : paths.keySet()) {
-                PathItem path = paths.get(pathname);
+            for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+                String pathname = pathsEntry.getKey();
+                PathItem path = pathsEntry.getValue();
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (HttpMethod method : operationMap.keySet()) {
-                        Operation operation = operationMap.get(method);
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                        HttpMethod method = operationMapEntry.getKey();
+                        Operation operation = operationMapEntry.getValue();
                         String tag = "default";
                         if (operation.getTags() != null && operation.getTags().size() > 0) {
                             tag = toApiName(operation.getTags().get(0));
@@ -434,7 +439,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsPostProcessFile + " " + file.toString();
+            String command = jsPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
@@ -442,9 +447,11 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 }
-                LOGGER.info("Successfully executed: " + command);
-            } catch (Exception e) {
+                LOGGER.info("Successfully executed: {}", command);
+            } catch (InterruptedException | IOException e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                // Restore interrupted state
+                Thread.currentThread().interrupt();
             }
         }
     }

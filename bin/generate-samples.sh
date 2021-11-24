@@ -11,6 +11,7 @@ if [ ! -f "$executable" ]; then
 fi
 
 export JAVA_OPTS="${JAVA_OPTS} -ea -server -Duser.timezone=UTC"
+export BATCH_OPTS="${BATCH_OPTS:-}"
 
 files=()
 args=()
@@ -61,6 +62,6 @@ else
 
     # shellcheck disable=SC2086
     # shellcheck disable=SC2068
-    java ${JAVA_OPTS} -jar "$executable" batch --includes-base-dir "${root}" --fail-fast  -- ${files[@]}
+    java ${JAVA_OPTS} -jar "$executable" batch ${BATCH_OPTS} --includes-base-dir "${root}" --fail-fast  -- ${files[@]}
 fi
 

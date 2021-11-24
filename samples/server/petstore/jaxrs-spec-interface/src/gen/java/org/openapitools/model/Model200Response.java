@@ -11,11 +11,13 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Model for testing model name starting with number
  **/
 @ApiModel(description = "Model for testing model name starting with number")
+@JsonTypeName("200_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Model200Response  implements Serializable {
   
   private @Valid Integer name;
@@ -37,9 +39,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
-  }/**
+  }
+
+/**
    **/
   public Model200Response propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
@@ -55,12 +60,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return propertyClass;
   }
 
+  @JsonProperty("class")
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -92,7 +99,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

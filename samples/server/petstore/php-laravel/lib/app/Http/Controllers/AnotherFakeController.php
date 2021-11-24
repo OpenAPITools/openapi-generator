@@ -3,7 +3,7 @@
 /**
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
- * PHP version 7.1.3
+ * PHP version 7.2.5
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -47,10 +47,10 @@ class AnotherFakeController extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling call123TestSpecialTags');
+        if (!isset($input['client'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $client when calling call123TestSpecialTags');
         }
-        $body = $input['body'];
+        $client = $input['client'];
 
 
         return response('How about implementing call123TestSpecialTags as a patch method ?');

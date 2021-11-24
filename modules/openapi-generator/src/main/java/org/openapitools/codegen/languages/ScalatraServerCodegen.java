@@ -57,7 +57,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList("double",
                         "Int",
                         "Long",
@@ -93,6 +93,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
+        typeMapping.put("decimal", "BigDecimal");
 
         additionalProperties.put("appName", "OpenAPI Sample");
         additionalProperties.put("appDescription", "A sample openapi server");
@@ -117,8 +118,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         supportingFiles.add(new SupportingFile("project/plugins.sbt", "project", "plugins.sbt"));
         supportingFiles.add(new SupportingFile("sbt", "", "sbt"));
 
-        importMapping = new HashMap<String, String>();
-        importMapping.put("BigDecimal", "java.math.BigDecimal");
+        importMapping = new HashMap<>();
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");

@@ -1,4 +1,5 @@
 # Org.OpenAPITools.Model.OuterEnum
+
 ## Properties
 
 Name | Type | Description | Notes

@@ -1,5 +1,5 @@
 {{#summary}}
-    /// {{{summary}}}
+    /// {{{.}}}
 {{/summary}}
     async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
@@ -9,11 +9,11 @@
   {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         context: &C) -> Result<{{{operationId}}}Response, ApiError>
     {
         let context = context.clone();
-        info!("{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}({{#allParams}}{{#vendorExtensions}}{{{x-format-string}}}{{/vendorExtensions}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}, {{{paramName}}}{{/allParams}}, context.get().0.clone());
-        Err("Generic failuare".into())
+        info!("{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}({{#allParams}}{{#vendorExtensions}}{{{x-format-string}}}{{/vendorExtensions}}{{^-last}}, {{/-last}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}, {{{paramName}}}{{/allParams}}, context.get().0.clone());
+        Err("Generic failure".into())
     }

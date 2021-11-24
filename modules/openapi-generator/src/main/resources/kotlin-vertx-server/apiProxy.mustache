@@ -69,7 +69,7 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                 {{#hasParams}}
                     val params = context.params
                 {{#allParams}}
-                    {{#isListContainer}}
+                    {{#isArray}}
                     val {{paramName}}Param = ApiHandlerUtils.searchJsonArrayInJson(params,"{{#isBodyParam}}body{{/isBodyParam}}{{^isBodyParam}}{{baseName}}{{/isBodyParam}}")
                         {{#required}}
                     if({{paramName}}Param == null){
@@ -79,12 +79,12 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                             , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
                         {{/required}}
                         {{^required}}
-                    val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+                    val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{defaultValue}}{{^defaultValue}}null{{/defaultValue}}
                             else Gson().fromJson({{paramName}}Param.encode(),
                             , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
                         {{/required}}
-                    {{/isListContainer}}
-                    {{^isListContainer}}
+                    {{/isArray}}
+                    {{^isArray}}
                         {{#isFile}}
                     val {{paramName}}Param = context.extra.getJsonArray("files")
                             {{#required}}
@@ -152,16 +152,16 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                     val {{paramName}} = if({{paramName}}Param ==null) null else Gson().fromJson({{paramName}}Param.encode(), {{{dataType}}}::class.java)
                             {{/required}}
                         {{/isPrimitiveType}}
-                    {{/isListContainer}}
+                    {{/isArray}}
                 {{/allParams}}
                     GlobalScope.launch(vertx.dispatcher()){
                         val result = service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}},{{/allParams}}{{/hasParams}}context)
-                    {{#isListContainer}}
+                    {{#isArray}}
                         val payload = JsonArray(Json.encode(result.payload)).toBuffer()
-                    {{/isListContainer}}
-                    {{^isListContainer}}
+                    {{/isArray}}
+                    {{^isArray}}
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
-                    {{/isListContainer}}
+                    {{/isArray}}
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
                         msg.reply(res.toJson())
                     }.invokeOnCompletion{

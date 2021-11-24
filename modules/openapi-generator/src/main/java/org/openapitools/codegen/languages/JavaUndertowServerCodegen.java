@@ -34,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaUndertowServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaUndertowServerCodegen.class);
 
     protected String title = "OpenAPI Undertow Server";
     protected String implFolder = "src/main/java";
@@ -49,10 +49,10 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         artifactId = "openapi-undertow-server";
         dateLibrary = "legacy"; //TODO: add joda support
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
-        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+        updateOption(DATE_LIBRARY, this.getDateLibrary());
 
         apiTestTemplateFiles.clear(); // TODO: add test template
 
@@ -106,6 +106,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
         // keep the yaml in config folder for framework validation.
         supportingFiles.add(new SupportingFile("openapi.mustache", ("src.main.resources.config").replace(".", java.io.File.separator), "openapi.json"));
+        supportingFiles.add(new SupportingFile("interface.mustache", (String.format(Locale.ROOT, "src.main.java.%s", apiPackage)).replace(".", java.io.File.separator), "PathHandlerInterface.java"));
         supportingFiles.add(new SupportingFile("handler.mustache", (String.format(Locale.ROOT, "src.main.java.%s", apiPackage)).replace(".", java.io.File.separator), "PathHandlerProvider.java"));
         supportingFiles.add(new SupportingFile("service.mustache", ("src.main.resources.META-INF.services").replace(".", java.io.File.separator), "com.networknt.server.HandlerProvider"));
 

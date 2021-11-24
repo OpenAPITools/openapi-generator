@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  description: a spec to test free form object models
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags: []
+paths: {}
+components:
+  schemas:
+    FreeForm:
+      description: this will not be generated because a map will be used when othe components or endpoints ref this schema
+      type: object
+    FreeFormInterface:
+      type: object
+    FreeFormWithValidation:
+      type: object
+      minProperties: 1
+    SomeObject:
+      allOf:
+        - $ref: '#/components/schemas/FreeFormInterface'

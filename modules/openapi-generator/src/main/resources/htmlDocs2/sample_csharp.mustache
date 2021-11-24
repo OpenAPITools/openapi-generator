@@ -22,7 +22,7 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";{{/isOAuth}}
             {{/authMethods}}
             {{/hasAuthMethods}}
-            
+
             // Create an instance of the API class
             var apiInstance = new {{classname}}();
             {{#allParams}}
@@ -38,7 +38,7 @@ namespace Example
                 {{#summary}}
                 // {{{.}}}
                 {{/summary}}
-                {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+                {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
                 Debug.WriteLine(result);{{/returnType}}
             } catch (Exception e) {
                 Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );

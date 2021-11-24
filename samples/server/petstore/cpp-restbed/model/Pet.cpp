@@ -15,7 +15,9 @@
 #include "Pet.h"
 
 #include <string>
+#include <vector>
 #include <sstream>
+#include <stdexcept>
 #include <algorithm>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -29,26 +31,39 @@ namespace openapitools {
 namespace server {
 namespace model {
 
-Pet::Pet()
+Pet::Pet(boost::property_tree::ptree const& pt)
 {
-	m_Id = 0L;
-	m_Name = "";
-	m_Status = "";
-	m_StatusEnum = { "available", "pending", "sold" };
+        fromPropertyTree(pt);
 }
 
-Pet::~Pet()
+std::string Pet::toJsonString(bool prettyJson /* = false */)
 {
+    return toJsonString_internal(prettyJson);
 }
 
-std::string Pet::toJsonString(bool prettyJson)
+void Pet::fromJsonString(std::string const& jsonString)
+{
+    fromJsonString_internal(jsonString);
+}
+
+boost::property_tree::ptree Pet::toPropertyTree()
+{
+    return toPropertyTree_internal();
+}
+
+void Pet::fromPropertyTree(boost::property_tree::ptree const& pt)
+{
+    fromPropertyTree_internal(pt);
+}
+
+std::string Pet::toJsonString_internal(bool prettyJson)
 {
 	std::stringstream ss;
 	write_json(ss, this->toPropertyTree(), prettyJson);
 	return ss.str();
 }
 
-void Pet::fromJsonString(std::string const& jsonString)
+void Pet::fromJsonString_internal(std::string const& jsonString)
 {
 	std::stringstream ss(jsonString);
 	ptree pt;
@@ -56,7 +71,7 @@ void Pet::fromJsonString(std::string const& jsonString)
 	this->fromPropertyTree(pt);
 }
 
-ptree Pet::toPropertyTree()
+ptree Pet::toPropertyTree_internal()
 {
 	ptree pt;
 	ptree tmp_node;
@@ -68,17 +83,17 @@ ptree Pet::toPropertyTree()
 	// generate tree for PhotoUrls
 	if (!m_PhotoUrls.empty()) {
 		for (const auto &childEntry : m_PhotoUrls) {
-			ptree PhotoUrls_node;
-			PhotoUrls_node.put("", childEntry);
-			tmp_node.push_back(std::make_pair("", PhotoUrls_node));
+            ptree PhotoUrls_node;
+            PhotoUrls_node.put("", childEntry);
+            tmp_node.push_back(std::make_pair("", PhotoUrls_node));
 		}
 		pt.add_child("photoUrls", tmp_node);
 		tmp_node.clear();
 	}
-	// generate tree for vector of pointers of Tags
+	// generate tree for Tags
 	if (!m_Tags.empty()) {
 		for (const auto &childEntry : m_Tags) {
-			tmp_node.push_back(std::make_pair("", childEntry->toPropertyTree()));
+            tmp_node.push_back(std::make_pair("", childEntry->toPropertyTree()));
 		}
 		pt.add_child("tags", tmp_node);
 		tmp_node.clear();
@@ -87,7 +102,7 @@ ptree Pet::toPropertyTree()
 	return pt;
 }
 
-void Pet::fromPropertyTree(ptree const &pt)
+void Pet::fromPropertyTree_internal(ptree const &pt)
 {
 	ptree tmp_node;
 	m_Id = pt.get("id", 0L);
@@ -99,14 +114,17 @@ void Pet::fromPropertyTree(ptree const &pt)
 	// push all items of PhotoUrls into member vector
 	if (pt.get_child_optional("photoUrls")) {
 		for (const auto &childTree : pt.get_child("photoUrls")) {
-			m_PhotoUrls.emplace_back(childTree.second.data());
+            std::string val =
+                childTree.second.data();
+            m_PhotoUrls.emplace_back(std::move(val));
 		}
 	}
-	// generate new Tag Object for each item and assign it to the current
+	// push all items of Tags into member vector
 	if (pt.get_child_optional("tags")) {
 		for (const auto &childTree : pt.get_child("tags")) {
-			m_Tags.emplace_back(std::make_shared<Tag>());
-			m_Tags.back()->fromPropertyTree(childTree.second);
+            std::shared_ptr<Tag> val =
+                std::make_shared<Tag>(childTree.second);
+            m_Tags.emplace_back(std::move(val));
 		}
 	}
 	setStatus(pt.get("status", ""));
@@ -116,6 +134,7 @@ int64_t Pet::getId() const
 {
     return m_Id;
 }
+
 void Pet::setId(int64_t value)
 {
 	m_Id = value;
@@ -124,6 +143,7 @@ std::shared_ptr<Category> Pet::getCategory() const
 {
     return m_Category;
 }
+
 void Pet::setCategory(std::shared_ptr<Category> value)
 {
 	m_Category = value;
@@ -132,6 +152,7 @@ std::string Pet::getName() const
 {
     return m_Name;
 }
+
 void Pet::setName(std::string value)
 {
 	m_Name = value;
@@ -140,6 +161,7 @@ std::vector<std::string> Pet::getPhotoUrls() const
 {
     return m_PhotoUrls;
 }
+
 void Pet::setPhotoUrls(std::vector<std::string> value)
 {
 	m_PhotoUrls = value;
@@ -148,6 +170,7 @@ std::vector<std::shared_ptr<Tag>> Pet::getTags() const
 {
     return m_Tags;
 }
+
 void Pet::setTags(std::vector<std::shared_ptr<Tag>> value)
 {
 	m_Tags = value;
@@ -156,11 +179,28 @@ std::string Pet::getStatus() const
 {
     return m_Status;
 }
+
 void Pet::setStatus(std::string value)
 {
 	if (std::find(m_StatusEnum.begin(), m_StatusEnum.end(), value) != m_StatusEnum.end()) {
 		m_Status = value;
+	} else {
+		throw std::runtime_error("Value " + value + " not allowed");
 	}
+}
+
+std::vector<Pet> createPetVectorFromJsonString(const std::string& json)
+{
+    std::stringstream sstream(json);
+    boost::property_tree::ptree pt;
+    boost::property_tree::json_parser::read_json(sstream,pt);
+
+    auto vec = std::vector<Pet>();
+    for (const auto& child: pt) {
+        vec.emplace_back(Pet(child.second));
+    }
+
+    return vec;
 }
 
 }

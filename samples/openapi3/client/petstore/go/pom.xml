@@ -69,20 +69,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>go-get-optional</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>go</executable>
-                            <arguments>
-                                <argument>get</argument>
-                                <argument>github.com/antihax/optional</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>go-test</id>
                         <phase>integration-test</phase>
                         <goals>

@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 <a name="addpet"></a>
 # **AddPet**
-> void AddPet (Pet body)
+> void AddPet (Pet pet)
 
 Add a new pet to the store
 
@@ -41,12 +41,12 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Add a new pet to the store
-                apiInstance.AddPet(body);
+                apiInstance.AddPet(pet);
             }
             catch (ApiException  e)
             {
@@ -63,7 +63,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -71,17 +71,17 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -151,10 +151,10 @@ void (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
 | **400** | Invalid pet value |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -187,7 +187,7 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var status = status_example;  // List<string> | Status values that need to be considered for filter
+            var status = new List<string>(); // List<string> | Status values that need to be considered for filter
 
             try
             {
@@ -210,7 +210,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | **List&lt;string&gt;**| Status values that need to be considered for filter | 
+ **status** | [**List&lt;string&gt;**](string.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -218,12 +218,13 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -292,12 +293,13 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -375,6 +377,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -386,7 +389,7 @@ Name | Type | Description  | Notes
 
 <a name="updatepet"></a>
 # **UpdatePet**
-> void UpdatePet (Pet body)
+> void UpdatePet (Pet pet)
 
 Update an existing pet
 
@@ -410,12 +413,12 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Update an existing pet
-                apiInstance.UpdatePet(body);
+                apiInstance.UpdatePet(pet);
             }
             catch (ApiException  e)
             {
@@ -432,7 +435,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -440,17 +443,17 @@ void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
@@ -523,6 +526,7 @@ void (empty response body)
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -599,6 +603,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -673,6 +678,7 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

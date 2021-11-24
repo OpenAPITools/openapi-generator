@@ -1,3 +1,4 @@
+Packing.cmake
 README.md
 api/PetAPI.c
 api/PetAPI.h
@@ -5,6 +6,15 @@ api/StoreAPI.c
 api/StoreAPI.h
 api/UserAPI.c
 api/UserAPI.h
+docs/PetAPI.md
+docs/StoreAPI.md
+docs/UserAPI.md
+docs/api_response.md
+docs/category.md
+docs/order.md
+docs/pet.md
+docs/tag.md
+docs/user.md
 external/cJSON.c
 external/cJSON.h
 external/cJSON.licence

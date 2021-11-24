@@ -65,7 +65,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         boolean isArray;
         boolean isContainer;
         boolean isListContainer;
-        boolean isMapContainer;
+        boolean isMap;
         boolean isPrimitiveType;
         CodegenVariable items;
         Integer minItems;
@@ -94,9 +94,9 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             dataType = op.returnType;
             enumName = null;// op.enumName;
             allowableValues = null;// op.allowableValues;
-            isContainer = op.isListContainer || op.isMapContainer;
-            isListContainer = op.isListContainer;
-            isMapContainer = op.isMapContainer;
+            isContainer = op.isArray || op.isMap;
+            isListContainer = op.isArray;
+            isMap = op.isMap;
             isPrimitiveType = op.returnTypeIsPrimitive;
             minItems = null;// op.minItems;
             minimum = null;// op.minimum;
@@ -110,7 +110,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             varVendorExtensions = op.vendorExtensions;
             init(parent, testDataPath, models);
 
-            if (op.isListContainer || op.isMapContainer) {
+            if (op.isArray || op.isMap) {
                 items = new CodegenVariable();
                 items.dataType = op.returnBaseType;
                 items.isPrimitiveType = op.returnTypeIsPrimitive;
@@ -130,8 +130,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             enumName = param.enumName;
             allowableValues = param.allowableValues;
             isContainer = param.isContainer;
-            isListContainer = param.isListContainer;
-            isMapContainer = param.isMapContainer;
+            isListContainer = param.isArray;
+            isMap = param.isMap;
             isPrimitiveType = param.isPrimitiveType;
             minItems = param.minItems;
             minimum = param.minimum;
@@ -157,8 +157,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             enumName = prop.enumName;
             allowableValues = prop.allowableValues;
             isContainer = prop.isContainer;
-            isListContainer = prop.isListContainer;
-            isMapContainer = prop.isMapContainer;
+            isListContainer = prop.isArray;
+            isMap = prop.isMap;
             isPrimitiveType = prop.isPrimitiveType;
             minItems = prop.minItems;
             minimum = prop.minimum;
@@ -216,10 +216,10 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             this.isArray = dataType.endsWith("[]");
             this.testDataPath = testDataPath;
             CodegenModel cm = models.get(dataType);
-            if (cm != null && (cm.isArrayModel || cm.isMapModel)) {
+            if (cm != null && (cm.isArray || cm.isMap)) {
                 this.isContainer = true;
-                this.isListContainer = cm.isArrayModel;
-                this.isMapContainer = cm.isMapModel;
+                this.isListContainer = cm.isArray;
+                this.isMap = cm.isMap;
                 this.items = new CodegenVariable();
                 this.items.name = "item";
                 this.items.dataType = cm.additionalPropertiesType;
@@ -249,7 +249,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         public String toString() {
             return "CodegenVariable [name=" + name + ", dataType=" + dataType + ", dataFormat=" + dataFormat
                     + ", isArray=" + isArray + ", isContainer=" + isContainer + ", isListContainer=" + isListContainer
-                    + ", isMapContainer=" + isMapContainer + ", isPrimitiveType=" + isPrimitiveType + ", testDataPath="
+                    + ", isMap=" + isMap + ", isPrimitiveType=" + isPrimitiveType + ", testDataPath="
                     + testDataPath + ", enumName=" + enumName + ", allowableValues=" + allowableValues + ", minItems="
                     + minItems + ", itemCount=" + itemCount + ", minimum=" + minimum + ", maximum=" + maximum
                     + ", exclusiveMinimum=" + exclusiveMinimum + ", exclusiveMaximum=" + exclusiveMaximum
@@ -258,7 +258,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaCXFExtServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFExtServerCodegen.class);
 
     private static final String INDENT = "        ";
 
@@ -282,7 +282,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         return f;
     });
 
-    private static final long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
+    private static final long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
 
     private static final long MIN_DATE;
 
@@ -306,7 +306,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         MAX_DATE = maxDate;
     }
 
-    private Map<String, Generex> REGEX_GENERATORS = new HashMap<>();
+    private final Map<String, Generex> REGEX_GENERATORS = new HashMap<>();
 
     protected boolean generateOperationBody = false;
 
@@ -512,7 +512,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                                            CodegenVariable parent, String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
         CodegenModel cm = models.get(parent.dataType);
-        if (cm != null) { // TODO: handle isArrayModel and isMapModel
+        if (cm != null) { // TODO: handle isArrayModel and isMap
             for (CodegenProperty cp : cm.allVars) {
                 CodegenVariable var = new CodegenVariable(parent, cp, null, models);
                 if (var.isContainer || !var.isPrimitiveType) {
@@ -551,10 +551,13 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             short inclusiveMax = (short) (var == null || !var.exclusiveMaximum ? 1 : 0);
             byte randomByte = (byte) (min + exclusiveMin + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomByte);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomByte);
+                }
+            } else {
                 buffer.append(String.format(Locale.getDefault(), "(byte)%0#2x", randomByte));
+            }
         }
     }
 
@@ -568,10 +571,13 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             char inclusiveMax = (char) (var == null || !var.exclusiveMaximum ? 1 : 0);
             char randomChar = (char) (min + exclusiveMin + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomChar);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomChar);
+                }
+            } else {
                 buffer.append(String.format(Locale.getDefault(), "'%c'", randomChar));
+            }
         }
     }
 
@@ -607,24 +613,26 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             BigDecimal exclusiveMinLong = new BigDecimal(var != null && var.exclusiveMinimum ? 1 : 0);
             BigDecimal inclusiveMaxLong = new BigDecimal(var == null || !var.exclusiveMaximum ? 1 : 0);
             long randomDateLong = minLong.add(exclusiveMinLong).add(maxLong.add(inclusiveMaxLong).subtract(minLong)
-                    .subtract(exclusiveMinLong).multiply(new BigDecimal(Math.random()))).longValue();
+                    .subtract(exclusiveMinLong).multiply(BigDecimal.valueOf(Math.random()))).longValue();
 
             // If it's just a date without a time, round downwards to the nearest day.
-            if ("date".equals(var.dataFormat))
+            if (var != null && "date".equals(var.dataFormat))
                 randomDateLong = (randomDateLong % MILLIS_PER_DAY) * MILLIS_PER_DAY;
 
             // NOTE: By default Jackson serializes Date as long milliseconds since epoch date, but that conflicts with
             // the OpenAPI 2.0/3.0 specs, which mandates the ISO-8601 full-date or date-time formats. Accordingly, date
             // and date-time fields are annotated with @JsonFormat to specify the appropriate ISO format.
             if (loadTestDataFromFile) {
-                Date randomDate = new Date(randomDateLong);
-                switch (var.dataFormat) {
-                    case "date":
-                        var.addTestData(ISO8601_DATE_FORMAT.get().format(randomDate));
-                        break;
-                    case "date-time":
-                        var.addTestData(ISO8601_DATETIME_FORMAT.get().format(randomDate));
-                        break;
+                if (var != null) {
+                    Date randomDate = new Date(randomDateLong);
+                    switch (var.dataFormat) {
+                        case "date":
+                            var.addTestData(ISO8601_DATE_FORMAT.get().format(randomDate));
+                            break;
+                        case "date-time":
+                            var.addTestData(ISO8601_DATETIME_FORMAT.get().format(randomDate));
+                            break;
+                    }
                 }
             } else {
                 buffer.append("new Date(").append(randomDateLong).append(')');
@@ -635,19 +643,20 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     private void appendRandomDouble(StringBuilder buffer, CodegenOperation op, CodegenVariable var) {
         if (!appendRandomEnum(buffer, op, var)) {
             // NOTE: use BigDecimal to hold double values, to avoid numeric overflow.
-            BigDecimal min = new BigDecimal(
-                    var == null || var.minimum == null ? Long.MIN_VALUE : Double.parseDouble(var.minimum));
-            BigDecimal max = new BigDecimal(
-                    var == null || var.maximum == null ? Long.MAX_VALUE : Double.parseDouble(var.maximum));
+            BigDecimal min = BigDecimal.valueOf(var == null || var.minimum == null ? Long.MIN_VALUE : Double.parseDouble(var.minimum));
+            BigDecimal max = BigDecimal.valueOf(var == null || var.maximum == null ? Long.MAX_VALUE : Double.parseDouble(var.maximum));
             BigDecimal exclusiveMin = new BigDecimal(var != null && var.exclusiveMinimum ? 1 : 0);
             BigDecimal inclusiveMax = new BigDecimal(var == null || !var.exclusiveMaximum ? 1 : 0);
             BigDecimal randomBigDecimal = min.add(exclusiveMin).add(max.add(inclusiveMax).subtract(min)
                     .subtract(exclusiveMin).multiply(new BigDecimal(String.valueOf(Math.random()))));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomBigDecimal);
-            else
-                buffer.append(randomBigDecimal.toString()).append('D');
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomBigDecimal);
+                }
+            } else {
+                buffer.append(randomBigDecimal).append('D');
+            }
         }
     }
 
@@ -699,15 +708,18 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             // NOTE: use double to hold float values, to avoid numeric overflow.
             double min = var == null || var.minimum == null ? -Float.MAX_VALUE : Float.parseFloat(var.minimum);
             double max = var == null || var.maximum == null ? Float.MAX_VALUE : Float.parseFloat(var.maximum);
-            double exclusiveMin = (double) (var != null && var.exclusiveMinimum ? 1 : 0);
-            double inclusiveMax = (double) (var == null || !var.exclusiveMaximum ? 1 : 0);
+            double exclusiveMin = var != null && var.exclusiveMinimum ? 1 : 0;
+            double inclusiveMax = var == null || !var.exclusiveMaximum ? 1 : 0;
             float randomFloat = (float) (min + exclusiveMin
                     + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomFloat);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomFloat);
+                }
+            } else {
                 buffer.append(String.format(Locale.getDefault(), "%g", randomFloat)).append('F');
+            }
         }
     }
 
@@ -720,10 +732,13 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             long inclusiveMax = var == null || !var.exclusiveMaximum ? 1 : 0;
             int randomInt = (int) (min + exclusiveMin + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomInt);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomInt);
+                }
+            } else {
                 buffer.append(randomInt);
+            }
         }
     }
 
@@ -737,13 +752,16 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             BigDecimal exclusiveMin = new BigDecimal(var != null && var.exclusiveMinimum ? 1 : 0);
             BigDecimal inclusiveMax = new BigDecimal(var == null || !var.exclusiveMaximum ? 1 : 0);
             long randomLong = min.add(exclusiveMin).add(
-                    max.add(inclusiveMax).subtract(min).subtract(exclusiveMin).multiply(new BigDecimal(Math.random())))
+                    max.add(inclusiveMax).subtract(min).subtract(exclusiveMin).multiply(BigDecimal.valueOf(Math.random())))
                     .longValue();
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomLong);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomLong);
+                }
+            } else {
                 buffer.append(randomLong).append('L');
+            }
         }
     }
 
@@ -757,10 +775,13 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             short randomShort = (short) (min + exclusiveMin
                     + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomShort);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomShort);
+                }
+            } else {
                 buffer.append(String.format(Locale.getDefault(), "(short)%d", randomShort));
+            }
         }
     }
 
@@ -769,7 +790,9 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             String randomString = generateRandomString(var);
 
             if (loadTestDataFromFile) {
-                var.addTestData(randomString);
+                if (var != null) {
+                    var.addTestData(randomString);
+                }
             } else {
                 buffer.append('"').append(randomString).append('"');
             }
@@ -860,7 +883,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
         if (var.isListContainer)
             appendListValue(buffer, indent, op, var, localVar, localVars, models);
-        else if (var.isMapContainer)
+        else if (var.isMap)
             appendMapValue(buffer, indent, op, var, localVar, localVars, models);
         else if (var.isArray)
             appendArrayValue(buffer, indent, op, var, localVar, localVars, models);
@@ -890,7 +913,6 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 mediaType = "text/plain";
             Map<String, String> contentType = new HashMap<>();
             contentType.put("mediaType", mediaType);
-            contentType.put("hasMore", null);
             if (op.consumes == null)
                 op.consumes = new ArrayList<>();
             op.consumes.add(contentType);
@@ -904,7 +926,6 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 mediaType = "text/plain";
             Map<String, String> contentType = new HashMap<>();
             contentType.put("mediaType", mediaType);
-            contentType.put("hasMore", null);
             if (op.produces == null)
                 op.produces = new ArrayList<>();
             op.produces.add(contentType);
@@ -1181,7 +1202,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                                     .append(op.operationId).append('/').append(var.name).append('"');
                             if (var.isListContainer)
                                 buffer.append(", ").append(var.getComponentType()).append(".class");
-                            else if (var.isMapContainer)
+                            else if (var.isMap)
                                 buffer.append(", Map.class");
                             else if (!hasCacheMethod(var))
                                 buffer.append(", ").append(var.dataType).append(".class");
@@ -1206,7 +1227,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                                     .append(op.operationId).append('/').append(var.name).append('"');
                             if (var.isListContainer)
                                 buffer.append(", ").append(var.getComponentType()).append(".class");
-                            else if (var.isMapContainer)
+                            else if (var.isMap)
                                 buffer.append(", Map.class");
                             else if (!hasCacheMethod(var))
                                 buffer.append(", ").append(var.dataType).append(".class");
@@ -1273,7 +1294,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataCache.root().flush(out);
-                    String testDataJson = new String(out.toByteArray(), "UTF-8");
+                    String testDataJson = out.toString("UTF-8");
                     objs.put("test-data.json", testDataJson);
                     supportingFiles.add(new SupportingFile("testData.mustache", testDataFile.getAbsolutePath()));
                 }
@@ -1285,7 +1306,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataControlCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataControlCache.root().flush(out);
-                    String testDataControlJson = new String(out.toByteArray(), "UTF-8");
+                    String testDataControlJson = out.toString("UTF-8");
                     objs.put("test-data-control.json", testDataControlJson);
                     supportingFiles
                             .add(new SupportingFile("testDataControl.mustache", testDataControlFile.getAbsolutePath()));
@@ -1368,11 +1389,21 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
         if (this.generateSpringApplication) {
             if (supportMultipleSpringServices) {
+                SupportingFile supportingFile = null;
                 for (SupportingFile sf : supportingFiles) {
-                    if ("server/ApplicationContext.xml.mustache".equals(sf.templateFile)) {
-                        sf.destinationFilename = "ApplicationContext-" + invokerPackage + ".xml";
+                    if ("server/ApplicationContext.xml.mustache".equals(sf.getTemplateFile())) {
+                        supportingFile = sf;
                         break;
                     }
+                }
+                if (supportingFile != null) {
+                    supportingFiles.remove(supportingFile);
+                    SupportingFile updated = new SupportingFile(
+                            supportingFile.getTemplateFile(),
+                            supportingFile.getFolder(),
+                            "ApplicationContext-" + invokerPackage + ".xml"
+                    );
+                    supportingFiles.add(updated);
                 }
             }
         }
@@ -1400,7 +1431,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isGenerateAliasAsModel() && StringUtils.isNotEmpty(p.get$ref())) {
+        if (ModelUtils.isGenerateAliasAsModel(p) && StringUtils.isNotEmpty(p.get$ref())) {
             Schema<?> ref = ModelUtils.getReferencedSchema(this.openAPI, p);
             if (ModelUtils.isArraySchema(ref) || ModelUtils.isMapSchema(ref)) {
                 String typeDeclaration = getTypeDeclaration(p);

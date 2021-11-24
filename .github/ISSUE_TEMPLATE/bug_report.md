@@ -11,10 +11,10 @@ assignees: ''
 
 - [ ] Have you provided a full/minimal spec to reproduce the issue?
 - [ ] Have you validated the input using an OpenAPI validator ([example](https://apidevtools.org/swagger-parser/online/))?
-- [ ] What's the version of OpenAPI Generator used?
-- [ ] Have you search for related issues/PRs?
+- [ ] Have you [tested with the latest master](https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-to-test-with-the-latest-master-of-openapi-generator) to confirm the issue still exists?
+- [ ] Have you searched for related issues/PRs?
 - [ ] What's the actual output vs expected output?
-- [ ] [Optional] Bounty to sponsor the fix ([example](https://www.bountysource.com/issues/66123212-javascript-client-produces-a-wrong-object-for-a-string-enum-type-that-is-used-with-ref))
+- [ ] [Optional] Sponsorship to speed up the bug fix or feature request ([example](https://github.com/OpenAPITools/openapi-generator/issues/6178))
 
 <!--
 Please follow the issue template below for bug reports.
@@ -45,9 +45,13 @@ please create a Gist (https://gist.github.com) or upload it somewhere else and
 link it here.
   -->
 
-##### Command line used for generation
+##### Generation Details
 
-<!-- including the language, libraries and various options -->
+<!-- 
+    Prefer CLI steps, including the language, libraries and various options. 
+    Providing config-based settings allows for simpler testing across CLI and plugins. 
+    For examples, see https://github.com/OpenAPITools/openapi-generator/tree/master/bin/configs
+-->
 
 ##### Steps to reproduce
 

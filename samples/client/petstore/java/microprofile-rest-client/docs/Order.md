@@ -3,6 +3,7 @@
 # Order
 
 An order for a pets from the pet store
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,7 +11,7 @@ Name | Type | Description | Notes
 **id** | **Long** |  |  [optional]
 **petId** | **Long** |  |  [optional]
 **quantity** | **Integer** |  |  [optional]
-**shipDate** | [**Date**](Date.md) |  |  [optional]
+**shipDate** | **Date** |  |  [optional]
 **status** | [**StatusEnum**](#StatusEnum) | Order Status |  [optional]
 **complete** | **Boolean** |  |  [optional]
 

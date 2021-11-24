@@ -9,5 +9,5 @@ internal class UUIDAdapter {
     fun toJson(uuid: UUID) = uuid.toString()
 
     @FromJson
-    fun fromJson(s: String) = UUID.fromString(s)
+    fun fromJson(s: String): UUID = UUID.fromString(s)
 }

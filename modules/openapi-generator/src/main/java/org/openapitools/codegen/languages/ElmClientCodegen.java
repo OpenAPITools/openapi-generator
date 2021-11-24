@@ -23,6 +23,7 @@ import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -37,10 +38,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -175,6 +177,31 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method/operation name (operationId) not allowed");
+        }
+
+        operationId = camelize(sanitizeName(operationId), true);
+
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            String newOperationId = camelize("call_" + operationId, true);
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            return newOperationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
+            operationId = camelize("call_" + operationId, true);
+        }
+
+        return operationId;
+    }
+
+    @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "Default";
@@ -301,19 +328,17 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private boolean anyVarMatches(final List<Map<String, Object>> models, final Predicate<CodegenProperty> predicate) {
         return models.stream()
-            .map(obj -> (CodegenModel) obj.get("model"))
-            .flatMap(model -> model.vars.stream())
-            .filter(var -> {
-                CodegenProperty prop = var;
-                while (prop != null) {
-                    if (predicate.test(prop)) {
-                        return true;
+                .map(obj -> (CodegenModel) obj.get("model"))
+                .flatMap(model -> model.vars.stream()).anyMatch(var -> {
+                    CodegenProperty prop = var;
+                    while (prop != null) {
+                        if (predicate.test(prop)) {
+                            return true;
+                        }
+                        prop = prop.items;
                     }
-                    prop = prop.items;
-                }
-                return false;
-            })
-            .count() > 0;
+                    return false;
+                });
     }
 
     @Override
@@ -364,7 +389,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     static class ParameterSorter implements Comparator<CodegenParameter> {
-        public int compare(final CodegenParameter p1, final CodegenParameter p2) { 
+        public int compare(final CodegenParameter p1, final CodegenParameter p2) {
             return index(p1) - index(p2);
         }
 
@@ -383,8 +408,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
             return 5;
         }
-    }   
-    
+    }
+
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
@@ -393,7 +418,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                return Boolean.valueOf(p.getDefault().toString()) ? "True" : "False";
+                return Boolean.parseBoolean(p.getDefault().toString()) ? "True" : "False";
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {

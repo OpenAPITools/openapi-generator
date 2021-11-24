@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -49,10 +50,12 @@ import java.util.HashSet;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -114,15 +117,30 @@ public class Mammal extends AbstractOpenApiSchema {
                     log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", discriminatorValue));
             }
 
+            boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
+            JsonToken token = tree.traverse(jp.getCodec()).nextToken();
             // deserialize Pig
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
-                // TODO: there is no validation against JSON schema constraints
-                // (min, max, enum, pattern...), this does not perform a strict JSON
-                // validation, which means the 'match' count may be higher than it should be.
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'Pig'");
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (Pig.class.equals(Integer.class) || Pig.class.equals(Long.class) || Pig.class.equals(Float.class) || Pig.class.equals(Double.class) || Pig.class.equals(Boolean.class) || Pig.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((Pig.class.equals(Integer.class) || Pig.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((Pig.class.equals(Float.class) || Pig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (Pig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (Pig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'Pig'");
+                }
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'Pig'", e);
@@ -130,12 +148,25 @@ public class Mammal extends AbstractOpenApiSchema {
 
             // deserialize Whale
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Whale.class);
-                // TODO: there is no validation against JSON schema constraints
-                // (min, max, enum, pattern...), this does not perform a strict JSON
-                // validation, which means the 'match' count may be higher than it should be.
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'Whale'");
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (Whale.class.equals(Integer.class) || Whale.class.equals(Long.class) || Whale.class.equals(Float.class) || Whale.class.equals(Double.class) || Whale.class.equals(Boolean.class) || Whale.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((Whale.class.equals(Integer.class) || Whale.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((Whale.class.equals(Float.class) || Whale.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (Whale.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (Whale.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Whale.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'Whale'");
+                }
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'Whale'", e);
@@ -143,12 +174,25 @@ public class Mammal extends AbstractOpenApiSchema {
 
             // deserialize Zebra
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Zebra.class);
-                // TODO: there is no validation against JSON schema constraints
-                // (min, max, enum, pattern...), this does not perform a strict JSON
-                // validation, which means the 'match' count may be higher than it should be.
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'Zebra'");
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (Zebra.class.equals(Integer.class) || Zebra.class.equals(Long.class) || Zebra.class.equals(Float.class) || Zebra.class.equals(Double.class) || Zebra.class.equals(Boolean.class) || Zebra.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((Zebra.class.equals(Integer.class) || Zebra.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((Zebra.class.equals(Float.class) || Zebra.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (Zebra.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (Zebra.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Zebra.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'Zebra'");
+                }
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'Zebra'", e);
@@ -172,7 +216,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public Mammal() {
         super("oneOf", Boolean.FALSE);
@@ -266,7 +310,8 @@ public class Mammal extends AbstractOpenApiSchema {
 
     /**
      * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas.
+     * the instance parameter is valid against the oneOf child schemas:
+     * Pig, Whale, Zebra
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -291,7 +336,49 @@ public class Mammal extends AbstractOpenApiSchema {
         throw new RuntimeException("Invalid instance type. Must be Pig, Whale, Zebra");
     }
 
+    /**
+     * Get the actual instance, which can be the following:
+     * Pig, Whale, Zebra
+     *
+     * @return The actual instance (Pig, Whale, Zebra)
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
 
+    /**
+     * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Pig`
+     * @throws ClassCastException if the instance is not `Pig`
+     */
+    public Pig getPig() throws ClassCastException {
+        return (Pig)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Whale`. If the actual instance is not `Whale`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Whale`
+     * @throws ClassCastException if the instance is not `Whale`
+     */
+    public Whale getWhale() throws ClassCastException {
+        return (Whale)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Zebra`. If the actual instance is not `Zebra`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Zebra`
+     * @throws ClassCastException if the instance is not `Zebra`
+     */
+    public Zebra getZebra() throws ClassCastException {
+        return (Zebra)super.getActualInstance();
+    }
 
 }
 

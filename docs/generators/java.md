@@ -3,9 +3,12 @@ title: Config Options for java
 sidebar_label: java
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
+|additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |org.openapitools.client.api|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
@@ -16,26 +19,31 @@ sidebar_label: java
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |caseInsensitiveResponseHeaders|Make API response's headers case-insensitive. Available on okhttp-gson, jersey2 libraries| |false|
+|configKey|Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option.| |null|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date (if you really have a good reason not to use threetenbp</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets &quot;java8&quot; to true</dd><dt>**threetenbp**</dt><dd>Backport of JSR310 (preferred for jdk &lt; 1.8)</dd></dl>|threetenbp|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
 |developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|
 |developerOrganizationUrl|developer organization URL in generated pom.xml| |http://openapitools.org|
 |disableHtmlEscaping|Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)| |false|
-|disallowAdditionalPropertiesIfNotPresent|Specify the behavior when the 'additionalProperties' keyword is not present in the OAS document. If false: the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. If true: when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.This setting is currently ignored for OAS 2.0 documents:  1) When the 'additionalProperties' keyword is not present in a 2.0 schema, additional properties are NOT allowed.  2) Boolean values of the 'additionalProperties' keyword are ignored. It's as if additional properties are NOT allowed.Note: the root cause are issues #1369 and #1371, which must be resolved in the swagger-parser project.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.</dd></dl>|true|
+|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |discriminatorCaseSensitive|Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client| |true|
+|dynamicOperations|Generate operations dynamically at runtime from an OAS| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|feignVersion|Version of OpenFeign: '10.x' (default), '9.x' (deprecated)| |false|
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
+|gradleProperties|Append additional Gradle proeprties to the gradle.properties file| |null|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
+|ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |invokerPackage|root package for generated code| |org.openapitools.client|
 |java8|Use Java8 classes instead of third party equivalents. Starting in 5.x, JDK8 is the default and the support for JDK7, JDK6 has been dropped|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd></dl>|true|
-|legacyDiscriminatorBehavior|This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName. Note to developers supporting a language generator in OpenAPITools; to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|library|library template (sub-template) to use|<dl><dt>**jersey1**</dt><dd>HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.</dd><dt>**jersey2**</dt><dd>HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x</dd><dt>**feign**</dt><dd>HTTP client: OpenFeign 9.x (deprecated) or 10.x (default). JSON processing: Jackson 2.9.x.</dd><dt>**okhttp-gson**</dt><dd>[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.</dd><dt>**retrofit2**</dt><dd>HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)</dd><dt>**resttemplate**</dt><dd>HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x</dd><dt>**webclient**</dt><dd>HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x</dd><dt>**resteasy**</dt><dd>HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**vertx**</dt><dd>HTTP client: VertX client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**google-api-client**</dt><dd>HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x</dd><dt>**rest-assured**</dt><dd>HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8</dd><dt>**native**</dt><dd>HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+</dd><dt>**microprofile**</dt><dd>HTTP client: Microprofile client 1.x. JSON processing: Jackson 2.9.x</dd></dl>|okhttp-gson|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|library|library template (sub-template) to use|<dl><dt>**jersey1**</dt><dd>HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.</dd><dt>**jersey2**</dt><dd>HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x</dd><dt>**feign**</dt><dd>HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x.</dd><dt>**okhttp-gson**</dt><dd>[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.</dd><dt>**retrofit2**</dt><dd>HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)</dd><dt>**resttemplate**</dt><dd>HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x</dd><dt>**webclient**</dt><dd>HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x</dd><dt>**resteasy**</dt><dd>HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**vertx**</dt><dd>HTTP client: VertX client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**google-api-client**</dt><dd>HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x</dd><dt>**rest-assured**</dt><dd>HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8</dd><dt>**native**</dt><dd>HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+</dd><dt>**microprofile**</dt><dd>HTTP client: Microprofile client 1.x. JSON processing: JSON-B</dd><dt>**apache-httpclient**</dt><dd>HTTP client: Apache httpclient 4.x</dd></dl>|okhttp-gson|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
+|microprofileFramework|Framework for microprofile. Possible values &quot;kumuluzee&quot;| |null|
 |modelPackage|package for generated models| |org.openapitools.client.model|
+|openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
 |parcelableModel|Whether to generate models for Android that implement Parcelable with the okhttp-gson library.| |false|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
@@ -47,12 +55,13 @@ sidebar_label: java
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
-|serializationLibrary|Serialization library, default depends from the library|<dl><dt>**jackson**</dt><dd>Use Jackson as serialization library</dd><dt>**gson**</dt><dd>Use Gson as serialization library</dd></dl>|null|
+|serializationLibrary|Serialization library, default depends on value of the option library|<dl><dt>**jsonb**</dt><dd>Use JSON-B as serialization library</dd><dt>**jackson**</dt><dd>Use Jackson as serialization library</dd><dt>**gson**</dt><dd>Use Gson as serialization library</dd></dl>|null|
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd></dl>|null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
-|supportJava6|Whether to support Java6 with the Jersey1 library. This option has been deprecated and will be removed in the 5.x release| |false|
+|supportStreaming|Support streaming endpoint (beta)| |false|
+|useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, libraries| |false|
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useGzipFeature|Send gzip-encoded requests| |false|
 |usePlayWS|Use Play! Async HTTP client (Play WS API)| |false|
@@ -193,6 +202,7 @@ sidebar_label: java
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

@@ -49,7 +49,7 @@ public class {{classname}}Test {
         MultipartFile {{paramName}} = null;
         {{/isFile}}
         {{/allParams}}
-    ResponseEntity<{{>returnTypes}}> response = api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}} {{#allParams}}{{^hasMore}},{{/hasMore}}{{/allParams}} accept);
+    ResponseEntity<{{>returnTypes}}> response = api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}} {{#allParams}}{{#-last}},{{/-last}}{{/allParams}} accept);
 
         // TODO: test validations
     }

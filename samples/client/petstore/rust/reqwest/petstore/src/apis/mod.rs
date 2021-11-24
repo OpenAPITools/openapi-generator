@@ -1,5 +1,5 @@
-use reqwest;
-use serde_json;
+use std::error;
+use std::fmt;
 
 #[derive(Debug, Clone)]
 pub struct ResponseContent<T> {
@@ -14,6 +14,29 @@ pub enum Error<T> {
     Serde(serde_json::Error),
     Io(std::io::Error),
     ResponseError(ResponseContent<T>),
+}
+
+impl <T> fmt::Display for Error<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let (module, e) = match self {
+            Error::Reqwest(e) => ("reqwest", e.to_string()),
+            Error::Serde(e) => ("serde", e.to_string()),
+            Error::Io(e) => ("IO", e.to_string()),
+            Error::ResponseError(e) => ("response", format!("status code {}", e.status)),
+        };
+        write!(f, "error in {}: {}", module, e)
+    }
+}
+
+impl <T: fmt::Debug> error::Error for Error<T> {
+    fn source(&self) -> Option<&(dyn error::Error + 'static)> {
+        Some(match self {
+            Error::Reqwest(e) => e,
+            Error::Serde(e) => e,
+            Error::Io(e) => e,
+            Error::ResponseError(_) => return None,
+        })
+    }
 }
 
 impl <T> From<reqwest::Error> for Error<T> {
@@ -42,5 +65,4 @@ pub mod pet_api;
 pub mod store_api;
 pub mod user_api;
 
-pub mod client;
 pub mod configuration;

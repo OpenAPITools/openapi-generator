@@ -53,7 +53,7 @@ function Remove-PSOrder {
         if (!$OrderId) {
             throw "Error! The required parameter `OrderId` missing when calling deleteOrder."
         }
-        $LocalVarUri = $LocalVarUri.replace('{orderId}', $OrderId)
+        $LocalVarUri = $LocalVarUri.replace('{orderId}', [System.Web.HTTPUtility]::UrlEncode($OrderId))
 
         $LocalVarResult = Invoke-PSApiClient -Method 'DELETE' `
                                 -Uri $LocalVarUri `
@@ -64,7 +64,8 @@ function Remove-PSOrder {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -131,7 +132,8 @@ function Get-PSInventory {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "System.Collections.Hashtable"
+                                -ReturnType "System.Collections.Hashtable" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -204,7 +206,7 @@ function Get-PSOrderById {
         if (!$OrderId) {
             throw "Error! The required parameter `OrderId` missing when calling getOrderById."
         }
-        $LocalVarUri = $LocalVarUri.replace('{orderId}', $OrderId)
+        $LocalVarUri = $LocalVarUri.replace('{orderId}', [System.Web.HTTPUtility]::UrlEncode($OrderId))
 
         $LocalVarResult = Invoke-PSApiClient -Method 'GET' `
                                 -Uri $LocalVarUri `
@@ -215,7 +217,8 @@ function Get-PSOrderById {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Order"
+                                -ReturnType "Order" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -293,7 +296,7 @@ function Invoke-PSPlaceOrder {
             throw "Error! The required parameter `Order` missing when calling placeOrder."
         }
 
-        $LocalVarBodyParameter = $Order | ConvertTo-Json
+        $LocalVarBodyParameter = $Order | ConvertTo-Json -Depth 100
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -304,7 +307,8 @@ function Invoke-PSPlaceOrder {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Order"
+                                -ReturnType "Order" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult

@@ -12,9 +12,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("OuterComposite")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class OuterComposite  implements Serializable {
   
   private @Valid BigDecimal myNumber;
@@ -37,9 +39,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return myNumber;
   }
 
+  @JsonProperty("my_number")
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
-  }/**
+  }
+
+/**
    **/
   public OuterComposite myString(String myString) {
     this.myString = myString;
@@ -55,9 +60,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return myString;
   }
 
+  @JsonProperty("my_string")
   public void setMyString(String myString) {
     this.myString = myString;
-  }/**
+  }
+
+/**
    **/
   public OuterComposite myBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
@@ -73,12 +81,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return myBoolean;
   }
 
+  @JsonProperty("my_boolean")
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -112,7 +122,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

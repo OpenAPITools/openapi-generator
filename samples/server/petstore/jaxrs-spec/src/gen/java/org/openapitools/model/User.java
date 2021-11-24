@@ -11,9 +11,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("User")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class User  implements Serializable {
   
   private @Valid Long id;
@@ -41,9 +43,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(Long id) {
     this.id = id;
-  }/**
+  }
+
+/**
    **/
   public User username(String username) {
     this.username = username;
@@ -59,9 +64,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return username;
   }
 
+  @JsonProperty("username")
   public void setUsername(String username) {
     this.username = username;
-  }/**
+  }
+
+/**
    **/
   public User firstName(String firstName) {
     this.firstName = firstName;
@@ -77,9 +85,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return firstName;
   }
 
+  @JsonProperty("firstName")
   public void setFirstName(String firstName) {
     this.firstName = firstName;
-  }/**
+  }
+
+/**
    **/
   public User lastName(String lastName) {
     this.lastName = lastName;
@@ -95,9 +106,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return lastName;
   }
 
+  @JsonProperty("lastName")
   public void setLastName(String lastName) {
     this.lastName = lastName;
-  }/**
+  }
+
+/**
    **/
   public User email(String email) {
     this.email = email;
@@ -113,9 +127,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return email;
   }
 
+  @JsonProperty("email")
   public void setEmail(String email) {
     this.email = email;
-  }/**
+  }
+
+/**
    **/
   public User password(String password) {
     this.password = password;
@@ -131,9 +148,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return password;
   }
 
+  @JsonProperty("password")
   public void setPassword(String password) {
     this.password = password;
-  }/**
+  }
+
+/**
    **/
   public User phone(String phone) {
     this.phone = phone;
@@ -149,9 +169,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return phone;
   }
 
+  @JsonProperty("phone")
   public void setPhone(String phone) {
     this.phone = phone;
-  }/**
+  }
+
+/**
    * User Status
    **/
   public User userStatus(Integer userStatus) {
@@ -168,12 +191,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return userStatus;
   }
 
+  @JsonProperty("userStatus")
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -217,7 +242,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

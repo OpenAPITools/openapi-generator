@@ -32,6 +32,7 @@ src/gen/java/org/openapitools/model/CatAllOf.java
 src/gen/java/org/openapitools/model/Category.java
 src/gen/java/org/openapitools/model/ClassModel.java
 src/gen/java/org/openapitools/model/Client.java
+src/gen/java/org/openapitools/model/DeprecatedObject.java
 src/gen/java/org/openapitools/model/Dog.java
 src/gen/java/org/openapitools/model/DogAllOf.java
 src/gen/java/org/openapitools/model/EnumArrays.java
@@ -42,12 +43,6 @@ src/gen/java/org/openapitools/model/Foo.java
 src/gen/java/org/openapitools/model/FormatTest.java
 src/gen/java/org/openapitools/model/HasOnlyReadOnly.java
 src/gen/java/org/openapitools/model/HealthCheckResult.java
-src/gen/java/org/openapitools/model/InlineObject.java
-src/gen/java/org/openapitools/model/InlineObject1.java
-src/gen/java/org/openapitools/model/InlineObject2.java
-src/gen/java/org/openapitools/model/InlineObject3.java
-src/gen/java/org/openapitools/model/InlineObject4.java
-src/gen/java/org/openapitools/model/InlineObject5.java
 src/gen/java/org/openapitools/model/InlineResponseDefault.java
 src/gen/java/org/openapitools/model/MapTest.java
 src/gen/java/org/openapitools/model/MixedPropertiesAndAdditionalPropertiesClass.java
@@ -57,12 +52,14 @@ src/gen/java/org/openapitools/model/ModelReturn.java
 src/gen/java/org/openapitools/model/Name.java
 src/gen/java/org/openapitools/model/NullableClass.java
 src/gen/java/org/openapitools/model/NumberOnly.java
+src/gen/java/org/openapitools/model/ObjectWithDeprecatedFields.java
 src/gen/java/org/openapitools/model/Order.java
 src/gen/java/org/openapitools/model/OuterComposite.java
 src/gen/java/org/openapitools/model/OuterEnum.java
 src/gen/java/org/openapitools/model/OuterEnumDefaultValue.java
 src/gen/java/org/openapitools/model/OuterEnumInteger.java
 src/gen/java/org/openapitools/model/OuterEnumIntegerDefaultValue.java
+src/gen/java/org/openapitools/model/OuterObjectWithEnumProperty.java
 src/gen/java/org/openapitools/model/Pet.java
 src/gen/java/org/openapitools/model/ReadOnlyFirst.java
 src/gen/java/org/openapitools/model/SpecialModelName.java

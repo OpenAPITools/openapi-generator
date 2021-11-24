@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -48,10 +49,12 @@ import java.util.HashSet;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -109,15 +112,30 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                     log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
             }
 
+            boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
+            JsonToken token = tree.traverse(jp.getCodec()).nextToken();
             // deserialize ComplexQuadrilateral
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(ComplexQuadrilateral.class);
-                // TODO: there is no validation against JSON schema constraints
-                // (min, max, enum, pattern...), this does not perform a strict JSON
-                // validation, which means the 'match' count may be higher than it should be.
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (ComplexQuadrilateral.class.equals(Integer.class) || ComplexQuadrilateral.class.equals(Long.class) || ComplexQuadrilateral.class.equals(Float.class) || ComplexQuadrilateral.class.equals(Double.class) || ComplexQuadrilateral.class.equals(Boolean.class) || ComplexQuadrilateral.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((ComplexQuadrilateral.class.equals(Integer.class) || ComplexQuadrilateral.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((ComplexQuadrilateral.class.equals(Float.class) || ComplexQuadrilateral.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (ComplexQuadrilateral.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (ComplexQuadrilateral.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ComplexQuadrilateral.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
+                }
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'ComplexQuadrilateral'", e);
@@ -125,12 +143,25 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
             // deserialize SimpleQuadrilateral
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(SimpleQuadrilateral.class);
-                // TODO: there is no validation against JSON schema constraints
-                // (min, max, enum, pattern...), this does not perform a strict JSON
-                // validation, which means the 'match' count may be higher than it should be.
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'SimpleQuadrilateral'");
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (SimpleQuadrilateral.class.equals(Integer.class) || SimpleQuadrilateral.class.equals(Long.class) || SimpleQuadrilateral.class.equals(Float.class) || SimpleQuadrilateral.class.equals(Double.class) || SimpleQuadrilateral.class.equals(Boolean.class) || SimpleQuadrilateral.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((SimpleQuadrilateral.class.equals(Integer.class) || SimpleQuadrilateral.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((SimpleQuadrilateral.class.equals(Float.class) || SimpleQuadrilateral.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (SimpleQuadrilateral.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (SimpleQuadrilateral.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(SimpleQuadrilateral.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'SimpleQuadrilateral'");
+                }
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'SimpleQuadrilateral'", e);
@@ -154,7 +185,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public Quadrilateral() {
         super("oneOf", Boolean.FALSE);
@@ -240,7 +271,8 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
     /**
      * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas.
+     * the instance parameter is valid against the oneOf child schemas:
+     * ComplexQuadrilateral, SimpleQuadrilateral
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -260,7 +292,38 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         throw new RuntimeException("Invalid instance type. Must be ComplexQuadrilateral, SimpleQuadrilateral");
     }
 
+    /**
+     * Get the actual instance, which can be the following:
+     * ComplexQuadrilateral, SimpleQuadrilateral
+     *
+     * @return The actual instance (ComplexQuadrilateral, SimpleQuadrilateral)
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
 
+    /**
+     * Get the actual instance of `ComplexQuadrilateral`. If the actual instance is not `ComplexQuadrilateral`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `ComplexQuadrilateral`
+     * @throws ClassCastException if the instance is not `ComplexQuadrilateral`
+     */
+    public ComplexQuadrilateral getComplexQuadrilateral() throws ClassCastException {
+        return (ComplexQuadrilateral)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `SimpleQuadrilateral`. If the actual instance is not `SimpleQuadrilateral`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `SimpleQuadrilateral`
+     * @throws ClassCastException if the instance is not `SimpleQuadrilateral`
+     */
+    public SimpleQuadrilateral getSimpleQuadrilateral() throws ClassCastException {
+        return (SimpleQuadrilateral)super.getActualInstance();
+    }
 
 }
 

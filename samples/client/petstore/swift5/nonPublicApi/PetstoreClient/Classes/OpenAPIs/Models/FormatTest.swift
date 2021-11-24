@@ -6,10 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-
-internal struct FormatTest: Codable { 
-
+internal struct FormatTest: Codable, Hashable {
 
     internal var integer: Int?
     internal var int32: Int?
@@ -25,7 +26,7 @@ internal struct FormatTest: Codable {
     internal var uuid: UUID?
     internal var password: String
 
-    internal init(integer: Int?, int32: Int?, int64: Int64?, number: Double, float: Float?, double: Double?, string: String?, byte: Data, binary: URL?, date: Date, dateTime: Date?, uuid: UUID?, password: String) {
+    internal init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: URL? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
         self.integer = integer
         self.int32 = int32
         self.int64 = int64
@@ -41,4 +42,39 @@ internal struct FormatTest: Codable {
         self.password = password
     }
 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case integer
+        case int32
+        case int64
+        case number
+        case float
+        case double
+        case string
+        case byte
+        case binary
+        case date
+        case dateTime
+        case uuid
+        case password
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(integer, forKey: .integer)
+        try container.encodeIfPresent(int32, forKey: .int32)
+        try container.encodeIfPresent(int64, forKey: .int64)
+        try container.encode(number, forKey: .number)
+        try container.encodeIfPresent(float, forKey: .float)
+        try container.encodeIfPresent(double, forKey: .double)
+        try container.encodeIfPresent(string, forKey: .string)
+        try container.encode(byte, forKey: .byte)
+        try container.encodeIfPresent(binary, forKey: .binary)
+        try container.encode(date, forKey: .date)
+        try container.encodeIfPresent(dateTime, forKey: .dateTime)
+        try container.encodeIfPresent(uuid, forKey: .uuid)
+        try container.encode(password, forKey: .password)
+    }
 }
+

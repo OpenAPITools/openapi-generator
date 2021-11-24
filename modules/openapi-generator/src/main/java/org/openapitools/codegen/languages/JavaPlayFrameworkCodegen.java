@@ -31,11 +31,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaPlayFrameworkCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaPlayFrameworkCodegen.class);
     public static final String TITLE = "title";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
@@ -44,6 +43,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public static final String HANDLE_EXCEPTIONS = "handleExceptions";
     public static final String WRAP_CALLS = "wrapCalls";
     public static final String USE_SWAGGER_UI = "useSwaggerUI";
+    public static final String SUPPORT_ASYNC = "supportAsync";
 
     protected String title = "openapi-java-playframework";
     protected String configPackage = "org.openapitools.configuration";
@@ -54,6 +54,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     protected boolean handleExceptions = true;
     protected boolean wrapCalls = true;
     protected boolean useSwaggerUI = true;
+    protected boolean supportAsync = false;
 
     public JavaPlayFrameworkCodegen() {
         super();
@@ -73,7 +74,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         projectTestFolder = projectFolder + "/test";
         testFolder = projectTestFolder;
 
-        // clioOptions default redifinition need to be updated
+        // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
@@ -81,7 +82,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         additionalProperties.put("java8", true);
-        additionalProperties.put("jackson", "true");
+        additionalProperties.put(JACKSON, "true");
 
         cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
         cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(getConfigPackage()));
@@ -94,6 +95,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         cliOptions.add(createBooleanCliWithDefault(HANDLE_EXCEPTIONS, "Add a 'throw exception' to each controller function. Add also a custom error handler where you can put your custom logic", handleExceptions));
         cliOptions.add(createBooleanCliWithDefault(WRAP_CALLS, "Add a wrapper to each controller function to handle things like metrics, response modification, etc..", wrapCalls));
         cliOptions.add(createBooleanCliWithDefault(USE_SWAGGER_UI, "Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies", useSwaggerUI));
+        cliOptions.add(createBooleanCliWithDefault(SUPPORT_ASYNC, "Support Async operations", supportAsync));
     }
 
     @Override
@@ -166,6 +168,11 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             this.setUseSwaggerUI(convertPropertyToBoolean(USE_SWAGGER_UI));
         }
         writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
+
+        if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
+            this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
+        }
+        writePropertyBack(SUPPORT_ASYNC, supportAsync);
 
         //We don't use annotation anymore
         importMapping.remove("ApiModelProperty");
@@ -287,6 +294,10 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         this.useSwaggerUI = useSwaggerUI;
     }
 
+    public void setSupportAsync(boolean supportAsync) {
+        this.supportAsync = supportAsync;
+    }
+
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
@@ -297,13 +308,13 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
                 for (CodegenParameter param : operation.allParams) {
                     if (param.isFormParam && param.isFile) {
-                        param.dataType = "Http.MultipartFormData.FilePart";
+                        param.dataType = "Http.MultipartFormData.FilePart<TemporaryFile>";
                     }
                 }
 
                 for (CodegenParameter param : operation.formParams) {
                     if (param.isFile) {
-                        param.dataType = "Http.MultipartFormData.FilePart";
+                        param.dataType = "Http.MultipartFormData.FilePart<TemporaryFile>";
                     }
                 }
 

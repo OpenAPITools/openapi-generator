@@ -8,7 +8,7 @@ This server has been generated with [Slim PSR-7](https://github.com/slimphp/Slim
 ## Requirements
 
 * Web server with URL rewriting
-* PHP 7.2 or newer
+* PHP 7.3 or newer
 
 This package contains `.htaccess` for Apache configuration.
 If you use another server(Nginx, HHVM, IIS, lighttpd) check out [Web Servers](https://www.slimframework.com/docs/v3/start/web-servers.html) doc.
@@ -21,11 +21,15 @@ This command downloads the Slim Framework and its third-party dependencies into 
 $ composer install
 ```
 
+## Add configs
+
+Application requires at least one config file(`config/dev/config.inc.php` or `config/prod/config.inc.php`). You can use [config/dev/example.inc.php](config/dev/example.inc.php) as starting point.
+
 ## Start devserver
 
-Run the following command in terminal to start localhost web server, assuming `./php-slim-server/` is public-accessible directory with `index.php` file:
+Run the following command in terminal to start localhost web server, assuming `./php-slim-server/public/` is public-accessible directory with `index.php` file:
 ```bash
-$ php -S localhost:8888 -t php-slim-server
+$ php -S localhost:8888 -t php-slim-server/public
 ```
 > **Warning** This web server was designed to aid application development.
 > It may also be useful for testing purposes or for application demonstrations that are run in controlled environments.
@@ -36,7 +40,7 @@ $ php -S localhost:8888 -t php-slim-server
 ### PHPUnit
 
 This package uses PHPUnit 8 or 9(depends from your PHP version) for unit testing.
-[Test folder](test) contains templates which you can fill with real test assertions.
+[Test folder](tests) contains templates which you can fill with real test assertions.
 How to write tests read at [2. Writing Tests for PHPUnit - PHPUnit 8.5 Manual](https://phpunit.readthedocs.io/en/8.5/writing-tests-for-phpunit.html).
 
 #### Run
@@ -82,25 +86,19 @@ $ composer phplint
 
 ## Show errors
 
-Switch on option in `./index.php`:
+Switch on option in your application config file like:
 ```diff
-/**
- * Add Error Handling Middleware
- *
- * @param bool $displayErrorDetails -> Should be set to false in production
- * @param bool $logErrors -> Parameter is passed to the default ErrorHandler
- * @param bool $logErrorDetails -> Display error details in error log
- * which can be replaced by a callable of your choice.
-
- * Note: This middleware should be added last. It will not handle any exceptions/errors
- * for middleware added after it.
- */
---- $app->addErrorMiddleware(false, true, true);
-+++ $app->addErrorMiddleware(true, true, true);
+ return [
+     'slimSettings' => [
+-        'displayErrorDetails' => false,
++        'displayErrorDetails' => true,
+         'logErrors' => true,
+         'logErrorDetails' => true,
+     ],
 ```
 
 ## Mock Server
-For a quick start uncomment [mocker middleware config](index.php#L62-L89).
+For a quick start uncomment [mocker middleware options](config/dev/example.inc.php#L67-L94) in your application config file.
 
 Used packages:
 * [Openapi Data Mocker](https://github.com/ybelenko/openapi-data-mocker) - first implementation of OAS3 fake data generator.
@@ -161,8 +159,6 @@ Class | Method | HTTP request | Description
 
 * OpenAPIServer\Model\ApiResponse
 * OpenAPIServer\Model\Category
-* OpenAPIServer\Model\InlineObject
-* OpenAPIServer\Model\InlineObject1
 * OpenAPIServer\Model\Order
 * OpenAPIServer\Model\Pet
 * OpenAPIServer\Model\Tag

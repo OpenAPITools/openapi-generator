@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  title: test api
+  version: 0.0.1
+paths:
+  /imports:
+    post:
+      summary: Creates import
+      operationId: createImport
+      responses:
+        201:
+          description: created
+      security:
+        - oauth_auth:
+            - import:create
+  /imports/{importId}/state:
+    put:
+      summary: Changes import state
+      operationId: changeImportState
+      parameters:
+        - name: importId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: State changed
+      security:
+        - oauth_auth:
+            - import:process
+components:
+  securitySchemes:
+    oauth_auth:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: "../auth/realms/master/protocol/openid-connect/token"
+          scopes:
+            import:create: create import
+        clientCredentials:
+          tokenUrl: "../auth/realms/master/protocol/openid-connect/token"
+          scopes:
+            import:create: create import
+            import:process: process import

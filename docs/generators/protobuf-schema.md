@@ -3,8 +3,12 @@ title: Config Options for protobuf-schema
 sidebar_label: protobuf-schema
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|numberedFieldNumberList|Field numbers in order.| |false|
+|startEnumsWithUnknown|Introduces &quot;UNKNOWN&quot; as the first element of enumerations.| |false|
 
 ## IMPORT MAPPING
 
@@ -55,6 +59,7 @@ sidebar_label: protobuf-schema
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,18 +10,25 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
 
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
 public class BigCat extends Cat  {
   /**
    * Gets or Sets kind
    */
-  public enum KindEnum {
+  @com.fasterxml.jackson.annotation.JsonFormat
+public enum KindEnum {
     LIONS("lions"),
     
     TIGERS("tigers"),
@@ -82,7 +90,7 @@ public class BigCat extends Cat  {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -113,7 +121,7 @@ public class BigCat extends Cat  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

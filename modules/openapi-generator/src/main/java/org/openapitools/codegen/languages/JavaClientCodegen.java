@@ -34,12 +34,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
@@ -47,7 +47,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     static final String MEDIA_TYPE = "mediaType";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";
@@ -55,19 +55,24 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String DO_NOT_USE_RX = "doNotUseRx";
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String PLAY_VERSION = "playVersion";
-    public static final String FEIGN_VERSION = "feignVersion";
     public static final String ASYNC_NATIVE = "asyncNative";
+    public static final String CONFIG_KEY = "configKey";
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
+    public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
+    public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
+    public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
+    public static final String SUPPORT_STREAMING = "supportStreaming";
+    public static final String GRADLE_PROPERTIES= "gradleProperties";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
     public static final String PLAY_26 = "play26";
 
-    public static final String FEIGN_9 = "9.x";
-    public static final String FEIGN_10 = "10.x";
+    public static final String MICROPROFILE_DEFAULT = "default";
+    public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
 
     public static final String FEIGN = "feign";
     public static final String GOOGLE_API_CLIENT = "google-api-client";
@@ -82,9 +87,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String RETROFIT_2 = "retrofit2";
     public static final String VERTX = "vertx";
     public static final String MICROPROFILE = "microprofile";
+    public static final String APACHE = "apache-httpclient";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
+    public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
@@ -95,7 +102,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean doNotUseRx = true;
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_26;
-    protected String feignVersion = FEIGN_10;
+    protected String microprofileFramework = MICROPROFILE_DEFAULT;
+    protected String configKey = null;
+
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
@@ -104,6 +113,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useRuntimeException = false;
     protected boolean useReflectionEqualsHashCode = false;
     protected boolean caseInsensitiveResponseHeaders = false;
+    protected boolean useAbstractionForFiles = false;
+    protected boolean dynamicOperations = false;
+    protected boolean supportStreaming = false;
+    protected String gradleProperties;
     protected String authFolder;
     protected String serializationLibrary = null;
 
@@ -137,19 +150,23 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
         cliOptions.add(CliOption.newBoolean(USE_PLAY_WS, "Use Play! Async HTTP client (Play WS API)"));
         cliOptions.add(CliOption.newString(PLAY_VERSION, "Version of Play! Framework (possible values \"play24\" (Deprecated), \"play25\" (Deprecated), \"play26\" (Default))"));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1 library. This option has been deprecated and will be removed in the 5.x release"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
         cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
         cliOptions.add(CliOption.newBoolean(ASYNC_NATIVE, "If true, async handlers will be used, instead of the sync version"));
-        cliOptions.add(CliOption.newBoolean(FEIGN_VERSION, "Version of OpenFeign: '10.x' (default), '9.x' (deprecated)"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
+        cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
+        cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, libraries"));
+        cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
+        cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle proeprties to the gradle.properties file"));
+        cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
 
-        supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
+        supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 9.x (deprecated) or 10.x (default). JSON processing: Jackson 2.9.x.");
+        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x.");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x");
@@ -159,7 +176,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8");
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
-        supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client 1.x. JSON processing: Jackson 2.9.x");
+        supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client 1.x. JSON processing: JSON-B");
+        supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 4.x");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -168,10 +186,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(libraryOption);
         setLibrary(OKHTTP_GSON);
 
-        CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library, default depends from the library");
+        CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library, default depends on value of the option library");
         Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_GSON, "Use Gson as serialization library");
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
+        serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
 
@@ -212,32 +231,31 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (MICROPROFILE.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) {
             dateLibrary = "legacy";
         }
-
         super.processOpts();
 
         // RxJava
-        if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)){
+        if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)) {
             LOGGER.warn("You specified all RxJava versions 1, 2 and 3 but they are mutually exclusive. Defaulting to v3.");
-            this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
-        }else {
-            if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)){
+            this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
+        } else {
+            if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)) {
                 LOGGER.warn("You specified both RxJava versions 1 and 2 but they are mutually exclusive. Defaulting to v2.");
-                this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
-            }else if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA3)) {
+                this.setUseRxJava2(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA2).toString()));
+            } else if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA3)) {
                 LOGGER.warn("You specified both RxJava versions 1 and 3 but they are mutually exclusive. Defaulting to v3.");
-                this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
-            }else if(additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)){
+                this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
+            } else if (additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)) {
                 LOGGER.warn("You specified both RxJava versions 2 and 3 but they are mutually exclusive. Defaulting to v3.");
-                this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
-            }else{
-                if(additionalProperties.containsKey(USE_RX_JAVA)){
-                    this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
+                this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
+            } else {
+                if (additionalProperties.containsKey(USE_RX_JAVA)) {
+                    this.setUseRxJava(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA).toString()));
                 }
-                if(additionalProperties.containsKey(USE_RX_JAVA2)){
-                    this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+                if (additionalProperties.containsKey(USE_RX_JAVA2)) {
+                    this.setUseRxJava2(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA2).toString()));
                 }
-                if(additionalProperties.containsKey(USE_RX_JAVA3)){
-                    this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+                if (additionalProperties.containsKey(USE_RX_JAVA3)) {
+                    this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
                 }
             }
         }
@@ -248,7 +266,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         // Java Play
         if (additionalProperties.containsKey(USE_PLAY_WS)) {
-            this.setUsePlayWS(Boolean.valueOf(additionalProperties.get(USE_PLAY_WS).toString()));
+            this.setUsePlayWS(Boolean.parseBoolean(additionalProperties.get(USE_PLAY_WS).toString()));
         }
         additionalProperties.put(USE_PLAY_WS, usePlayWS);
 
@@ -257,18 +275,25 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(PLAY_VERSION, playVersion);
 
-        // default to feign 10.x
-        if (additionalProperties.containsKey(FEIGN_VERSION)) {
-            once(LOGGER).warn("feignVersion has been deprecated. 10.x is the default.");
+        // Microprofile framework
+        if (additionalProperties.containsKey(MICROPROFILE_FRAMEWORK)) {
+            if (!MICROPROFILE_KUMULUZEE.equals(microprofileFramework)) {
+                throw new RuntimeException("Invalid microprofileFramework '" + microprofileFramework + "'. Must be 'kumuluzee' or none.");
+            }
+            this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
         }
-        additionalProperties.put(FEIGN_VERSION, feignVersion);
+        additionalProperties.put(MICROPROFILE_FRAMEWORK, microprofileFramework);
+
+        if (additionalProperties.containsKey(CONFIG_KEY)) {
+            this.setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
+        }
 
         if (additionalProperties.containsKey(ASYNC_NATIVE)) {
             this.setAsyncNative(convertPropertyToBooleanAndWriteBack(ASYNC_NATIVE));
         }
 
         if (additionalProperties.containsKey(PARCELABLE_MODEL)) {
-            this.setParcelableModel(Boolean.valueOf(additionalProperties.get(PARCELABLE_MODEL).toString()));
+            this.setParcelableModel(Boolean.parseBoolean(additionalProperties.get(PARCELABLE_MODEL).toString()));
         }
         // put the boolean value back to PARCELABLE_MODEL in additionalProperties
         additionalProperties.put(PARCELABLE_MODEL, parcelableModel);
@@ -297,8 +322,28 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setUseReflectionEqualsHashCode(convertPropertyToBooleanAndWriteBack(CASE_INSENSITIVE_RESPONSE_HEADERS));
         }
 
+        if (additionalProperties.containsKey(USE_ABSTRACTION_FOR_FILES)) {
+            this.setUseAbstractionForFiles(convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES));
+        }
+
+        if (additionalProperties.containsKey(DYNAMIC_OPERATIONS)) {
+            this.setDynamicOperations(Boolean.parseBoolean(additionalProperties.get(DYNAMIC_OPERATIONS).toString()));
+        }
+        additionalProperties.put(DYNAMIC_OPERATIONS, dynamicOperations);
+
+        if (additionalProperties.containsKey(SUPPORT_STREAMING)) {
+            this.setSupportStreaming(Boolean.parseBoolean(additionalProperties.get(SUPPORT_STREAMING).toString()));
+        }
+        additionalProperties.put(SUPPORT_STREAMING, supportStreaming);
+
+        if (additionalProperties.containsKey(GRADLE_PROPERTIES)) {
+            this.setGradleProperties(additionalProperties.get(GRADLE_PROPERTIES).toString());
+        }
+        additionalProperties.put(GRADLE_PROPERTIES, gradleProperties);
+
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
+        final String modelsFolder = (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
         authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
 
         //Common files
@@ -313,15 +358,24 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", invokerFolder, "ServerConfiguration.java"));
         supportingFiles.add(new SupportingFile("ServerVariable.mustache", invokerFolder, "ServerVariable.java"));
-        supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+        if (dynamicOperations) {
+            supportingFiles.add(new SupportingFile("openapi.mustache", projectFolder + "/resources/openapi", "openapi.yaml"));
+            supportingFiles.add(new SupportingFile("apiOperation.mustache", invokerFolder, "ApiOperation.java"));
+        } else {
+            supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+        }
 
+        // helper for client library that allow to parse/format java.time.OffsetDateTime or org.threeten.bp.OffsetDateTime
+        if (additionalProperties.containsKey("jsr310") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY1) || isLibrary(JERSEY2) || isLibrary(APACHE))) {
+            supportingFiles.add(new SupportingFile("JavaTimeFormatter.mustache", invokerFolder, "JavaTimeFormatter.java"));
+        }
 
-        if (!(RESTTEMPLATE.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
+        if (!(RESTTEMPLATE.equals(getLibrary()) || isLibrary(REST_ASSURED) || isLibrary(NATIVE) || isLibrary(MICROPROFILE))) {
             supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
         }
 
         // google-api-client doesn't use the OpenAPI auth, because it uses Google Credential directly (HttpRequestInitializer)
-        if (!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
+        if (!(isLibrary(GOOGLE_API_CLIENT) || isLibrary(REST_ASSURED) || isLibrary(NATIVE) || isLibrary(MICROPROFILE))) {
             supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
             supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.mustache", authFolder, "HttpBearerAuth.java"));
             supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
@@ -349,6 +403,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (FEIGN.equals(getLibrary())) {
             modelDocTemplateFiles.remove("model_doc.mustache");
             apiDocTemplateFiles.remove("api_doc.mustache");
+            //Templates to decode response headers
+            supportingFiles.add(new SupportingFile("model/ApiResponse.mustache", modelsFolder, "ApiResponse.java"));
+            supportingFiles.add(new SupportingFile("ApiResponseDecoder.mustache", invokerFolder, "ApiResponseDecoder.java"));
         }
 
         if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || RETROFIT_2.equals(getLibrary()) || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || WEBCLIENT.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
@@ -365,6 +422,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             supportingFiles.add(new SupportingFile("ParamExpander.mustache", invokerFolder, "ParamExpander.java"));
             supportingFiles.add(new SupportingFile("EncodingUtils.mustache", invokerFolder, "EncodingUtils.java"));
+            supportingFiles.add(new SupportingFile("auth/DefaultApi20Impl.mustache", authFolder, "DefaultApi20Impl.java"));
         } else if (OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
@@ -386,12 +444,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             }
         } else if (JERSEY2.equals(getLibrary())) {
+            additionalProperties.put("jersey2", true);
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
                 supportingFiles.add(new SupportingFile("auth/HttpSignatureAuth.mustache", authFolder, "HttpSignatureAuth.java"));
             }
-            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiSchema.java"));
+            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
 
             // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
@@ -402,13 +461,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportsAdditionalPropertiesWithComposedSchema = true;
 
         } else if (NATIVE.equals(getLibrary())) {
-            setJava8Mode(true);
-            additionalProperties.put("java8", "true");
-            if (!asyncNative) {
-                supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
-            }
+            setJava8ModeAndAdditionalProperties(true);
+            supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
+            supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
+            supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (RESTEASY.equals(getLibrary())) {
+            setJava8ModeAndAdditionalProperties(true);
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (JERSEY1.equals(getLibrary())) {
@@ -417,14 +476,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         } else if (WEBCLIENT.equals(getLibrary())) {
-            setJava8Mode(true);
-            additionalProperties.put("java8", "true");
+            setJava8ModeAndAdditionalProperties(true);
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (VERTX.equals(getLibrary())) {
             typeMapping.put("file", "AsyncFile");
             importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");
-            setJava8Mode(true);
-            additionalProperties.put("java8", "true");
+            setJava8ModeAndAdditionalProperties(true);
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
             apiTemplateFiles.put("rxApiImpl.mustache", ".java");
@@ -434,7 +491,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         } else if (REST_ASSURED.equals(getLibrary())) {
             if (getSerializationLibrary() == null) {
-                LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
+                LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_GSON);
                 setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
             }
             if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
@@ -455,8 +512,17 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
             serializationLibrary = "none";
+
+            if (microprofileFramework.equals(MICROPROFILE_KUMULUZEE)) {
+                supportingFiles.add(new SupportingFile("kumuluzee.pom.mustache", "", "pom.xml"));
+                supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
+                supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
+            }
+        } else if (APACHE.equals(getLibrary())) {
+            setJava8ModeAndAdditionalProperties(true);
+            forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else {
-            LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
+            LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
 
         if (usePlayWS) {
@@ -464,7 +530,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             Iterator<SupportingFile> iter = supportingFiles.iterator();
             while (iter.hasNext()) {
                 SupportingFile sf = iter.next();
-                if (sf.templateFile.startsWith("auth/")) {
+                if (sf.getTemplateFile().startsWith("auth/")) {
                     iter.remove();
                 }
             }
@@ -491,7 +557,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("play25/Play25CallFactory.mustache", invokerFolder, "Play25CallFactory.java"));
                 supportingFiles.add(new SupportingFile("play25/Play25CallAdapterFactory.mustache", invokerFolder,
                         "Play25CallAdapterFactory.java"));
-                additionalProperties.put("java8", "true");
+                setJava8ModeAndAdditionalProperties(true);
             }
 
             if (PLAY_26.equals(playVersion)) {
@@ -502,7 +568,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("play26/Play26CallFactory.mustache", invokerFolder, "Play26CallFactory.java"));
                 supportingFiles.add(new SupportingFile("play26/Play26CallAdapterFactory.mustache", invokerFolder,
                         "Play26CallAdapterFactory.java"));
-                additionalProperties.put("java8", "true");
+                setJava8ModeAndAdditionalProperties(true);
             }
 
             supportingFiles.add(new SupportingFile("play-common/auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
@@ -513,24 +579,36 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         if (getSerializationLibrary() == null) {
-            LOGGER.info("No serializationLibrary configured, using '" + SERIALIZATION_LIBRARY_GSON + "' as fallback");
+            LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_GSON);
             setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
         }
-        if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
-            additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
-            additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
-            if (!NATIVE.equals(getLibrary())) {
+        switch (getSerializationLibrary()) {
+            case SERIALIZATION_LIBRARY_JACKSON:
+                additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
+                additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
-                if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
-                    supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
+                if (!NATIVE.equals(getLibrary())) {
+                    if ("threetenbp".equals(dateLibrary) && !usePlayWS) {
+                        supportingFiles.add(new SupportingFile("CustomInstantDeserializer.mustache", invokerFolder, "CustomInstantDeserializer.java"));
+                    }
                 }
-            }
-        } else if (SERIALIZATION_LIBRARY_GSON.equals(getSerializationLibrary())) {
-            additionalProperties.put(SERIALIZATION_LIBRARY_GSON, "true");
-            additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
-        } else {
-            additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
-            additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                break;
+            case SERIALIZATION_LIBRARY_GSON:
+                additionalProperties.put(SERIALIZATION_LIBRARY_GSON, "true");
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
+                break;
+            case SERIALIZATION_LIBRARY_JSONB:
+                additionalProperties.put(SERIALIZATION_LIBRARY_JSONB, "true");
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                break;
+            default:
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
+                additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
+                break;
         }
 
         // authentication related files
@@ -547,6 +625,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
                 supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
                 supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
+            }
+
+            // Add OauthPasswordGrant.java and OauthClientCredentialsGrant.java for feign library
+            if (FEIGN.equals(getLibrary())) {
+                supportingFiles.add(new SupportingFile("auth/OauthPasswordGrant.mustache", authFolder, "OauthPasswordGrant.java"));
+                supportingFiles.add(new SupportingFile("auth/OauthClientCredentialsGrant.mustache", authFolder, "OauthClientCredentialsGrant.java"));
+                supportingFiles.add(new SupportingFile("auth/ApiErrorDecoder.mustache", authFolder, "ApiErrorDecoder.java"));
             }
         }
     }
@@ -588,11 +673,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                                 return 0;
                             }
                         });
-                        Iterator<CodegenParameter> iterator = operation.allParams.iterator();
-                        while (iterator.hasNext()) {
-                            CodegenParameter param = iterator.next();
-                            param.hasMore = iterator.hasNext();
-                        }
                     }
                 }
             }
@@ -603,8 +683,18 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (FEIGN.equals(getLibrary())) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+            Pattern methodPattern = Pattern.compile("^(.*):([^:]*)$");
             for (CodegenOperation op : operationList) {
                 String path = op.path;
+                String method = "";
+
+                // if a custom method is found at the end of the path, cut it off for later
+                Matcher m = methodPattern.matcher(path);
+                if (m.find()) {
+                    path = m.group(1);
+                    method = m.group(2);
+                }
+
                 String[] items = path.split("/", -1);
 
                 for (int i = 0; i < items.length; ++i) {
@@ -614,6 +704,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     }
                 }
                 op.path = StringUtils.join(items, "/");
+                // Replace the custom method on the path if one was found earlier
+                if (!method.isEmpty()) {
+                    op.path += ":" + method;
+                }
             }
         }
 
@@ -662,15 +756,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 jsonMimeTypes.add(consume);
             } else
                 prioritizedContentTypes.add(consume);
-
-            consume.put("hasMore", "true");
         }
 
         prioritizedContentTypes.addAll(0, jsonMimeTypes);
         prioritizedContentTypes.addAll(0, jsonVendorMimeTypes);
-
-        prioritizedContentTypes.get(prioritizedContentTypes.size() - 1).put("hasMore", null);
-
         return prioritizedContentTypes;
     }
 
@@ -694,6 +783,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonProperty");
                 model.imports.add("JsonValue");
                 model.imports.add("JsonInclude");
+                model.imports.add("JsonTypeName");
             }
             if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_GSON)) {
                 model.imports.add("SerializedName");
@@ -715,6 +805,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             model.imports.remove("ApiModel");
             model.imports.remove("JsonSerialize");
             model.imports.remove("ToStringSerializer");
+        }
+
+        if ("set".equals(property.containerType) && !JACKSON.equals(serializationLibrary)) {
+            // clean-up
+            model.imports.remove("JsonDeserialize");
+            property.vendorExtensions.remove("x-setter-extra-annotation");
         }
     }
 
@@ -764,18 +860,46 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 Map<String, Object> mo = (Map<String, Object>) _mo;
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 boolean addImports = false;
+
                 for (CodegenProperty var : cm.vars) {
-                    boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
-                    // only add JsonNullable and related imports to optional and nullable values
-                    addImports |= isOptionalNullable;
-                    var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                    if (this.openApiNullable) {
+                        boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
+                        // only add JsonNullable and related imports to optional and nullable values
+                        addImports |= isOptionalNullable;
+                        var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                    }
+
+                    if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
+                        // treat enum string as just string
+                        var.datatypeWithEnum = var.dataType;
+
+                        if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
+                            String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
+                            for (Map<String, Object> enumVars : (List<Map<String, Object>>) var.getAllowableValues().get("enumVars")) {
+                                if (defaultValue.equals(enumVars.get("name"))) {
+                                    // update default to use the string directly instead of enum string
+                                    var.defaultValue = (String) enumVars.get("value");
+                                }
+                            }
+                        }
+
+                        // add import for Set, HashSet
+                        cm.imports.add("Set");
+                        Map<String, String> importsSet = new HashMap<String, String>();
+                        importsSet.put("import", "java.util.Set");
+                        imports.add(importsSet);
+                        Map<String, String> importsHashSet = new HashMap<String, String>();
+                        importsHashSet.put("import", "java.util.HashSet");
+                        imports.add(importsHashSet);
+                    }
+
                 }
+
                 if (addImports) {
-                    Map<String, String> imports2Classnames = new HashMap<String, String>() {{
-                        put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
-                        put("NoSuchElementException", "java.util.NoSuchElementException");
-                        put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
-                    }};
+                    Map<String, String> imports2Classnames = new HashMap<>();
+                    imports2Classnames.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
+                    imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
+                    imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
                     for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
                         cm.imports.add(entry.getKey());
                         Map<String, String> importsItem = new HashMap<String, String>();
@@ -792,7 +916,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             CodegenModel cm = (CodegenModel) mo.get("model");
 
             cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
-            if (JERSEY2.equals(getLibrary())) {
+            if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary())) {
                 cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
 
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
@@ -827,7 +951,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.useRxJava2 = useRxJava2;
         doNotUseRx = false;
     }
-    
+
     public void setUseRxJava3(boolean useRxJava3) {
         this.useRxJava3 = useRxJava3;
         doNotUseRx = false;
@@ -845,12 +969,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.playVersion = playVersion;
     }
 
-    public void setFeignVersion(String feignVersion) {
-        this.feignVersion = feignVersion;
-    }
-
     public void setAsyncNative(boolean asyncNative) {
         this.asyncNative = asyncNative;
+    }
+
+    public void setMicroprofileFramework(String microprofileFramework) {
+        this.microprofileFramework = microprofileFramework;
+    }
+
+    public void setConfigKey(String configKey) {
+        this.configKey = configKey;
     }
 
     public void setParcelableModel(boolean parcelableModel) {
@@ -881,6 +1009,22 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
 
+    public void setUseAbstractionForFiles(boolean useAbstractionForFiles) {
+        this.useAbstractionForFiles = useAbstractionForFiles;
+    }
+
+    public void setDynamicOperations(final boolean dynamicOperations) {
+        this.dynamicOperations = dynamicOperations;
+    }
+
+    public void setSupportStreaming(final boolean supportStreaming) {
+        this.supportStreaming = supportStreaming;
+    }
+
+    public void setGradleProperties(final String gradleProperties) {
+        this.gradleProperties= gradleProperties;
+    }
+
     /**
      * Serialization library.
      *
@@ -895,6 +1039,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
         } else if (SERIALIZATION_LIBRARY_GSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_GSON;
+        } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
         } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }
@@ -902,33 +1048,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void forceSerializationLibrary(String serializationLibrary) {
         if ((this.serializationLibrary != null) && !this.serializationLibrary.equalsIgnoreCase(serializationLibrary)) {
-            LOGGER.warn("The configured serializationLibrary '" + this.serializationLibrary + "', is not supported by the library: '" + getLibrary() + "', switching back to: " + serializationLibrary);
+            LOGGER.warn(
+                    "The configured serializationLibrary '{}', is not supported by the library: '{}', switching back to: {}",
+                    this.serializationLibrary, getLibrary(), serializationLibrary);
         }
         setSerializationLibrary(serializationLibrary);
-    }
-
-    final private static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
-    final private static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application\\/vnd.(.*)+json(;.*)?");
-
-    /**
-     * Check if the given MIME is a JSON MIME.
-     * JSON MIME examples:
-     * application/json
-     * application/json; charset=UTF8
-     * APPLICATION/JSON
-     */
-    static boolean isJsonMimeType(String mime) {
-        return mime != null && (JSON_MIME_PATTERN.matcher(mime).matches());
-    }
-
-    /**
-     * Check if the given MIME is a JSON Vendor MIME.
-     * JSON MIME examples:
-     * application/vnd.mycompany+json
-     * application/vnd.mycompany.resourceA.version1+json
-     */
-    static boolean isJsonVendorMimeType(String mime) {
-        return mime != null && JSON_VENDOR_MIME_PATTERN.matcher(mime).matches();
     }
 
     @Override
@@ -949,9 +1073,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
         for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
-            Map<String, String> oneImport = new HashMap<String, String>() {{
-                put("import", importMapping.get(i));
-            }};
+            Map<String, String> oneImport = new HashMap<>();
+            oneImport.put("import", importMapping.get(i));
             if (!imports.contains(oneImport)) {
                 imports.add(oneImport);
             }

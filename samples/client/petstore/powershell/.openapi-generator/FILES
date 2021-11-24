@@ -3,8 +3,6 @@ README.md
 appveyor.yml
 docs/ApiResponse.md
 docs/Category.md
-docs/InlineObject.md
-docs/InlineObject1.md
 docs/Order.md
 docs/PSPetApi.md
 docs/PSStoreApi.md
@@ -18,8 +16,6 @@ src/PSPetstore/Api/PSUserApi.ps1
 src/PSPetstore/Client/PSConfiguration.ps1
 src/PSPetstore/Model/ApiResponse.ps1
 src/PSPetstore/Model/Category.ps1
-src/PSPetstore/Model/InlineObject.ps1
-src/PSPetstore/Model/InlineObject1.ps1
 src/PSPetstore/Model/Order.ps1
 src/PSPetstore/Model/Pet.ps1
 src/PSPetstore/Model/Tag.ps1

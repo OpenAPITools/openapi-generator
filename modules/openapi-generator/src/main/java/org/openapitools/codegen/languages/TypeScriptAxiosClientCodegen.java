@@ -20,11 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
@@ -59,6 +55,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITHOUT_PREFIX_ENUMS, "Don't prefix enum names with class names", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        // Templates have no mapping between formatted property names and original base names so use only "original" and remove this option
+        removeOption(CodegenConstants.MODEL_PROPERTY_NAMING);
     }
 
     @Override
@@ -108,6 +106,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("baseApi.mustache", "", "base.ts"));
+        supportingFiles.add(new SupportingFile("common.mustache", "", "common.ts"));
         supportingFiles.add(new SupportingFile("api.mustache", "", "api.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -144,8 +143,18 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         operations.stream()
                 .filter(op -> op.hasConsumes)
                 .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
-                .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
+                .forEach(op -> {
+                    op.vendorExtensions.putIfAbsent("multipartFormData", true);
+                });
         return objs;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        if (parameter.isFormParam && parameter.isArray && "binary".equals(parameter.dataFormat)) {
+            parameter.isCollectionFormatMulti = true;
+        }
     }
 
     @Override
@@ -250,4 +259,19 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
     }
 
+    @Override
+    protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
+        // The 'null' value is allowed when the OAS schema is 'any type'.
+        // See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        // custom line here, do not set property.isNullable = true
+        if (languageSpecificPrimitives.contains(property.dataType)) {
+            property.isPrimitiveType = true;
+        }
+        if (ModelUtils.isMapSchema(p)) {
+            // an object or anyType composed schema that has additionalProperties set
+            // some of our code assumes that any type schema with properties defined will be a map
+            // even though it should allow in any type and have map constraints for properties
+            updatePropertyForMap(property, p);
+        }
+    }
 }

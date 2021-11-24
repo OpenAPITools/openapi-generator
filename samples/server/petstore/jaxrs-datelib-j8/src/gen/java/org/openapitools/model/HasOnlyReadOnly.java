@@ -49,7 +49,7 @@ public class HasOnlyReadOnly  implements Serializable {
    * Get bar
    * @return bar
    **/
-  @JsonProperty("bar")
+  @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public String getBar() {
@@ -69,7 +69,7 @@ public class HasOnlyReadOnly  implements Serializable {
    * Get foo
    * @return foo
    **/
-  @JsonProperty("foo")
+  @JsonProperty(value = "foo", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public String getFoo() {
@@ -82,7 +82,7 @@ public class HasOnlyReadOnly  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -115,7 +115,7 @@ public class HasOnlyReadOnly  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

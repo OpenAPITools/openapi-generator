@@ -16,13 +16,10 @@ Describes the result of uploading an image resource
 
 .PARAMETER Code
 No description available.
-
 .PARAMETER Type
 No description available.
-
 .PARAMETER Message
 No description available.
-
 .OUTPUTS
 
 ApiResponse<PSCustomObject>
@@ -46,11 +43,13 @@ function Initialize-PSApiResponse {
         'Creating PSCustomObject: PSPetstore => PSApiResponse' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
+
         $PSO = [PSCustomObject]@{
             "code" = ${Code}
             "type" = ${Type}
             "message" = ${Message}
         }
+
 
         return $PSO
     }

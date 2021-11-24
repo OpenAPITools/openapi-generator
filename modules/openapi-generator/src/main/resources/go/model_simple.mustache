@@ -1,0 +1,419 @@
+// {{classname}} {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
+type {{classname}} struct {
+{{#parent}}
+{{^isMap}}
+{{^isArray}}
+	{{{parent}}}
+{{/isArray}}
+{{/isMap}}
+{{#isArray}}
+	Items {{{parent}}}
+{{/isArray}}
+{{/parent}}
+{{#vars}}
+{{^-first}}
+{{/-first}}
+{{#description}}
+	// {{{.}}}
+{{/description}}
+{{#deprecated}}
+	// Deprecated
+{{/deprecated}}
+	{{name}} {{^required}}{{^isNullable}}*{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+{{/vars}}
+{{#isAdditionalPropertiesTrue}}
+	AdditionalProperties map[string]interface{}
+{{/isAdditionalPropertiesTrue}}
+}
+
+{{#isAdditionalPropertiesTrue}}
+type _{{{classname}}} {{{classname}}}
+
+{{/isAdditionalPropertiesTrue}}
+// New{{classname}} instantiates a new {{classname}} object
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed
+func New{{classname}}({{#requiredVars}}{{nameInCamelCase}} {{dataType}}{{^-last}}, {{/-last}}{{/requiredVars}}) *{{classname}} {
+	this := {{classname}}{}
+{{#allVars}}
+{{#required}}
+	this.{{name}} = {{nameInCamelCase}}
+{{/required}}
+{{^required}}
+{{#defaultValue}}
+{{^vendorExtensions.x-golang-is-container}}
+{{^isReadOnly}}
+{{#isNullable}}
+	var {{nameInCamelCase}} {{{datatypeWithEnum}}} = {{{.}}}
+	this.{{name}} = *New{{{dataType}}}(&{{nameInCamelCase}})
+{{/isNullable}}
+{{^isNullable}}
+	var {{nameInCamelCase}} {{{dataType}}} = {{{.}}}
+	this.{{name}} = &{{nameInCamelCase}}
+{{/isNullable}}
+{{/isReadOnly}}
+{{/vendorExtensions.x-golang-is-container}}
+{{/defaultValue}}
+{{/required}}
+{{/allVars}}
+	return &this
+}
+
+// New{{classname}}WithDefaults instantiates a new {{classname}} object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func New{{classname}}WithDefaults() *{{classname}} {
+	this := {{classname}}{}
+{{#vars}}
+{{#defaultValue}}
+{{^vendorExtensions.x-golang-is-container}}
+{{^isReadOnly}}
+{{#isNullable}}
+{{!we use datatypeWithEnum here, since it will represent the non-nullable name of the datatype, e.g. int64 for NullableInt64}}
+	var {{nameInCamelCase}} {{{datatypeWithEnum}}} = {{{.}}}
+	this.{{name}} = *New{{{dataType}}}(&{{nameInCamelCase}})
+{{/isNullable}}
+{{^isNullable}}
+	var {{nameInCamelCase}} {{{dataType}}} = {{{.}}}
+	this.{{name}} = {{^required}}&{{/required}}{{nameInCamelCase}}
+{{/isNullable}}
+{{/isReadOnly}}
+{{/vendorExtensions.x-golang-is-container}}
+{{/defaultValue}}
+{{/vars}}
+	return &this
+}
+
+{{#vars}}
+{{#required}}
+// Get{{name}} returns the {{name}} field value
+{{#isNullable}}
+// If the value is explicit nil, the zero value for {{vendorExtensions.x-go-base-type}} will be returned
+{{/isNullable}}
+{{#deprecated}}
+// Deprecated
+{{/deprecated}}
+func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
+	if o == nil{{#isNullable}}{{^vendorExtensions.x-golang-is-container}} || o.{{name}}.Get() == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+		var ret {{vendorExtensions.x-go-base-type}}
+		return ret
+	}
+
+{{#isNullable}}
+{{#vendorExtensions.x-golang-is-container}}
+	return o.{{name}}
+{{/vendorExtensions.x-golang-is-container}}
+{{^vendorExtensions.x-golang-is-container}}
+	return *o.{{name}}.Get()
+{{/vendorExtensions.x-golang-is-container}}
+{{/isNullable}}
+{{^isNullable}}
+	return o.{{name}}
+{{/isNullable}}
+}
+
+// Get{{name}}Ok returns a tuple with the {{name}} field value
+// and a boolean to check if the value has been set.
+{{#isNullable}}
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+{{/isNullable}}
+{{#deprecated}}
+// Deprecated
+{{/deprecated}}
+func (o *{{classname}}) Get{{name}}Ok() (*{{vendorExtensions.x-go-base-type}}, bool) {
+	if o == nil {{#isNullable}}{{#vendorExtensions.x-golang-is-container}}|| o.{{name}} == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+		return nil, false
+	}
+{{#isNullable}}
+{{#vendorExtensions.x-golang-is-container}}
+	return &o.{{name}}, true
+{{/vendorExtensions.x-golang-is-container}}
+{{^vendorExtensions.x-golang-is-container}}
+	return o.{{name}}.Get(), o.{{name}}.IsSet()
+{{/vendorExtensions.x-golang-is-container}}
+{{/isNullable}}
+{{^isNullable}}
+	return &o.{{name}}, true
+{{/isNullable}}
+}
+
+// Set{{name}} sets field value
+{{#deprecated}}
+// Deprecated
+{{/deprecated}}
+func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
+{{#isNullable}}
+{{#vendorExtensions.x-golang-is-container}}
+	o.{{name}} = v
+{{/vendorExtensions.x-golang-is-container}}
+{{^vendorExtensions.x-golang-is-container}}
+	o.{{name}}.Set(&v)
+{{/vendorExtensions.x-golang-is-container}}
+{{/isNullable}}
+{{^isNullable}}
+	o.{{name}} = v
+{{/isNullable}}
+}
+
+{{/required}}
+{{^required}}
+// Get{{name}} returns the {{name}} field value if set, zero value otherwise{{#isNullable}} (both if not set or set to explicit null){{/isNullable}}.
+{{#deprecated}}
+// Deprecated
+{{/deprecated}}
+func (o *{{classname}}) Get{{name}}() {{vendorExtensions.x-go-base-type}} {
+	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{^vendorExtensions.x-golang-is-container}}|| o.{{name}}.Get() == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+		var ret {{vendorExtensions.x-go-base-type}}
+		return ret
+	}
+{{#isNullable}}
+{{#vendorExtensions.x-golang-is-container}}
+	return o.{{name}}
+{{/vendorExtensions.x-golang-is-container}}
+{{^vendorExtensions.x-golang-is-container}}
+	return *o.{{name}}.Get()
+{{/vendorExtensions.x-golang-is-container}}
+{{/isNullable}}
+{{^isNullable}}
+	return *o.{{name}}
+{{/isNullable}}
+}
+
+// Get{{name}}Ok returns a tuple with the {{name}} field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+{{#isNullable}}
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+{{/isNullable}}
+{{#deprecated}}
+// Deprecated
+{{/deprecated}}
+func (o *{{classname}}) Get{{name}}Ok() (*{{vendorExtensions.x-go-base-type}}, bool) {
+	if o == nil {{^isNullable}}|| o.{{name}} == nil{{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}}|| o.{{name}} == nil{{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+		return nil, false
+	}
+{{#isNullable}}
+{{#vendorExtensions.x-golang-is-container}}
+	return &o.{{name}}, true
+{{/vendorExtensions.x-golang-is-container}}
+{{^vendorExtensions.x-golang-is-container}}
+	return o.{{name}}.Get(), o.{{name}}.IsSet()
+{{/vendorExtensions.x-golang-is-container}}
+{{/isNullable}}
+{{^isNullable}}
+	return o.{{name}}, true
+{{/isNullable}}
+}
+
+// Has{{name}} returns a boolean if a field has been set.
+func (o *{{classname}}) Has{{name}}() bool {
+	if o != nil && {{^isNullable}}o.{{name}} != nil{{/isNullable}}{{#isNullable}}{{#vendorExtensions.x-golang-is-container}}o.{{name}} != nil{{/vendorExtensions.x-golang-is-container}}{{^vendorExtensions.x-golang-is-container}}o.{{name}}.IsSet(){{/vendorExtensions.x-golang-is-container}}{{/isNullable}} {
+		return true
+	}
+
+	return false
+}
+
+// Set{{name}} gets a reference to the given {{dataType}} and assigns it to the {{name}} field.
+{{#deprecated}}
+// Deprecated
+{{/deprecated}}
+func (o *{{classname}}) Set{{name}}(v {{vendorExtensions.x-go-base-type}}) {
+{{#isNullable}}
+{{#vendorExtensions.x-golang-is-container}}
+	o.{{name}} = v
+{{/vendorExtensions.x-golang-is-container}}
+{{^vendorExtensions.x-golang-is-container}}
+	o.{{name}}.Set(&v)
+{{/vendorExtensions.x-golang-is-container}}
+{{/isNullable}}
+{{^isNullable}}
+	o.{{name}} = &v
+{{/isNullable}}
+}
+{{#isNullable}}
+{{^vendorExtensions.x-golang-is-container}}
+// Set{{name}}Nil sets the value for {{name}} to be an explicit nil
+func (o *{{classname}}) Set{{name}}Nil() {
+	o.{{name}}.Set(nil)
+}
+
+// Unset{{name}} ensures that no value is present for {{name}}, not even an explicit nil
+func (o *{{classname}}) Unset{{name}}() {
+	o.{{name}}.Unset()
+}
+{{/vendorExtensions.x-golang-is-container}}
+{{/isNullable}}
+
+{{/required}}
+{{/vars}}
+func (o {{classname}}) MarshalJSON() ([]byte, error) {
+	toSerialize := {{#isArray}}make([]interface{}, len(o.Items)){{/isArray}}{{^isArray}}map[string]interface{}{}{{/isArray}}
+	{{#parent}}
+	{{^isMap}}
+	{{^isArray}}
+	serialized{{parent}}, err{{parent}} := json.Marshal(o.{{parent}})
+	if err{{parent}} != nil {
+		return []byte{}, err{{parent}}
+	}
+	err{{parent}} = json.Unmarshal([]byte(serialized{{parent}}), &toSerialize)
+	if err{{parent}} != nil {
+		return []byte{}, err{{parent}}
+	}
+	{{/isArray}}
+	{{/isMap}}
+	{{#isArray}}
+	for i, item := range o.Items {
+		toSerialize[i] = item
+	}
+	{{/isArray}}
+	{{/parent}}
+	{{#vars}}
+	{{! if argument is nullable, only serialize it if it is set}}
+	{{#isNullable}}
+	{{#vendorExtensions.x-golang-is-container}}
+	{{! support for container fields is not ideal at this point because of lack of Nullable* types}}
+	if o.{{name}} != nil {
+		toSerialize["{{baseName}}"] = o.{{name}}
+	}
+	{{/vendorExtensions.x-golang-is-container}}
+	{{^vendorExtensions.x-golang-is-container}}
+	if {{#required}}true{{/required}}{{^required}}o.{{name}}.IsSet(){{/required}} {
+		toSerialize["{{baseName}}"] = o.{{name}}.Get()
+	}
+	{{/vendorExtensions.x-golang-is-container}}
+	{{/isNullable}}
+	{{! if argument is not nullable, don't set it if it is nil}}
+	{{^isNullable}}
+	if {{#required}}true{{/required}}{{^required}}o.{{name}} != nil{{/required}} {
+		toSerialize["{{baseName}}"] = o.{{name}}
+	}
+	{{/isNullable}}
+	{{/vars}}
+	{{#isAdditionalPropertiesTrue}}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
+	{{/isAdditionalPropertiesTrue}}
+	return json.Marshal(toSerialize)
+}
+
+{{#isAdditionalPropertiesTrue}}
+func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
+{{#parent}}
+{{^isMap}}
+	type {{classname}}WithoutEmbeddedStruct struct {
+	{{#vars}}
+	{{^-first}}
+	{{/-first}}
+	{{#description}}
+		// {{{.}}}
+	{{/description}}
+	{{#deprecated}}
+		// Deprecated
+	{{/deprecated}}
+		{{name}} {{^required}}{{^isNullable}}*{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{/vars}}
+	}
+
+	var{{{classname}}}WithoutEmbeddedStruct := {{{classname}}}WithoutEmbeddedStruct{}
+
+	err = json.Unmarshal(bytes, &var{{{classname}}}WithoutEmbeddedStruct)
+	if err == nil {
+		var{{{classname}}} := _{{{classname}}}{}
+		{{#vars}}
+		var{{{classname}}}.{{{name}}} = var{{{classname}}}WithoutEmbeddedStruct.{{{name}}}
+		{{/vars}}
+		*o = {{{classname}}}(var{{{classname}}})
+	} else {
+		return err
+	}
+
+	var{{{classname}}} := _{{{classname}}}{}
+
+	err = json.Unmarshal(bytes, &var{{{classname}}})
+	if err == nil {
+		o.{{{parent}}} = var{{{classname}}}.{{{parent}}}
+	} else {
+		return err
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		{{#vars}}
+		delete(additionalProperties, "{{{baseName}}}")
+		{{/vars}}
+
+		// remove fields from embedded structs
+		reflect{{{parent}}} := reflect.ValueOf(o.{{{parent}}})
+		for i := 0; i < reflect{{{parent}}}.Type().NumField(); i++ {
+			t := reflect{{{parent}}}.Type().Field(i)
+
+			if jsonTag := t.Tag.Get("json"); jsonTag != "" {
+				fieldName := ""
+				if commaIdx := strings.Index(jsonTag, ","); commaIdx > 0 {
+					fieldName = jsonTag[:commaIdx]
+				} else {
+					fieldName = jsonTag
+				}
+				if fieldName != "AdditionalProperties" {
+					delete(additionalProperties, fieldName)
+				}
+			}
+		}
+
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
+{{/isMap}}
+{{#isMap}}
+	var{{{classname}}} := _{{{classname}}}{}
+
+	if err = json.Unmarshal(bytes, &var{{{classname}}}); err == nil {
+		*o = {{{classname}}}(var{{{classname}}})
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		{{#vars}}
+		delete(additionalProperties, "{{{baseName}}}")
+		{{/vars}}
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
+{{/isMap}}
+{{/parent}}
+{{^parent}}
+	var{{{classname}}} := _{{{classname}}}{}
+
+	if err = json.Unmarshal(bytes, &var{{{classname}}}); err == nil {
+		*o = {{{classname}}}(var{{{classname}}})
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		{{#vars}}
+		delete(additionalProperties, "{{{baseName}}}")
+		{{/vars}}
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
+{{/parent}}
+}
+
+{{/isAdditionalPropertiesTrue}}
+{{#isArray}}
+func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
+	return json.Unmarshal(bytes, &o.Items)
+}
+
+{{/isArray}}
+{{>nullable_model}}

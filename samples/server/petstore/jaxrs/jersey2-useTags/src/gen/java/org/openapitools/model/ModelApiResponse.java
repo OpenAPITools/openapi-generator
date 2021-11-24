@@ -53,7 +53,7 @@ public class ModelApiResponse   {
    * Get code
    * @return code
    **/
-  @JsonProperty("code")
+  @JsonProperty(value = "code")
   @ApiModelProperty(value = "")
   
   public Integer getCode() {
@@ -73,7 +73,7 @@ public class ModelApiResponse   {
    * Get type
    * @return type
    **/
-  @JsonProperty("type")
+  @JsonProperty(value = "type")
   @ApiModelProperty(value = "")
   
   public String getType() {
@@ -93,7 +93,7 @@ public class ModelApiResponse   {
    * Get message
    * @return message
    **/
-  @JsonProperty("message")
+  @JsonProperty(value = "message")
   @ApiModelProperty(value = "")
   
   public String getMessage() {
@@ -106,7 +106,7 @@ public class ModelApiResponse   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -141,7 +141,7 @@ public class ModelApiResponse   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

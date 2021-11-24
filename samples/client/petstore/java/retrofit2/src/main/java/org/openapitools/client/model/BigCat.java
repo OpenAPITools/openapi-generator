@@ -30,7 +30,6 @@ import org.openapitools.client.model.Cat;
  * BigCat
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
@@ -87,7 +86,7 @@ public class BigCat extends Cat {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
-  public BigCat() {
+  public BigCat() { 
     this.className = this.getClass().getSimpleName();
   }
 
@@ -115,7 +114,7 @@ public class BigCat extends Cat {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -132,7 +131,6 @@ public class BigCat extends Cat {
     return Objects.hash(kind, super.hashCode());
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -147,7 +145,7 @@ public class BigCat extends Cat {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

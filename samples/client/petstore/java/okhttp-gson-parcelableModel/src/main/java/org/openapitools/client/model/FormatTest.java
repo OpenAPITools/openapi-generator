@@ -92,7 +92,7 @@ public class FormatTest implements Parcelable {
   @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
   private BigDecimal bigDecimal;
 
-  public FormatTest() {
+  public FormatTest() { 
   }
 
   public FormatTest integer(Integer integer) {
@@ -180,6 +180,7 @@ public class FormatTest implements Parcelable {
    * maximum: 543.2
    * @return number
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumber() {
@@ -275,6 +276,7 @@ public class FormatTest implements Parcelable {
    * Get _byte
    * @return _byte
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public byte[] getByte() {
@@ -320,6 +322,7 @@ public class FormatTest implements Parcelable {
    * Get date
    * @return date
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public LocalDate getDate() {
@@ -388,6 +391,7 @@ public class FormatTest implements Parcelable {
    * Get password
    * @return password
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public String getPassword() {
@@ -424,7 +428,7 @@ public class FormatTest implements Parcelable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -453,7 +457,6 @@ public class FormatTest implements Parcelable {
     return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -480,7 +483,7 @@ public class FormatTest implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

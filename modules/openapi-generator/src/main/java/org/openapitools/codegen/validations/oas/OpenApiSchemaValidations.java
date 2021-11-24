@@ -9,7 +9,6 @@ import org.openapitools.codegen.validation.GenericValidator;
 import org.openapitools.codegen.validation.ValidationRule;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.HashSet;
@@ -91,7 +90,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * 'null' type is supported in OpenAPI Specification 3.1 and above. It is not supported in OpenAPI 3.0.x.
      * Note: the validator invokes checkNullType() for every top-level schema in the OAS document. The method
      * is not called for nested schemas that are defined inline.
-     * 
+     *
      * @param schema An input schema, regardless of the type of schema.
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
@@ -122,7 +121,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * JSON Schema uses the 'nullable' attribute.
      * <p>
      * The 'nullable' attribute is supported in OpenAPI Specification 3.0.x, but it is deprecated in OpenAPI 3.1 and above.
-     * 
+     *
      * @param schema An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */
@@ -156,7 +155,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
      * Validate the OAS document uses supported values for the 'type' attribute.
      * <p>
      * The type must be one of the following values: null, boolean, object, array, number, string, integer.
-     * 
+     *
      * @param schema An input schema, regardless of the type of schema
      * @return {@link ValidationRule.Pass} if the check succeeds, otherwise {@link ValidationRule.Fail}
      */

@@ -18,10 +18,12 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -31,6 +33,7 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   DogAllOf.JSON_PROPERTY_BREED
 })
+@JsonTypeName("Dog_allOf")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "DogAllOf")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -40,6 +43,8 @@ public class DogAllOf {
   @XmlElement(name = "breed")
   private String breed;
 
+  public DogAllOf() { 
+  }
 
   public DogAllOf breed(String breed) {
     
@@ -62,13 +67,16 @@ public class DogAllOf {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "breed")
   public void setBreed(String breed) {
     this.breed = breed;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -84,7 +92,6 @@ public class DogAllOf {
     return Objects.hash(breed);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -98,7 +105,7 @@ public class DogAllOf {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

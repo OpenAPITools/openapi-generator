@@ -6,10 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-
-internal struct Pet: Codable { 
-
+internal struct Pet: Codable, Hashable {
 
     internal enum Status: String, Codable, CaseIterable {
         case available = "available"
@@ -24,7 +25,7 @@ internal struct Pet: Codable {
     /** pet status in the store */
     internal var status: Status?
 
-    internal init(id: Int64?, category: Category?, name: String, photoUrls: [String], tags: [Tag]?, status: Status?) {
+    internal init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: Status? = nil) {
         self.id = id
         self.category = category
         self.name = name
@@ -33,4 +34,25 @@ internal struct Pet: Codable {
         self.status = status
     }
 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
+        case id
+        case category
+        case name
+        case photoUrls
+        case tags
+        case status
+    }
+
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(category, forKey: .category)
+        try container.encode(name, forKey: .name)
+        try container.encode(photoUrls, forKey: .photoUrls)
+        try container.encodeIfPresent(tags, forKey: .tags)
+        try container.encodeIfPresent(status, forKey: .status)
+    }
 }
+

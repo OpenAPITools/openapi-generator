@@ -16,8 +16,8 @@ import org.joda.time.DateTime
 import {{classname}}._
 
 case class {{classname}} (
-  {{#vars}}{{#description}}/* {{{description}}} */
-  {{/description}}{{name}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}){{/hasMore}}
+  {{#vars}}{{#description}}/* {{{.}}} */
+  {{/description}}{{name}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^required}}]{{/required}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}
   {{/vars}}
 
 object {{classname}} {

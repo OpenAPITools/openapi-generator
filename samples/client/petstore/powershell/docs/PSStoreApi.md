@@ -21,15 +21,13 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$OrderId = "OrderId_example" # String | ID of the order that needs to be deleted (default to null)
+$OrderId = "MyOrderId" # String | ID of the order that needs to be deleted
 
 # Delete purchase order by ID
 try {
-    Remove-PSOrder -OrderId $OrderId
+    $Result = Remove-PSOrder -OrderId $OrderId
 } catch {
-    Write-Host ("Exception occured when calling Remove-PSOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Remove-PSOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -38,7 +36,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **OrderId** | **String**| ID of the order that needs to be deleted | [default to null]
+ **OrderId** | **String**| ID of the order that needs to be deleted | 
 
 ### Return type
 
@@ -65,20 +63,19 @@ Returns a map of status codes to quantities
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
+# general setting of the PowerShell module, e.g. base URL, authentication, etc
+$Configuration = Get-Configuration
 # Configure API key authorization: api_key
-$Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
+$Configuration.ApiKey.api_key = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["api_key"] = "Bearer"
+#$Configuration.ApiKeyPrefix.api_key = "Bearer"
 
 
 # Returns pet inventories by status
 try {
-    System.Collections.Hashtable $Result = Get-PSInventory
+    $Result = Get-PSInventory
 } catch {
-    Write-Host ("Exception occured when calling Get-PSInventory: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Get-PSInventory: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -112,15 +109,13 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$OrderId = 987 # Int64 | ID of pet that needs to be fetched (default to null)
+$OrderId = 789 # Int64 | ID of pet that needs to be fetched
 
 # Find purchase order by ID
 try {
-    Order $Result = Get-PSOrderById -OrderId $OrderId
+    $Result = Get-PSOrderById -OrderId $OrderId
 } catch {
-    Write-Host ("Exception occured when calling Get-PSOrderById: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Get-PSOrderById: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -129,11 +124,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **OrderId** | **Int64**| ID of pet that needs to be fetched | [default to null]
+ **OrderId** | **Int64**| ID of pet that needs to be fetched | 
 
 ### Return type
 
-[**Order**](Order.md)
+[**Order**](Order.md) (PSCustomObject)
 
 ### Authorization
 
@@ -155,15 +150,13 @@ Place an order for a pet
 
 ### Example
 ```powershell
-Import-Module -Name PSPetstore
-
-$Order = (Initialize-Order-Id 123 -PetId 123 -Quantity 123 -ShipDate Get-Date -Status "Status_example" -Complete $false) # Order | order placed for purchasing the pet
+$Order = Initialize-Order -Id 0 -PetId 0 -Quantity 0 -ShipDate (Get-Date) -Status "placed" -Complete $false # Order | order placed for purchasing the pet
 
 # Place an order for a pet
 try {
-    Order $Result = Invoke-PSPlaceOrder -Order $Order
+    $Result = Invoke-PSPlaceOrder -Order $Order
 } catch {
-    Write-Host ("Exception occured when calling Invoke-PSPlaceOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Invoke-PSPlaceOrder: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -176,7 +169,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Order**](Order.md)
+[**Order**](Order.md) (PSCustomObject)
 
 ### Authorization
 

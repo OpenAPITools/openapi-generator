@@ -12,12 +12,15 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ModelApiResponse   {
   @JsonProperty("code")
+  
   private Integer code;
 
   @JsonProperty("type")
+  
   private String type;
 
   @JsonProperty("message")
+  
   private String message;
 
   public ModelApiResponse code(Integer code) {
@@ -29,7 +32,7 @@ public class ModelApiResponse   {
    * Get code
    * @return code
   **/
-    public Integer getCode() {
+  public Integer getCode() {
     return code;
   }
 
@@ -46,7 +49,7 @@ public class ModelApiResponse   {
    * Get type
    * @return type
   **/
-    public String getType() {
+  public String getType() {
     return type;
   }
 
@@ -63,7 +66,7 @@ public class ModelApiResponse   {
    * Get message
    * @return message
   **/
-    public String getMessage() {
+  public String getMessage() {
     return message;
   }
 
@@ -73,7 +76,7 @@ public class ModelApiResponse   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -108,7 +111,7 @@ public class ModelApiResponse   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

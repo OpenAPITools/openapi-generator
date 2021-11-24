@@ -1,0 +1,2941 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "sample spec"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io:80/v2
+tags:
+  - name: isX
+    description: an api that ensures that isX properties are present on Schema classes
+paths:
+  /ArrayWithMaxItems:
+    post:
+      tags:
+        - isX
+      operationId: ArrayWithMaxItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              maxItems: 2
+              items:
+                type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 2
+                items:
+                  type: string
+  /ArrayWithMinItems:
+    post:
+      tags:
+        - isX
+      operationId: ArrayWithMinItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              minItems: 2
+              items:
+                type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 2
+                items:
+                  type: string
+  /ArrayWithUniqueItems:
+    post:
+      tags:
+        - isX
+      operationId: ArrayWithUniqueItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              uniqueItems: true
+              items:
+                type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                uniqueItems: true
+                items:
+                  type: string
+  /ObjectWithMinProperties:
+    post:
+      tags:
+        - isX
+      operationId: ObjectWithMinProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              minProperties: 2
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                minProperties: 2
+  /ObjectWithMaxProperties:
+    post:
+      tags:
+        - isX
+      operationId: ObjectWithMaxProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              maxProperties: 2
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                maxProperties: 2
+  /StringWithMinLength:
+    post:
+      tags:
+        - isX
+      operationId: StringWithMinLength
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              minLength: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                minLength: 1
+  /DateWithMinLength:
+    post:
+      tags:
+        - isX
+      operationId: DateWithMinLength
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: date
+              minLength: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: date
+                minLength: 1
+  /DateTimeWithMinLength:
+    post:
+      tags:
+        - isX
+      operationId: DateTimeWithMinLength
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: date-time
+              minLength: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: date-time
+                minLength: 1
+  /ByteWithMinLength:
+    post:
+      tags:
+        - isX
+      operationId: ByteWithMinLength
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: byte
+              minLength: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: byte
+                minLength: 1
+  /BinaryWithMinLength:
+    post:
+      tags:
+        - isX
+      operationId: BinaryWithMinLength
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: binary
+              minLength: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+                minLength: 1
+  /StringWithMaxLength:
+    post:
+      tags:
+        - isX
+      operationId: StringWithMaxLength
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              maxLength: 10
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                maxLength: 10
+  /DateWithMaxLength:
+    post:
+      tags:
+        - isX
+      operationId: DateWithMaxLength
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: date
+              maxLength: 10
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: date
+                maxLength: 10
+  /DateTimeWithMaxLength:
+    post:
+      tags:
+        - isX
+      operationId: DateTimeWithMaxLength
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: date-time
+              maxLength: 10
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: date-time
+                maxLength: 10
+  /ByteWithMaxLength:
+    post:
+      tags:
+        - isX
+      operationId: ByteWithMaxLength
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: byte
+              maxLength: 10
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: byte
+                maxLength: 10
+  /BinaryWithMaxLength:
+    post:
+      tags:
+        - isX
+      operationId: BinaryWithMaxLength
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: binary
+              maxLength: 10
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+                maxLength: 10
+  /StringWithPattern:
+    post:
+      tags:
+        - isX
+      operationId: StringWithPattern
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              pattern: '^2021.+'
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                pattern: '^2021.+'
+  /DateWithPattern:
+    post:
+      tags:
+        - isX
+      operationId: DateWithPattern
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: date
+              pattern: '^2021.+'
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: date
+                pattern: '^2021.+'
+  /DateTimeWithPattern:
+    post:
+      tags:
+        - isX
+      operationId: DateTimeWithPattern
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: date-time
+              pattern: '^2021.+'
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: date-time
+                pattern: '^2021.+'
+  /ByteWithPattern:
+    post:
+      tags:
+        - isX
+      operationId: ByteWithPattern
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: byte
+              pattern: '^2021.+'
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: byte
+                pattern: '^2021.+'
+  /BinaryWithPattern:
+    post:
+      tags:
+        - isX
+      operationId: BinaryWithPattern
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: binary
+              pattern: '^2021.+'
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+                pattern: '^2021.+'
+  /IntegerWithMultipleOf:
+    post:
+      tags:
+        - isX
+      operationId: IntegerWithMultipleOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              multipleOf: 2
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                multipleOf: 2
+  /Integer32WithMultipleOf:
+    post:
+      tags:
+        - isX
+      operationId: Integer32WithMultipleOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int32
+              multipleOf: 2
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+                multipleOf: 2
+  /Integer64WithMultipleOf:
+    post:
+      tags:
+        - isX
+      operationId: Integer64WithMultipleOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int64
+              multipleOf: 2
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+                multipleOf: 2
+  /NumberWithMultipleOf:
+    post:
+      tags:
+        - isX
+      operationId: NumberWithMultipleOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              multipleOf: 2
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                multipleOf: 2
+  /NumberFloatWithMultipleOf:
+    post:
+      tags:
+        - isX
+      operationId: NumberFloatWithMultipleOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              format: float
+              multipleOf: 2
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                format: float
+                multipleOf: 2
+  /NumberDoubleWithMultipleOf:
+    post:
+      tags:
+        - isX
+      operationId: NumberDoubleWithMultipleOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              format: double
+              multipleOf: 2
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                format: double
+                multipleOf: 2
+  /IntegerWithMinimum:
+    post:
+      tags:
+        - isX
+      operationId: IntegerWithMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              minimum: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                minimum: 1
+  /Integer32WithMinimum:
+    post:
+      tags:
+        - isX
+      operationId: Integer32WithMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int32
+              minimum: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+                minimum: 1
+  /Integer64WithMinimum:
+    post:
+      tags:
+        - isX
+      operationId: Integer64WithMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int64
+              minimum: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+                minimum: 1
+  /NumberWithMinimum:
+    post:
+      tags:
+        - isX
+      operationId: NumberWithMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              minimum: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                minimum: 1
+  /NumberFloatWithMinimum:
+    post:
+      tags:
+        - isX
+      operationId: NumberFloatWithMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              format: float
+              minimum: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                format: float
+                minimum: 1
+  /NumberDoubleWithMinimum:
+    post:
+      tags:
+        - isX
+      operationId: NumberDoubleWithMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              format: double
+              minimum: 1
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                format: double
+                minimum: 1
+  /IntegerWithMaximum:
+    post:
+      tags:
+        - isX
+      operationId: IntegerWithMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              maximum: 10
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                maximum: 10
+  /Integer32WithMaximum:
+    post:
+      tags:
+        - isX
+      operationId: Integer32WithMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int32
+              maximum: 10
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+                maximum: 10
+  /Integer64WithMaximum:
+    post:
+      tags:
+        - isX
+      operationId: Integer64WithMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int64
+              maximum: 10
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+                maximum: 10
+  /NumberWithMaximum:
+    post:
+      tags:
+        - isX
+      operationId: NumberWithMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              maximum: 10
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                maximum: 10
+  /NumberFloatWithMaximum:
+    post:
+      tags:
+        - isX
+      operationId: NumberFloatWithMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              format: float
+              maximum: 10
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                format: float
+                maximum: 10
+  /NumberDoubleWithMaximum:
+    post:
+      tags:
+        - isX
+      operationId: NumberDoubleWithMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              format: double
+              maximum: 10
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                format: double
+                maximum: 10
+  /IntegerWithExclusiveMaximum:
+    post:
+      tags:
+        - isX
+      operationId: IntegerWithExclusiveMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              maximum: 10
+              exclusiveMaximum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                maximum: 10
+                exclusiveMaximum: true
+  /Integer32WithExclusiveMaximum:
+    post:
+      tags:
+        - isX
+      operationId: Integer32WithExclusiveMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int32
+              maximum: 10
+              exclusiveMaximum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+                maximum: 10
+                exclusiveMaximum: true
+  /Integer64WithExclusiveMaximum:
+    post:
+      tags:
+        - isX
+      operationId: Integer64WithExclusiveMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int64
+              maximum: 10
+              exclusiveMaximum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+                maximum: 10
+                exclusiveMaximum: true
+  /NumberWithExclusiveMaximum:
+    post:
+      tags:
+        - isX
+      operationId: NumberWithExclusiveMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              maximum: 10
+              exclusiveMaximum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                maximum: 10
+                exclusiveMaximum: true
+  /NumberFloatWithExclusiveMaximum:
+    post:
+      tags:
+        - isX
+      operationId: NumberFloatWithExclusiveMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              format: float
+              maximum: 10
+              exclusiveMaximum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                format: float
+                maximum: 10
+                exclusiveMaximum: true
+  /NumberDoubleWithExclusiveMaximum:
+    post:
+      tags:
+        - isX
+      operationId: NumberDoubleWithExclusiveMaximum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              format: double
+              maximum: 10
+              exclusiveMaximum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                format: double
+                maximum: 10
+                exclusiveMaximum: true
+  /IntegerWithExclusiveMinimum:
+    post:
+      tags:
+        - isX
+      operationId: IntegerWithExclusiveMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              minimum: 1
+              exclusiveMinimum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                minimum: 1
+                exclusiveMinimum: true
+  /Integer32WithExclusiveMinimum:
+    post:
+      tags:
+        - isX
+      operationId: Integer32WithExclusiveMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int32
+              minimum: 1
+              exclusiveMinimum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+                minimum: 1
+                exclusiveMinimum: true
+  /Integer64WithExclusiveMinimum:
+    post:
+      tags:
+        - isX
+      operationId: Integer64WithExclusiveMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int64
+              minimum: 1
+              exclusiveMinimum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+                minimum: 1
+                exclusiveMinimum: true
+  /NumberWithExclusiveMinimum:
+    post:
+      tags:
+        - isX
+      operationId: NumberWithExclusiveMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              minimum: 1
+              exclusiveMinimum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                minimum: 1
+                exclusiveMinimum: true
+  /NumberFloatWithExclusiveMinimum:
+    post:
+      tags:
+        - isX
+      operationId: NumberFloatWithExclusiveMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              format: float
+              minimum: 1
+              exclusiveMinimum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                format: float
+                minimum: 1
+                exclusiveMinimum: true
+  /NumberDoubleWithExclusiveMinimum:
+    post:
+      tags:
+        - isX
+      operationId: NumberDoubleWithExclusiveMinimum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: number
+              format: double
+              minimum: 1
+              exclusiveMinimum: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: number
+                format: double
+                minimum: 1
+                exclusiveMinimum: true
+  /pathParametersWithValidation:
+    post:
+      tags:
+        - isX
+      operationId: pathParametersWithValidation
+      parameters:
+        - name: ArrayWithMaxItems
+          in: path
+          schema:
+            type: array
+            maxItems: 2
+            items:
+              type: string
+        - name: ArrayWithMinItems
+          in: path
+          schema:
+            type: array
+            minItems: 2
+            items:
+              type: string
+        - name: ArrayWithUniqueItems
+          in: path
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+        - name: ObjectWithMinProperties
+          in: path
+          schema:
+            type: object
+            minProperties: 2
+        - name: ObjectWithMaxProperties
+          in: path
+          schema:
+            type: object
+            maxProperties: 2
+        - name: StringWithMinLength
+          in: path
+          schema:
+            type: string
+            minLength: 1
+        - name: DateWithMinLength
+          in: path
+          schema:
+            type: string
+            format: date
+            minLength: 10
+        - name: DateTimeWithMinLength
+          in: path
+          schema:
+            type: string
+            format: date-time
+            minLength: 20
+        - name: ByteWithMinLength
+          in: path
+          schema:
+            type: string
+            format: byte
+            minLength: 10
+        - name: BinaryWithMinLength
+          in: path
+          schema:
+            type: string
+            format: binary
+            minLength: 10
+        - name: StringWithMaxLength
+          in: path
+          schema:
+            type: string
+            maxLength: 1
+        - name: DateWithMaxLength
+          in: path
+          schema:
+            type: string
+            format: date
+            maxLength: 10
+        - name: DateTimeWithMaxLength
+          in: path
+          schema:
+            type: string
+            format: date-time
+            maxLength: 20
+        - name: ByteWithMaxLength
+          in: path
+          schema:
+            type: string
+            format: byte
+            maxLength: 10
+        - name: BinaryWithMaxLength
+          in: path
+          schema:
+            type: string
+            format: binary
+            maxLength: 10
+        - name: IntegerWithMultipleOf
+          in: path
+          schema:
+            type: integer
+            multipleOf: 2
+        - name: Integer32WithMultipleOf
+          in: path
+          schema:
+            type: integer
+            format: int32
+            multipleOf: 2
+        - name: Integer64WithMultipleOf
+          in: path
+          schema:
+            type: integer
+            format: int64
+            multipleOf: 2
+        - name: NumberWithMultipleOf
+          in: path
+          schema:
+            type: number
+            multipleOf: 2
+        - name: NumberFloatWithMultipleOf
+          in: path
+          schema:
+            type: number
+            format: float
+            multipleOf: 2
+        - name: NumberDoubleWithMultipleOf
+          in: path
+          schema:
+            type: number
+            format: double
+            multipleOf: 2
+        - name: StringWithPattern
+          in: path
+          schema:
+            type: string
+            pattern: '^2021.+'
+        - name: DateWithPattern
+          in: path
+          schema:
+            type: string
+            format: date
+            pattern: '^2021.+'
+        - name: DateTimeWithPattern
+          in: path
+          schema:
+            type: string
+            format: date-time
+            pattern: '^2021.+'
+        - name: ByteWithPattern
+          in: path
+          schema:
+            type: string
+            format: byte
+            pattern: '^2021.+'
+        - name: BinaryWithPattern
+          in: path
+          schema:
+            type: string
+            format: binary
+            pattern: '^2021.+'
+        - name: IntegerWithMinimum
+          in: path
+          schema:
+            type: integer
+            minimum: 1
+        - name: Integer32WithMinimum
+          in: path
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: Integer64WithMinimum
+          in: path
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+        - name: NumberWithMinimum
+          in: path
+          schema:
+            type: number
+            minimum: 1
+        - name: NumberFloatWithMinimum
+          in: path
+          schema:
+            type: number
+            format: float
+            minimum: 1
+        - name: NumberDoubleWithMinimum
+          in: path
+          schema:
+            type: number
+            format: double
+            minimum: 1
+        - name: IntegerWithMaximum
+          in: path
+          schema:
+            type: integer
+            maximum: 10
+        - name: Integer32WithMaximum
+          in: path
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+        - name: Integer64WithMaximum
+          in: path
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+        - name: NumberWithMaximum
+          in: path
+          schema:
+            type: number
+            maximum: 10
+        - name: NumberFloatWithMaximum
+          in: path
+          schema:
+            type: number
+            format: float
+            maximum: 10
+        - name: NumberDoubleWithMaximum
+          in: path
+          schema:
+            type: number
+            format: double
+            maximum: 10
+        - name: IntegerWithExclusiveMinimum
+          in: path
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer32WithExclusiveMinimum
+          in: path
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer64WithExclusiveMinimum
+          in: path
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberWithExclusiveMinimum
+          in: path
+          schema:
+            type: number
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberFloatWithExclusiveMinimum
+          in: path
+          schema:
+            type: number
+            format: float
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberDoubleWithExclusiveMinimum
+          in: path
+          schema:
+            type: number
+            format: double
+            minimum: 1
+            exclusiveMinimum: true
+        - name: IntegerWithExclusiveMaximum
+          in: path
+          schema:
+            type: integer
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer32WithExclusiveMaximum
+          in: path
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer64WithExclusiveMaximum
+          in: path
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberWithExclusiveMaximum
+          in: path
+          schema:
+            type: number
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberFloatWithExclusiveMaximum
+          in: path
+          schema:
+            type: number
+            format: float
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberDoubleWithExclusiveMaximum
+          in: path
+          schema:
+            type: number
+            format: double
+            maximum: 10
+            exclusiveMaximum: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+  /cookieParametersWithValidation:
+    post:
+      tags:
+        - isX
+      operationId: cookieParametersWithValidation
+      parameters:
+        - name: ArrayWithMaxItems
+          in: cookie
+          schema:
+            type: array
+            maxItems: 2
+            items:
+              type: string
+        - name: ArrayWithMinItems
+          in: cookie
+          schema:
+            type: array
+            minItems: 2
+            items:
+              type: string
+        - name: ArrayWithUniqueItems
+          in: cookie
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+        - name: ObjectWithMinProperties
+          in: cookie
+          schema:
+            type: object
+            minProperties: 2
+        - name: ObjectWithMaxProperties
+          in: cookie
+          schema:
+            type: object
+            maxProperties: 2
+        - name: StringWithMinLength
+          in: cookie
+          schema:
+            type: string
+            minLength: 1
+        - name: DateWithMinLength
+          in: cookie
+          schema:
+            type: string
+            format: date
+            minLength: 10
+        - name: DateTimeWithMinLength
+          in: cookie
+          schema:
+            type: string
+            format: date-time
+            minLength: 20
+        - name: ByteWithMinLength
+          in: cookie
+          schema:
+            type: string
+            format: byte
+            minLength: 10
+        - name: BinaryWithMinLength
+          in: cookie
+          schema:
+            type: string
+            format: binary
+            minLength: 10
+        - name: StringWithMaxLength
+          in: cookie
+          schema:
+            type: string
+            maxLength: 1
+        - name: DateWithMaxLength
+          in: cookie
+          schema:
+            type: string
+            format: date
+            maxLength: 10
+        - name: DateTimeWithMaxLength
+          in: cookie
+          schema:
+            type: string
+            format: date-time
+            maxLength: 20
+        - name: ByteWithMaxLength
+          in: cookie
+          schema:
+            type: string
+            format: byte
+            maxLength: 10
+        - name: BinaryWithMaxLength
+          in: cookie
+          schema:
+            type: string
+            format: binary
+            maxLength: 10
+        - name: IntegerWithMultipleOf
+          in: cookie
+          schema:
+            type: integer
+            multipleOf: 2
+        - name: Integer32WithMultipleOf
+          in: cookie
+          schema:
+            type: integer
+            format: int32
+            multipleOf: 2
+        - name: Integer64WithMultipleOf
+          in: cookie
+          schema:
+            type: integer
+            format: int64
+            multipleOf: 2
+        - name: NumberWithMultipleOf
+          in: cookie
+          schema:
+            type: number
+            multipleOf: 2
+        - name: NumberFloatWithMultipleOf
+          in: cookie
+          schema:
+            type: number
+            format: float
+            multipleOf: 2
+        - name: NumberDoubleWithMultipleOf
+          in: cookie
+          schema:
+            type: number
+            format: double
+            multipleOf: 2
+        - name: StringWithPattern
+          in: cookie
+          schema:
+            type: string
+            pattern: '^2021.+'
+        - name: DateWithPattern
+          in: cookie
+          schema:
+            type: string
+            format: date
+            pattern: '^2021.+'
+        - name: DateTimeWithPattern
+          in: cookie
+          schema:
+            type: string
+            format: date-time
+            pattern: '^2021.+'
+        - name: ByteWithPattern
+          in: cookie
+          schema:
+            type: string
+            format: byte
+            pattern: '^2021.+'
+        - name: BinaryWithPattern
+          in: cookie
+          schema:
+            type: string
+            format: binary
+            pattern: '^2021.+'
+        - name: IntegerWithMinimum
+          in: cookie
+          schema:
+            type: integer
+            minimum: 1
+        - name: Integer32WithMinimum
+          in: cookie
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: Integer64WithMinimum
+          in: cookie
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+        - name: NumberWithMinimum
+          in: cookie
+          schema:
+            type: number
+            minimum: 1
+        - name: NumberFloatWithMinimum
+          in: cookie
+          schema:
+            type: number
+            format: float
+            minimum: 1
+        - name: NumberDoubleWithMinimum
+          in: cookie
+          schema:
+            type: number
+            format: double
+            minimum: 1
+        - name: IntegerWithMaximum
+          in: cookie
+          schema:
+            type: integer
+            maximum: 10
+        - name: Integer32WithMaximum
+          in: cookie
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+        - name: Integer64WithMaximum
+          in: cookie
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+        - name: NumberWithMaximum
+          in: cookie
+          schema:
+            type: number
+            maximum: 10
+        - name: NumberFloatWithMaximum
+          in: cookie
+          schema:
+            type: number
+            format: float
+            maximum: 10
+        - name: NumberDoubleWithMaximum
+          in: cookie
+          schema:
+            type: number
+            format: double
+            maximum: 10
+        - name: IntegerWithExclusiveMinimum
+          in: cookie
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer32WithExclusiveMinimum
+          in: cookie
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer64WithExclusiveMinimum
+          in: cookie
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberWithExclusiveMinimum
+          in: cookie
+          schema:
+            type: number
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberFloatWithExclusiveMinimum
+          in: cookie
+          schema:
+            type: number
+            format: float
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberDoubleWithExclusiveMinimum
+          in: cookie
+          schema:
+            type: number
+            format: double
+            minimum: 1
+            exclusiveMinimum: true
+        - name: IntegerWithExclusiveMaximum
+          in: cookie
+          schema:
+            type: integer
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer32WithExclusiveMaximum
+          in: cookie
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer64WithExclusiveMaximum
+          in: cookie
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberWithExclusiveMaximum
+          in: cookie
+          schema:
+            type: number
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberFloatWithExclusiveMaximum
+          in: cookie
+          schema:
+            type: number
+            format: float
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberDoubleWithExclusiveMaximum
+          in: cookie
+          schema:
+            type: number
+            format: double
+            maximum: 10
+            exclusiveMaximum: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+  /headerParametersWithValidation:
+    post:
+      tags:
+        - isX
+      operationId: headerParametersWithValidation
+      parameters:
+        - name: ArrayWithMaxItems
+          in: header
+          schema:
+            type: array
+            maxItems: 2
+            items:
+              type: string
+        - name: ArrayWithMinItems
+          in: header
+          schema:
+            type: array
+            minItems: 2
+            items:
+              type: string
+        - name: ArrayWithUniqueItems
+          in: header
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+        - name: ObjectWithMinProperties
+          in: header
+          schema:
+            type: object
+            minProperties: 2
+        - name: ObjectWithMaxProperties
+          in: header
+          schema:
+            type: object
+            maxProperties: 2
+        - name: StringWithMinLength
+          in: header
+          schema:
+            type: string
+            minLength: 1
+        - name: DateWithMinLength
+          in: header
+          schema:
+            type: string
+            format: date
+            minLength: 10
+        - name: DateTimeWithMinLength
+          in: header
+          schema:
+            type: string
+            format: date-time
+            minLength: 20
+        - name: ByteWithMinLength
+          in: header
+          schema:
+            type: string
+            format: byte
+            minLength: 10
+        - name: BinaryWithMinLength
+          in: header
+          schema:
+            type: string
+            format: binary
+            minLength: 10
+        - name: StringWithMaxLength
+          in: header
+          schema:
+            type: string
+            maxLength: 1
+        - name: DateWithMaxLength
+          in: header
+          schema:
+            type: string
+            format: date
+            maxLength: 10
+        - name: DateTimeWithMaxLength
+          in: header
+          schema:
+            type: string
+            format: date-time
+            maxLength: 20
+        - name: ByteWithMaxLength
+          in: header
+          schema:
+            type: string
+            format: byte
+            maxLength: 10
+        - name: BinaryWithMaxLength
+          in: header
+          schema:
+            type: string
+            format: binary
+            maxLength: 10
+        - name: IntegerWithMultipleOf
+          in: header
+          schema:
+            type: integer
+            multipleOf: 2
+        - name: Integer32WithMultipleOf
+          in: header
+          schema:
+            type: integer
+            format: int32
+            multipleOf: 2
+        - name: Integer64WithMultipleOf
+          in: header
+          schema:
+            type: integer
+            format: int64
+            multipleOf: 2
+        - name: NumberWithMultipleOf
+          in: header
+          schema:
+            type: number
+            multipleOf: 2
+        - name: NumberFloatWithMultipleOf
+          in: header
+          schema:
+            type: number
+            format: float
+            multipleOf: 2
+        - name: NumberDoubleWithMultipleOf
+          in: header
+          schema:
+            type: number
+            format: double
+            multipleOf: 2
+        - name: StringWithPattern
+          in: header
+          schema:
+            type: string
+            pattern: '^2021.+'
+        - name: DateWithPattern
+          in: header
+          schema:
+            type: string
+            format: date
+            pattern: '^2021.+'
+        - name: DateTimeWithPattern
+          in: header
+          schema:
+            type: string
+            format: date-time
+            pattern: '^2021.+'
+        - name: ByteWithPattern
+          in: header
+          schema:
+            type: string
+            format: byte
+            pattern: '^2021.+'
+        - name: BinaryWithPattern
+          in: header
+          schema:
+            type: string
+            format: binary
+            pattern: '^2021.+'
+        - name: IntegerWithMinimum
+          in: header
+          schema:
+            type: integer
+            minimum: 1
+        - name: Integer32WithMinimum
+          in: header
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: Integer64WithMinimum
+          in: header
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+        - name: NumberWithMinimum
+          in: header
+          schema:
+            type: number
+            minimum: 1
+        - name: NumberFloatWithMinimum
+          in: header
+          schema:
+            type: number
+            format: float
+            minimum: 1
+        - name: NumberDoubleWithMinimum
+          in: header
+          schema:
+            type: number
+            format: double
+            minimum: 1
+        - name: IntegerWithMaximum
+          in: header
+          schema:
+            type: integer
+            maximum: 10
+        - name: Integer32WithMaximum
+          in: header
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+        - name: Integer64WithMaximum
+          in: header
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+        - name: NumberWithMaximum
+          in: header
+          schema:
+            type: number
+            maximum: 10
+        - name: NumberFloatWithMaximum
+          in: header
+          schema:
+            type: number
+            format: float
+            maximum: 10
+        - name: NumberDoubleWithMaximum
+          in: header
+          schema:
+            type: number
+            format: double
+            maximum: 10
+        - name: IntegerWithExclusiveMinimum
+          in: header
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer32WithExclusiveMinimum
+          in: header
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer64WithExclusiveMinimum
+          in: header
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberWithExclusiveMinimum
+          in: header
+          schema:
+            type: number
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberFloatWithExclusiveMinimum
+          in: header
+          schema:
+            type: number
+            format: float
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberDoubleWithExclusiveMinimum
+          in: header
+          schema:
+            type: number
+            format: double
+            minimum: 1
+            exclusiveMinimum: true
+        - name: IntegerWithExclusiveMaximum
+          in: header
+          schema:
+            type: integer
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer32WithExclusiveMaximum
+          in: header
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer64WithExclusiveMaximum
+          in: header
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberWithExclusiveMaximum
+          in: header
+          schema:
+            type: number
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberFloatWithExclusiveMaximum
+          in: header
+          schema:
+            type: number
+            format: float
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberDoubleWithExclusiveMaximum
+          in: header
+          schema:
+            type: number
+            format: double
+            maximum: 10
+            exclusiveMaximum: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+  /queryParametersWithValidation:
+    post:
+      tags:
+        - isX
+      operationId: queryParametersWithValidation
+      parameters:
+        - name: ArrayWithMaxItems
+          in: query
+          schema:
+            type: array
+            maxItems: 2
+            items:
+              type: string
+        - name: ArrayWithMinItems
+          in: query
+          schema:
+            type: array
+            minItems: 2
+            items:
+              type: string
+        - name: ArrayWithUniqueItems
+          in: query
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+        - name: ObjectWithMinProperties
+          in: query
+          schema:
+            type: object
+            minProperties: 2
+        - name: ObjectWithMaxProperties
+          in: query
+          schema:
+            type: object
+            maxProperties: 2
+        - name: StringWithMinLength
+          in: query
+          schema:
+            type: string
+            minLength: 1
+        - name: DateWithMinLength
+          in: query
+          schema:
+            type: string
+            format: date
+            minLength: 10
+        - name: DateTimeWithMinLength
+          in: query
+          schema:
+            type: string
+            format: date-time
+            minLength: 20
+        - name: ByteWithMinLength
+          in: query
+          schema:
+            type: string
+            format: byte
+            minLength: 10
+        - name: BinaryWithMinLength
+          in: query
+          schema:
+            type: string
+            format: binary
+            minLength: 10
+        - name: StringWithMaxLength
+          in: query
+          schema:
+            type: string
+            maxLength: 1
+        - name: DateWithMaxLength
+          in: query
+          schema:
+            type: string
+            format: date
+            maxLength: 10
+        - name: DateTimeWithMaxLength
+          in: query
+          schema:
+            type: string
+            format: date-time
+            maxLength: 20
+        - name: ByteWithMaxLength
+          in: query
+          schema:
+            type: string
+            format: byte
+            maxLength: 10
+        - name: BinaryWithMaxLength
+          in: query
+          schema:
+            type: string
+            format: binary
+            maxLength: 10
+        - name: IntegerWithMultipleOf
+          in: query
+          schema:
+            type: integer
+            multipleOf: 2
+        - name: Integer32WithMultipleOf
+          in: query
+          schema:
+            type: integer
+            format: int32
+            multipleOf: 2
+        - name: Integer64WithMultipleOf
+          in: query
+          schema:
+            type: integer
+            format: int64
+            multipleOf: 2
+        - name: NumberWithMultipleOf
+          in: query
+          schema:
+            type: number
+            multipleOf: 2
+        - name: NumberFloatWithMultipleOf
+          in: query
+          schema:
+            type: number
+            format: float
+            multipleOf: 2
+        - name: NumberDoubleWithMultipleOf
+          in: query
+          schema:
+            type: number
+            format: double
+            multipleOf: 2
+        - name: StringWithPattern
+          in: query
+          schema:
+            type: string
+            pattern: '^2021.+'
+        - name: DateWithPattern
+          in: query
+          schema:
+            type: string
+            format: date
+            pattern: '^2021.+'
+        - name: DateTimeWithPattern
+          in: query
+          schema:
+            type: string
+            format: date-time
+            pattern: '^2021.+'
+        - name: ByteWithPattern
+          in: query
+          schema:
+            type: string
+            format: byte
+            pattern: '^2021.+'
+        - name: BinaryWithPattern
+          in: query
+          schema:
+            type: string
+            format: binary
+            pattern: '^2021.+'
+        - name: IntegerWithMinimum
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+        - name: Integer32WithMinimum
+          in: query
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: Integer64WithMinimum
+          in: query
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+        - name: NumberWithMinimum
+          in: query
+          schema:
+            type: number
+            minimum: 1
+        - name: NumberFloatWithMinimum
+          in: query
+          schema:
+            type: number
+            format: float
+            minimum: 1
+        - name: NumberDoubleWithMinimum
+          in: query
+          schema:
+            type: number
+            format: double
+            minimum: 1
+        - name: IntegerWithMaximum
+          in: query
+          schema:
+            type: integer
+            maximum: 10
+        - name: Integer32WithMaximum
+          in: query
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+        - name: Integer64WithMaximum
+          in: query
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+        - name: NumberWithMaximum
+          in: query
+          schema:
+            type: number
+            maximum: 10
+        - name: NumberFloatWithMaximum
+          in: query
+          schema:
+            type: number
+            format: float
+            maximum: 10
+        - name: NumberDoubleWithMaximum
+          in: query
+          schema:
+            type: number
+            format: double
+            maximum: 10
+        - name: IntegerWithExclusiveMinimum
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer32WithExclusiveMinimum
+          in: query
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            exclusiveMinimum: true
+        - name: Integer64WithExclusiveMinimum
+          in: query
+          schema:
+            type: integer
+            format: int364
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberWithExclusiveMinimum
+          in: query
+          schema:
+            type: number
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberFloatWithExclusiveMinimum
+          in: query
+          schema:
+            type: number
+            format: float
+            minimum: 1
+            exclusiveMinimum: true
+        - name: NumberDoubleWithExclusiveMinimum
+          in: query
+          schema:
+            type: number
+            format: double
+            minimum: 1
+            exclusiveMinimum: true
+        - name: IntegerWithExclusiveMaximum
+          in: query
+          schema:
+            type: integer
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer32WithExclusiveMaximum
+          in: query
+          schema:
+            type: integer
+            format: int32
+            maximum: 10
+            exclusiveMaximum: true
+        - name: Integer64WithExclusiveMaximum
+          in: query
+          schema:
+            type: integer
+            format: int64
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberWithExclusiveMaximum
+          in: query
+          schema:
+            type: number
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberFloatWithExclusiveMaximum
+          in: query
+          schema:
+            type: number
+            format: float
+            maximum: 10
+            exclusiveMaximum: true
+        - name: NumberDoubleWithExclusiveMaximum
+          in: query
+          schema:
+            type: number
+            format: double
+            maximum: 10
+            exclusiveMaximum: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+  /ref_date_with_validation/{date}:
+    post:
+      tags:
+        - isX
+      operationId: refDateWithValidation
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/DateWithValidation'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DateWithValidation'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DateWithValidation'
+  /date_with_validation/{date}:
+    post:
+      tags:
+        - isX
+      operationId: dateWithValidation
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+            pattern: '^2020.*'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: date
+              pattern: '^2020.*'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: date
+                pattern: '^2020.*'
+  /ref_date_time_with_validation/{dateTime}:
+    post:
+      tags:
+        - isX
+      operationId: refDateTimeWithValidation
+      parameters:
+        - name: dateTime
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/DateTimeWithValidation'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DateTimeWithValidation'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DateTimeWithValidation'
+  /date_time_with_validation/{dateTime}:
+    post:
+      tags:
+        - isX
+      operationId: dateTimeWithValidation
+      parameters:
+        - name: dateTime
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date-time
+            pattern: '^2020.*'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: date-time
+              pattern: '^2020.*'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: string
+                format: date-time
+                pattern: '^2020.*'
+  /null/{param}:
+    post:
+      tags:
+        - isX
+      operationId: 'null'
+      parameters:
+        - name: param
+          in: path
+          required: true
+          schema:
+            type: 'null'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: 'null'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: 'null'
+  /ref_null/{param}:
+    post:
+      tags:
+        - isX
+      operationId: refNull
+      parameters:
+        - name: param
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/NullModel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NullModel'
+        required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullModel'
+components:
+  schemas:
+    ArrayWithMaxItems:
+      type: array
+      maxItems: 2
+      items:
+        type: string
+    ArrayWithMinItems:
+      type: array
+      minItems: 2
+      items:
+        type: string
+    ArrayWithUniqueItems:
+      type: array
+      uniqueItems: true
+      items:
+        type: string
+    ObjectWithMinProperties:
+      type: object
+      minProperties: 2
+    ObjectWithMaxProperties:
+      type: object
+      maxProperties: 2
+    StringWithMinLength:
+      type: string
+      minLength: 1
+    DateWithMinLength:
+      type: string
+      format: date
+      minLength: 10
+    DateTimeWithMinLength:
+      type: string
+      format: date-time
+      minLength: 20
+    ByteWithMinLength:
+      type: string
+      format: byte
+      minLength: 10
+    BinaryWithMinLength:
+      type: string
+      format: binary
+      minLength: 10
+    StringWithMaxLength:
+      type: string
+      maxLength: 1
+    DateWithMaxLength:
+      type: string
+      format: date
+      maxLength: 10
+    DateTimeWithMaxLength:
+      type: string
+      format: date-time
+      maxLength: 20
+    ByteWithMaxLength:
+      type: string
+      format: byte
+      maxLength: 10
+    BinaryWithMaxLength:
+      type: string
+      format: binary
+      maxLength: 10
+    IntegerWithMultipleOf:
+      type: integer
+      multipleOf: 2
+    Integer32WithMultipleOf:
+      type: integer
+      format: int32
+      multipleOf: 2
+    Integer64WithMultipleOf:
+      type: integer
+      format: int64
+      multipleOf: 2
+    NumberWithMultipleOf:
+      type: number
+      multipleOf: 2
+    NumberFloatWithMultipleOf:
+      type: number
+      format: float
+      multipleOf: 2
+    NumberDoubleWithMultipleOf:
+      type: number
+      format: double
+      multipleOf: 2
+    StringWithPattern:
+      type: string
+      pattern: '^2021.+'
+    DateWithPattern:
+      type: string
+      format: date
+      pattern: '^2021.+'
+    DateTimeWithPattern:
+      type: string
+      format: date-time
+      pattern: '^2021.+'
+    ByteWithPattern:
+      type: string
+      format: byte
+      pattern: '^2021.+'
+    BinaryWithPattern:
+      type: string
+      format: binary
+      pattern: '^2021.+'
+    IntegerWithMinimum:
+      type: integer
+      minimum: 1
+    Integer32WithMinimum:
+      type: integer
+      format: int32
+      minimum: 1
+    Integer64WithMinimum:
+      type: integer
+      format: int364
+      minimum: 1
+    NumberWithMinimum:
+      type: number
+      minimum: 1
+    NumberFloatWithMinimum:
+      type: number
+      format: float
+      minimum: 1
+    NumberDoubleWithMinimum:
+      type: number
+      format: double
+      minimum: 1
+    IntegerWithMaximum:
+      type: integer
+      maximum: 10
+    Integer32WithMaximum:
+      type: integer
+      format: int32
+      maximum: 10
+    Integer64WithMaximum:
+      type: integer
+      format: int64
+      maximum: 10
+    NumberWithMaximum:
+      type: number
+      maximum: 10
+    NumberFloatWithMaximum:
+      type: number
+      format: float
+      maximum: 10
+    NumberDoubleWithMaximum:
+      type: number
+      format: double
+      maximum: 10
+    IntegerWithExclusiveMinimum:
+      type: integer
+      minimum: 1
+      exclusiveMinimum: true
+    Integer32WithExclusiveMinimum:
+      type: integer
+      format: int32
+      minimum: 1
+      exclusiveMinimum: true
+    Integer64WithExclusiveMinimum:
+      type: integer
+      format: int364
+      minimum: 1
+      exclusiveMinimum: true
+    NumberWithExclusiveMinimum:
+      type: number
+      minimum: 1
+      exclusiveMinimum: true
+    NumberFloatWithExclusiveMinimum:
+      type: number
+      format: float
+      minimum: 1
+      exclusiveMinimum: true
+    NumberDoubleWithExclusiveMinimum:
+      type: number
+      format: double
+      minimum: 1
+      exclusiveMinimum: true
+    IntegerWithExclusiveMaximum:
+      type: integer
+      maximum: 10
+      exclusiveMaximum: true
+    Integer32WithExclusiveMaximum:
+      type: integer
+      format: int32
+      maximum: 10
+      exclusiveMaximum: true
+    Integer64WithExclusiveMaximum:
+      type: integer
+      format: int64
+      maximum: 10
+      exclusiveMaximum: true
+    NumberWithExclusiveMaximum:
+      type: number
+      maximum: 10
+      exclusiveMaximum: true
+    NumberFloatWithExclusiveMaximum:
+      type: number
+      format: float
+      maximum: 10
+      exclusiveMaximum: true
+    NumberDoubleWithExclusiveMaximum:
+      type: number
+      format: double
+      maximum: 10
+      exclusiveMaximum: true
+    ObjectWithPropertiesThatHaveValidations:
+      type: object
+      properties:
+        ArrayWithMaxItems:
+          type: array
+          maxItems: 2
+          items:
+            type: string
+        ArrayWithMinItems:
+          type: array
+          minItems: 2
+          items:
+            type: string
+        ArrayWithUniqueItems:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        ObjectWithMinProperties:
+          type: object
+          minProperties: 2
+        ObjectWithMaxProperties:
+          type: object
+          maxProperties: 2
+        StringWithMinLength:
+          type: string
+          minLength: 1
+        DateWithMinLength:
+          type: string
+          format: date
+          minLength: 10
+        DateTimeWithMinLength:
+          type: string
+          format: date-time
+          minLength: 20
+        ByteWithMinLength:
+          type: string
+          format: byte
+          minLength: 10
+        BinaryWithMinLength:
+          type: string
+          format: binary
+          minLength: 10
+        StringWithMaxLength:
+          type: string
+          maxLength: 1
+        DateWithMaxLength:
+          type: string
+          format: date
+          maxLength: 10
+        DateTimeWithMaxLength:
+          type: string
+          format: date-time
+          maxLength: 20
+        ByteWithMaxLength:
+          type: string
+          format: byte
+          maxLength: 10
+        BinaryWithMaxLength:
+          type: string
+          format: binary
+          maxLength: 10
+        IntegerWithMultipleOf:
+          type: integer
+          multipleOf: 2
+        Integer32WithMultipleOf:
+          type: integer
+          format: int32
+          multipleOf: 2
+        Integer64WithMultipleOf:
+          type: integer
+          format: int64
+          multipleOf: 2
+        NumberWithMultipleOf:
+          type: number
+          multipleOf: 2
+        NumberFloatWithMultipleOf:
+          type: number
+          format: float
+          multipleOf: 2
+        NumberDoubleWithMultipleOf:
+          type: number
+          format: double
+          multipleOf: 2
+        StringWithPattern:
+          type: string
+          pattern: '^2021.+'
+        DateWithPattern:
+          type: string
+          format: date
+          pattern: '^2021.+'
+        DateTimeWithPattern:
+          type: string
+          format: date-time
+          pattern: '^2021.+'
+        ByteWithPattern:
+          type: string
+          format: byte
+          pattern: '^2021.+'
+        BinaryWithPattern:
+          type: string
+          format: binary
+          pattern: '^2021.+'
+        IntegerWithMinimum:
+          type: integer
+          minimum: 1
+        Integer32WithMinimum:
+          type: integer
+          format: int32
+          minimum: 1
+        Integer64WithMinimum:
+          type: integer
+          format: int364
+          minimum: 1
+        NumberWithMinimum:
+          type: number
+          minimum: 1
+        NumberFloatWithMinimum:
+          type: number
+          format: float
+          minimum: 1
+        NumberDoubleWithMinimum:
+          type: number
+          format: double
+          minimum: 1
+        IntegerWithMaximum:
+          type: integer
+          maximum: 10
+        Integer32WithMaximum:
+          type: integer
+          format: int32
+          maximum: 10
+        Integer64WithMaximum:
+          type: integer
+          format: int64
+          maximum: 10
+        NumberWithMaximum:
+          type: number
+          maximum: 10
+        NumberFloatWithMaximum:
+          type: number
+          format: float
+          maximum: 10
+        NumberDoubleWithMaximum:
+          type: number
+          format: double
+          maximum: 10
+        IntegerWithExclusiveMinimum:
+          type: integer
+          minimum: 1
+          exclusiveMinimum: true
+        Integer32WithExclusiveMinimum:
+          type: integer
+          format: int32
+          minimum: 1
+          exclusiveMinimum: true
+        Integer64WithExclusiveMinimum:
+          type: integer
+          format: int364
+          minimum: 1
+          exclusiveMinimum: true
+        NumberWithExclusiveMinimum:
+          type: number
+          minimum: 1
+          exclusiveMinimum: true
+        NumberFloatWithExclusiveMinimum:
+          type: number
+          format: float
+          minimum: 1
+          exclusiveMinimum: true
+        NumberDoubleWithExclusiveMinimum:
+          type: number
+          format: double
+          minimum: 1
+          exclusiveMinimum: true
+        IntegerWithExclusiveMaximum:
+          type: integer
+          maximum: 10
+          exclusiveMaximum: true
+        Integer32WithExclusiveMaximum:
+          type: integer
+          format: int32
+          maximum: 10
+          exclusiveMaximum: true
+        Integer64WithExclusiveMaximum:
+          type: integer
+          format: int64
+          maximum: 10
+          exclusiveMaximum: true
+        NumberWithExclusiveMaximum:
+          type: number
+          maximum: 10
+          exclusiveMaximum: true
+        NumberFloatWithExclusiveMaximum:
+          type: number
+          format: float
+          maximum: 10
+          exclusiveMaximum: true
+        NumberDoubleWithExclusiveMaximum:
+          type: number
+          format: double
+          maximum: 10
+          exclusiveMaximum: true
+    NullModel:
+      type: 'null'
+    ObjectWithTypeNullProperties:
+      type: object
+      properties:
+        nullProp:
+          type: 'null'
+        listOfNulls:
+          type: array
+          items:
+            type: 'null'
+      additionalProperties:
+        type: 'null'
+    ArrayOfNulls:
+      type: array
+      items:
+        type: 'null'
+    DateWithValidation:
+      type: string
+      format: date
+      pattern: '^2020.*'
+    ObjectWithDateWithValidation:
+      type: object
+      properties:
+        dateWithValidation:
+          type: string
+          format: date
+          pattern: '^2020.*'
+    DateTimeWithValidation:
+      type: string
+      format: date-time
+      pattern: '^2020.*'
+    ObjectWithDateTimeWithValidation:
+      type: object
+      properties:
+        dateWithValidation:
+          type: string
+          format: date-time
+          pattern: '^2020.*'
+  securitySchemes: {}

@@ -1,0 +1,71 @@
+swagger: "2.0"
+info:
+  title: Test Command model generation
+  description: Test Command model generation
+  version: 1.0.0
+host: localhost:8080
+schemes:
+  - https
+definitions:
+  Command:
+    title: Command
+    description: The base object for all command objects.
+    type: object
+    # Explicitly avoid treating as a "free-form" or dynamic object, resulting in classical languages as a class with no properties.
+    x-is-free-form: false
+  RealCommand:
+    title: RealCommand
+    description: The real command.
+    allOf:
+      - $ref: '#/definitions/Command'
+  ApiError:
+    description: The base object for API errors.
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        description: The error code. Usually, it is the HTTP error code.
+        type: string
+        readOnly: true
+      message:
+        description: The error message.
+        type: string
+        readOnly: true
+    title: ApiError
+parameters:
+  b_real_command:
+    name: real_command
+    in: body
+    description: A payload for executing a real command.
+    required: true
+    schema:
+      $ref: '#/definitions/RealCommand'
+paths:
+  /execute:
+    post:
+      produces: []
+      operationId: executeRealCommand
+      parameters:
+        - name: real_command
+          in: body
+          description: A payload for executing a real command.
+          required: true
+          schema:
+            $ref: '#/definitions/RealCommand'
+      responses:
+        '204':
+          description: Successful request. No content returned.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: '#/definitions/ApiError'
+        '404':
+          description: Not found.
+          schema:
+            $ref: '#/definitions/ApiError'
+        default:
+          description: Unknown error.
+          schema:
+            $ref: '#/definitions/ApiError'

@@ -34,9 +34,9 @@ import javax.validation.Valid;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
-  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
+  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
 
 public class Animal  implements Serializable {
@@ -57,7 +57,7 @@ public class Animal  implements Serializable {
    * Get className
    * @return className
    **/
-  @JsonProperty("className")
+  @JsonProperty(value = "className")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public String getClassName() {
@@ -77,7 +77,7 @@ public class Animal  implements Serializable {
    * Get color
    * @return color
    **/
-  @JsonProperty("color")
+  @JsonProperty(value = "color")
   @ApiModelProperty(value = "")
   
   public String getColor() {
@@ -90,7 +90,7 @@ public class Animal  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -123,7 +123,7 @@ public class Animal  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

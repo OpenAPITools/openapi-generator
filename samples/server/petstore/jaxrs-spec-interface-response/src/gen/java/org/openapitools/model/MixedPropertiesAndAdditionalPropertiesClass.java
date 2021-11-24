@@ -44,7 +44,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
-  }/**
+  }
+
+/**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(Date dateTime) {
     this.dateTime = dateTime;
@@ -62,7 +64,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
-  }/**
+  }
+
+/**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
     this.map = map;
@@ -82,8 +86,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
     this.map = map;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -117,7 +122,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

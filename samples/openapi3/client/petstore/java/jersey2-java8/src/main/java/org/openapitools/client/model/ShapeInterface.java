@@ -20,6 +20,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -38,6 +39,8 @@ public class ShapeInterface {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
 
+  public ShapeInterface() { 
+  }
 
   public ShapeInterface shapeType(String shapeType) {
     this.shapeType = shapeType;
@@ -48,6 +51,7 @@ public class ShapeInterface {
    * Get shapeType
    * @return shapeType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -57,6 +61,8 @@ public class ShapeInterface {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
@@ -66,7 +72,7 @@ public class ShapeInterface {
    * Return true if this ShapeInterface object is equal to o.
    */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -82,7 +88,6 @@ public class ShapeInterface {
     return Objects.hash(shapeType);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -96,7 +101,7 @@ public class ShapeInterface {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

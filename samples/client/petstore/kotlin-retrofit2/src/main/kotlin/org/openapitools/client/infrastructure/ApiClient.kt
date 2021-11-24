@@ -7,18 +7,23 @@ import org.openapitools.client.auth.OAuth
 import org.openapitools.client.auth.OAuth.AccessTokenListener
 import org.openapitools.client.auth.OAuthFlow
 
+import okhttp3.Call
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import com.squareup.moshi.Moshi
 import retrofit2.converter.moshi.MoshiConverterFactory
 
+
 class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
-    private val serializerBuilder: Moshi.Builder = Serializer.moshiBuilder
+    private val serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
+    private val callFactory : Call.Factory? = null,
+    private val converterFactory: Converter.Factory? = null,
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -28,6 +33,11 @@ class ApiClient(
             .baseUrl(baseUrl)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
+            .apply {
+                if (converterFactory != null) {
+                    addConverterFactory(converterFactory)
+                }
+            }
     }
 
     private val clientBuilder: OkHttpClient.Builder by lazy {
@@ -69,10 +79,10 @@ class ApiClient(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
         serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
-        authName: String, 
-        clientId: String, 
-        secret: String, 
-        username: String, 
+        authName: String,
+        clientId: String,
+        secret: String,
+        username: String,
         password: String
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
         getTokenEndPoint()
@@ -171,7 +181,8 @@ class ApiClient(
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        return retrofitBuilder.client(clientBuilder.build()).build().create(serviceClass)
+        val usedCallFactory = this.callFactory ?: clientBuilder.build()
+        return retrofitBuilder.callFactory(usedCallFactory).build().create(serviceClass)
     }
 
     private fun normalizeBaseUrl() {
@@ -189,10 +200,13 @@ class ApiClient(
         }
     }
 
-    companion object {        
+    companion object {
+        @JvmStatic
+        protected val baseUrlKey = "org.openapitools.client.baseUrl"
+
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(baseUrlKey, "http://petstore.swagger.io/v2")
         }
     }
 }

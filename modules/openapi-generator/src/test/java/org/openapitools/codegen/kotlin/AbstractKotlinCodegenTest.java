@@ -16,7 +16,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -37,7 +37,7 @@ public class AbstractKotlinCodegenTest {
     }
 
     @Test
-    public void uppercasEnumConverter() {
+    public void uppercaseEnumConverter() {
         codegen.setEnumPropertyNaming(UPPERCASE.name());
         assertEquals(codegen.toEnumVarName("long Name", null), "LONG_NAME");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1LONG_NAME");
@@ -77,7 +77,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
     }
 
-    private class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
+    private static class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
         @Override
         public CodegenType getTag() {
             return null;
@@ -128,9 +128,9 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toVarName("name"), "name");
         assertEquals(codegen.toVarName("$name"), "dollarName");
         assertEquals(codegen.toVarName("nam$$e"), "namDollarDollarE");
-        assertEquals(codegen.toVarName("user-name"), "userMinusName");
+        assertEquals(codegen.toVarName("user-name"), "userName");
         assertEquals(codegen.toVarName("user_name"), "userName");
-        assertEquals(codegen.toVarName("user|name"), "userPipeName");
+        assertEquals(codegen.toVarName("user|name"), "userName");
         assertEquals(codegen.toVarName("Pony?"), "ponyQuestionMark");
         assertEquals(codegen.toVarName("nam#e"), "namHashE");
         assertEquals(codegen.toVarName("Pony>=>="), "ponyGreaterThanEqualGreaterThanEqual");
@@ -250,5 +250,26 @@ public class AbstractKotlinCodegenTest {
             pm.optionalVars.stream().map(CodegenProperty::getBaseName).toArray(),
             new String[] {"b", "d"}
         );
+    }
+
+    @Test(description = "Issue #10591")
+    public void testEnumPropertyWithDefaultValue() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue10591-enum-defaultValue.yaml");
+        final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
+        CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
+
+        // Make sure we got the container object.
+        Assert.assertEquals(cm1.getDataType(), "kotlin.Any");
+        Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "MyResponse");
+
+        // We need to postProcess the model for enums to be processed
+        codegen.postProcessModels(Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm1))));
+
+        // Assert the enum default value is properly generated
+        CodegenProperty cp1 = cm1.vars.get(0);
+        Assert.assertEquals(cp1.getEnumName(), "PropertyName");
+        Assert.assertEquals(cp1.getDefaultValue(), "PropertyName.vALUE");
     }
 }

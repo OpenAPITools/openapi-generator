@@ -36,6 +36,8 @@ public class SpecialModelName {
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
   private Long $specialPropertyName;
 
+  public SpecialModelName() { 
+  }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     
@@ -61,7 +63,7 @@ public class SpecialModelName {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -77,7 +79,6 @@ public class SpecialModelName {
     return Objects.hash($specialPropertyName);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -91,7 +92,7 @@ public class SpecialModelName {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

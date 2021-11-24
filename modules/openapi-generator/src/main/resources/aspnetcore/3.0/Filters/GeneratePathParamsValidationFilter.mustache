@@ -22,20 +22,20 @@ namespace {{packageName}}.Filters
 
             foreach (var par in pars)
             {
-                var swaggerParam = operation.Parameters.SingleOrDefault(p => p.Name == par.Name);
+                var openapiParam = operation.Parameters.SingleOrDefault(p => p.Name == par.Name);
 
                 var attributes = ((ControllerParameterDescriptor)par.ParameterDescriptor).ParameterInfo.CustomAttributes.ToList();
 
                 // See https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1147
                 // and https://mikeralphson.github.io/openapi/2017/03/15/openapi3.0.0-rc0
                 // Basically OpenAPI v3 body parameters are split out into RequestBody and the properties have moved to schema
-                if (attributes.Any() && swaggerParam != null)
+                if (attributes.Any() && openapiParam != null)
                 {
                     // Required - [Required]
                     var requiredAttr = attributes.FirstOrDefault(p => p.AttributeType == typeof(RequiredAttribute));
                     if (requiredAttr != null)
                     {
-                        swaggerParam.Required = true;
+                        openapiParam.Required = true;
                     }
 
                     // Regex Pattern [RegularExpression]
@@ -43,7 +43,7 @@ namespace {{packageName}}.Filters
                     if (regexAttr != null)
                     {
                         var regex = (string)regexAttr.ConstructorArguments[0].Value;
-                        swaggerParam.Schema.Pattern = regex;
+                        openapiParam.Schema.Pattern = regex;
                     }
 
                     // String Length [StringLength]
@@ -72,12 +72,12 @@ namespace {{packageName}}.Filters
 
                     if (minLength != null)
                     {
-                        swaggerParam.Schema.MinLength = minLength;
+                        openapiParam.Schema.MinLength = minLength;
                     }
 
                     if (maxLength != null)
                     {
-                        swaggerParam.Schema.MaxLength = maxLength;
+                        openapiParam.Schema.MaxLength = maxLength;
                     }
 
                     // Range [Range]
@@ -87,12 +87,11 @@ namespace {{packageName}}.Filters
                         var rangeMin = (int)rangeAttr.ConstructorArguments[0].Value;
                         var rangeMax = (int)rangeAttr.ConstructorArguments[1].Value;
 
-                        swaggerParam.Schema.MinLength = rangeMin;
-                        swaggerParam.Schema.MaxLength = rangeMax;
+                        openapiParam.Schema.MinLength = rangeMin;
+                        openapiParam.Schema.MaxLength = rangeMax;
                     }
                 }
             }
         }
     }
 }
-

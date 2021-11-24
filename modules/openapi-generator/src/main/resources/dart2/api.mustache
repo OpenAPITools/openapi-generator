@@ -1,129 +1,207 @@
-part of {{pubName}}.api;
-
+{{>header}}
+{{>part_of}}
 {{#operations}}
 
+class {{{classname}}} {
+  {{{classname}}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
-class {{classname}} {
   final ApiClient apiClient;
-
-  {{classname}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
-
   {{#operation}}
-  /// {{summary}} with HTTP info returned
-  ///
-  /// {{notes}}
-  {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
-    Object postBody{{#bodyParam}} = {{paramName}}{{/bodyParam}};
 
-    // verify required params are set
+  {{#summary}}
+  /// {{{.}}}
+  {{/summary}}
+  {{#notes}}
+    {{#summary}}
+  ///
+    {{/summary}}
+  /// {{{notes}}}
+  ///
+  /// Note: This method returns the HTTP [Response].
+  {{/notes}}
+  {{^notes}}
+    {{#summary}}
+  ///
+  /// Note: This method returns the HTTP [Response].
+    {{/summary}}
+    {{^summary}}
+  /// Performs an HTTP '{{{httpMethod}}} {{{path}}}' operation and returns the [Response].
+    {{/summary}}
+  {{/notes}}
+  {{#hasParams}}
+    {{#summary}}
+  ///
+    {{/summary}}
+    {{^summary}}
+      {{#notes}}
+  ///
+      {{/notes}}
+    {{/summary}}
+  /// Parameters:
+  ///
+  {{/hasParams}}
+  {{#allParams}}
+  /// * [{{{dataType}}}] {{{paramName}}}{{#required}} (required){{/required}}{{#optional}} (optional){{/optional}}:
+    {{#description}}
+  ///   {{{.}}}
+    {{/description}}
+    {{^-last}}
+  ///
+    {{/-last}}
+  {{/allParams}}
+  Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+  {{#hasParams}}
+    // Verify required params are set.
     {{#allParams}}
       {{#required}}
-    if({{paramName}} == null) {
-     throw ApiException(400, "Missing required param: {{paramName}}");
+    if ({{{paramName}}} == null) {
+     throw ApiException(HttpStatus.badRequest, 'Missing required param: {{{paramName}}}');
     }
       {{/required}}
     {{/allParams}}
 
-    // create path and map variables
-    String path = "{{{path}}}".replaceAll("{format}","json"){{#pathParams}}.replaceAll("{" + "{{baseName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
+  {{/hasParams}}
+    // ignore: prefer_const_declarations
+    final path = r'{{{path}}}'{{#pathParams}}
+      .replaceAll({{=<% %>=}}'{<% baseName %>}'<%={{ }}=%>, {{{paramName}}}{{^isString}}.toString(){{/isString}}){{/pathParams}};
 
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
-    {{#queryParams}}
-    {{^required}}
-    if({{paramName}} != null) {
-    {{/required}}
-      queryParams.addAll(_convertParametersForCollectionFormat("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
-    {{^required}}
+    // ignore: prefer_final_locals
+    Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+    {{#hasQueryParams}}
+
+      {{#queryParams}}
+        {{^required}}
+    if ({{{paramName}}} != null) {
+          {{/required}}
+      queryParams.addAll(_convertParametersForCollectionFormat('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
+          {{^required}}
     }
-    {{/required}}
-    {{/queryParams}}
-    {{#headerParams}}
-    headerParams["{{baseName}}"] = {{paramName}};
-    {{/headerParams}}
+        {{/required}}
+      {{/queryParams}}
+    {{/hasQueryParams}}
+    {{#hasHeaderParams}}
 
-    List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
-
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [{{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
-
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
-      bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
-      {{#formParams}}
-      {{^isFile}}
-      if ({{paramName}} != null) {
-        hasFields = true;
-        mp.fields['{{baseName}}'] = parameterToString({{paramName}});
-      }
-      {{/isFile}}
-      {{#isFile}}
-      if ({{paramName}} != null) {
-        hasFields = true;
-        mp.fields['{{baseName}}'] = {{paramName}}.field;
-        mp.files.add({{paramName}});
-      }
-      {{/isFile}}
-      {{/formParams}}
-      if(hasFields)
-        postBody = mp;
+      {{#headerParams}}
+        {{#required}}
+    headerParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
+        {{/required}}
+        {{^required}}
+    if ({{{paramName}}} != null) {
+      headerParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
     }
-    else {
-      {{#formParams}}
-      {{^isFile}}
-      if ({{paramName}} != null)
-        formParams['{{baseName}}'] = parameterToString({{paramName}});
-      {{/isFile}}
-      {{/formParams}}
-    }
+        {{/required}}
+      {{/headerParams}}
+    {{/hasHeaderParams}}
 
-    var response = await apiClient.invokeAPI(path,
-                                             '{{httpMethod}}',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    const authNames = <String>[{{#authMethods}}'{{{name}}}'{{^-last}}, {{/-last}}{{/authMethods}}];
+    const contentTypes = <String>[{{#prioritizedContentTypes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/prioritizedContentTypes}}];
+
+    {{#isMultipart}}
+    bool hasFields = false;
+    final mp = MultipartRequest('{{{httpMethod}}}', Uri.parse(path));
+    {{#formParams}}
+    {{^isFile}}
+    if ({{{paramName}}} != null) {
+      hasFields = true;
+      mp.fields[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
+    }
+    {{/isFile}}
+    {{#isFile}}
+    if ({{{paramName}}} != null) {
+      hasFields = true;
+      mp.fields[r'{{{baseName}}}'] = {{{paramName}}}.field;
+      mp.files.add({{{paramName}}});
+    }
+    {{/isFile}}
+    {{/formParams}}
+    if (hasFields) {
+      postBody = mp;
+    }
+    {{/isMultipart}}
+    {{^isMultipart}}
+    {{#formParams}}
+    {{^isFile}}
+    if ({{{paramName}}} != null) {
+      formParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
+    }
+    {{/isFile}}
+    {{/formParams}}
+    {{/isMultipart}}
+
+    return apiClient.invokeAPI(
+      path,
+      '{{{httpMethod}}}',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes[0],
+      authNames,
+    );
   }
 
-  /// {{summary}}
+  {{#summary}}
+  /// {{{.}}}
+  {{/summary}}
+  {{#notes}}
+  {{#summary}}
   ///
+  {{/summary}}
+  /// {{{notes}}}
+  {{/notes}}
+  {{#hasParams}}
+    {{#summary}}
+  ///
+    {{/summary}}
+    {{^summary}}
+      {{#notes}}
+  ///
+      {{/notes}}
+    {{/summary}}
+  /// Parameters:
+  ///
+  {{/hasParams}}
   {{#allParams}}
-  ///{{dataType}} {{paramName}} {{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}:
-  ///    {{#description}} {{{description}}}{{/description}}
+  /// * [{{{dataType}}}] {{{paramName}}}{{#required}} (required){{/required}}{{#optional}} (optional){{/optional}}:
+    {{#description}}
+  ///   {{{.}}}
+    {{/description}}
+    {{^-last}}
+  ///
+    {{/-last}}
   {{/allParams}}
-  /// {{notes}}
-  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
-    Response response = await {{nickname}}WithHttpInfo({{#allParams}}{{#required}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
-    if(response.statusCode >= 400) {
-      throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      {{#isListContainer}}
-        {{#returnType}}
-      return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List).map((item) => item as {{returnBaseType}}).toList();
-        {{/returnType}}
-      {{/isListContainer}}
-      {{^isListContainer}}
-        {{#isMapContainer}}
-          {{#returnType}}
-      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
-          {{/returnType}};
-        {{/isMapContainer}}
-        {{^isMapContainer}}
-          {{#returnType}}
-      return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
-          {{/returnType}}
-        {{/isMapContainer}}
-      {{/isListContainer}}
-    } else {
-      return{{#returnType}} null{{/returnType}};
+  Future<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+    final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    {{#returnType}}
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    {{#native_serialization}}
+    {{#isArray}}
+      final responseBody = await _decodeBodyBytes(response);
+      return (await apiClient.deserializeAsync(responseBody, '{{{returnType}}}') as List)
+        .cast<{{{returnBaseType}}}>()
+        .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}};
+    {{/isArray}}
+    {{^isArray}}
+    {{#isMap}}
+      return {{{returnType}}}.from(await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}'),);
+    {{/isMap}}
+    {{^isMap}}
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}',) as {{{returnType}}};
+    {{/isMap}}{{/isArray}}{{/native_serialization}}
+    }
+    return Future<{{{returnType}}}>.value();
+    {{/returnType}}
   }
-
   {{/operation}}
 }
 {{/operations}}

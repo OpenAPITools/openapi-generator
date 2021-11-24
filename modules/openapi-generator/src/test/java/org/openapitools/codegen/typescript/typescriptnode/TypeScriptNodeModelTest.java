@@ -27,9 +27,18 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
+import java.util.Locale;
 
 @SuppressWarnings("static-method")
 public class TypeScriptNodeModelTest {
@@ -42,6 +51,7 @@ public class TypeScriptNodeModelTest {
                 .addProperties("name", new StringSchema())
                 .addProperties("createdAt", new DateTimeSchema())
                 .addProperties("birthDate", new DateSchema())
+                .addProperties("active", new BooleanSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
@@ -52,24 +62,22 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 4);
+        Assert.assertEquals(cm.vars.size(), 5);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "number");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "undefined");
+        Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "number");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.dataType, "string");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, "undefined");
+        Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "string");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
 
         final CodegenProperty property3 = cm.vars.get(2);
@@ -77,8 +85,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property3.complexType, null);
         Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "undefined");
-        Assert.assertTrue(property3.hasMore);
+        Assert.assertEquals(property3.defaultValue, null);
         Assert.assertFalse(property3.required);
 
         final CodegenProperty property4 = cm.vars.get(3);
@@ -86,9 +93,77 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property4.complexType, null);
         Assert.assertEquals(property4.dataType, "string");
         Assert.assertEquals(property4.name, "birthDate");
-        Assert.assertEquals(property4.defaultValue, "undefined");
-        Assert.assertFalse(property4.hasMore);
+        Assert.assertEquals(property4.defaultValue, null);
         Assert.assertFalse(property4.required);
+
+        final CodegenProperty property5 = cm.vars.get(4);
+        Assert.assertEquals(property5.baseName, "active");
+        Assert.assertEquals(property5.complexType, null);
+        Assert.assertEquals(property5.dataType, "boolean");
+        Assert.assertEquals(property5.name, "active");
+        Assert.assertEquals(property5.defaultValue, null);
+        Assert.assertFalse(property5.required);
+        Assert.assertFalse(property5.isContainer);
+    }
+
+    @Test(description = "convert and check default values for a simple TypeScript Angular model")
+    public void simpleModelDefaultValuesTest() throws ParseException {
+        IntegerSchema integerSchema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
+        integerSchema.setDefault(1234);
+
+        StringSchema stringSchema = new StringSchema();
+        stringSchema.setDefault("Jack");
+
+        OffsetDateTime testOffsetDateTime = OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 12, 0), ZoneOffset.UTC);
+        DateTimeSchema dateTimeSchema = new DateTimeSchema();
+        dateTimeSchema.setDefault(testOffsetDateTime);
+
+        Date testDate = Date.from(testOffsetDateTime.toInstant());
+        DateSchema dateSchema = new DateSchema();
+        dateSchema.setDefault(testDate);
+
+        BooleanSchema booleanSchema = new BooleanSchema();
+        booleanSchema.setDefault(true);
+
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperties("id", integerSchema)
+                .addProperties("name", stringSchema)
+                .addProperties("createdAt", dateTimeSchema)
+                .addProperties("birthDate", dateSchema)
+                .addProperties("active", booleanSchema)
+                .addRequiredItem("id")
+                .addRequiredItem("name");
+
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 5);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.defaultValue, "1234");
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "name");
+        Assert.assertEquals(property2.defaultValue, "'Jack'");
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(OffsetDateTime.parse(property3.defaultValue), testOffsetDateTime);
+
+        final CodegenProperty property4 = cm.vars.get(3);
+        Assert.assertEquals(property4.baseName, "birthDate");
+        Assert.assertEquals(new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH).parse(property4.defaultValue), testDate);
+
+        final CodegenProperty property5 = cm.vars.get(4);
+        Assert.assertEquals(property5.baseName, "active");
+        Assert.assertEquals(property5.defaultValue, "true");
     }
 
     @Test(description = "convert a model with list property")
@@ -112,9 +187,8 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "number");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "undefined");
+        Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "number");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
 
         final CodegenProperty property2 = cm.vars.get(1);
@@ -122,7 +196,6 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(property2.dataType, "Array<string>");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "Array");
-        Assert.assertFalse(property2.hasMore);
         Assert.assertFalse(property2.required);
     }
 

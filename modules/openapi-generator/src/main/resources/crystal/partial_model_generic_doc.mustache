@@ -1,0 +1,28 @@
+# {{moduleName}}::{{classname}}
+
+## Properties
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+{{#vars}}
+| **{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional]{{/required}}{{#isReadOnly}}[readonly]{{/isReadOnly}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}} |
+{{/vars}}
+
+## Example
+
+```ruby
+require '{{{gemName}}}'
+
+{{^vars}}
+instance = {{moduleName}}::{{classname}}.new()
+{{/vars}}
+{{#vars}}
+{{#-first}}
+instance = {{moduleName}}::{{classname}}.new(
+{{/-first}}
+  {{name}}: {{example}}{{^-last}},{{/-last}}
+{{#-last}}
+)
+{{/-last}}
+{{/vars}}
+```

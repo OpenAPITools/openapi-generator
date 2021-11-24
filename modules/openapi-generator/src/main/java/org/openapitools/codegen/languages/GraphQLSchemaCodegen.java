@@ -28,11 +28,11 @@ import java.util.EnumSet;
 
 public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLSchemaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(GraphQLSchemaCodegen.class);
 
     @Override
     public CodegenType getTag() {
-        return CodegenType.CONFIG;
+        return CodegenType.SCHEMA;
     }
 
     public String getName() {

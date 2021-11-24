@@ -48,7 +48,7 @@ public class MapTest   {
       throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
- 
+
   @JsonProperty("map_of_enum_string")
   private Map<String, InnerEnum> mapOfEnumString = null;
 
@@ -164,7 +164,7 @@ public class MapTest   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -200,7 +200,7 @@ public class MapTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

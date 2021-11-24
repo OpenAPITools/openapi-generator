@@ -1,0 +1,150 @@
+{{>header}}
+import 'dart:async';
+
+{{#useBuiltValue}}import 'package:built_value/serializer.dart';{{/useBuiltValue}}
+import '{{dioImport}}';
+
+{{#operations}}
+{{#imports}}import '{{.}}';
+{{/imports}}
+
+class {{classname}} {
+
+  final Dio _dio;
+  {{#useBuiltValue}}
+
+  final Serializers _serializers;
+
+  {{/useBuiltValue}}
+  const {{classname}}(this._dio{{#useBuiltValue}}, this._serializers{{/useBuiltValue}});
+
+  {{#operation}}
+  /// {{summary}}{{^summary}}{{nickname}}{{/summary}}
+  /// {{notes}}
+  ///
+  /// Parameters:
+  {{#allParams}}
+  /// * [{{paramName}}] {{#description}}- {{{.}}}{{/description}}
+  {{/allParams}}
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]{{#returnType}} containing a [Response] with a [{{{.}}}] as data{{/returnType}}
+  /// Throws [DioError] if API call or serialization fails
+  {{#externalDocs}}
+  /// {{description}}
+  /// Also see [{{summary}} Documentation]({{url}})
+  {{/externalDocs}}
+  {{#isDeprecated}}
+  @Deprecated('This operation has been deprecated')
+  {{/isDeprecated}}
+  Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}{{#isPathParam}}
+    required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
+    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
+    {{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}
+    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
+    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isFormParam}}{{/allParams}}
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{{paramName}}}.toString()){{/pathParams}};
+    final _options = Options(
+      method: r'{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}',
+      {{#isResponseFile}}
+      responseType: ResponseType.bytes,
+      {{/isResponseFile}}
+      headers: <String, dynamic>{
+        {{#httpUserAgent}}
+        r'User-Agent': r'{{{.}}}',
+        {{/httpUserAgent}}
+        {{#headerParams}}
+        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{paramName}},
+        {{/headerParams}}
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
+          {{#authMethods}}{
+            'type': '{{type}}',{{#scheme}}
+            'scheme': '{{.}}',{{/scheme}}
+            'name': '{{name}}',{{#isApiKey}}
+            'keyName': '{{keyParamName}}',
+            'where': '{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}',{{/isApiKey}}
+          },{{/authMethods}}
+        ],{{/hasAuthMethods}}
+        ...?extra,
+      },{{#hasConsumes}}
+      contentType: '{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}',{{/hasConsumes}}
+      validateStatus: validateStatus,
+    );{{#hasQueryParams}}
+
+    final _queryParameters = <String, dynamic>{
+      {{#queryParams}}
+      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{#useBuiltValue}}{{>serialization/built_value/query_param}}{{/useBuiltValue}},
+      {{/queryParams}}
+    };{{/hasQueryParams}}{{#hasBodyOrFormParams}}
+
+    dynamic _bodyData;
+
+    try {
+{{#useBuiltValue}}{{>serialization/built_value/serialize}}{{/useBuiltValue}}
+    } catch(error, stackTrace) {
+      throw DioError(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,{{#hasQueryParams}}
+          queryParameters: _queryParameters,{{/hasQueryParams}}
+        ),
+        type: DioErrorType.other,
+        error: error,
+      )..stackTrace = stackTrace;
+    }{{/hasBodyOrFormParams}}
+
+    final _response = await _dio.request<Object>(
+      _path,{{#hasBodyOrFormParams}}
+      data: _bodyData,{{/hasBodyOrFormParams}}
+      options: _options,{{#hasQueryParams}}
+      queryParameters: _queryParameters,{{/hasQueryParams}}
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+    {{#returnType}}
+
+    {{{returnType}}} _responseData;
+
+    try {
+{{#useBuiltValue}}{{>serialization/built_value/deserialize}}{{/useBuiltValue}}
+    } catch (error, stackTrace) {
+      throw DioError(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioErrorType.other,
+        error: error,
+      )..stackTrace = stackTrace;
+    }
+
+    return Response<{{{returnType}}}>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );{{/returnType}}{{^returnType}}
+    return _response;{{/returnType}}
+  }
+
+  {{/operation}}
+}
+{{/operations}}

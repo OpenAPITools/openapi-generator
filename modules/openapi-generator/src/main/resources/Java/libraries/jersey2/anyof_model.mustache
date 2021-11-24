@@ -69,7 +69,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             }
             {{/discriminator}}
             {{#anyOf}}
-            // deserialzie {{{.}}}
+            // deserialize {{{.}}}
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
                 {{classname}} ret = new {{classname}}();
@@ -99,7 +99,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     // store a list of schema names defined in anyOf
-    public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public {{classname}}() {
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
@@ -148,6 +148,14 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return {{classname}}.schemas;
     }
 
+    /**
+     * Set the instance that matches the anyOf child schema, check
+     * the instance parameter is valid against the anyOf child schemas:
+     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     *
+     * It could be an instance of the 'anyOf' schemas.
+     * The anyOf child schemas may themselves be a composed schema (allOf, anyOf, anyOf).
+     */
     @Override
     public void setActualInstance(Object instance) {
         {{#isNullable}}
@@ -166,4 +174,29 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/anyOf}}
         throw new RuntimeException("Invalid instance type. Must be {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
     }
+
+    /**
+     * Get the actual instance, which can be the following:
+     * {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}
+     *
+     * @return The actual instance ({{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}})
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
+
+    {{#anyOf}}
+    /**
+     * Get the actual instance of `{{{.}}}`. If the actual instance is not `{{{.}}}`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `{{{.}}}`
+     * @throws ClassCastException if the instance is not `{{{.}}}`
+     */
+    public {{{.}}} get{{{.}}}() throws ClassCastException {
+        return ({{{.}}})super.getActualInstance();
+    }
+
+    {{/anyOf}}
 }

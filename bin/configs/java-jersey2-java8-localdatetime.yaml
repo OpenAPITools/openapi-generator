@@ -1,0 +1,11 @@
+generatorName: java
+outputDir: samples/client/petstore/java/jersey2-java8-localdatetime
+library: jersey2
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: petstore-jersey2-java8-localdatetime
+  hideGenerationTimestamp: "true"
+  dateLibrary: java8-localdatetime
+  java8: true
+  delegatePattern: true

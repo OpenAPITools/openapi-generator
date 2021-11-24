@@ -15,12 +15,17 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ArrayTest   {
   @JsonProperty("array_of_string")
+  
   private List<String> arrayOfString = null;
 
   @JsonProperty("array_array_of_integer")
+  @Valid
+
   private List<List<Long>> arrayArrayOfInteger = null;
 
   @JsonProperty("array_array_of_model")
+  @Valid
+
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
@@ -40,7 +45,7 @@ public class ArrayTest   {
    * Get arrayOfString
    * @return arrayOfString
   **/
-    public List<String> getArrayOfString() {
+  public List<String> getArrayOfString() {
     return arrayOfString;
   }
 
@@ -65,7 +70,6 @@ public class ArrayTest   {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   **/
-  @Valid
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -91,7 +95,6 @@ public class ArrayTest   {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   **/
-  @Valid
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
@@ -102,7 +105,7 @@ public class ArrayTest   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -137,7 +140,7 @@ public class ArrayTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

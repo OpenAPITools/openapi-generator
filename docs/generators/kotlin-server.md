@@ -3,6 +3,8 @@ title: Config Options for kotlin-server
 sidebar_label: kotlin-server
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiSuffix|suffix for api classes| |Api|
@@ -14,6 +16,8 @@ sidebar_label: kotlin-server
 |featureCompression|Adds ability to compress outgoing content using gzip, deflate or custom encoder and thus reduce size of the response.| |true|
 |featureConditionalHeaders|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |false|
 |featureHSTS|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |true|
+|featureLocations|Generates routes in a typed way, for both: constructing URLs and reading the parameters.| |true|
+|featureMetrics|Enables metrics feature.| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd></dl>|ktor|
 |modelMutable|Create mutable models| |false|
@@ -30,8 +34,8 @@ sidebar_label: kotlin-server
 | Type/Alias | Imports |
 | ---------- | ------- |
 |BigDecimal|java.math.BigDecimal|
-|Date|java.util.Date|
-|DateTime|java.time.LocalDateTime|
+|Date|java.time.LocalDate|
+|DateTime|java.time.OffsetDateTime|
 |File|java.io.File|
 |LocalDate|java.time.LocalDate|
 |LocalDateTime|java.time.LocalDateTime|
@@ -45,7 +49,7 @@ sidebar_label: kotlin-server
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.Array|
+|array|kotlin.collections.ArrayList|
 |list|kotlin.collections.ArrayList|
 |map|kotlin.collections.HashMap|
 
@@ -72,24 +76,64 @@ sidebar_label: kotlin-server
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>abstract</li>
+<li>actual</li>
+<li>annotation</li>
 <li>as</li>
 <li>break</li>
 <li>class</li>
+<li>companion</li>
+<li>const</li>
+<li>constructor</li>
 <li>continue</li>
+<li>crossinline</li>
+<li>data</li>
+<li>delegate</li>
 <li>do</li>
+<li>dynamic</li>
 <li>else</li>
+<li>enum</li>
+<li>expect</li>
+<li>external</li>
 <li>false</li>
+<li>field</li>
+<li>final</li>
+<li>finally</li>
 <li>for</li>
 <li>fun</li>
 <li>if</li>
+<li>import</li>
 <li>in</li>
+<li>infix</li>
+<li>init</li>
+<li>inline</li>
+<li>inner</li>
 <li>interface</li>
+<li>internal</li>
 <li>is</li>
+<li>it</li>
+<li>lateinit</li>
+<li>noinline</li>
 <li>null</li>
 <li>object</li>
+<li>open</li>
+<li>operator</li>
+<li>out</li>
+<li>override</li>
 <li>package</li>
+<li>param</li>
+<li>private</li>
+<li>property</li>
+<li>protected</li>
+<li>public</li>
+<li>receiver</li>
+<li>reified</li>
 <li>return</li>
+<li>sealed</li>
+<li>setparam</li>
 <li>super</li>
+<li>suspend</li>
+<li>tailrec</li>
 <li>this</li>
 <li>throw</li>
 <li>true</li>
@@ -97,8 +141,11 @@ sidebar_label: kotlin-server
 <li>typealias</li>
 <li>typeof</li>
 <li>val</li>
+<li>value</li>
 <li>var</li>
+<li>vararg</li>
 <li>when</li>
+<li>where</li>
 <li>while</li>
 </ul>
 
@@ -111,6 +158,7 @@ sidebar_label: kotlin-server
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

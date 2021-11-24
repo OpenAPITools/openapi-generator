@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:schemas="http://{{hostname}}/{{soapPath}}/{{serviceName}}/model" xmlns:wsdl="http://{{hostname}}/{{soapPath}}/{{serviceName}}/service" targetNamespace="http://{{hostname}}/{{soapPath}}/{{serviceName}}/service" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema xmlns:tns="http://{{hostname}}/{{soapPath}}/{{serviceName}}/model" targetNamespace="http://{{hostname}}/{{soapPath}}/{{serviceName}}/model" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      {{#apiInfo}}
+      {{#apis}}
+      {{#operations}}
+      {{#operation}}
+      <xs:element name="{{operationId}}_RequestMessage" type="schemas:{{operationId}}_RequestMessage" />
+      <xs:element name="{{operationId}}_ResponseMessage" type="schemas:{{operationId}}_ResponseMessage" />
+      {{#responses}}
+      {{#is4xx}}
+      <xs:element name="{{operationId}}_{{code}}"{{#isModel}} type="{{#isString}}xs:string{{/isString}}{{^isString}}schemas:{{dataType}}{{/isString}}"{{/isModel}}>
+        <xs:annotation>
+          <xs:documentation>{{message}}</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      {{/is4xx}}
+      {{#is5xx}}
+      <xs:element name="{{operationId}}_{{code}}"{{#isModel}} type="{{#isString}}xs:string{{/isString}}{{^isString}}schemas:{{dataType}}{{/isString}}"{{/isModel}}>
+        <xs:annotation>
+          <xs:documentation>{{message}}</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      {{/is5xx}}
+      {{/responses}}
+      {{/operation}}
+      {{/operations}}
+      {{/apis}}
+      {{/apiInfo}}
+      {{#models}}
+      {{#model}}
+      {{^isEnum}}
+      <xs:complexType name="{{classname}}">
+        {{#description}}
+        <xs:annotation>
+          <xs:documentation>{{.}}</xs:documentation>
+        </xs:annotation>
+        {{/description}}
+        <xs:sequence>
+          {{#vars}}
+          {{#vendorExtensions.x-prop-has-minormax}}
+          <xs:element minOccurs="{{#required}}1{{/required}}{{^required}}0{{/required}}"{{#vendorExtensions.x-prop-has-defaultvalue}} default="{{defaultValue}}"{{/vendorExtensions.x-prop-has-defaultvalue}} name="{{baseName}}">
+            <xs:simpleType>
+              {{#description}}
+              <xs:annotation>
+                <xs:documentation>{{.}}</xs:documentation>
+              </xs:annotation>
+              {{/description}}
+              <xs:restriction base="xs:{{#isString}}string{{/isString}}{{^isString}}{{#isInteger}}integer{{/isInteger}}{{^isInteger}}{{#isDouble}}double{{/isDouble}}{{^isDouble}}long{{/isDouble}}{{/isInteger}}{{/isString}}">
+                {{#maximum}}
+                <xs:maxInclusive value="{{.}}" />
+                {{/maximum}}
+                {{#minimum}}
+                <xs:minInclusive value="{{.}}" />
+                {{/minimum}}
+                {{#maxLength}}
+                <xs:maxLength value="{{.}}" />
+                {{/maxLength}}
+                {{#minLength}}
+                <xs:minLength value="{{.}}" />
+                {{/minLength}}
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          {{/vendorExtensions.x-prop-has-minormax}}
+          {{^vendorExtensions.x-prop-has-minormax}}
+          {{#vendorExtensions.x-oneof-schemas}}
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="{{#lambda.lowercase}}{{.}}{{/lambda.lowercase}}" type="schemas:{{.}}" />
+          {{/vendorExtensions.x-oneof-schemas}}
+          {{^vendorExtensions.x-oneof-schemas}}
+          {{#isContainer}}
+          <xs:element minOccurs="{{minItems}}{{^minItems}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/minItems}}" maxOccurs="{{maxItems}}{{^maxItems}}unbounded{{/maxItems}}" name="{{baseName}}" type="{{#items}}{{#isModel}}schemas:{{complexType}}{{/isModel}}{{^isModel}}{{#isFreeFormObject}}xs:string{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isString}}xs:{{complexType}}{{/isString}}{{^isString}}{{#isNumeric}}xs:{{complexType}}{{/isNumeric}}{{^isNumeric}}schemas:{{complexType}}{{/isNumeric}}{{/isString}}{{/isFreeFormObject}}{{/isModel}}{{/items}}"{{^description}} /{{/description}}>
+          {{/isContainer}}
+          {{^isContainer}}
+          <xs:element minOccurs="{{#required}}1{{/required}}{{^required}}0{{/required}}"{{#vendorExtensions.x-prop-has-defaultvalue}} default="{{defaultValue}}"{{/vendorExtensions.x-prop-has-defaultvalue}} name="{{baseName}}" type="{{#isModel}}schemas:{{complexType}}{{/isModel}}{{^isModel}}{{#isEnum}}schemas:{{name}}{{/isEnum}}{{^isEnum}}{{#isNumber}}xs:double{{/isNumber}}{{^isNumber}}{{#isFreeFormObject}}xs:anyType{{/isFreeFormObject}}{{^isFreeFormObject}}{{#isUuid}}xs:string{{/isUuid}}{{^isUuid}}{{#isByteArray}}xs:string{{/isByteArray}}{{^isByteArray}}{{#allowableValues}}schemas:{{baseType}}{{/allowableValues}}{{^allowableValues}}{{#isFile}}{{#isBinary}}xs:hexBinary{{/isBinary}}{{/isFile}}{{^isFile}}xs:{{baseType}}{{/isFile}}{{/allowableValues}}{{/isByteArray}}{{/isUuid}}{{/isFreeFormObject}}{{/isNumber}}{{/isEnum}}{{/isModel}}"{{^description}} /{{/description}}>
+          {{/isContainer}}
+          {{#description}}
+            <xs:annotation>
+              <xs:documentation>{{.}}</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          {{/description}}
+          {{/vendorExtensions.x-oneof-schemas}}
+          {{/vendorExtensions.x-prop-has-minormax}}
+          {{/vars}}
+        </xs:sequence>
+      </xs:complexType>
+      {{/isEnum}}
+      {{/model}}
+      {{/models}}
+      {{#models}}
+      {{#model}}
+      {{^allOf}}
+      {{#vars}}
+      {{#isEnum}}
+      {{#baseType}}
+      <xs:simpleType name="{{name}}">
+        {{#description}}
+        <xs:annotation>
+          <xs:documentation>{{.}}</xs:documentation>
+        </xs:annotation>
+        {{/description}}
+        <xs:restriction base="xs:{{baseType}}">
+          {{#allowableValues}}
+          {{#enumVars}}
+          <xs:enumeration value={{{value}}} />
+          {{/enumVars}}
+          {{/allowableValues}}
+        </xs:restriction>
+      </xs:simpleType>
+      {{/baseType}}
+      {{/isEnum}}
+      {{/vars}}
+      {{/allOf}}
+      {{/model}}
+      {{/models}}
+      {{#models}}
+      {{#model}}
+      {{^vars}}
+      <xs:simpleType name="{{name}}">
+        {{#description}}
+        <xs:annotation>
+          <xs:documentation>{{.}}</xs:documentation>
+        </xs:annotation>
+        {{/description}}
+        <xs:restriction base="xs:{{dataType}}">
+          {{#allowableValues}}
+          {{#enumVars}}
+          <xs:enumeration value={{{value}}} />
+          {{/enumVars}}
+          {{/allowableValues}}
+        </xs:restriction>
+      </xs:simpleType>
+      {{/vars}}
+      {{/model}}
+      {{/models}}
+      {{#apiInfo}}
+      {{#apis}}
+      {{#operations}}
+      {{#operation}}
+      {{#allParams}}
+      {{#isEnum}}
+      <xs:simpleType name="{{baseName}}">
+        <xs:restriction base="xs:{{#items}}{{complexType}}{{/items}}{{^items}}{{dataType}}{{/items}}">
+          {{#allowableValues}}
+          {{#enumVars}}
+          <xs:enumeration value="{{name}}" />
+          {{/enumVars}}
+          {{/allowableValues}}
+        </xs:restriction>
+      </xs:simpleType>
+      {{/isEnum}}
+      {{/allParams}}
+      {{/operation}}
+      {{/operations}}
+      {{/apis}}
+      {{/apiInfo}}
+      {{#apiInfo}}
+      {{#apis}}
+      {{#operations}}
+      {{#operation}}
+      {{#hasParams}}
+      <xs:complexType name="{{operationId}}_RequestMessage">
+        <xs:sequence>
+          {{#allParams}}
+          {{#vendorExtensions.x-param-has-minormax}}
+          <xs:element minOccurs="{{#required}}1{{/required}}{{^required}}0{{/required}}"{{#vendorExtensions.x-param-has-defaultvalue}} default="{{defaultValue}}"{{/vendorExtensions.x-param-has-defaultvalue}} name="{{#isBodyParam}}body{{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}">
+            <xs:simpleType>
+              {{#description}}
+              <xs:annotation>
+                <xs:documentation>{{.}}</xs:documentation>
+              </xs:annotation>
+              {{/description}}
+              <xs:restriction base="xs:{{#isString}}string{{/isString}}{{^isString}}{{#isInteger}}integer{{/isInteger}}{{^isInteger}}{{#isDouble}}double{{/isDouble}}{{^isDouble}}long{{/isDouble}}{{/isInteger}}{{/isString}}">
+                {{#maximum}}
+                <xs:maxInclusive value="{{.}}" />
+                {{/maximum}}
+                {{#minimum}}
+                <xs:minInclusive value="{{.}}" />
+                {{/minimum}}
+                {{#maxLength}}
+                <xs:maxLength value="{{.}}" />
+                {{/maxLength}}
+                {{#minLength}}
+                <xs:minLength value="{{.}}" />
+                {{/minLength}}
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          {{/vendorExtensions.x-param-has-minormax}}
+          {{^vendorExtensions.x-param-has-minormax}}
+          <xs:element minOccurs="{{#isArray}}{{minItems}}{{^minItems}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/minItems}}{{/isArray}}{{^isArray}}{{#required}}1{{/required}}{{^required}}0{{/required}}{{/isArray}}"{{#isArray}} maxOccurs="{{maxItems}}{{^maxItems}}unbounded{{/maxItems}}"{{/isArray}}{{#vendorExtensions.x-param-has-defaultvalue}} default="{{defaultValue}}"{{/vendorExtensions.x-param-has-defaultvalue}} name="{{#isBodyParam}}body{{/isBodyParam}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}" type="{{#isBodyParam}}schemas:{{#isArray}}{{baseType}}{{/isArray}}{{^isArray}}{{dataType}}{{/isArray}}{{/isBodyParam}}{{^isBodyParam}}{{#isModel}}schemas:{{dataType}}{{/isModel}}{{^isModel}}{{#isEnum}}schemas:{{baseName}}{{/isEnum}}{{^isEnum}}{{#isFile}}{{#isBinary}}xs:hexBinary{{/isBinary}}{{/isFile}}{{^isFile}}{{#isByteArray}}xs:string{{/isByteArray}}{{^isByteArray}}{{#isArray}}{{#isQueryParam}}{{#items}}xs:{{baseType}}{{/items}}{{/isQueryParam}}{{/isArray}}{{^isArray}}xs:{{dataType}}{{/isArray}}{{/isByteArray}}{{/isFile}}{{/isEnum}}{{/isModel}}{{/isBodyParam}}"{{^description}} /{{/description}}>
+          {{#description}}
+            <xs:annotation>
+              <xs:documentation>{{.}}</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          {{/description}}
+          {{/vendorExtensions.x-param-has-minormax}}
+          {{/allParams}}
+        </xs:sequence>
+      </xs:complexType>
+      {{/hasParams}}
+      {{^hasParams}}
+      <xs:complexType name="{{operationId}}_RequestMessage" />
+      {{/hasParams}}
+      {{#responses}}
+      {{^is4xx}}
+      {{^is5xx}}
+      <xs:complexType name="{{operationId}}_ResponseMessage">
+        <xs:sequence>
+          {{#message}}
+          <xs:element minOccurs="1"{{#isArray}} maxOccurs="unbounded"{{/isArray}} name="{{#isModel}}{{#isMap}}response{{/isMap}}{{^isMap}}{{#isFile}}response{{/isFile}}{{^isFile}}{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}{{baseType}}{{/isArray}}{{^isArray}}response{{/isArray}}{{/isModel}}"{{#dataType}} type="{{#isModel}}{{#isMap}}xs:{{baseType}}{{/isMap}}{{^isMap}}{{#isFile}}xs:string{{/isFile}}{{^isFile}}schemas:{{dataType}}{{/isFile}}{{/isMap}}{{/isModel}}{{^isModel}}{{#isArray}}schemas:{{baseType}}{{/isArray}}{{^isArray}}xs:{{dataType}}{{/isArray}}{{/isModel}}"{{/dataType}}>
+            <xs:annotation>
+              <xs:documentation>{{message}}</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          {{/message}}
+          {{^message}}
+          <xs:element minOccurs="1" name="response" />
+          {{/message}}
+        </xs:sequence>
+      </xs:complexType>
+      {{/is5xx}}
+      {{/is4xx}}
+      {{/responses}}
+      {{/operation}}
+      {{/operations}}
+      {{/apis}}
+      {{/apiInfo}}
+    </xs:schema>
+  </types>
+  {{#apiInfo}}
+  {{#apis}}
+  {{#operations}}
+  {{#operation}}
+  <message name="{{operationId}}_RequestMessage">
+    <part name="{{operationId}}_RequestMessage" element="schemas:{{operationId}}_RequestMessage" />
+  </message>
+  {{#responses}}
+  {{#is2xx}}
+  <message name="{{operationId}}_ResponseMessage">
+    <part name="{{operationId}}_ResponseMessage" element="schemas:{{operationId}}_ResponseMessage" />
+  </message>
+  {{/is2xx}}
+  {{#isDefault}}
+  <message name="{{operationId}}_ResponseMessage">
+    <part name="{{operationId}}_ResponseMessage" element="schemas:{{operationId}}_ResponseMessage" />
+  </message>
+  {{/isDefault}}
+  {{#is4xx}}
+  <message name="{{operationId}}_{{code}}">
+    <part name="{{operationId}}_{{code}}" element="schemas:{{operationId}}_{{code}}" />
+  </message>
+  {{/is4xx}}
+  {{#is5xx}}
+  <message name="{{operationId}}_{{code}}">
+    <part name="{{operationId}}_{{code}}" element="schemas:{{operationId}}_{{code}}" />
+  </message>
+  {{/is5xx}}
+  {{/responses}}
+  {{/operation}}
+  {{/operations}}
+  {{/apis}}
+  {{/apiInfo}}
+  <portType name="{{serviceName}}_PortType">
+  {{#apiInfo}}
+  {{#apis}}
+  {{#operations}}
+  {{#operation}}
+    <operation name="{{operationId}}">
+      {{#notes}}
+      <documentation>{{.}}</documentation>
+      {{/notes}}
+      {{^notes}}
+      {{#summary}}
+      <documentation>{{.}}</documentation>
+      {{/summary}}
+      {{/notes}}
+      <input message="wsdl:{{operationId}}_RequestMessage" />
+      {{#responses}}
+      {{^is4xx}}
+      {{^is5xx}}
+      <output message="wsdl:{{operationId}}_ResponseMessage"{{^message}} /{{/message}}>
+      {{#message}}
+        <documentation>{{.}}</documentation>
+      </output>
+      {{/message}}
+      {{/is5xx}}
+      {{/is4xx}}
+      {{#is4xx}}
+      <fault name="{{operationId}}_{{code}}" message="wsdl:{{operationId}}_{{code}}"{{^message}} /{{/message}}>
+      {{#message}}
+        <documentation>{{.}}</documentation>
+      </fault>
+      {{/message}}
+      {{/is4xx}}
+      {{#is5xx}}
+      <fault name="{{operationId}}_{{code}}" message="wsdl:{{operationId}}_{{code}}"{{^message}} /{{/message}}>
+      {{#message}}
+        <documentation>{{.}}</documentation>
+      </fault>
+      {{/message}}
+      {{/is5xx}}
+      {{/responses}}
+    </operation>
+  {{/operation}}
+  {{/operations}}
+  {{/apis}}
+  {{/apiInfo}}
+  </portType>
+  <binding name="{{serviceName}}_Binding" type="wsdl:{{serviceName}}_PortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+    {{#apiInfo}}
+    {{#apis}}
+    {{#operations}}
+    {{#operation}}
+    <operation name="{{operationId}}">
+      <soap:operation soapAction="{{operationId}}" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      {{#responses}}
+      {{#is2xx}}
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      {{/is2xx}}
+      {{#is4xx}}
+      <fault name="{{operationId}}_{{code}}">
+        <soap:fault use="literal" name="{{operationId}}_{{code}}" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+      {{/is4xx}}
+      {{#is5xx}}
+      <fault name="{{operationId}}_{{code}}">
+        <soap:fault use="literal" name="{{operationId}}_{{code}}" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+      {{/is5xx}}
+      {{/responses}}
+    </operation>
+    {{/operation}}
+    {{/operations}}
+    {{/apis}}
+    {{/apiInfo}}
+  </binding>
+  <service name="{{serviceName}}">
+    <documentation>{{appDescription}}</documentation>
+    <port name="default_Port" binding="wsdl:{{serviceName}}_Binding">
+      <soap:address location="http://{{hostname}}/{{soapPath}}/{{serviceName}}" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+    </port>
+  </service>
+</definitions>

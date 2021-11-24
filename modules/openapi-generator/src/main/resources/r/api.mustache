@@ -16,11 +16,11 @@
 #' \itemize{
 {{#allParams}}
 {{#isEnum}}
-#' \item \emph{ @param } {{paramName}} Enum < {{#allowableValues}}{{values}}{{/allowableValues}} > 
+#' \item \emph{ @param } {{paramName}} Enum < {{#allowableValues}}{{values}}{{/allowableValues}} >
 {{/isEnum}}
 {{^isEnum}}
 {{#isContainer}}
-{{#isListContainer}}
+{{#isArray}}
 {{#items}}
 {{#isPrimitiveType}}
 #' \item \emph{ @param } {{paramName}} list( {{dataType}} )
@@ -29,15 +29,15 @@
 #' \item \emph{ @param } {{paramName}} list( \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%> )
 {{/isPrimitiveType}}
 {{/items}}
-{{/isListContainer}}
-{{#isMapContainer}}
+{{/isArray}}
+{{#isMap}}
 {{#isPrimitiveType}}
 #' \item \emph{ @param } {{paramName}} named list( {{dataType}} )
 {{/isPrimitiveType}}
 {{^isPrimitiveType}}
 #' \item \emph{ @param } {{paramName}} named list( \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%> )
 {{/isPrimitiveType}}
-{{/isMapContainer}}
+{{/isMap}}
 {{/isContainer}}
 {{^isContainer}}
 {{#isPrimitiveType}}
@@ -51,7 +51,7 @@
 {{/allParams}}
 {{#returnType}}
 {{^returnTypeIsPrimitive}}
-#' \item \emph{ @returnType } {{#returnContainer}}{{#isListContainer}}list( {{/isListContainer}}{{#isMapContainer}}named list( {{/isMapContainer}}{{/returnContainer}}\link{{=<% %>=}}{<%#returnContainer%><%={{ }}=%>{{returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{=<% %>=}}<%/returnContainer%>}<%={{ }}=%>{{#returnContainer}}{{#isListContainer}} ){{/isListContainer}}{{#isMapContainer}} ){{/isMapContainer}}{{/returnContainer}} \cr
+#' \item \emph{ @returnType } {{#returnContainer}}{{#isArray}}list( {{/isArray}}{{#isMap}}named list( {{/isMap}}{{/returnContainer}}\link{{=<% %>=}}{<%#returnContainer%><%={{ }}=%>{{returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{=<% %>=}}<%/returnContainer%>}<%={{ }}=%>{{#returnContainer}}{{#isArray}} ){{/isArray}}{{#isMap}} ){{/isMap}}{{/returnContainer}} \cr
 {{/returnTypeIsPrimitive}}
 {{/returnType}}
 #'
@@ -62,7 +62,7 @@
 {{#responses}}
 #' \item status code : {{code}} | {{message}}
 #'
-#'{{#dataType}} \item return type : {{dataType}} {{/dataType}}
+#'{{#dataType}} \item return type : {{.}} {{/dataType}}
 #' \item response headers :
 #'
 #' \tabular{ll}{
@@ -97,7 +97,7 @@
 {{#isBasic}}
 #' #Configure HTTP basic authorization: {{{name}}}
 #' # provide your username in the user-serial format
-#' api.instance$apiClient$username <- '<user-serial>'; 
+#' api.instance$apiClient$username <- '<user-serial>';
 #' # provide your api key generated using the developer portal
 #' api.instance$apiClient$password <- '<api_key>';
 {{/isBasic}}
@@ -116,9 +116,9 @@
 {{#useRlangExceptionHandling}}
 #'result <- tryCatch(
 #'             api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
-#'             ApiException = function(ex) ex 
+#'             ApiException = function(ex) ex
 #'          )
-#' # In case of error, print the error object 
+#' # In case of error, print the error object
 #' if(!is.null(result$ApiException)) {
 #'   cat(result$ApiException$toString())
 #' } else {
@@ -159,7 +159,7 @@
       }
     },
     {{#operation}}
-    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
+    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}...){
       apiResponse <- self${{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}...)
       resp <- apiResponse$response
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
@@ -173,7 +173,7 @@
       }
     },
 
-    {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
+    {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -201,10 +201,10 @@
       body <- list(
         {{#formParams}}
         {{^isFile}}
-        "{{baseName}}" = {{paramName}}{{#hasMore}},{{/hasMore}}
+        "{{baseName}}" = {{paramName}}{{^-last}},{{/-last}}
         {{/isFile}}
         {{#isFile}}
-        "{{baseName}}" = httr::upload_file({{paramName}}){{#hasMore}},{{/hasMore}}
+        "{{baseName}}" = httr::upload_file({{paramName}}){{^-last}},{{/-last}}
         {{/isFile}}
         {{/formParams}}
       )
@@ -213,18 +213,23 @@
       {{#hasBodyParam}}
       {{#bodyParams}}
       if (!missing(`{{paramName}}`)) {
-        {{#isListContainer}}
+        {{#isArray}}
         body.items = paste(unlist(lapply({{paramName}}, function(param){param$toJSONString()})), collapse = ",")
         body <- paste0('[', body.items, ']')
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         body <- `{{paramName}}`$toJSONString()
-        {{/isListContainer}}
+        {{/isArray}}
       } else {
         body <- NULL
       }
 
       {{/bodyParams}}
+      {{/hasBodyParam}}
+      {{^hasBodyParam}}
+      {{^hasFormParams}}
+      body <- NULL
+      {{/hasFormParams}}
       {{/hasBodyParam}}
       urlPath <- "{{path}}"
       {{#hasPathParams}}
@@ -271,7 +276,9 @@
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         {{#returnType}}
         {{#isPrimitiveType}}
-        content <- httr::content(resp, "text", encoding = "UTF-8")
+        content <- httr::content(
+            resp, "text", encoding = "UTF-8", simplifyVector = FALSE
+        )
         ApiResponse$new(content,resp)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
@@ -342,7 +349,7 @@
         ApiResponse$new("API server error", resp)
       {{/returnExceptionOnFailure}}
       }
-    }{{#hasMore}},{{/hasMore}}
+    }{{^-last}},{{/-last}}
     {{/operation}}
   )
 )

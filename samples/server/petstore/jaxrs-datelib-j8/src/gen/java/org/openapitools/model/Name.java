@@ -60,7 +60,7 @@ public class Name  implements Serializable {
    * Get name
    * @return name
    **/
-  @JsonProperty("name")
+  @JsonProperty(value = "name")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
   public Integer getName() {
@@ -80,7 +80,7 @@ public class Name  implements Serializable {
    * Get snakeCase
    * @return snakeCase
    **/
-  @JsonProperty("snake_case")
+  @JsonProperty(value = "snake_case", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public Integer getSnakeCase() {
@@ -100,7 +100,7 @@ public class Name  implements Serializable {
    * Get property
    * @return property
    **/
-  @JsonProperty("property")
+  @JsonProperty(value = "property")
   @ApiModelProperty(value = "")
   
   public String getProperty() {
@@ -120,7 +120,7 @@ public class Name  implements Serializable {
    * Get _123number
    * @return _123number
    **/
-  @JsonProperty("123Number")
+  @JsonProperty(value = "123Number", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
   public Integer get123number() {
@@ -133,7 +133,7 @@ public class Name  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -170,7 +170,7 @@ public class Name  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -807,7 +807,7 @@
       ]
     },
     {
-      "input": "php-ze-ph-petstore-server.sh",
+      "input": "php-mezzio-ph-petstore-server.sh",
       "matches": [
         "Server: PHP"
       ]
@@ -1240,6 +1240,30 @@
     },
     {
       "input": "typescript-jquery-petstore.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-nestjs-v6-petstore-not-provided-in-root-with-npm.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-nestjs-v6-petstore-not-provided-in-root.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-nestjs-v6-petstore-provided-in-root-with-npm.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-nestjs-v6-petstore-provided-in-root.sh",
       "matches": [
         "Client: TypeScript"
       ]

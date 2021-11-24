@@ -11,9 +11,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("Capitalization")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Capitalization  implements Serializable {
   
   private @Valid String smallCamel;
@@ -39,9 +41,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return smallCamel;
   }
 
+  @JsonProperty("smallCamel")
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
-  }/**
+  }
+
+/**
    **/
   public Capitalization capitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
@@ -57,9 +62,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return capitalCamel;
   }
 
+  @JsonProperty("CapitalCamel")
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
-  }/**
+  }
+
+/**
    **/
   public Capitalization smallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
@@ -75,9 +83,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return smallSnake;
   }
 
+  @JsonProperty("small_Snake")
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
-  }/**
+  }
+
+/**
    **/
   public Capitalization capitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
@@ -93,9 +104,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return capitalSnake;
   }
 
+  @JsonProperty("Capital_Snake")
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
-  }/**
+  }
+
+/**
    **/
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -111,9 +125,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return scAETHFlowPoints;
   }
 
+  @JsonProperty("SCA_ETH_Flow_Points")
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
-  }/**
+  }
+
+/**
    * Name of the pet 
    **/
   public Capitalization ATT_NAME(String ATT_NAME) {
@@ -130,12 +147,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return ATT_NAME;
   }
 
+  @JsonProperty("ATT_NAME")
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -175,7 +194,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

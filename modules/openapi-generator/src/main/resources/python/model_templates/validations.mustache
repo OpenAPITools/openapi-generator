@@ -1,0 +1,34 @@
+{{#maxLength}}
+            'max_length': {{.}},
+{{/maxLength}}
+{{#minLength}}
+            'min_length': {{.}},
+{{/minLength}}
+{{#maxItems}}
+            'max_items': {{.}},
+{{/maxItems}}
+{{#minProperties}}
+            'min_properties': {{.}},
+{{/minProperties}}
+{{#maxProperties}}
+            'max_properties': {{.}},
+{{/maxProperties}}
+{{#minItems}}
+            'min_items': {{.}},
+{{/minItems}}
+{{#maximum}}
+            {{#exclusiveMaximum}}'exclusive_maximum'{{/exclusiveMaximum}}'inclusive_maximum': {{maximum}},
+{{/maximum}}
+{{#minimum}}
+            {{#exclusiveMinimum}}'exclusive_minimum'{{/exclusiveMinimum}}'inclusive_minimum': {{minimum}},
+{{/minimum}}
+{{#pattern}}
+            'regex': {
+                'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501{{#vendorExtensions.x-modifiers}}
+                {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
+            },
+{{/pattern}}
+{{#multipleOf}}
+            'multiple_of': {{.}},
+{{/multipleOf}}
+        },

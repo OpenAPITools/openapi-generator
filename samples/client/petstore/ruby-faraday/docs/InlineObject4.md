@@ -2,18 +2,19 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**param** | **String** | field1 | 
-**param2** | **String** | field2 | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **param** | **String** | field1 |  |
+| **param2** | **String** | field2 |  |
 
-## Code Sample
+## Example
 
 ```ruby
-require 'Petstore'
+require 'petstore'
 
-instance = Petstore::InlineObject4.new(param: null,
-                                 param2: null)
+instance = Petstore::InlineObject4.new(
+  param: null,
+  param2: null
+)
 ```
-
 

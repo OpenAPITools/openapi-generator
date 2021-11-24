@@ -5,33 +5,33 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**createXmlItem**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
-[**createXmlItemWithHttpInfo**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
+[**createXmlItemWithHttpInfo**](FakeApi.md#createXmlItemWithHttpInfo) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
-[**fakeOuterBooleanSerializeWithHttpInfo**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
+[**fakeOuterBooleanSerializeWithHttpInfo**](FakeApi.md#fakeOuterBooleanSerializeWithHttpInfo) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
-[**fakeOuterCompositeSerializeWithHttpInfo**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
+[**fakeOuterCompositeSerializeWithHttpInfo**](FakeApi.md#fakeOuterCompositeSerializeWithHttpInfo) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
-[**fakeOuterNumberSerializeWithHttpInfo**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
+[**fakeOuterNumberSerializeWithHttpInfo**](FakeApi.md#fakeOuterNumberSerializeWithHttpInfo) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
-[**fakeOuterStringSerializeWithHttpInfo**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**fakeOuterStringSerializeWithHttpInfo**](FakeApi.md#fakeOuterStringSerializeWithHttpInfo) | **POST** /fake/outer/string | 
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
-[**testBodyWithFileSchemaWithHttpInfo**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
+[**testBodyWithFileSchemaWithHttpInfo**](FakeApi.md#testBodyWithFileSchemaWithHttpInfo) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
-[**testBodyWithQueryParamsWithHttpInfo**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
+[**testBodyWithQueryParamsWithHttpInfo**](FakeApi.md#testBodyWithQueryParamsWithHttpInfo) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**testClientModelWithHttpInfo**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
+[**testClientModelWithHttpInfo**](FakeApi.md#testClientModelWithHttpInfo) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-[**testEndpointParametersWithHttpInfo**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+[**testEndpointParametersWithHttpInfo**](FakeApi.md#testEndpointParametersWithHttpInfo) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
-[**testEnumParametersWithHttpInfo**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
+[**testEnumParametersWithHttpInfo**](FakeApi.md#testEnumParametersWithHttpInfo) | **GET** /fake | To test enum parameters
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-[**testGroupParametersWithHttpInfo**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
+[**testGroupParametersWithHttpInfo**](FakeApi.md#testGroupParametersWithHttpInfo) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**testInlineAdditionalPropertiesWithHttpInfo**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[**testInlineAdditionalPropertiesWithHttpInfo**](FakeApi.md#testInlineAdditionalPropertiesWithHttpInfo) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testJsonFormDataWithHttpInfo**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
-[**testQueryParameterCollectionFormatWithHttpInfo**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+[**testJsonFormDataWithHttpInfo**](FakeApi.md#testJsonFormDataWithHttpInfo) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+[**testQueryParameterCollectionFormatWithHttpInfo**](FakeApi.md#testQueryParameterCollectionFormatWithHttpInfo) | **PUT** /fake/test-query-parameters | 
 
 
 
@@ -62,7 +62,6 @@ public class Example {
         XmlItem xmlItem = new XmlItem(); // XmlItem | XmlItem Body
         try {
             apiInstance.createXmlItem(xmlItem);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#createXmlItem");
             System.err.println("Status code: " + e.getCode());
@@ -129,12 +128,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.createXmlItemWithHttpInfo(xmlItem);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#createXmlItem");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -195,7 +194,6 @@ public class Example {
         Boolean body = true; // Boolean | Input boolean as post body
         try {
             Boolean result = apiInstance.fakeOuterBooleanSerialize(body);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterBooleanSerialize");
@@ -263,13 +261,13 @@ public class Example {
         try {
             ApiResponse<Boolean> response = apiInstance.fakeOuterBooleanSerializeWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterBooleanSerialize");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -330,7 +328,6 @@ public class Example {
         OuterComposite body = new OuterComposite(); // OuterComposite | Input composite as post body
         try {
             OuterComposite result = apiInstance.fakeOuterCompositeSerialize(body);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterCompositeSerialize");
@@ -398,13 +395,13 @@ public class Example {
         try {
             ApiResponse<OuterComposite> response = apiInstance.fakeOuterCompositeSerializeWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterCompositeSerialize");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -462,10 +459,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
+        BigDecimal body = new BigDecimal(78); // BigDecimal | Input number as post body
         try {
             BigDecimal result = apiInstance.fakeOuterNumberSerialize(body);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterNumberSerialize");
@@ -529,17 +525,17 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
+        BigDecimal body = new BigDecimal(78); // BigDecimal | Input number as post body
         try {
             ApiResponse<BigDecimal> response = apiInstance.fakeOuterNumberSerializeWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterNumberSerialize");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -600,7 +596,6 @@ public class Example {
         String body = "body_example"; // String | Input string as post body
         try {
             String result = apiInstance.fakeOuterStringSerialize(body);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterStringSerialize");
@@ -668,13 +663,13 @@ public class Example {
         try {
             ApiResponse<String> response = apiInstance.fakeOuterStringSerializeWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterStringSerialize");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -735,7 +730,6 @@ public class Example {
         FileSchemaTestClass body = new FileSchemaTestClass(); // FileSchemaTestClass | 
         try {
             apiInstance.testBodyWithFileSchema(body);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testBodyWithFileSchema");
             System.err.println("Status code: " + e.getCode());
@@ -802,12 +796,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.testBodyWithFileSchemaWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testBodyWithFileSchema");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -867,7 +861,6 @@ public class Example {
         User body = new User(); // User | 
         try {
             apiInstance.testBodyWithQueryParams(query, body);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testBodyWithQueryParams");
             System.err.println("Status code: " + e.getCode());
@@ -934,12 +927,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.testBodyWithQueryParamsWithHttpInfo(query, body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testBodyWithQueryParams");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -1001,7 +994,6 @@ public class Example {
         Client body = new Client(); // Client | client model
         try {
             Client result = apiInstance.testClientModel(body);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testClientModel");
@@ -1069,13 +1061,13 @@ public class Example {
         try {
             ApiResponse<Client> response = apiInstance.testClientModelWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testClientModel");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -1139,7 +1131,7 @@ public class Example {
         http_basic_test.setPassword("YOUR PASSWORD");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal number = new BigDecimal(); // BigDecimal | None
+        BigDecimal number = new BigDecimal(78); // BigDecimal | None
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
@@ -1149,13 +1141,12 @@ public class Example {
         Float _float = 3.4F; // Float | None
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
-        LocalDate date = new LocalDate(); // LocalDate | None
-        OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
+        LocalDate date = LocalDate.now(); // LocalDate | None
+        OffsetDateTime dateTime = OffsetDateTime.now(); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
             apiInstance.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testEndpointParameters");
             System.err.println("Status code: " + e.getCode());
@@ -1238,7 +1229,7 @@ public class Example {
         http_basic_test.setPassword("YOUR PASSWORD");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal number = new BigDecimal(); // BigDecimal | None
+        BigDecimal number = new BigDecimal(78); // BigDecimal | None
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
@@ -1248,19 +1239,19 @@ public class Example {
         Float _float = 3.4F; // Float | None
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
-        LocalDate date = new LocalDate(); // LocalDate | None
-        OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
+        LocalDate date = LocalDate.now(); // LocalDate | None
+        OffsetDateTime dateTime = OffsetDateTime.now(); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
             ApiResponse<Void> response = apiInstance.testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testEndpointParameters");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -1333,16 +1324,15 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
-        String enumHeaderString = "-efg"; // String | Header parameter enum test (string)
+        String enumHeaderString = "_abc"; // String | Header parameter enum test (string)
         List<String> enumQueryStringArray = Arrays.asList("$"); // List<String> | Query parameter enum test (string array)
-        String enumQueryString = "-efg"; // String | Query parameter enum test (string)
-        Integer enumQueryInteger = 56; // Integer | Query parameter enum test (double)
-        Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
-        List<String> enumFormStringArray = "$"; // List<String> | Form parameter enum test (string array)
-        String enumFormString = "-efg"; // String | Form parameter enum test (string)
+        String enumQueryString = "_abc"; // String | Query parameter enum test (string)
+        Integer enumQueryInteger = 1; // Integer | Query parameter enum test (double)
+        Double enumQueryDouble = 1.1D; // Double | Query parameter enum test (double)
+        List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
+        String enumFormString = "_abc"; // String | Form parameter enum test (string)
         try {
             apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testEnumParameters");
             System.err.println("Status code: " + e.getCode());
@@ -1414,22 +1404,22 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
-        String enumHeaderString = "-efg"; // String | Header parameter enum test (string)
+        String enumHeaderString = "_abc"; // String | Header parameter enum test (string)
         List<String> enumQueryStringArray = Arrays.asList("$"); // List<String> | Query parameter enum test (string array)
-        String enumQueryString = "-efg"; // String | Query parameter enum test (string)
-        Integer enumQueryInteger = 56; // Integer | Query parameter enum test (double)
-        Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
-        List<String> enumFormStringArray = "$"; // List<String> | Form parameter enum test (string array)
-        String enumFormString = "-efg"; // String | Form parameter enum test (string)
+        String enumQueryString = "_abc"; // String | Query parameter enum test (string)
+        Integer enumQueryInteger = 1; // Integer | Query parameter enum test (double)
+        Double enumQueryDouble = 1.1D; // Double | Query parameter enum test (double)
+        List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
+        String enumFormString = "_abc"; // String | Form parameter enum test (string)
         try {
             ApiResponse<Void> response = apiInstance.testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testEnumParameters");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -1591,12 +1581,12 @@ public class Example {
                 .build();
             ApiResponse<Void> response = apiInstance.testGroupParametersWithHttpInfo(request);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testGroupParameters");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -1669,7 +1659,6 @@ public class Example {
         Map<String, String> param = new HashMap(); // Map<String, String> | request body
         try {
             apiInstance.testInlineAdditionalProperties(param);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testInlineAdditionalProperties");
             System.err.println("Status code: " + e.getCode());
@@ -1734,12 +1723,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.testInlineAdditionalPropertiesWithHttpInfo(param);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testInlineAdditionalProperties");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -1799,7 +1788,6 @@ public class Example {
         String param2 = "param2_example"; // String | field2
         try {
             apiInstance.testJsonFormData(param, param2);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testJsonFormData");
             System.err.println("Status code: " + e.getCode());
@@ -1866,12 +1854,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.testJsonFormDataWithHttpInfo(param, param2);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testJsonFormData");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }
@@ -1937,7 +1925,6 @@ public class Example {
         List<String> context = Arrays.asList(); // List<String> | 
         try {
             apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
-
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testQueryParameterCollectionFormat");
             System.err.println("Status code: " + e.getCode());
@@ -2012,12 +1999,12 @@ public class Example {
         try {
             ApiResponse<Void> response = apiInstance.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
+            System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testQueryParameterCollectionFormat");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }

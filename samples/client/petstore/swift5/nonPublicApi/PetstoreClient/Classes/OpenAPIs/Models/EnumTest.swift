@@ -6,10 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-
-internal struct EnumTest: Codable { 
-
+internal struct EnumTest: Codable, Hashable {
 
     internal enum EnumString: String, Codable, CaseIterable {
         case upper = "UPPER"
@@ -35,7 +36,7 @@ internal struct EnumTest: Codable {
     internal var enumNumber: EnumNumber?
     internal var outerEnum: OuterEnum?
 
-    internal init(enumString: EnumString?, enumStringRequired: EnumStringRequired, enumInteger: EnumInteger?, enumNumber: EnumNumber?, outerEnum: OuterEnum?) {
+    internal init(enumString: EnumString? = nil, enumStringRequired: EnumStringRequired, enumInteger: EnumInteger? = nil, enumNumber: EnumNumber? = nil, outerEnum: OuterEnum? = nil) {
         self.enumString = enumString
         self.enumStringRequired = enumStringRequired
         self.enumInteger = enumInteger
@@ -43,7 +44,7 @@ internal struct EnumTest: Codable {
         self.outerEnum = outerEnum
     }
 
-    internal enum CodingKeys: String, CodingKey, CaseIterable { 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case enumString = "enum_string"
         case enumStringRequired = "enum_string_required"
         case enumInteger = "enum_integer"
@@ -51,4 +52,15 @@ internal struct EnumTest: Codable {
         case outerEnum
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(enumString, forKey: .enumString)
+        try container.encode(enumStringRequired, forKey: .enumStringRequired)
+        try container.encodeIfPresent(enumInteger, forKey: .enumInteger)
+        try container.encodeIfPresent(enumNumber, forKey: .enumNumber)
+        try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
+    }
 }
+

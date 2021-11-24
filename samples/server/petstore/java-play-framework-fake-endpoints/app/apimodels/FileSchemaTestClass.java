@@ -14,9 +14,13 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FileSchemaTestClass   {
   @JsonProperty("file")
+  @Valid
+
   private java.io.File file;
 
   @JsonProperty("files")
+  @Valid
+
   private List<java.io.File> files = null;
 
   public FileSchemaTestClass file(java.io.File file) {
@@ -28,7 +32,6 @@ public class FileSchemaTestClass   {
    * Get file
    * @return file
   **/
-  @Valid
   public java.io.File getFile() {
     return file;
   }
@@ -54,7 +57,6 @@ public class FileSchemaTestClass   {
    * Get files
    * @return files
   **/
-  @Valid
   public List<java.io.File> getFiles() {
     return files;
   }
@@ -65,7 +67,7 @@ public class FileSchemaTestClass   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -98,7 +100,7 @@ public class FileSchemaTestClass   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

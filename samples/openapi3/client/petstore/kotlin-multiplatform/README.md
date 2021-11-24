@@ -42,7 +42,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -92,12 +92,6 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.FormatTest](docs/FormatTest.md)
  - [org.openapitools.client.models.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [org.openapitools.client.models.HealthCheckResult](docs/HealthCheckResult.md)
- - [org.openapitools.client.models.InlineObject](docs/InlineObject.md)
- - [org.openapitools.client.models.InlineObject1](docs/InlineObject1.md)
- - [org.openapitools.client.models.InlineObject2](docs/InlineObject2.md)
- - [org.openapitools.client.models.InlineObject3](docs/InlineObject3.md)
- - [org.openapitools.client.models.InlineObject4](docs/InlineObject4.md)
- - [org.openapitools.client.models.InlineObject5](docs/InlineObject5.md)
  - [org.openapitools.client.models.InlineResponseDefault](docs/InlineResponseDefault.md)
  - [org.openapitools.client.models.List](docs/List.md)
  - [org.openapitools.client.models.MapTest](docs/MapTest.md)

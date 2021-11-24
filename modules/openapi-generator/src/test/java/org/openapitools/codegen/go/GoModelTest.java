@@ -25,7 +25,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.GoClientCodegen;
+import org.openapitools.codegen.languages.GoDeprecatedClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -42,7 +42,7 @@ public class GoModelTest {
                 .addProperties("createdAt", new DateTimeSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
-        final DefaultCodegen codegen = new GoClientCodegen();
+        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -59,7 +59,6 @@ public class GoModelTest {
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
 
@@ -69,7 +68,6 @@ public class GoModelTest {
         Assert.assertEquals(property2.name, "Name");
         Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "string");
-        Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
 
@@ -80,7 +78,6 @@ public class GoModelTest {
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "time.Time");
-        Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
     }
 
@@ -92,7 +89,7 @@ public class GoModelTest {
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new GoClientCodegen();
+        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -108,7 +105,6 @@ public class GoModelTest {
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int64");
-        Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
 
@@ -117,7 +113,6 @@ public class GoModelTest {
         Assert.assertEquals(property2.dataType, "[]string");
         Assert.assertEquals(property2.name, "Urls");
         Assert.assertEquals(property2.baseType, "array");
-        Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
@@ -130,7 +125,7 @@ public class GoModelTest {
                 .addProperties("translations", new MapSchema()
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new GoClientCodegen();
+        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -156,7 +151,7 @@ public class GoModelTest {
         final Schema model = new Schema()
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
-        final DefaultCodegen codegen = new GoClientCodegen();
+        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -180,7 +175,7 @@ public class GoModelTest {
                 .description("a sample model")
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
-        final DefaultCodegen codegen = new GoClientCodegen();
+        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -206,7 +201,7 @@ public class GoModelTest {
                 .description("a sample model")
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
-        final DefaultCodegen codegen = new GoClientCodegen();
+        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -233,7 +228,7 @@ public class GoModelTest {
         final Schema model = new ArraySchema()
                 .items(new Schema().$ref("#/definitions/Children"))
                 .description("an array model");
-        final DefaultCodegen codegen = new GoClientCodegen();
+        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -250,7 +245,7 @@ public class GoModelTest {
         final Schema model = new Schema()
                 .additionalProperties(new Schema().$ref("#/definitions/Children"))
                 .description("a map model");
-        final DefaultCodegen codegen = new GoClientCodegen();
+        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -265,7 +260,7 @@ public class GoModelTest {
 
     @Test(description = "convert file type and file schema models")
     public void filePropertyTest() {
-        final DefaultCodegen codegen = new GoClientCodegen();
+        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
         final Schema model1 = new Schema().type("file");
         Assert.assertEquals(codegen.getSchemaType(model1), "*os.File");
         Assert.assertEquals(codegen.getTypeDeclaration(model1), "*os.File");
@@ -295,7 +290,7 @@ public class GoModelTest {
     @Test(dataProvider = "modelNames", description = "avoid inner class")
     public void modelNameTest(String name, String expectedName) {
         final Schema model = new Schema();
-        final DefaultCodegen codegen = new GoClientCodegen();
+        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel(name, model);

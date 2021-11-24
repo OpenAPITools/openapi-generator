@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
@@ -38,12 +40,17 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     protected String invokerPackage;
 
     protected String akkaHttpVersion;
+    protected boolean generateAsManagedSources;
 
     public static final String AKKA_HTTP_VERSION = "akkaHttpVersion";
     public static final String AKKA_HTTP_VERSION_DESC = "The version of akka-http";
     public static final String DEFAULT_AKKA_HTTP_VERSION = "10.1.10";
 
-    static Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
+    public static final String GENERATE_AS_MANAGED_SOURCES = "asManagedSources";
+    public static final String GENERATE_AS_MANAGED_SOURCES_DESC = "Resulting files cab be used as managed resources. No build files or default controllers will be generated";
+    public static final boolean DEFAULT_GENERATE_AS_MANAGED_SOURCES = false;
+
+    final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -97,6 +104,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         modelPackage = "org.openapitools.server.model";
         invokerPackage = "org.openapitools.server";
         akkaHttpVersion = DEFAULT_AKKA_HTTP_VERSION;
+        generateAsManagedSources = DEFAULT_GENERATE_AS_MANAGED_SOURCES;
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -112,6 +120,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID).defaultValue(artifactId));
         cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC).defaultValue(artifactVersion));
         cliOptions.add(CliOption.newString(AKKA_HTTP_VERSION, AKKA_HTTP_VERSION_DESC).defaultValue(akkaHttpVersion));
+        cliOptions.add(CliOption.newBoolean(GENERATE_AS_MANAGED_SOURCES, GENERATE_AS_MANAGED_SOURCES_DESC).defaultValue(Boolean.valueOf(DEFAULT_GENERATE_AS_MANAGED_SOURCES).toString()));
 
         importMapping.remove("Seq");
         importMapping.remove("List");
@@ -135,11 +144,10 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
+        typeMapping.put("decimal", "BigDecimal");
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
-
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
     @Override
@@ -178,9 +186,19 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
         parseAkkaHttpVersion();
 
-        supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        supportingFiles.add(new SupportingFile("controller.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "Controller.scala"));
+
+        if (additionalProperties.containsKey(GENERATE_AS_MANAGED_SOURCES)) {
+            generateAsManagedSources = Boolean.parseBoolean(additionalProperties.get(GENERATE_AS_MANAGED_SOURCES).toString());
+        } else {
+            additionalProperties.put(GENERATE_AS_MANAGED_SOURCES, Boolean.valueOf(generateAsManagedSources).toString());
+        }
+
+        if (!generateAsManagedSources) {
+            supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+            supportingFiles.add(new SupportingFile("controller.mustache",
+                    (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "Controller.scala"));
+            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        }
         supportingFiles.add(new SupportingFile("helper.mustache",
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "AkkaHttpHelper.scala"));
         supportingFiles.add(new SupportingFile("stringDirectives.mustache",
@@ -227,7 +245,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                 }
 
             } catch (NumberFormatException e) {
-                LOGGER.warn("Unable to parse " + AKKA_HTTP_VERSION + ": " + akkaHttpVersion + ", fallback to " + DEFAULT_AKKA_HTTP_VERSION);
+                LOGGER.warn("Unable to parse {}: {}, fallback to {}", AKKA_HTTP_VERSION, akkaHttpVersion, DEFAULT_AKKA_HTTP_VERSION);
                 akkaHttpVersion = DEFAULT_AKKA_HTTP_VERSION;
                 is10_1_10AndAbove = true;
             }
@@ -246,16 +264,17 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     @Override
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter param = super.fromParameter(parameter, imports);
-        // Removing unhandled types
-        if (!primitiveParamTypes.contains(param.dataType)) {
-            param.dataType = "String";
-        }
-        if (!param.required) {
-            param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
-            // Escaping default string values
-            if (param.defaultValue != null && param.dataType.equals("String")) {
-                param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
+        if (primitiveParamTypes.contains(param.dataType)) {
+            if (!param.required) {
+                param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
+                // Escaping default string values
+                if (param.defaultValue != null && "String".equals(param.dataType)) {
+                    param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
+                }
             }
+        } else {
+            // Removing unhandled types
+            param.dataType = "String";
         }
         return param;
     }
@@ -269,43 +288,40 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         return baseObjs;
     }
 
-    private static Set<String> primitiveParamTypes = new HashSet<String>() {{
-        addAll(Arrays.asList(
-                "Int",
-                "Long",
-                "Float",
-                "Double",
-                "Boolean",
-                "String"
-        ));
-    }};
+    private static final Set<String> primitiveParamTypes = ImmutableSet.of(
+            "Int",
+            "Long",
+            "Float",
+            "Double",
+            "Boolean",
+            "String"
+    );
 
-    private static Map<String, String> pathTypeToMatcher = new HashMap<String, String>() {{
-        put("Int", "IntNumber");
-        put("Long", "LongNumber");
-        put("Float", "FloatNumber");
-        put("Double", "DoubleNumber");
-        put("Boolean", "Boolean");
-        put("String", "Segment");
-    }};
+    private static final Map<String, String> pathTypeToMatcher = ImmutableMap.<String,String>builder()
+        .put("Int", "IntNumber")
+        .put("Long", "LongNumber")
+        .put("Float", "FloatNumber")
+        .put("Double", "DoubleNumber")
+        .put("Boolean", "Boolean")
+        .put("String", "Segment")
+    .build();
 
-    protected static void addPathMatcher(CodegenOperation codegenOperation) {
+    protected void addPathMatcher(CodegenOperation codegenOperation) {
         LinkedList<String> allPaths = new LinkedList<>(Arrays.asList(codegenOperation.path.split("/")));
         allPaths.removeIf(""::equals);
 
         LinkedList<TextOrMatcher> pathMatchers = new LinkedList<>();
         for (String path : allPaths) {
-            TextOrMatcher textOrMatcher = new TextOrMatcher("", true, true);
+            TextOrMatcher textOrMatcher = new TextOrMatcher("", true);
             if (path.startsWith("{") && path.endsWith("}")) {
                 String parameterName = path.substring(1, path.length() - 1);
                 for (CodegenParameter pathParam : codegenOperation.pathParams) {
                     if (pathParam.baseName.equals(parameterName)) {
                         String matcher = pathTypeToMatcher.get(pathParam.dataType);
                         if (matcher == null) {
-                            LOGGER.warn("The path parameter " + pathParam.baseName +
-                                    " with the datatype " + pathParam.dataType +
-                                    " could not be translated to a corresponding path matcher of akka http" +
-                                    " and therefore has been translated to string.");
+                            LOGGER.warn(
+                                    "The path parameter {} with the datatype {} could not be translated to a corresponding path matcher of akka http and therefore has been translated to string.",
+                                    pathParam.baseName, pathParam.dataType);
                             matcher = pathTypeToMatcher.get("String");
                         }
                         if (pathParam.pattern != null && !pathParam.pattern.isEmpty()) {
@@ -322,8 +338,6 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                 pathMatchers.add(textOrMatcher);
             }
         }
-        pathMatchers.getLast().hasMore = false;
-
         codegenOperation.vendorExtensions.put("x-paths", pathMatchers);
     }
 
@@ -395,13 +409,6 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                         }
                     }
                 }
-                for (int i = 0, size = fileParams.size(); i < size; ++i) {
-                    fileParams.get(i).hasMore = i < size - 1;
-                }
-                for (int i = 0, size = nonFileParams.size(); i < size; ++i) {
-                    nonFileParams.get(i).hasMore = i < size - 1;
-                }
-
                 HashSet<Marshaller> operationSpecificMarshallers = new HashSet<>();
                 for (CodegenResponse response : op.responses) {
                     if (!response.primitiveType) {
@@ -410,7 +417,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                         operationSpecificMarshallers.add(marshaller);
                     }
                     response.vendorExtensions.put("x-empty-response", response.baseType == null && response.message == null);
-                    response.vendorExtensions.put("x-is-default", response.code.equals("0"));
+                    response.vendorExtensions.put("x-is-default", "0".equals(response.code));
                 }
                 op.vendorExtensions.put("x-specific-marshallers", operationSpecificMarshallers);
                 op.vendorExtensions.put("x-file-params", fileParams);
@@ -442,9 +449,9 @@ class Marshaller {
     }
 
     public Marshaller(CodegenParameter parameter) {
-        if (parameter.isListContainer) {
+        if (parameter.isArray) {
             this.varName = parameter.baseType + "List";
-        } else if (parameter.isMapContainer) {
+        } else if (parameter.isMap) {
             this.varName = parameter.baseType + "Map";
         } else if (parameter.isContainer) {
             this.varName = parameter.baseType + "Container";
@@ -482,12 +489,10 @@ class PathMatcherPattern {
 class TextOrMatcher {
     String value;
     boolean isText;
-    boolean hasMore;
 
-    public TextOrMatcher(String value, boolean isText, boolean hasMore) {
+    public TextOrMatcher(String value, boolean isText) {
         this.value = value;
         this.isText = isText;
-        this.hasMore = hasMore;
     }
 
     @Override
@@ -496,12 +501,11 @@ class TextOrMatcher {
         if (o == null || getClass() != o.getClass()) return false;
         TextOrMatcher that = (TextOrMatcher) o;
         return isText == that.isText &&
-                hasMore == that.hasMore &&
                 value.equals(that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, isText, hasMore);
+        return Objects.hash(value, isText);
     }
 }

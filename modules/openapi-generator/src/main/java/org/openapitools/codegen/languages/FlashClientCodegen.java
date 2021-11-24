@@ -20,6 +20,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -35,7 +37,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FlashClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(FlashClientCodegen.class);
 
     protected String packageName = "org.openapitools";
     protected String packageVersion;
@@ -45,6 +47,8 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     public FlashClientCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.DEPRECATED).build();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -201,12 +205,12 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getName() {
-        return "flash";
+        return "flash-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Flash (ActionScript) client library (beta).";
+        return "Generates a Flash (ActionScript) client library (beta). IMPORTANT: this generator has been deprecated in v5.x";
     }
 
     @Override
@@ -286,7 +290,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-        // if it's all uppper case, convert to lower case
+        // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }
@@ -323,7 +327,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -373,7 +377,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 

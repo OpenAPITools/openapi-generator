@@ -1,12 +1,12 @@
 {{#models}}
 {{#model}}
-export * from './{{{ classFilename }}}';
+export * from './{{{ classFilename }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 
 {{#models}}
 {{#model}}
-import { {{classname}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}} } from './{{{ classFilename }}}';
+import { {{classname}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}} } from './{{{ classFilename }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 
@@ -24,17 +24,21 @@ let primitives = [
 
 const supportedMediaTypes: { [mediaType: string]: number } = {
   "application/json": Infinity,
-  "application/octet-stream": 0
+  "application/octet-stream": 0,
+  "application/x-www-form-urlencoded": 0
 }
 
-                 
+
 let enumsMap: Set<string> = new Set<string>([
     {{#models}}
         {{#model}}
+            {{#isEnum}}
+    "{{classname}}{{enumName}}",
+            {{/isEnum}}
             {{#hasEnums}}
                 {{#vars}}
                     {{#isEnum}}
-					"{{classname}}{{enumName}}",
+    "{{classname}}{{enumName}}",
                     {{/isEnum}}
                 {{/vars}}
             {{/hasEnums}}
@@ -45,7 +49,9 @@ let enumsMap: Set<string> = new Set<string>([
 let typeMap: {[index: string]: any} = {
     {{#models}}
         {{#model}}
+            {{^isEnum}}
     "{{classname}}": {{classname}},
+            {{/isEnum}}
         {{/model}}
     {{/models}}
 }
@@ -118,7 +124,7 @@ export class ObjectSerializer {
             if (!typeMap[type]) { // in case we dont know the type
                 return data;
             }
-            
+
             // Get the actual type of this object
             type = this.findCorrectType(data, type);
 

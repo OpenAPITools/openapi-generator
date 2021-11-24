@@ -15,8 +15,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.sun.jersey.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -25,7 +25,7 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/FakeClassnameTags123")
+@Path("/fake_classname_test")
 
 
 @io.swagger.annotations.Api(description = "the FakeClassnameTags123 API")
@@ -34,7 +34,7 @@ public class FakeClassnameTags123Api  {
    private final FakeClassnameTags123ApiService delegate = FakeClassnameTags123ApiServiceFactory.getFakeClassnameTags123Api();
 
     @PATCH
-    @Path("/fake_classname_test")
+    
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "To test class name in snake case", notes = "To test class name in snake case", response = Client.class, authorizations = {

@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -44,6 +44,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="number">number (required).</param>
         /// <param name="_float">_float.</param>
         /// <param name="_double">_double.</param>
+        /// <param name="_decimal">_decimal.</param>
         /// <param name="_string">_string.</param>
         /// <param name="_byte">_byte (required).</param>
         /// <param name="binary">binary.</param>
@@ -51,8 +52,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="dateTime">dateTime.</param>
         /// <param name="uuid">uuid.</param>
         /// <param name="password">password (required).</param>
-        /// <param name="bigDecimal">bigDecimal.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), decimal bigDecimal = default(decimal))
+        /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
+        /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
+        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
         {
             // to ensure "number" is required (not null)
             if (number == null)
@@ -63,7 +65,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Number = number;
             }
-            
+
             // to ensure "_byte" is required (not null)
             if (_byte == null)
             {
@@ -73,7 +75,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Byte = _byte;
             }
-            
+
             // to ensure "date" is required (not null)
             if (date == null)
             {
@@ -83,7 +85,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Date = date;
             }
-            
+
             // to ensure "password" is required (not null)
             if (password == null)
             {
@@ -93,19 +95,21 @@ namespace Org.OpenAPITools.Model
             {
                 this.Password = password;
             }
-            
+
             this.Integer = integer;
             this.Int32 = int32;
             this.Int64 = int64;
             this.Float = _float;
             this.Double = _double;
+            this.Decimal = _decimal;
             this.String = _string;
             this.Binary = binary;
             this.DateTime = dateTime;
             this.Uuid = uuid;
-            this.BigDecimal = bigDecimal;
+            this.PatternWithDigits = patternWithDigits;
+            this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
         }
-        
+
         /// <summary>
         /// Gets or Sets Integer
         /// </summary>
@@ -141,6 +145,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name="double", EmitDefaultValue=false)]
         public double Double { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Decimal
+        /// </summary>
+        [DataMember(Name="decimal", EmitDefaultValue=false)]
+        public decimal Decimal { get; set; }
 
         /// <summary>
         /// Gets or Sets String
@@ -186,10 +196,18 @@ namespace Org.OpenAPITools.Model
         public string Password { get; set; }
 
         /// <summary>
-        /// Gets or Sets BigDecimal
+        /// A string that is a 10 digit number. Can have leading zeros.
         /// </summary>
-        [DataMember(Name="BigDecimal", EmitDefaultValue=false)]
-        public decimal BigDecimal { get; set; }
+        /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
+        [DataMember(Name="pattern_with_digits", EmitDefaultValue=false)]
+        public string PatternWithDigits { get; set; }
+
+        /// <summary>
+        /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
+        /// </summary>
+        /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
+        [DataMember(Name="pattern_with_digits_and_delimiter", EmitDefaultValue=false)]
+        public string PatternWithDigitsAndDelimiter { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -205,6 +223,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Number: ").Append(Number).Append("\n");
             sb.Append("  Float: ").Append(Float).Append("\n");
             sb.Append("  Double: ").Append(Double).Append("\n");
+            sb.Append("  Decimal: ").Append(Decimal).Append("\n");
             sb.Append("  String: ").Append(String).Append("\n");
             sb.Append("  Byte: ").Append(Byte).Append("\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
@@ -212,18 +231,19 @@ namespace Org.OpenAPITools.Model
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
-            sb.Append("  BigDecimal: ").Append(BigDecimal).Append("\n");
+            sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
+            sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
-  
+
         /// <summary>
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -278,6 +298,11 @@ namespace Org.OpenAPITools.Model
                     this.Double.Equals(input.Double))
                 ) && 
                 (
+                    this.Decimal == input.Decimal ||
+                    (this.Decimal != null &&
+                    this.Decimal.Equals(input.Decimal))
+                ) && 
+                (
                     this.String == input.String ||
                     (this.String != null &&
                     this.String.Equals(input.String))
@@ -313,9 +338,14 @@ namespace Org.OpenAPITools.Model
                     this.Password.Equals(input.Password))
                 ) && 
                 (
-                    this.BigDecimal == input.BigDecimal ||
-                    (this.BigDecimal != null &&
-                    this.BigDecimal.Equals(input.BigDecimal))
+                    this.PatternWithDigits == input.PatternWithDigits ||
+                    (this.PatternWithDigits != null &&
+                    this.PatternWithDigits.Equals(input.PatternWithDigits))
+                ) && 
+                (
+                    this.PatternWithDigitsAndDelimiter == input.PatternWithDigitsAndDelimiter ||
+                    (this.PatternWithDigitsAndDelimiter != null &&
+                    this.PatternWithDigitsAndDelimiter.Equals(input.PatternWithDigitsAndDelimiter))
                 );
         }
 
@@ -340,6 +370,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Float.GetHashCode();
                 if (this.Double != null)
                     hashCode = hashCode * 59 + this.Double.GetHashCode();
+                if (this.Decimal != null)
+                    hashCode = hashCode * 59 + this.Decimal.GetHashCode();
                 if (this.String != null)
                     hashCode = hashCode * 59 + this.String.GetHashCode();
                 if (this.Byte != null)
@@ -354,8 +386,10 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Uuid.GetHashCode();
                 if (this.Password != null)
                     hashCode = hashCode * 59 + this.Password.GetHashCode();
-                if (this.BigDecimal != null)
-                    hashCode = hashCode * 59 + this.BigDecimal.GetHashCode();
+                if (this.PatternWithDigits != null)
+                    hashCode = hashCode * 59 + this.PatternWithDigits.GetHashCode();
+                if (this.PatternWithDigitsAndDelimiter != null)
+                    hashCode = hashCode * 59 + this.PatternWithDigitsAndDelimiter.GetHashCode();
                 return hashCode;
             }
         }
@@ -368,7 +402,7 @@ namespace Org.OpenAPITools.Model
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
 
-            
+
             // Integer (int) maximum
             if(this.Integer > (int)100)
             {
@@ -382,7 +416,7 @@ namespace Org.OpenAPITools.Model
             }
 
 
-            
+
             // Int32 (int) maximum
             if(this.Int32 > (int)200)
             {
@@ -396,7 +430,7 @@ namespace Org.OpenAPITools.Model
             }
 
 
-            
+
             // Number (decimal) maximum
             if(this.Number > (decimal)543.2)
             {
@@ -410,7 +444,7 @@ namespace Org.OpenAPITools.Model
             }
 
 
-            
+
             // Float (float) maximum
             if(this.Float > (float)987.6)
             {
@@ -424,7 +458,7 @@ namespace Org.OpenAPITools.Model
             }
 
 
-            
+
             // Double (double) maximum
             if(this.Double > (double)123.4)
             {
@@ -438,7 +472,7 @@ namespace Org.OpenAPITools.Model
             }
 
 
-            
+
             // String (string) pattern
             Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexString.Match(this.String).Success)
@@ -446,8 +480,6 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for String, must match a pattern of " + regexString, new [] { "String" });
             }
 
-
-            
             // Password (string) maxLength
             if(this.Password != null && this.Password.Length > 64)
             {
@@ -459,7 +491,25 @@ namespace Org.OpenAPITools.Model
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
             }
-            
+
+
+
+            // PatternWithDigits (string) pattern
+            Regex regexPatternWithDigits = new Regex(@"^\\d{10}$", RegexOptions.CultureInvariant);
+            if (false == regexPatternWithDigits.Match(this.PatternWithDigits).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
+            }
+
+
+
+            // PatternWithDigitsAndDelimiter (string) pattern
+            Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (false == regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
+            }
+
             yield break;
         }
     }

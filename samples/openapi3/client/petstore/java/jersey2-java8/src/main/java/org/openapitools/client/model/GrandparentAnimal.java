@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -48,6 +49,8 @@ public class GrandparentAnimal {
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
   private String petType;
 
+  public GrandparentAnimal() { 
+  }
 
   public GrandparentAnimal petType(String petType) {
     this.petType = petType;
@@ -58,6 +61,7 @@ public class GrandparentAnimal {
    * Get petType
    * @return petType
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -67,6 +71,8 @@ public class GrandparentAnimal {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PET_TYPE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPetType(String petType) {
     this.petType = petType;
   }
@@ -76,7 +82,7 @@ public class GrandparentAnimal {
    * Return true if this GrandparentAnimal object is equal to o.
    */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -92,7 +98,6 @@ public class GrandparentAnimal {
     return Objects.hash(petType);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -106,7 +111,7 @@ public class GrandparentAnimal {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

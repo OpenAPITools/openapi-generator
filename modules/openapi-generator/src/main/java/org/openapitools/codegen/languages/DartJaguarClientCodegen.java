@@ -17,6 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
@@ -30,37 +32,35 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class DartJaguarClientCodegen extends DartClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DartJaguarClientCodegen.class);
+public class DartJaguarClientCodegen extends AbstractDartCodegen {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(DartJaguarClientCodegen.class);
+
     private static final String NULLABLE_FIELDS = "nullableFields";
     private static final String SERIALIZATION_FORMAT = "serialization";
     private static final String IS_FORMAT_JSON = "jsonFormat";
     private static final String IS_FORMAT_PROTO = "protoFormat";
     private static final String CLIENT_NAME = "clientName";
 
-    private static Set<String> modelToIgnore = new HashSet<>();
-    private HashMap<String, String> protoTypeMapping = new HashMap<>();
+    private final Set<String> modelToIgnore = new HashSet<>();
+    private final HashMap<String, String> protoTypeMapping = new HashMap<>();
 
-    static {
+    private static final String SERIALIZATION_JSON = "json";
+    private static final String SERIALIZATION_PROTO = "proto";
+
+    private boolean nullableFields = true;
+
+    public DartJaguarClientCodegen() {
+        super();
+
         modelToIgnore.add("datetime");
         modelToIgnore.add("map");
         modelToIgnore.add("object");
         modelToIgnore.add("list");
         modelToIgnore.add("file");
         modelToIgnore.add("list<int>");
-    }
-
-    private static final String SERIALIZATION_JSON = "json";
-    private static final String SERIALIZATION_PROTO = "proto";
-
-    private boolean nullableFields = true;
-    private String serialization = SERIALIZATION_JSON;
-
-    public DartJaguarClientCodegen() {
-        super();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -81,12 +81,19 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                 .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
+                .wireFormatFeatures(EnumSet.of(
+                        WireFormatFeature.JSON,
+                        WireFormatFeature.PROTOBUF
+                ))
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
         );
 
-        browserClient = false;
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
+
         outputFolder = "generated-code/dart-jaguar";
         embeddedTemplateDir = templateDir = "dart-jaguar";
 
@@ -132,18 +139,27 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+    public String toDefaultValue(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
             return "const {}";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             return "const []";
         }
-        return super.toDefaultValue(p);
+
+        if (schema.getDefault() != null) {
+            if (ModelUtils.isStringSchema(schema)) {
+                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
+            }
+            return schema.getDefault().toString();
+        } else {
+            return "null";
+        }
     }
 
     @Override
     public void processOpts() {
-        defaultProcessOpts();
+        super.processOpts();
+
         if (additionalProperties.containsKey(NULLABLE_FIELDS)) {
             nullableFields = convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS);
         } else {
@@ -152,7 +168,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         }
 
         if (additionalProperties.containsKey(SERIALIZATION_FORMAT)) {
-            serialization = ((String) additionalProperties.get(SERIALIZATION_FORMAT));
+            String serialization = ((String) additionalProperties.get(SERIALIZATION_FORMAT));
             boolean isProto = serialization.equalsIgnoreCase(SERIALIZATION_PROTO);
             additionalProperties.put(IS_FORMAT_JSON, serialization.equalsIgnoreCase(SERIALIZATION_JSON));
             additionalProperties.put(IS_FORMAT_PROTO, isProto);
@@ -165,37 +181,13 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             additionalProperties.put(IS_FORMAT_PROTO, false);
         }
 
-        if (additionalProperties.containsKey(PUB_NAME)) {
-            this.setPubName((String) additionalProperties.get(PUB_NAME));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_NAME, pubName);
-        }
         additionalProperties.put(CLIENT_NAME, org.openapitools.codegen.utils.StringUtils.camelize(pubName));
-
-        if (additionalProperties.containsKey(PUB_VERSION)) {
-            this.setPubVersion((String) additionalProperties.get(PUB_VERSION));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_VERSION, pubVersion);
-        }
-
-        if (additionalProperties.containsKey(PUB_DESCRIPTION)) {
-            this.setPubDescription((String) additionalProperties.get(PUB_DESCRIPTION));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(PUB_DESCRIPTION, pubDescription);
-        }
 
         if (additionalProperties.containsKey(USE_ENUM_EXTENSION)) {
             this.setUseEnumExtension(convertPropertyToBooleanAndWriteBack(USE_ENUM_EXTENSION));
         } else {
             // Not set, use to be passed to template.
             additionalProperties.put(USE_ENUM_EXTENSION, useEnumExtension);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
-            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
         // make api and model doc path available in mustache template
@@ -237,7 +229,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
             for (CodegenProperty p : cm.vars) {
                 String protoType = protoTypeMapping.get(p.openApiType);
-                if (p.isListContainer) {
+                if (p.isArray) {
                     String innerType = protoTypeMapping.get(p.mostInnerItems.openApiType);
                     protoType = protoType + " " + (innerType == null ? p.mostInnerItems.openApiType : innerType);
                 }

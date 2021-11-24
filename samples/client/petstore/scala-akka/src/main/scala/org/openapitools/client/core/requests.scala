@@ -13,6 +13,7 @@ package org.openapitools.client.core
 
 import java.io.File
 import java.net.URLEncoder
+import java.util.UUID
 import java.time.OffsetDateTime
 
 import scala.util.Try
@@ -73,7 +74,7 @@ object ApiMethods {
 trait ApiModel
 
 /**
- * Single trait defining a credential that can be transformed to a paramName / paramValue tupple
+ * Single trait defining a credential that can be transformed to a paramName / paramValue tuple
  */
 sealed trait Credentials {
   def asQueryParam: Option[(String, String)] = None
@@ -168,7 +169,7 @@ object CollectionFormats {
 object ParametersMap {
 
   /**
-   * Pimp parameters maps (Map[String, Any]) in order to transform them in a sequence of String -> Any tupples,
+   * Pimp parameters maps (Map[String, Any]) in order to transform them in a sequence of String -> Any tuples,
    * with valid url-encoding, arrays handling, files preservation, ...
    */
   implicit class ParametersMapImprovements(val m: Map[String, Any]) {
@@ -191,6 +192,7 @@ object ParametersMap {
       case Some(opt) => formattedParams(name, opt)
       case s: Seq[Any] => formattedParams(name, ArrayValues(s))
       case v: String => Seq((name, urlEncode(v)))
+      case v: UUID => formattedParams(name, v.toString)
       case NumericValue(v) => Seq((name, urlEncode(v)))
       case f: File => Seq((name, f))
       case m: ApiModel => Seq((name, m))

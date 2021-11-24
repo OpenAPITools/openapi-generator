@@ -15,9 +15,12 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -25,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 
 /**
  * MapTest
@@ -84,9 +88,10 @@ public class MapTest {
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   private Map<String, Boolean> indirectMap = null;
 
+  public MapTest() { 
+  }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
-    
     this.mapMapOfString = mapMapOfString;
     return this;
   }
@@ -113,13 +118,14 @@ public class MapTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
-    
     this.mapOfEnumString = mapOfEnumString;
     return this;
   }
@@ -146,13 +152,14 @@ public class MapTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
 
   public MapTest directMap(Map<String, Boolean> directMap) {
-    
     this.directMap = directMap;
     return this;
   }
@@ -179,13 +186,14 @@ public class MapTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
 
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
-    
     this.indirectMap = indirectMap;
     return this;
   }
@@ -212,13 +220,18 @@ public class MapTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 
 
+  /**
+   * Return true if this MapTest object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -237,7 +250,6 @@ public class MapTest {
     return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -254,7 +266,7 @@ public class MapTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

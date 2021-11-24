@@ -26,7 +26,9 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
         [string]$Method,
         [Parameter(Mandatory)]
         [AllowEmptyString()]
-        [string]$ReturnType
+        [string]$ReturnType,
+        [Parameter(Mandatory)]
+        [bool]$IsBodyNullable
     )
 
     'Calling method: Invoke-{{{apiNamePrefix}}}ApiClient' | Write-Debug
@@ -45,7 +47,7 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
         }
     }
     if ($CookieParameters -and $CookieParameters.Count -gt 1) {
-        Write-Warning "Multipe cookie parameters found. Curently only the first one is supported/used"
+        Write-Warning "Multiple cookie parameters found. Currently only the first one is supported/used"
     }
 
     # accept, content-type headers
@@ -54,9 +56,15 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
         $HeaderParameters['Accept'] = $Accept
     }
 
+    [string]$MultiPartBoundary = $null
     $ContentType= SelectHeaders -Headers $ContentTypes
     if ($ContentType) {
         $HeaderParameters['Content-Type'] = $ContentType
+        if ($ContentType -eq 'multipart/form-data') {
+            [string]$MultiPartBoundary = [System.Guid]::NewGuid()
+            $MultiPartBoundary = "---------------------------$MultiPartBoundary"
+            $HeaderParameters['Content-Type'] = "$ContentType; boundary=$MultiPartBoundary"
+        }
     }
 
     # add default headers if any
@@ -64,8 +72,7 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
         $HeaderParameters[$header.Name] = $header.Value
     }
 
-
-    # constrcut URL query string
+    # construct URL query string
     $HttpValues = [System.Web.HttpUtility]::ParseQueryString([String]::Empty)
     foreach ($Parameter in $QueryParameters.GetEnumerator()) {
         if ($Parameter.Value.Count -gt 1) { // array
@@ -82,11 +89,39 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
 
     # include form parameters in the request body
     if ($FormParameters -and $FormParameters.Count -gt 0) {
-        $RequestBody = $FormParameters
+        if (![string]::IsNullOrEmpty($MultiPartBoundary)) {
+            $RequestBody = ""
+            $LF = "`r`n"
+            $FormParameters.Keys | ForEach-Object {
+                $value = $FormParameters[$_]
+                $isFile = $value.GetType().FullName -eq "System.IO.FileInfo"
+
+                $RequestBody += "--$MultiPartBoundary$LF"
+                $RequestBody += "Content-Disposition: form-data; name=`"$_`""
+                if ($isFile) {
+                    $fileName = $value.Name
+                    $RequestBody += "; filename=`"$fileName`"$LF"
+                    $RequestBody += "Content-Type: application/octet-stream$LF$LF"
+                    $RequestBody += Get-Content -Path $value.FullName
+                } else {
+                    $RequestBody += "$LF$LF"
+                    $RequestBody += ([string]$value)
+                }
+                $RequestBody += "$LF--$MultiPartBoundary"
+            }
+            $RequestBody += "--"
+        } else {
+            $RequestBody = $FormParameters
+        }
     }
 
-    if ($Body) {
+
+
+    if ($Body -or $IsBodyNullable) {
         $RequestBody = $Body
+        if ([string]::IsNullOrEmpty($RequestBody) -and $IsBodyNullable -eq $true) {
+            $RequestBody = "null"
+        }
     }
 
     {{#hasHttpSignatureMethods}}
@@ -109,21 +144,47 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
 
     {{/hasHttpSignatureMethods}}
     if ($SkipCertificateCheck -eq $true) {
-        $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                  -Method $Method `
-                                  -Headers $HeaderParameters `
-                                  -Body $RequestBody `
-                                  -ErrorAction Stop `
-                                  -UseBasicParsing `
-                                  -SkipCertificateCheck
-
+        if ($null -eq $Configuration["Proxy"]) {
+            # skip certification check, no proxy
+            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
+                                      -Method $Method `
+                                      -Headers $HeaderParameters `
+                                      -Body $RequestBody `
+                                      -ErrorAction Stop `
+                                      -UseBasicParsing `
+                                      -SkipCertificateCheck
+        } else {
+            # skip certification check, use proxy
+            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
+                                      -Method $Method `
+                                      -Headers $HeaderParameters `
+                                      -Body $RequestBody `
+                                      -ErrorAction Stop `
+                                      -UseBasicParsing `
+                                      -SkipCertificateCheck `
+                                      -Proxy $Configuration["Proxy"].GetProxy($UriBuilder.Uri) `
+                                      -ProxyUseDefaultCredentials
+        }
     } else {
-        $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                  -Method $Method `
-                                  -Headers $HeaderParameters `
-                                  -Body $RequestBody `
-                                  -ErrorAction Stop `
-                                  -UseBasicParsing
+        if ($null -eq $Configuration["Proxy"]) {
+            # perform certification check, no proxy
+            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
+                                      -Method $Method `
+                                      -Headers $HeaderParameters `
+                                      -Body $RequestBody `
+                                      -ErrorAction Stop `
+                                      -UseBasicParsing
+        } else {
+            # perform certification check, use proxy
+            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
+                                      -Method $Method `
+                                      -Headers $HeaderParameters `
+                                      -Body $RequestBody `
+                                      -ErrorAction Stop `
+                                      -UseBasicParsing `
+                                      -Proxy $Configuration["Proxy"].GetProxy($UriBuilder.Uri) `
+                                      -ProxyUseDefaultCredentials
+        }
     }
 
     return @{
@@ -180,7 +241,11 @@ function DeserializeResponse {
         [string[]]$ContentTypes
     )
 
-    If ([string]::IsNullOrEmpty($ReturnType)) { # void response
+    If ($null -eq $ContentTypes) {
+        $ContentTypes = [string[]]@()
+    }
+
+    If ([string]::IsNullOrEmpty($ReturnType) -and $ContentTypes.Count -eq 0) { # void response
         return $Response
     } Elseif ($ReturnType -match '\[\]$') { # array
         return ConvertFrom-Json $Response

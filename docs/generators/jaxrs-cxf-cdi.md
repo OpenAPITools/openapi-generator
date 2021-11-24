@@ -3,9 +3,12 @@ title: Config Options for jaxrs-cxf-cdi
 sidebar_label: jaxrs-cxf-cdi
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations)| |null|
+|additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |org.openapitools.api|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
@@ -20,7 +23,7 @@ sidebar_label: jaxrs-cxf-cdi
 |developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|
 |developerOrganizationUrl|developer organization URL in generated pom.xml| |http://openapitools.org|
 |disableHtmlEscaping|Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)| |false|
-|disallowAdditionalPropertiesIfNotPresent|Specify the behavior when the 'additionalProperties' keyword is not present in the OAS document. If false: the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. If true: when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.This setting is currently ignored for OAS 2.0 documents:  1) When the 'additionalProperties' keyword is not present in a 2.0 schema, additional properties are NOT allowed.  2) Boolean values of the 'additionalProperties' keyword are ignored. It's as if additional properties are NOT allowed.Note: the root cause are issues #1369 and #1371, which must be resolved in the swagger-parser project.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.</dd></dl>|true|
+|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |discriminatorCaseSensitive|Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
@@ -28,15 +31,17 @@ sidebar_label: jaxrs-cxf-cdi
 |generatePom|Whether to generate pom.xml if the file does not already exist.| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
+|ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implFolder|folder for generated implementation code| |src/main/java|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|
 |java8|Use Java8 classes instead of third party equivalents. Starting in 5.x, JDK8 is the default and the support for JDK7, JDK6 has been dropped|<dl><dt>**true**</dt><dd>Use Java 8 classes such as Base64</dd><dt>**false**</dt><dd>Various third party libraries as needed</dd></dl>|true|
-|legacyDiscriminatorBehavior|This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName. Note to developers supporting a language generator in OpenAPITools; to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|library|library template (sub-template)|<dl><dt>**&lt;default&gt;**</dt><dd>JAXRS spec only, to be deployed in an app server (TomEE, JBoss, WLS, ...)</dd><dt>**quarkus**</dt><dd>Server using Quarkus</dd><dt>**thorntail**</dt><dd>Server using Thorntail</dd><dt>**openliberty**</dt><dd>Server using Open Liberty</dd><dt>**helidon**</dt><dd>Server using Helidon</dd></dl>|&lt;default&gt;|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|library|library template (sub-template)|<dl><dt>**&lt;default&gt;**</dt><dd>JAXRS spec only, to be deployed in an app server (TomEE, JBoss, WLS, ...)</dd><dt>**quarkus**</dt><dd>Server using Quarkus</dd><dt>**thorntail**</dt><dd>Server using Thorntail</dd><dt>**openliberty**</dt><dd>Server using Open Liberty</dd><dt>**helidon**</dt><dd>Server using Helidon</dd><dt>**kumuluzee**</dt><dd>Server using KumuluzEE</dd></dl>|&lt;default&gt;|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.model|
+|openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
 |openApiSpecFileLocation|Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string.| |null|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
@@ -55,6 +60,7 @@ sidebar_label: jaxrs-cxf-cdi
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useSwaggerAnnotations|Whether to generate Swagger annotations.| |true|
+|useTags|use tags for creating interface and controller classnames| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING
@@ -187,6 +193,7 @@ sidebar_label: jaxrs-cxf-cdi
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
-    <artifactId>KotlinNonpublicPetstoreClientTests</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>kotlin-petstore-nonpublic</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>Kotlin Nonpublic Petstore Client</name>
+    <version>1.0.0</version>
+    <name>OpenAPI Petstore</name>
     <build>
         <plugins>
             <plugin>
@@ -27,7 +27,7 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>bundle-test</id>
+                        <id>bundle-install</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -35,7 +35,20 @@
                         <configuration>
                             <executable>gradle</executable>
                             <arguments>
-                                <argument>test</argument>
+                                <argument>wrapper</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>bundle-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>./gradlew</executable>
+                            <arguments>
+                                <argument>build</argument>
                             </arguments>
                         </configuration>
                     </execution>

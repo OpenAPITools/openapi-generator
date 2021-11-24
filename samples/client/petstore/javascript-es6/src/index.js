@@ -25,6 +25,7 @@ import CatAllOf from './model/CatAllOf';
 import Category from './model/Category';
 import ClassModel from './model/ClassModel';
 import Client from './model/Client';
+import DeprecatedObject from './model/DeprecatedObject';
 import Dog from './model/Dog';
 import DogAllOf from './model/DogAllOf';
 import EnumArrays from './model/EnumArrays';
@@ -36,29 +37,25 @@ import Foo from './model/Foo';
 import FormatTest from './model/FormatTest';
 import HasOnlyReadOnly from './model/HasOnlyReadOnly';
 import HealthCheckResult from './model/HealthCheckResult';
-import InlineObject from './model/InlineObject';
-import InlineObject1 from './model/InlineObject1';
-import InlineObject2 from './model/InlineObject2';
-import InlineObject3 from './model/InlineObject3';
-import InlineObject4 from './model/InlineObject4';
-import InlineObject5 from './model/InlineObject5';
 import InlineResponseDefault from './model/InlineResponseDefault';
 import List from './model/List';
 import MapTest from './model/MapTest';
 import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
 import Model200Response from './model/Model200Response';
-import ModelReturn from './model/ModelReturn';
 import Name from './model/Name';
 import NullableClass from './model/NullableClass';
 import NumberOnly from './model/NumberOnly';
+import ObjectWithDeprecatedFields from './model/ObjectWithDeprecatedFields';
 import Order from './model/Order';
 import OuterComposite from './model/OuterComposite';
 import OuterEnum from './model/OuterEnum';
 import OuterEnumDefaultValue from './model/OuterEnumDefaultValue';
 import OuterEnumInteger from './model/OuterEnumInteger';
 import OuterEnumIntegerDefaultValue from './model/OuterEnumIntegerDefaultValue';
+import OuterObjectWithEnumProperty from './model/OuterObjectWithEnumProperty';
 import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
+import Return from './model/Return';
 import SpecialModelName from './model/SpecialModelName';
 import Tag from './model/Tag';
 import User from './model/User';
@@ -182,6 +179,12 @@ export {
     Client,
 
     /**
+     * The DeprecatedObject model constructor.
+     * @property {module:model/DeprecatedObject}
+     */
+    DeprecatedObject,
+
+    /**
      * The Dog model constructor.
      * @property {module:model/Dog}
      */
@@ -248,42 +251,6 @@ export {
     HealthCheckResult,
 
     /**
-     * The InlineObject model constructor.
-     * @property {module:model/InlineObject}
-     */
-    InlineObject,
-
-    /**
-     * The InlineObject1 model constructor.
-     * @property {module:model/InlineObject1}
-     */
-    InlineObject1,
-
-    /**
-     * The InlineObject2 model constructor.
-     * @property {module:model/InlineObject2}
-     */
-    InlineObject2,
-
-    /**
-     * The InlineObject3 model constructor.
-     * @property {module:model/InlineObject3}
-     */
-    InlineObject3,
-
-    /**
-     * The InlineObject4 model constructor.
-     * @property {module:model/InlineObject4}
-     */
-    InlineObject4,
-
-    /**
-     * The InlineObject5 model constructor.
-     * @property {module:model/InlineObject5}
-     */
-    InlineObject5,
-
-    /**
      * The InlineResponseDefault model constructor.
      * @property {module:model/InlineResponseDefault}
      */
@@ -314,12 +281,6 @@ export {
     Model200Response,
 
     /**
-     * The ModelReturn model constructor.
-     * @property {module:model/ModelReturn}
-     */
-    ModelReturn,
-
-    /**
      * The Name model constructor.
      * @property {module:model/Name}
      */
@@ -336,6 +297,12 @@ export {
      * @property {module:model/NumberOnly}
      */
     NumberOnly,
+
+    /**
+     * The ObjectWithDeprecatedFields model constructor.
+     * @property {module:model/ObjectWithDeprecatedFields}
+     */
+    ObjectWithDeprecatedFields,
 
     /**
      * The Order model constructor.
@@ -374,6 +341,12 @@ export {
     OuterEnumIntegerDefaultValue,
 
     /**
+     * The OuterObjectWithEnumProperty model constructor.
+     * @property {module:model/OuterObjectWithEnumProperty}
+     */
+    OuterObjectWithEnumProperty,
+
+    /**
      * The Pet model constructor.
      * @property {module:model/Pet}
      */
@@ -384,6 +357,12 @@ export {
      * @property {module:model/ReadOnlyFirst}
      */
     ReadOnlyFirst,
+
+    /**
+     * The Return model constructor.
+     * @property {module:model/Return}
+     */
+    Return,
 
     /**
      * The SpecialModelName model constructor.

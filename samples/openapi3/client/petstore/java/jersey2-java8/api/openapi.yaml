@@ -31,6 +31,8 @@ servers:
       enum:
       - v1
       - v2
+- description: The local server without variables
+  url: https://127.0.0.1/no_variable
 tags:
 - description: Everything about your Pets
   name: pet
@@ -96,7 +98,8 @@ paths:
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
       parameters:
-      - description: Status values that need to be considered for filter
+      - deprecated: true
+        description: Status values that need to be considered for filter
         explode: false
         in: query
         name: status
@@ -1122,7 +1125,7 @@ paths:
       - fake
       x-contentType: application/json
       x-accepts: application/json
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
       operationId: testQueryParameterCollectionFormat
@@ -1255,6 +1258,13 @@ components:
     UserArray:
       content:
         application/json:
+          examples:
+            simple-list:
+              description: Should not get into code examples
+              summary: Simple list example
+              value:
+              - username: foo
+              - username: bar
           schema:
             items:
               $ref: '#/components/schemas/User'
@@ -1609,6 +1619,9 @@ components:
           maximum: 123.4
           minimum: 67.8
           type: number
+        decimal:
+          format: number
+          type: string
         string:
           pattern: /[a-z]/i
           type: string
@@ -1676,6 +1689,11 @@ components:
           - 1
           - -1
           format: int32
+          type: integer
+        enum_integer_only:
+          enum:
+          - 2
+          - -2
           type: integer
         enum_number:
           enum:
@@ -1945,6 +1963,8 @@ components:
         $special[property.name]:
           format: int64
           type: integer
+        _special_model.name_:
+          type: string
       xml:
         name: $special[model.name]
     HealthCheckResult:
@@ -2242,6 +2262,27 @@ components:
       example: 2010-01-01T10:10:10.000111+01:00
       format: date-time
       type: string
+    DeprecatedObject:
+      deprecated: true
+      properties:
+        name:
+          type: string
+      type: object
+    ObjectWithDeprecatedFields:
+      properties:
+        uuid:
+          type: string
+        id:
+          deprecated: true
+          type: number
+        deprecatedRef:
+          $ref: '#/components/schemas/DeprecatedObject'
+        bars:
+          deprecated: true
+          items:
+            $ref: '#/components/schemas/Bar'
+          type: array
+      type: object
     inline_response_default:
       example:
         string:
@@ -2249,6 +2290,7 @@ components:
       properties:
         string:
           $ref: '#/components/schemas/Foo'
+      type: object
     inline_object:
       properties:
         name:
@@ -2390,14 +2432,23 @@ components:
       properties:
         breed:
           type: string
+      type: object
     Cat_allOf:
       properties:
         declawed:
           type: boolean
+      type: object
     ChildCat_allOf:
       properties:
         name:
           type: string
+        pet_type:
+          default: ChildCat
+          enum:
+          - ChildCat
+          type: string
+          x-enum-as-string: true
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

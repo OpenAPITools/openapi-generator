@@ -15,8 +15,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
@@ -45,7 +45,7 @@ public class FooApi  {
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {
@@ -60,8 +60,9 @@ public class FooApi  {
     
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "", response = InlineResponseDefault.class, tags={  })
-    @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "response", response = InlineResponseDefault.class) })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "response", response = InlineResponseDefault.class)
+    })
     public Response fooGet(@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fooGet(securityContext);

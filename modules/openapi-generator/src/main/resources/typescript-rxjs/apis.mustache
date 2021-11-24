@@ -1,7 +1,7 @@
 // tslint:disable
 {{>licenseInfo}}
 import { Observable } from 'rxjs';
-import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParams}}, throwIfNullOrUndefined{{/hasRequiredParams}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}} } from '../runtime';
+import { BaseAPI{{#hasHttpHeaders}}, HttpHeaders{{/hasHttpHeaders}}{{#hasQueryParams}}, HttpQuery{{/hasQueryParams}}{{#hasRequiredParams}}, throwIfNullOrUndefined{{/hasRequiredParams}}{{#hasPathParams}}, encodeURI{{/hasPathParams}}{{#hasListContainers}}, COLLECTION_FORMATS{{/hasListContainers}}, OperationOpts, RawAjaxResponse } from '../runtime';
 {{#imports.0}}
 import {
     {{#imports}}
@@ -24,7 +24,7 @@ export interface {{operationIdCamelCase}}Request {
 {{/operations}}
 {{#operations}}
 /**
- * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
+ * {{{description}}}{{^description}}no description{{/description}}
  */
 export class {{classname}} extends BaseAPI {
 
@@ -37,7 +37,12 @@ export class {{classname}} extends BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    {{nickname}} = ({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> => {
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}>
+{{#withProgressSubscriber}}
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}>
+{{/withProgressSubscriber}}
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}RawAjaxResponse<{{{.}}}>{{/returnType}}{{^returnType}}void | RawAjaxResponse<void>{{/returnType}}>
+    {{nickname}}({{#allParams.0}}{ {{#allParams}}{{paramName}}{{#vendorExtensions.x-param-name-alternative}}: {{vendorExtensions.x-param-name-alternative}}{{/vendorExtensions.x-param-name-alternative}}{{^-last}}, {{/-last}}{{/allParams}} }: {{operationIdCamelCase}}Request, {{/allParams.0}}opts?: OperationOpts): Observable<{{#returnType}}{{{returnType}}} | RawAjaxResponse<{{{returnType}}}>{{/returnType}}{{^returnType}}void | RawAjaxResponse<void>{{/returnType}}> {
         {{#hasParams}}
         {{#allParams}}
         {{#required}}
@@ -57,12 +62,12 @@ export class {{classname}} extends BaseAPI {
             {{/consumes.0}}
             {{/bodyParam}}
             {{#headerParams}}
-            {{#isListContainer}}
+            {{#isArray}}
             ...({{> paramNamePartial}} != null ? { '{{baseName}}': {{> paramNamePartial}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) } : undefined),
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             ...({{> paramNamePartial}} != null ? { '{{baseName}}': String({{> paramNamePartial}}) } : undefined),
-            {{/isListContainer}}
+            {{/isArray}}
             {{/headerParams}}
             {{#authMethods}}
             {{#isBasic}}
@@ -94,15 +99,15 @@ export class {{classname}} extends BaseAPI {
         const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
             {{#queryParams}}
             {{#required}}
-            {{#isListContainer}}
+            {{#isArray}}
             {{#isCollectionFormatMulti}}
             '{{baseName}}': {{> paramNamePartial}},
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
             '{{baseName}}': {{> paramNamePartial}}.join(COLLECTION_FORMATS['{{collectionFormat}}']),
             {{/isCollectionFormatMulti}}
-            {{/isListContainer}}
-            {{^isListContainer}}
+            {{/isArray}}
+            {{^isArray}}
             {{#isDateTime}}
             '{{baseName}}': ({{> paramNamePartial}} as any).toISOString(),
             {{/isDateTime}}
@@ -114,7 +119,7 @@ export class {{classname}} extends BaseAPI {
             '{{baseName}}': {{> paramNamePartial}},
             {{/isDate}}
             {{/isDateTime}}
-            {{/isListContainer}}
+            {{/isArray}}
             {{/required}}
             {{/queryParams}}
         };
@@ -123,15 +128,15 @@ export class {{classname}} extends BaseAPI {
 
         {{#queryParams}}
         {{^required}}
-        {{#isListContainer}}
+        {{#isArray}}
         {{#isCollectionFormatMulti}}
         if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}; }
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
         if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}.join(COLLECTION_FORMATS['{{collectionFormat}}']); }
         {{/isCollectionFormatMulti}}
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         {{#isDateTime}}
         if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = ({{> paramNamePartial}} as any).toISOString(); }
         {{/isDateTime}}
@@ -143,7 +148,7 @@ export class {{classname}} extends BaseAPI {
         if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}; }
         {{/isDate}}
         {{/isDateTime}}
-        {{/isListContainer}}
+        {{/isArray}}
         {{/required}}
         {{/queryParams}}
         {{/hasOptionalQueryParams}}
@@ -159,7 +164,7 @@ export class {{classname}} extends BaseAPI {
         {{#hasFormParams}}
         const formData = new FormData();
         {{#formParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{> paramNamePartial}} !== undefined) {
             {{#isCollectionFormatMulti}}
             {{> paramNamePartial}}.forEach((element) => formData.append('{{baseName}}', element as any))
@@ -169,15 +174,15 @@ export class {{classname}} extends BaseAPI {
             {{/isCollectionFormatMulti}}
         }
 
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if ({{> paramNamePartial}} !== undefined) { formData.append('{{baseName}}', {{> paramNamePartial}} as any); }
-        {{/isListContainer}}
+        {{/isArray}}
         {{/formParams}}
 
         {{/hasFormParams}}
-        return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>({
-            path: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURI({{> paramNamePartial}})){{/pathParams}},
+        return this.request<{{{returnType}}}{{^returnType}}void{{/returnType}}>({
+            url: '{{{path}}}'{{#pathParams}}.replace({{=<% %>=}}'{<%baseName%>}'<%={{ }}=%>, encodeURI({{> paramNamePartial}})){{/pathParams}},
             method: '{{httpMethod}}',
             {{#hasHttpHeaders}}
             headers,
@@ -204,9 +209,12 @@ export class {{classname}} extends BaseAPI {
             body: formData,
             {{/hasFormParams}}
 {{#isResponseFile}}
-            responseType: 'blob'
+            responseType: 'blob',
 {{/isResponseFile}}
-        });
+{{#withProgressSubscriber}}
+            progressSubscriber: opts?.progressSubscriber,
+{{/withProgressSubscriber}}
+        }, opts?.responseOpts);
     };
 
     {{/operation}}

@@ -10,19 +10,19 @@
 Pod::Spec.new do |s|
     s.name             = "{{podName}}"
     s.version          = "{{podVersion}}"
-{{#apiInfo}}{{#apis}}{{^hasMore}}
+{{#apiInfo}}{{#apis}}{{#-last}}
     s.summary          = "{{appName}}"
 {{{#appDescription}}}    s.description      = <<-DESC
                          {{{appDescription}}}
                          DESC{{{/appDescription}}}
-{{/hasMore}}{{/apis}}{{/apiInfo}}
+{{/-last}}{{/apis}}{{/apiInfo}}
     s.platform     = :ios, '7.0'
     s.requires_arc = true
 
     {{^useCoreData}}s.framework    = 'SystemConfiguration'{{/useCoreData}}{{#useCoreData}}s.frameworks = 'SystemConfiguration', 'CoreData'{{/useCoreData}}
 
     s.homepage     = "{{gitRepoURL}}"
-    s.license      = "{{#license}}{{license}}{{/license}}{{^license}}Apache License, Version 2.0{{/license}}"
+    s.license      = "{{license}}{{^license}}Apache License, Version 2.0{{/license}}"
     s.source       = { :git => "{{gitRepoURL}}.git", :tag => "#{s.version}" }
     s.author       = { "{{authorName}}" => "{{authorEmail}}" }
 
@@ -34,4 +34,3 @@ Pod::Spec.new do |s|
     s.dependency 'JSONModel', '~> 1.2'
     s.dependency 'ISO8601', '~> 0.6'
 end
-

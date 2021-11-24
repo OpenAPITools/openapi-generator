@@ -15,13 +15,17 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 
 /**
  * DogAllOf
@@ -34,9 +38,10 @@ public class DogAllOf {
   public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;
 
+  public DogAllOf() { 
+  }
 
   public DogAllOf breed(String breed) {
-    
     this.breed = breed;
     return this;
   }
@@ -55,13 +60,18 @@ public class DogAllOf {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBreed(String breed) {
     this.breed = breed;
   }
 
 
+  /**
+   * Return true if this Dog_allOf object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -77,7 +87,6 @@ public class DogAllOf {
     return Objects.hash(breed);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -91,7 +100,7 @@ public class DogAllOf {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

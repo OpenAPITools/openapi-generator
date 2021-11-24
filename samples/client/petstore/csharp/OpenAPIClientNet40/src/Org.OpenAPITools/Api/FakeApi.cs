@@ -1546,7 +1546,7 @@ namespace Org.OpenAPITools.Api
             if (context == null)
                 throw new ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
 
-            var localVarPath = "/fake/test-query-paramters";
+            var localVarPath = "/fake/test-query-parameters";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -1568,7 +1568,7 @@ namespace Org.OpenAPITools.Api
 
             if (pipe != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "pipe", pipe)); // query parameter
             if (ioutil != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "ioutil", ioutil)); // query parameter
-            if (http != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("space", "http", http)); // query parameter
+            if (http != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("ssv", "http", http)); // query parameter
             if (url != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("csv", "url", url)); // query parameter
             if (context != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "context", context)); // query parameter
 

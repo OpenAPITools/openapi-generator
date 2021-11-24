@@ -14,7 +14,6 @@
 
 import { HttpMethods, QueryConfig, ResponseBody, ResponseText } from 'redux-query';
 import * as runtime from '../runtime';
-
 import {
     Order,
     OrderFromJSON,
@@ -46,13 +45,13 @@ function deleteOrderRaw<T>(requestParameters: DeleteOrderRequest, requestConfig:
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+        url: `${runtime.Configuration.basePath}/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -89,14 +88,14 @@ function getInventoryRaw<T>( requestConfig: runtime.TypedQueryConfig<T, { [key: 
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
 
     meta.authType = ['api_key', 'header'];
     const config: QueryConfig<T> = {
-        url: `/store/inventory`,
+        url: `${runtime.Configuration.basePath}/store/inventory`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -137,13 +136,13 @@ function getOrderByIdRaw<T>(requestParameters: GetOrderByIdRequest, requestConfi
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+        url: `${runtime.Configuration.basePath}/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -184,7 +183,7 @@ function placeOrderRaw<T>(requestParameters: PlaceOrderRequest, requestConfig: r
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     headerParameters['Content-Type'] = 'application/json';
 
@@ -192,7 +191,7 @@ function placeOrderRaw<T>(requestParameters: PlaceOrderRequest, requestConfig: r
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/store/order`,
+        url: `${runtime.Configuration.basePath}/store/order`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,

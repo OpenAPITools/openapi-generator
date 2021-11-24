@@ -1,23 +1,28 @@
 package org.openapitools.codegen.java.jaxrs;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
+
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.MockDefaultGenerator;
-import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
-import org.openapitools.codegen.templating.MustacheEngineAdapter;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.DefaultGenerator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
 
@@ -87,159 +92,46 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         Assert.assertEquals(codegen.additionalProperties().get(JavaJerseyServerCodegen.SERVER_PORT), "8088");
     }
 
-    @Test
-    public void testAddOperationToGroupUseTagsFalse() throws Exception {
-        File output = Files.createTempDirectory("test").toFile();
+    // Helper function, intended to reduce boilerplate @ copied from ../spring/SpringCodegenTest.java
+    private Map<String, File> generateFiles(DefaultCodegen codegen, String filePath) throws IOException {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
+        final String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/tags.yaml");
-        ((JavaJerseyServerCodegen) codegen).setUseTags(false);
         codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
-        ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        final ClientOptInput input = new ClientOptInput();
+        final OpenAPI openAPI = new OpenAPIParser().readLocation(filePath, null, new ParseOptions()).getOpenAPI();
+        input.openAPI(openAPI);
+        input.config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(input).generate();
+        final DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(input).generate();
 
-        WrittenTemplateBasedFile group1File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Group1Api.java");
-        Assert.assertEquals(group1File.getTemplateData().get("baseName"), "group1");
-        Assert.assertEquals(group1File.getTemplateData().get("commonPath"), "group1");
-        List<CodegenOperation> group1 = getOperationsList(group1File.getTemplateData());
-        Assert.assertEquals(group1.size(), 2);
-        Assert.assertEquals(group1.get(0).path, "/op1");
-        Assert.assertEquals(group1.get(0).baseName, "group1");
-        Assert.assertEquals(group1.get(0).subresourceOperation, true);
-        Assert.assertEquals(group1.get(1).path, "/op2");
-        Assert.assertEquals(group1.get(1).baseName, "group1");
-        Assert.assertEquals(group1.get(1).subresourceOperation, true);
-
-        WrittenTemplateBasedFile group2File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Group2Api.java");
-        Assert.assertEquals(group2File.getTemplateData().get("baseName"), "group2");
-        Assert.assertEquals(group2File.getTemplateData().get("commonPath"), "group2");
-        List<CodegenOperation> group2 = getOperationsList(group2File.getTemplateData());
-        Assert.assertEquals(group2.size(), 1);
-        Assert.assertEquals(group2.get(0).path, "/op3");
-        Assert.assertEquals(group2.get(0).baseName, "group2");
-        Assert.assertEquals(group2.get(0).subresourceOperation, true);
-
-        WrittenTemplateBasedFile group3File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Group3Api.java");
-        Assert.assertEquals(group3File.getTemplateData().get("baseName"), "group3");
-        Assert.assertEquals(group3File.getTemplateData().get("commonPath"), "group3");
-        List<CodegenOperation> group3 = getOperationsList(group3File.getTemplateData());
-        Assert.assertEquals(group3.size(), 1);
-        Assert.assertEquals(group3.get(0).path, "/op4");
-        Assert.assertEquals(group3.get(0).baseName, "group3");
-        Assert.assertEquals(group3.get(0).subresourceOperation, true);
-
-        WrittenTemplateBasedFile group4File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Group4Api.java");
-        Assert.assertEquals(group4File.getTemplateData().get("baseName"), "group4");
-        Assert.assertEquals(group4File.getTemplateData().get("commonPath"), "group4");
-        List<CodegenOperation> group4 = getOperationsList(group4File.getTemplateData());
-        Assert.assertEquals(group4.size(), 2);
-        Assert.assertEquals(group4.get(0).path, "/op5");
-        Assert.assertEquals(group4.get(0).baseName, "group4");
-        Assert.assertEquals(group4.get(0).subresourceOperation, true);
-        Assert.assertEquals(group4.get(1).path, "/op6");
-        Assert.assertEquals(group4.get(1).baseName, "group4");
-        Assert.assertEquals(group4.get(1).subresourceOperation, true);
-
-        WrittenTemplateBasedFile group5File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Group5Api.java");
-        Assert.assertEquals(group5File.getTemplateData().get("baseName"), "group5");
-        Assert.assertEquals(group5File.getTemplateData().get("commonPath"), "group5");
-        List<CodegenOperation> group5 = getOperationsList(group5File.getTemplateData());
-        Assert.assertEquals(group5.size(), 1);
-        Assert.assertEquals(group5.get(0).path, "/op7");
-        Assert.assertEquals(group5.get(0).baseName, "group5");
-        Assert.assertEquals(group5.get(0).subresourceOperation, true);
-
-        WrittenTemplateBasedFile group6File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Group6Api.java");
-        Assert.assertEquals(group6File.getTemplateData().get("baseName"), "group6");
-        Assert.assertEquals(group6File.getTemplateData().get("commonPath"), "group6");
-        List<CodegenOperation> group6 = getOperationsList(group6File.getTemplateData());
-        Assert.assertEquals(group6.size(), 1);
-        Assert.assertEquals(group6.get(0).path, "/op8");
-        Assert.assertEquals(group6.get(0).baseName, "group6");
-        Assert.assertEquals(group6.get(0).subresourceOperation, true);
+        return files.stream().collect(Collectors.toMap(e -> e.getName().replace(outputPath, ""), i -> i));
     }
 
+    // almost same test as issue #3139 on Spring
     @Test
-    public void testAddOperationToGroupUseTagsTrue() throws Exception {
-        File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
+    public void testMultipartJerseyServer() throws Exception {
 
-        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/tags.yaml");
-        ((JavaJerseyServerCodegen) codegen).setUseTags(true);
-        codegen.setOutputDir(output.getAbsolutePath());
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
 
-        ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        // Check files for Single, Mixed
+        String[] fileS = {
+                               "MultipartSingleApi.java", "MultipartSingleApiService.java", "MultipartSingleApiServiceImpl.java",
+                               "MultipartMixedApi.java",  "MultipartMixedApiService.java",  "MultipartMixedApiServiceImpl.java"    };
+        for (String f : fileS){
+            assertFileContains( files.get(f).toPath(), "FormDataBodyPart file" );
+        }
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(input).generate();
+        // Check files for Array
+        final String[] fileA = { "MultipartArrayApiService.java", "MultipartArrayApi.java", "MultipartArrayApiServiceImpl.java"};
+        for (String f : fileA) {
+            assertFileContains( files.get(f).toPath(), "List<FormDataBodyPart> files");
+        }
 
-        WrittenTemplateBasedFile tag1File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Tag1Api.java");
-        Assert.assertEquals(tag1File.getTemplateData().get("baseName"), "Tag1");
-        Assert.assertEquals(tag1File.getTemplateData().get("commonPath"), null);
-        List<CodegenOperation> tag1List = getOperationsList(tag1File.getTemplateData());
-        Assert.assertEquals(tag1List.size(), 1);
-        Assert.assertEquals(tag1List.get(0).path, "/group1/op1");
-        Assert.assertEquals(tag1List.get(0).baseName, null);
-        Assert.assertEquals(tag1List.get(0).subresourceOperation, true);
-
-        WrittenTemplateBasedFile tag2File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Tag2Api.java");
-        Assert.assertEquals(tag2File.getTemplateData().get("baseName"), "Tag2");
-        Assert.assertEquals(tag2File.getTemplateData().get("commonPath"), null);
-        List<CodegenOperation> tag2List = getOperationsList(tag2File.getTemplateData());
-        Assert.assertEquals(tag2List.size(), 2);
-        Assert.assertEquals(tag2List.get(0).path, "/group1/op2");
-        Assert.assertEquals(tag2List.get(0).baseName, null);
-        Assert.assertEquals(tag2List.get(0).subresourceOperation, true);
-        Assert.assertEquals(tag2List.get(1).path, "/group2/op3");
-        Assert.assertEquals(tag2List.get(1).baseName, null);
-        Assert.assertEquals(tag2List.get(1).subresourceOperation, true);
-
-        WrittenTemplateBasedFile defaultFile = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/DefaultApi.java");
-        Assert.assertEquals(defaultFile.getTemplateData().get("baseName"), "Default");
-        Assert.assertEquals(defaultFile.getTemplateData().get("commonPath"), null);
-        List<CodegenOperation> defaultList = getOperationsList(defaultFile.getTemplateData());
-        Assert.assertEquals(defaultList.size(), 1);
-        Assert.assertEquals(defaultList.get(0).path, "/group3/op4");
-        Assert.assertEquals(defaultList.get(0).baseName, null);
-        Assert.assertEquals(defaultList.get(0).subresourceOperation, true);
-
-        WrittenTemplateBasedFile group4File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Group4Api.java");
-        Assert.assertEquals(group4File.getTemplateData().get("baseName"), "Group4");
-        Assert.assertEquals(group4File.getTemplateData().get("commonPath"), "group4");
-        List<CodegenOperation> group4List = getOperationsList(group4File.getTemplateData());
-        Assert.assertEquals(group4List.size(), 2);
-        Assert.assertEquals(group4List.get(0).path, "/op5");
-        Assert.assertEquals(group4List.get(0).baseName, "group4");
-        Assert.assertEquals(group4List.get(0).subresourceOperation, true);
-        Assert.assertEquals(group4List.get(1).path, "/op6");
-        Assert.assertEquals(group4List.get(1).baseName, "group4");
-        Assert.assertEquals(group4List.get(1).subresourceOperation, true);
-
-        WrittenTemplateBasedFile group5File = TestUtils.getTemplateBasedFile(generator, output, "src/gen/java/org/openapitools/api/Group5Api.java");
-        Assert.assertEquals(group5File.getTemplateData().get("baseName"), "Group5");
-        Assert.assertEquals(group5File.getTemplateData().get("commonPath"), null);
-        List<CodegenOperation> group5List = getOperationsList(group5File.getTemplateData());
-        Assert.assertEquals(group5List.size(), 2);
-        Assert.assertEquals(group5List.get(0).path, "/group5/op7");
-        Assert.assertEquals(group5List.get(0).baseName, null);
-        Assert.assertEquals(group5List.get(0).subresourceOperation, true);
-        Assert.assertEquals(group5List.get(1).path, "/group6/op8");
-        Assert.assertEquals(group5List.get(1).baseName, null);
-        Assert.assertEquals(group5List.get(1).subresourceOperation, true);
     }
 
-    @SuppressWarnings("unchecked")
-    private List<CodegenOperation> getOperationsList(Map<String, Object> templateData) {
-        Assert.assertTrue(templateData.get("operations") instanceof Map);
-        Map<String, Object> operations = (Map<String, Object>) templateData.get("operations");
-        Assert.assertTrue(operations.get("operation") instanceof List);
-        return (List<CodegenOperation>) operations.get("operation");
-    }
 }

@@ -18,10 +18,12 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -33,6 +35,7 @@ import javax.xml.bind.annotation.*;
   Model200Response.JSON_PROPERTY_NAME,
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
+@JsonTypeName("200_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "Name")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -46,6 +49,8 @@ public class Model200Response {
   @XmlElement(name = "class")
   private String propertyClass;
 
+  public Model200Response() { 
+  }
 
   public Model200Response name(Integer name) {
     
@@ -68,6 +73,9 @@ public class Model200Response {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "name")
   public void setName(Integer name) {
     this.name = name;
   }
@@ -94,13 +102,16 @@ public class Model200Response {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "class")
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -117,7 +128,6 @@ public class Model200Response {
     return Objects.hash(name, propertyClass);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -132,7 +142,7 @@ public class Model200Response {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

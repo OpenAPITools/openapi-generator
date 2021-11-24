@@ -95,6 +95,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -112,7 +113,8 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -146,6 +148,8 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        response_types_map = {}
+
         return self.api_client.call_api(
             '/user', 'POST',
             path_params,
@@ -154,7 +158,7 @@ class UserApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -220,6 +224,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -237,7 +242,8 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -271,6 +277,8 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        response_types_map = {}
+
         return self.api_client.call_api(
             '/user/createWithArray', 'POST',
             path_params,
@@ -279,7 +287,7 @@ class UserApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -345,6 +353,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -362,7 +371,8 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -396,6 +406,8 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        response_types_map = {}
+
         return self.api_client.call_api(
             '/user/createWithList', 'POST',
             path_params,
@@ -404,7 +416,7 @@ class UserApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -472,6 +484,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -489,7 +502,8 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -523,6 +537,8 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        response_types_map = {}
+
         return self.api_client.call_api(
             '/user/{username}', 'DELETE',
             path_params,
@@ -531,7 +547,7 @@ class UserApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -597,6 +613,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -614,7 +631,8 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -652,6 +670,12 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        response_types_map = {
+            200: "User",
+            400: None,
+            404: None,
+        }
+
         return self.api_client.call_api(
             '/user/{username}', 'GET',
             path_params,
@@ -660,7 +684,7 @@ class UserApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='User',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -730,6 +754,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -748,7 +773,8 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -792,6 +818,11 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        response_types_map = {
+            200: "str",
+            400: None,
+        }
+
         return self.api_client.call_api(
             '/user/login', 'GET',
             path_params,
@@ -800,7 +831,7 @@ class UserApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='str',  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -862,6 +893,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -878,7 +910,8 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -906,6 +939,8 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        response_types_map = {}
+
         return self.api_client.call_api(
             '/user/logout', 'GET',
             path_params,
@@ -914,7 +949,7 @@ class UserApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -986,6 +1021,7 @@ class UserApi(object):
                               request; this effectively ignores the authentication
                               in the spec for a single request.
         :type _request_auth: dict, optional
+        :type _content_type: string, optional: force content-type for the request
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1004,7 +1040,8 @@ class UserApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_request_auth'
+                '_request_auth',
+                '_content_type'
             ]
         )
 
@@ -1044,6 +1081,8 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
 
+        response_types_map = {}
+
         return self.api_client.call_api(
             '/user/{username}', 'PUT',
             path_params,
@@ -1052,7 +1091,7 @@ class UserApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_map=response_types_map,
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

@@ -16,22 +16,16 @@ An order for a pets from the pet store
 
 .PARAMETER Id
 No description available.
-
 .PARAMETER PetId
 No description available.
-
 .PARAMETER Quantity
 No description available.
-
 .PARAMETER ShipDate
 No description available.
-
 .PARAMETER Status
 Order Status
-
 .PARAMETER Complete
 No description available.
-
 .OUTPUTS
 
 Order<PSCustomObject>
@@ -58,12 +52,13 @@ function Initialize-PSOrder {
         ${Status},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Boolean]]
-        ${Complete}
+        ${Complete} = $false
     )
 
     Process {
         'Creating PSCustomObject: PSPetstore => PSOrder' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
+
 
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
@@ -73,6 +68,7 @@ function Initialize-PSOrder {
             "status" = ${Status}
             "complete" = ${Complete}
         }
+
 
         return $PSO
     }

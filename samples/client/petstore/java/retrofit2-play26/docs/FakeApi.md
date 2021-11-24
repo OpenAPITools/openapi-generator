@@ -17,7 +17,7 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** fake/test-query-paramters | 
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** fake/test-query-parameters | 
 
 
 
@@ -78,6 +78,7 @@ No authorization required
 
 - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -144,6 +145,7 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -209,6 +211,7 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -239,7 +242,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
+        BigDecimal body = new BigDecimal(78); // BigDecimal | Input number as post body
         try {
             BigDecimal result = apiInstance.fakeOuterNumberSerialize(body);
             System.out.println(result);
@@ -273,6 +276,7 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: */*
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -339,6 +343,7 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -403,6 +408,7 @@ No authorization required
 - **Content-Type**: application/json
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -466,6 +472,7 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -532,6 +539,7 @@ No authorization required
 - **Content-Type**: application/json
 - **Accept**: application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -568,7 +576,7 @@ public class Example {
         http_basic_test.setPassword("YOUR PASSWORD");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        BigDecimal number = new BigDecimal(); // BigDecimal | None
+        BigDecimal number = new BigDecimal(78); // BigDecimal | None
         Double _double = 3.4D; // Double | None
         String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
         byte[] _byte = null; // byte[] | None
@@ -578,8 +586,8 @@ public class Example {
         Float _float = 3.4F; // Float | None
         String string = "string_example"; // String | None
         File binary = new File("/path/to/file"); // File | None
-        LocalDate date = new LocalDate(); // LocalDate | None
-        OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
+        LocalDate date = LocalDate.now(); // LocalDate | None
+        OffsetDateTime dateTime = OffsetDateTime.now(); // OffsetDateTime | None
         String password = "password_example"; // String | None
         String paramCallback = "paramCallback_example"; // String | None
         try {
@@ -628,6 +636,7 @@ null (empty response body)
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -660,13 +669,13 @@ public class Example {
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
-        String enumHeaderString = "-efg"; // String | Header parameter enum test (string)
+        String enumHeaderString = "_abc"; // String | Header parameter enum test (string)
         List<String> enumQueryStringArray = Arrays.asList("$"); // List<String> | Query parameter enum test (string array)
-        String enumQueryString = "-efg"; // String | Query parameter enum test (string)
-        Integer enumQueryInteger = 56; // Integer | Query parameter enum test (double)
-        Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
-        List<String> enumFormStringArray = "$"; // List<String> | Form parameter enum test (string array)
-        String enumFormString = "-efg"; // String | Form parameter enum test (string)
+        String enumQueryString = "_abc"; // String | Query parameter enum test (string)
+        Integer enumQueryInteger = 1; // Integer | Query parameter enum test (double)
+        Double enumQueryDouble = 1.1D; // Double | Query parameter enum test (double)
+        List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
+        String enumFormString = "_abc"; // String | Form parameter enum test (string)
         try {
             apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
         } catch (ApiException e) {
@@ -706,6 +715,7 @@ No authorization required
 
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -782,6 +792,7 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -843,6 +854,7 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -907,6 +919,7 @@ No authorization required
 
 - **Content-Type**: application/x-www-form-urlencoded
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -979,6 +992,7 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

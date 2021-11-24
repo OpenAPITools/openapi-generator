@@ -3,18 +3,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **Int64** |  | [optional] [default to null]
-**Category** | [**Category**](Category.md) |  | [optional] [default to null]
-**Name** | **String** |  | [default to null]
-**PhotoUrls** | **String[]** |  | [default to null]
-**Tags** | [**Tag[]**](Tag.md) |  | [optional] [default to null]
-**Status** | **String** | pet status in the store | [optional] [default to null]
+**Id** | **Int64** |  | [optional] 
+**Category** | [**Category**](Category.md) |  | [optional] 
+**Name** | **String** |  | 
+**PhotoUrls** | **String[]** |  | 
+**Tags** | [**Tag[]**](Tag.md) |  | [optional] 
+**Status** | **String** | pet status in the store | [optional] 
 
 ## Examples
 
 - Prepare the resource
 ```powershell
-Initialize-PSPetstorePet  -Id null `
+$Pet = Initialize-PSPetstorePet  -Id null `
  -Category null `
  -Name doggie `
  -PhotoUrls null `
@@ -24,7 +24,7 @@ Initialize-PSPetstorePet  -Id null `
 
 - Convert the resource to JSON
 ```powershell
-$ | Convert-ToJSON
+$Pet | ConvertTo-JSON
 ```
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,13 +10,19 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
 
 /**
  * ArrayOfNumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
 public class ArrayOfNumberOnly   {
 
   @JsonProperty("ArrayNumber")
@@ -29,7 +36,7 @@ public class ArrayOfNumberOnly   {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<BigDecimal>();
+      this.arrayNumber = new ArrayList<>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;
@@ -53,7 +60,7 @@ public class ArrayOfNumberOnly   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -83,7 +90,7 @@ public class ArrayOfNumberOnly   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

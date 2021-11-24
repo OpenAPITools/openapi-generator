@@ -1,0 +1,63 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+{{#useReflectionEqualsHashCode}}
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+{{/useReflectionEqualsHashCode}}
+{{#models}}
+{{#model}}
+{{#additionalPropertiesType}}
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+{{/additionalPropertiesType}}
+{{/model}}
+{{/models}}
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+{{#imports}}
+import {{import}};
+{{/imports}}
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+{{#withXml}}
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+{{/withXml}}
+{{#vendorExtensions.x-has-readonly-properties}}
+import com.fasterxml.jackson.annotation.JsonCreator;
+{{/vendorExtensions.x-has-readonly-properties}}
+{{/jackson}}
+{{#withXml}}
+import javax.xml.bind.annotation.*;
+{{/withXml}}
+{{#parcelableModel}}
+import android.os.Parcelable;
+import android.os.Parcel;
+{{/parcelableModel}}
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+{{/useBeanValidation}}
+{{#performBeanValidation}}
+import org.hibernate.validator.constraints.*;
+{{/performBeanValidation}}
+
+{{#models}}
+{{#model}}
+{{#oneOf}}
+{{#-first}}
+import com.fasterxml.jackson.core.type.TypeReference;
+{{/-first}}
+{{/oneOf}}
+
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>oneof_model}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>anyof_model}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>pojo}}{{/anyOf}}{{/oneOf}}{{/isEnum}}
+{{/model}}
+{{/models}}

@@ -57,7 +57,7 @@ export class {{classname}} {
      {{/allParams}}
      */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
-    { response: JQueryXHR; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} },
+    { response: JQueryXHR; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} },
     { response: JQueryXHR; errorThrown: string }
     > {
         let localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}.replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
@@ -79,7 +79,7 @@ export class {{classname}} {
 {{/required}}
 {{/allParams}}
 {{#queryParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             queryParameters['{{baseName}}'] = [];
@@ -91,8 +91,8 @@ export class {{classname}} {
             queryParameters['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
         {{/isCollectionFormatMulti}}
         }
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if ({{paramName}} !== null && {{paramName}} !== undefined) {
         {{#isDateTime}}
             queryParameters['{{baseName}}'] = {{paramName}}.toISOString();
@@ -106,7 +106,7 @@ export class {{classname}} {
             {{/isDate}}
         {{/isDateTime}}
         }
-        {{/isListContainer}}
+        {{/isArray}}
 {{/queryParams}}
 
         localVarPath = localVarPath + "?" + $.param(queryParameters);
@@ -116,7 +116,7 @@ export class {{classname}} {
         formParams.append("{{baseName}}", {{paramName}});
 {{/isFile}}
 {{^isFile}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element: any) => {
@@ -127,36 +127,36 @@ export class {{classname}} {
             formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
         {{/isCollectionFormatMulti}}
         }
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         if ({{paramName}} !== null && {{paramName}} !== undefined) {
             formParams.append('{{baseName}}', <any>{{paramName}});
         }
-        {{/isListContainer}}
+        {{/isArray}}
 {{/isFile}}
 {{/formParams}}
 {{#headerParams}}
-        {{#isListContainer}}
+        {{#isArray}}
         if ({{paramName}}) {
             headerParams['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
         }
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{/isArray}}
+        {{^isArray}}
         headerParams['{{baseName}}'] = String({{paramName}});
-        {{/isListContainer}}
+        {{/isArray}}
 
 {{/headerParams}}
         // to determine the Content-Type header
         let consumes: string[] = [
             {{#consumes}}
-            '{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}
+            '{{{mediaType}}}'{{^-last}}, {{/-last}}
             {{/consumes}}
         ];
 
         // to determine the Accept header
         let produces: string[] = [
             {{#produces}}
-            '{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}
+            '{{{mediaType}}}'{{^-last}}, {{/-last}}
             {{/produces}}
         ];
 
@@ -234,11 +234,11 @@ export class {{classname}} {
         }
 
         let dfd = $.Deferred<
-            { response: JQueryXHR; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} },
+            { response: JQueryXHR; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} },
             { response: JQueryXHR; errorThrown: string }
         >();
         $.ajax(requestOptions).then(
-            (data: {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}, textStatus: string, jqXHR: JQueryXHR) =>
+            (data: {{{returnType}}}{{^returnType}}any{{/returnType}}, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({response: jqXHR, body: data}),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({response: xhr, errorThrown: errorThrown})

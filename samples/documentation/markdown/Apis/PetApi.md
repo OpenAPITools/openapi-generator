@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> Pet addPet(pet)
+> Pet addPet(Pet)
 
 Add a new pet to the store
 
@@ -24,11 +24,11 @@ Add a new pet to the store
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
+ **Pet** | [**Pet**](../Models/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
-[**Pet**](..//Models/Pet.md)
+[**Pet**](../Models/Pet.md)
 
 ### Authorization
 
@@ -41,7 +41,7 @@ Name | Type | Description  | Notes
 
 <a name="deletePet"></a>
 # **deletePet**
-> deletePet(petId, apiKey)
+> deletePet(petId, api\_key)
 
 Deletes a pet
 
@@ -50,7 +50,7 @@ Deletes a pet
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| Pet id to delete | [default to null]
- **apiKey** | **String**|  | [optional] [default to null]
+ **api\_key** | **String**|  | [optional] [default to null]
 
 ### Return type
 
@@ -77,11 +77,11 @@ Finds Pets by status
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List**](..//Models/String.md)| Status values that need to be considered for filter | [default to null] [enum: available, pending, sold]
+ **status** | [**List**](../Models/String.md)| Status values that need to be considered for filter | [default to null] [enum: available, pending, sold]
 
 ### Return type
 
-[**List**](..//Models/Pet.md)
+[**List**](../Models/Pet.md)
 
 ### Authorization
 
@@ -104,11 +104,11 @@ Finds Pets by tags
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List**](..//Models/String.md)| Tags to filter by | [default to null]
+ **tags** | [**List**](../Models/String.md)| Tags to filter by | [default to null]
 
 ### Return type
 
-[**List**](..//Models/Pet.md)
+[**List**](../Models/Pet.md)
 
 ### Authorization
 
@@ -135,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Pet**](..//Models/Pet.md)
+[**Pet**](../Models/Pet.md)
 
 ### Authorization
 
@@ -148,7 +148,7 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> Pet updatePet(pet)
+> Pet updatePet(Pet)
 
 Update an existing pet
 
@@ -156,11 +156,11 @@ Update an existing pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
+ **Pet** | [**Pet**](../Models/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
-[**Pet**](..//Models/Pet.md)
+[**Pet**](../Models/Pet.md)
 
 ### Authorization
 
@@ -214,7 +214,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ApiResponse**](..//Models/ApiResponse.md)
+[**ApiResponse**](../Models/ApiResponse.md)
 
 ### Authorization
 

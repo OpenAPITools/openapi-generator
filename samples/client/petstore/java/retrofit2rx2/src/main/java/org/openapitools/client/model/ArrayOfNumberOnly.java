@@ -36,6 +36,8 @@ public class ArrayOfNumberOnly {
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
   private List<BigDecimal> arrayNumber = null;
 
+  public ArrayOfNumberOnly() { 
+  }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     
@@ -69,7 +71,7 @@ public class ArrayOfNumberOnly {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -85,7 +87,6 @@ public class ArrayOfNumberOnly {
     return Objects.hash(arrayNumber);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -99,7 +100,7 @@ public class ArrayOfNumberOnly {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

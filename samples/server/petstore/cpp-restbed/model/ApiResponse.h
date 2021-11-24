@@ -23,6 +23,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 #include <boost/property_tree/ptree.hpp>
 
 namespace org {
@@ -36,8 +37,9 @@ namespace model {
 class  ApiResponse 
 {
 public:
-    ApiResponse();
-    virtual ~ApiResponse();
+    ApiResponse() = default;
+    explicit ApiResponse(boost::property_tree::ptree const& pt);
+    virtual ~ApiResponse() = default;
     
     std::string toJsonString(bool prettyJson = false);
     void fromJsonString(std::string const& jsonString);
@@ -64,11 +66,25 @@ public:
     /// </summary>
     std::string getMessage() const;
     void setMessage(std::string value);
+
 protected:
-    int32_t m_Code;
-    std::string m_Type;
-    std::string m_Message;
+    //////////////////////////////////////
+    // Override these for customization //
+    //////////////////////////////////////
+
+    virtual std::string toJsonString_internal(bool prettyJson = false);
+    virtual void fromJsonString_internal(std::string const& jsonString);
+    virtual boost::property_tree::ptree toPropertyTree_internal();
+    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
+
+
+protected:
+    int32_t m_Code = 0;
+    std::string m_Type = "";
+    std::string m_Message = "";
 };
+
+std::vector<ApiResponse> createApiResponseVectorFromJsonString(const std::string& json);
 
 }
 }

@@ -13,9 +13,11 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
+@JsonTypeName("FileSchemaTestClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FileSchemaTestClass  implements Serializable {
   
   private @Valid java.io.File file;
@@ -37,9 +39,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return file;
   }
 
+  @JsonProperty("file")
   public void setFile(java.io.File file) {
     this.file = file;
-  }/**
+  }
+
+/**
    **/
   public FileSchemaTestClass files(List<java.io.File> files) {
     this.files = files;
@@ -55,12 +60,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return files;
   }
 
+  @JsonProperty("files")
   public void setFiles(List<java.io.File> files) {
     this.files = files;
   }
 
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -92,7 +99,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

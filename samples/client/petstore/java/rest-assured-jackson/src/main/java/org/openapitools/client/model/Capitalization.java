@@ -18,10 +18,12 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import org.hibernate.validator.constraints.*;
@@ -37,6 +39,7 @@ import org.hibernate.validator.constraints.*;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
+@JsonTypeName("Capitalization")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
@@ -57,6 +60,8 @@ public class Capitalization {
   public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
   private String ATT_NAME;
 
+  public Capitalization() { 
+  }
 
   public Capitalization smallCamel(String smallCamel) {
     
@@ -78,6 +83,8 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
@@ -103,6 +110,8 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
@@ -128,6 +137,8 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
@@ -153,6 +164,8 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
@@ -178,6 +191,8 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
@@ -203,13 +218,15 @@ public class Capitalization {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -230,7 +247,6 @@ public class Capitalization {
     return Objects.hash(smallCamel, capitalCamel, smallSnake, capitalSnake, scAETHFlowPoints, ATT_NAME);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -249,7 +265,7 @@ public class Capitalization {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

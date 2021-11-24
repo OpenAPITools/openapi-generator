@@ -1,0 +1,76 @@
+package {{invokerPackage}}
+
+{{#java8}}
+import java.time.{LocalDate, LocalDateTime, OffsetDateTime, ZoneId}
+import java.time.format.DateTimeFormatter
+import scala.util.Try
+{{/java8}}
+{{#joda}}
+import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
+{{/joda}}
+
+{{#json4s}}
+object DateSerializers {
+    import org.json4s.{Serializer, CustomSerializer, JNull}
+    import org.json4s.JsonAST.JString
+    {{#java8}}
+      case object DateTimeSerializer extends CustomSerializer[OffsetDateTime](_ => ( {
+        case JString(s) =>
+          Try(OffsetDateTime.parse(s, DateTimeFormatter.ISO_OFFSET_DATE_TIME)) orElse
+            Try(LocalDateTime.parse(s).atZone(ZoneId.systemDefault()).toOffsetDateTime) getOrElse (null)
+        case JNull => null
+      }, {
+        case d: OffsetDateTime =>
+          JString(d.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))
+      }))
+
+      case object LocalDateSerializer extends CustomSerializer[LocalDate]( _ => ( {
+        case JString(s) => LocalDate.parse(s)
+        case JNull => null
+      }, {
+        case d: LocalDate =>
+         JString(d.format(DateTimeFormatter.ISO_LOCAL_DATE))
+      }))
+    {{/java8}}
+    {{#joda}}
+      case object DateTimeSerializer extends CustomSerializer[DateTime](_ => ( {
+        case JString(s) =>
+          ISODateTimeFormat.dateOptionalTimeParser().parseDateTime(s)
+        case JNull => null
+      }, {
+        case d: org.joda.time.DateTime =>
+          JString(ISODateTimeFormat.dateTime().print(d))
+      })
+      )
+
+      case object LocalDateSerializer extends CustomSerializer[org.joda.time.LocalDate](_ => ( {
+        case JString(s) => org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd").parseLocalDate(s)
+        case JNull => null
+      }, {
+        case d: org.joda.time.LocalDate => JString(d.toString("yyyy-MM-dd"))
+      }))
+    {{/joda}}
+
+  def all: Seq[Serializer[_]] = Seq[Serializer[_]]() :+ LocalDateSerializer :+ DateTimeSerializer
+}
+{{/json4s}}
+{{#circe}}
+trait DateSerializers {
+    import io.circe.{Decoder, Encoder}
+    {{#java8}}
+    implicit val isoOffsetDateTimeDecoder: Decoder[OffsetDateTime] = Decoder.decodeOffsetDateTimeWithFormatter(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+    implicit val isoOffsetDateTimeEncoder: Encoder[OffsetDateTime] = Encoder.encodeOffsetDateTimeWithFormatter(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+
+    implicit val localDateDecoder: Decoder[LocalDate] = Decoder.decodeLocalDateWithFormatter(DateTimeFormatter.ISO_LOCAL_DATE)
+    implicit val localDateEncoder: Encoder[LocalDate] = Encoder.encodeLocalDateWithFormatter(DateTimeFormatter.ISO_LOCAL_DATE)
+    {{/java8}}
+    {{#joda}}
+    implicit val dateTimeDecoder: Decoder[DateTime] = Decoder.decodeString.map(ISODateTimeFormat.dateOptionalTimeParser().parseDateTime(_))
+    implicit val dateTimeEncoder: Encoder[DateTime] = Encoder.encodeString.contramap(ISODateTimeFormat.dateTime().print(_))
+
+    implicit val localDateDecoder: Decoder[org.joda.time.LocalDate] = Decoder.decodeString.map(org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd").parseLocalDate(_))
+    implicit val localDateEncoder: Encoder[org.joda.time.LocalDate] = Encoder.encodeString.contramap(_.toString("yyyy-MM-dd"))
+    {{/joda}}
+}
+{{/circe}}

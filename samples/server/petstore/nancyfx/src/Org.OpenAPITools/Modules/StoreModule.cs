@@ -3,11 +3,11 @@ using Nancy;
 using Nancy.ModelBinding;
 using System.Collections.Generic;
 using Sharpility.Base;
-using Org.OpenAPITools.v2.Models;
-using Org.OpenAPITools.v2.Utils;
+using Org.OpenAPITools._v2.Models;
+using Org.OpenAPITools._v2.Utils;
 using NodaTime;
 
-namespace Org.OpenAPITools.v2.Modules
+namespace Org.OpenAPITools._v2.Modules
 { 
 
     /// <summary>
@@ -46,10 +46,10 @@ namespace Org.OpenAPITools.v2.Modules
 
             Post["/store/order"] = parameters =>
             {
-                var order = this.Bind<Order>();
-                Preconditions.IsNotNull(order, "Required parameter: 'order' is missing at 'PlaceOrder'");
+                var body = this.Bind<Order>();
+                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'PlaceOrder'");
                 
-                return service.PlaceOrder(Context, order);
+                return service.PlaceOrder(Context, body);
             };
         }
     }
@@ -86,9 +86,9 @@ namespace Org.OpenAPITools.v2.Modules
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        Order PlaceOrder(NancyContext context, Order order);
+        Order PlaceOrder(NancyContext context, Order body);
     }
 
     /// <summary>
@@ -111,9 +111,9 @@ namespace Org.OpenAPITools.v2.Modules
             return GetOrderById(orderId);
         }
 
-        public virtual Order PlaceOrder(NancyContext context, Order order)
+        public virtual Order PlaceOrder(NancyContext context, Order body)
         {
-            return PlaceOrder(order);
+            return PlaceOrder(body);
         }
 
         protected abstract void DeleteOrder(string orderId);
@@ -122,7 +122,7 @@ namespace Org.OpenAPITools.v2.Modules
 
         protected abstract Order GetOrderById(long? orderId);
 
-        protected abstract Order PlaceOrder(Order order);
+        protected abstract Order PlaceOrder(Order body);
     }
 
 }

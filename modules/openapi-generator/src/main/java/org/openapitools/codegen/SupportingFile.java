@@ -17,53 +17,28 @@
 
 package org.openapitools.codegen;
 
-import java.util.Objects;
+import org.openapitools.codegen.api.TemplateDefinition;
+import org.openapitools.codegen.api.TemplateFileType;
 
-public class SupportingFile {
-    public String templateFile;
-    public String folder;
-    public String destinationFilename;
-    public boolean canOverwrite = true;
+import java.util.Objects;
+import java.util.StringJoiner;
+
+/**
+ * Defines the template definition for a "supporting file", that is any file which is generic and not bound to
+ * api/model definitions and their relevant docs or tests.
+ *
+ * Supporting files are generated once for an entire application while api/model bound definitions are generated multiple
+ * times according to their target use.
+ */
+public class SupportingFile extends TemplateDefinition {
+    private boolean canOverwrite = true;
 
     public SupportingFile(String templateFile, String destinationFilename) {
         this(templateFile, "", destinationFilename);
     }
 
     public SupportingFile(String templateFile, String folder, String destinationFilename) {
-        this.templateFile = templateFile;
-        this.folder = folder;
-        this.destinationFilename = destinationFilename;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(templateFile, folder, destinationFilename, canOverwrite);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SupportingFile that = (SupportingFile) o;
-
-        return Objects.equals(templateFile, that.templateFile) &&
-                Objects.equals(folder, that.folder) &&
-                Objects.equals(destinationFilename, that.destinationFilename) &&
-                canOverwrite == that.canOverwrite;
-    }
-
-    @SuppressWarnings("StringBufferReplaceableByString")
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("SupportingFile:").append("\n");
-        builder.append("\ttemplateFile: ").append(templateFile).append("\n");
-        builder.append("\tfolder: ").append(folder).append("\n");
-        builder.append("\tcanOverwrite: ").append(Boolean.valueOf(canOverwrite)).append("\n");
-        builder.append("\tdestinationFilename: ").append(destinationFilename).append("\n");
-
-        return builder.toString();
+        super(templateFile, folder, destinationFilename);
     }
 
     /**
@@ -74,6 +49,54 @@ public class SupportingFile {
     public SupportingFile doNotOverwrite() {
         canOverwrite = false;
         return this;
+    }
+
+    /**
+     * Sets the type of template
+     *
+     * @param templateType a {@link TemplateFileType} enum which defines the type of this template
+     */
+    @Override
+    public void setTemplateType(TemplateFileType templateType) {
+
+    }
+
+    /**
+     * Gets the type of template
+     *
+     * @return a {@link TemplateFileType} enum which defines the type of this template.
+     */
+    @Override
+    public TemplateFileType getTemplateType() {
+        return TemplateFileType.SupportingFiles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SupportingFile)) return false;
+        if (!super.equals(o)) return false;
+        SupportingFile that = (SupportingFile) o;
+        return isCanOverwrite() == that.isCanOverwrite();
+    }
+
+    public boolean isCanOverwrite() {
+        return canOverwrite;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), isCanOverwrite());
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", SupportingFile.class.getSimpleName() + "[", "]")
+                .add("templateFile='" + getTemplateFile() + "'")
+                .add("folder='" + getFolder() + "'")
+                .add("destinationFilename='" + getDestinationFilename() + "'")
+                .add("canOverwrite=" + isCanOverwrite())
+                .toString();
     }
 }
 

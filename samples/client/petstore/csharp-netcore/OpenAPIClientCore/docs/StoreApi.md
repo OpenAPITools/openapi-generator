@@ -72,6 +72,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -144,6 +145,7 @@ This endpoint does not need any parameter.
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -214,6 +216,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
@@ -225,7 +228,7 @@ No authorization required
 
 <a name="placeorder"></a>
 # **PlaceOrder**
-> Order PlaceOrder (Order body)
+> Order PlaceOrder (Order order)
 
 Place an order for a pet
 
@@ -246,12 +249,12 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new StoreApi(config);
-            var body = new Order(); // Order | order placed for purchasing the pet
+            var order = new Order(); // Order | order placed for purchasing the pet
 
             try
             {
                 // Place an order for a pet
-                Order result = apiInstance.PlaceOrder(body);
+                Order result = apiInstance.PlaceOrder(order);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -269,7 +272,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -281,8 +284,9 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/xml, application/json
+
 
 ### HTTP response details
 | Status code | Description | Response headers |

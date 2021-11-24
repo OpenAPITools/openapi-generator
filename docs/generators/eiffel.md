@@ -3,6 +3,8 @@ title: Config Options for eiffel
 sidebar_label: eiffel
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
@@ -13,23 +15,11 @@ sidebar_label: eiffel
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|Array|java.util.List|
-|ArrayList|java.util.ArrayList|
-|BigDecimal|java.math.BigDecimal|
-|Date|java.util.Date|
-|DateTime|org.joda.time.*|
-|File|java.io.File|
-|HashMap|java.util.HashMap|
-|LinkedHashSet|java.util.LinkedHashSet|
-|List|java.util.*|
-|LocalDate|org.joda.time.*|
-|LocalDateTime|org.joda.time.*|
-|LocalTime|org.joda.time.*|
-|Map|java.util.Map|
-|Set|java.util.*|
-|Timestamp|java.sql.Timestamp|
-|URI|java.net.URI|
-|UUID|java.util.UUID|
+|File|FILE|
+|List|LIST|
+|Map|STRING_TABLE|
+|Set|SET|
+|file|FILE|
 
 
 ## INSTANTIATION TYPES
@@ -67,6 +57,7 @@ sidebar_label: eiffel
 <li>and</li>
 <li>as</li>
 <li>assign</li>
+<li>attached</li>
 <li>attribute</li>
 <li>check</li>
 <li>class</li>
@@ -75,6 +66,7 @@ sidebar_label: eiffel
 <li>current</li>
 <li>debug</li>
 <li>deferred</li>
+<li>detachable</li>
 <li>do</li>
 <li>else</li>
 <li>elseif</li>
@@ -131,6 +123,7 @@ sidebar_label: eiffel
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✓|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

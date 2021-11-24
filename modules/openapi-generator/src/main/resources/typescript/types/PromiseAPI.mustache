@@ -1,6 +1,6 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http';
-import * as models from '../models/all';
-import { Configuration} from '../configuration'
+import { ResponseContext, RequestContext, HttpFile } from '../http/http{{extensionForDeno}}';
+import * as models from '../models/all{{extensionForDeno}}';
+import { Configuration} from '../configuration{{extensionForDeno}}'
 {{#useInversify}}
 import { injectable, inject, optional } from "inversify";
 import { AbstractConfiguration } from "../services/configuration";
@@ -8,16 +8,15 @@ import { AbstractConfiguration } from "../services/configuration";
 
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from '../models/{{{ classFilename }}}';
+import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
-import { Observable{{classname}} } from './ObservableAPI';
-
+import { Observable{{classname}} } from './ObservableAPI{{extensionForDeno}}';
 
 {{#operations}}
-import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{extensionForDeno}}";
 {{#useInversify}}
 import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service";
 
@@ -53,11 +52,11 @@ export class Promise{{classname}} {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
-    	const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
         return result.toPromise();
     }
-	
+
 {{/operation}}
 
 }

@@ -108,6 +108,8 @@ public class Pet {
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
+  public Pet() { 
+  }
 
   public Pet id(Long id) {
     
@@ -165,6 +167,7 @@ public class Pet {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "doggie", required = true, value = "")
 
   public String getName() {
@@ -192,6 +195,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
 
   public Set<String> getPhotoUrls() {
@@ -259,7 +263,7 @@ public class Pet {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -280,7 +284,6 @@ public class Pet {
     return Objects.hash(id, category, name, photoUrls, tags, status);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -299,7 +302,7 @@ public class Pet {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

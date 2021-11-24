@@ -1,0 +1,19 @@
+{{#isESP32}}
+[env:esp32]
+platform = espressif32
+board = nodemcu-32s
+framework = arduino
+lib_deps = https://github.com/steinwurf/bourne.git#9.0.0
+extra_scripts = pre_compiling_bourne.py
+{{/isESP32}}
+
+{{#isESP8266}}
+[env:esp8266]
+platform = espressif8266
+board = d1_mini
+framework = arduino
+lib_deps = https://github.com/steinwurf/bourne.git#9.0.0
+build_flags = -fexceptions
+build_unflags = -fno-exceptions
+extra_scripts = pre_compiling_bourne.py
+{{/isESP8266}}

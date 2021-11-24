@@ -14,14 +14,14 @@ feature -- Test routines
 
 {{#operations}}
     {{#operation}}
-    
+
     test_{{operationId}}
             -- {{summary}}
-            -- 
-            -- {{notes}} 
+            --
+            -- {{notes}}
         local
             {{#returnType}}
-            l_response: {{{returnType}}}
+            l_response: {{{.}}}
             {{/returnType}}
             {{#allParams}}
             l_{{paramName}}: {{{dataType}}}
@@ -31,21 +31,21 @@ feature -- Test routines
             {{#allParams}}
             {{#required}}
             {{#isContainer}}
-            {{#isListContainer}}              
+            {{#isArray}}
             -- create {ARRAYED_{{dataType}}} l_{{paramName}}.make (2)
-            {{/isListContainer}}
+            {{/isArray}}
             {{/isContainer}}
             {{^isContainer}}
             -- l_{{paramName}}
-            {{/isContainer}}        
+            {{/isContainer}}
             {{/required}}
             {{/allParams}}
-                      
+
             {{#returnType}}
-            -- l_response := api.{{operationId}}{{#hasParams}}({{#allParams}}l_{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{/hasParams}}
+            -- l_response := api.{{operationId}}{{#hasParams}}({{#allParams}}l_{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}
             {{/returnType}}
             {{^returnType}}
-            -- api.{{operationId}}{{#hasParams}}({{#allParams}}l_{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{/hasParams}}
+            -- api.{{operationId}}{{#hasParams}}({{#allParams}}l_{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}
             {{/returnType}}
             assert ("not_implemented", False)
         end
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 
     api: {{classname}}
             -- Create an object instance of `{{classname}}'.
-        once            
+        once
             create { {{classname}} } Result
         end
 

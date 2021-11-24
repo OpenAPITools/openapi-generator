@@ -15,8 +15,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
@@ -26,7 +26,7 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("")
+@Path("/another-fake/dummy")
 
 
 @io.swagger.annotations.Api(description = "the AnotherFake API")
@@ -45,7 +45,7 @@ public class AnotherFakeApi  {
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
-         } 
+         }
       }
 
       if (delegate == null) {
@@ -56,14 +56,14 @@ public class AnotherFakeApi  {
    }
 
     @PATCH
-    @Path("/another-fake/dummy")
+    
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
-    @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response call123testSpecialTags(@ApiParam(value = "client model", required = true) @NotNull @Valid  Client body
-,@Context SecurityContext securityContext)
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class)
+    })
+    public Response call123testSpecialTags(@ApiParam(value = "client model", required = true) @NotNull @Valid  Client body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.call123testSpecialTags(body, securityContext);
     }

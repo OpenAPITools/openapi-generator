@@ -30,7 +30,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -98,7 +98,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -169,7 +169,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -203,7 +203,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+ **status** | **List&lt;String&gt;**| Status values that need to be considered for filter | [enum: available, pending, sold]
 
 ### Return type
 
@@ -241,7 +241,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -275,7 +275,7 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by |
+ **tags** | **List&lt;String&gt;**| Tags to filter by |
 
 ### Return type
 
@@ -313,7 +313,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -385,7 +385,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -455,7 +455,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -521,12 +521,13 @@ uploads an image
 ### Example
 
 ```java
+import java.io.File;
 // Import classes:
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -593,12 +594,13 @@ uploads an image (required)
 ### Example
 
 ```java
+import java.io.File;
 // Import classes:
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {

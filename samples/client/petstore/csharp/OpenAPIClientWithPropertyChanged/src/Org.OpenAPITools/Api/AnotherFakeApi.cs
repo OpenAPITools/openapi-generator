@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsyncWithHttpInfo (ModelClient body, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync (ModelClient body, CancellationToken cancellationToken = default(CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -265,7 +265,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ModelClient</returns>
         public async System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync (ModelClient body, CancellationToken cancellationToken = default(CancellationToken))
         {
-             ApiResponse<ModelClient> localVarResponse = await Call123TestSpecialTagsAsyncWithHttpInfo(body, cancellationToken);
+             ApiResponse<ModelClient> localVarResponse = await Call123TestSpecialTagsWithHttpInfoAsync(body, cancellationToken);
              return localVarResponse.Data;
 
         }
@@ -277,7 +277,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsyncWithHttpInfo (ModelClient body, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync (ModelClient body, CancellationToken cancellationToken = default(CancellationToken))
         {
             // verify the required parameter 'body' is set
             if (body == null)

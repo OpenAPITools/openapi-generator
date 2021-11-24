@@ -1,0 +1,1158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:schemas="http://localhost/soap/ServiceV1/model" xmlns:wsdl="http://localhost/soap/ServiceV1/service" targetNamespace="http://localhost/soap/ServiceV1/service" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema xmlns:tns="http://localhost/soap/ServiceV1/model" targetNamespace="http://localhost/soap/ServiceV1/model" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="PostPet_RequestMessage" type="schemas:PostPet_RequestMessage" />
+      <xs:element name="PostPet_ResponseMessage" type="schemas:PostPet_ResponseMessage" />
+      <xs:element name="PostPet_405">
+        <xs:annotation>
+          <xs:documentation>Invalid input</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DeletePetByPetid_RequestMessage" type="schemas:DeletePetByPetid_RequestMessage" />
+      <xs:element name="DeletePetByPetid_ResponseMessage" type="schemas:DeletePetByPetid_ResponseMessage" />
+      <xs:element name="DeletePetByPetid_400">
+        <xs:annotation>
+          <xs:documentation>Invalid ID supplied</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DeletePetByPetid_404">
+        <xs:annotation>
+          <xs:documentation>Pet not found</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetPetFindbystatus_RequestMessage" type="schemas:GetPetFindbystatus_RequestMessage" />
+      <xs:element name="GetPetFindbystatus_ResponseMessage" type="schemas:GetPetFindbystatus_ResponseMessage" />
+      <xs:element name="GetPetFindbystatus_400">
+        <xs:annotation>
+          <xs:documentation>Invalid status value</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetPetFindbytags_RequestMessage" type="schemas:GetPetFindbytags_RequestMessage" />
+      <xs:element name="GetPetFindbytags_ResponseMessage" type="schemas:GetPetFindbytags_ResponseMessage" />
+      <xs:element name="GetPetFindbytags_400">
+        <xs:annotation>
+          <xs:documentation>Invalid tag value</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetPetByPetid_RequestMessage" type="schemas:GetPetByPetid_RequestMessage" />
+      <xs:element name="GetPetByPetid_ResponseMessage" type="schemas:GetPetByPetid_ResponseMessage" />
+      <xs:element name="GetPetByPetid_400">
+        <xs:annotation>
+          <xs:documentation>Invalid ID supplied</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetPetByPetid_404">
+        <xs:annotation>
+          <xs:documentation>Pet not found</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PutPet_RequestMessage" type="schemas:PutPet_RequestMessage" />
+      <xs:element name="PutPet_ResponseMessage" type="schemas:PutPet_ResponseMessage" />
+      <xs:element name="PutPet_400">
+        <xs:annotation>
+          <xs:documentation>Invalid ID supplied</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PutPet_404">
+        <xs:annotation>
+          <xs:documentation>Pet not found</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PutPet_405">
+        <xs:annotation>
+          <xs:documentation>Validation exception</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PostPetByPetid_RequestMessage" type="schemas:PostPetByPetid_RequestMessage" />
+      <xs:element name="PostPetByPetid_ResponseMessage" type="schemas:PostPetByPetid_ResponseMessage" />
+      <xs:element name="PostPetByPetid_405">
+        <xs:annotation>
+          <xs:documentation>Invalid input</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PostPetUploadimageByPetid_RequestMessage" type="schemas:PostPetUploadimageByPetid_RequestMessage" />
+      <xs:element name="PostPetUploadimageByPetid_ResponseMessage" type="schemas:PostPetUploadimageByPetid_ResponseMessage" />
+      <xs:element name="DeleteStoreOrderByOrderid_RequestMessage" type="schemas:DeleteStoreOrderByOrderid_RequestMessage" />
+      <xs:element name="DeleteStoreOrderByOrderid_ResponseMessage" type="schemas:DeleteStoreOrderByOrderid_ResponseMessage" />
+      <xs:element name="DeleteStoreOrderByOrderid_400">
+        <xs:annotation>
+          <xs:documentation>Invalid ID supplied</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DeleteStoreOrderByOrderid_404">
+        <xs:annotation>
+          <xs:documentation>Order not found</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetStoreInventory_RequestMessage" type="schemas:GetStoreInventory_RequestMessage" />
+      <xs:element name="GetStoreInventory_ResponseMessage" type="schemas:GetStoreInventory_ResponseMessage" />
+      <xs:element name="GetStoreOrderByOrderid_RequestMessage" type="schemas:GetStoreOrderByOrderid_RequestMessage" />
+      <xs:element name="GetStoreOrderByOrderid_ResponseMessage" type="schemas:GetStoreOrderByOrderid_ResponseMessage" />
+      <xs:element name="GetStoreOrderByOrderid_400">
+        <xs:annotation>
+          <xs:documentation>Invalid ID supplied</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetStoreOrderByOrderid_404">
+        <xs:annotation>
+          <xs:documentation>Order not found</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PostStoreOrder_RequestMessage" type="schemas:PostStoreOrder_RequestMessage" />
+      <xs:element name="PostStoreOrder_ResponseMessage" type="schemas:PostStoreOrder_ResponseMessage" />
+      <xs:element name="PostStoreOrder_400">
+        <xs:annotation>
+          <xs:documentation>Invalid Order</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PostUser_RequestMessage" type="schemas:PostUser_RequestMessage" />
+      <xs:element name="PostUser_ResponseMessage" type="schemas:PostUser_ResponseMessage" />
+      <xs:element name="PostUserCreatewitharray_RequestMessage" type="schemas:PostUserCreatewitharray_RequestMessage" />
+      <xs:element name="PostUserCreatewitharray_ResponseMessage" type="schemas:PostUserCreatewitharray_ResponseMessage" />
+      <xs:element name="PostUserCreatewithlist_RequestMessage" type="schemas:PostUserCreatewithlist_RequestMessage" />
+      <xs:element name="PostUserCreatewithlist_ResponseMessage" type="schemas:PostUserCreatewithlist_ResponseMessage" />
+      <xs:element name="DeleteUserByUsername_RequestMessage" type="schemas:DeleteUserByUsername_RequestMessage" />
+      <xs:element name="DeleteUserByUsername_ResponseMessage" type="schemas:DeleteUserByUsername_ResponseMessage" />
+      <xs:element name="DeleteUserByUsername_400">
+        <xs:annotation>
+          <xs:documentation>Invalid username supplied</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="DeleteUserByUsername_404">
+        <xs:annotation>
+          <xs:documentation>User not found</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetUserByUsername_RequestMessage" type="schemas:GetUserByUsername_RequestMessage" />
+      <xs:element name="GetUserByUsername_ResponseMessage" type="schemas:GetUserByUsername_ResponseMessage" />
+      <xs:element name="GetUserByUsername_400">
+        <xs:annotation>
+          <xs:documentation>Invalid username supplied</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetUserByUsername_404">
+        <xs:annotation>
+          <xs:documentation>User not found</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetUserLogin_RequestMessage" type="schemas:GetUserLogin_RequestMessage" />
+      <xs:element name="GetUserLogin_ResponseMessage" type="schemas:GetUserLogin_ResponseMessage" />
+      <xs:element name="GetUserLogin_400">
+        <xs:annotation>
+          <xs:documentation>Invalid username/password supplied</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="GetUserLogout_RequestMessage" type="schemas:GetUserLogout_RequestMessage" />
+      <xs:element name="GetUserLogout_ResponseMessage" type="schemas:GetUserLogout_ResponseMessage" />
+      <xs:element name="PutUserByUsername_RequestMessage" type="schemas:PutUserByUsername_RequestMessage" />
+      <xs:element name="PutUserByUsername_ResponseMessage" type="schemas:PutUserByUsername_ResponseMessage" />
+      <xs:element name="PutUserByUsername_400">
+        <xs:annotation>
+          <xs:documentation>Invalid user supplied</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PutUserByUsername_404">
+        <xs:annotation>
+          <xs:documentation>User not found</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:complexType name="ApiResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="code" type="xs:integer" />
+          <xs:element minOccurs="0" name="type" type="xs:string" />
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Category">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Order">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="petId" type="xs:long" />
+          <xs:element minOccurs="0" name="quantity" type="xs:integer" />
+          <xs:element minOccurs="0" name="shipDate" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="status" type="schemas:Status">
+            <xs:annotation>
+              <xs:documentation>Order Status</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" default="false" name="complete" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Pet">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="category" type="schemas:Category" />
+          <xs:element minOccurs="1" name="name" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="photoUrls" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="tags" type="schemas:Tag" />
+          <xs:element minOccurs="0" name="status" type="schemas:Status">
+            <xs:annotation>
+              <xs:documentation>pet status in the store</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Tag">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="name" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="User">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:long" />
+          <xs:element minOccurs="0" name="username" type="xs:string" />
+          <xs:element minOccurs="0" name="firstName" type="xs:string" />
+          <xs:element minOccurs="0" name="lastName" type="xs:string" />
+          <xs:element minOccurs="0" name="email" type="xs:string" />
+          <xs:element minOccurs="0" name="password" type="xs:string" />
+          <xs:element minOccurs="0" name="phone" type="xs:string" />
+          <xs:element minOccurs="0" name="userStatus" type="xs:integer">
+            <xs:annotation>
+              <xs:documentation>User Status</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="Status">
+        <xs:annotation>
+          <xs:documentation>Order Status</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="placed" />
+          <xs:enumeration value="approved" />
+          <xs:enumeration value="delivered" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="Status">
+        <xs:annotation>
+          <xs:documentation>pet status in the store</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="available" />
+          <xs:enumeration value="pending" />
+          <xs:enumeration value="sold" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="Status">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AVAILABLE" />
+          <xs:enumeration value="PENDING" />
+          <xs:enumeration value="SOLD" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:complexType name="PostPet_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="body" type="schemas:Pet">
+            <xs:annotation>
+              <xs:documentation>Pet object that needs to be added to the store</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DeletePetByPetid_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="petId" type="xs:long">
+            <xs:annotation>
+              <xs:documentation>Pet id to delete</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="apiKey" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetPetFindbystatus_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="status" type="schemas:Status">
+            <xs:annotation>
+              <xs:documentation>Status values that need to be considered for filter</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetPetFindbystatus_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="Pet" type="schemas:Pet">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetPetFindbytags_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="tags" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Tags to filter by</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetPetFindbytags_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="Pet" type="schemas:Pet">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetPetByPetid_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="petId" type="xs:long">
+            <xs:annotation>
+              <xs:documentation>ID of pet to return</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetPetByPetid_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="Pet" type="schemas:Pet">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PutPet_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="body" type="schemas:Pet">
+            <xs:annotation>
+              <xs:documentation>Pet object that needs to be added to the store</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostPetByPetid_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="petId" type="xs:long">
+            <xs:annotation>
+              <xs:documentation>ID of pet that needs to be updated</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="name" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Updated name of the pet</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="status" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Updated status of the pet</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostPetUploadimageByPetid_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="petId" type="xs:long">
+            <xs:annotation>
+              <xs:documentation>ID of pet to update</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="additionalMetadata" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Additional data to pass to server</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="file" type="xs:hexBinary">
+            <xs:annotation>
+              <xs:documentation>file to upload</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostPetUploadimageByPetid_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="ApiResponse" type="schemas:ApiResponse">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DeleteStoreOrderByOrderid_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="orderId">
+            <xs:simpleType>
+              <xs:annotation>
+                <xs:documentation>ID of the order that needs to be deleted</xs:documentation>
+              </xs:annotation>
+              <xs:restriction base="xs:long">
+                <xs:minInclusive value="1" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetStoreInventory_RequestMessage" />
+      <xs:complexType name="GetStoreInventory_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="response" type="xs:integer">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetStoreOrderByOrderid_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="orderId">
+            <xs:simpleType>
+              <xs:annotation>
+                <xs:documentation>ID of pet that needs to be fetched</xs:documentation>
+              </xs:annotation>
+              <xs:restriction base="xs:long">
+                <xs:maxInclusive value="10" />
+                <xs:minInclusive value="1" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetStoreOrderByOrderid_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="Order" type="schemas:Order">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostStoreOrder_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="body" type="schemas:Order">
+            <xs:annotation>
+              <xs:documentation>order placed for purchasing the pet</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostStoreOrder_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="Order" type="schemas:Order">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostUser_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="body" type="schemas:User">
+            <xs:annotation>
+              <xs:documentation>Created user object</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostUser_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="response">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostUserCreatewitharray_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="body" type="schemas:User">
+            <xs:annotation>
+              <xs:documentation>List of user object</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostUserCreatewitharray_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="response">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostUserCreatewithlist_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="body" type="schemas:User">
+            <xs:annotation>
+              <xs:documentation>List of user object</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PostUserCreatewithlist_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="response">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DeleteUserByUsername_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="username" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The name that needs to be deleted</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetUserByUsername_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="username" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The name that needs to be fetched. Use user1 for testing. </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetUserByUsername_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="User" type="schemas:User">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetUserLogin_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="username" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The user name for login</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="1" name="password" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The password for login in clear text</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetUserLogin_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="String" type="schemas:String">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="GetUserLogout_RequestMessage" />
+      <xs:complexType name="GetUserLogout_ResponseMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="response">
+            <xs:annotation>
+              <xs:documentation>successful operation</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="PutUserByUsername_RequestMessage">
+        <xs:sequence>
+          <xs:element minOccurs="1" name="username" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>name that need to be updated</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="1" name="body" type="schemas:User">
+            <xs:annotation>
+              <xs:documentation>Updated user object</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </types>
+  <message name="PostPet_RequestMessage">
+    <part name="PostPet_RequestMessage" element="schemas:PostPet_RequestMessage" />
+  </message>
+  <message name="PostPet_405">
+    <part name="PostPet_405" element="schemas:PostPet_405" />
+  </message>
+  <message name="DeletePetByPetid_RequestMessage">
+    <part name="DeletePetByPetid_RequestMessage" element="schemas:DeletePetByPetid_RequestMessage" />
+  </message>
+  <message name="DeletePetByPetid_400">
+    <part name="DeletePetByPetid_400" element="schemas:DeletePetByPetid_400" />
+  </message>
+  <message name="DeletePetByPetid_404">
+    <part name="DeletePetByPetid_404" element="schemas:DeletePetByPetid_404" />
+  </message>
+  <message name="GetPetFindbystatus_RequestMessage">
+    <part name="GetPetFindbystatus_RequestMessage" element="schemas:GetPetFindbystatus_RequestMessage" />
+  </message>
+  <message name="GetPetFindbystatus_ResponseMessage">
+    <part name="GetPetFindbystatus_ResponseMessage" element="schemas:GetPetFindbystatus_ResponseMessage" />
+  </message>
+  <message name="GetPetFindbystatus_400">
+    <part name="GetPetFindbystatus_400" element="schemas:GetPetFindbystatus_400" />
+  </message>
+  <message name="GetPetFindbytags_RequestMessage">
+    <part name="GetPetFindbytags_RequestMessage" element="schemas:GetPetFindbytags_RequestMessage" />
+  </message>
+  <message name="GetPetFindbytags_ResponseMessage">
+    <part name="GetPetFindbytags_ResponseMessage" element="schemas:GetPetFindbytags_ResponseMessage" />
+  </message>
+  <message name="GetPetFindbytags_400">
+    <part name="GetPetFindbytags_400" element="schemas:GetPetFindbytags_400" />
+  </message>
+  <message name="GetPetByPetid_RequestMessage">
+    <part name="GetPetByPetid_RequestMessage" element="schemas:GetPetByPetid_RequestMessage" />
+  </message>
+  <message name="GetPetByPetid_ResponseMessage">
+    <part name="GetPetByPetid_ResponseMessage" element="schemas:GetPetByPetid_ResponseMessage" />
+  </message>
+  <message name="GetPetByPetid_400">
+    <part name="GetPetByPetid_400" element="schemas:GetPetByPetid_400" />
+  </message>
+  <message name="GetPetByPetid_404">
+    <part name="GetPetByPetid_404" element="schemas:GetPetByPetid_404" />
+  </message>
+  <message name="PutPet_RequestMessage">
+    <part name="PutPet_RequestMessage" element="schemas:PutPet_RequestMessage" />
+  </message>
+  <message name="PutPet_400">
+    <part name="PutPet_400" element="schemas:PutPet_400" />
+  </message>
+  <message name="PutPet_404">
+    <part name="PutPet_404" element="schemas:PutPet_404" />
+  </message>
+  <message name="PutPet_405">
+    <part name="PutPet_405" element="schemas:PutPet_405" />
+  </message>
+  <message name="PostPetByPetid_RequestMessage">
+    <part name="PostPetByPetid_RequestMessage" element="schemas:PostPetByPetid_RequestMessage" />
+  </message>
+  <message name="PostPetByPetid_405">
+    <part name="PostPetByPetid_405" element="schemas:PostPetByPetid_405" />
+  </message>
+  <message name="PostPetUploadimageByPetid_RequestMessage">
+    <part name="PostPetUploadimageByPetid_RequestMessage" element="schemas:PostPetUploadimageByPetid_RequestMessage" />
+  </message>
+  <message name="PostPetUploadimageByPetid_ResponseMessage">
+    <part name="PostPetUploadimageByPetid_ResponseMessage" element="schemas:PostPetUploadimageByPetid_ResponseMessage" />
+  </message>
+  <message name="DeleteStoreOrderByOrderid_RequestMessage">
+    <part name="DeleteStoreOrderByOrderid_RequestMessage" element="schemas:DeleteStoreOrderByOrderid_RequestMessage" />
+  </message>
+  <message name="DeleteStoreOrderByOrderid_400">
+    <part name="DeleteStoreOrderByOrderid_400" element="schemas:DeleteStoreOrderByOrderid_400" />
+  </message>
+  <message name="DeleteStoreOrderByOrderid_404">
+    <part name="DeleteStoreOrderByOrderid_404" element="schemas:DeleteStoreOrderByOrderid_404" />
+  </message>
+  <message name="GetStoreInventory_RequestMessage">
+    <part name="GetStoreInventory_RequestMessage" element="schemas:GetStoreInventory_RequestMessage" />
+  </message>
+  <message name="GetStoreInventory_ResponseMessage">
+    <part name="GetStoreInventory_ResponseMessage" element="schemas:GetStoreInventory_ResponseMessage" />
+  </message>
+  <message name="GetStoreOrderByOrderid_RequestMessage">
+    <part name="GetStoreOrderByOrderid_RequestMessage" element="schemas:GetStoreOrderByOrderid_RequestMessage" />
+  </message>
+  <message name="GetStoreOrderByOrderid_ResponseMessage">
+    <part name="GetStoreOrderByOrderid_ResponseMessage" element="schemas:GetStoreOrderByOrderid_ResponseMessage" />
+  </message>
+  <message name="GetStoreOrderByOrderid_400">
+    <part name="GetStoreOrderByOrderid_400" element="schemas:GetStoreOrderByOrderid_400" />
+  </message>
+  <message name="GetStoreOrderByOrderid_404">
+    <part name="GetStoreOrderByOrderid_404" element="schemas:GetStoreOrderByOrderid_404" />
+  </message>
+  <message name="PostStoreOrder_RequestMessage">
+    <part name="PostStoreOrder_RequestMessage" element="schemas:PostStoreOrder_RequestMessage" />
+  </message>
+  <message name="PostStoreOrder_ResponseMessage">
+    <part name="PostStoreOrder_ResponseMessage" element="schemas:PostStoreOrder_ResponseMessage" />
+  </message>
+  <message name="PostStoreOrder_400">
+    <part name="PostStoreOrder_400" element="schemas:PostStoreOrder_400" />
+  </message>
+  <message name="PostUser_RequestMessage">
+    <part name="PostUser_RequestMessage" element="schemas:PostUser_RequestMessage" />
+  </message>
+  <message name="PostUser_ResponseMessage">
+    <part name="PostUser_ResponseMessage" element="schemas:PostUser_ResponseMessage" />
+  </message>
+  <message name="PostUserCreatewitharray_RequestMessage">
+    <part name="PostUserCreatewitharray_RequestMessage" element="schemas:PostUserCreatewitharray_RequestMessage" />
+  </message>
+  <message name="PostUserCreatewitharray_ResponseMessage">
+    <part name="PostUserCreatewitharray_ResponseMessage" element="schemas:PostUserCreatewitharray_ResponseMessage" />
+  </message>
+  <message name="PostUserCreatewithlist_RequestMessage">
+    <part name="PostUserCreatewithlist_RequestMessage" element="schemas:PostUserCreatewithlist_RequestMessage" />
+  </message>
+  <message name="PostUserCreatewithlist_ResponseMessage">
+    <part name="PostUserCreatewithlist_ResponseMessage" element="schemas:PostUserCreatewithlist_ResponseMessage" />
+  </message>
+  <message name="DeleteUserByUsername_RequestMessage">
+    <part name="DeleteUserByUsername_RequestMessage" element="schemas:DeleteUserByUsername_RequestMessage" />
+  </message>
+  <message name="DeleteUserByUsername_400">
+    <part name="DeleteUserByUsername_400" element="schemas:DeleteUserByUsername_400" />
+  </message>
+  <message name="DeleteUserByUsername_404">
+    <part name="DeleteUserByUsername_404" element="schemas:DeleteUserByUsername_404" />
+  </message>
+  <message name="GetUserByUsername_RequestMessage">
+    <part name="GetUserByUsername_RequestMessage" element="schemas:GetUserByUsername_RequestMessage" />
+  </message>
+  <message name="GetUserByUsername_ResponseMessage">
+    <part name="GetUserByUsername_ResponseMessage" element="schemas:GetUserByUsername_ResponseMessage" />
+  </message>
+  <message name="GetUserByUsername_400">
+    <part name="GetUserByUsername_400" element="schemas:GetUserByUsername_400" />
+  </message>
+  <message name="GetUserByUsername_404">
+    <part name="GetUserByUsername_404" element="schemas:GetUserByUsername_404" />
+  </message>
+  <message name="GetUserLogin_RequestMessage">
+    <part name="GetUserLogin_RequestMessage" element="schemas:GetUserLogin_RequestMessage" />
+  </message>
+  <message name="GetUserLogin_ResponseMessage">
+    <part name="GetUserLogin_ResponseMessage" element="schemas:GetUserLogin_ResponseMessage" />
+  </message>
+  <message name="GetUserLogin_400">
+    <part name="GetUserLogin_400" element="schemas:GetUserLogin_400" />
+  </message>
+  <message name="GetUserLogout_RequestMessage">
+    <part name="GetUserLogout_RequestMessage" element="schemas:GetUserLogout_RequestMessage" />
+  </message>
+  <message name="GetUserLogout_ResponseMessage">
+    <part name="GetUserLogout_ResponseMessage" element="schemas:GetUserLogout_ResponseMessage" />
+  </message>
+  <message name="PutUserByUsername_RequestMessage">
+    <part name="PutUserByUsername_RequestMessage" element="schemas:PutUserByUsername_RequestMessage" />
+  </message>
+  <message name="PutUserByUsername_400">
+    <part name="PutUserByUsername_400" element="schemas:PutUserByUsername_400" />
+  </message>
+  <message name="PutUserByUsername_404">
+    <part name="PutUserByUsername_404" element="schemas:PutUserByUsername_404" />
+  </message>
+  <portType name="ServiceV1_PortType">
+    <operation name="PostPet">
+      <documentation>Add a new pet to the store</documentation>
+      <input message="wsdl:PostPet_RequestMessage" />
+      <fault name="PostPet_405" message="wsdl:PostPet_405">
+        <documentation>Invalid input</documentation>
+      </fault>
+    </operation>
+    <operation name="DeletePetByPetid">
+      <documentation>Deletes a pet</documentation>
+      <input message="wsdl:DeletePetByPetid_RequestMessage" />
+      <fault name="DeletePetByPetid_400" message="wsdl:DeletePetByPetid_400">
+        <documentation>Invalid ID supplied</documentation>
+      </fault>
+      <fault name="DeletePetByPetid_404" message="wsdl:DeletePetByPetid_404">
+        <documentation>Pet not found</documentation>
+      </fault>
+    </operation>
+    <operation name="GetPetFindbystatus">
+      <documentation>Multiple status values can be provided with comma separated strings</documentation>
+      <input message="wsdl:GetPetFindbystatus_RequestMessage" />
+      <output message="wsdl:GetPetFindbystatus_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+      <fault name="GetPetFindbystatus_400" message="wsdl:GetPetFindbystatus_400">
+        <documentation>Invalid status value</documentation>
+      </fault>
+    </operation>
+    <operation name="GetPetFindbytags">
+      <documentation>Multiple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing.</documentation>
+      <input message="wsdl:GetPetFindbytags_RequestMessage" />
+      <output message="wsdl:GetPetFindbytags_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+      <fault name="GetPetFindbytags_400" message="wsdl:GetPetFindbytags_400">
+        <documentation>Invalid tag value</documentation>
+      </fault>
+    </operation>
+    <operation name="GetPetByPetid">
+      <documentation>Returns a single pet</documentation>
+      <input message="wsdl:GetPetByPetid_RequestMessage" />
+      <output message="wsdl:GetPetByPetid_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+      <fault name="GetPetByPetid_400" message="wsdl:GetPetByPetid_400">
+        <documentation>Invalid ID supplied</documentation>
+      </fault>
+      <fault name="GetPetByPetid_404" message="wsdl:GetPetByPetid_404">
+        <documentation>Pet not found</documentation>
+      </fault>
+    </operation>
+    <operation name="PutPet">
+      <documentation>Update an existing pet</documentation>
+      <input message="wsdl:PutPet_RequestMessage" />
+      <fault name="PutPet_400" message="wsdl:PutPet_400">
+        <documentation>Invalid ID supplied</documentation>
+      </fault>
+      <fault name="PutPet_404" message="wsdl:PutPet_404">
+        <documentation>Pet not found</documentation>
+      </fault>
+      <fault name="PutPet_405" message="wsdl:PutPet_405">
+        <documentation>Validation exception</documentation>
+      </fault>
+    </operation>
+    <operation name="PostPetByPetid">
+      <documentation>Updates a pet in the store with form data</documentation>
+      <input message="wsdl:PostPetByPetid_RequestMessage" />
+      <fault name="PostPetByPetid_405" message="wsdl:PostPetByPetid_405">
+        <documentation>Invalid input</documentation>
+      </fault>
+    </operation>
+    <operation name="PostPetUploadimageByPetid">
+      <documentation>uploads an image</documentation>
+      <input message="wsdl:PostPetUploadimageByPetid_RequestMessage" />
+      <output message="wsdl:PostPetUploadimageByPetid_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+    </operation>
+    <operation name="DeleteStoreOrderByOrderid">
+      <documentation>For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors</documentation>
+      <input message="wsdl:DeleteStoreOrderByOrderid_RequestMessage" />
+      <fault name="DeleteStoreOrderByOrderid_400" message="wsdl:DeleteStoreOrderByOrderid_400">
+        <documentation>Invalid ID supplied</documentation>
+      </fault>
+      <fault name="DeleteStoreOrderByOrderid_404" message="wsdl:DeleteStoreOrderByOrderid_404">
+        <documentation>Order not found</documentation>
+      </fault>
+    </operation>
+    <operation name="GetStoreInventory">
+      <documentation>Returns a map of status codes to quantities</documentation>
+      <input message="wsdl:GetStoreInventory_RequestMessage" />
+      <output message="wsdl:GetStoreInventory_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+    </operation>
+    <operation name="GetStoreOrderByOrderid">
+      <documentation>For valid response try integer IDs with value &gt;&#x3D; 1 and &lt;&#x3D; 10.         Other values will generated exceptions</documentation>
+      <input message="wsdl:GetStoreOrderByOrderid_RequestMessage" />
+      <output message="wsdl:GetStoreOrderByOrderid_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+      <fault name="GetStoreOrderByOrderid_400" message="wsdl:GetStoreOrderByOrderid_400">
+        <documentation>Invalid ID supplied</documentation>
+      </fault>
+      <fault name="GetStoreOrderByOrderid_404" message="wsdl:GetStoreOrderByOrderid_404">
+        <documentation>Order not found</documentation>
+      </fault>
+    </operation>
+    <operation name="PostStoreOrder">
+      <documentation>Place an order for a pet</documentation>
+      <input message="wsdl:PostStoreOrder_RequestMessage" />
+      <output message="wsdl:PostStoreOrder_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+      <fault name="PostStoreOrder_400" message="wsdl:PostStoreOrder_400">
+        <documentation>Invalid Order</documentation>
+      </fault>
+    </operation>
+    <operation name="PostUser">
+      <documentation>This can only be done by the logged in user.</documentation>
+      <input message="wsdl:PostUser_RequestMessage" />
+      <output message="wsdl:PostUser_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+    </operation>
+    <operation name="PostUserCreatewitharray">
+      <documentation>Creates list of users with given input array</documentation>
+      <input message="wsdl:PostUserCreatewitharray_RequestMessage" />
+      <output message="wsdl:PostUserCreatewitharray_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+    </operation>
+    <operation name="PostUserCreatewithlist">
+      <documentation>Creates list of users with given input array</documentation>
+      <input message="wsdl:PostUserCreatewithlist_RequestMessage" />
+      <output message="wsdl:PostUserCreatewithlist_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+    </operation>
+    <operation name="DeleteUserByUsername">
+      <documentation>This can only be done by the logged in user.</documentation>
+      <input message="wsdl:DeleteUserByUsername_RequestMessage" />
+      <fault name="DeleteUserByUsername_400" message="wsdl:DeleteUserByUsername_400">
+        <documentation>Invalid username supplied</documentation>
+      </fault>
+      <fault name="DeleteUserByUsername_404" message="wsdl:DeleteUserByUsername_404">
+        <documentation>User not found</documentation>
+      </fault>
+    </operation>
+    <operation name="GetUserByUsername">
+      <documentation>Get user by user name</documentation>
+      <input message="wsdl:GetUserByUsername_RequestMessage" />
+      <output message="wsdl:GetUserByUsername_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+      <fault name="GetUserByUsername_400" message="wsdl:GetUserByUsername_400">
+        <documentation>Invalid username supplied</documentation>
+      </fault>
+      <fault name="GetUserByUsername_404" message="wsdl:GetUserByUsername_404">
+        <documentation>User not found</documentation>
+      </fault>
+    </operation>
+    <operation name="GetUserLogin">
+      <documentation>Logs user into the system</documentation>
+      <input message="wsdl:GetUserLogin_RequestMessage" />
+      <output message="wsdl:GetUserLogin_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+      <fault name="GetUserLogin_400" message="wsdl:GetUserLogin_400">
+        <documentation>Invalid username/password supplied</documentation>
+      </fault>
+    </operation>
+    <operation name="GetUserLogout">
+      <documentation>Logs out current logged in user session</documentation>
+      <input message="wsdl:GetUserLogout_RequestMessage" />
+      <output message="wsdl:GetUserLogout_ResponseMessage">
+        <documentation>successful operation</documentation>
+      </output>
+    </operation>
+    <operation name="PutUserByUsername">
+      <documentation>This can only be done by the logged in user.</documentation>
+      <input message="wsdl:PutUserByUsername_RequestMessage" />
+      <fault name="PutUserByUsername_400" message="wsdl:PutUserByUsername_400">
+        <documentation>Invalid user supplied</documentation>
+      </fault>
+      <fault name="PutUserByUsername_404" message="wsdl:PutUserByUsername_404">
+        <documentation>User not found</documentation>
+      </fault>
+    </operation>
+  </portType>
+  <binding name="ServiceV1_Binding" type="wsdl:ServiceV1_PortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+    <operation name="PostPet">
+      <soap:operation soapAction="PostPet" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <fault name="PostPet_405">
+        <soap:fault use="literal" name="PostPet_405" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="DeletePetByPetid">
+      <soap:operation soapAction="DeletePetByPetid" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <fault name="DeletePetByPetid_400">
+        <soap:fault use="literal" name="DeletePetByPetid_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+      <fault name="DeletePetByPetid_404">
+        <soap:fault use="literal" name="DeletePetByPetid_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="GetPetFindbystatus">
+      <soap:operation soapAction="GetPetFindbystatus" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="GetPetFindbystatus_400">
+        <soap:fault use="literal" name="GetPetFindbystatus_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="GetPetFindbytags">
+      <soap:operation soapAction="GetPetFindbytags" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="GetPetFindbytags_400">
+        <soap:fault use="literal" name="GetPetFindbytags_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="GetPetByPetid">
+      <soap:operation soapAction="GetPetByPetid" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="GetPetByPetid_400">
+        <soap:fault use="literal" name="GetPetByPetid_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+      <fault name="GetPetByPetid_404">
+        <soap:fault use="literal" name="GetPetByPetid_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="PutPet">
+      <soap:operation soapAction="PutPet" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <fault name="PutPet_400">
+        <soap:fault use="literal" name="PutPet_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+      <fault name="PutPet_404">
+        <soap:fault use="literal" name="PutPet_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+      <fault name="PutPet_405">
+        <soap:fault use="literal" name="PutPet_405" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="PostPetByPetid">
+      <soap:operation soapAction="PostPetByPetid" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <fault name="PostPetByPetid_405">
+        <soap:fault use="literal" name="PostPetByPetid_405" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="PostPetUploadimageByPetid">
+      <soap:operation soapAction="PostPetUploadimageByPetid" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="DeleteStoreOrderByOrderid">
+      <soap:operation soapAction="DeleteStoreOrderByOrderid" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <fault name="DeleteStoreOrderByOrderid_400">
+        <soap:fault use="literal" name="DeleteStoreOrderByOrderid_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+      <fault name="DeleteStoreOrderByOrderid_404">
+        <soap:fault use="literal" name="DeleteStoreOrderByOrderid_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="GetStoreInventory">
+      <soap:operation soapAction="GetStoreInventory" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="GetStoreOrderByOrderid">
+      <soap:operation soapAction="GetStoreOrderByOrderid" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="GetStoreOrderByOrderid_400">
+        <soap:fault use="literal" name="GetStoreOrderByOrderid_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+      <fault name="GetStoreOrderByOrderid_404">
+        <soap:fault use="literal" name="GetStoreOrderByOrderid_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="PostStoreOrder">
+      <soap:operation soapAction="PostStoreOrder" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="PostStoreOrder_400">
+        <soap:fault use="literal" name="PostStoreOrder_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="PostUser">
+      <soap:operation soapAction="PostUser" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+    </operation>
+    <operation name="PostUserCreatewitharray">
+      <soap:operation soapAction="PostUserCreatewitharray" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+    </operation>
+    <operation name="PostUserCreatewithlist">
+      <soap:operation soapAction="PostUserCreatewithlist" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+    </operation>
+    <operation name="DeleteUserByUsername">
+      <soap:operation soapAction="DeleteUserByUsername" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <fault name="DeleteUserByUsername_400">
+        <soap:fault use="literal" name="DeleteUserByUsername_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+      <fault name="DeleteUserByUsername_404">
+        <soap:fault use="literal" name="DeleteUserByUsername_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="GetUserByUsername">
+      <soap:operation soapAction="GetUserByUsername" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="GetUserByUsername_400">
+        <soap:fault use="literal" name="GetUserByUsername_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+      <fault name="GetUserByUsername_404">
+        <soap:fault use="literal" name="GetUserByUsername_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="GetUserLogin">
+      <soap:operation soapAction="GetUserLogin" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+      <fault name="GetUserLogin_400">
+        <soap:fault use="literal" name="GetUserLogin_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+    <operation name="GetUserLogout">
+      <soap:operation soapAction="GetUserLogout" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+    </operation>
+    <operation name="PutUserByUsername">
+      <soap:operation soapAction="PutUserByUsername" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input>
+        <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <fault name="PutUserByUsername_400">
+        <soap:fault use="literal" name="PutUserByUsername_400" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+      <fault name="PutUserByUsername_404">
+        <soap:fault use="literal" name="PutUserByUsername_404" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="ServiceV1">
+    <documentation>This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/). For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.</documentation>
+    <port name="default_Port" binding="wsdl:ServiceV1_Binding">
+      <soap:address location="http://localhost/soap/ServiceV1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" />
+    </port>
+  </service>
+</definitions>

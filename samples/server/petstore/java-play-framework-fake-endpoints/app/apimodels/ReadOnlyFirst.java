@@ -12,9 +12,11 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ReadOnlyFirst   {
   @JsonProperty("bar")
+  
   private String bar;
 
   @JsonProperty("baz")
+  
   private String baz;
 
   public ReadOnlyFirst bar(String bar) {
@@ -26,7 +28,7 @@ public class ReadOnlyFirst   {
    * Get bar
    * @return bar
   **/
-    public String getBar() {
+  public String getBar() {
     return bar;
   }
 
@@ -43,7 +45,7 @@ public class ReadOnlyFirst   {
    * Get baz
    * @return baz
   **/
-    public String getBaz() {
+  public String getBaz() {
     return baz;
   }
 
@@ -53,7 +55,7 @@ public class ReadOnlyFirst   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -86,7 +88,7 @@ public class ReadOnlyFirst   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -42,7 +42,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
 
     protected String apiVersion = "1.0.0";
     protected String moduleName;
@@ -116,7 +116,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
          * Reserved words.  Override this with reserved words specific to your language
          * Ref: https://github.com/itsgreggreg/elixir_quick_reference#reserved-words
          */
-        reservedWords = new HashSet<String>(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "nil",
                         "true",
@@ -164,10 +164,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
          * Language Specific Primitives.  These types will not trigger imports by
          * the client generator
          */
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "Integer",
                         "Float",
+                        "Decimal",
                         "Boolean",
                         "String",
                         "List",
@@ -175,12 +176,13 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                         "Map",
                         "Tuple",
                         "PID",
-                        "DateTime"
+                        "DateTime",
+                        "map()" // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec datetype to evaluate the primitive
                 )
         );
 
         // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("integer", "Integer");
         typeMapping.put("long", "Integer");
         typeMapping.put("number", "Float");
@@ -447,13 +449,14 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + ("model_" + name));
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -469,13 +472,13 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             return underscore(sanitizeName("call_" + operationId));
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -510,8 +513,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return "DateTime.t";
         } else if (ModelUtils.isObjectSchema(p)) {
-            // TODO How to map it?
-            return super.getTypeDeclaration(p);
+            return "map()";
         } else if (ModelUtils.isIntegerSchema(p)) {
             return "integer()";
         } else if (ModelUtils.isNumberSchema(p)) {
@@ -520,9 +522,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             return "String.t";
         } else if (ModelUtils.isBooleanSchema(p)) {
             return "boolean()";
-        } else if (!StringUtils.isEmpty(p.get$ref())) { // model
-            // How to map it?
-            return super.getTypeDeclaration(p);
+        } else if (!StringUtils.isEmpty(p.get$ref())) {
+            return this.moduleName + ".Model." + super.getTypeDeclaration(p) + ".t";
         } else if (ModelUtils.isFileSchema(p)) {
             return "String.t";
         } else if (ModelUtils.isStringSchema(p)) {
@@ -559,7 +560,6 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.headers.addAll(o.headers);
             this.code = o.code;
             this.message = o.message;
-            this.hasMore = o.hasMore;
             this.examples = o.examples;
             this.dataType = o.dataType;
             this.baseType = o.baseType;
@@ -583,8 +583,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isDefault = o.isDefault;
             this.simpleType = o.simpleType;
             this.primitiveType = o.primitiveType;
-            this.isMapContainer = o.isMapContainer;
-            this.isListContainer = o.isListContainer;
+            this.isMap = o.isMap;
+            this.isArray = o.isArray;
             this.isBinary = o.isBinary;
             this.isFile = o.isFile;
             this.schema = o.schema;
@@ -594,32 +594,32 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isDefinedDefault = (this.code.equals("0") || this.code.equals("default"));
         }
 
-        public String codeMappingKey(){
-            if(this.isDefinedDefault) {
+        public String codeMappingKey() {
+            if (this.isDefinedDefault) {
                 return ":default";
             }
 
-            if(code.matches("^\\d{3}$")){
+            if (code.matches("^\\d{3}$")) {
                 return code;
             }
 
-            LOGGER.warn("Unknown HTTP status code: " + this.code);
+            LOGGER.warn("Unknown HTTP status code: {}", this.code);
             return "\"" + code + "\"";
         }
 
         public String decodedStruct() {
             // Let Poison decode the entire response into a generic blob
-            if (isMapContainer) {
+            if (isMap) {
                 return "%{}";
             }
             // Primitive return type, don't even try to decode
             if (baseType == null || (simpleType && primitiveType)) {
                 return "false";
-            } else if (isListContainer && languageSpecificPrimitives().contains(baseType)) {
+            } else if (isArray && languageSpecificPrimitives().contains(baseType)) {
                 return "[]";
             }
             StringBuilder sb = new StringBuilder();
-            if (isListContainer) {
+            if (isArray) {
                 sb.append("[");
             }
             sb.append("%");
@@ -627,7 +627,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             sb.append(".Model.");
             sb.append(baseType);
             sb.append("{}");
-            if (isListContainer) {
+            if (isArray) {
                 sb.append("]");
             }
             return sb.toString();
@@ -652,10 +652,9 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.returnTypeIsPrimitive = o.returnTypeIsPrimitive;
             this.returnSimpleType = o.returnSimpleType;
             this.subresourceOperation = o.subresourceOperation;
-            this.isMapContainer = o.isMapContainer;
-            this.isListContainer = o.isListContainer;
+            this.isMap = o.isMap;
+            this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
-            this.hasMore = o.hasMore;
             this.isResponseBinary = o.isResponseBinary;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
@@ -727,46 +726,57 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 }
             }
 
-            sb.append("keyword()) :: {:ok, ");
-            if (returnBaseType == null) {
-                sb.append("nil");
-            } else if (returnSimpleType) {
-                if (!returnTypeIsPrimitive) {
-                    sb.append(moduleName);
-                    sb.append(".Model.");
-                }
-                sb.append(returnBaseType);
-                sb.append(".t");
-            } else if (returnContainer == null) {
-                sb.append(returnBaseType);
-                sb.append(".t");
-            } else {
-                if (returnContainer.equals("array") ||
-                    returnContainer.equals("set")) {
-                    sb.append("list(");
-                    if (!returnTypeIsPrimitive) {
-                        sb.append(moduleName);
-                        sb.append(".Model.");
+            sb.append("keyword()) :: ");
+            HashSet<String> uniqueResponseTypes = new HashSet<>();
+            for (CodegenResponse response : this.responses) {
+                ExtendedCodegenResponse exResponse = (ExtendedCodegenResponse) response;
+                StringBuilder returnEntry = new StringBuilder();
+                if (exResponse.baseType == null) {
+                    returnEntry.append("nil");
+                } else if (exResponse.simpleType) {
+                    if (!exResponse.primitiveType) {
+                        returnEntry.append(moduleName);
+                        returnEntry.append(".Model.");
                     }
-                    sb.append(returnBaseType);
-                    sb.append(".t)");
-                } else if (returnContainer.equals("map")) {
-                    sb.append("map()");
+                    returnEntry.append(exResponse.baseType);
+                    returnEntry.append(".t");
+                } else if (exResponse.containerType == null) {
+                    returnEntry.append(returnBaseType);
+                    returnEntry.append(".t");
+                } else {
+                    if (exResponse.containerType.equals("array") ||
+                            exResponse.containerType.equals("set")) {
+                        returnEntry.append("list(");
+                        if (!exResponse.primitiveType) {
+                            returnEntry.append(moduleName);
+                            returnEntry.append(".Model.");
+                        }
+                        returnEntry.append(exResponse.baseType);
+                        returnEntry.append(".t)");
+                    } else if (exResponse.containerType.equals("map")) {
+                        returnEntry.append("map()");
+                    }
                 }
+                uniqueResponseTypes.add(returnEntry.toString());
             }
-            sb.append("} | {:error, Tesla.Env.t}");
+
+            for (String returnType : uniqueResponseTypes) {
+                sb.append("{:ok, ").append(returnType).append("} | ");
+            }
+
+            sb.append("{:error, Tesla.Env.t}");
             return sb.toString();
         }
 
         private void buildTypespec(CodegenParameter param, StringBuilder sb) {
             if (param.dataType == null) {
                 sb.append("nil");
-            } else if (param.isListContainer) {
+            } else if (param.isArray) {
                 // list(<subtype>)
                 sb.append("list(");
                 buildTypespec(param.items, sb);
                 sb.append(")");
-            } else if (param.isMapContainer) {
+            } else if (param.isMap) {
                 // %{optional(String.t) => <subtype>}
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(param.items, sb);
@@ -791,11 +801,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         private void buildTypespec(CodegenProperty property, StringBuilder sb) {
             if (property == null) {
                 LOGGER.error("CodegenProperty cannot be null. Please report the issue to https://github.com/openapitools/openapi-generator with the spec");
-            } else if (property.isListContainer) {
+            } else if (property.isArray) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);
                 sb.append(")");
-            } else if (property.isMapContainer) {
+            } else if (property.isMap) {
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(property.items, sb);
                 sb.append("}");
@@ -808,6 +818,23 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(property.baseType);
                 sb.append(".t");
             }
+        }
+
+        private boolean getRequiresHttpcWorkaround() {
+            // Only POST/PATCH/PUT are affected from the httpc bug
+            if (!(this.httpMethod.equals("POST") || this.httpMethod.equals("PATCH") || this.httpMethod.equals("PUT"))) {
+                return false;
+            }
+
+            // If theres something required for the body, the workaround is not required
+            for (CodegenParameter requiredParam : this.requiredParams) {
+                if (requiredParam.isBodyParam || requiredParam.isFormParam) {
+                    return false;
+                }
+            }
+
+            // In case there is nothing for the body, the operation requires the workaround
+            return true;
         }
     }
 
@@ -857,7 +884,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isEnum = cm.isEnum;
             this.hasRequired = cm.hasRequired;
             this.hasOptional = cm.hasOptional;
-            this.isArrayModel = cm.isArrayModel;
+            this.isArray = cm.isArray;
             this.hasChildren = cm.hasChildren;
             this.hasOnlyReadOnly = cm.hasOnlyReadOnly;
             this.externalDocumentation = cm.externalDocumentation;

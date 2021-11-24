@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.springframework.http.codec.multipart.Part;
 
 import java.util.List;
 import java.util.Map;
@@ -106,12 +107,12 @@ public interface UserApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
                 String exampleString = "<User> <id>123456789</id> <username>aeiou</username> <firstName>aeiou</firstName> <lastName>aeiou</lastName> <email>aeiou</email> <password>aeiou</password> <phone>aeiou</phone> <userStatus>123</userStatus> </User>";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
         }

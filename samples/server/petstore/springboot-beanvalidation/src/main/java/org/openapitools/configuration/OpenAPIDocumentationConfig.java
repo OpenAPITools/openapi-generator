@@ -40,8 +40,9 @@ public class OpenAPIDocumentationConfig {
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("org.openapitools.api"))
                     .build()
-                .directModelSubstitute(org.threeten.bp.LocalDate.class, java.sql.Date.class)
-                .directModelSubstitute(org.threeten.bp.OffsetDateTime.class, java.util.Date.class)
+                .pathProvider(new BasePathAwareRelativePathProvider(servletContext, basePath))
+                .directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
+                .directModelSubstitute(java.time.OffsetDateTime.class, java.util.Date.class)
                 .apiInfo(apiInfo());
     }
 

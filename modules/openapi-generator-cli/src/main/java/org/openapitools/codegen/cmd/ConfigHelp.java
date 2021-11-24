@@ -39,15 +39,16 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
-@SuppressWarnings({"unused","java:S106"})
+@SuppressWarnings({"unused","java:S106", "java:S1192"})
 @Command(name = "config-help", description = "Config help for chosen lang")
 public class ConfigHelp extends OpenApiGeneratorCommand {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(ConfigHelp.class);
 
     private static final String FORMAT_TEXT = "text";
     private static final String FORMAT_MARKDOWN = "markdown";
     private static final String FORMAT_YAMLSAMPLE = "yamlsample";
+    private static final int FEATURE_SET_DISPLAY_WIDTH= 20;
 
     @Option(name = {"-g",
             "--generator-name"}, title = "generator name", description = "generator to get config help for")
@@ -85,7 +86,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             "--markdown-header"}, title = "markdown header", description = "When format=markdown, include this option to write out markdown headers (e.g. for docusaurus).")
     private Boolean markdownHeader;
 
-    @Option(name = {"--full-details"}, title = "full generator details", description = "displays CLI options as well as other configs/mappings (implies --instantiation-types, --reserved-words, --language-specific-primitives, --import-mappings, --supporting-files)")
+    @Option(name = {"--full-details"}, title = "full generator details", description = "displays CLI options as well as other configs/mappings (implies --instantiation-types, --reserved-words, --language-specific-primitives, --import-mappings, --feature-set)")
     private Boolean fullDetails;
 
     private String newline = System.lineSeparator();
@@ -135,8 +136,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
                     parentFolder.mkdirs();
                 }
 
-                try (Writer writer = new BufferedWriter(
-                        new OutputStreamWriter(new FileOutputStream(out), StandardCharsets.UTF_8))) {
+                try (FileOutputStream fileOutputStream = new FileOutputStream(out);
+                     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);
+                     Writer writer = new BufferedWriter(outputStreamWriter)) {
                     writer.write(sb.toString());
                 }
             } else {
@@ -147,7 +149,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             LOGGER.error("[error] Check the spelling of the generator's name and try again.");
             System.exit(1);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Unexpected error", e);
         }
     }
 
@@ -157,6 +159,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             sb.append("title: Config Options for ").append(generatorName).append(newline);
             sb.append("sidebar_label: ").append(generatorName).append(newline);
             sb.append("---").append(newline);
+            sb.append(newline);
+            sb.append("These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.");
+            sb.append(newline);
         } else {
             sb.append(newline);
             sb.append("## CONFIG OPTIONS");
@@ -396,7 +401,7 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             String definedByKey = "Defined By";
             int maxNameLength = flattened.stream().map(FeatureSet.FeatureSetFlattened::getFeatureName).mapToInt(String::length).max().orElse(nameKey.length());
             int maxSupportedLength = supportedKey.length();
-            int definedInLength = 20;
+            int definedInLength = FEATURE_SET_DISPLAY_WIDTH;
             String format = "%-" + maxNameLength + "s\t%-" + maxSupportedLength + "s\t%-" + definedInLength + "s";
 
             flattened.forEach(featureSet -> {

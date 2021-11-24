@@ -56,6 +56,8 @@ public class TypeHolderExample {
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
+  public TypeHolderExample() { 
+  }
 
   public TypeHolderExample stringItem(String stringItem) {
     
@@ -67,6 +69,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "what", required = true, value = "")
 
   public String getStringItem() {
@@ -89,6 +92,7 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "1.234", required = true, value = "")
 
   public BigDecimal getNumberItem() {
@@ -111,6 +115,7 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "1.234", required = true, value = "")
 
   public Float getFloatItem() {
@@ -133,6 +138,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "-2", required = true, value = "")
 
   public Integer getIntegerItem() {
@@ -155,6 +161,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "true", required = true, value = "")
 
   public Boolean getBoolItem() {
@@ -182,6 +189,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
 
   public List<Integer> getArrayItem() {
@@ -195,7 +203,7 @@ public class TypeHolderExample {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -216,7 +224,6 @@ public class TypeHolderExample {
     return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -235,7 +242,7 @@ public class TypeHolderExample {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

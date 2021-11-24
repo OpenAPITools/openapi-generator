@@ -86,7 +86,7 @@ public class BigCatAllOf implements Parcelable {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
-  public BigCatAllOf() {
+  public BigCatAllOf() { 
   }
 
   public BigCatAllOf kind(KindEnum kind) {
@@ -113,7 +113,7 @@ public class BigCatAllOf implements Parcelable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -129,7 +129,6 @@ public class BigCatAllOf implements Parcelable {
     return Objects.hash(kind);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -143,7 +142,7 @@ public class BigCatAllOf implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

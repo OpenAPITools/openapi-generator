@@ -15,10 +15,10 @@
   "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc --outDir dist/",
-    "prepublishOnly": "npm run build"
+    "prepare": "npm run build"
   },
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.21.4"
   },
   "devDependencies": {
     "@types/node": "^12.11.5",

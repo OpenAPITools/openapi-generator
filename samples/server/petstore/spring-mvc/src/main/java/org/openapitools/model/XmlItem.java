@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -9,13 +10,19 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
 
 /**
  * XmlItem
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
 public class XmlItem   {
 
   @JsonProperty("attribute_string")
@@ -230,7 +237,7 @@ public class XmlItem   {
 
   public XmlItem addWrappedArrayItem(Integer wrappedArrayItem) {
     if (this.wrappedArray == null) {
-      this.wrappedArray = new ArrayList<Integer>();
+      this.wrappedArray = new ArrayList<>();
     }
     this.wrappedArray.add(wrappedArrayItem);
     return this;
@@ -339,7 +346,7 @@ public class XmlItem   {
 
   public XmlItem addNameArrayItem(Integer nameArrayItem) {
     if (this.nameArray == null) {
-      this.nameArray = new ArrayList<Integer>();
+      this.nameArray = new ArrayList<>();
     }
     this.nameArray.add(nameArrayItem);
     return this;
@@ -367,7 +374,7 @@ public class XmlItem   {
 
   public XmlItem addNameWrappedArrayItem(Integer nameWrappedArrayItem) {
     if (this.nameWrappedArray == null) {
-      this.nameWrappedArray = new ArrayList<Integer>();
+      this.nameWrappedArray = new ArrayList<>();
     }
     this.nameWrappedArray.add(nameWrappedArrayItem);
     return this;
@@ -476,7 +483,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixArrayItem(Integer prefixArrayItem) {
     if (this.prefixArray == null) {
-      this.prefixArray = new ArrayList<Integer>();
+      this.prefixArray = new ArrayList<>();
     }
     this.prefixArray.add(prefixArrayItem);
     return this;
@@ -504,7 +511,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixWrappedArrayItem(Integer prefixWrappedArrayItem) {
     if (this.prefixWrappedArray == null) {
-      this.prefixWrappedArray = new ArrayList<Integer>();
+      this.prefixWrappedArray = new ArrayList<>();
     }
     this.prefixWrappedArray.add(prefixWrappedArrayItem);
     return this;
@@ -613,7 +620,7 @@ public class XmlItem   {
 
   public XmlItem addNamespaceArrayItem(Integer namespaceArrayItem) {
     if (this.namespaceArray == null) {
-      this.namespaceArray = new ArrayList<Integer>();
+      this.namespaceArray = new ArrayList<>();
     }
     this.namespaceArray.add(namespaceArrayItem);
     return this;
@@ -641,7 +648,7 @@ public class XmlItem   {
 
   public XmlItem addNamespaceWrappedArrayItem(Integer namespaceWrappedArrayItem) {
     if (this.namespaceWrappedArray == null) {
-      this.namespaceWrappedArray = new ArrayList<Integer>();
+      this.namespaceWrappedArray = new ArrayList<>();
     }
     this.namespaceWrappedArray.add(namespaceWrappedArrayItem);
     return this;
@@ -750,7 +757,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixNsArrayItem(Integer prefixNsArrayItem) {
     if (this.prefixNsArray == null) {
-      this.prefixNsArray = new ArrayList<Integer>();
+      this.prefixNsArray = new ArrayList<>();
     }
     this.prefixNsArray.add(prefixNsArrayItem);
     return this;
@@ -778,7 +785,7 @@ public class XmlItem   {
 
   public XmlItem addPrefixNsWrappedArrayItem(Integer prefixNsWrappedArrayItem) {
     if (this.prefixNsWrappedArray == null) {
-      this.prefixNsWrappedArray = new ArrayList<Integer>();
+      this.prefixNsWrappedArray = new ArrayList<>();
     }
     this.prefixNsWrappedArray.add(prefixNsWrappedArrayItem);
     return this;
@@ -801,7 +808,7 @@ public class XmlItem   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -887,7 +894,7 @@ public class XmlItem   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

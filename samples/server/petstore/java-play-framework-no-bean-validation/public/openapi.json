@@ -657,7 +657,7 @@
                 }
               },
               "X-Expires-After" : {
-                "description" : "date in UTC when toekn expires",
+                "description" : "date in UTC when token expires",
                 "schema" : {
                   "format" : "date-time",
                   "type" : "string"
@@ -1037,5 +1037,6 @@
         "type" : "apiKey"
       }
     }
-  }
+  },
+  "x-original-swagger-version" : "2.0"
 }

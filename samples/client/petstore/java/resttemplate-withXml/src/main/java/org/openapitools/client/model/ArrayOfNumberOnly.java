@@ -18,6 +18,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -25,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -34,6 +36,7 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
+@JsonTypeName("ArrayOfNumberOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ArrayOfNumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -46,6 +49,8 @@ public class ArrayOfNumberOnly {
   @XmlElement(name = "arrayNumber")
   private List<BigDecimal> arrayNumber = null;
 
+  public ArrayOfNumberOnly() { 
+  }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     
@@ -55,7 +60,7 @@ public class ArrayOfNumberOnly {
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
     if (this.arrayNumber == null) {
-      this.arrayNumber = new ArrayList<BigDecimal>();
+      this.arrayNumber = new ArrayList<>();
     }
     this.arrayNumber.add(arrayNumberItem);
     return this;
@@ -75,13 +80,15 @@ public class ArrayOfNumberOnly {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -97,7 +104,6 @@ public class ArrayOfNumberOnly {
     return Objects.hash(arrayNumber);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -111,7 +117,7 @@ public class ArrayOfNumberOnly {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

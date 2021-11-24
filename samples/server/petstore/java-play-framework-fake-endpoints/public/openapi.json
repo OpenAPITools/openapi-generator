@@ -1507,7 +1507,7 @@
         "x-accepts" : "application/json"
       }
     },
-    "/fake/test-query-paramters" : {
+    "/fake/test-query-parameters" : {
       "put" : {
         "description" : "To test the collection format in query parameters",
         "operationId" : "testQueryParameterCollectionFormat",
@@ -2831,14 +2831,16 @@
           "breed" : {
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "Cat_allOf" : {
         "properties" : {
           "declawed" : {
             "type" : "boolean"
           }
-        }
+        },
+        "type" : "object"
       },
       "BigCat_allOf" : {
         "properties" : {
@@ -2846,7 +2848,8 @@
             "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       }
     },
     "securitySchemes" : {
@@ -2877,5 +2880,6 @@
         "type" : "http"
       }
     }
-  }
+  },
+  "x-original-swagger-version" : "2.0"
 }

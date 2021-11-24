@@ -3,15 +3,17 @@ title: Config Options for apex
 sidebar_label: apex
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiVersion|The Metadata API version number to use for components in this package.| |null|
 |buildMethod|The build method for this package.| |null|
 |classPrefix|Prefix for generated classes. Set this to avoid overwriting existing classes in your org.| |null|
-|disallowAdditionalPropertiesIfNotPresent|Specify the behavior when the 'additionalProperties' keyword is not present in the OAS document. If false: the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. If true: when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.This setting is currently ignored for OAS 2.0 documents:  1) When the 'additionalProperties' keyword is not present in a 2.0 schema, additional properties are NOT allowed.  2) Boolean values of the 'additionalProperties' keyword are ignored. It's as if additional properties are NOT allowed.Note: the root cause are issues #1369 and #1371, which must be resolved in the swagger-parser project.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>when the 'additionalProperties' keyword is not present in a schema, the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. Note: this mode is not compliant with the JSON schema specification. This is the original openapi-generator behavior.</dd></dl>|true|
+|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|legacyDiscriminatorBehavior|This flag is used by OpenAPITools codegen to influence the processing of the discriminator attribute in OpenAPI documents. This flag has no impact if the OAS document does not use the discriminator attribute. The default value of this flag is set in each language-specific code generator (e.g. Python, Java, go...)using the method toModelName. Note to developers supporting a language generator in OpenAPITools; to fully support the discriminator attribute as defined in the OAS specification 3.x, language generators should set this flag to true by default; however this requires updating the mustache templates to generate a language-specific discriminator lookup function that iterates over {{#mappedModels}} and does not iterate over {{children}}, {{#anyOf}}, or {{#oneOf}}.|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |namedCredential|The named credential name for the HTTP callouts| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
@@ -62,6 +64,7 @@ sidebar_label: apex
 <li>begin</li>
 <li>bigdecimal</li>
 <li>blob</li>
+<li>boolean</li>
 <li>break</li>
 <li>bulk</li>
 <li>by</li>
@@ -75,7 +78,6 @@ sidebar_label: apex
 <li>commit</li>
 <li>const</li>
 <li>continue</li>
-<li>convertcurrency</li>
 <li>currency</li>
 <li>date</li>
 <li>datetime</li>
@@ -84,6 +86,7 @@ sidebar_label: apex
 <li>delete</li>
 <li>desc</li>
 <li>do</li>
+<li>double</li>
 <li>else</li>
 <li>end</li>
 <li>enum</li>
@@ -97,7 +100,6 @@ sidebar_label: apex
 <li>float</li>
 <li>for</li>
 <li>from</li>
-<li>future</li>
 <li>global</li>
 <li>goto</li>
 <li>group</li>
@@ -111,13 +113,10 @@ sidebar_label: apex
 <li>insert</li>
 <li>instanceof</li>
 <li>int</li>
+<li>integer</li>
 <li>interface</li>
 <li>into</li>
 <li>join</li>
-<li>last_90_days</li>
-<li>last_month</li>
-<li>last_n_days</li>
-<li>last_week</li>
 <li>like</li>
 <li>limit</li>
 <li>list</li>
@@ -126,10 +125,6 @@ sidebar_label: apex
 <li>map</li>
 <li>merge</li>
 <li>new</li>
-<li>next_90_days</li>
-<li>next_month</li>
-<li>next_n_days</li>
-<li>next_week</li>
 <li>not</li>
 <li>null</li>
 <li>nulls</li>
@@ -148,16 +143,14 @@ sidebar_label: apex
 <li>public</li>
 <li>retrieve</li>
 <li>return</li>
-<li>returning</li>
 <li>rollback</li>
-<li>savepoint</li>
-<li>search</li>
 <li>select</li>
 <li>set</li>
 <li>short</li>
+<li>sobject</li>
 <li>sort</li>
-<li>stat</li>
 <li>static</li>
+<li>string</li>
 <li>super</li>
 <li>switch</li>
 <li>synchronized</li>
@@ -165,28 +158,22 @@ sidebar_label: apex
 <li>testmethod</li>
 <li>then</li>
 <li>this</li>
-<li>this_month</li>
-<li>this_week</li>
 <li>throw</li>
 <li>time</li>
-<li>today</li>
-<li>tolabel</li>
-<li>tomorrow</li>
 <li>transaction</li>
 <li>trigger</li>
 <li>true</li>
 <li>try</li>
-<li>type</li>
 <li>undelete</li>
 <li>update</li>
 <li>upsert</li>
 <li>using</li>
 <li>virtual</li>
+<li>void</li>
 <li>webservice</li>
 <li>when</li>
 <li>where</li>
 <li>while</li>
-<li>yesterday</li>
 </ul>
 
 ## FEATURE SET
@@ -198,6 +185,7 @@ sidebar_label: apex
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

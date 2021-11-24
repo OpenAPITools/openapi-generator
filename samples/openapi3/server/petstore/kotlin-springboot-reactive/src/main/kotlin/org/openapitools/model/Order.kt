@@ -10,6 +10,7 @@ import javax.validation.constraints.Min
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
+import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
@@ -39,7 +40,7 @@ data class Order(
     @field:JsonProperty("status") val status: Order.Status? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @field:JsonProperty("complete") val complete: kotlin.Boolean? = null
+    @field:JsonProperty("complete") val complete: kotlin.Boolean? = false
 ) {
 
     /**

@@ -5,7 +5,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import org.openapitools.codegen.languages.JavaCXFExtServerCodegen;
@@ -262,6 +261,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_ASYNC, "true");
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_JAVA6, "false");
         additionalProperties.put(AbstractJavaCodegen.WITH_XML, "true");
+        additionalProperties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "false");
         // Options processed by AbstractJavaJAXRSServerCodegen
         additionalProperties.put(CodegenConstants.IMPL_FOLDER, "myimpl");
         additionalProperties.put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
@@ -336,6 +336,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(testerCodegen.isJava8Mode(), true);
         assertEquals(testerCodegen.isSupportAsync(), true);
         assertEquals(testerCodegen.isWithXml(), true);
+        assertEquals(testerCodegen.isOpenApiNullable(), false);
         // Options processed by AbstractJavaJAXRSServerCodegen
         assertEquals(testerCodegen.getImplFolder(), "myimpl");
         assertEquals(testerCodegen.isUseBeanValidation(), true);
@@ -367,82 +368,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
-    public void testAddOperationToGroup() throws Exception {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/tags.yaml", null, new ParseOptions())
-                .getOpenAPI();
-        codegen.setOutputDir(output.getAbsolutePath());
-
-        ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
-
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(input).generate();
-
-        WrittenTemplateBasedFile tag1File = TestUtils.getTemplateBasedFile(generator, output,
-                "src/gen/java/org/openapitools/api/Tag1Api.java");
-        assertEquals(tag1File.getTemplateData().get("baseName"), "Tag1");
-        assertEquals(tag1File.getTemplateData().get("commonPath"), "Tag1");
-        List<CodegenOperation> tag1List = getOperationsList(tag1File.getTemplateData());
-        assertEquals(tag1List.size(), 1);
-        assertEquals(tag1List.get(0).path, "/group1/op1");
-        assertEquals(tag1List.get(0).baseName, "Tag1");
-        assertEquals(tag1List.get(0).subresourceOperation, true);
-
-        WrittenTemplateBasedFile tag2File = TestUtils.getTemplateBasedFile(generator, output,
-                "src/gen/java/org/openapitools/api/Tag2Api.java");
-        assertEquals(tag2File.getTemplateData().get("baseName"), "Tag2");
-        assertEquals(tag2File.getTemplateData().get("commonPath"), "Tag2");
-        List<CodegenOperation> tag2List = getOperationsList(tag2File.getTemplateData());
-        assertEquals(tag2List.size(), 2);
-        assertEquals(tag2List.get(0).path, "/group1/op2");
-        assertEquals(tag2List.get(0).baseName, "Tag2");
-        assertEquals(tag2List.get(0).subresourceOperation, true);
-        assertEquals(tag2List.get(1).path, "/group2/op3");
-        assertEquals(tag2List.get(1).baseName, "Tag2");
-        assertEquals(tag2List.get(1).subresourceOperation, true);
-
-        WrittenTemplateBasedFile defaultFile = TestUtils.getTemplateBasedFile(generator, output,
-                "src/gen/java/org/openapitools/api/DefaultApi.java");
-        assertEquals(defaultFile.getTemplateData().get("baseName"), "Default");
-        assertEquals(defaultFile.getTemplateData().get("commonPath"), "Default");
-        List<CodegenOperation> defaultList = getOperationsList(defaultFile.getTemplateData());
-        assertEquals(defaultList.size(), 1);
-        assertEquals(defaultList.get(0).path, "/group3/op4");
-        assertEquals(defaultList.get(0).baseName, "Default");
-        assertEquals(defaultList.get(0).subresourceOperation, true);
-
-        WrittenTemplateBasedFile group4File = TestUtils.getTemplateBasedFile(generator, output,
-                "src/gen/java/org/openapitools/api/Group4Api.java");
-        assertEquals(group4File.getTemplateData().get("baseName"), "Group4");
-        assertEquals(group4File.getTemplateData().get("commonPath"), "Group4");
-        List<CodegenOperation> group4List = getOperationsList(group4File.getTemplateData());
-        assertEquals(group4List.size(), 2);
-        assertEquals(group4List.get(0).path, "/group4/op5");
-        assertEquals(group4List.get(0).baseName, "Group4");
-        assertEquals(group4List.get(0).subresourceOperation, true);
-        assertEquals(group4List.get(1).path, "/group4/op6");
-        assertEquals(group4List.get(1).baseName, "Group4");
-        assertEquals(group4List.get(1).subresourceOperation, true);
-
-        WrittenTemplateBasedFile group5File = TestUtils.getTemplateBasedFile(generator, output,
-                "src/gen/java/org/openapitools/api/Group5Api.java");
-        assertEquals(group5File.getTemplateData().get("baseName"), "Group5");
-        assertEquals(group5File.getTemplateData().get("commonPath"), "Group5");
-        List<CodegenOperation> group5List = getOperationsList(group5File.getTemplateData());
-        assertEquals(group5List.size(), 2);
-        assertEquals(group5List.get(0).path, "/group5/op7");
-        assertEquals(group5List.get(0).baseName, "Group5");
-        assertEquals(group5List.get(0).subresourceOperation, true);
-        assertEquals(group5List.get(1).path, "/group6/op8");
-        assertEquals(group5List.get(1).baseName, "Group5");
-        assertEquals(group5List.get(1).subresourceOperation, true);
-    }
-
-    @Test()
     public void testGenerateOperationBodyWithCodedTestData() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -455,8 +380,8 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(CXFExtServerFeatures.GENERATE_OPERATION_BODY, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
@@ -486,7 +411,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         checkFile(Paths.get(outputPath + "/test-data-control.json"), false);
     }
 
-    @Test()
+    @Test
     public void testGenerateOperationBodyWithJsonTestData() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -500,8 +425,8 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
@@ -588,6 +513,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertNull(additionalProperties.get(AbstractJavaCodegen.SUPPORT_ASYNC));
         assertEquals(additionalProperties.get(AbstractJavaCodegen.SUPPORT_JAVA6), Boolean.FALSE);
         assertEquals(additionalProperties.get(AbstractJavaCodegen.WITH_XML), false);
+        assertEquals(additionalProperties.get(AbstractJavaCodegen.OPENAPI_NULLABLE), true);
         // Options processed by AbstractJavaJAXRSServerCodegen
         assertNull(additionalProperties.get(CodegenConstants.IMPL_FOLDER));
         assertEquals(additionalProperties.get(BeanValidationFeatures.USE_BEANVALIDATION), Boolean.TRUE);

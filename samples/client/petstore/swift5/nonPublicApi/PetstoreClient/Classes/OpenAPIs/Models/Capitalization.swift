@@ -6,10 +6,11 @@
 //
 
 import Foundation
+#if canImport(AnyCodable)
+import AnyCodable
+#endif
 
-
-internal struct Capitalization: Codable { 
-
+internal struct Capitalization: Codable, Hashable {
 
     internal var smallCamel: String?
     internal var capitalCamel: String?
@@ -19,7 +20,7 @@ internal struct Capitalization: Codable {
     /** Name of the pet  */
     internal var ATT_NAME: String?
 
-    internal init(smallCamel: String?, capitalCamel: String?, smallSnake: String?, capitalSnake: String?, sCAETHFlowPoints: String?, ATT_NAME: String?) {
+    internal init(smallCamel: String? = nil, capitalCamel: String? = nil, smallSnake: String? = nil, capitalSnake: String? = nil, sCAETHFlowPoints: String? = nil, ATT_NAME: String? = nil) {
         self.smallCamel = smallCamel
         self.capitalCamel = capitalCamel
         self.smallSnake = smallSnake
@@ -28,7 +29,7 @@ internal struct Capitalization: Codable {
         self.ATT_NAME = ATT_NAME
     }
 
-    internal enum CodingKeys: String, CodingKey, CaseIterable { 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case smallCamel
         case capitalCamel = "CapitalCamel"
         case smallSnake = "small_Snake"
@@ -37,4 +38,16 @@ internal struct Capitalization: Codable {
         case ATT_NAME
     }
 
+    // Encodable protocol methods
+
+    internal func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(smallCamel, forKey: .smallCamel)
+        try container.encodeIfPresent(capitalCamel, forKey: .capitalCamel)
+        try container.encodeIfPresent(smallSnake, forKey: .smallSnake)
+        try container.encodeIfPresent(capitalSnake, forKey: .capitalSnake)
+        try container.encodeIfPresent(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
+        try container.encodeIfPresent(ATT_NAME, forKey: .ATT_NAME)
+    }
 }
+

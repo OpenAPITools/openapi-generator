@@ -20,6 +20,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -95,6 +96,8 @@ public class FormatTest {
   public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
   private BigDecimal bigDecimal;
 
+  public FormatTest() { 
+  }
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -117,6 +120,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInteger(Integer integer) {
     this.integer = integer;
   }
@@ -143,6 +148,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_INT32)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInt32(Integer int32) {
     this.int32 = int32;
   }
@@ -167,6 +174,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_INT64)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
@@ -183,6 +192,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -192,6 +202,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
@@ -218,6 +230,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFloat(Float _float) {
     this._float = _float;
   }
@@ -244,6 +258,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDouble(Double _double) {
     this._double = _double;
   }
@@ -268,6 +284,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setString(String string) {
     this.string = string;
   }
@@ -282,6 +300,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -291,6 +310,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BYTE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
@@ -315,6 +336,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BINARY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBinary(File binary) {
     this.binary = binary;
   }
@@ -329,6 +352,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -338,6 +362,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setDate(LocalDate date) {
     this.date = date;
   }
@@ -362,6 +388,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -386,6 +414,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
@@ -400,6 +430,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -409,6 +440,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setPassword(String password) {
     this.password = password;
   }
@@ -433,6 +466,8 @@ public class FormatTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
@@ -442,7 +477,7 @@ public class FormatTest {
    * Return true if this format_test object is equal to o.
    */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -471,7 +506,6 @@ public class FormatTest {
     return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -498,7 +532,7 @@ public class FormatTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

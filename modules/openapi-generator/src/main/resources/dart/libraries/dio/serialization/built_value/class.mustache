@@ -1,0 +1,147 @@
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
+
+part '{{classFilename}}.g.dart';
+
+{{!
+    Classes with polymorphism or composition may generate unused imports,
+    these need to be ignored for said classes so that there are no lint errors.
+}}
+{{#parentModel}}
+// ignore_for_file: unused_import
+
+{{/parentModel}}
+/// {{{description}}}{{^description}}{{classname}}{{/description}}
+{{#hasVars}}
+///
+/// Properties:
+{{#allVars}}
+/// * [{{{name}}}] {{#description}}- {{{.}}}{{/description}}
+{{/allVars}}
+{{/hasVars}}
+abstract class {{classname}} implements Built<{{classname}}, {{classname}}Builder> {
+{{#vars}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    @BuiltValueField(wireName: r'{{baseName}}')
+    {{>serialization/built_value/variable_type}}{{^isNullable}}{{^required}}?{{/required}}{{/isNullable}} get {{name}};
+    {{#allowableValues}}
+    // {{#min}}range from {{{min}}} to {{{max}}}{{/min}}{{^min}}enum {{name}}Enum { {{#values}} {{{.}}}, {{/values}} };{{/min}}
+    {{/allowableValues}}
+
+{{/vars}}
+    {{classname}}._();
+
+    @BuiltValueHook(initializeBuilder: true)
+    static void _defaults({{{classname}}}Builder b) => b{{#vars}}{{#defaultValue}}
+        ..{{{name}}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{defaultValue}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/vars}};
+
+    factory {{classname}}([void updates({{classname}}Builder b)]) = _${{classname}};
+
+    @BuiltValueSerializer(custom: true)
+    static Serializer<{{classname}}> get serializer => _${{classname}}Serializer();
+}
+
+{{!
+    Generate a custom serializer in order to support combinations of required and nullable.
+    By default built_value does not serialize null fields.
+}}
+class _${{classname}}Serializer implements StructuredSerializer<{{classname}}> {
+    @override
+    final Iterable<Type> types = const [{{classname}}, _${{classname}}];
+
+    @override
+    final String wireName = r'{{classname}}';
+
+    @override
+    Iterable<Object?> serialize(Serializers serializers, {{{classname}}} object,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = <Object?>[];
+        {{#vars}}
+        {{#required}}
+        {{!
+            A required property need to always be part of the serialized output.
+            When it is nullable, null is serialized, otherwise it is an error if it is null.
+        }}
+        result
+            ..add(r'{{baseName}}')
+            ..add({{#isNullable}}object.{{{name}}} == null ? null : {{/isNullable}}serializers.serialize(object.{{{name}}},
+                specifiedType: const {{>serialization/built_value/variable_serializer_type}}));
+        {{/required}}
+        {{^required}}
+        if (object.{{{name}}} != null) {
+            {{! Non-required properties are only serialized if not null. }}
+            result
+                ..add(r'{{baseName}}')
+                ..add(serializers.serialize(object.{{{name}}},
+                    specifiedType: const {{>serialization/built_value/variable_serializer_type}}));
+        }
+        {{/required}}
+        {{/vars}}
+        return result;
+    }
+
+    @override
+    {{classname}} deserialize(Serializers serializers, Iterable<Object?> serialized,
+        {FullType specifiedType = FullType.unspecified}) {
+        final result = {{classname}}Builder();
+
+        final iterator = serialized.iterator;
+        while (iterator.moveNext()) {
+            final key = iterator.current as String;
+            iterator.moveNext();
+            final Object? value = iterator.current;
+            
+            switch (key) {
+                {{#vars}}
+                case r'{{baseName}}':
+                    final valueDes = serializers.deserialize(value,
+                        specifiedType: const {{>serialization/built_value/variable_serializer_type}}) as {{>serialization/built_value/variable_type}};
+                    {{#isNullable}}
+                    if (valueDes == null) continue;
+                    {{/isNullable}}
+                    {{#isContainer}}
+                    result.{{{name}}}.replace(valueDes);
+                    {{/isContainer}}
+                    {{#isModel}}
+                    {{#isPrimitiveType}}
+                    {{! These are models that have nee manually marked as primitive via generator param. }}
+                    result.{{{name}}} = valueDes;
+                    {{/isPrimitiveType}}
+                    {{^isPrimitiveType}}
+                    result.{{{name}}}.replace(valueDes);
+                    {{/isPrimitiveType}}
+                    {{/isModel}}
+                    {{^isContainer}}
+                    {{^isModel}}
+                    result.{{{name}}} = valueDes;
+                    {{/isModel}}
+                    {{/isContainer}}
+                    break;
+                {{/vars}}
+            }
+        }
+        return result.build();
+    }
+}
+{{!
+    Generate an enum for any variables that are declared as inline enums
+    isEnum is only true for inline variables that are enums.
+    If an enum is declared as a definition, isEnum is false and the enum is generated from the
+    enum.mustache template.
+}}
+{{#vars}}
+    {{#isEnum}}
+        {{^isContainer}}
+
+{{>serialization/built_value/enum_inline}}
+        {{/isContainer}}
+        {{#isContainer}}
+            {{#mostInnerItems}}
+
+{{>serialization/built_value/enum_inline}}
+            {{/mostInnerItems}}
+        {{/isContainer}}
+    {{/isEnum}}
+{{/vars}}

@@ -17,7 +17,6 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 import java.util.Objects;
 
-import javax.xml.bind.annotation.*;
 
 @ApiModel(description = "A pet for sale in the pet store")
 public class Pet   {
@@ -33,11 +32,9 @@ public class Pet   {
   private List<Tag> tags = null;
 
 
-@XmlType(name="StatusEnum")
-@XmlEnum(String.class)
 public enum StatusEnum {
 
-    @XmlEnumValue("available") AVAILABLE(String.valueOf("available")), @XmlEnumValue("pending") PENDING(String.valueOf("pending")), @XmlEnumValue("sold") SOLD(String.valueOf("sold"));
+    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
 
 
     private String value;
@@ -194,7 +191,7 @@ public enum StatusEnum {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -234,7 +231,7 @@ public enum StatusEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

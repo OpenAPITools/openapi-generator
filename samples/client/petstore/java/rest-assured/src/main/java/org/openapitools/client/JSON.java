@@ -50,11 +50,12 @@ public class JSON {
     private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
     private ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
+    @SuppressWarnings("unchecked")
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
-                .registerTypeSelector(Animal.class, new TypeSelector() {
+                .registerTypeSelector(Animal.class, new TypeSelector<Animal>() {
                     @Override
-                    public Class getClassForElement(JsonElement readElement) {
+                    public Class<? extends Animal> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         classByDiscriminatorValue.put("BigCat", BigCat.class);
                         classByDiscriminatorValue.put("Cat", Cat.class);
@@ -64,18 +65,18 @@ public class JSON {
                                 getDiscriminatorValue(readElement, "className"));
                     }
           })
-                .registerTypeSelector(BigCat.class, new TypeSelector() {
+                .registerTypeSelector(BigCat.class, new TypeSelector<BigCat>() {
                     @Override
-                    public Class getClassForElement(JsonElement readElement) {
+                    public Class<? extends BigCat> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         classByDiscriminatorValue.put("BigCat", BigCat.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "className"));
                     }
           })
-                .registerTypeSelector(Cat.class, new TypeSelector() {
+                .registerTypeSelector(Cat.class, new TypeSelector<Cat>() {
                     @Override
-                    public Class getClassForElement(JsonElement readElement) {
+                    public Class<? extends Cat> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         classByDiscriminatorValue.put("BigCat", BigCat.class);
                         classByDiscriminatorValue.put("Cat", Cat.class);
@@ -83,9 +84,9 @@ public class JSON {
                                 getDiscriminatorValue(readElement, "className"));
                     }
           })
-                .registerTypeSelector(Dog.class, new TypeSelector() {
+                .registerTypeSelector(Dog.class, new TypeSelector<Dog>() {
                     @Override
-                    public Class getClassForElement(JsonElement readElement) {
+                    public Class<? extends Dog> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         classByDiscriminatorValue.put("Dog", Dog.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
@@ -150,6 +151,13 @@ public class JSON {
         return this;
     }
 
+    /**
+     * Configure the parser to be liberal in what it accepts.
+     *
+     * @param lenientOnJson Set it to true to ignore some syntax errors
+     * @return JSON
+     * @see <a href="https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html">https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html</a>
+     */
     public JSON setLenientOnJson(boolean lenientOnJson) {
         isLenientOnJson = lenientOnJson;
         return this;
@@ -178,7 +186,7 @@ public class JSON {
         try {
             if (isLenientOnJson) {
                 JsonReader jsonReader = new JsonReader(new StringReader(body));
-                // see https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/stream/JsonReader.html#setLenient(boolean)
+                // see https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/stream/JsonReader.html
                 jsonReader.setLenient(true);
                 return gson.fromJson(jsonReader, returnType);
             } else {

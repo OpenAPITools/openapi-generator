@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Org.OpenAPITools</AssemblyName>
+    <PackageId>Org.OpenAPITools</PackageId>
+    <OutputType>Library</OutputType>
+    <Authors>OpenAPI</Authors>
+    <Company>OpenAPI</Company>
+    <AssemblyTitle>OpenAPI Library</AssemblyTitle>
+    <Description>A library generated from a OpenAPI doc</Description>
+    <Copyright>No Copyright</Copyright>
+    <RootNamespace>Org.OpenAPITools</RootNamespace>
+    <Version>1.0.0</Version>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Org.OpenAPITools.xml</DocumentationFile>
+    <RepositoryUrl>https://github.com/GIT_USER_ID/GIT_REPO_ID.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>Minor update</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CompareNETObjects" Version="4.61.0" />
+    <PackageReference Include="JsonSubTypes" Version="1.8.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="RestSharp" Version="106.13.0" />
+    <PackageReference Include="Polly" Version="7.2.2" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>

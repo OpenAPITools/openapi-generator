@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -49,10 +50,12 @@ import java.util.HashSet;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -114,15 +117,30 @@ public class Triangle extends AbstractOpenApiSchema {
                     log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", discriminatorValue));
             }
 
+            boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
+            JsonToken token = tree.traverse(jp.getCodec()).nextToken();
             // deserialize EquilateralTriangle
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
-                // TODO: there is no validation against JSON schema constraints
-                // (min, max, enum, pattern...), this does not perform a strict JSON
-                // validation, which means the 'match' count may be higher than it should be.
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (EquilateralTriangle.class.equals(Integer.class) || EquilateralTriangle.class.equals(Long.class) || EquilateralTriangle.class.equals(Float.class) || EquilateralTriangle.class.equals(Double.class) || EquilateralTriangle.class.equals(Boolean.class) || EquilateralTriangle.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((EquilateralTriangle.class.equals(Integer.class) || EquilateralTriangle.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((EquilateralTriangle.class.equals(Float.class) || EquilateralTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (EquilateralTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (EquilateralTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
+                }
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'EquilateralTriangle'", e);
@@ -130,12 +148,25 @@ public class Triangle extends AbstractOpenApiSchema {
 
             // deserialize IsoscelesTriangle
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
-                // TODO: there is no validation against JSON schema constraints
-                // (min, max, enum, pattern...), this does not perform a strict JSON
-                // validation, which means the 'match' count may be higher than it should be.
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (IsoscelesTriangle.class.equals(Integer.class) || IsoscelesTriangle.class.equals(Long.class) || IsoscelesTriangle.class.equals(Float.class) || IsoscelesTriangle.class.equals(Double.class) || IsoscelesTriangle.class.equals(Boolean.class) || IsoscelesTriangle.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((IsoscelesTriangle.class.equals(Integer.class) || IsoscelesTriangle.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((IsoscelesTriangle.class.equals(Float.class) || IsoscelesTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (IsoscelesTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (IsoscelesTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
+                }
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'IsoscelesTriangle'", e);
@@ -143,12 +174,25 @@ public class Triangle extends AbstractOpenApiSchema {
 
             // deserialize ScaleneTriangle
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
-                // TODO: there is no validation against JSON schema constraints
-                // (min, max, enum, pattern...), this does not perform a strict JSON
-                // validation, which means the 'match' count may be higher than it should be.
-                match++;
-                log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
+                boolean attemptParsing = true;
+                // ensure that we respect type coercion as set on the client ObjectMapper
+                if (ScaleneTriangle.class.equals(Integer.class) || ScaleneTriangle.class.equals(Long.class) || ScaleneTriangle.class.equals(Float.class) || ScaleneTriangle.class.equals(Double.class) || ScaleneTriangle.class.equals(Boolean.class) || ScaleneTriangle.class.equals(String.class)) {
+                    attemptParsing = typeCoercion;
+                    if (!attemptParsing) {
+                        attemptParsing |= ((ScaleneTriangle.class.equals(Integer.class) || ScaleneTriangle.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
+                        attemptParsing |= ((ScaleneTriangle.class.equals(Float.class) || ScaleneTriangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
+                        attemptParsing |= (ScaleneTriangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                        attemptParsing |= (ScaleneTriangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                    }
+                }
+                if (attemptParsing) {
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
+                }
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'ScaleneTriangle'", e);
@@ -172,7 +216,7 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
 
     public Triangle() {
         super("oneOf", Boolean.FALSE);
@@ -266,7 +310,8 @@ public class Triangle extends AbstractOpenApiSchema {
 
     /**
      * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas.
+     * the instance parameter is valid against the oneOf child schemas:
+     * EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -291,7 +336,49 @@ public class Triangle extends AbstractOpenApiSchema {
         throw new RuntimeException("Invalid instance type. Must be EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle");
     }
 
+    /**
+     * Get the actual instance, which can be the following:
+     * EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle
+     *
+     * @return The actual instance (EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle)
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
 
+    /**
+     * Get the actual instance of `EquilateralTriangle`. If the actual instance is not `EquilateralTriangle`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `EquilateralTriangle`
+     * @throws ClassCastException if the instance is not `EquilateralTriangle`
+     */
+    public EquilateralTriangle getEquilateralTriangle() throws ClassCastException {
+        return (EquilateralTriangle)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `IsoscelesTriangle`. If the actual instance is not `IsoscelesTriangle`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `IsoscelesTriangle`
+     * @throws ClassCastException if the instance is not `IsoscelesTriangle`
+     */
+    public IsoscelesTriangle getIsoscelesTriangle() throws ClassCastException {
+        return (IsoscelesTriangle)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `ScaleneTriangle`. If the actual instance is not `ScaleneTriangle`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `ScaleneTriangle`
+     * @throws ClassCastException if the instance is not `ScaleneTriangle`
+     */
+    public ScaleneTriangle getScaleneTriangle() throws ClassCastException {
+        return (ScaleneTriangle)super.getActualInstance();
+    }
 
 }
 

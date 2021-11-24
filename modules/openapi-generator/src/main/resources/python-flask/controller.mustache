@@ -8,10 +8,10 @@ from {{packageName}} import util
 {{#operation}}
 
 
-def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}):  # noqa: E501
-    """{{#summary}}{{.}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}
+def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):  # noqa: E501
+    """{{summary}}{{^summary}}{{operationId}}{{/summary}}
 
-    {{#notes}}{{.}}{{/notes}} # noqa: E501
+    {{notes}} # noqa: E501
 
     {{#allParams}}
     :param {{paramName}}: {{description}}
@@ -33,7 +33,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{/isFile}}
             {{/isPrimitiveType}}
         {{/isContainer}}
-        {{#isListContainer}}
+        {{#isArray}}
             {{#items}}
                 {{#isPrimitiveType}}
     :type {{paramName}}: List[{{>param_type}}]
@@ -42,8 +42,8 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
     :type {{paramName}}: list | bytes
                 {{/isPrimitiveType}}
             {{/items}}
-        {{/isListContainer}}
-        {{#isMapContainer}}
+        {{/isArray}}
+        {{#isMap}}
             {{#items}}
                 {{#isPrimitiveType}}
     :type {{paramName}}: Dict[str, {{>param_type}}]
@@ -52,10 +52,10 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
     :type {{paramName}}: dict | bytes
                 {{/isPrimitiveType}}
             {{/items}}
-        {{/isMapContainer}}
+        {{/isMap}}
     {{/allParams}}
 
-    :rtype: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}None{{/returnType}}
+    :rtype: {{returnType}}{{^returnType}}None{{/returnType}}
     """
     {{#allParams}}
         {{^isContainer}}
@@ -69,12 +69,12 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
                 {{^isFile}}
                     {{^isUuid}}
     if connexion.request.is_json:
-        {{paramName}} = {{#baseType}}{{baseType}}{{/baseType}}{{^baseType}}{{#dataType}} {{dataType}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+        {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}} {{.}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
         {{/isContainer}}
-        {{#isListContainer}}
+        {{#isArray}}
             {{#items}}
                 {{#isDate}}
     if connexion.request.is_json:
@@ -89,8 +89,8 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
         {{paramName}} = [{{complexType}}.from_dict(d) for d in connexion.request.get_json()]  # noqa: E501
                 {{/complexType}}
             {{/items}}
-        {{/isListContainer}}
-        {{#isMapContainer}}
+        {{/isArray}}
+        {{#isMap}}
             {{#items}}
                 {{#isDate}}
     if connexion.request.is_json:
@@ -105,7 +105,7 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
         {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
                 {{/complexType}}
             {{/items}}
-        {{/isMapContainer}}
+        {{/isMap}}
     {{/allParams}}
     return 'do some magic!'
 {{/operation}}

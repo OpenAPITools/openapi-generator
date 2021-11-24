@@ -15,9 +15,12 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 
 /**
  * ArrayTest
@@ -45,9 +49,10 @@ public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
+  public ArrayTest() { 
+  }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
-    
     this.arrayOfString = arrayOfString;
     return this;
   }
@@ -74,13 +79,14 @@ public class ArrayTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
 
 
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
-    
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -107,13 +113,14 @@ public class ArrayTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
 
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
-    
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
@@ -140,13 +147,18 @@ public class ArrayTest {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
 
+  /**
+   * Return true if this ArrayTest object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -164,7 +176,6 @@ public class ArrayTest {
     return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -180,7 +191,7 @@ public class ArrayTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -21,10 +21,12 @@ import {{packageName}}.auth.HttpBearerAuth
 {{/authMethods}}
 {{/hasAuthMethods}}
 
+import okhttp3.Call
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.converter.scalars.ScalarsConverterFactory
 {{#useRxJava}}
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -32,6 +34,9 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 {{#useRxJava2}}
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 {{/useRxJava2}}
+{{#useRxJava3}}
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+{{/useRxJava3}}
 {{#gson}}
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -42,10 +47,18 @@ import com.squareup.moshi.Moshi
 import retrofit2.converter.moshi.MoshiConverterFactory
 {{/moshi}}
 
+{{#kotlinx_serialization}}
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import {{packageName}}.infrastructure.Serializer.jvmJson
+import okhttp3.MediaType.Companion.toMediaType
+{{/kotlinx_serialization}}
+
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
     private var baseUrl: String = defaultBasePath,
-    private val okHttpClientBuilder: OkHttpClient.Builder? = null,
-    private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder
+    private val okHttpClientBuilder: OkHttpClient.Builder? = null{{^kotlinx_serialization}},
+    private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder{{/kotlinx_serialization}},
+    private val callFactory : Call.Factory? = null,
+    private val converterFactory: Converter.Factory? = null,
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -62,10 +75,20 @@ import retrofit2.converter.moshi.MoshiConverterFactory
             {{/useRxJava}}
             {{#useRxJava2}}
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            {{/useRxJava2}}
+            {{/useRxJava2}}{{#useRxJava3}}
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            {{/useRxJava3}}
             {{#moshi}}
             .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
             {{/moshi}}
+            {{#kotlinx_serialization}}
+            .addConverterFactory(jvmJson.asConverterFactory("application/json".toMediaType()))
+            {{/kotlinx_serialization}}
+            .apply {
+                if (converterFactory != null) {
+                    addConverterFactory(converterFactory)
+                }
+            }
     }
 
     private val clientBuilder: OkHttpClient.Builder by lazy {
@@ -92,12 +115,12 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
-        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
+        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,{{/kotlinx_serialization}}
         authNames: Array<String>
-    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder) {
+    ) : this(baseUrl, okHttpClientBuilder{{^kotlinx_serialization}}, serializerBuilder{{/kotlinx_serialization}}) {
         authNames.forEach { authName ->
             val auth = when (authName) {
-                {{#authMethods}}"{{name}}" -> {{#isBasic}}{{#isBasicBasic}}HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}"){{/isOAuth}}{{/authMethods}}
+                {{#authMethods}}"{{name}}" -> {{#isBasic}}{{#isBasicBasic}}HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}"){{/isOAuth}}{{/authMethods}}
                 else -> throw RuntimeException("auth name $authName not found in available auth names")
             }
             addAuthorization(authName, auth);
@@ -110,11 +133,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
-        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
-        authName: String, 
-        username: String, 
+        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,{{/kotlinx_serialization}}
+        authName: String,
+        username: String,
         password: String
-    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
+    ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         setCredentials(username, password)
     }
 
@@ -123,10 +146,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
-        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
-        authName: String, 
+        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,{{/kotlinx_serialization}}
+        authName: String,
         bearerToken: String
-    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
+    ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         setBearerToken(bearerToken)
     }
 
@@ -137,13 +160,13 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
-        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
-        authName: String, 
-        clientId: String, 
-        secret: String, 
-        username: String, 
+        {{^kotlinx_serialization}}serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,{{/kotlinx_serialization}}
+        authName: String,
+        clientId: String,
+        secret: String,
+        username: String,
         password: String
-    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
+    ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         getTokenEndPoint()
             ?.setClientId(clientId)
             ?.setClientSecret(secret)
@@ -163,7 +186,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             tokenRequestBuilder.setUsername(username).setPassword(password)
         }
-        {{/hasOAuthMethods}}    
+        {{/hasOAuthMethods}}
         return this
     }
 
@@ -176,7 +199,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         }
         return this
     }
-    {{/hasOAuthMethods}}    
+    {{/hasOAuthMethods}}
     {{/isBasicBasic}}
     {{#isBasicBearer}}
     fun setBearerToken(bearerToken: String): ApiClient {
@@ -281,7 +304,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        return retrofitBuilder.client(clientBuilder.build()).build().create(serviceClass)
+        val usedCallFactory = this.callFactory ?: clientBuilder.build()
+        return retrofitBuilder.callFactory(usedCallFactory).build().create(serviceClass)
     }
 
     private fun normalizeBaseUrl() {
@@ -299,10 +323,13 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         }
     }
 
-    companion object {        
+    companion object {
+        @JvmStatic
+        protected val baseUrlKey = "{{packageName}}.baseUrl"
+
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("{{packageName}}.baseUrl", "{{{basePath}}}")
+            System.getProperties().getProperty(baseUrlKey, "{{{basePath}}}")
         }
     }
 }

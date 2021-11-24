@@ -1,10 +1,11 @@
 {{>licenseInfo}}
-import localVarRequest = require('request');
-import http = require('http');
+
+import localVarRequest from 'request';
+import http from 'http';
 
 /* tslint:disable:no-unused-locals */
 {{#imports}}
-import { {{classname}} } from '../{{filename}}';
+import { {{classname}} } from '{{filename}}';
 {{/imports}}
 
 import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
@@ -153,13 +154,13 @@ export class {{classname}} {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public async {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
+    public async {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }> {
         const localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
 {{#hasProduces}}
-        const produces = [{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}];
+        const produces = [{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}];
         // give precedence to 'application/json'
         if (produces.indexOf('application/json') >= 0) {
             localVarHeaderParams.Accept = 'application/json';
@@ -260,15 +261,15 @@ export class {{classname}} {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.{{#supportsES6}}IncomingMessage{{/supportsES6}}{{^supportsES6}}ClientResponse{{/supportsES6}}; {{#returnType}}body: {{{returnType}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
-                        {{#returnType}}
-                        body = ObjectSerializer.deserialize(body, "{{{returnType}}}");
-                        {{/returnType}}
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
+                            {{#returnType}}
+                            body = ObjectSerializer.deserialize(body, "{{{.}}}");
+                            {{/returnType}}
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));

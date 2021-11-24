@@ -20,7 +20,6 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -80,7 +79,7 @@ public class KotlinTestUtils {
         } else {
             String s;
             try {
-                s = new String(baos.toByteArray(), "UTF-8");
+                s = baos.toString("UTF-8");
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }

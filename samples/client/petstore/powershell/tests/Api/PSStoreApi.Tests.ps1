@@ -8,7 +8,7 @@
 Describe -tag 'PSPetstore' -name 'PSPSStoreApi' {
     Context 'Remove-PSOrder' {
         It 'Test Remove-PSOrder' {
-            #$TestResult = Invoke-PetApiGetPetById -OrderId "TEST_VALUE"
+            #$TestResult = Remove-PSOrder -OrderId "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -16,7 +16,7 @@ Describe -tag 'PSPetstore' -name 'PSPSStoreApi' {
 
     Context 'Get-PSInventory' {
         It 'Test Get-PSInventory' {
-            #$TestResult = Invoke-PetApiGetPetById
+            #$TestResult = Get-PSInventory
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -24,7 +24,7 @@ Describe -tag 'PSPetstore' -name 'PSPSStoreApi' {
 
     Context 'Get-PSOrderById' {
         It 'Test Get-PSOrderById' {
-            #$TestResult = Invoke-PetApiGetPetById -OrderId "TEST_VALUE"
+            #$TestResult = Get-PSOrderById -OrderId "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }
@@ -32,7 +32,7 @@ Describe -tag 'PSPetstore' -name 'PSPSStoreApi' {
 
     Context 'Invoke-PSPlaceOrder' {
         It 'Test Invoke-PSPlaceOrder' {
-            #$TestResult = Invoke-PetApiGetPetById -Order "TEST_VALUE"
+            #$TestResult = Invoke-PSPlaceOrder -Order "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }

@@ -2,7 +2,7 @@
 id: integrations
 title: Workflow Integrations
 ---
-## Workflow Integration (Maven, GitHub, CI/CD)
+## Workflow Integration (Gradle, Maven, GitHub, CI/CD)
 
 ### Gradle Integration
 
@@ -27,6 +27,10 @@ Please refer to https://github.com/upstart-commerce/sbt-openapi-generator
 
 Please refer to https://github.com/OpenAPITools/openapi-generator-bazel
 
+### Cake Addin
+
+3rd-party Cake Addin provided by [Lukas Körfer](https://github.com/lukoerfer): https://github.com/lukoerfer/cake-openapi-generator
+
 ### GitHub Integration
 
 To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline the process. For example:
@@ -36,7 +40,7 @@ To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline
  2) Generate the SDK
 ```sh
  java -jar openapi-generator-cli.jar generate \
- -i modules/openapi-generator/src/test/resources/2_0/petstore.json -g perl \
+ -i modules/openapi-generator/src/test/resources/3_0/petstore.json -g perl \
  --git-user-id "wing328" \
  --git-repo-id "petstore-perl" \
  --release-note "GitHub integration demo" \

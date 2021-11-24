@@ -1,6 +1,6 @@
 {{>licenseInfo}}
 
-package {{invokerPackage}}.model;
+package {{modelPackage}};
 
 import {{invokerPackage}}.ApiException;
 import java.util.Objects;
@@ -95,7 +95,7 @@ public abstract class AbstractOpenApiSchema {
      * Convert the given object to string with each line indented by 4 spaces
      * (except the first line).
      */
-    private String toIndentedString(java.lang.Object o) {
+    private String toIndentedString(Object o) {
         if (o == null) {
             return "null";
         }
@@ -121,7 +121,7 @@ public abstract class AbstractOpenApiSchema {
     }
 
     /**
-     * Is nullalble
+     * Is nullable
      *
      * @return true if it's nullable
      */

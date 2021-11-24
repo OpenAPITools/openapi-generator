@@ -100,4 +100,6 @@ int main() {
 	}
 	list_free(elementToReturn);
 	apiClient_free(apiClient5);
+
+	apiClient_unsetupGlobalEnv();
 }

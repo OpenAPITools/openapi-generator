@@ -91,6 +91,8 @@ const callouts = [
             <li>Maven Plugin</li>
             <li>Gradle Plugin</li>
             <li>Bazel Plugin</li>
+            <li>SBT Plugin</li>
+            <li>Cake Plugin</li>
             <li>CLI via Homebrew</li>
             <li>CLI via Docker</li>
             <li>CLI via npm</li>
@@ -144,8 +146,8 @@ const callouts = [
                    |# install the latest version of "openapi-generator-cli"
                    |npm install @openapitools/openapi-generator-cli -g
                    |
-                   |# install a specific version of "openapi-generator-cli"
-                   |npm install @openapitools/openapi-generator-cli@cli-4.3.1 -g
+                   |# use a specific version of "openapi-generator-cli"
+                   |openapi-generator-cli version-manager set 5.3.0
                    |
                    |# Or install it as dev-dependency in your node.js projects
                    |npm install @openapitools/openapi-generator-cli -D
@@ -154,11 +156,11 @@ const callouts = [
                 {/*  <!-- /RELEASE_VERSION --> */}
 
                 <p>Then, <strong>generate</strong> a ruby client from a valid <a
-                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
+                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
                     className="href">petstore.yaml</a> doc:</p>
 
                 <p><CodeBlock className="bash">{`
-                openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
+                openapi-generator-cli generate -i petstore.yaml -g ruby -o /tmp/test/
                 `}</CodeBlock></p>
             </>
         ),
@@ -175,7 +177,7 @@ const callouts = [
 
                 <p>
                     Then, <strong>generate</strong> a ruby client from a valid <a
-                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
+                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
                     className="href">petstore.yaml</a> doc:
                 </p>
 
@@ -193,7 +195,7 @@ const callouts = [
                     installing via homebrew, or for developers who are unable to install Java or upgrade the installed
                     version.</p>
                 <p>To generate code from a valid <a
-                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml">petstore.yaml</a> doc
+                    href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml">petstore.yaml</a> doc
                     with this image, you'll need to mount a local location as a volume.
                 </p>
                 <p>

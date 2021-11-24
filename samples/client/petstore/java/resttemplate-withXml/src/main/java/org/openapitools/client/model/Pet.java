@@ -18,7 +18,9 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import java.util.Set;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -42,6 +45,7 @@ import javax.xml.bind.annotation.*;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
+@JsonTypeName("Pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -65,7 +69,7 @@ public class Pet {
   // items.example= items.type=String
   @XmlElement(name = "photoUrls")
   @XmlElementWrapper(name = "photoUrl")
-  private Set<String> photoUrls = new LinkedHashSet<String>();
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   // Is a container wrapped=true
@@ -78,11 +82,16 @@ public class Pet {
   /**
    * pet status in the store
    */
+  @XmlType(name="StatusEnum")
+  @XmlEnum(String.class)
   public enum StatusEnum {
+    @XmlEnumValue("available")
     AVAILABLE("available"),
     
+    @XmlEnumValue("pending")
     PENDING("pending"),
     
+    @XmlEnumValue("sold")
     SOLD("sold");
 
     private String value;
@@ -116,6 +125,8 @@ public class Pet {
   @XmlElement(name = "status")
   private StatusEnum status;
 
+  public Pet() { 
+  }
 
   public Pet id(Long id) {
     
@@ -138,6 +149,9 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
   public void setId(Long id) {
     this.id = id;
   }
@@ -164,6 +178,9 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "category")
   public void setCategory(Category category) {
     this.category = category;
   }
@@ -179,6 +196,7 @@ public class Pet {
    * Get name
    * @return name
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -189,6 +207,9 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "name")
   public void setName(String name) {
     this.name = name;
   }
@@ -209,6 +230,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
+  @javax.annotation.Nonnull
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -220,6 +242,11 @@ public class Pet {
   }
 
 
+  @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  // items.xmlName=
+  @JacksonXmlElementWrapper(useWrapping = true, localName = "photoUrls")
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -233,7 +260,7 @@ public class Pet {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;
@@ -255,6 +282,10 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_TAGS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlElementWrapper(useWrapping = true, localName = "tags")
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -281,13 +312,16 @@ public class Pet {
   }
 
 
+  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "status")
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -308,7 +342,6 @@ public class Pet {
     return Objects.hash(id, category, name, photoUrls, tags, status);
   }
 
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -327,7 +360,7 @@ public class Pet {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

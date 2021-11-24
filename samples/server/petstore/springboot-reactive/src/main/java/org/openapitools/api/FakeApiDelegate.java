@@ -8,7 +8,6 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
-import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
@@ -20,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.springframework.http.codec.multipart.Part;
 
 import java.util.List;
 import java.util.Map;
@@ -83,7 +83,7 @@ public interface FakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
                 String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
         }
@@ -171,7 +171,7 @@ public interface FakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"client\" : \"client\" }";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
         }
@@ -210,7 +210,7 @@ public interface FakeApiDelegate {
         Long int64,
         Float _float,
         String string,
-        MultipartFile binary,
+        Flux<Part> binary,
         LocalDate date,
         OffsetDateTime dateTime,
         String password,
@@ -226,9 +226,9 @@ public interface FakeApiDelegate {
      * GET /fake : To test enum parameters
      * To test enum parameters
      *
-     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -286,7 +286,7 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testInlineAdditionalProperties
      */
-    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<String> param,
+    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<Map<String, String>> param,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -312,7 +312,7 @@ public interface FakeApiDelegate {
     }
 
     /**
-     * PUT /fake/test-query-paramters
+     * PUT /fake/test-query-parameters
      * To test the collection format in query parameters
      *
      * @param pipe  (required)
@@ -345,7 +345,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#uploadFileWithRequiredFile
      */
     default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(Long petId,
-        MultipartFile requiredFile,
+        Flux<Part> requiredFile,
         String additionalMetadata,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
@@ -353,7 +353,7 @@ public interface FakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
-                result = ApiUtil.getExampleResponse(exchange, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
                 break;
             }
         }
