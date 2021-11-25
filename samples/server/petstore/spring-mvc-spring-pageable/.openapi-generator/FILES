@@ -14,6 +14,7 @@ src/main/java/org/openapitools/api/StoreApiController.java
 src/main/java/org/openapitools/api/UserApi.java
 src/main/java/org/openapitools/api/UserApiController.java
 src/main/java/org/openapitools/configuration/HomeController.java
+src/main/java/org/openapitools/configuration/OpenAPIDocumentationConfig.java
 src/main/java/org/openapitools/configuration/OpenAPIUiConfiguration.java
 src/main/java/org/openapitools/configuration/RFC3339DateFormat.java
 src/main/java/org/openapitools/configuration/WebApplication.java
@@ -63,4 +64,3 @@ src/main/java/org/openapitools/model/TypeHolderExample.java
 src/main/java/org/openapitools/model/User.java
 src/main/java/org/openapitools/model/XmlItem.java
 src/main/resources/application.properties
-src/main/resources/openapi.yaml
