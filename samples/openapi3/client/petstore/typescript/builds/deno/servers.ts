@@ -59,7 +59,7 @@ export class ServerConfiguration<T extends { [key: string]: string }> implements
      *
      */
     public makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext {
-        return new RequestContext(this.getUrl() + endpoint, httpMethod, this.headers);
+        return new RequestContext(this.getUrl() + endpoint, httpMethod, Object.assign({}, this.headers));
     }
 }
 
