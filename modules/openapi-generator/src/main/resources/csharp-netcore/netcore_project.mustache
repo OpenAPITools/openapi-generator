@@ -36,7 +36,9 @@
       {{#useGenericHost}}
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+      {{#supportsRetry}}
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="5.0.1" />
+      {{/supportsRetry}}
       {{/useGenericHost}}
       {{#supportsRetry}}
     <PackageReference Include="Polly" Version="7.2.2" />

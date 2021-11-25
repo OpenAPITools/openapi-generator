@@ -13,20 +13,17 @@ namespace {{packageName}}.Client
     {
         private string _raw;
 
-        private bool _useCookieContainer;
-
         /// <summary>
         /// Constructs an ApiKeyToken object.
         /// </summary>
         /// <param name="tokenTimeOut"></param>
         /// <param name="value"></param>
-        /// <param name="useCookieContainer"></param>
-        public ApiKeyToken(TimeSpan tokenTimeOut, string value, bool useCookieContainer = false) : base(tokenTimeOut)
+        /// <param name="prefix"></param>
+        public ApiKeyToken(TimeSpan tokenTimeOut, string value, string prefix = "Bearer ") : base(tokenTimeOut)
         {
-            _raw = value;
-
-            _useCookieContainer = useCookieContainer;
+            _raw = $"{ prefix }{ value }";
         }
+
         /// <summary>
         /// Places the token in the cookie.
         /// </summary>
@@ -34,8 +31,7 @@ namespace {{packageName}}.Client
         /// <param name="cookieName"></param>
         public virtual void UseInCookie(System.Net.Http.HttpRequestMessage request, string cookieName)
         {
-            if (!_useCookieContainer)
-                request.Headers.Add("Cookie", $"{ cookieName }=_raw");
+            request.Headers.Add("Cookie", $"{ cookieName }=_raw");
         }
 
         /// <summary>

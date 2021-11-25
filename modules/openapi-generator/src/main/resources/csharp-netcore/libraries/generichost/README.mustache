@@ -33,16 +33,16 @@ namespace YourProject
         {
             var host = CreateHostBuilder(args).Build();
 
-            var api = host.Services.GetRequiredService<{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#-first}}{{#operation}}{{operationId}}>();
+            var api = host.Services.GetRequiredService<{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#-first}}{{#operation}}{{#-first}}{{operationId}}>();
             
-            ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> foo = await api.{{operationId}}WithHttpInfoAsync("todo");{{/operation}}{{/-first}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
+            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> foo = await api.{{operationId}}WithHttpInfoAsync("todo");{{/-first}}{{/operation}}{{/-first}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-          .Configure{{packageName}}((context, options) =>
+          .Configure{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}((context, options) =>
           {
               // the type of token here depends on the api security specifications
-              ApiKeyToken token = new(TimeSpan.FromSeconds(1), $"Bearer <your token>");
+              ApiKeyToken token = new(TimeSpan.FromSeconds(1), $"<your token>");
               options.AddTokens(token);
 
               options.ConfigureJsonOptions((jsonOptions) =>
@@ -51,10 +51,10 @@ namespace YourProject
                   jsonOptions.Converters.Add(new JsonStringEnumConverter());
               });
 
-              options.ConfigureClients(client => client
+              options.ConfigureClients(client => {{#supportsRetry}}client
                 .AddRetryPolicy(2)
                 .AddTimeoutPolicy(TimeSpan.FromSeconds(5))
-                .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30))
+                .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30)){{/supportsRetry}}
                 // add whatever middleware you prefer
               );
           });

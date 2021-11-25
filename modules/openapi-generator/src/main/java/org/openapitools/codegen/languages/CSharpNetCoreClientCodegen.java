@@ -573,6 +573,20 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         if (GENERICHOST.equals(getLibrary())){
             setLibrary(GENERICHOST);
             additionalProperties.put("useGenericHost", true);
+            String projectName = (String) additionalProperties.getOrDefault("projectName", "");
+            LOGGER.warn("Project name is " + projectName);
+
+            if (Boolean.FALSE.equals(projectName.matches("^[a-zA-Z0-9_]*$"))){
+                throw new RuntimeException("a");
+            }
+
+            if (!"".equals(projectName) && Boolean.FALSE.equals(projectName.matches("^[a-zA-Z].*"))){
+                throw new RuntimeException("b");
+            }
+
+            if (!"".equals(projectName) && (Boolean.FALSE.equals(projectName.matches("^[a-zA-Z0-9_]*$")) || Boolean.FALSE.equals(projectName.matches("^[a-zA-Z].*")))){
+                throw new RuntimeException("Invalid project name " + projectName + ". May only contain alphanumeric characaters or underscore and start with a letter.");
+            }
         } else if (RESTSHARP.equals(getLibrary())) {
             additionalProperties.put("useRestSharp", true);
             needsCustomHttpMethod = true;

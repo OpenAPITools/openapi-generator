@@ -166,19 +166,17 @@ namespace {{packageName}}.{{apiPackage}}
         {
             try
             {
-                {{#allParams}}{{#-first}}#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'{{/-first}}{{#required}}{{#nullableReferenceTypes}}
-{{! TODO: add a collection of allRequiredParams so the above does not occur if all parameters are optional }}
+                {{#hasRequiredParams}}#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'{{/hasRequiredParams}}{{#allParams}}{{#required}}{{#nullableReferenceTypes}}
 
                 if ({{paramName}} == null)
                     throw new ArgumentNullException(nameof({{paramName}}));{{/nullableReferenceTypes}}{{^nullableReferenceTypes}}{{^vendorExtensions.x-csharp-value-type}}
                     
                 if ({{paramName}} == null)
-                    throw new ArgumentNullException(nameof({{paramName}}));{{/vendorExtensions.x-csharp-value-type}}{{/nullableReferenceTypes}}{{/required}}{{#-last}}
+                    throw new ArgumentNullException(nameof({{paramName}}));{{/vendorExtensions.x-csharp-value-type}}{{/nullableReferenceTypes}}{{/required}}{{/allParams}}{{#hasRequiredParams}}
+                    
+                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 
-                #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'{{/-last}}{{/allParams}}
-{{! TODO: add a collection of allRequiredParams so the above does not occur if all parameters are optional }}
-
-                using HttpRequestMessage request = new HttpRequestMessage();
+                {{/hasRequiredParams}}using HttpRequestMessage request = new HttpRequestMessage();
 
                 UriBuilder uriBuilder = new UriBuilder();
                 uriBuilder.Host = ClientUtils.HOST;
