@@ -1,5 +1,6 @@
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'com.diffplug.spotless'
 
 group = 'org.openapitools'
 version = '1.0.0'
@@ -11,6 +12,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.+'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.diffplug.spotless:spotless-plugin-gradle:5.17.1'
     }
 }
 
@@ -128,4 +130,28 @@ dependencies {
 
 javadoc {
     options.tags = [ "http.response.details:a:Http Response Details" ]
+}
+
+// Use spotless plugin to automatically format code, remove unused import, etc
+// To apply changes directly to the file, run `gradlew spotlessApply`
+// Ref: https://github.com/diffplug/spotless/tree/main/plugin-gradle
+spotless {
+    // comment out below to run spotless as part of the `check` task
+    enforceCheck false
+
+    format 'misc', {
+        // define the files (e.g. '*.gradle', '*.md') to apply `misc` to
+        target '.gitignore'
+        // define the steps to apply to those files
+        trimTrailingWhitespace()
+        indentWithSpaces() // Takes an integer argument if you don't like 4
+        endWithNewline()
+    }
+    java {
+        // don't need to set target, it is inferred from java
+        // apply a specific flavor of google-java-format
+        googleJavaFormat('1.8').aosp().reflowLongStrings()
+        removeUnusedImports()
+        importOrder()
+    }
 }

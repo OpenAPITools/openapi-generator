@@ -24,6 +24,7 @@ import okhttp3.internal.http.HttpMethod;
 import okhttp3.internal.tls.OkHostnameVerifier;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
+import okio.Buffer;
 import okio.BufferedSink;
 import okio.Okio;
 import org.threeten.bp.LocalDate;
@@ -131,6 +132,8 @@ public class ApiClient {
 
     /**
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID
+     *
+     * @param clientId client ID
      */
     public ApiClient(String clientId) {
         this(clientId, null, null);
@@ -138,6 +141,9 @@ public class ApiClient {
 
     /**
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID and additional parameters
+     *
+     * @param clientId client ID
+     * @param parameters a {@link java.util.Map} of parameters
      */
     public ApiClient(String clientId, Map<String, String> parameters) {
         this(clientId, null, parameters);
@@ -145,6 +151,10 @@ public class ApiClient {
 
     /**
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID, secret, and additional parameters
+     *
+     * @param clientId client ID
+     * @param clientSecret client secret
+     * @param parameters a {@link java.util.Map} of parameters
      */
     public ApiClient(String clientId, String clientSecret, Map<String, String> parameters) {
         this(null, clientId, clientSecret, parameters);
@@ -152,6 +162,11 @@ public class ApiClient {
 
     /**
      * Constructor for ApiClient to support access token retry on 401/403 configured with base path, client ID, secret, and additional parameters
+     *
+     * @param basePath base path
+     * @param clientId client ID
+     * @param clientSecret client secret
+     * @param parameters a {@link java.util.Map} of parameters
      */
     public ApiClient(String basePath, String clientId, String clientSecret, Map<String, String> parameters) {
         init();
@@ -845,17 +860,23 @@ public class ApiClient {
      *
      * @param contentTypes The Content-Type array to select from
      * @return The Content-Type header to use. If the given array is empty,
-     *   or matches "any", JSON will be used.
+     *   returns null. If it matches "any", JSON will be used.
      */
     public String selectHeaderContentType(String[] contentTypes) {
-        if (contentTypes.length == 0 || contentTypes[0].equals("*/*")) {
+        if (contentTypes.length == 0) {
+            return null;
+        }
+
+        if (contentTypes[0].equals("*/*")) {
             return "application/json";
         }
+
         for (String contentType : contentTypes) {
             if (isJsonMime(contentType)) {
                 return contentType;
             }
         }
+
         return contentTypes[0];
     }
 
@@ -1182,20 +1203,16 @@ public class ApiClient {
      * @throws org.openapitools.client.ApiException If fail to serialize the request body object
      */
     public Request buildRequest(String path, String method, List<Pair> queryParams, List<Pair> collectionQueryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String[] authNames, ApiCallback callback) throws ApiException {
-        updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
+        // aggregate queryParams (non-collection) and collectionQueryParams into allQueryParams
+        List<Pair> allQueryParams = new ArrayList<Pair>(queryParams);
+        allQueryParams.addAll(collectionQueryParams);
 
         final String url = buildUrl(path, queryParams, collectionQueryParams);
-        final Request.Builder reqBuilder = new Request.Builder().url(url);
-        processHeaderParams(headerParams, reqBuilder);
-        processCookieParams(cookieParams, reqBuilder);
 
-        String contentType = (String) headerParams.get("Content-Type");
-        // ensuring a default content type
-        if (contentType == null) {
-            contentType = "application/json";
-        }
-
+        // prepare HTTP request body
         RequestBody reqBody;
+        String contentType = headerParams.get("Content-Type");
+
         if (!HttpMethod.permitsRequestBody(method)) {
             reqBody = null;
         } else if ("application/x-www-form-urlencoded".equals(contentType)) {
@@ -1213,6 +1230,13 @@ public class ApiClient {
         } else {
             reqBody = serialize(body, contentType);
         }
+
+        // update parameters with authentication settings
+        updateParamsForAuth(authNames, allQueryParams, headerParams, cookieParams, requestBodyToString(reqBody), method, URI.create(url));
+
+        final Request.Builder reqBuilder = new Request.Builder().url(url);
+        processHeaderParams(headerParams, reqBuilder);
+        processCookieParams(cookieParams, reqBuilder);
 
         // Associate callback with request (if not null) so interceptor can
         // access it when creating ProgressResponseBody
@@ -1320,14 +1344,18 @@ public class ApiClient {
      * @param queryParams List of query parameters
      * @param headerParams Map of header parameters
      * @param cookieParams Map of cookie parameters
+     * @param payload HTTP request body
+     * @param method HTTP method
+     * @param uri URI
      */
-    public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
+    public void updateParamsForAuth(String[] authNames, List<Pair> queryParams, Map<String, String> headerParams,
+                                    Map<String, String> cookieParams, String payload, String method, URI uri) throws ApiException {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {
                 throw new RuntimeException("Authentication undefined: " + authName);
             }
-            auth.applyToParams(queryParams, headerParams, cookieParams);
+            auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
         }
     }
 
@@ -1547,5 +1575,27 @@ public class ApiClient {
             }
         }
         return path;
+    }
+
+    /**
+     * Convert the HTTP request body to a string.
+     *
+     * @param request The HTTP request object
+     * @return The string representation of the HTTP request body
+     * @throws org.openapitools.client.ApiException If fail to serialize the request body object into a string
+     */
+    private String requestBodyToString(RequestBody requestBody) throws ApiException {
+        if (requestBody != null) {
+            try {
+                final Buffer buffer = new Buffer();
+                requestBody.writeTo(buffer);
+                return buffer.readUtf8();
+            } catch (final IOException e) {
+                throw new ApiException(e);
+            }
+        }
+
+        // empty http request body
+        return "";
     }
 }
