@@ -262,7 +262,7 @@ open class UserAPI {
                 task = getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                     switch result {
                     case let .success(response):
-                        continuation.resume(returning: response.body!)
+                        continuation.resume(returning: response.body)
                     case let .failure(error):
                         continuation.resume(throwing: error)
                     }
@@ -322,7 +322,7 @@ open class UserAPI {
                 task = loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
                     switch result {
                     case let .success(response):
-                        continuation.resume(returning: response.body!)
+                        continuation.resume(returning: response.body)
                     case let .failure(error):
                         continuation.resume(throwing: error)
                     }

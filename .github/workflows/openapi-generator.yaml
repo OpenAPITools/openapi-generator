@@ -21,7 +21,7 @@ jobs:
         with:
           java-version: 8
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: cache-maven-repository
         with:
@@ -56,7 +56,7 @@ jobs:
         with:
           java-version: 8
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: cache-maven-repository
         with:
@@ -162,7 +162,7 @@ jobs:
         with:
           java-version: 11
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: cache-maven-repository
         with:
@@ -194,7 +194,7 @@ jobs:
         with:
           java-version: 11
       - name: Cache maven dependencies
-        uses: actions/cache@v2.1.6
+        uses: actions/cache@v2.1.7
         env:
           cache-name: cache-maven-repository
         with:

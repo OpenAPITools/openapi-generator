@@ -11,15 +11,15 @@ import AnyCodable
 import PromiseKit
 
 extension Bool: JSONEncodable {
-    func encodeToJSON() -> Any { return self as Any }
+    func encodeToJSON() -> Any { return self }
 }
 
 extension Float: JSONEncodable {
-    func encodeToJSON() -> Any { return self as Any }
+    func encodeToJSON() -> Any { return self }
 }
 
 extension Int: JSONEncodable {
-    func encodeToJSON() -> Any { return self as Any }
+    func encodeToJSON() -> Any { return self }
 }
 
 extension Int32: JSONEncodable {
@@ -31,22 +31,22 @@ extension Int64: JSONEncodable {
 }
 
 extension Double: JSONEncodable {
-    func encodeToJSON() -> Any { return self as Any }
+    func encodeToJSON() -> Any { return self }
 }
 
 extension String: JSONEncodable {
-    func encodeToJSON() -> Any { return self as Any }
+    func encodeToJSON() -> Any { return self }
 }
 
 extension RawRepresentable where RawValue: JSONEncodable {
-    func encodeToJSON() -> Any { return self.rawValue as Any }
+    func encodeToJSON() -> Any { return self.rawValue }
 }
 
 private func encodeIfPossible<T>(_ object: T) -> Any {
     if let encodableObject = object as? JSONEncodable {
         return encodableObject.encodeToJSON()
     } else {
-        return object as Any
+        return object
     }
 }
 
@@ -68,7 +68,7 @@ extension Dictionary: JSONEncodable {
         for (key, value) in self {
             dictionary[key] = encodeIfPossible(value)
         }
-        return dictionary as Any
+        return dictionary
     }
 }
 
@@ -80,7 +80,7 @@ extension Data: JSONEncodable {
 
 extension Date: JSONEncodable {
     func encodeToJSON() -> Any {
-        return CodableHelper.dateFormatter.string(from: self) as Any
+        return CodableHelper.dateFormatter.string(from: self)
     }
 }
 
@@ -184,7 +184,7 @@ extension KeyedDecodingContainerProtocol {
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
-        return Array(200 ..< 300).contains(statusCode)
+        return (200 ..< 300).contains(statusCode)
     }
 }
 
