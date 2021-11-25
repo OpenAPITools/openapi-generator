@@ -65,8 +65,6 @@ extension Date: JSONEncodable {
     }
 }
 
-
-
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
         return (200 ..< 300).contains(statusCode)

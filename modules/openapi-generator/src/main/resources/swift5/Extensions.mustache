@@ -65,9 +65,7 @@ extension Date: JSONEncodable {
     func encodeToJSON() -> Any {
         return CodableHelper.dateFormatter.string(from: self)
     }
-}
-
-{{/useVapor}}{{#generateModelAdditionalProperties}}
+}{{/useVapor}}{{#generateModelAdditionalProperties}}
 
 extension String: CodingKey {
 
