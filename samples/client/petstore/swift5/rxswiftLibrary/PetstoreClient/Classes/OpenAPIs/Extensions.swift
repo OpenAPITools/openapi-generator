@@ -9,33 +9,15 @@ import Foundation
 import AnyCodable
 #endif
 
-extension Bool: JSONEncodable {
-    func encodeToJSON() -> Any { return self }
-}
-
-extension Float: JSONEncodable {
-    func encodeToJSON() -> Any { return self }
-}
-
-extension Int: JSONEncodable {
-    func encodeToJSON() -> Any { return self }
-}
-
-extension Int32: JSONEncodable {
-    func encodeToJSON() -> Any { return NSNumber(value: self as Int32) }
-}
-
-extension Int64: JSONEncodable {
-    func encodeToJSON() -> Any { return NSNumber(value: self as Int64) }
-}
-
-extension Double: JSONEncodable {
-    func encodeToJSON() -> Any { return self }
-}
-
-extension String: JSONEncodable {
-    func encodeToJSON() -> Any { return self }
-}
+extension Bool: JSONEncodable {}
+extension Float: JSONEncodable {}
+extension Int: JSONEncodable {}
+extension Int32: JSONEncodable {}
+extension Int64: JSONEncodable {}
+extension Double: JSONEncodable {}
+extension String: JSONEncodable {}
+extension URL: JSONEncodable {}
+extension UUID: JSONEncodable {}
 
 extension RawRepresentable where RawValue: JSONEncodable {
     func encodeToJSON() -> Any { return self.rawValue }
@@ -83,17 +65,7 @@ extension Date: JSONEncodable {
     }
 }
 
-extension URL: JSONEncodable {
-    func encodeToJSON() -> Any {
-        return self
-    }
-}
 
-extension UUID: JSONEncodable {
-    func encodeToJSON() -> Any {
-        return self.uuidString
-    }
-}
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
