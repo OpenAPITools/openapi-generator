@@ -88,7 +88,7 @@ public class BigCat extends Cat implements Parcelable {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
-  public BigCat() {
+  public BigCat() { 
     super();
     this.className = this.getClass().getSimpleName();
   }

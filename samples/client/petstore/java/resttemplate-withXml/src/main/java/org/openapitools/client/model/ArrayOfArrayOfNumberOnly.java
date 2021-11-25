@@ -49,6 +49,8 @@ public class ArrayOfArrayOfNumberOnly {
   @XmlElement(name = "arrayArrayNumber")
   private List<List<BigDecimal>> arrayArrayNumber = null;
 
+  public ArrayOfArrayOfNumberOnly() { 
+  }
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     

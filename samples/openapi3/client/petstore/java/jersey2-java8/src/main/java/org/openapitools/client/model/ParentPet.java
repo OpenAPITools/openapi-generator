@@ -48,6 +48,8 @@ import org.openapitools.client.JSON;
 })
 
 public class ParentPet extends GrandparentAnimal {
+  public ParentPet() { 
+  }
   /**
    * A container for additional, undeclared properties.
    * This is a holder for any undeclared properties as specified with

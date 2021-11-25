@@ -94,6 +94,8 @@ public class BigCat extends Cat {
   @XmlElement(name = "kind")
   private KindEnum kind;
 
+  public BigCat() { 
+  }
 
   public BigCat kind(KindEnum kind) {
     
