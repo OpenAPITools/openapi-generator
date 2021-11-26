@@ -32,10 +32,10 @@ class oauthToken
 {
 public:
     oauthToken(QString token, int expiresIn, QString scope, QString tokenType) : m_token(token), m_scope(scope), m_type(tokenType){
-        m_validUntil = QDateTime::fromSecsSinceEpoch(QDateTime::currentSecsSinceEpoch() + expiresIn);
+        m_validUntil = QDateTime::fromMSecsSinceEpoch((QDateTime::currentSecsSinceEpoch() + expiresIn) * 1000);
     }
     oauthToken(){
-        m_validUntil = QDateTime::fromSecsSinceEpoch(QDateTime::currentSecsSinceEpoch() -1);
+        m_validUntil = QDateTime::fromMSecsSinceEpoch((QDateTime::currentSecsSinceEpoch() -1 )*1000);
     }
     QString getToken(){return m_token;};
     QString getScope(){return m_scope;};
