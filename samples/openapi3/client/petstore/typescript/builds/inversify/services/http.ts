@@ -1,4 +1,4 @@
-import type { PromiseHttpLibrary, HttpMethod, RequestContext, ResponseContext } from "../http/http";
+import type { PromiseHttpLibrary, Headers, HttpMethod, RequestContext, ResponseContext } from "../http/http";
 import type { PromiseMiddleware } from "../middleware";
 import type { BaseServerConfiguration } from "../servers";
 
@@ -12,5 +12,8 @@ export abstract class AbstractMiddleware implements PromiseMiddleware {
 }
 
 export abstract class AbstractServerConfiguration implements BaseServerConfiguration {
+    public abstract getHeaders(): Headers
     public abstract makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
+    public abstract addHeaders(headers: Headers): any;
+    public abstract setHeaderParam(key: string, value: string): void
 };

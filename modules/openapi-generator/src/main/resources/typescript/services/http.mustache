@@ -1,7 +1,7 @@
 {{#useRxJS}}
 import type { Observable } from "rxjs";
 {{/useRxJS}}
-import type { {{^useRxJS}}Promise{{/useRxJS}}HttpLibrary, HttpMethod, RequestContext, ResponseContext } from "../http/http";
+import type { {{^useRxJS}}Promise{{/useRxJS}}HttpLibrary, Headers, HttpMethod, RequestContext, ResponseContext } from "../http/http";
 import type { {{^useRxJS}}Promise{{/useRxJS}}Middleware } from "../middleware";
 import type { BaseServerConfiguration } from "../servers";
 
@@ -15,5 +15,8 @@ export abstract class AbstractMiddleware implements {{^useRxJS}}Promise{{/useRxJ
 }
 
 export abstract class AbstractServerConfiguration implements BaseServerConfiguration {
+    public abstract getHeaders(): Headers
     public abstract makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
+    public abstract addHeaders(headers: Headers): any;
+    public abstract setHeaderParam(key: string, value: string): void
 };
