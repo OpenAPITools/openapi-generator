@@ -12,6 +12,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
+import java.sql.SQLOutput;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -97,6 +98,13 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
 
     @Override
     public String toVarName(String name) {
+        // Escape invalid names
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            // camelize first char of keywords, e.g type -> Type, then escape. e.g Type -> VarType
+            name = camelize(name);
+            name = escapeReservedWord(name);
+        }
+
         // replace non-alphanumeric with underscore
         name = name.replaceAll("[^a-zA-Z0-9]", "_");
 
@@ -107,9 +115,12 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
         // Full strip
         name = name.replaceAll("[^a-zA-Z0-9]", "");
 
-        // Escape invalid names
-        if (isReservedWord(name) || name.matches("^\\d.*"))
-            name = escapeReservedWord(name);
+//        // Escape invalid names
+//        if (isReservedWord(name) || name.matches("^\\d.*")) {
+//            System.out.println("IS RESERVED KEYWORD");
+//            System.out.println(name);
+//            name = escapeReservedWord(name);
+//        }
 
         return name;
     }
@@ -124,7 +135,7 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
             Schema inner = getAdditionalProperties(p);
 
             if (inner.getType() == "object") {
-                // Prevent `map[string]map[string]interface{}` when map value type is object
+                // Prevent ``map[s`tring]map[string]interface{}` when map value type is object
                 return getSchemaType(p) + "[string]interface{}";
             } else {
                 return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
