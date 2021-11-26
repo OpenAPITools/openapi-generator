@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
         with:
-          distribution: 'adopt'
+          distribution: 'temurin'
           java-version: 8
       - name: Cache maven dependencies
         uses: actions/cache@v2.1.7
@@ -53,7 +53,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
         with:
-          distribution: 'adopt'
+          distribution: 'temurin'
           java-version: 8
       - name: Cache maven dependencies
         uses: actions/cache@v2.1.7
