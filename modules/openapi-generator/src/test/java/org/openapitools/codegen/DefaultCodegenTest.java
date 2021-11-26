@@ -222,6 +222,7 @@ public class DefaultCodegenTest {
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
+        Assert.assertEquals(codegenParameter.getSchema(), null);
     }
 
     @Test
@@ -2035,6 +2036,9 @@ public class DefaultCodegenTest {
         Assert.assertEquals(parameter.dataType, "PageQuery1");
         Assert.assertEquals(imports.size(), 1);
         Assert.assertEquals(imports.iterator().next(), "PageQuery1");
+
+        Assert.assertNotNull(parameter.getSchema());
+        Assert.assertEquals(parameter.getSchema().baseType, "object");
     }
 
     @Test
