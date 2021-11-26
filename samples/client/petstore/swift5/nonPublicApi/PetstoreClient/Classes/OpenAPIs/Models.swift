@@ -10,6 +10,10 @@ protocol JSONEncodable {
     func encodeToJSON() -> Any
 }
 
+extension JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
 internal enum ErrorResponse: Error {
     case error(Int, Data?, URLResponse?, Error)
 }

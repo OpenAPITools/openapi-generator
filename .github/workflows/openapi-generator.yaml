@@ -17,9 +17,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'temurin'
       - name: Cache maven dependencies
         uses: actions/cache@v2.1.7
         env:
@@ -52,9 +53,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'temurin'
       - name: Cache maven dependencies
         uses: actions/cache@v2.1.7
         env:
@@ -86,9 +88,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
         uses: actions/download-artifact@v2.0.10
         with:
@@ -124,9 +127,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
         uses: actions/download-artifact@v2.0.10
         with:
@@ -158,9 +162,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 11
+          distribution: 'temurin'
       - name: Cache maven dependencies
         uses: actions/cache@v2.1.7
         env:
@@ -190,9 +195,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 11
+          distribution: 'temurin'
       - name: Cache maven dependencies
         uses: actions/cache@v2.1.7
         env:
