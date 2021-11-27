@@ -21,6 +21,8 @@ public class CodegenDiscriminator {
     private String propertyBaseName;
     private String propertyGetter;
     private String propertyType;
+    private boolean isEnumProperty;
+    private String mappingKey;
     private Map<String, String> mapping;
 
     // mappedModels is populated differently if legacyDiscriminatorBehavior is
@@ -70,6 +72,26 @@ public class CodegenDiscriminator {
 
     public void setPropertyType(String propertyType) {
         this.propertyType = propertyType;
+    }
+
+    public boolean getIsEnumProperty ()
+    {
+        return isEnumProperty;
+    }
+
+    public void setIsEnumProperty (boolean enumProperty)
+    {
+        isEnumProperty = enumProperty;
+    }
+
+    public String getMappingKey ()
+    {
+        return mappingKey;
+    }
+
+    public void setMappingKey (String mappingKey)
+    {
+        this.mappingKey = mappingKey;
     }
 
     public Map<String, String> getMapping() {

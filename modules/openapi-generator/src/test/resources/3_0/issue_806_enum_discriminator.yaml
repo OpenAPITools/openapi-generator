@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  title: example api
+  version: v1.0
+paths:
+  /pet:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+        required: true
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        petType:
+          type: string
+          enum:
+          - DogType
+          - CatType
+          - LizardType
+      discriminator:
+        propertyName: petType
+        mapping:
+          DogType: '#/components/schemas/Dog'
+          CatType: '#/components/schemas/Cat'
+          # missing LizardType
+    Dog:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Pet'
+    Cat:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Pet'
+    Lizard:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Pet'

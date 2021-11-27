@@ -1288,4 +1288,52 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
                 "public static String urlEncode(String s) { return URLEncoder.encode(s, UTF_8).replaceAll(\"\\\\+\", \"%20\"); }");
     }
+
+    @Test
+    public void testStringDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_0/issue_806_string_discriminator.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/Dog.java"),
+                                     "this.petType = this.getClass().getSimpleName();");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/Cat.java"),
+                                     "this.petType = this.getClass().getSimpleName();");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/Lizard.java"),
+                                     "this.petType = this.getClass().getSimpleName();");
+
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testEnumDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_0/issue_806_enum_discriminator.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/Dog.java"),
+                                     "this.petType = PetTypeEnum.fromValue(\"DogType\");");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/Cat.java"),
+                                     "this.petType = PetTypeEnum.fromValue(\"CatType\");");
+
+        output.deleteOnExit();
+    }
 }
