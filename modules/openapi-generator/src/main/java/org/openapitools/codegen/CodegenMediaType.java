@@ -1,29 +1,29 @@
 package org.openapitools.codegen;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Objects;
 
 public class CodegenMediaType {
     private CodegenProperty schema;
-    private Map<String, CodegenEncoding> content;
+    private LinkedHashMap<String, CodegenEncoding> encoding;
 
-    public CodegenMediaType(CodegenProperty schema, Map<String, CodegenEncoding> content) {
+    public CodegenMediaType(CodegenProperty schema, LinkedHashMap<String, CodegenEncoding> encoding) {
         this.schema = schema;
-        this.content = content;
+        this.encoding = encoding;
     }
 
     public CodegenProperty getSchema() {
         return schema;
     }
 
-    public Map<String, CodegenEncoding> getContent() {
-        return content;
+    public LinkedHashMap<String, CodegenEncoding> getEncoding() {
+        return encoding;
     }
 
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenMediaType{");
         sb.append("schema=").append(schema);
-        sb.append(", content=").append(content);
+        sb.append(", encoding=").append(encoding);
         sb.append('}');
         return sb.toString();
     }
@@ -33,12 +33,12 @@ public class CodegenMediaType {
         if (o == null || getClass() != o.getClass()) return false;
         CodegenMediaType that = (CodegenMediaType) o;
         return Objects.equals(schema,that.getSchema()) &&
-                Objects.equals(content, that.getContent());
+                Objects.equals(encoding, that.getEncoding());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(schema, content);
+        return Objects.hash(schema, encoding);
     }
 }
 
