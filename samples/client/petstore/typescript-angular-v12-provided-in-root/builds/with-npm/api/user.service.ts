@@ -305,7 +305,6 @@ export class UserService {
         }
 
         return this.httpClient.delete<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
-            null,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
