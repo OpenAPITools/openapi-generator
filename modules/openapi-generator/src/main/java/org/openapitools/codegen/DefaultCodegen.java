@@ -6557,6 +6557,61 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.pattern = toRegularExpression(schema.getPattern());
     }
 
+    protected LinkedHashMap<String, CodegenMediaType> getContent(Content content, Set<String> imports) {
+        if (content == null) {
+            return null;
+        }
+        LinkedHashMap<String, CodegenMediaType> cmtContent = new LinkedHashMap<>();
+        for (Entry<String, MediaType> contentEntry: content.entrySet()) {
+            MediaType mt = contentEntry.getValue();
+            LinkedHashMap<String, CodegenEncoding> ceMap = null;
+            if (mt.getEncoding() != null ) {
+                ceMap = new LinkedHashMap<>();
+                Map<String, Encoding> encMap = mt.getEncoding();
+                for (Entry<String, Encoding> encodingEntry: encMap.entrySet()) {
+                    Encoding enc = encodingEntry.getValue();
+                    List<CodegenParameter> headers = new ArrayList<>();
+                    if (enc.getHeaders() != null) {
+                        Map<String, Header> encHeaders = enc.getHeaders();
+                        for (Entry<String, Header> headerEntry: encHeaders.entrySet()) {
+                            String headerName = headerEntry.getKey();
+                            Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
+                            Parameter headerParam = new Parameter();
+                            headerParam.setName(headerName);
+                            headerParam.setIn("header");
+                            headerParam.setDescription(header.getDescription());
+                            headerParam.setRequired(header.getRequired());
+                            headerParam.setDeprecated(header.getDeprecated());
+                            headerParam.setStyle((Parameter.StyleEnum.valueOf(header.getStyle().name()));
+                            headerParam.setExplode(header.getExplode());
+                            headerParam.setSchema(header.getSchema());
+                            headerParam.setExamples(header.getExamples());
+                            headerParam.setExample(header.getExample());
+                            headerParam.setContent(header.getContent());
+                            headerParam.setExtensions(header.getExtensions());
+                            CodegenParameter param = fromParameter(headerParam, imports);
+                            headers.add(param);
+                        }
+                    }
+                    CodegenEncoding ce = new CodegenEncoding(
+                            enc.getContentType(),
+                            headers,
+                            enc.getStyle().toString(),
+                            enc.getExplode().booleanValue(),
+                            enc.getAllowReserved().booleanValue()
+                    );
+                    String propName = encodingEntry.getKey();
+                    ceMap.put(propName, ce);
+                }
+            }
+            CodegenProperty schemaProp = fromProperty("schema", mt.getSchema());
+            CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
+            String contentType = contentEntry.getKey();
+            cmtContent.put(contentType, codegenMt);
+        }
+        return cmtContent;
+    }
+
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
@@ -6578,56 +6633,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema == null) {
             throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
         }
-        Content content = body.getContent();
-        if (content != null) {
-            for (Entry<String, MediaType> contentEntry: content.entrySet()) {
-                String contentType = contentEntry.getKey();
-                MediaType mt = contentEntry.getValue();
-                LinkedHashMap<String, CodegenEncoding> ceMap = null;
-                if (mt.getEncoding() != null ) {
-                    ceMap = new LinkedHashMap<>();
-                    Map<String, Encoding> encMap = mt.getEncoding();
-                    for (Entry<String, Encoding> encodingEntry: encMap.entrySet()) {
-                        Encoding enc = encodingEntry.getValue();
-                        List<CodegenParameter> headers = new ArrayList<>();
-                        if (enc.getHeaders() != null) {
-                            Map<String, Header> encHeaders = enc.getHeaders();
-                            for (Entry<String, Header> headerEntry: encHeaders.entrySet()) {
-                                String headerName = headerEntry.getKey();
-                                Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
-                                Parameter headerParam = new Parameter();
-                                headerParam.setName(headerName);
-                                headerParam.setIn("header");
-                                headerParam.setDescription(header.getDescription());
-                                headerParam.setRequired(header.getRequired());
-                                headerParam.setDeprecated(header.getDeprecated());
-                                headerParam.setStyle((Parameter.StyleEnum.valueOf(header.getStyle().name()));
-                                headerParam.setExplode(header.getExplode());
-                                headerParam.setSchema(header.getSchema());
-                                headerParam.setExamples(header.getExamples());
-                                headerParam.setExample(header.getExample());
-                                headerParam.setContent(header.getContent());
-                                headerParam.setExtensions(header.getExtensions());
-                                CodegenParameter param = fromParameter(headerParam, imports);
-                                headers.add(param);
-                            }
-                        }
-                        CodegenEncoding ce = new CodegenEncoding(
-                                enc.getContentType(),
-                                headers,
-                                enc.getStyle().toString(),
-                                enc.getExplode().booleanValue(),
-                                enc.getAllowReserved().booleanValue()
-                        );
-                        String propName = encodingEntry.getKey();
-                        ceMap.put(propName, ce);
-                    }
-                }
-                CodegenProperty schemaProp = fromProperty("schema", mt.getSchema());
-                CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
-                // TODO add content LinkedHashMap of <String, CodegenMediaType> to codegenParameter
-            }
-        }
+        codegenParameter.setContent(getContent(body.getContent(), imports));
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
