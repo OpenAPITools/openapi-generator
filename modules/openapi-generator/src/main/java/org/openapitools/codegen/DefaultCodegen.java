@@ -4486,6 +4486,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isDeprecated = parameter.getDeprecated();
         }
         codegenParameter.jsonSchema = Json.pretty(parameter);
+        codegenParameter.setContent(getContent(parameter.getContent(), imports));
 
         if (GlobalSettings.getProperty("debugParser") != null) {
             LOGGER.info("working on Parameter {}", parameter.getName());

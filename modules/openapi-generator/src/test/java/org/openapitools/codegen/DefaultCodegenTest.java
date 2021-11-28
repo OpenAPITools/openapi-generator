@@ -3875,4 +3875,33 @@ public class DefaultCodegenTest {
         assertTrue(pr.isByteArray);
         assertFalse(pr.getIsString());
     }
+
+    @Test
+    public void testParameterContent() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+
+        path = "/jsonQueryParams";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        CodegenParameter coordinatesInlineSchema = co.queryParams.get(0);
+        LinkedHashMap<String, CodegenMediaType> content = coordinatesInlineSchema.getContent();
+        assertNotNull(content);
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json")));
+        CodegenMediaType mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        CodegenProperty cp = mt.getSchema();
+        assertTrue(cp.isMap);
+        assertEquals(cp.complexType, "object");
+
+        CodegenParameter coordinatesReferencedSchema = co.queryParams.get(1);
+        content = coordinatesReferencedSchema.getContent();
+        mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertFalse(cp.isMap); // because it is a referenced schema
+        assertEquals(cp.complexType, "coordinates");
+    }
 }
