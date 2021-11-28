@@ -103,11 +103,13 @@ public class Mammal extends AbstractOpenApiSchema {
                 @Override
                 public Mammal read(JsonReader in) throws IOException {
                     Object deserialized = null;
+                    JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
+
                     int match = 0;
 
                     // deserialize Pig
                     try {
-                        deserialized = gson.fromJson(in, Pig.class);
+                        deserialized = adapterPig.fromJsonTree(jsonObject);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Pig'");
                     } catch (Exception e) {
@@ -117,7 +119,7 @@ public class Mammal extends AbstractOpenApiSchema {
 
                     // deserialize Whale
                     try {
-                        deserialized = gson.fromJson(in, Whale.class);
+                        deserialized = adapterWhale.fromJsonTree(jsonObject);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Whale'");
                     } catch (Exception e) {
@@ -127,7 +129,7 @@ public class Mammal extends AbstractOpenApiSchema {
 
                     // deserialize Zebra
                     try {
-                        deserialized = gson.fromJson(in, Zebra.class);
+                        deserialized = adapterZebra.fromJsonTree(jsonObject);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Zebra'");
                     } catch (Exception e) {

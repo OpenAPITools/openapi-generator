@@ -96,11 +96,13 @@ public class Fruit extends AbstractOpenApiSchema {
                 @Override
                 public Fruit read(JsonReader in) throws IOException {
                     Object deserialized = null;
+                    JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
+
                     int match = 0;
 
                     // deserialize Apple
                     try {
-                        deserialized = gson.fromJson(in, Apple.class);
+                        deserialized = adapterApple.fromJsonTree(jsonObject);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Apple'");
                     } catch (Exception e) {
@@ -110,7 +112,7 @@ public class Fruit extends AbstractOpenApiSchema {
 
                     // deserialize Banana
                     try {
-                        deserialized = gson.fromJson(in, Banana.class);
+                        deserialized = adapterBanana.fromJsonTree(jsonObject);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Banana'");
                     } catch (Exception e) {

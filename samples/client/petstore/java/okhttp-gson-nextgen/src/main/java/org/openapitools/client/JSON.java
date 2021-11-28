@@ -250,7 +250,7 @@ public class JSON {
             .registerTypeAdapterFactory(new org.openapitools.client.model.FormatTest.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Fruit.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.FruitReq.CustomTypeAdapterFactory())
-            // TODO anyof model
+            .registerTypeAdapterFactory(new org.openapitools.client.model.GmFruit.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.GrandparentAnimal.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.HasOnlyReadOnly.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.HealthCheckResult.CustomTypeAdapterFactory())

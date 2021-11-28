@@ -140,7 +140,7 @@ public class JSON {
             {{^oneOf}}
             {{#anyOf}}
             {{#-first}}
-            // TODO anyof model
+            .registerTypeAdapterFactory(new {{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
             {{/-first}}
             {{/anyOf}}
             {{^anyOf}}

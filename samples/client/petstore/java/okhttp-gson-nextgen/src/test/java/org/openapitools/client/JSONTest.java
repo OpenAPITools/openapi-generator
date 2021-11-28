@@ -296,6 +296,12 @@ public class JSONTest {
         // There is no discriminator property.
         {
             String str = "{ \"cultivar\": \"golden delicious\", \"mealy\": false }";
+
+            // make sure deserialization works for pojo object
+            AppleReq a = json.getGson().fromJson(str, AppleReq.class);
+            assertEquals(a.getCultivar(), "golden delicious");
+            assertEquals(a.getMealy(), false);
+
             FruitReq o = json.getGson().fromJson(str, FruitReq.class);
             assertTrue(o.getActualInstance() instanceof AppleReq);
             AppleReq inst = (AppleReq) o.getActualInstance();
@@ -319,29 +325,24 @@ public class JSONTest {
         }
         {
             String str = "{ \"lengthCm\": 17 }";
+
+            // make sure deserialization works for pojo object
+            BananaReq b = json.getGson().fromJson(str, BananaReq.class);
+            assertEquals(b.getLengthCm(), new java.math.BigDecimal(17));
+
             FruitReq o = json.getGson().fromJson(str, FruitReq.class);
             assertTrue(o.getActualInstance() instanceof BananaReq);
             BananaReq inst = (BananaReq) o.getActualInstance();
             assertEquals(inst.getLengthCm(), new java.math.BigDecimal(17));
         }
         {
-            // Try to deserialize empty object. This should fail 'oneOf' because that will match
-            // both AppleReq and BananaReq.
+            // Try to deserialize empty object. This should fail 'oneOf' because none will match
+            // AppleReq or BananaReq.
             String str = "{ }";
             Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
                 json.getGson().fromJson(str, FruitReq.class);
             });
-            assertTrue(exception.getMessage().contains("Failed deserialization for FruitReq: 2 classes match result"));
-            // TODO: add a similar unit test where the oneOf child schemas have required properties.
-            // If the implementation is correct, the unmarshaling should take the "required" keyword
-            // into consideration, which it is not doing currently.
-        }
-        {
-            // Deserialize the null value. This should be allowed because the 'FruitReq' schema
-            // has nullable: true.
-            String str = "null";
-            FruitReq o = json.getGson().fromJson(str, FruitReq.class);
-            assertNull(o);
+            assertTrue(exception.getMessage().contains("Failed deserialization for FruitReq: 0 classes match result, expected 1"));
         }
     }
 }

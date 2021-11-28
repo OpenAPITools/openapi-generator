@@ -95,11 +95,13 @@ public class Pig extends AbstractOpenApiSchema {
                 @Override
                 public Pig read(JsonReader in) throws IOException {
                     Object deserialized = null;
+                    JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
+
                     int match = 0;
 
                     // deserialize BasquePig
                     try {
-                        deserialized = gson.fromJson(in, BasquePig.class);
+                        deserialized = adapterBasquePig.fromJsonTree(jsonObject);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'BasquePig'");
                     } catch (Exception e) {
@@ -109,7 +111,7 @@ public class Pig extends AbstractOpenApiSchema {
 
                     // deserialize DanishPig
                     try {
-                        deserialized = gson.fromJson(in, DanishPig.class);
+                        deserialized = adapterDanishPig.fromJsonTree(jsonObject);
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'DanishPig'");
                     } catch (Exception e) {
