@@ -6582,7 +6582,7 @@ public class DefaultCodegen implements CodegenConfig {
                             headerParam.setDescription(header.getDescription());
                             headerParam.setRequired(header.getRequired());
                             headerParam.setDeprecated(header.getDeprecated());
-                            headerParam.setStyle((Parameter.StyleEnum.valueOf(header.getStyle().name()));
+                            headerParam.setStyle(Parameter.StyleEnum.valueOf(header.getStyle().name()));
                             headerParam.setExplode(header.getExplode());
                             headerParam.setSchema(header.getSchema());
                             headerParam.setExamples(header.getExamples());
