@@ -29,7 +29,7 @@ paths:
       responses:
         '201':
           description: 'OK'
-  /inlineRequestBodyDifferingByContentType:
+  /inlineRequestBodySchemasDifferingByContentType:
     post:
       requestBody:
         required: true
@@ -52,8 +52,25 @@ paths:
       responses:
         200:
           description: OK
+  /refRequestBodySchemasDifferingByContentType:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/coordinates'
+          text/plain:
+            schema:
+              $ref: '#/components/schemas/stringWithMinLength'
+      responses:
+        200:
+          description: OK
 components:
   schemas:
+    stringWithMinLength:
+      type: string
+      minLength: 5
     coordinates:
       type: object
       required:

@@ -3904,4 +3904,47 @@ public class DefaultCodegenTest {
         assertFalse(cp.isMap); // because it is a referenced schema
         assertEquals(cp.complexType, "coordinates");
     }
+
+    @Test
+    public void testRequestBodyContent() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+
+        path = "/inlineRequestBodySchemasDifferingByContentType";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        CodegenParameter bodyParameter = co.bodyParam;
+        LinkedHashMap<String, CodegenMediaType> content = bodyParameter.getContent();
+        assertNotNull(content);
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));
+        CodegenMediaType mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        CodegenProperty cp = mt.getSchema();
+        assertNotNull(cp);
+
+        mt = content.get("text/plain");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertNotNull(cp);
+        // Note: the inline model resolver has a bug for this use case; it extracts an inline request body into a component
+        // but the schema it references is not string type
+
+        path = "/refRequestBodySchemasDifferingByContentType";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        bodyParameter = co.bodyParam;
+        content = bodyParameter.getContent();
+        assertNotNull(content);
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));
+        mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertEquals(cp.complexType, "coordinates");
+
+        mt = content.get("text/plain");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertTrue(cp.isString);
+    }
 }
