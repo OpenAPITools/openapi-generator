@@ -368,6 +368,7 @@ public class PetApiTest {
     }
 
     @Test
+    @Ignore
     public void testDeletePet() throws Exception {
         Pet pet = createPet();
         api.addPet(pet);

@@ -47,13 +47,13 @@ import java.util.HashMap;
  *       backward-compatibility
  */
 public class JSON {
-    private static Gson gson;
-    private static boolean isLenientOnJson = false;
-    private static DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
-    private static SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
-    private static OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
-    private static LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
-    private static ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
+    private Gson gson;
+    private boolean isLenientOnJson = false;
+    private DateTypeAdapter dateTypeAdapter = new DateTypeAdapter();
+    private SqlDateTypeAdapter sqlDateTypeAdapter = new SqlDateTypeAdapter();
+    private OffsetDateTimeTypeAdapter offsetDateTimeTypeAdapter = new OffsetDateTimeTypeAdapter();
+    private LocalDateTypeAdapter localDateTypeAdapter = new LocalDateTypeAdapter();
+    private ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
     @SuppressWarnings("unchecked")
     public static GsonBuilder createGson() {
@@ -213,7 +213,7 @@ public class JSON {
         return clazz;
     }
 
-    {
+    public JSON() {
         gson = createGson()
             .registerTypeAdapter(Date.class, dateTypeAdapter)
             .registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter)
@@ -295,7 +295,7 @@ public class JSON {
      *
      * @return Gson
      */
-    public static Gson getGson() {
+    public Gson getGson() {
         return gson;
     }
 
@@ -304,11 +304,11 @@ public class JSON {
      *
      * @param gson Gson
      */
-    public static void setGson(Gson gson) {
-        JSON.gson = gson;
+    public void setGson(Gson gson) {
+        this.gson = gson;
     }
 
-    public static void setLenientOnJson(boolean lenientOnJson) {
+    public void setLenientOnJson(boolean lenientOnJson) {
         isLenientOnJson = lenientOnJson;
     }
 
@@ -318,7 +318,7 @@ public class JSON {
      * @param obj Object
      * @return String representation of the JSON
      */
-    public static String serialize(Object obj) {
+    public String serialize(Object obj) {
         return gson.toJson(obj);
     }
 
@@ -331,7 +331,7 @@ public class JSON {
      * @return The deserialized Java object
      */
     @SuppressWarnings("unchecked")
-    public static <T> T deserialize(String body, Type returnType) {
+    public <T> T deserialize(String body, Type returnType) {
         try {
             if (isLenientOnJson) {
                 JsonReader jsonReader = new JsonReader(new StringReader(body));
@@ -355,7 +355,7 @@ public class JSON {
     /**
      * Gson TypeAdapter for Byte Array type
      */
-    public static class ByteArrayAdapter extends TypeAdapter<byte[]> {
+    public class ByteArrayAdapter extends TypeAdapter<byte[]> {
 
         @Override
         public void write(JsonWriter out, byte[] value) throws IOException {
@@ -383,7 +383,7 @@ public class JSON {
     /**
      * Gson TypeAdapter for JSR310 OffsetDateTime type
      */
-    public static class OffsetDateTimeTypeAdapter extends TypeAdapter<OffsetDateTime> {
+    public class OffsetDateTimeTypeAdapter extends TypeAdapter<OffsetDateTime> {
 
         private DateTimeFormatter formatter;
 
@@ -427,7 +427,7 @@ public class JSON {
     /**
      * Gson TypeAdapter for JSR310 LocalDate type
      */
-    public static class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
+    public class LocalDateTypeAdapter extends TypeAdapter<LocalDate> {
 
         private DateTimeFormatter formatter;
 
@@ -465,11 +465,11 @@ public class JSON {
         }
     }
 
-    public static void setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
+    public void setOffsetDateTimeFormat(DateTimeFormatter dateFormat) {
         offsetDateTimeTypeAdapter.setFormat(dateFormat);
     }
 
-    public static void setLocalDateFormat(DateTimeFormatter dateFormat) {
+    public void setLocalDateFormat(DateTimeFormatter dateFormat) {
         localDateTypeAdapter.setFormat(dateFormat);
     }
 
@@ -478,7 +478,7 @@ public class JSON {
      * If the dateFormat is null, a simple "yyyy-MM-dd" format will be used
      * (more efficient than SimpleDateFormat).
      */
-    public static class SqlDateTypeAdapter extends TypeAdapter<java.sql.Date> {
+    public class SqlDateTypeAdapter extends TypeAdapter<java.sql.Date> {
 
         private DateFormat dateFormat;
 
@@ -531,7 +531,7 @@ public class JSON {
      * Gson TypeAdapter for java.util.Date type
      * If the dateFormat is null, ISO8601Utils will be used.
      */
-    public static class DateTypeAdapter extends TypeAdapter<Date> {
+    public class DateTypeAdapter extends TypeAdapter<Date> {
 
         private DateFormat dateFormat;
 
@@ -584,11 +584,11 @@ public class JSON {
         }
     }
 
-    public static void setDateFormat(DateFormat dateFormat) {
+    public void setDateFormat(DateFormat dateFormat) {
         dateTypeAdapter.setFormat(dateFormat);
     }
 
-    public static void setSqlDateFormat(DateFormat dateFormat) {
+    public void setSqlDateFormat(DateFormat dateFormat) {
         sqlDateTypeAdapter.setFormat(dateFormat);
     }
 }

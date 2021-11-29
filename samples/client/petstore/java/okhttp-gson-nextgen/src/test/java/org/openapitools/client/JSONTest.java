@@ -204,7 +204,7 @@ public class JSONTest {
     @Test(expected = IllegalArgumentException.class)
     public void testRequiredFieldException() {
         // test json string missing required field(s) to ensure exception is thrown
-        Gson gson = JSON.getGson();
+        Gson gson = json.getGson();
         //Gson gson = new GsonBuilder()
         //        .registerTypeAdapter(Pet.class, new Pet.CustomDeserializer())
         //        .create();
@@ -217,7 +217,7 @@ public class JSONTest {
     @Test(expected = IllegalArgumentException.class)
     public void testAdditionalFieldException() {
         // test json string with additional field(s) to ensure exception is thrown
-        Gson gson = JSON.getGson();
+        Gson gson = json.getGson();
         //Gson gson = new GsonBuilder()
         //        .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
         //        .create();
@@ -228,7 +228,7 @@ public class JSONTest {
     @Test
     public void testCustomDeserializer() {
         // test the custom deserializer to ensure it can deserialize json payload into objects
-        Gson gson = JSON.getGson();
+        Gson gson = json.getGson();
         //Gson gson = new GsonBuilder()
         //        .registerTypeAdapter(Tag.class, new Tag.CustomDeserializer())
         //        .create();
