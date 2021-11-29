@@ -18,6 +18,7 @@ import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'ax
 // URLSearchParams not necessarily used
 // @ts-ignore
 import { URL, URLSearchParams } from 'url';
+import FormData from 'form-data'
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
@@ -524,7 +525,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
-            const localVarFormParams = new URLSearchParams();
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
             // authentication petstore_auth required
             // oauth required
@@ -532,20 +533,20 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
 
 
             if (name !== undefined) { 
-                localVarFormParams.set('name', name as any);
+                localVarFormParams.append('name', name as any);
             }
     
             if (status !== undefined) { 
-                localVarFormParams.set('status', status as any);
+                localVarFormParams.append('status', status as any);
             }
     
     
-            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = localVarFormParams.toString();
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...(localVarFormParams as any).getHeaders?.(), ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -596,7 +597,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...(localVarFormParams as any).getHeaders?.(), ...options.headers};
             localVarRequestOptions.data = localVarFormParams;
 
             return {
