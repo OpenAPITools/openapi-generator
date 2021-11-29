@@ -22,16 +22,15 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -54,6 +53,7 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -592,6 +592,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        preprocessInlineOneOf(openAPI);
         super.preprocessOpenAPI(openAPI);
         /*
          * TODO the following logic should not need anymore in OAS 3.0 if
@@ -973,5 +974,67 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
             }
         }
+    }
+
+    private void preprocessInlineOneOf(OpenAPI openAPI) {
+        if (openAPI != null) {
+            if (openAPI.getPaths() != null) {
+                for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
+                    String pathname = openAPIGetPathsEntry.getKey();
+                    PathItem path = openAPIGetPathsEntry.getValue();
+                    if (path.readOperations() == null) {
+                        continue;
+                    }
+                    for (Operation operation : path.readOperations()) {
+                        boolean hasBodyParameter = hasBodyParameter(openAPI, operation);
+
+                        // OpenAPI parser do not add Inline One Of models in Operations to Components/Schemas
+                        if (hasBodyParameter(openAPI, operation)) {
+                            Optional.ofNullable(operation.getRequestBody())
+                                .map(RequestBody::getContent)
+                                .ifPresent(this::repairInlineOneOf);
+                        }
+                        if (operation.getResponses() != null) {
+                            operation.getResponses().values().stream().map(ApiResponse::getContent)
+                                .filter(Objects::nonNull)
+                                .forEach(this::repairInlineOneOf);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Add all OneOf schemas to #/components/schemas and replace them in the original content by ref schema
+     * Replace OneOf with unmodifiable types with an empty Schema
+     *
+     * OpenAPI Parser does not add inline OneOf schemas to models to generate
+     *
+     * @param content a 'content' section in the OAS specification.
+     */
+    private void repairInlineOneOf(final Content content) {
+        content.values().forEach(mediaType -> {
+            final Schema<?> replacingSchema = mediaType.getSchema();
+            if (isOneOfSchema(replacingSchema)) {
+                if (ModelUtils.isSchemaOneOfConsistsOfCustomTypes(openAPI, replacingSchema)) {
+                    final String oneOfModelName = (String) replacingSchema.getExtensions().get("x-one-of-name");
+                    final Schema<?> newRefSchema = new Schema<>().$ref("#/components/schemas/" + oneOfModelName);
+                    mediaType.setSchema(newRefSchema);
+                    ModelUtils.getSchemas(openAPI).put(oneOfModelName, replacingSchema);
+                } else {
+                    mediaType.setSchema(new Schema());
+                }
+            }
+        });
+    }
+
+    private static boolean isOneOfSchema(final Schema<?> schema) {
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema composedSchema = (ComposedSchema) schema;
+            return Optional.ofNullable(composedSchema.getProperties()).map(Map::isEmpty).orElse(true)
+                && Optional.ofNullable(schema.getExtensions()).map(m -> m.containsKey("x-one-of-name")).orElse(false);
+        }
+        return false;
     }
 }
