@@ -23,7 +23,7 @@ defmodule OpenapiPetstore.Api.Fake do
   {:ok, OpenapiPetstore.Model.HealthCheckResult.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec fake_health_get(Tesla.Env.client, keyword()) :: {:ok, OpenapiPetstore.Model.HealthCheckResult.t} | {:error, Tesla.Env.t}
+  @spec fake_health_get(Tesla.Env.client, keyword()) :: {:ok, HealthCheckResult.t} | {:error, Tesla.Env.t}
   def fake_health_get(connection, _opts \\ []) do
     %{}
     |> method(:get)
@@ -94,7 +94,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      { 200, %OpenapiPetstore.Model.Boolean{}}
     ])
   end
 
@@ -111,7 +111,7 @@ defmodule OpenapiPetstore.Api.Fake do
   {:ok, OpenapiPetstore.Model.OuterComposite.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec fake_outer_composite_serialize(Tesla.Env.client, keyword()) :: {:ok, OpenapiPetstore.Model.OuterComposite.t} | {:error, Tesla.Env.t}
+  @spec fake_outer_composite_serialize(Tesla.Env.client, keyword()) :: {:ok, OuterComposite.t} | {:error, Tesla.Env.t}
   def fake_outer_composite_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -154,7 +154,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      { 200, %OpenapiPetstore.Model.Float{}}
     ])
   end
 
@@ -184,7 +184,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      { 200, %OpenapiPetstore.Model.String{}}
     ])
   end
 
@@ -201,7 +201,7 @@ defmodule OpenapiPetstore.Api.Fake do
   {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec fake_property_enum_integer_serialize(Tesla.Env.client, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t, keyword()) :: {:ok, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t} | {:error, Tesla.Env.t}
+  @spec fake_property_enum_integer_serialize(Tesla.Env.client, OpenapiPetstore.Model.OuterObjectWithEnumProperty.t, keyword()) :: {:ok, OuterObjectWithEnumProperty.t} | {:error, Tesla.Env.t}
   def fake_property_enum_integer_serialize(connection, outer_object_with_enum_property, _opts \\ []) do
     %{}
     |> method(:post)
@@ -307,7 +307,7 @@ defmodule OpenapiPetstore.Api.Fake do
   {:ok, OpenapiPetstore.Model.Client.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec test_client_model(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
+  @spec test_client_model(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, Client.t} | {:error, Tesla.Env.t}
   def test_client_model(connection, client, _opts \\ []) do
     %{}
     |> method(:patch)
