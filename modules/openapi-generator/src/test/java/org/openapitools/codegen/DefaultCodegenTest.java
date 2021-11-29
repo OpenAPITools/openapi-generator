@@ -141,6 +141,41 @@ public class DefaultCodegenTest {
         Assert.assertEquals(coUpdate.produces.size(), 1);
         Assert.assertEquals(coUpdate.produces.get(0).get("mediaType"), "application/xml");
     }
+    /**
+     * Test getConsumesInfo when mediaType contains \/* or *\/*
+     */
+    @Test
+    public void testGetConsumesInfoMediaTypeWithStar() throws Exception {
+        final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setComponents(new Components());
+        openAPI.getComponents().addSchemas("Pet", new ObjectSchema());
+        openAPI.getComponents().addRequestBodies("MyRequestBody", new RequestBody()
+                .content(new Content().addMediaType("application/json",
+                        new MediaType().schema(refSchema))));
+        openAPI.getComponents().addResponses("MyResponse", new ApiResponse()
+                .description("Ok response")
+                .content(new Content().addMediaType("application/xml",
+                        new MediaType().schema(refSchema))));
+
+        Operation createOperation = new Operation()
+                .requestBody(new RequestBody()
+                        .content(new Content()
+                                .addMediaType("image/*", new MediaType().schema(refSchema))
+                                .addMediaType("application/*", new MediaType().schema(refSchema))
+                                .addMediaType("text/*", new MediaType().schema(refSchema))
+                                .addMediaType("*/*", new MediaType().schema(refSchema))
+                        ))
+                .responses(
+                        new ApiResponses().addApiResponse("201", new ApiResponse()
+                                .description("Created response")));
+        Set<String> createConsumesInfo = DefaultCodegen.getConsumesInfo(openAPI, createOperation);
+        Assert.assertEquals(createConsumesInfo.size(), 4);
+        Assert.assertTrue(createConsumesInfo.contains("image/*"), "contains 'image/*'");
+        Assert.assertTrue(createConsumesInfo.contains("application/*"), "contains 'application/*'");
+        Assert.assertTrue(createConsumesInfo.contains("text/*"), "contains 'application/*'");
+        Assert.assertTrue(createConsumesInfo.contains("*/*"), "contains 'application/*'");
+    }
 
     @Test
     public void testGetProducesInfo() throws Exception {

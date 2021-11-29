@@ -5968,7 +5968,11 @@ public class DefaultCodegen implements CodegenConfig {
                 // skip as it implies `consumes` in OAS2 is not defined
                 continue;
             } else {
-                mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
+                String[] keySplitBySlash = key.split("/");
+                for (int i=0; i < keySplitBySlash.length; i++) {
+                    keySplitBySlash[i] = escapeText(escapeQuotationMark(keySplitBySlash[i]));
+                }
+                mediaType.put("mediaType", String.join("/", keySplitBySlash));
             }
             mediaTypeList.add(mediaType);
         }
