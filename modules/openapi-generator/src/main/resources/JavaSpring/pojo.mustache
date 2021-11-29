@@ -3,7 +3,7 @@
  */{{#description}}
 {{#oas3}}@Schema({{#name}}name = "{{name}}",{{/name}}{{/oas3}}{{^oas3}}@ApiModel({{/oas3}}description = "{{{.}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}{{>additionalModelTypeAnnotations}}
-public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#hateoas}}extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#hateoas}}extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}} {{^vendorExtensions.x-implements}}{{#serializableModel}}implements Serializable{{/serializableModel}}{{/vendorExtensions.x-implements}} {{#vendorExtensions.x-implements}}{{#-first}}implements {{#serializableModel}}Serializable, {{/serializableModel}}{{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
 
