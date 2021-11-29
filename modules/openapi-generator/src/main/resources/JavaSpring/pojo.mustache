@@ -81,7 +81,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
     return this;
   }
   {{/isArray}}
-  {{#isMap}}
+  {{#isMap}}{{#items.datatypeWithEnum}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{^required}}
@@ -92,7 +92,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
-  {{/isMap}}
+  {{/items.datatypeWithEnum}}{{/isMap}}
 
   /**
   {{#description}}
