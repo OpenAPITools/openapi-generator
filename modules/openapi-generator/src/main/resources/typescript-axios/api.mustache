@@ -5,6 +5,11 @@
 {{^withSeparateModelsAndApi}}
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+{{#withImportUrl}}
+// URLSearchParams not necessarily used
+// @ts-ignore
+import { URL, URLSearchParams } from 'url';
+{{/withImportUrl}}
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
