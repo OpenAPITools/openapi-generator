@@ -26,20 +26,9 @@ import org.openapitools.client.auth.*
 open class ApiClient(
         private val baseUrl: String,
         httpClientEngine: HttpClientEngine?,
-        httpClientConfig: ((HttpClientConfig<*>) -> Unit)?,
+        httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
         private val json: Json
 ) {
-
-    constructor(
-        baseUrl: String,
-        httpClientEngine: HttpClientEngine?,
-        json: Json
-    ): this(
-        baseUrl = baseUrl,
-        httpClientEngine = httpClientEngine,
-        httpClientConfig = null,
-        json = json
-    )
 
     private val serializer: JsonSerializer by lazy {
         KotlinxSerializer(json).ignoreOutgoingContent()
