@@ -32,16 +32,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.commons.lang3.tuple.Pair;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
@@ -974,6 +965,26 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
             }
         }
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        Map<String, Object> postProcessedModels = super.postProcessAllModels(objs);
+
+        for (Map.Entry<String, Object> modelsEntry : objs.entrySet()) {
+            Map<String, Object> modelsAttrs = (Map<String, Object>) modelsEntry.getValue();
+            List<Object> models = (List<Object>) modelsAttrs.get("models");
+            for (Object _mo : models) {
+                Map<String, Object> mo = (Map<String, Object>) _mo;
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                if (cm.oneOf.size() > 0) {
+                    cm.vendorExtensions.put("x-deduction", true);
+                    cm.vendorExtensions.put("x-deduction-model-names", cm.oneOf.toArray());
+                }
+            }
+        }
+
+        return postProcessedModels;
     }
 
     private void preprocessInlineOneOf(OpenAPI openAPI) {
