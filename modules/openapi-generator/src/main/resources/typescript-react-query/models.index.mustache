@@ -6,9 +6,5 @@ export { {{classname}} } from './{{{ classFilename }}}';
 {{^isEnum}}
 export type { {{classname}} } from  './{{{ classFilename }}}';
 {{/isEnum}}
-// eslint-disable-next-line no-duplicate-imports
-import { {{classname}}Mock } from  './{{{ classFilename }}}';
 {{/model}}
 {{/models}}
-
-export { {{#models}}{{#model}}{{classname}}Mock, {{/model}}{{/models}} }

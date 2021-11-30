@@ -65,7 +65,6 @@ public class TypeScriptReactQueryClientCodegen extends AbstractTypeScriptClientC
         this.apiPackage = "src" + File.separator +"apis";
         this.modelPackage = "src" + File.separator + "models";
         this.apiTemplateFiles.put("apis.mustache", ".ts");
-        this.apiTemplateFiles.put("apisMock.mustache", ".mock.ts");
         this.modelTemplateFiles.put("models.mustache", ".ts");
         this.addExtraReservedWords();
 
@@ -73,6 +72,8 @@ public class TypeScriptReactQueryClientCodegen extends AbstractTypeScriptClientC
         typeMapping.put("DateTime", "Date");
 
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.original);
+        setParamNaming(CodegenConstants.PARAM_NAMING_TYPE.original.name());
+
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
@@ -103,7 +104,7 @@ public class TypeScriptReactQueryClientCodegen extends AbstractTypeScriptClientC
         additionalProperties.put("modelPropertyNaming", getModelPropertyNaming().name());
         supportingFiles.add(new SupportingFile("index.mustache", "src", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "src", "runtime.ts"));
-        supportingFiles.add(new SupportingFile("testWrapper.mustache", "src", "testWrapper.tsx"));
+        // supportingFiles.add(new SupportingFile("testWrapper.mustache", "src", "testWrapper.tsx"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 

@@ -11,13 +11,14 @@ export enum {{classname}} {
 {{/allowableValues}}
 }
 
+{{!
 /**
 * @export
 * @mock enum {string}
 */
-export const {{classname}}Mock = ({
+export const {{classnameMock = ({
   mock() {
-    const enumValues = Object.keys({{classname}}{{enumName}})
+    const enumValues = Object.keys({{classname {{enumName)
       .map(n => Number.parseInt(n))
       .filter(n => !Number.isNaN(n));
     const randomIndex = Math.floor(Math.random() * enumValues.length);
@@ -37,3 +38,4 @@ export const {{classname}}Mock = ({
     return Array.from({length}).map(() => this.mock());
   }
 });
+}}

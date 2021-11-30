@@ -49,9 +49,11 @@ export const {{nickname}}AxiosRequest = (
     {
       url: '{{{path}}}'{{#pathParams}}.replace(`{${'{{baseName}}'}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
       method: '{{httpMethod}}',
-      {{#allParams.0}}
-      params: requestParameters
-      {{/allParams.0}}
+      params: {
+      {{#queryParams}}
+        {{paramName}}: requestParameters['{{paramName}}'],
+      {{/queryParams}}
+      }
     },
     customAxiosInstance
   );
@@ -72,12 +74,12 @@ export const {{nickname}}QueryKey = (
 ];
 
 
-export const use{{vendorExtensions.nickname-capitalized}}InfiniteQuery = <Error = ApiError>(
+export const use{{vendorExtensions.nickname-capitalized}}InfiniteQuery = <T = {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}undefined{{/returnType}}, Error = ApiError>(
   {{#allParams.0}}
   params: {{operationIdCamelCase}}ForQuery,
   {{/allParams.0}}
   options?: {
-    query?: UseInfiniteQueryOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Data{{/returnType}}, Error>;
+    query?: UseInfiniteQueryOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Data{{/returnType}}, Error, T>;
     customAxiosInstance?: AxiosInstance;
   },
   pageParam = -1,
@@ -86,7 +88,7 @@ export const use{{vendorExtensions.nickname-capitalized}}InfiniteQuery = <Error 
   const queryKey = {{nickname}}QueryKey({{#allParams.0}}params, {{/allParams.0}}pageParam, version);
   const { query: queryOptions, customAxiosInstance } = options ?? {};
 
-  const query = useInfiniteQuery<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Data{{/returnType}}, Error>(
+  const query = useInfiniteQuery<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Data{{/returnType}}, Error, T>(
     queryKey,
     () => {{nickname}}AxiosRequest({{#allParams.0}}params, {{/allParams.0}}customAxiosInstance),
     queryOptions
@@ -98,12 +100,12 @@ export const use{{vendorExtensions.nickname-capitalized}}InfiniteQuery = <Error 
   };
 };
 
-export const use{{vendorExtensions.nickname-capitalized}}Query = <Error = ApiError>(
+export const use{{vendorExtensions.nickname-capitalized}}Query = <T = {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}undefined{{/returnType}}, Error = ApiError>(
   {{#allParams.0}}
   params: {{operationIdCamelCase}}ForQuery,
   {{/allParams.0}}
   options?: {
-    query?: UseQueryOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}, Error>;
+    query?: UseQueryOptions<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}, Error, T>;
     customAxiosInstance?: AxiosInstance;
   },
   version = 1,
@@ -111,10 +113,10 @@ export const use{{vendorExtensions.nickname-capitalized}}Query = <Error = ApiErr
   const queryKey = {{nickname}}QueryKey({{#allParams.0}}params,  {{/allParams.0}}version);
   const { query: queryOptions, customAxiosInstance } = options ?? {};
 
-  const query = useQuery<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}, Error>(
+  const query = useQuery<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}, Error, T>(
     queryKey,
     () => {{nickname}}AxiosRequest({{#allParams.0}}params, {{/allParams.0}}customAxiosInstance),
-    { enabled: !!version, ...queryOptions }
+    queryOptions
   );
 
   return {
@@ -143,13 +145,11 @@ export const {{nickname}}Mutate = (
       url,
       method: '{{httpMethod}}',
       {{#hasBodyParam}}
-      data: {
-        {{#bodyParams}}
-        {{#bodyParam}}
-        ...body.{{paramName}}
-        {{/bodyParam}}
-        {{/bodyParams}}
-      }
+      {{#bodyParams}}
+      {{#bodyParam}}
+      data: body.{{paramName}}
+      {{/bodyParam}}
+      {{/bodyParams}}
       {{/hasBodyParam}}
     },
     customAxiosInstance
