@@ -855,6 +855,40 @@ public class SpringCodegenTest {
         });
     }
 
+    @Test(dataProvider = "baseClassSpecifications")
+    public void oneOfShouldBeObject(String specificationFile) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/" + specificationFile);
+        final CodegenConfig codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setEnablePostProcessFile(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        final String pathFormat = "%s/%s/%s.java";
+        final String relativePath = "/src/main/java/org/openapitools/api";
+
+        // OneOf model should be replaced with object
+        final String oneOfPath = String.format(Locale.ROOT, pathFormat, outputPath, relativePath, "AddFruitsApi");
+        assertFileContains(Paths.get(oneOfPath), "ResponseEntity<Object>", "Object body");
+    }
+
     @DataProvider(name = "specifications")
     public static Object[][] specificationsProviderMethod() {
         return new Object[][] {
@@ -864,6 +898,14 @@ public class SpringCodegenTest {
             { "oneOf_interface_array.yaml" },
             { "oneOf_with_allOf_inherited_class.yaml" },
             { "oneOf_with_allOf_inherited_class_array.yaml" },
+        };
+    }
+
+    @DataProvider(name = "baseClassSpecifications")
+    public static Object[][] baseClassSpecificationsProviderMethod() {
+        return new Object[][] {
+            { "oneOf_interface_base_classes.yaml" },
+            { "oneOf_interface_base_classes_combined.yaml" }
         };
     }
 }

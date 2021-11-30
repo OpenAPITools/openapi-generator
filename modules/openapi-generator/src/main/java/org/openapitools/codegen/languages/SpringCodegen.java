@@ -1054,7 +1054,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     mediaType.setSchema(newRefSchema);
                     ModelUtils.getSchemas(openAPI).put(oneOfModelName, replacingSchema);
                 } else {
-                    mediaType.setSchema(new Schema());
+                    mediaType.setSchema(new Schema().type("object"));
                 }
             }
         });
