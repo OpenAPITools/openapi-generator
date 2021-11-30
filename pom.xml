@@ -1299,6 +1299,7 @@
                 <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
+                <module>samples/client/petstore/java/okhttp-gson-nextgen</module>
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx2</module>
                 <module>samples/client/petstore/java/retrofit2rx3</module>
