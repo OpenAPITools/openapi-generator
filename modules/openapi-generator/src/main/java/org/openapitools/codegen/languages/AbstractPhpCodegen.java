@@ -335,7 +335,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         } else if (p instanceof ComposedSchema) {
             // Support nullable defined using oneOf construct
             ComposedSchema composedSchema = (ComposedSchema)p;
-            if (Boolean.TRUE.equals(p.getNullable()) || ModelUtils.isNullableComposedSchema(composedSchema)) {
+            Boolean isNullable = Boolean.TRUE.equals(p.getNullable())
+                || ModelUtils.isNullableComposedSchema(composedSchema);
+            if (composedSchema.getOneOf() != null && isNullable) {
                 Schema inner = composedSchema
                     .getOneOf()
                     .stream()
