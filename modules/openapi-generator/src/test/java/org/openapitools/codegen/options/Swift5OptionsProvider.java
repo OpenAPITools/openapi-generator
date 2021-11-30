@@ -31,6 +31,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String PROJECT_NAME_VALUE = "Swagger";
     public static final String RESPONSE_AS_VALUE = "test";
     public static final String NON_PUBLIC_API_REQUIRED_VALUE = "false";
+    public static final String ENCODE_MODEL_NULL_PROPERTIES_VALUE = "false";
     public static final String OBJC_COMPATIBLE_VALUE = "false";
     public static final String LENIENT_TYPE_CAST_VALUE = "false";
     public static final String POD_SOURCE_VALUE = "{ :git => 'git@github.com:swagger-api/swagger-mustache.git'," +
@@ -70,6 +71,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(Swift5ClientCodegen.PROJECT_NAME, PROJECT_NAME_VALUE)
                 .put(Swift5ClientCodegen.RESPONSE_AS, RESPONSE_AS_VALUE)
                 .put(CodegenConstants.NON_PUBLIC_API, NON_PUBLIC_API_REQUIRED_VALUE)
+                .put(Swift5ClientCodegen.ENCODE_MODEL_NULL_PROPERTIES, ENCODE_MODEL_NULL_PROPERTIES_VALUE)
                 .put(Swift5ClientCodegen.OBJC_COMPATIBLE, OBJC_COMPATIBLE_VALUE)
                 .put(Swift5ClientCodegen.LENIENT_TYPE_CAST, LENIENT_TYPE_CAST_VALUE)
                 .put(Swift5ClientCodegen.POD_SOURCE, POD_SOURCE_VALUE)

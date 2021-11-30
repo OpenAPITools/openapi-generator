@@ -63,7 +63,21 @@
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         {{#allVars}}
+        {{#encodeModelNullProperties}}
+        {{#required}}
+        try container.encode{{#isNullable}}IfPresent{{/isNullable}}({{{name}}}, forKey: .{{{name}}})
+        {{/required}}
+        {{^required}}
+        if let {{{name}}} = {{{name}}} {
+            try container.encode({{{name}}}, forKey: .{{{name}}})
+        } else {
+            try container.encodeNil(forKey: .{{{name}}})
+        }
+        {{/required}}
+        {{/encodeModelNullProperties}}
+        {{^encodeModelNullProperties}}
         try container.encode{{^required}}IfPresent{{/required}}({{{name}}}, forKey: .{{{name}}})
+        {{/encodeModelNullProperties}}
         {{/allVars}}
         {{#generateModelAdditionalProperties}}
         {{#additionalPropertiesType}}

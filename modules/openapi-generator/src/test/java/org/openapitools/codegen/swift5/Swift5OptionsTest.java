@@ -44,6 +44,7 @@ public class Swift5OptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setProjectName(Swift5OptionsProvider.PROJECT_NAME_VALUE);
         verify(clientCodegen).setResponseAs(Swift5OptionsProvider.RESPONSE_AS_VALUE.split(","));
         verify(clientCodegen).setNonPublicApi(Boolean.parseBoolean(Swift5OptionsProvider.NON_PUBLIC_API_REQUIRED_VALUE));
+        verify(clientCodegen).setEncodeModelNullProperties(Boolean.parseBoolean(Swift5OptionsProvider.ENCODE_MODEL_NULL_PROPERTIES_VALUE));
         verify(clientCodegen).setObjcCompatible(Boolean.parseBoolean(Swift5OptionsProvider.OBJC_COMPATIBLE_VALUE));
         verify(clientCodegen).setLenientTypeCast(Boolean.parseBoolean(Swift5OptionsProvider.LENIENT_TYPE_CAST_VALUE));
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(Swift5OptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));

@@ -68,6 +68,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
+    public static final String ENCODE_MODEL_NULL_PROPERTIES = "encodeModelNullProperties";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
@@ -80,6 +81,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected static final String[] RESPONSE_LIBRARIES = {RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_ASYNC_AWAIT};
     protected String projectName = "OpenAPIClient";
     protected boolean nonPublicApi = false;
+    protected boolean encodeModelNullProperties = false;
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
     protected boolean readonlyProperties = false;
@@ -250,6 +252,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.NON_PUBLIC_API,
                 CodegenConstants.NON_PUBLIC_API_DESC
                         + "(default: false)"));
+        cliOptions.add(new CliOption(ENCODE_MODEL_NULL_PROPERTIES,
+                "Generates models where null values are explicitly encoded versus being ignored."
+                        + "(default: false)"));
         cliOptions.add(new CliOption(OBJC_COMPATIBLE,
                 "Add additional properties and methods for Objective-C "
                         + "compatibility (default: false)"));
@@ -410,6 +415,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             setNonPublicApi(convertPropertyToBooleanAndWriteBack(CodegenConstants.NON_PUBLIC_API));
         }
         additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
+
+        // Setup encodeModelNullProperties option, which generates code where null
+        // values are explicitly encoded versus being ignored
+        if (additionalProperties.containsKey(ENCODE_MODEL_NULL_PROPERTIES)) {
+            setEncodeModelNullProperties(convertPropertyToBooleanAndWriteBack(ENCODE_MODEL_NULL_PROPERTIES));
+        }
+        additionalProperties.put(ENCODE_MODEL_NULL_PROPERTIES, encodeModelNullProperties);
 
         // Setup objcCompatible option, which adds additional properties
         // and methods for Objective-C compatibility
@@ -901,6 +913,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setNonPublicApi(boolean nonPublicApi) {
         this.nonPublicApi = nonPublicApi;
+    }
+
+    public void setEncodeModelNullProperties(boolean encodeModelNullProperties) {
+        this.encodeModelNullProperties = encodeModelNullProperties;
     }
 
     public void setObjcCompatible(boolean objcCompatible) {
