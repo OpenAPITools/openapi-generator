@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -30,6 +32,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -406,6 +409,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
       if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
         
         property.isEnum = true;
+        property.defaultValue = toDefaultValue(referencedSchema);
         if(p.get$ref()!=null) {
           property.isExternalEnum = true;
         }
@@ -416,6 +420,18 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         property.isExternalEnum = ((ComposedSchema) referencedSchema).getAllOf().stream().filter(s->s.get$ref()!=null).map(s->ModelUtils.getReferencedSchema(this.openAPI, s)).anyMatch(s->s.getEnum() != null && !s.getEnum().isEmpty());
       }
       return property;
+    }
+    
+    
+
+    @Override
+    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+      CodegenParameter param = super.fromParameter(parameter, imports);
+      Schema refschema = ModelUtils.getReferencedSchema(openAPI, parameter.getSchema());
+      if(param.defaultValue==null) {
+        param.defaultValue = toDefaultValue(refschema);
+      }
+      return param;
     }
 
     private CliOption createBooleanCliWithDefault(String optionName, String description, boolean defaultValue) {
