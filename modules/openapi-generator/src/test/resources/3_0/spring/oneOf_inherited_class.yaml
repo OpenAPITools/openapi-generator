@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "API should have import for OneOf Class, models should extend OneOf Class"
+paths:
+  /addFruits:
+    post:
+      responses:
+        '200':
+          description: Returns a list of fruits
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fruit'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fruit'
+components:
+  schemas:
+    Fruit:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Orange'
+      discriminator:
+        propertyName: kind
+    Apple:
+      type: object
+      properties:
+        kind:
+          type: string
+        identifier:
+          type: string
+      required:
+        - kind
+    Orange:
+      type: object
+      properties:
+        kind:
+          type: string
+        identifier2:
+          type: string
+      required:
+        - kind

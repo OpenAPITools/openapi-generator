@@ -21,24 +21,32 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
+import static org.junit.Assert.assertFalse;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
@@ -763,5 +771,99 @@ public class SpringCodegenTest {
         if(!flag){
             fail("OpenAPIDocumentationConfig.java not generated");
         }
+    }
+
+    @Test(dataProvider = "specifications")
+    public void oneOfModelsGeneration(String specificationFile) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/" + specificationFile);
+        final CodegenConfig codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        final String responseCode = "200";
+        final String extension = "x-one-of-name";
+        final Operation operation = openAPI.getPaths().get("/addFruits").getPost();
+        List<String> oneOfModels = new ArrayList<>();
+
+        // If response body contains oneOf definition - add OneOf model
+        final ApiResponse apiResponse = operation.getResponses().get(responseCode);
+        final Schema responseSchema = ModelUtils.getSchemaFromResponse(apiResponse);
+        if (ModelUtils.isArraySchema(responseSchema)) {
+            Schema responseItems = ((ArraySchema) responseSchema).getItems();
+            if (responseItems.get$ref() == null) {
+                oneOfModels.add((String) (responseItems.getExtensions().get(extension)));
+            }
+        }
+
+        // If request body contains oneOf definition - add OneOf model
+        final RequestBody requestBody = operation.getRequestBody();
+        final Schema requestSchema = ModelUtils.getSchemaFromRequestBody(requestBody);
+        if (ModelUtils.isArraySchema(requestSchema)) {
+            Schema requestItems = ((ArraySchema) requestSchema).getItems();
+            if (requestItems.get$ref() == null) {
+                oneOfModels.add((String) (requestItems.getExtensions().get(extension)));
+            }
+        }
+
+        List<String> models = new ArrayList<>();
+        // If model contains discriminator - add to OneOf models, otherwise - generic models
+        openAPI.getComponents().getSchemas().forEach((modelName, modelSchema) -> {
+            if (modelSchema.getDiscriminator() != null || (modelSchema.getExtensions() != null && modelSchema.getExtensions().containsKey("x-one-of-name"))) {
+                oneOfModels.add(modelName);
+            } else {
+                // exclude allOf models
+                if (!modelName.contains("_")) {
+                    models.add(modelName);
+                }
+            }
+        });
+        assertFalse(oneOfModels.isEmpty());
+
+        final String pathFormat = "%s/%s/%s.java";
+        final String relativePath = "/src/main/java/org/openapitools/model";
+        final String jacksonSubTypeFormat = "@JsonSubTypes.Type(value = %s.class, name = \"%s\"),";
+
+        models.forEach(modelName -> {
+            final String modelPath = String.format(Locale.ROOT, pathFormat, outputPath, relativePath, modelName);
+
+            oneOfModels.forEach(oneOfModelName -> {
+                // Models should implement all linked OneOf interfaces
+                assertFileContains(Paths.get(modelPath), oneOfModelName);
+
+                // OneOf model should contain relevant jackson annotations
+                final String oneOfPath = String.format(Locale.ROOT, pathFormat, outputPath, relativePath, oneOfModelName);
+                assertFileContains(Paths.get(oneOfPath), String.format(Locale.ROOT, jacksonSubTypeFormat, modelName, modelName));
+            });
+        });
+    }
+
+    @DataProvider(name = "specifications")
+    public static Object[][] specificationsProviderMethod() {
+        return new Object[][] {
+            { "oneOf_inherited_class.yaml" },
+            { "oneOf_inherited_class_array.yaml" },
+            { "oneOf_interface.yaml" },
+            { "oneOf_interface_array.yaml" },
+            { "oneOf_with_allOf_inherited_class.yaml" },
+            { "oneOf_with_allOf_inherited_class_array.yaml" },
+        };
     }
 }
