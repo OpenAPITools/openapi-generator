@@ -23,6 +23,7 @@ package org.openapitools.client.apis
 import org.openapitools.client.models.Order
 
 import org.openapitools.client.infrastructure.*
+import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -35,8 +36,9 @@ import kotlinx.serialization.encoding.*
 class StoreApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
+    httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
     jsonSerializer: Json = ApiClient.JSON_DEFAULT
-) : ApiClient(baseUrl, httpClientEngine, jsonSerializer) {
+) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonSerializer) {
 
     /**
      * Delete purchase order by ID
