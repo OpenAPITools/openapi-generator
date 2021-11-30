@@ -68,7 +68,6 @@
 		"recommendations": [
 			"vscjava.vscode-java-pack",
 			"attilabuti.mustache-syntax-vscode",
-			"EditorConfig.EditorConfig",
 			"formulahendry.code-runner",
 			"visualstudioexptteam.vscodeintellicode",
 			"42crunch.vscode-openapi",
