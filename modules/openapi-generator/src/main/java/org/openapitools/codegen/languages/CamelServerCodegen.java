@@ -5,6 +5,9 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.OptionalFeatures;
+import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +15,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-public class CamelServerCodegen extends SpringCodegen {
+public class CamelServerCodegen extends SpringCodegen implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures {
     private static final String APPLICATION_JSON = "application/json";
     private static final String APPLICATION_XML = "application/xml";
 
@@ -47,6 +50,7 @@ public class CamelServerCodegen extends SpringCodegen {
 
     public CamelServerCodegen() {
         super();
+        templateDir = "camel";
         addCliOptions();
         artifactId = "openapi-camel";
         super.library = "";
@@ -57,6 +61,7 @@ public class CamelServerCodegen extends SpringCodegen {
     public void processOpts() {
         additionalProperties.put(DATE_LIBRARY, "legacy");
         super.processOpts();
+        LOGGER.info("----------------------------------");
         supportingFiles.clear();
         manageAdditionalProperties();
         supportingFiles.add(new SupportingFile("restConfiguration.mustache",
