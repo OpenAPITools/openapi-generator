@@ -17,10 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -392,6 +394,28 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         }
 
         return objs;
+    }
+    
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p) {
+      // TODO Auto-generated method stub
+      CodegenProperty property = super.fromProperty(name, p);
+      Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+
+      //Referenced enum case:
+      if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+        
+        property.isEnum = true;
+        if(p.get$ref()!=null) {
+          property.isExternalEnum = true;
+        }
+      }
+      
+      if(referencedSchema instanceof ComposedSchema) {
+        property.isEnum = ((ComposedSchema) referencedSchema).getAllOf().stream().map(s->ModelUtils.getReferencedSchema(this.openAPI, s)).anyMatch(s->s.getEnum() != null && !s.getEnum().isEmpty());
+        property.isExternalEnum = ((ComposedSchema) referencedSchema).getAllOf().stream().filter(s->s.get$ref()!=null).map(s->ModelUtils.getReferencedSchema(this.openAPI, s)).anyMatch(s->s.getEnum() != null && !s.getEnum().isEmpty());
+      }
+      return property;
     }
 
     private CliOption createBooleanCliWithDefault(String optionName, String description, boolean defaultValue) {

@@ -38,7 +38,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
             isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isFreeFormObject, isAnyType, isShort, isUnboundedInteger;
     public boolean isArray, isMap;
     public boolean isFile;
-    public boolean isEnum;
+    public boolean isEnum, isExternalEnum;
     private boolean additionalPropertiesIsAnyType;
     private boolean hasVars;
     public List<String> _enum;

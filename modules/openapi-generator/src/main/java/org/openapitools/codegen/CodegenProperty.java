@@ -149,6 +149,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isArray;
     public boolean isMap;
     public boolean isEnum;
+    public boolean isExternalEnum;
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;

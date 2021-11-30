@@ -4477,6 +4477,7 @@ public class DefaultCodegen implements CodegenConfig {
             // enum
             updateCodegenPropertyEnum(codegenProperty);
             codegenParameter.isEnum = codegenProperty.isEnum;
+            codegenParameter.isExternalEnum = codegenProperty.isExternalEnum;
             codegenParameter._enum = codegenProperty._enum;
             codegenParameter.allowableValues = codegenProperty.allowableValues;
 
