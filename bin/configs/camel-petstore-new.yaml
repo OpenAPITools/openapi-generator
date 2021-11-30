@@ -1,0 +1,14 @@
+generatorName: camel
+outputDir: samples/server/petstore/camel
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/camel
+additionalProperties:
+  oas3: "true"
+  hideGenerationTimestamp: true
+  performBeanValidation: true
+  library: "spring-boot"
+  withXml: true
+  jackson: true
+  camelUseDefaulValidationtErrorProcessor: true
+  camelRestClientRequestValidation: true
+  camelSecurityDefinitions: true

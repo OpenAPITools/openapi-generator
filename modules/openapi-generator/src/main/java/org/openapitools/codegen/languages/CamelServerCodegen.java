@@ -1,0 +1,142 @@
+package org.openapitools.codegen.languages;
+
+import io.swagger.v3.oas.models.Operation;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+
+public class CamelServerCodegen extends SpringCodegen {
+    private static final String APPLICATION_JSON = "application/json";
+    private static final String APPLICATION_XML = "application/xml";
+
+    public static final String PROJECT_NAME = "projectName";
+    public static final String CAMEL_REST_COMPONENT = "camelRestComponent";
+    public static final String CAMEL_REST_BINDING_MODE = "camelRestBindingMode";
+    public static final String CAMEL_REST_CLIENT_REQUEST_VALIDATION = "camelRestClientRequestValidation";
+    public static final String CAMEL_USE_DEFAULT_VALIDATION_ERROR_PROCESSOR = "camelUseDefaulValidationtErrorProcessor";
+    public static final String CAMEL_VALIDATION_ERROR_PROCESSOR = "camelValidationErrorProcessor";
+    public static final String CAMEL_SECURITY_DEFINITIONS = "camelSecurityDefinitions";
+
+    private String camelRestComponent = "servlet";
+    private String camelRestBindingMode = "auto";
+    private boolean camelRestClientRequestValidation = false;
+    private boolean camelUseDefaulValidationtErrorProcessor = true;
+    private String camelValidationErrorProcessor = "validationErrorProcessor";
+    private boolean camelSecurityDefinitions = true;
+
+    static final Logger LOGGER = LoggerFactory.getLogger(CamelServerCodegen.class);
+
+    public CodegenType getTag() {
+        return CodegenType.SERVER;
+    }
+
+    public String getName() {
+        return "camel";
+    }
+
+    public String getHelp() {
+        return "Generates a camel server.";
+    }
+
+    public CamelServerCodegen() {
+        super();
+        addCliOptions();
+        artifactId = "openapi-camel";
+        super.library = "";
+        super.interfaceOnly = true;
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+        supportingFiles.clear();
+        manageAdditionalProperties();
+        supportingFiles.add(new SupportingFile("restConfiguration.mustache",
+                (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                "RestConfiguration.java"));
+        if (performBeanValidation) {
+            apiTemplateFiles.put("validation.mustache", "Validator.java");
+            if (camelUseDefaulValidationtErrorProcessor) {
+                supportingFiles.add(new SupportingFile("errorProcessor.mustache",
+                        (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                        "ValidationErrorProcessor.java"));
+            }
+        }
+        if (SPRING_BOOT.equals(library)) {
+            supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
+                    (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                    "OpenAPI2SpringBoot.java"));
+            apiTemplateFiles.put("routesImpl.mustache", "RoutesImpl.java");
+            supportingFiles.add(new SupportingFile("application.mustache",
+                    ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+            supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
+                    (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
+                    "RFC3339DateFormat.java"));
+        }
+    }
+
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        boolean bindingModeOff = false;
+        if (co.hasProduces) {
+            for (Map<String, String> produces : co.produces) {
+                String mediaType = produces.get("mediaType");
+                if (!APPLICATION_JSON.equals(mediaType) && !APPLICATION_XML.equals(mediaType)) {
+                    bindingModeOff = true;
+                }
+            }
+        }
+        if (co.hasConsumes) {
+            for (Map<String, String> produces : co.consumes) {
+                String mediaType = produces.get("mediaType");
+                if (!APPLICATION_JSON.equals(mediaType) && !APPLICATION_XML.equals(mediaType)) {
+                    bindingModeOff = true;
+                }
+            }
+        }
+        co.vendorExtensions.put(CAMEL_REST_BINDING_MODE, bindingModeOff);
+        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+    }
+
+    private void addCliOptions() {
+        cliOptions.add(new CliOption(CAMEL_REST_COMPONENT, "name of the Camel component to use as the REST consumer").defaultValue(camelRestComponent));
+        cliOptions.add(new CliOption(CAMEL_REST_BINDING_MODE, "binding mode to be used by the REST consumer").defaultValue(camelRestBindingMode));
+        cliOptions.add(CliOption.newBoolean(CAMEL_REST_CLIENT_REQUEST_VALIDATION, "enable validation of the client request to check whether the Content-Type and Accept headers from the client is supported by the Rest-DSL configuration", camelRestClientRequestValidation));
+        cliOptions.add(CliOption.newBoolean(CAMEL_USE_DEFAULT_VALIDATION_ERROR_PROCESSOR, "generate default validation error processor", camelUseDefaulValidationtErrorProcessor));
+        cliOptions.add(new CliOption(CAMEL_VALIDATION_ERROR_PROCESSOR, "validation error processor bean name").defaultValue(camelValidationErrorProcessor));
+        cliOptions.add(CliOption.newBoolean(CAMEL_SECURITY_DEFINITIONS, "generate camel security definitions", camelSecurityDefinitions));
+    }
+
+    private void manageAdditionalProperties() {
+        camelRestComponent = manageAdditionalProperty(CAMEL_REST_COMPONENT, camelRestComponent);
+        camelRestBindingMode = manageAdditionalProperty(CAMEL_REST_BINDING_MODE, camelRestBindingMode);
+        camelRestClientRequestValidation = manageAdditionalProperty(CAMEL_REST_CLIENT_REQUEST_VALIDATION, camelRestClientRequestValidation);
+        camelUseDefaulValidationtErrorProcessor = manageAdditionalProperty(CAMEL_USE_DEFAULT_VALIDATION_ERROR_PROCESSOR, camelUseDefaulValidationtErrorProcessor);
+        camelValidationErrorProcessor = manageAdditionalProperty(CAMEL_VALIDATION_ERROR_PROCESSOR, camelValidationErrorProcessor);
+        camelSecurityDefinitions = manageAdditionalProperty(CAMEL_SECURITY_DEFINITIONS, camelSecurityDefinitions);
+    }
+
+    private <T> T manageAdditionalProperty(String propertyName, T defaultValue) {
+        if (additionalProperties.containsKey(propertyName)) {
+            Object propertyValue = additionalProperties.get(propertyName);
+            if (defaultValue instanceof Boolean && !(propertyValue instanceof Boolean)) {
+                return (T) manageBooleanAdditionalProperty((String) propertyValue);
+            }
+            return (T) additionalProperties.get(propertyName);
+        }
+        additionalProperties.put(propertyName, defaultValue);
+        return defaultValue;
+    }
+
+    private Boolean manageBooleanAdditionalProperty(String propertyValue) {
+        return Boolean.parseBoolean(propertyValue);
+    }
+}
