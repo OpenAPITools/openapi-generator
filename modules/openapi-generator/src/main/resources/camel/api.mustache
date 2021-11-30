@@ -35,7 +35,7 @@ public class {{classname}} extends RouteBuilder {
                     .tokenUrl("{{tokenUrl}}"){{/tokenUrl}}{{#authorizationUrl}}
                     .authorizationUrl("{{authorizationUrl}}"){{/authorizationUrl}}{{#refreshUrl}}
                     .refreshUrl("{{refreshUrl}}"){{/refreshUrl}}{{#scopes}}
-                        .withScope("{{scope}}"{{#description}},"{{description}}"{{/description}}){{/scopes}}
+                        .withScope("{{scope}}"{{#description}},"{{{.}}}"{{/description}}){{/scopes}}
                 {{^-last}}.end(){{/-last}}{{#-last}}
             .endSecurityDefinition(){{/-last}}{{/isOAuth}}{{#isApiKey}}
                 .apiKey("{{name}}"){{#isKeyInHeader}}
@@ -47,7 +47,7 @@ public class {{classname}} extends RouteBuilder {
                 .basicAuth("{{name}}"){{#-last}}.end(){{/-last}}{{/isBasicBasic}}{{#isBasicBearer}}
                 .bearerToken("{{name}}"{{#bearerFormat}}, "{{bearerFormat}}"{{/bearerFormat}}){{#-last}}.end(){{/-last}}{{/isBasicBearer}}{{/isBasic}}{{/authMethods}}{{/hasAuthMethods}}{{/camelSecurityDefinitions}}
             .{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}")
-                .description("{{summary}}")
+                .description("{{#summary}}{{{.}}}{{/summary}}")
                 .id("{{operationId}}Api"){{#vendorExtensions}}{{#camelRestBindingMode}}
                 .clientRequestValidation(false)
                 .bindingMode(RestBindingMode.off){{/camelRestBindingMode}}{{/vendorExtensions}}{{#hasProduces}}
@@ -62,31 +62,31 @@ public class {{classname}} extends RouteBuilder {
                     .name("{{paramName}}")
                     .type(RestParamType.path)
                     .required({{required}}){{#description}}
-                    .description("{{description}}"){{/description}}
+                    .description("{{{.}}}"){{/description}}
                 .endParam(){{/pathParams}}{{#queryParams}}
                 .param()
                     .name("{{paramName}}")
                     .type(RestParamType.query)
                     .required({{required}}){{#description}}
-                    .description("{{description}}"){{/description}}
+                    .description("{{{.}}}"){{/description}}
                 .endParam(){{/queryParams}}{{#headerParams}}
                 .param()
                     .name("{{paramName}}")
                     .type(RestParamType.header)
                     .required({{required}}){{#description}}
-                    .description("{{description}}"){{/description}}
+                    .description("{{{.}}}"){{/description}}
                 .endParam(){{/headerParams}}{{#bodyParams}}
                 .param()
                     .name("{{paramName}}")
                     .type(RestParamType.body)
                     .required({{required}}){{#description}}
-                    .description("{{description}}"){{/description}}
+                    .description("{{{.}}}"){{/description}}
                 .endParam(){{/bodyParams}}{{#formParams}}
                 .param()
                     .name("{{paramName}}")
                     .type(RestParamType.formData)
                     .required({{required}}){{#description}}
-                    .description("{{description}}"){{/description}}
+                    .description("{{{.}}}"){{/description}}
                 .endParam(){{/formParams}}{{#performBeanValidation}}
                 .to("direct:validate-{{operationId}}");{{/performBeanValidation}}{{^performBeanValidation}}
                 .to("direct:{{operationId}}");{{/performBeanValidation}}
