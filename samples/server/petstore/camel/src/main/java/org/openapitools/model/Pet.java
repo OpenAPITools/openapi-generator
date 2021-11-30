@@ -47,7 +47,7 @@ public class Pet   {
   @JsonProperty("photoUrls")
   @JacksonXmlProperty(localName = "photoUrl")
   @Valid
-  private List<String> photoUrls = new ArrayList<>();
+  private List<String> photoUrls = new ArrayList<String>();
 
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "tag")
@@ -190,7 +190,7 @@ public class Pet   {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<>();
+      this.tags = new ArrayList<Tag>();
     }
     this.tags.add(tagsItem);
     return this;

@@ -20,3 +20,6 @@ src/main/java/org/openapitools/model/Pet.java
 src/main/java/org/openapitools/model/Tag.java
 src/main/java/org/openapitools/model/User.java
 src/main/resources/application.properties
+src/test/java/org/openapitools/api/PetApiTest.java
+src/test/java/org/openapitools/api/StoreApiTest.java
+src/test/java/org/openapitools/api/UserApiTest.java

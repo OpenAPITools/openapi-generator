@@ -55,6 +55,7 @@ public class CamelServerCodegen extends SpringCodegen {
 
     @Override
     public void processOpts() {
+        additionalProperties.put(DATE_LIBRARY, "legacy");
         super.processOpts();
         supportingFiles.clear();
         manageAdditionalProperties();
@@ -80,6 +81,7 @@ public class CamelServerCodegen extends SpringCodegen {
             supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                     (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                     "RFC3339DateFormat.java"));
+            apiTestTemplateFiles.put("test.mustache", ".java");
         }
     }
 
@@ -92,13 +94,25 @@ public class CamelServerCodegen extends SpringCodegen {
                 if (!APPLICATION_JSON.equals(mediaType) && !APPLICATION_XML.equals(mediaType)) {
                     bindingModeOff = true;
                 }
+                if (APPLICATION_JSON.equals(mediaType)) {
+                    produces.put("isJson", "true");
+                }
+                if (APPLICATION_XML.equals(mediaType)) {
+                    produces.put("isXml", "true");
+                }
             }
         }
         if (co.hasConsumes) {
-            for (Map<String, String> produces : co.consumes) {
-                String mediaType = produces.get("mediaType");
+            for (Map<String, String> consumes : co.consumes) {
+                String mediaType = consumes.get("mediaType");
                 if (!APPLICATION_JSON.equals(mediaType) && !APPLICATION_XML.equals(mediaType)) {
                     bindingModeOff = true;
+                }
+                if (APPLICATION_JSON.equals(mediaType)) {
+                    consumes.put("isJson", "true");
+                }
+                if (APPLICATION_XML.equals(mediaType)) {
+                    consumes.put("isXml", "true");
                 }
             }
         }
