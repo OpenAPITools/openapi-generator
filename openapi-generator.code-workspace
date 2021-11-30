@@ -26,17 +26,15 @@
 		},
 	],
 	"settings": {
-		"telemetry.telemetryLevel": "off",
-
 		"editor.formatOnType": true,
 		"editor.linkedEditing": true,
 		"editor.tabCompletion": "on",
 		"editor.tabSize": 4,
-		"editor.renderWhitespace": "none",
+		"editor.renderWhitespace": "boundary",
 		"editor.suggest.shareSuggestSelections": true,
 		"editor.suggestSelection": "first",
-		"explorer.confirmDelete": true,
 		"editor.semanticHighlighting.enabled": true,
+		"explorer.confirmDelete": true,
 
 		"files.autoSave": "onFocusChange",
 		"files.exclude": {
@@ -50,11 +48,11 @@
 
 		"task.saveBeforeRun": "always",
 
-		"java.autobuild.enabled": true,
-		"java.format.onType.enabled": true,
+		"java.autobuild.enabled": false,
 		"java.completion.enabled": true,
 		"java.completion.guessMethodArguments": true,
 		"java.completion.maxResults": 5,
+		"java.format.onType.enabled": true,
 
 		"java.referencesCodeLens.enabled": true,
 		"java.saveActions.organizeImports": true,
