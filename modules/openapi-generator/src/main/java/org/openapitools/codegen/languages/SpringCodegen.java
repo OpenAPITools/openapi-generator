@@ -600,8 +600,11 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        preprocessInlineOneOf(openAPI);
-        super.preprocessOpenAPI(openAPI);
+        if (openAPI.getComponents() != null) {
+            preprocessInlineOneOf(openAPI);
+            super.preprocessOpenAPI(openAPI);
+        }
+
         /*
          * TODO the following logic should not need anymore in OAS 3.0 if
          * ("/".equals(swagger.getBasePath())) { swagger.setBasePath(""); }
