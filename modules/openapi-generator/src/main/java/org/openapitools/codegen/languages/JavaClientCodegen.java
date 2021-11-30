@@ -66,6 +66,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
     public static final String SUPPORT_STREAMING = "supportStreaming";
     public static final String GRADLE_PROPERTIES= "gradleProperties";
+    public static final String ERROR_OBJECT_TYPE= "errorObjectType";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -118,6 +119,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean dynamicOperations = false;
     protected boolean supportStreaming = false;
     protected String gradleProperties;
+    protected String errorObjectType;
     protected String authFolder;
     protected String serializationLibrary = null;
 
@@ -163,6 +165,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
         cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
         cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle proeprties to the gradle.properties file"));
+        cliOptions.add(CliOption.newString(ERROR_OBJECT_TYPE, "Error Object type. (This option is for okhttp-gson-next-gen only)"));
         cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.");
@@ -342,6 +345,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setGradleProperties(additionalProperties.get(GRADLE_PROPERTIES).toString());
         }
         additionalProperties.put(GRADLE_PROPERTIES, gradleProperties);
+
+        if (additionalProperties.containsKey(ERROR_OBJECT_TYPE)) {
+            this.setErrorObjectType(additionalProperties.get(ERROR_OBJECT_TYPE).toString());
+        }
+        additionalProperties.put(ERROR_OBJECT_TYPE, errorObjectType);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
@@ -1028,6 +1036,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setGradleProperties(final String gradleProperties) {
         this.gradleProperties= gradleProperties;
+    }
+
+    public void setErrorObjectType(final String errorObjectType) {
+        this.errorObjectType= errorObjectType;
     }
 
     /**

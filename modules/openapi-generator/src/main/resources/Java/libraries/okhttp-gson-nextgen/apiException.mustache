@@ -20,7 +20,7 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
     private int code = 0;
     private Map<String, List<String>> responseHeaders = null;
     private String responseBody = null;
-    private Object errorObject = null;
+    private {{{errorObjectType}}}{{^errorObjectType}}Object{{/errorObjectType}} errorObject = null;
     private GenericType errorObjectType = null;
  
     /**
@@ -184,7 +184,7 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
      *
      * @return Error object
      */
-    public Object getErrorObject() {
+    public {{{errorObjectType}}}{{^errorObjectType}}Object{{/errorObjectType}} getErrorObject() {
         return errorObject;
     }
 
@@ -193,7 +193,7 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
      *
      * @param errorObject Error object
      */
-    public void setErrorObject(Object errorObject) {
+    public void setErrorObject({{{errorObjectType}}}{{^errorObjectType}}Object{{/errorObjectType}} errorObject) {
         this.errorObject = errorObject;
     }
 }

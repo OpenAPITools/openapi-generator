@@ -300,8 +300,8 @@ public class {{classname}} {
             Type localVarReturnType = new TypeToken<{{{returnType}}}>(){}.getType();
             return localVarApiClient.executeStream(localVarCall, localVarReturnType);
         } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<{{{.}}}>(){}.getType()));
-            e.setErrorObjectType(new GenericType<{{{.}}}>(){});
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<{{{errorObjectType}}}{{^errorObjectType}}{{{returnType}}}{{/errorObjectType}}>(){}.getType()));
+            e.setErrorObjectType(new GenericType<{{{errorObjectType}}}{{^errorObjectType}}{{{returnType}}}{{/errorObjectType}}>(){});
             throw e;
         }
         {{/returnType}}
@@ -316,8 +316,8 @@ public class {{classname}} {
             Type localVarReturnType = new TypeToken<{{{returnType}}}>(){}.getType();
             return localVarApiClient.execute(localVarCall, localVarReturnType);
         } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<{{{.}}}>(){}.getType()));
-            e.setErrorObjectType(new GenericType<{{{.}}}>(){});
+            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<{{{errorObjectType}}}{{^errorObjectType}}{{{returnType}}}{{/errorObjectType}}>(){}.getType()));
+            e.setErrorObjectType(new GenericType<{{{errorObjectType}}}{{^errorObjectType}}{{{returnType}}}{{/errorObjectType}}>(){});
             throw e;
         }
         {{/returnType}}
