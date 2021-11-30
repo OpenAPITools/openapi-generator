@@ -65,6 +65,8 @@ public class ArrayTest {
   @XmlElement(name = "arrayArrayOfModel")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
+  public ArrayTest() { 
+  }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     

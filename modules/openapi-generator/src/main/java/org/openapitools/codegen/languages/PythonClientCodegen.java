@@ -611,12 +611,12 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         ComposedSchema cs = (ComposedSchema) schema;
 
         // these are the properties that are from properties in self cs or cs allOf
-        Map<String, Schema> selfProperties = new LinkedHashMap<String, Schema>();
-        List<String> selfRequired = new ArrayList<String>();
+        Map<String, Schema> selfProperties = new LinkedHashMap<>();
+        List<String> selfRequired = new ArrayList<>();
 
         // these are the properties that are from properties in cs oneOf or cs anyOf
-        Map<String, Schema> otherProperties = new LinkedHashMap<String, Schema>();
-        List<String> otherRequired = new ArrayList<String>();
+        Map<String, Schema> otherProperties = new LinkedHashMap<>();
+        List<String> otherRequired = new ArrayList<>();
 
         List<Schema> oneOfanyOfSchemas = new ArrayList<>();
         List<Schema> oneOf = cs.getOneOf();
@@ -631,7 +631,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, sc);
             addProperties(otherProperties, otherRequired, refSchema);
         }
-        Set<String> otherRequiredSet = new HashSet<String>(otherRequired);
+        Set<String> otherRequiredSet = new HashSet<>(otherRequired);
 
         List<Schema> allOf = cs.getAllOf();
         if ((schema.getProperties() != null && !schema.getProperties().isEmpty()) || allOf != null) {
@@ -641,7 +641,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (result.discriminator != null) {
             selfRequired.add(result.discriminator.getPropertyBaseName());
         }
-        Set<String> selfRequiredSet = new HashSet<String>(selfRequired);
+        Set<String> selfRequiredSet = new HashSet<>(selfRequired);
 
         List<CodegenProperty> reqVars = result.getRequiredVars();
         List<CodegenProperty> reqVarsThatMustBeOptional = new ArrayList<>();
@@ -668,7 +668,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     protected void addParentContainer(CodegenModel model, String name, Schema schema) {
         super.addParentContainer(model, name, schema);
 
-        List<String> referencedModelNames = new ArrayList<String>();
+        List<String> referencedModelNames = new ArrayList<>();
         model.dataType = getTypeString(schema, "", "", referencedModelNames);
     }
 
@@ -688,7 +688,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         if (cm.requiredVars.size() > 0 && (cm.oneOf.size() > 0 || cm.anyOf.size() > 0)) {
             fixComposedSchemaRequiredVars(sc, cm);
         }
-        ArrayList<List<CodegenProperty>> listOfLists = new ArrayList<List<CodegenProperty>>();
+        ArrayList<List<CodegenProperty>> listOfLists = new ArrayList<>();
         listOfLists.add(cm.requiredVars);
         listOfLists.add(cm.optionalVars);
         for (List<CodegenProperty> cpList : listOfLists) {
@@ -940,7 +940,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             // store it in codegenModel.additionalPropertiesType.
             // The 'addProps' may be a reference, getTypeDeclaration will resolve
             // the reference.
-            List<String> referencedModelNames = new ArrayList<String>();
+            List<String> referencedModelNames = new ArrayList<>();
             getTypeString(addProps, "", "", referencedModelNames);
             if (referencedModelNames.size() != 0) {
                 // Models that are referenced in the 'additionalPropertiesType' keyword
@@ -1235,7 +1235,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
             String itemModelName = getModelName(itemSchema);
             if (objExample instanceof Iterable && itemModelName == null) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
-                return fullPrefix + objExample.toString() + closeChars;
+                return fullPrefix + objExample + closeChars;
             }
             Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
             newSeenSchemas.add(schema);
@@ -1493,7 +1493,7 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     protected Map<String, Schema> getModelNameToSchemaCache() {
         if (modelNameToSchemaCache == null) {
             // Create a cache to efficiently lookup schema based on model name.
-            Map<String, Schema> m = new HashMap<String, Schema>();
+            Map<String, Schema> m = new HashMap<>();
             ModelUtils.getSchemas(openAPI).forEach((key, schema) -> {
                 m.put(toModelName(key), schema);
             });

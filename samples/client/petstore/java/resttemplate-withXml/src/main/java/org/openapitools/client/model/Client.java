@@ -43,6 +43,8 @@ public class Client {
   @XmlElement(name = "client")
   private String client;
 
+  public Client() { 
+  }
 
   public Client client(String client) {
     

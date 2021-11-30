@@ -44,7 +44,6 @@ org.openapitools.codegen.languages.GraphQLNodeJSExpressServerCodegen
 org.openapitools.codegen.languages.GroovyClientCodegen
 org.openapitools.codegen.languages.KotlinClientCodegen
 org.openapitools.codegen.languages.KotlinServerCodegen
-org.openapitools.codegen.languages.KotlinServerDeprecatedCodegen
 org.openapitools.codegen.languages.KotlinSpringServerCodegen
 org.openapitools.codegen.languages.KotlinVertxServerCodegen
 org.openapitools.codegen.languages.KtormSchemaCodegen
@@ -90,7 +89,6 @@ org.openapitools.codegen.languages.PhpLaravelServerCodegen
 org.openapitools.codegen.languages.PhpLumenServerCodegen
 org.openapitools.codegen.languages.PhpSlimServerCodegen
 org.openapitools.codegen.languages.PhpSlim4ServerCodegen
-org.openapitools.codegen.languages.PhpSilexServerCodegen
 org.openapitools.codegen.languages.PhpSymfonyServerCodegen
 org.openapitools.codegen.languages.PhpMezzioPathHandlerServerCodegen
 org.openapitools.codegen.languages.PhpDataTransferClientCodegen
@@ -125,7 +123,6 @@ org.openapitools.codegen.languages.Swift4Codegen
 org.openapitools.codegen.languages.Swift5ClientCodegen
 org.openapitools.codegen.languages.TypeScriptClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularClientCodegen
-org.openapitools.codegen.languages.TypeScriptAngularJsClientCodegen
 org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen
 org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen
 org.openapitools.codegen.languages.TypeScriptFetchClientCodegen
