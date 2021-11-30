@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.GenericType;
 
 public class DefaultApi {
     private ApiClient localVarApiClient;
@@ -136,14 +135,8 @@ public class DefaultApi {
      */
     public ApiResponse<InlineResponseDefault> fooGetWithHttpInfo() throws ApiException {
         okhttp3.Call localVarCall = fooGetValidateBeforeCall(null);
-        try {
-            Type localVarReturnType = new TypeToken<InlineResponseDefault>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<InlineResponseDefault>(){}.getType()));
-            e.setErrorObjectType(new GenericType<InlineResponseDefault>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<InlineResponseDefault>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**

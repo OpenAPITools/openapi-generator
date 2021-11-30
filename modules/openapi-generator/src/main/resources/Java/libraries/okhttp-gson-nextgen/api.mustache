@@ -51,7 +51,6 @@ import java.util.Map;
 import java.io.InputStream;
 {{/supportStreaming}}
 {{/fullJavaUtil}}
-import javax.ws.rs.core.GenericType;
 
 {{#operations}}
 public class {{classname}} {
@@ -295,32 +294,13 @@ public class {{classname}} {
     {{/isDeprecated}}
     public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}private{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-streaming}} InputStream {{operationId}}WithHttpInfo({{#allParams}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
         okhttp3.Call localVarCall = {{operationId}}ValidateBeforeCall({{#allParams}}{{paramName}}, {{/allParams}}null);
-        {{#returnType}}
-        try {
-            Type localVarReturnType = new TypeToken<{{{returnType}}}>(){}.getType();
-            return localVarApiClient.executeStream(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<{{{.}}}>(){}.getType()));
-            e.setErrorObjectType(new GenericType<{{{.}}}>(){});
-            throw e;
-        }
-        {{/returnType}}
+        {{#returnType}}Type localVarReturnType = new TypeToken<{{{returnType}}}>(){}.getType();
+        return localVarApiClient.executeStream(localVarCall, localVarReturnType);{{/returnType}}
     }
     {{/vendorExtensions.x-streaming}}{{^vendorExtensions.x-streaming}} ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
         okhttp3.Call localVarCall = {{operationId}}ValidateBeforeCall({{#allParams}}{{paramName}}, {{/allParams}}null);
-        {{^returnType}}
-        return localVarApiClient.execute(localVarCall);
-        {{/returnType}}
-        {{#returnType}}
-        try {
-            Type localVarReturnType = new TypeToken<{{{returnType}}}>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<{{{.}}}>(){}.getType()));
-            e.setErrorObjectType(new GenericType<{{{.}}}>(){});
-            throw e;
-        }
-        {{/returnType}}
+        {{#returnType}}Type localVarReturnType = new TypeToken<{{{returnType}}}>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);{{/returnType}}{{^returnType}}return localVarApiClient.execute(localVarCall);{{/returnType}}
     }
     {{/vendorExtensions.x-streaming}}
 
