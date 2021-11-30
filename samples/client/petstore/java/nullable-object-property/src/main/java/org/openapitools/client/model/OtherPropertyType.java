@@ -38,6 +38,8 @@ public class OtherPropertyType {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar;
 
+  public OtherPropertyType() { 
+  }
 
   public OtherPropertyType bar(String bar) {
     this.bar = bar;

@@ -61,6 +61,8 @@ public class ModelWithNullableObjectProperty {
   public static final String JSON_PROPERTY_PROPERTY_WITH_NULL_AND_TWO_TYPES = "propertyWithNullAndTwoTypes";
   private JsonNullable<OneOfnullPropertyTypeOtherPropertyType> propertyWithNullAndTwoTypes = JsonNullable.<OneOfnullPropertyTypeOtherPropertyType>undefined();
 
+  public ModelWithNullableObjectProperty() { 
+  }
 
   public ModelWithNullableObjectProperty propertyName(PropertyType propertyName) {
     this.propertyName = propertyName;

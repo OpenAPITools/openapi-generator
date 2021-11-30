@@ -18,11 +18,13 @@ import {
     OtherPropertyTypeFromJSON,
     OtherPropertyTypeFromJSONTyped,
     OtherPropertyTypeToJSON,
+} from './OtherPropertyType';
+import {
     PropertyType,
     PropertyTypeFromJSON,
     PropertyTypeFromJSONTyped,
     PropertyTypeToJSON,
-} from './';
+} from './PropertyType';
 
 /**
  * 

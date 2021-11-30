@@ -38,6 +38,8 @@ public class PropertyType {
   public static final String JSON_PROPERTY_FOO = "foo";
   private String foo;
 
+  public PropertyType() { 
+  }
 
   public PropertyType foo(String foo) {
     this.foo = foo;

@@ -100,14 +100,18 @@ public class DefaultApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("operation", localVarResponse);
-      }
-      return new ApiResponse<ModelWithNullableObjectProperty>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("operation", localVarResponse);
+        }
+        return new ApiResponse<ModelWithNullableObjectProperty>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelWithNullableObjectProperty>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelWithNullableObjectProperty>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }

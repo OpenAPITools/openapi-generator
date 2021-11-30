@@ -23,6 +23,7 @@ package org.openapitools.client.apis
 import org.openapitools.client.models.ModelWithNullableObjectProperty
 
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiInfrastructureResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -53,11 +54,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun operation() : ModelWithNullableObjectProperty? {
-        val localVariableConfig = operationRequestConfig()
-
-        val localVarResponse = request<Unit, ModelWithNullableObjectProperty>(
-            localVariableConfig
-        )
+        val localVarResponse = operationWithHttpInfo()
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ModelWithNullableObjectProperty?
@@ -72,6 +69,24 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    /**
+    * 
+    * 
+    * @return ApiInfrastructureResponse<ModelWithNullableObjectProperty?>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun operationWithHttpInfo() : ApiInfrastructureResponse<ModelWithNullableObjectProperty?> {
+        val localVariableConfig = operationRequestConfig()
+
+        return request<Unit, ModelWithNullableObjectProperty>(
+            localVariableConfig
+        )
     }
 
     /**
