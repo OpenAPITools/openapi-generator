@@ -325,7 +325,9 @@ class ObjectSerializer
                     // precision for php's DateTime to handle. This conversion
                     // (string -> unix timestamp -> DateTime) is a workaround
                     // for the problem.
-                    return (new \DateTime())->setTimestamp(strtotime($data));
+                    // Note that strtotime only handles precision up to a second, 
+                    // so trimming does not result in data loss.
+                    return (new \DateTime())->setTimestamp(strtotime(substr($data, 0, strpos($data, '.')))));
                 }
             } else {
                 return null;
