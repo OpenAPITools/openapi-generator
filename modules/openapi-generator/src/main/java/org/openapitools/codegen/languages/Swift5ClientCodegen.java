@@ -66,6 +66,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
     public static final String USE_CLASSES = "useClasses";
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
+    public static final String GENERATE_FROZEN_ENUMS = "generateFrozenEnums";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
@@ -90,6 +91,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean useClasses = false;
     protected boolean useBacktickEscapes = false;
     protected boolean generateModelAdditionalProperties = true;
+    protected boolean generateFrozenEnums = true;
     protected boolean hashableModels = true;
     protected boolean mapFileBinaryToData = false;
     protected String[] responseAs = new String[0];
@@ -281,6 +283,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(USE_BACKTICK_ESCAPES,
                 "Escape reserved words using backticks (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(GENERATE_FROZEN_ENUMS,
+                "Generate frozen enums (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(GENERATE_MODEL_ADDITIONAL_PROPERTIES,
                 "Generate model additional properties (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
@@ -485,6 +490,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             setUseBacktickEscapes(convertPropertyToBooleanAndWriteBack(USE_BACKTICK_ESCAPES));
         }
 
+        // Setup generateFrozenEnums option. If true, enums will strictly include
+        // cases matching the spec. If false, enums will also include an extra "unknown" case.
+        if (additionalProperties.containsKey(GENERATE_FROZEN_ENUMS)) {
+            setGenerateFrozenEnums(convertPropertyToBooleanAndWriteBack(GENERATE_FROZEN_ENUMS));
+        }
+        additionalProperties.put(GENERATE_FROZEN_ENUMS, generateFrozenEnums);
+
         if (additionalProperties.containsKey(GENERATE_MODEL_ADDITIONAL_PROPERTIES)) {
             setGenerateModelAdditionalProperties(convertPropertyToBooleanAndWriteBack(GENERATE_MODEL_ADDITIONAL_PROPERTIES));
         }
@@ -559,6 +571,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("Extensions.mustache",
                 sourceFolder,
                 "Extensions.swift"));
+        supportingFiles.add(new SupportingFile("Protocols.mustache",
+                sourceFolder,
+                "Protocols.swift"));
         supportingFiles.add(new SupportingFile("APIs.mustache",
                 sourceFolder,
                 "APIs.swift"));
@@ -943,6 +958,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.useBacktickEscapes = useBacktickEscapes;
     }
 
+    public void setGenerateFrozenEnums(boolean generateFrozenEnums) {
+        this.generateFrozenEnums = generateFrozenEnums;
+    }
+
     public void setGenerateModelAdditionalProperties(boolean generateModelAdditionalProperties) {
         this.generateModelAdditionalProperties = generateModelAdditionalProperties;
     }
@@ -1090,6 +1109,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             // properties in case we want to put special code in the templates
             // which provide Objective-C compatibility.
             property.vendorExtensions.put("x-swift-optional-scalar", true);
+        }
+
+        if (property.isEnum) {
+            // A non-frozen (with the "unknown" case) enum is only possible with String or Int raw types.
+            if (property.dataType.equals("String") || property.dataType.equals("Int")) {
+                property.vendorExtensions.put("x-non-frozen-enum-capable", true);
+            }
         }
     }
 

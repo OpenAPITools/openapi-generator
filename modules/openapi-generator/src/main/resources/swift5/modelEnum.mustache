@@ -1,7 +1,12 @@
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{dataType}}, {{#useVapor}}Content, Hashable{{/useVapor}}{{^useVapor}}Codable{{/useVapor}}, CaseIterable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{dataType}}, {{#useVapor}}Content, Hashable{{/useVapor}}{{^useVapor}}Codable{{/useVapor}}, CaseIterable{{^generateFrozenEnums}}{{#vendorExtensions.x-non-frozen-enum-capable}}, CaseIterableDefaultsLast{{/vendorExtensions.x-non-frozen-enum-capable}}{{/generateFrozenEnums}} {
 {{#allowableValues}}
 {{#enumVars}}
     case {{{name}}} = {{{value}}}
 {{/enumVars}}
 {{/allowableValues}}
+{{^generateFrozenEnums}}
+{{#vendorExtensions.x-non-frozen-enum-capable}}
+    case unknown
+{{/vendorExtensions.x-non-frozen-enum-capable}}
+{{/generateFrozenEnums}}
 }
