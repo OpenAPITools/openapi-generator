@@ -4,6 +4,6 @@
 // https://openapi-generator.tech
 //
 
-/// An enum where the last case value is "unknown" and can be used as a default catch-all.
+/// An enum where the last case value is "unknownDefault" and can be used as a default catch-all.
 public protocol CaseIterableDefaultsLast: Decodable & CaseIterable & RawRepresentable 
 where RawValue: Decodable, AllCases: BidirectionalCollection {}

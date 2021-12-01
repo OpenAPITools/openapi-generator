@@ -131,7 +131,7 @@ extension AnyCodable: Content {}
 
 extension CaseIterableDefaultsLast {
     /// Initializes an enum such that if a known raw value is found, then it is decoded.
-    /// Otherwise the last case ("unknown") is used.
+    /// Otherwise the last case ("unknownDefault") is used.
     /// - Parameter decoder: A decoder.
     public init(from decoder: Decoder) throws {
         if let value = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) {
