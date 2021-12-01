@@ -9,10 +9,10 @@ additionalProperties:
   performBeanValidation: true
   #dateLibrary: "java8-localdatetime"
   camelDataformatProperties: "json.out.disableFeatures=WRITE_DATES_AS_TIMESTAMPS"
-  dateLibrary: "legacy"
   library: "spring-boot"
   withXml: true
   jackson: true
   camelUseDefaulValidationtErrorProcessor: true
   camelRestClientRequestValidation: true
   camelSecurityDefinitions: true
+

@@ -63,9 +63,11 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
 
     @Override
     public void processOpts() {
-        //additionalProperties.put(DATE_LIBRARY, "legacy");
+        if (!additionalProperties.containsKey(DATE_LIBRARY)) {
+            additionalProperties.put(DATE_LIBRARY, "legacy");
+        }
         super.processOpts();
-        LOGGER.info("----------------------------------");
+        LOGGER.info("***** Apache Camel Server Generator *****");
         supportingFiles.clear();
         manageAdditionalProperties();
 
@@ -92,6 +94,7 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
             }
         }
         if (SPRING_BOOT.equals(library)) {
+            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
             supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                     (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                     "OpenAPI2SpringBoot.java"));
