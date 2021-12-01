@@ -1110,20 +1110,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             // which provide Objective-C compatibility.
             property.vendorExtensions.put("x-swift-optional-scalar", true);
         }
-
-        if (property.isEnum) {
-            // A non-frozen enum is only possible with String or Int raw types.
-            if (property.dataType.equals("String") || property.dataType.equals("Int")) {
-                property.vendorExtensions.put("x-non-frozen-enum-capable", true);
-                // Set an extension denoting type so you can assign a default value that is unlikely to conflict.
-                if (property.dataType.equals("String")) {
-                    property.vendorExtensions.put("x-non-frozen-enum-string", true);
-                }
-                if (property.dataType.equals("Int")) {
-                    property.vendorExtensions.put("x-non-frozen-enum-int", true);
-                }
-            }
-        }
     }
 
     @Override

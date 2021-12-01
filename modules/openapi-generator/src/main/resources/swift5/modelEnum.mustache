@@ -1,12 +1,15 @@
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{dataType}}, {{#useVapor}}Content, Hashable{{/useVapor}}{{^useVapor}}Codable{{/useVapor}}, CaseIterable{{^generateFrozenEnums}}{{#vendorExtensions.x-non-frozen-enum-capable}}, CaseIterableDefaultsLast{{/vendorExtensions.x-non-frozen-enum-capable}}{{/generateFrozenEnums}} {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{dataType}}, {{#useVapor}}Content, Hashable{{/useVapor}}{{^useVapor}}Codable{{/useVapor}}, CaseIterable{{^generateFrozenEnums}}{{#isInteger}}, CaseIterableDefaultsLast{{/isInteger}}{{#isString}}, CaseIterableDefaultsLast{{/isString}}{{/generateFrozenEnums}} {
 {{#allowableValues}}
 {{#enumVars}}
     case {{{name}}} = {{{value}}}
 {{/enumVars}}
 {{/allowableValues}}
 {{^generateFrozenEnums}}
-{{#vendorExtensions.x-non-frozen-enum-capable}}
-    case unknownDefaultOpenApi{{#vendorExtensions.x-non-frozen-enum-int}} = -152915291529{{/vendorExtensions.x-non-frozen-enum-int}}{{#vendorExtensions.x-non-frozen-enum-string}} = "unknown_default_open_api"{{/vendorExtensions.x-non-frozen-enum-string}}
-{{/vendorExtensions.x-non-frozen-enum-capable}}
+{{#isString}}
+    case unknownDefaultOpenApi = "unknown_default_open_api"
+{{/isString}}
+{{#isInteger}}
+    case unknownDefaultOpenApi = -11184809 // -(Int.min / 192)
+{{/isInteger}}
 {{/generateFrozenEnums}}
 }
