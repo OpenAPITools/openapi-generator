@@ -318,7 +318,7 @@ class ObjectSerializer
                     // for the problem.
                     // Note that strtotime only handles precision up to a second,
                     // so trimming does not result in data loss.
-                    return (new \DateTime())->setTimestamp(strtotime(substr($data, 0, strpos($data, '.')))));
+                    return (new \DateTime())->setTimestamp(strtotime(substr($data, 0, strpos($data, '.'))));
                 }
             } else {
                 return null;
