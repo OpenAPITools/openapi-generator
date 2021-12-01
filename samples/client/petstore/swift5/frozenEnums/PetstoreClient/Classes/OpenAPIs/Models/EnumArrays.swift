@@ -15,7 +15,7 @@ public struct EnumArrays: Codable, Hashable {
     public enum JustSymbol: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
-        case unknown
+        case unknownDefault
     }
     public enum ArrayEnum: String, Codable, CaseIterable {
         case fish = "fish"

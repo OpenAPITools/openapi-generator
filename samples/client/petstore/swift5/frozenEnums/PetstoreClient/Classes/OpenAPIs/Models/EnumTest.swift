@@ -16,18 +16,18 @@ public struct EnumTest: Codable, Hashable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
-        case unknown
+        case unknownDefault
     }
     public enum EnumStringRequired: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
-        case unknown
+        case unknownDefault
     }
     public enum EnumInteger: Int, Codable, CaseIterable, CaseIterableDefaultsLast {
         case _1 = 1
         case number1 = -1
-        case unknown
+        case unknownDefault
     }
     public enum EnumNumber: Double, Codable, CaseIterable {
         case _11 = 1.1
