@@ -26,6 +26,8 @@ namespace Org.OpenAPITools.Client
         /// <value>Access token.</value>
         string AccessToken { get; }
 
+        Func<string> GetAccessToken {get;}
+
         /// <summary>
         /// Gets the API key.
         /// </summary>

@@ -34,8 +34,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ModelClient</returns>
-        ModelClient Call123TestSpecialTags(ModelClient modelClient);
+        ModelClient Call123TestSpecialTags(ModelClient modelClient, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// To test special tags
@@ -45,8 +46,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo(ModelClient modelClient);
+        ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo(ModelClient modelClient, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         #endregion Synchronous Operations
     }
 
@@ -65,8 +67,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
 
         /// <summary>
         /// To test special tags
@@ -77,8 +80,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions));
         #endregion Asynchronous Operations
     }
 
@@ -204,10 +208,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ModelClient</returns>
-        public ModelClient Call123TestSpecialTags(ModelClient modelClient)
+        public ModelClient Call123TestSpecialTags(ModelClient modelClient, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = Call123TestSpecialTagsWithHttpInfo(modelClient);
+            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = Call123TestSpecialTagsWithHttpInfo(modelClient, localVarRequestOptions);
             return localVarResponse.Data;
         }
 
@@ -216,8 +221,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo(ModelClient modelClient)
+        public Org.OpenAPITools.Client.ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo(ModelClient modelClient, Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -225,7 +231,12 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling AnotherFakeApi->Call123TestSpecialTags");
             }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
+
+            
 
             string[] _contentTypes = new string[] {
                 "application/json"
@@ -271,10 +282,11 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await Call123TestSpecialTagsWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await Call123TestSpecialTagsWithHttpInfoAsync(modelClient, cancellationToken, localVarRequestOptions).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -284,8 +296,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <param name="localVarRequestOptions"></param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken), Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = default(Org.OpenAPITools.Client.RequestOptions))
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -294,7 +307,10 @@ namespace Org.OpenAPITools.Api
             }
 
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            if(localVarRequestOptions == default(Org.OpenAPITools.Client.RequestOptions))
+            {
+                localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+            }
 
             string[] _contentTypes = new string[] {
                 "application/json"
