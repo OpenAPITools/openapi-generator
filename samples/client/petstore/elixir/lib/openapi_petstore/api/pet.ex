@@ -139,7 +139,7 @@ defmodule OpenapiPetstore.Api.Pet do
   {:ok, OpenapiPetstore.Model.Pet.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_pet_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:ok, Pet.t} | {:error, Tesla.Env.t}
+  @spec get_pet_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.Pet.t} | {:error, Tesla.Env.t}
   def get_pet_by_id(connection, pet_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -231,7 +231,7 @@ defmodule OpenapiPetstore.Api.Pet do
   {:ok, OpenapiPetstore.Model.ApiResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec upload_file(Tesla.Env.client, integer(), keyword()) :: {:ok, ApiResponse.t} | {:error, Tesla.Env.t}
+  @spec upload_file(Tesla.Env.client, integer(), keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
   def upload_file(connection, pet_id, opts \\ []) do
     optional_params = %{
       :"additionalMetadata" => :form,
@@ -264,7 +264,7 @@ defmodule OpenapiPetstore.Api.Pet do
   {:ok, OpenapiPetstore.Model.ApiResponse.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec upload_file_with_required_file(Tesla.Env.client, integer(), String.t, keyword()) :: {:ok, ApiResponse.t} | {:error, Tesla.Env.t}
+  @spec upload_file_with_required_file(Tesla.Env.client, integer(), String.t, keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
   def upload_file_with_required_file(connection, pet_id, required_file, opts \\ []) do
     optional_params = %{
       :"additionalMetadata" => :form
