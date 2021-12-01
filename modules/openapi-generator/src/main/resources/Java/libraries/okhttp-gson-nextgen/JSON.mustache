@@ -132,21 +132,9 @@ public class JSON {
             {{#models}}
             {{#model}}
             {{^isEnum}}
-            {{#oneOf}}
-            {{#-first}}
+            {{^hasChildren}}
             .registerTypeAdapterFactory(new {{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
-            {{/-first}}
-            {{/oneOf}}
-            {{^oneOf}}
-            {{#anyOf}}
-            {{#-first}}
-            .registerTypeAdapterFactory(new {{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
-            {{/-first}}
-            {{/anyOf}}
-            {{^anyOf}}
-            .registerTypeAdapterFactory(new {{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
-            {{/anyOf}}
-            {{/oneOf}}
+            {{/hasChildren}}
             {{/isEnum}}
             {{/model}}
             {{/models}}
