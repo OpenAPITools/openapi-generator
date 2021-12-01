@@ -16,6 +16,7 @@ public class RestConfiguration extends RouteBuilder {
         restConfiguration()
             .component("servlet")
             .bindingMode(RestBindingMode.auto)
+                .dataFormatProperty("json.out.disableFeatures", "WRITE_DATES_AS_TIMESTAMPS")
             .clientRequestValidation(true);
     }
 }

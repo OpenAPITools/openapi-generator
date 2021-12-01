@@ -5,7 +5,11 @@ templateDir: modules/openapi-generator/src/main/resources/camel
 additionalProperties:
   oas3: "true"
   hideGenerationTimestamp: true
+  camelRestBindingMode: "auto"
   performBeanValidation: true
+  #dateLibrary: "java8-localdatetime"
+  camelDataformatProperties: "json.out.disableFeatures=WRITE_DATES_AS_TIMESTAMPS"
+  dateLibrary: "legacy"
   library: "spring-boot"
   withXml: true
   jackson: true

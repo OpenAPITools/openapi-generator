@@ -10,7 +10,7 @@
     <version>{{artifactVersion}}</version>
 
     <properties>
-        <org.springframework.boot.version>2.5.6</org.springframework.boot.version>
+        <org.springframework.boot.version>2.6.1</org.springframework.boot.version>
         <org.apache.camel.version>3.13.0</org.apache.camel.version>
     </properties>
 
@@ -103,6 +103,16 @@
         </dependency>
         {{/oas3}}
         {{#jackson}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+            <version>2.13.0</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jackson</artifactId>

@@ -15,7 +15,8 @@ public class RestConfiguration extends RouteBuilder {
     public void configure() throws Exception {
         restConfiguration()
             .component("{{camelRestComponent}}")
-            .bindingMode(RestBindingMode.{{camelRestBindingMode}})
+            .bindingMode(RestBindingMode.{{camelRestBindingMode}}){{#camelDataformatProperties}}
+                .dataFormatProperty("{{key}}", "{{value}}"){{/camelDataformatProperties}}
             .clientRequestValidation({{camelRestClientRequestValidation}});
     }
 }

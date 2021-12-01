@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +28,7 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
     public static final String CAMEL_USE_DEFAULT_VALIDATION_ERROR_PROCESSOR = "camelUseDefaulValidationtErrorProcessor";
     public static final String CAMEL_VALIDATION_ERROR_PROCESSOR = "camelValidationErrorProcessor";
     public static final String CAMEL_SECURITY_DEFINITIONS = "camelSecurityDefinitions";
+    public static final String CAMEL_DATAFORMAT_PROPERTIES = "camelDataformatProperties";
 
     private String camelRestComponent = "servlet";
     private String camelRestBindingMode = "auto";
@@ -33,6 +36,7 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
     private boolean camelUseDefaulValidationtErrorProcessor = true;
     private String camelValidationErrorProcessor = "validationErrorProcessor";
     private boolean camelSecurityDefinitions = true;
+    private String camelDataformatProperties = "";
 
     static final Logger LOGGER = LoggerFactory.getLogger(CamelServerCodegen.class);
 
@@ -59,11 +63,23 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
 
     @Override
     public void processOpts() {
-        additionalProperties.put(DATE_LIBRARY, "legacy");
+        //additionalProperties.put(DATE_LIBRARY, "legacy");
         super.processOpts();
         LOGGER.info("----------------------------------");
         supportingFiles.clear();
         manageAdditionalProperties();
+
+        Map<String, String> dataFormatProperties = new HashMap<>();
+        if (!"off".equals(camelRestBindingMode)) {
+            Arrays.stream(camelDataformatProperties.split(",")).forEach(property -> {
+                String[] dataFormatProperty = property.split("=");
+                if (dataFormatProperty.length == 2) {
+                    dataFormatProperties.put(dataFormatProperty[0].trim(), dataFormatProperty[1].trim());
+                }
+            });
+        }
+        additionalProperties.put(CAMEL_DATAFORMAT_PROPERTIES, dataFormatProperties.entrySet());
+
         supportingFiles.add(new SupportingFile("restConfiguration.mustache",
                 (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                 "RestConfiguration.java"));
@@ -132,6 +148,7 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
         cliOptions.add(CliOption.newBoolean(CAMEL_USE_DEFAULT_VALIDATION_ERROR_PROCESSOR, "generate default validation error processor", camelUseDefaulValidationtErrorProcessor));
         cliOptions.add(new CliOption(CAMEL_VALIDATION_ERROR_PROCESSOR, "validation error processor bean name").defaultValue(camelValidationErrorProcessor));
         cliOptions.add(CliOption.newBoolean(CAMEL_SECURITY_DEFINITIONS, "generate camel security definitions", camelSecurityDefinitions));
+        cliOptions.add(new CliOption(CAMEL_DATAFORMAT_PROPERTIES, "list of dataformat properties separated by comma (propertyName1=propertyValue2,...").defaultValue(camelDataformatProperties));
     }
 
     private void manageAdditionalProperties() {
@@ -141,6 +158,7 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
         camelUseDefaulValidationtErrorProcessor = manageAdditionalProperty(CAMEL_USE_DEFAULT_VALIDATION_ERROR_PROCESSOR, camelUseDefaulValidationtErrorProcessor);
         camelValidationErrorProcessor = manageAdditionalProperty(CAMEL_VALIDATION_ERROR_PROCESSOR, camelValidationErrorProcessor);
         camelSecurityDefinitions = manageAdditionalProperty(CAMEL_SECURITY_DEFINITIONS, camelSecurityDefinitions);
+        camelDataformatProperties = manageAdditionalProperty(CAMEL_DATAFORMAT_PROPERTIES, camelDataformatProperties);
     }
 
     private <T> T manageAdditionalProperty(String propertyName, T defaultValue) {
