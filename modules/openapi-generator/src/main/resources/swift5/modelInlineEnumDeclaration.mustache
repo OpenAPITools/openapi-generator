@@ -6,7 +6,7 @@
         {{/allowableValues}}
         {{^generateFrozenEnums}}
         {{#vendorExtensions.x-non-frozen-enum-capable}}
-        case unknownDefault
+        case unknownDefaultOpenApi{{#vendorExtensions.x-non-frozen-enum-int}} = -11184809 // -(Int.min / 192){{/vendorExtensions.x-non-frozen-enum-int}}{{#vendorExtensions.x-non-frozen-enum-string}} = "unknown_default_open_api"{{/vendorExtensions.x-non-frozen-enum-string}}
         {{/vendorExtensions.x-non-frozen-enum-capable}}
         {{/generateFrozenEnums}}
     }

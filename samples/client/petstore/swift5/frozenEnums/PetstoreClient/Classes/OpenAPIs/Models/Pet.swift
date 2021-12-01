@@ -16,7 +16,7 @@ public struct Pet: Codable, Hashable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
-        case unknownDefault
+        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
     public var id: Int64?
     public var category: Category?

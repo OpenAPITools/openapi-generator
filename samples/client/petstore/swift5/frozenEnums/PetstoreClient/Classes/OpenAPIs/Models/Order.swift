@@ -16,7 +16,7 @@ public struct Order: Codable, Hashable {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"
-        case unknownDefault
+        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
     public var id: Int64?
     public var petId: Int64?

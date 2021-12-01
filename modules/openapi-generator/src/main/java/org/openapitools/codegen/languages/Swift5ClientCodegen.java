@@ -491,7 +491,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // Setup generateFrozenEnums option. If true, enums will strictly include
-        // cases matching the spec. If false, enums will also include an extra "unknownDefault" case.
+        // cases matching the spec. If false, enums will also include an extra catch-all case.
         if (additionalProperties.containsKey(GENERATE_FROZEN_ENUMS)) {
             setGenerateFrozenEnums(convertPropertyToBooleanAndWriteBack(GENERATE_FROZEN_ENUMS));
         }
@@ -1112,9 +1112,16 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         if (property.isEnum) {
-            // A non-frozen (with the "unknownDefault" case) enum is only possible with String or Int raw types.
+            // A non-frozen enum is only possible with String or Int raw types.
             if (property.dataType.equals("String") || property.dataType.equals("Int")) {
                 property.vendorExtensions.put("x-non-frozen-enum-capable", true);
+                // Set an extension denoting type so you can assign a default value that is unlikely to conflict.
+                if (property.dataType.equals("String")) {
+                    property.vendorExtensions.put("x-non-frozen-enum-string", true);
+                }
+                if (property.dataType.equals("Int")) {
+                    property.vendorExtensions.put("x-non-frozen-enum-int", true);
+                }
             }
         }
     }
