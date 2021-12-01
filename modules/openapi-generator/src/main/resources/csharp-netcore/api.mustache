@@ -433,16 +433,36 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isBasicBasic}}
             {{#isBasicBearer}}
             // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (this.Configuration.GetAccessToken != null)
+            {
+                var accessToken = this.Configuration.GetAccessToken();
+
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + accessToken);
+                }
+            }
+            else if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+
             }
             {{/isBasicBearer}}
             {{#isOAuth}}
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (this.Configuration.GetAccessToken != null)
+            {
+                var accessToken = this.Configuration.GetAccessToken();
+
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + accessToken);
+                }
+            }
+            else if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+
             }
             {{/isOAuth}}
             {{#isHttpSignature}}
@@ -663,17 +683,37 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isBasicBasic}}
             {{#isBasicBearer}}
             // bearer authentication required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (this.Configuration.GetAccessToken != null)
+            {
+                var accessToken = this.Configuration.GetAccessToken();
+
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + accessToken);
+                }
+            }
+            else if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+
             }
             {{/isBasicBearer}}
             {{/isBasic}}
             {{#isOAuth}}
             // oauth required
-            if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
+            if (this.Configuration.GetAccessToken != null)
+            {
+                var accessToken = this.Configuration.GetAccessToken();
+
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + accessToken);
+                }
+            }
+            else if (!string.IsNullOrEmpty(this.Configuration.AccessToken))
             {
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+
             }
             {{/isOAuth}}
             {{#isHttpSignature}}
