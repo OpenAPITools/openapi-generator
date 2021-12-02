@@ -20,7 +20,6 @@ PetstoreClient/Classes/OpenAPIs/Models/Pet.swift
 PetstoreClient/Classes/OpenAPIs/Models/Tag.swift
 PetstoreClient/Classes/OpenAPIs/Models/User.swift
 PetstoreClient/Classes/OpenAPIs/OpenISO8601DateFormatter.swift
-PetstoreClient/Classes/OpenAPIs/Protocols.swift
 PetstoreClient/Classes/OpenAPIs/SynchronizedDictionary.swift
 PetstoreClient/Classes/OpenAPIs/URLSessionImplementations.swift
 README.md

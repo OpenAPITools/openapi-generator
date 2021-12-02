@@ -58,7 +58,6 @@ Sources/PetstoreClient/Models/TypeHolderDefault.swift
 Sources/PetstoreClient/Models/TypeHolderExample.swift
 Sources/PetstoreClient/Models/User.swift
 Sources/PetstoreClient/OpenISO8601DateFormatter.swift
-Sources/PetstoreClient/Protocols.swift
 Sources/PetstoreClient/SynchronizedDictionary.swift
 Sources/PetstoreClient/URLSessionImplementations.swift
 docs/AdditionalPropertiesClass.md

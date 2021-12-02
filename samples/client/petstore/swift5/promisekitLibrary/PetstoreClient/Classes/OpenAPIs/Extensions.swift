@@ -172,21 +172,3 @@ extension RequestBuilder {
         return deferred.promise
     }
 }
-
-extension CaseIterableDefaultsLast {
-    /// Initializes an enum such that if a known raw value is found, then it is decoded.
-    /// Otherwise the last case is used.
-    /// - Parameter decoder: A decoder.
-    public init(from decoder: Decoder) throws {
-        if let value = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) {
-            self = value
-        } else if let lastValue = Self.allCases.last {
-            self = lastValue
-        } else {
-            throw DecodingError.valueNotFound(
-                Self.Type.self,
-                .init(codingPath: decoder.codingPath, debugDescription: "CaseIterableDefaultsLast")
-            )
-        }
-    }
-}

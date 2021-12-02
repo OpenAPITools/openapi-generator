@@ -15,7 +15,6 @@ PetstoreClient/Classes/OpenAPIs/Models/Apple.swift
 PetstoreClient/Classes/OpenAPIs/Models/Banana.swift
 PetstoreClient/Classes/OpenAPIs/Models/Fruit.swift
 PetstoreClient/Classes/OpenAPIs/OpenISO8601DateFormatter.swift
-PetstoreClient/Classes/OpenAPIs/Protocols.swift
 PetstoreClient/Classes/OpenAPIs/SynchronizedDictionary.swift
 PetstoreClient/Classes/OpenAPIs/URLSessionImplementations.swift
 README.md
