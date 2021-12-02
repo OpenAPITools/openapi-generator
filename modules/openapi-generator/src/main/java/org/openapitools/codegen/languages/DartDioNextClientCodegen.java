@@ -60,6 +60,9 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     public static final String SERIALIZATION_LIBRARY_DEFAULT = SERIALIZATION_LIBRARY_BUILT_VALUE;
 
     private static final String DIO_IMPORT = "package:dio/dio.dart";
+    public static final String FINAL_PROPERTIES = "finalProperties";
+    public static final String FINAL_PROPERTIES_DEFAULT_VALUE = "true";
+
     private static final String CLIENT_NAME = "clientName";
 
     private String dateLibrary;
@@ -95,6 +98,11 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
         cliOptions.add(serializationLibrary);
 
+        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
+        finalProperties.setDefault("true");
+        cliOptions.add(finalProperties);
+
+        // Date Library Option
         final CliOption dateOption = CliOption.newString(DATE_LIBRARY, "Specify Date library");
         dateOption.setDefault(DATE_LIBRARY_DEFAULT);
 
@@ -151,6 +159,20 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             LOGGER.debug("Date library not set, using default {}", DATE_LIBRARY_DEFAULT);
         }
         setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
+
+        if (!additionalProperties.containsKey(FINAL_PROPERTIES)) {
+            additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(FINAL_PROPERTIES_DEFAULT_VALUE));
+            LOGGER.debug("finalProperties not set, using default {}", FINAL_PROPERTIES_DEFAULT_VALUE);
+        }
+        else {
+            additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(additionalProperties.get(FINAL_PROPERTIES).toString()));
+        }
+
+        if (!additionalProperties.containsKey(DIO_LIBRARY)) {
+            additionalProperties.put(DIO_LIBRARY, DIO_LIBRARY_DEFAULT);
+            LOGGER.debug("Dio library not set, using default {}", DIO_LIBRARY_DEFAULT);
+        }
+        setDioLibrary(additionalProperties.get(DIO_LIBRARY).toString());
 
         if (!additionalProperties.containsKey(CLIENT_NAME)) {
             final String name = org.openapitools.codegen.utils.StringUtils.camelize(pubName);

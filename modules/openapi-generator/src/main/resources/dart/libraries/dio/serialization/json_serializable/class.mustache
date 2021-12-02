@@ -33,7 +33,16 @@ class {{{classname}}} {
   {{#isBinary}}
   @JsonKey(ignore: true)
   {{/isBinary}}
-  final {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
+
+
+  {{#required}}
+  {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
+  {{/required}}
+  {{^required}}
+  {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}? {{{name}}};
+  {{/required}}
+
+
 
 {{/vars}}
   @override
