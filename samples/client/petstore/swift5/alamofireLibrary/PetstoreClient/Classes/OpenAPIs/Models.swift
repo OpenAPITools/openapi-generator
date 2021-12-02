@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import Alamofire
 
 protocol JSONEncodable {
     func encodeToJSON() -> Any
@@ -54,5 +55,18 @@ open class Response<T> {
             }
         }
         self.init(statusCode: response.statusCode, header: header, body: body)
+    }
+}
+
+public final class OpenAPIRequestCancellable {
+    private var request: Request?
+
+    internal func set(request: Request) {
+        self.request = request
+    }
+
+    public func cancel() {
+        request?.cancel()
+        request = nil
     }
 }

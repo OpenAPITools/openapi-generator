@@ -20,8 +20,9 @@ class BearerRequestBuilderFactory: RequestBuilderFactory {
 }
 
 class BearerRequestBuilder<T>: URLSessionRequestBuilder<T> {
-    override func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (Result<Response<T>, Error>) -> Void) {
-        
+    @discardableResult
+    override func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> OpenApiRequestCancellable {
+
         // Before making the request, we can validate if we have a bearer token to be able to make a request
         BearerTokenHandler.refreshTokenIfDoesntExist {
             
@@ -61,12 +62,14 @@ class BearerRequestBuilder<T>: URLSessionRequestBuilder<T> {
                 }
             }
         }
+        
+        return requestCancellable
     }
 }
 
 class BearerDecodableRequestBuilder<T: Decodable>: URLSessionDecodableRequestBuilder<T> {
-    override func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (Result<Response<T>, Error>) -> Void) {
-        
+    @discardableResult
+    override func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (Result<Response<T>, ErrorResponse>) -> Void) -> OpenApiRequestCancellable {
         // Before making the request, we can validate if we have a bearer token to be able to make a request
         BearerTokenHandler.refreshTokenIfDoesntExist {
             
@@ -106,6 +109,8 @@ class BearerDecodableRequestBuilder<T: Decodable>: URLSessionDecodableRequestBui
                 }
             }
         }
+        
+        return requestCancellable
     }
 }
 

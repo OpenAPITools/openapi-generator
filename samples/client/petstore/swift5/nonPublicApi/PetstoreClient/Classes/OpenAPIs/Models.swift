@@ -56,3 +56,16 @@ internal class Response<T> {
         self.init(statusCode: response.statusCode, header: header, body: body)
     }
 }
+
+internal final class OpenAPIRequestCancellable {
+    private var task: URLSessionTask?
+
+    internal func set(task: URLSessionTask) {
+        self.task = task
+    }
+
+    internal func cancel() {
+        task?.cancel()
+        task = nil
+    }
+}
