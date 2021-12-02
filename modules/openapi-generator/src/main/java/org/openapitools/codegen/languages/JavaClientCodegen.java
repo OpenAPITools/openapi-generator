@@ -67,6 +67,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String SUPPORT_STREAMING = "supportStreaming";
     public static final String GRADLE_PROPERTIES= "gradleProperties";
     public static final String ERROR_OBJECT_TYPE= "errorObjectType";
+    public static final String ERROR_OBJECT_SUBTYPE= "errorObjectSubtype";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -120,6 +121,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean supportStreaming = false;
     protected String gradleProperties;
     protected String errorObjectType;
+    protected List<String> errorObjectSubtype;
     protected String authFolder;
     protected String serializationLibrary = null;
 
@@ -350,6 +352,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setErrorObjectType(additionalProperties.get(ERROR_OBJECT_TYPE).toString());
         }
         additionalProperties.put(ERROR_OBJECT_TYPE, errorObjectType);
+
+        if (additionalProperties.containsKey(ERROR_OBJECT_SUBTYPE)) {
+            this.setErrorObjectSubtype((List<String>)additionalProperties.get(ERROR_OBJECT_SUBTYPE));
+        }
+        additionalProperties.put(ERROR_OBJECT_SUBTYPE, errorObjectSubtype);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
@@ -1040,6 +1047,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setErrorObjectType(final String errorObjectType) {
         this.errorObjectType= errorObjectType;
+    }
+
+    public void setErrorObjectSubtype(final List<String> errorObjectSubtype) {
+        this.errorObjectSubtype= errorObjectSubtype;
     }
 
     /**
