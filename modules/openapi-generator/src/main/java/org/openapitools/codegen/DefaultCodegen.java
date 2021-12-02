@@ -582,7 +582,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Removes imports from the model that points to itself
      * Marks a self referencing property, if detected
      *
-     * @param model
+     * @param model Self imports will be removed from this model.imports collection
      */
     protected void removeSelfReferenceImports(CodegenModel model) {
         for (CodegenProperty cp : model.allVars) {
@@ -5203,8 +5203,9 @@ public class DefaultCodegen implements CodegenConfig {
      * For a given property, adds all needed imports to the model
      * This includes a flat property type (e.g. property type: ReferencedModel)
      * as well as container type (property type: array of ReferencedModel's)
-     * @param model
-     * @param property
+     *
+     * @param model The codegen representation of the OAS schema.
+     * @param property The codegen representation of the OAS schema's property.
      */
     protected void addImportsForPropertyType(CodegenModel model, CodegenProperty property) {
         // TODO revise the logic to include map
