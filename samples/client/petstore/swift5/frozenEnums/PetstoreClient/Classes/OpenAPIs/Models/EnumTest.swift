@@ -20,7 +20,7 @@ public struct EnumTest: Codable, Hashable {
         // If new enum cases are added that are unknown to the spec/client, they are safely
         // decoded to this case. The raw value of this case is a dummy value that attempts
         // to avoids collisions with previously specified cases.
-        case unknownDefaultOpenApi = "unknown_default_open_api"
+        case unknownDefaultOpenAPI = "unknown_default_open_api"
     }
     public enum EnumStringRequired: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"
@@ -30,7 +30,7 @@ public struct EnumTest: Codable, Hashable {
         // If new enum cases are added that are unknown to the spec/client, they are safely
         // decoded to this case. The raw value of this case is a dummy value that attempts
         // to avoids collisions with previously specified cases.
-        case unknownDefaultOpenApi = "unknown_default_open_api"
+        case unknownDefaultOpenAPI = "unknown_default_open_api"
     }
     public enum EnumInteger: Int, Codable, CaseIterable, CaseIterableDefaultsLast {
         case _1 = 1
@@ -44,7 +44,7 @@ public struct EnumTest: Codable, Hashable {
         // frozen/non-frozen enums.
         // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
         //
-        case unknownDefaultOpenApi = -11184809 // -(Int.min / 192)
+        case unknownDefaultOpenAPI = -11184809 // Int.min / 192
     }
     public enum EnumNumber: Double, Codable, CaseIterable, CaseIterableDefaultsLast {
         case _11 = 1.1
@@ -58,7 +58,7 @@ public struct EnumTest: Codable, Hashable {
         // frozen/non-frozen enums.
         // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
         //
-        case unknownDefaultOpenApi = -0.016362461737446838 // -(Double.pi / 192)
+        case unknownDefaultOpenAPI = -11184809 // Int.min / 192
     }
     public var enumString: EnumString?
     public var enumStringRequired: EnumStringRequired

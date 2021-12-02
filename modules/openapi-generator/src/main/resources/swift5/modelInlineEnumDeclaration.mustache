@@ -10,10 +10,10 @@
         // decoded to this case. The raw value of this case is a dummy value that attempts
         // to avoids collisions with previously specified cases.
         {{#isString}}
-        case unknownDefaultOpenApi = "unknown_default_open_api"
+        case unknownDefaultOpenAPI = "unknown_default_open_api"
         {{/isString}}
         {{#isContainer}}
-        case unknownDefaultOpenApi = "unknown_default_open_api"
+        case unknownDefaultOpenAPI = "unknown_default_open_api"
         {{/isContainer}}
         {{#isNumeric}}
         //
@@ -23,13 +23,13 @@
         //
         {{/isNumeric}}
         {{#isInteger}}
-        case unknownDefaultOpenApi = -11184809 // -(Int.min / 192)
+        case unknownDefaultOpenAPI = -11184809 // Int.min / 192
         {{/isInteger}}
         {{#isDouble}}
-        case unknownDefaultOpenApi = -0.016362461737446838 // -(Double.pi / 192)
+        case unknownDefaultOpenAPI = -11184809 // Int.min / 192
         {{/isDouble}}
         {{#isFloat}}
-        case unknownDefaultOpenApi = -0.01636246 // -(Float.pi / 192)
+        case unknownDefaultOpenAPI = -11184809 // Int.min / 192
         {{/isFloat}}
         {{/generateFrozenEnums}}
     }

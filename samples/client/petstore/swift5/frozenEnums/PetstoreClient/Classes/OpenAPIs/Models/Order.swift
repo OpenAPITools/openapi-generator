@@ -20,7 +20,7 @@ public struct Order: Codable, Hashable {
         // If new enum cases are added that are unknown to the spec/client, they are safely
         // decoded to this case. The raw value of this case is a dummy value that attempts
         // to avoids collisions with previously specified cases.
-        case unknownDefaultOpenApi = "unknown_default_open_api"
+        case unknownDefaultOpenAPI = "unknown_default_open_api"
     }
     public var id: Int64?
     public var petId: Int64?
