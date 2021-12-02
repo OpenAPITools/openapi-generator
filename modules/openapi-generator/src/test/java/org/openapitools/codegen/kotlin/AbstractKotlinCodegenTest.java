@@ -77,6 +77,12 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
     }
 
+    @Test
+    public void escapeUnsafeCharacters() {
+        assertEquals(codegen.escapeUnsafeCharacters("foo*/bar"), "foo*_/bar");
+        assertEquals(codegen.escapeUnsafeCharacters("$schema"), "\\$schema");
+    }
+
     private static class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
         @Override
         public CodegenType getTag() {

@@ -279,7 +279,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
+        return input.replace("*/", "*_/").replace("/*", "/_*").replace("$", "\\$");
     }
 
     public CodegenConstants.ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {

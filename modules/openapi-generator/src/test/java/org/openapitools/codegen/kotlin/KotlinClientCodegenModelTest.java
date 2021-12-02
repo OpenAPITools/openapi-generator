@@ -45,6 +45,7 @@ public class KotlinClientCodegenModelTest {
                 .addProperties("id", new IntegerSchema().format("int64"))
                 .addProperties("name", new StringSchema())
                 .addProperties("createdAt", new DateTimeSchema())
+                .addProperties("$schema", new StringSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
     }
@@ -75,7 +76,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 3);
+        Assert.assertEquals(cm.vars.size(), 4);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
@@ -105,6 +106,16 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseType, "java.time.OffsetDateTime");
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
+
+        final CodegenProperty property4 = cm.vars.get(3);
+        Assert.assertEquals(property4.baseName, "\\$schema");
+        Assert.assertEquals(property4.dataType, "kotlin.String");
+        Assert.assertEquals(property4.name, "dollarSchema");
+        Assert.assertEquals(property4.defaultValue, null);
+        Assert.assertEquals(property4.baseType, "kotlin.String");
+        Assert.assertFalse(property4.required);
+        Assert.assertTrue(property4.isPrimitiveType);
+        Assert.assertFalse(property4.isContainer);
     }
 
     @Test(description = "convert a simple model: threetenbp")

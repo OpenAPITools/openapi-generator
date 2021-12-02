@@ -360,4 +360,24 @@ public class KotlinSpringServerCodegenTest {
                 "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)"
         );
     }
+
+    @Test(description = "test $ in property name")
+    public void dollarTest() throws Exception {
+        String baseModelPackage = "zz";
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10350.yaml");
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, baseModelPackage + ".yyyy.model.xxxx");
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+        File resultSourcePath = new File(output, "src/main/kotlin");
+        File outputModel = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        FileUtils.copyDirectory(new File(resultSourcePath, baseModelPackage), new File(outputModel, baseModelPackage));
+        //no exception
+        ClassLoader cl = KotlinTestUtils.buildModule(Collections.singletonList(outputModel.getAbsolutePath()), Thread.currentThread().getContextClassLoader());
+    }
 }

@@ -3392,7 +3392,7 @@ public class DefaultCodegen implements CodegenConfig {
         ModelUtils.syncValidationProperties(p, property);
 
         property.name = toVarName(name);
-        property.baseName = name;
+        property.baseName = escapeUnsafeCharacters(name);
         if (p.getType() == null) {
             property.openApiType = getSchemaType(p);
         } else {

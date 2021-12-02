@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: Issue 10350
+  version: 0.0.1
+paths:
+  /test:
+    get:
+      operationId: demo
+      parameters:
+        - $ref: '#/components/parameters/expand'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/test'
+components:
+  schemas:
+    test:
+      type: object
+      properties:
+        title:
+          type: string
+        $test:
+          type: string
+  parameters:
+    expand:
+      in: query
+      name: $expand
+      schema:
+        type: string
