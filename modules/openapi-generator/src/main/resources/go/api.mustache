@@ -109,9 +109,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	var (
 		localVarHTTPMethod   = _nethttp.Method{{httpMethod}}
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 		{{#returnType}}
 		localVarReturnValue  {{{.}}}
 		{{/returnType}}
@@ -251,22 +249,28 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/headerParams}}
 {{#formParams}}
 {{#isFile}}
-	localVarFormFileName = "{{baseName}}"
+	var {{paramName}}LocalVarFormFileName string
+	var {{paramName}}LocalVarFileName     string
+	var {{paramName}}LocalVarFileBytes    []byte
+
+	{{paramName}}LocalVarFormFileName = "{{baseName}}"
+
 {{#required}}
-	localVarFile := *r.{{paramName}}
+	{{paramName}}LocalVarFile := *r.{{paramName}}
 {{/required}}
 {{^required}}
-	var localVarFile {{dataType}}
+	var {{paramName}}LocalVarFile {{dataType}}
 	if r.{{paramName}} != nil {
-		localVarFile = *r.{{paramName}}
+		{{paramName}}LocalVarFile = *r.{{paramName}}
 	}
 {{/required}}
-	if localVarFile != nil {
-		fbs, _ := _ioutil.ReadAll(localVarFile)
-		localVarFileBytes = fbs
-		localVarFileName = localVarFile.Name()
-		localVarFile.Close()
+	if {{paramName}}LocalVarFile != nil {
+		fbs, _ := _ioutil.ReadAll({{paramName}}LocalVarFile)
+		{{paramName}}LocalVarFileBytes = fbs
+		{{paramName}}LocalVarFileName = {{paramName}}LocalVarFile.Name()
+		{{paramName}}LocalVarFile.Close()
 	}
+	formFiles = append(formFiles, formFile{fileBytes: {{paramName}}LocalVarFileBytes, fileName: {{paramName}}LocalVarFileName, formFileName: {{paramName}}LocalVarFormFileName})
 {{/isFile}}
 {{^isFile}}
 {{#required}}
@@ -330,7 +334,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 {{/isKeyInCookie}}
 {{/isApiKey}}
 {{/authMethods}}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
 	}

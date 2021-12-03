@@ -77,6 +77,8 @@ public class BigCatAllOf {
   public static final String JSON_PROPERTY_KIND = "kind";
   private KindEnum kind;
 
+  public BigCatAllOf() { 
+  }
 
   public BigCatAllOf kind(KindEnum kind) {
     this.kind = kind;

@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class GrandparentAnimal {\n");
             sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("}\n");
@@ -112,7 +112,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.PetType != null)
-                    hashCode = hashCode * 59 + this.PetType.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.PetType.GetHashCode();
+                }
                 return hashCode;
             }
         }

@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 {{/useCoroutines}}
 {{/doNotUseRxAndCoroutines}}
 import {{packageName}}.infrastructure.ApiClient
+import {{packageName}}.infrastructure.ApiInfrastructureResponse
 import {{packageName}}.infrastructure.ClientException
 import {{packageName}}.infrastructure.ClientError
 import {{packageName}}.infrastructure.ServerException
@@ -50,11 +51,7 @@ import {{packageName}}.infrastructure.toMultiValue
         {{#isDeprecated}}
         @Suppress("DEPRECATION")
         {{/isDeprecated}}
-        val localVariableConfig = {{operationId}}RequestConfig({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
-
-        val localVarResponse = request<{{#hasBodyParam}}{{#bodyParams}}{{{dataType}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}Unit{{/hasFormParams}}{{#hasFormParams}}Map<String, Any?>{{/hasFormParams}}{{/hasBodyParam}}, {{{returnType}}}{{^returnType}}Unit{{/returnType}}>(
-            localVariableConfig
-        )
+        val localVarResponse = {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 
         return{{^doNotUseRxAndCoroutines}}{{#useCoroutines}}@withContext{{/useCoroutines}}{{/doNotUseRxAndCoroutines}} when (localVarResponse.responseType) {
             ResponseType.Success -> {{#returnType}}(localVarResponse as Success<*>).data as {{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}
@@ -69,6 +66,31 @@ import {{packageName}}.infrastructure.toMultiValue
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}* @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}}* @return ApiInfrastructureResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */{{#returnType}}
+    @Suppress("UNCHECKED_CAST"){{/returnType}}
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    {{#isDeprecated}}
+    @Deprecated(message = "This operation is deprecated.")
+    {{/isDeprecated}}
+    {{^doNotUseRxAndCoroutines}}{{#useCoroutines}}suspend {{/useCoroutines}}{{/doNotUseRxAndCoroutines}}fun {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : ApiInfrastructureResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>{{^doNotUseRxAndCoroutines}}{{#useCoroutines}} = withContext(Dispatchers.IO){{/useCoroutines}}{{/doNotUseRxAndCoroutines}} {
+        {{#isDeprecated}}
+        @Suppress("DEPRECATION")
+        {{/isDeprecated}}
+        val localVariableConfig = {{operationId}}RequestConfig({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+
+        return{{^doNotUseRxAndCoroutines}}{{#useCoroutines}}@withContext{{/useCoroutines}}{{/doNotUseRxAndCoroutines}} request<{{#hasBodyParam}}{{#bodyParams}}{{{dataType}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}Unit{{/hasFormParams}}{{#hasFormParams}}Map<String, Any?>{{/hasFormParams}}{{/hasBodyParam}}, {{{returnType}}}{{^returnType}}Unit{{/returnType}}>(
+            localVariableConfig
+        )
     }
 
     /**

@@ -8,6 +8,6 @@ src/main/java/org/openapitools/api/TestHeadersApiController.java
 src/main/java/org/openapitools/api/TestQueryParamsApi.java
 src/main/java/org/openapitools/api/TestQueryParamsApiController.java
 src/main/java/org/openapitools/configuration/HomeController.java
-src/main/java/org/openapitools/configuration/OpenAPIDocumentationConfig.java
 src/main/java/org/openapitools/model/TestResponse.java
 src/main/resources/application.properties
+src/main/resources/openapi.yaml

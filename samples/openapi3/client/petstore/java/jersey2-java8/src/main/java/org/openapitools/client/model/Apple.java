@@ -43,6 +43,8 @@ public class Apple {
   public static final String JSON_PROPERTY_ORIGIN = "origin";
   private String origin;
 
+  public Apple() { 
+  }
 
   public Apple cultivar(String cultivar) {
     this.cultivar = cultivar;

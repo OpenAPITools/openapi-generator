@@ -25,16 +25,21 @@ open class FakeClassnameTags123API {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClassname(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Client, Error> {
+        var task: URLSessionTask?
         return Future<Client, Error> { promise in
-            testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+            task = testClassnameWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
                 case let .success(response):
-                    promise(.success(response.body!))
+                    promise(.success(response.body))
                 case let .failure(error):
                     promise(.failure(error))
                 }
             }
-        }.eraseToAnyPublisher()
+        }
+        .handleEvents(receiveCancel: {
+            task?.cancel()
+        })
+        .eraseToAnyPublisher()
     }
     #endif
 

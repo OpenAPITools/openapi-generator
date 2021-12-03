@@ -81,27 +81,22 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{/vars}}
-  {{#parcelableModel}}
-  public {{classname}}() {
-  {{#parent}}
-    super();
-  {{/parent}}
-  {{#gson}}
-  {{#discriminator}}
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
-  {{/discriminator}}
-  {{/gson}}
-  }
-  {{/parcelableModel}}
-  {{^parcelableModel}}
-  {{#gson}}
-  {{#discriminator}}
-  public {{classname}}() {
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
-  }
-  {{/discriminator}}
-  {{/gson}}
-  {{/parcelableModel}}
+  public {{classname}}() { {{#parent}}{{#parcelableModel}}
+    super();{{/parcelableModel}}{{/parent}}{{#gson}}{{#discriminator}}
+    this.{{{discriminatorName}}} = this.getClass().getSimpleName();{{/discriminator}}{{/gson}}
+  }{{#vendorExtensions.x-has-readonly-properties}}{{^withXml}}
+
+  {{#jackson}}@JsonCreator{{/jackson}}
+  public {{classname}}(
+  {{#readOnlyVars}}
+    @JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}}) {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+  {{/readOnlyVars}}
+  ) {
+  this();
+  {{#readOnlyVars}}
+    this.{{name}} = {{name}};
+  {{/readOnlyVars}}
+  }{{/withXml}}{{/vendorExtensions.x-has-readonly-properties}}
   {{#vars}}
 
   {{^isReadOnly}}
@@ -247,7 +242,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{^isReadOnly}}
-{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{> jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
+{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{> jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     {{#vendorExtensions.x-enum-as-string}}
     if (!{{{nameInSnakeCase}}}_VALUES.contains({{name}})) {
       throw new IllegalArgumentException({{name}} + " is invalid. Possible values for {{name}}: " + String.join(", ", {{{nameInSnakeCase}}}_VALUES));

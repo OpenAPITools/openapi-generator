@@ -223,21 +223,21 @@ Examples:
 # Execute latest released openapi-generator-cli
 openapi-generator-cli version
 
-# Execute version 3.1.0 for the current invocation, regardless of the latest released version
-OPENAPI_GENERATOR_VERSION=3.1.0 openapi-generator-cli version
+# Execute version 4.1.0 for the current invocation, regardless of the latest released version
+OPENAPI_GENERATOR_VERSION=4.1.0 openapi-generator-cli version
 
-# Execute version 3.1.0-SNAPSHOT for the current invocation
-OPENAPI_GENERATOR_VERSION=3.1.0-SNAPSHOT openapi-generator-cli version
+# Execute version 4.1.0-SNAPSHOT for the current invocation
+OPENAPI_GENERATOR_VERSION=4.1.0-SNAPSHOT openapi-generator-cli version
 
-# Execute version 3.0.2 for every invocation in the current shell session
-export OPENAPI_GENERATOR_VERSION=3.0.2
-openapi-generator-cli version # is 3.0.2
-openapi-generator-cli version # is also 3.0.2
+# Execute version 4.0.2 for every invocation in the current shell session
+export OPENAPI_GENERATOR_VERSION=4.0.2
+openapi-generator-cli version # is 4.0.2
+openapi-generator-cli version # is also 4.0.2
 
 # To "install" a specific version, set the variable in .bashrc/.bash_profile
-echo "export OPENAPI_GENERATOR_VERSION=3.0.2" >> ~/.bashrc
+echo "export OPENAPI_GENERATOR_VERSION=4.0.2" >> ~/.bashrc
 source ~/.bashrc
-openapi-generator-cli version # is always 3.0.2, unless any of the above overrides are done ad hoc
+openapi-generator-cli version # is always 4.0.2, unless any of the above overrides are done ad hoc
 ```
 
 ### [1.4 - Build Projects](#table-of-contents)
@@ -577,6 +577,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Adaptant Solutions AG](https://www.adaptant.io/)
 - [adesso SE](https://www.adesso.de/)
 - [Agoda](https://www.agoda.com/)
+- [Airthings](https://www.airthings.com/)
 - [Allianz](https://www.allianz.com)
 - [Angular.Schule](https://angular.schule/)
 - [Aqovia](https://aqovia.com/)

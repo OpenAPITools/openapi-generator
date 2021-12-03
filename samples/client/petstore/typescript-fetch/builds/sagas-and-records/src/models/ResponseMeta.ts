@@ -18,7 +18,7 @@ import {
     ErrorCodeFromJSON,
     ErrorCodeFromJSONTyped,
     ErrorCodeToJSON,
-} from './';
+} from './ErrorCode';
 
 /**
  * Mandatory part of each response given by our API

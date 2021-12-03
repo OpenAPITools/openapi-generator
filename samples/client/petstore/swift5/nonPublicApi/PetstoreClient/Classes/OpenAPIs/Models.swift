@@ -10,6 +10,10 @@ protocol JSONEncodable {
     func encodeToJSON() -> Any
 }
 
+extension JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
 internal enum ErrorResponse: Error {
     case error(Int, Data?, URLResponse?, Error)
 }
@@ -33,15 +37,15 @@ internal enum DecodableRequestBuilderError: Error {
 internal class Response<T> {
     internal let statusCode: Int
     internal let header: [String: String]
-    internal let body: T?
+    internal let body: T
 
-    internal init(statusCode: Int, header: [String: String], body: T?) {
+    internal init(statusCode: Int, header: [String: String], body: T) {
         self.statusCode = statusCode
         self.header = header
         self.body = body
     }
 
-    internal convenience init(response: HTTPURLResponse, body: T?) {
+    internal convenience init(response: HTTPURLResponse, body: T) {
         let rawHeader = response.allHeaderFields
         var header = [String: String]()
         for (key, value) in rawHeader {
