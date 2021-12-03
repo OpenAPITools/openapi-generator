@@ -6558,6 +6558,10 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.pattern = toRegularExpression(schema.getPattern());
     }
 
+    protected String toMediaTypeSchemaName(String contentType) {
+        return toModelName(contentType + "Schema");
+    }
+
     protected LinkedHashMap<String, CodegenMediaType> getContent(Content content, Set<String> imports) {
         if (content == null) {
             return null;
@@ -6605,9 +6609,9 @@ public class DefaultCodegen implements CodegenConfig {
                     ceMap.put(propName, ce);
                 }
             }
-            CodegenProperty schemaProp = fromProperty("schema", mt.getSchema());
-            CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
             String contentType = contentEntry.getKey();
+            CodegenProperty schemaProp = fromProperty(toMediaTypeSchemaName(contentType), mt.getSchema());
+            CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
             cmtContent.put(contentType, codegenMt);
         }
         return cmtContent;

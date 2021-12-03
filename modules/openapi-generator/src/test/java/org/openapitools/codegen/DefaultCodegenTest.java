@@ -3922,11 +3922,13 @@ public class DefaultCodegenTest {
         CodegenMediaType mt = content.get("application/json");
         assertNull(mt.getEncoding());
         CodegenProperty cp = mt.getSchema();
+        assertEquals(cp.baseName, "ApplicationJsonSchema");
         assertNotNull(cp);
 
         mt = content.get("text/plain");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
+        assertEquals(cp.baseName, "TextPlainSchema");
         assertNotNull(cp);
         // Note: the inline model resolver has a bug for this use case; it extracts an inline request body into a component
         // but the schema it references is not string type
@@ -3940,11 +3942,13 @@ public class DefaultCodegenTest {
         mt = content.get("application/json");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
+        assertEquals(cp.baseName, "ApplicationJsonSchema");
         assertEquals(cp.complexType, "coordinates");
 
         mt = content.get("text/plain");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
+        assertEquals(cp.baseName, "TextPlainSchema");
         assertTrue(cp.isString);
     }
 }
