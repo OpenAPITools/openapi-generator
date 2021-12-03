@@ -77,6 +77,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptAngularClientCodegen.PROVIDED_IN_ROOT, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.PROVIDED_IN, PROVIDED_IN_LEVEL)
                 .put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, Boolean.FALSE.toString())
+                .put(TypeScriptAngularClientCodegen.SUBTYPE_VISITOR, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
                 .put(TypeScriptAngularClientCodegen.NG_VERSION, NG_VERSION)
                 .put(TypeScriptAngularClientCodegen.API_MODULE_PREFIX, API_MODULE_PREFIX)

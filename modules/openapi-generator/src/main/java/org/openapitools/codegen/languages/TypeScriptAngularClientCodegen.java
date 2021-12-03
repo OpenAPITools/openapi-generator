@@ -50,6 +50,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String TAGGED_UNIONS = "taggedUnions";
+    public static final String SUBTYPE_VISITOR = "subtypeVisitor";
     public static final String NG_VERSION = "ngVersion";
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
     public static final String PROVIDED_IN = "providedIn";
@@ -80,6 +81,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected PROVIDED_IN_LEVEL providedIn = PROVIDED_IN_LEVEL.root;
 
     private boolean taggedUnions = false;
+    private boolean subtypeVisitor = false;
 
     public TypeScriptAngularClientCodegen() {
         super();
@@ -109,6 +111,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
+        this.cliOptions.add(CliOption.newBoolean(SUBTYPE_VISITOR,
+                "Use discriminators to create a subtype visitor.",
+                this.subtypeVisitor));
         this.cliOptions.add(CliOption.newBoolean(PROVIDED_IN_ROOT,
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0). IMPORTANT: Deprecated for angular version greater or equal to 9.0.0, use **providedIn** instead.",
                 false));
@@ -201,6 +206,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         if (additionalProperties.containsKey(TAGGED_UNIONS)) {
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
+        }
+
+        if (additionalProperties.containsKey(SUBTYPE_VISITOR)) {
+            subtypeVisitor = Boolean.parseBoolean(additionalProperties.get(SUBTYPE_VISITOR).toString());
         }
 
         if (ngVersion.atLeast("9.0.0") && additionalProperties.containsKey(PROVIDED_IN)) {
@@ -543,12 +552,19 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 if (taggedUnions) {
                     mo.put(TAGGED_UNIONS, true);
+                }
+                if (subtypeVisitor) {
+                    mo.put(SUBTYPE_VISITOR, true);
+                }
+                if (taggedUnions || subtypeVisitor) {
                     if (cm.discriminator != null && cm.children != null) {
                         for (CodegenModel child : cm.children) {
                             cm.imports.add(child.classname);
                             setChildDiscriminatorValue(cm, child);
                         }
                     }
+                }
+                if (taggedUnions) {
                     if (cm.parent != null) {
                         cm.imports.remove(cm.parent);
                     }
