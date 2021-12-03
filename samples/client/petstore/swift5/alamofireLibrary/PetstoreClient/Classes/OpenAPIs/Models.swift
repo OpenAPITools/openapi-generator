@@ -58,7 +58,7 @@ open class Response<T> {
     }
 }
 
-public final class OpenAPIRequestCancellable {
+public final class RequestTask {
     private var request: Request?
 
     internal func set(request: Request) {

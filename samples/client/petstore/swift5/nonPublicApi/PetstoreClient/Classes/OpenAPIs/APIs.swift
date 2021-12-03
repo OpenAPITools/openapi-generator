@@ -27,7 +27,7 @@ internal class RequestBuilder<T> {
     internal let parameters: [String: Any]?
     internal let method: String
     internal let URLString: String
-    internal let requestCancellable: OpenAPIRequestCancellable = OpenAPIRequestCancellable()
+    internal let requestTask: RequestTask = RequestTask()
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     /// With the URLSession http client the request's progress only works on iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0.
@@ -50,8 +50,8 @@ internal class RequestBuilder<T> {
     }
 
     @discardableResult
-    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> OpenAPIRequestCancellable {
-        return requestCancellable
+    internal func execute(_ apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+        return requestTask
     }
 
     internal func addHeader(name: String, value: String) -> Self {

@@ -79,7 +79,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
     }
 
     @discardableResult
-    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> OpenAPIRequestCancellable {
+    override {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute(_ apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()
@@ -125,7 +125,7 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                     }
                 }
 
-                requestCancellable.set(request: upload)
+                requestTask.set(request: upload)
 
                 self.processRequest(request: upload, managerId, apiResponseQueue, completion)
             } else if contentType == "application/x-www-form-urlencoded" {
@@ -144,10 +144,10 @@ private var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
                 onProgressReady(request.uploadProgress)
             }
             processRequest(request: request, managerId, apiResponseQueue, completion)
-            requestCancellable.set(request: request)
+            requestTask.set(request: request)
         }
 
-        return requestCancellable
+        return requestTask
     }
 
     fileprivate func processRequest(request: DataRequest, _ managerId: String, _ apiResponseQueue: DispatchQueue, _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {

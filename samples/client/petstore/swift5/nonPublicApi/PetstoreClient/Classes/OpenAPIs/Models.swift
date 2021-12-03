@@ -57,7 +57,7 @@ internal class Response<T> {
     }
 }
 
-internal final class OpenAPIRequestCancellable {
+internal final class RequestTask {
     private var task: URLSessionTask?
 
     internal func set(task: URLSessionTask) {
