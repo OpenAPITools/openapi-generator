@@ -577,6 +577,25 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void getDefaultValueWithImportMappingTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        // given I am getting the default value for an int32 number schema
+        NumberSchema numberSchema = new NumberSchema();
+        numberSchema.setType("integer");
+        numberSchema.setFormat("int32");
+        numberSchema.setDefault(1);
+
+        // and I have a type mapping changing from the default "Integer" to "Long"...
+        codegen.typeMapping().put("integer+int32", "Long");
+
+        String defaultValue = codegen.toDefaultValue(numberSchema);
+
+        // then 
+        Assert.assertEquals(defaultValue, "1l");
+    }
+
+    @Test
     public void getTypeDeclarationGivenImportMappingTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.importMapping().put("MyStringType", "com.example.foo");
