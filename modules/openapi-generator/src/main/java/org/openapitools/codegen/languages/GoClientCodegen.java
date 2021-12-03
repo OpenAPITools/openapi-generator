@@ -117,6 +117,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         // the correct solution is to use []byte
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
+        typeMapping.put("URI", "string");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("time.Time", "time");
