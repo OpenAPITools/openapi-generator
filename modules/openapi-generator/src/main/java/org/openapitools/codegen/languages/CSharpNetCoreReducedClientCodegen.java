@@ -634,8 +634,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         final AtomicReference<Boolean> excludeTests = new AtomicReference<>();
         syncBooleanProperty(additionalProperties, CodegenConstants.EXCLUDE_TESTS, excludeTests::set, false);
 
-        syncStringProperty(additionalProperties, "clientPackage", (s) -> {
-        }, clientPackage);
+        syncStringProperty(additionalProperties, "clientPackage", (s) -> {}, clientPackage);
 
         syncStringProperty(additionalProperties, CodegenConstants.API_PACKAGE, this::setApiPackage, apiPackage);
         syncStringProperty(additionalProperties, CodegenConstants.MODEL_PACKAGE, this::setModelPackage, modelPackage);
