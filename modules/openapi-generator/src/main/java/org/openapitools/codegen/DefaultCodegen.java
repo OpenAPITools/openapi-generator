@@ -4774,12 +4774,12 @@ public class DefaultCodegen implements CodegenConfig {
                 final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = false;
                 cs.isBasic = true;
-                if ("basic".equals(securityScheme.getScheme())) {
+                if ("basic".equalsIgnoreCase(securityScheme.getScheme())) {
                     cs.isBasicBasic = true;
-                } else if ("bearer".equals(securityScheme.getScheme())) {
+                } else if ("bearer".equalsIgnoreCase(securityScheme.getScheme())) {
                     cs.isBasicBearer = true;
                     cs.bearerFormat = securityScheme.getBearerFormat();
-                } else if ("signature".equals(securityScheme.getScheme())) {
+                } else if ("signature".equalsIgnoreCase(securityScheme.getScheme())) {
                     // HTTP signature as defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
                     // The registry of security schemes is maintained by IANA.
                     // https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
