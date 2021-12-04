@@ -30,8 +30,7 @@ jobs:
           #- samples/client/petstore/kotlin-json-request-string
           - samples/client/petstore/kotlin-jvm-okhttp4-coroutines
           - samples/client/petstore/kotlin-moshi-codegen
-          # need some special setup
-          #- samples/client/petstore/kotlin-multiplatform
+          - samples/client/petstore/kotlin-multiplatform
           - samples/client/petstore/kotlin-nonpublic
           - samples/client/petstore/kotlin-nullable
           - samples/client/petstore/kotlin-okhttp3
