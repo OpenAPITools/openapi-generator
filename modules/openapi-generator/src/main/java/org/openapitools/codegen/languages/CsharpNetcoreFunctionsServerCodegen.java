@@ -27,6 +27,8 @@ import java.util.*;
 
 import org.apache.commons.lang3.StringUtils;
 
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +51,11 @@ public class CsharpNetcoreFunctionsServerCodegen extends CSharpNetCoreReducedCli
 
     public CsharpNetcoreFunctionsServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
+
         outputFolder = "generated-code" + File.separator + "csharp";
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("functions.mustache", ".cs");
