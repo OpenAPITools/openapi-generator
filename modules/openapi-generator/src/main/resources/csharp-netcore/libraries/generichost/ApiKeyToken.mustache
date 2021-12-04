@@ -16,10 +16,10 @@ namespace {{packageName}}.Client
         /// <summary>
         /// Constructs an ApiKeyToken object.
         /// </summary>
-        /// <param name="tokenTimeOut"></param>
         /// <param name="value"></param>
         /// <param name="prefix"></param>
-        public ApiKeyToken(TimeSpan tokenTimeOut, string value, string prefix = "Bearer ") : base(tokenTimeOut)
+        /// <param name="timeout"></param>        
+        public ApiKeyToken(string value, string prefix = "Bearer ", TimeSpan? timeout = null) : base(timeout)
         {
             _raw = $"{ prefix }{ value }";
         }

@@ -184,7 +184,7 @@ namespace {{packageName}}.{{apiPackage}}
                 uriBuilder.Path = ClientUtils.CONTEXT_PATH + "{{path}}";{{#pathParams}}{{#required}}
                 uriBuilder.Path = uriBuilder.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));{{/required}}{{^required}}
 
-                if ({{paramName}} != null)            
+                if ({{paramName}} != null)
                     uriBuilder.Path = uriBuilder.Path + $"/{ Uri.EscapeDataString({{paramName}}).ToString()) }";
                 {{/required}}{{/pathParams}}{{#queryParams}}{{#-first}}
 
@@ -202,7 +202,7 @@ namespace {{packageName}}.{{apiPackage}}
                 
                 request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));{{/required}}{{^required}}
                 
-                if ({{paramName}} != null)                
+                if ({{paramName}} != null)
                     request.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));{{/required}}{{/headerParams}}
 
                 MultipartContent multipartContent = new MultipartContent();

@@ -11,11 +11,12 @@ namespace {{packageName}}.Client
     /// </summary>
     public abstract class TokenBase
     {
-        private readonly TimeSpan _tokenTimeOut;
         private DateTime _nextAvailable = DateTime.UtcNow;
         private object _nextAvailableLock = new();
         private readonly System.Timers.Timer _timer = new();
 
+
+        internal TimeSpan? Timeout { get; set; }
         internal delegate void TokenBecameAvailableEventHandler(object sender);
         internal event TokenBecameAvailableEventHandler{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} TokenBecameAvailable;
 
@@ -23,20 +24,28 @@ namespace {{packageName}}.Client
         /// <summary>
         /// Initialize a TokenBase object.
         /// </summary>
-        /// <param name="tokenTimeOut"></param>
-        internal TokenBase(TimeSpan tokenTimeOut)
+        /// <param name="timeout"></param>
+        internal TokenBase(TimeSpan? timeout = null)
         {
-            if (tokenTimeOut == null || tokenTimeOut == TimeSpan.MinValue)
-                throw new ArgumentException("Invalid token timeout value.", nameof(tokenTimeOut));
+            Timeout = timeout;
             
-            _tokenTimeOut = tokenTimeOut;
-            
-            _timer.Interval = _tokenTimeOut.TotalMilliseconds;
+            if (Timeout != null)
+                StartTimer(Timeout.Value);
+        }
+
+
+        /// <summary>
+        /// Starts the token's timer
+        /// </summary>
+        /// <param name="timeout"></param>
+        internal void StartTimer(TimeSpan timeout)
+        {
+            Timeout = timeout;
+            _timer.Interval = Timeout.Value.TotalMilliseconds;
             _timer.Elapsed += OnTimer;
             _timer.AutoReset = true;
             _timer.Start();
         }
-
 
         /// <summary>
         /// Returns true while the token is rate limited.
@@ -44,13 +53,13 @@ namespace {{packageName}}.Client
         public bool IsRateLimited => _nextAvailable > DateTime.UtcNow;
 
         /// <summary>
-        /// Triggered when the server returns status code TooManyRequests\
+        /// Triggered when the server returns status code TooManyRequests
         /// Once triggered the local timeout will be extended an arbitrary length of time.
         /// </summary>
         public void BeginRateLimit()
         {
-            lock(_nextAvailableLock)            
-                _nextAvailable = DateTime.UtcNow.AddSeconds(5);            
+            lock(_nextAvailableLock)
+                _nextAvailable = DateTime.UtcNow.AddSeconds(5);
         }
 
         private void OnTimer(object sender, System.Timers.ElapsedEventArgs e)

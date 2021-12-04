@@ -755,6 +755,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public void addGenericHostSupportingFiles(final String clientPackageDir, final String packageFolder, 
             final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir){
         supportingFiles.add(new SupportingFile("TokenProvider`1.mustache", clientPackageDir, "TokenProvider`1.cs"));
+        supportingFiles.add(new SupportingFile("RateLimitProvider`1.mustache", clientPackageDir, "RateLimitProvider`1.cs"));
         supportingFiles.add(new SupportingFile("TokenContainer`1.mustache", clientPackageDir, "TokenContainer`1.cs"));
         supportingFiles.add(new SupportingFile("TokenBase.mustache", clientPackageDir, "TokenBase.cs"));
         supportingFiles.add(new SupportingFile("ApiException.mustache", clientPackageDir, "ApiException.cs"));
@@ -767,7 +768,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
         supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
         supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
-        supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));        
+        supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
 

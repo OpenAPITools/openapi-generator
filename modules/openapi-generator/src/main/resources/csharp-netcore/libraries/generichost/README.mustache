@@ -42,8 +42,8 @@ namespace YourProject
           .Configure{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}((context, options) =>
           {
               // the type of token here depends on the api security specifications
-              ApiKeyToken token = new(TimeSpan.FromSeconds(1), $"<your token>");
-              options.AddTokens(token);
+              ApiKeyToken token = new("<your token>");
+              options.AddTokens<RateLimitProvider<ApiKeyToken>, ApiKeyToken>(token);
 
               options.ConfigureJsonOptions((jsonOptions) =>
               {

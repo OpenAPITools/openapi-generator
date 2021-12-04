@@ -19,9 +19,9 @@ namespace {{packageName}}.Client
         /// <summary>
         /// Constructs an HttpSignatureToken object.
         /// </summary>
-        /// <param name="tokenTimeOut"></param>
         /// <param name="configuration"></param>
-        public HttpSignatureToken(TimeSpan tokenTimeOut, HttpSigningConfiguration configuration) : base(tokenTimeOut)
+        /// <param name="timeout"></param>
+        public HttpSignatureToken(HttpSigningConfiguration configuration, TimeSpan? timeout = null) : base(timeout)
         {
             _configuration = configuration;
         }

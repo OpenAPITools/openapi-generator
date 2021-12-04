@@ -19,9 +19,9 @@ namespace {{packageName}}.Client
         /// <summary>
         /// Consturcts an OAuthToken object.
         /// </summary>
-        /// <param name="tokenTimeOut"></param>
         /// <param name="value"></param>
-        public OAuthToken(TimeSpan tokenTimeOut, string value) : base(tokenTimeOut)
+        /// <param name="timeout"></param>
+        public OAuthToken(string value, TimeSpan? timeout = null) : base(timeout)
         {
             _raw = value;
         }

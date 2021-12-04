@@ -25,13 +25,6 @@ namespace {{packageName}}.Client
             {{#apiInfo}}{{#apis}}_clients.Add(services.AddHttpClient<{{interfacePrefix}}{{classname}}, {{classname}}>(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS)));{{^-last}}
             {{/-last}}{{/apis}}{{/apiInfo}}
 
-            {{#hasAuthMethods}}{{#hasApiKeyMethods}}services.AddSingleton<TokenProvider<ApiKeyToken>>();{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
-            services.AddSingleton<TokenProvider<BearerToken>>();{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
-            services.AddSingleton<TokenProvider<BasicToken>>();{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
-            services.AddSingleton<TokenProvider<HttpSignatureToken>>();{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
-            services.AddSingleton<TokenProvider<OAuthToken>>();{{/hasOAuthMethods}}
-
-            {{/hasAuthMethods}}
             {{#apiInfo}}{{#apis}}services.AddSingleton<{{interfacePrefix}}{{classname}}, {{classname}}>();{{^-last}}
             {{/-last}}{{/apis}}{{/apiInfo}}
         }
@@ -64,25 +57,32 @@ namespace {{packageName}}.Client
         /// <summary>
         /// Adds tokens to your IServiceCollection
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="tokens"></param>
+        /// <typeparam name="TTokenProvider"></typeparam>
+        /// <typeparam name="TTokenBase"></typeparam>
+        /// <param name="token"></param>
         /// <returns></returns>
-        public HostConfiguration AddTokens<T>(IEnumerable<T> tokens) where T : TokenBase
+        public HostConfiguration AddTokens<TTokenProvider, TTokenBase>(TTokenBase token)
+            where TTokenProvider : TokenProvider<TTokenBase>
+            where TTokenBase : TokenBase
         {
-            _services.AddSingleton(new TokenContainer<T>(tokens));
-
-            return this;
+            return AddTokens<TTokenProvider, TTokenBase>(new TTokenBase[]{ token });
         }
 
         /// <summary>
         /// Adds tokens to your IServiceCollection
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="token"></param>
+        /// <typeparam name="TTokenProvider"></typeparam>
+        /// <typeparam name="TTokenBase"></typeparam>
+        /// <param name="tokens"></param>
         /// <returns></returns>
-        public HostConfiguration AddTokens<T>(T token) where T : TokenBase
+        public HostConfiguration AddTokens<TTokenProvider, TTokenBase>(IEnumerable<TTokenBase> tokens) 
+            where TTokenProvider : TokenProvider<TTokenBase>
+            where TTokenBase : TokenBase
         {
-            _services.AddSingleton(new TokenContainer<T>(new T[]{ token }));
+            TokenContainer<TTokenBase> container = new TokenContainer<TTokenBase>(tokens);
+            _services.AddSingleton<TokenContainer<TTokenBase>>(services => container);
+            _services.AddSingleton<TTokenProvider>();
+            _services.AddSingleton<TokenProvider<TTokenBase>>(services => services.GetRequiredService<TTokenProvider>());
 
             return this;
         }

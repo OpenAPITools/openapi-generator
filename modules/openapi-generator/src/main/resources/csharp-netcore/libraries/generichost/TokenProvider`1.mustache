@@ -3,47 +3,34 @@
 {{#nullableReferenceTypes}}#nullable enable{{/nullableReferenceTypes}}
 
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using {{packageName}}.Client;
 
 namespace {{packageName}}
 {
     /// <summary>
-    /// Provides a token to the api clients.
+    /// A class which will provide tokens.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class TokenProvider<T> where T : TokenBase
+    public abstract class TokenProvider<TTokenBase> where TTokenBase : TokenBase
     {
-        internal System.Threading.Channels.Channel<TokenBase> AvailableTokens { get; }
+        /// <summary>
+        /// The array of tokens.
+        /// </summary>
+        protected TTokenBase[] _tokens;
 
-        private T[] _tokens;
-        private readonly object _lock = new object();
+        internal abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken? cancellation = null);
 
         /// <summary>
-        /// Instantiates a TokenProvider
+        /// Instantiates a TokenProvider.
         /// </summary>
-        /// <param name="container"></param>
-        public TokenProvider(TokenContainer<T> container)
+        /// <param name="tokens"></param>
+        public TokenProvider(IEnumerable<TTokenBase> tokens)
         {
-            if (container.Tokens.Count == 0)
+            _tokens = tokens.ToArray();
+
+            if (_tokens.Length == 0)
                 throw new ArgumentException("You did not provide any tokens.");
-
-            _tokens = new T[container.Tokens.Count];
-
-            System.Threading.Channels.BoundedChannelOptions options = new(_tokens.Length) 
-            { 
-                FullMode = System.Threading.Channels.BoundedChannelFullMode.DropWrite 
-            };
-
-            AvailableTokens = System.Threading.Channels.Channel.CreateBounded<TokenBase>(options);
-
-            for (int i = 0; i < container.Tokens.Count; i++)
-            {
-                _tokens[i] = container.Tokens[i];
-                _tokens[i].TokenBecameAvailable += ((sender) => AvailableTokens.Writer.TryWrite((T) sender));
-            }
         }
-
-        internal async System.Threading.Tasks.ValueTask<TokenBase> GetAsync(System.Threading.CancellationToken? cancellation = null) 
-            => await AvailableTokens.Reader.ReadAsync(cancellation.GetValueOrDefault()).ConfigureAwait(false);        
     }
 }

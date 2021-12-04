@@ -9,13 +9,13 @@ namespace {{packageName}}.Client
     /// <summary>
     /// A container for a collection of tokens.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public sealed class TokenContainer<T> where T : TokenBase
+    /// <typeparam name="TTokenBase"></typeparam>
+    public sealed class TokenContainer<TTokenBase> where TTokenBase : TokenBase
     {
         /// <summary>
         /// The collection of tokens
         /// </summary>
-        public System.Collections.Generic.List<T> Tokens { get; } = new();
+        public System.Collections.Generic.List<TTokenBase> Tokens { get; } = new();
 
         /// <summary>
         /// Instantiates a TokenContainer
@@ -28,7 +28,7 @@ namespace {{packageName}}.Client
         /// Instantiates a TokenContainer
         /// </summary>
         /// <param name="tokens"></param>
-        public TokenContainer(System.Collections.Generic.IEnumerable<T> tokens)
+        public TokenContainer(System.Collections.Generic.IEnumerable<TTokenBase> tokens)
         {
             Tokens = tokens.ToList();
         }

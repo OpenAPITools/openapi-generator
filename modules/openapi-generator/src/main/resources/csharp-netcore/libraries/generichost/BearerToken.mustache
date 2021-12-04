@@ -19,9 +19,9 @@ namespace {{packageName}}.Client
         /// <summary>
         /// Constructs a BearerToken object.
         /// </summary>
-        /// <param name="tokenTimeOut"></param>
         /// <param name="value"></param>
-        public BearerToken(TimeSpan tokenTimeOut, string value) : base(tokenTimeOut)
+        /// <param name="timeout"></param>
+        public BearerToken(string value, TimeSpan? timeout = null) : base(timeout)
         {
             _raw = value;
         }

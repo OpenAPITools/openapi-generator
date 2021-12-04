@@ -120,8 +120,8 @@ namespace {{packageName}}.Client
             
             var httpSignatureHeader = new Dictionary<string, string{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}>();
 
-            if (HttpSigningHeader.Count == 0)            
-                HttpSigningHeader.Add("(created)");            
+            if (HttpSigningHeader.Count == 0)
+                HttpSigningHeader.Add("(created)");
 
             var dateTime = DateTime.Now;
             string digest = String.Empty;
@@ -136,12 +136,12 @@ namespace {{packageName}}.Client
                 var bodyDigest = GetStringHash(HashAlgorithm.ToString(), requestBody);
                 digest = string.Format("SHA-512={0}", Convert.ToBase64String(bodyDigest));
             }
-            else            
+            else
                 throw new Exception(string.Format("{0} not supported", HashAlgorithm));
 
-            foreach (var header in HttpSigningHeader)            
-                if (header.Equals(HEADER_REQUEST_TARGET))                
-                    httpSignatureHeader.Add(header.ToLower(), request.RequestUri.ToString());                
+            foreach (var header in HttpSigningHeader)
+                if (header.Equals(HEADER_REQUEST_TARGET))
+                    httpSignatureHeader.Add(header.ToLower(), request.RequestUri.ToString());
                 else if (header.Equals(HEADER_EXPIRES))
                 {
                     var expireDateTime = dateTime.AddSeconds(SignatureValidityPeriod);
@@ -158,8 +158,8 @@ namespace {{packageName}}.Client
                     httpSignatureHeader.Add(header.ToLower(), request.RequestUri.ToString());
                     HttpSignedRequestHeader.Add(HEADER_HOST, request.RequestUri.ToString());
                 }
-                else if (header.Equals(HEADER_CREATED))                
-                    httpSignatureHeader.Add(header.ToLower(), GetUnixTime(dateTime).ToString());                
+                else if (header.Equals(HEADER_CREATED))
+                    httpSignatureHeader.Add(header.ToLower(), GetUnixTime(dateTime).ToString());
                 else if (header.Equals(HEADER_DIGEST))
                 {
                     HttpSignedRequestHeader.Add(HEADER_DIGEST, digest);
@@ -178,15 +178,15 @@ namespace {{packageName}}.Client
                         }
                     }
 
-                    if (!isHeaderFound)                    
-                        throw new Exception(string.Format("Cannot sign HTTP request.Request does not contain the {0} header.",header));                    
+                    if (!isHeaderFound)
+                        throw new Exception(string.Format("Cannot sign HTTP request.Request does not contain the {0} header.",header));
                 }
 
             var headersKeysString = String.Join(" ", httpSignatureHeader.Keys);
             var headerValuesList = new List<string>();
 
-            foreach (var keyVal in httpSignatureHeader)            
-                headerValuesList.Add(string.Format("{0}: {1}", keyVal.Key, keyVal.Value));            
+            foreach (var keyVal in httpSignatureHeader)
+                headerValuesList.Add(string.Format("{0}: {1}", keyVal.Key, keyVal.Value));
 
             //Concatinate headers value separated by new line
             var headerValuesString = string.Join("\n", headerValuesList);
@@ -197,7 +197,7 @@ namespace {{packageName}}.Client
             if (keyType == PrivateKeyType.RSA)
                 headerSignatureStr = GetRSASignature(signatureStringHash);
             
-            else if (keyType == PrivateKeyType.ECDSA)            
+            else if (keyType == PrivateKeyType.ECDSA)
                 headerSignatureStr = GetECDSASignature(signatureStringHash);
             
             var cryptographicScheme = "hs2019";
@@ -205,10 +205,10 @@ namespace {{packageName}}.Client
                 KeyId, cryptographicScheme);
 
             if (httpSignatureHeader.ContainsKey(HEADER_CREATED))
-                authorizationHeaderValue += string.Format(",created={0}", httpSignatureHeader[HEADER_CREATED]);            
+                authorizationHeaderValue += string.Format(",created={0}", httpSignatureHeader[HEADER_CREATED]);
 
             if (httpSignatureHeader.ContainsKey(HEADER_EXPIRES))
-                authorizationHeaderValue += string.Format(",expires={0}", httpSignatureHeader[HEADER_EXPIRES]);            
+                authorizationHeaderValue += string.Format(",expires={0}", httpSignatureHeader[HEADER_EXPIRES]);
 
             authorizationHeaderValue += string.Format(",headers=\"{0}\",signature=\"{1}\"", headersKeysString, headerSignatureStr);
 
@@ -294,8 +294,8 @@ namespace {{packageName}}.Client
                 }
                 finally
                 {
-                    if (unmanagedString != IntPtr.Zero)                    
-                        Marshal.ZeroFreeBSTR(unmanagedString);                    
+                    if (unmanagedString != IntPtr.Zero)
+                        Marshal.ZeroFreeBSTR(unmanagedString);
                 }
             }
             else
@@ -321,11 +321,11 @@ namespace {{packageName}}.Client
             byte sbytesLength = 32; //S length 0x20
             var rBytes = new List<byte>();
             var sBytes = new List<byte>();
-            for (int i = 0; i < 32; i++)            
+            for (int i = 0; i < 32; i++)
                 rBytes.Add(signedBytes[i]);
             
-            for (int i = 32; i < 64; i++)            
-                sBytes.Add(signedBytes[i]);            
+            for (int i = 32; i < 64; i++)
+                sBytes.Add(signedBytes[i]);
 
             if (rBytes[0] > 0x7F)
             {
@@ -370,19 +370,19 @@ namespace {{packageName}}.Client
             bool isPrivateKeyFile = true;
             byte[]{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} pemkey = null;
 
-            if (!File.Exists(pemfile))            
+            if (!File.Exists(pemfile))
                 throw new Exception("private key file does not exist.");
 
             string pemstr = File.ReadAllText(pemfile).Trim();
 
-            if (pemstr.StartsWith(pempubheader) && pemstr.EndsWith(pempubfooter))            
-                isPrivateKeyFile = false;           
+            if (pemstr.StartsWith(pempubheader) && pemstr.EndsWith(pempubfooter))
+                isPrivateKeyFile = false;
 
             if (isPrivateKeyFile)
             {
                 pemkey = ConvertPrivateKeyToBytes(pemstr, keyPassPharse);
 
-                if (pemkey == null)                
+                if (pemkey == null)
                     return null;
 
                 return DecodeRSAPrivateKey(pemkey);
@@ -397,8 +397,8 @@ namespace {{packageName}}.Client
             String pemstr = instr.Trim();
             byte[] binkey;
 
-            if (!pemstr.StartsWith(pemprivheader) || !pemstr.EndsWith(pemprivfooter))            
-                return null;           
+            if (!pemstr.StartsWith(pemprivheader) || !pemstr.EndsWith(pemprivfooter))
+                return null;
 
             StringBuilder sb = new StringBuilder(pemstr);
             sb.Replace(pemprivheader, "");
@@ -419,7 +419,7 @@ namespace {{packageName}}.Client
                     return null;
                 
                 String saltline = str.ReadLine(){{#nullableReferenceTypes}}!{{/nullableReferenceTypes}};  // TODO: what do we do here if ReadLine is null?
-                if (!saltline.StartsWith("DEK-Info: DES-EDE3-CBC,"))                
+                if (!saltline.StartsWith("DEK-Info: DES-EDE3-CBC,"))
                     return null;
                 
                 String saltstr = saltline.Substring(saltline.IndexOf(",") + 1).Trim();
@@ -427,8 +427,8 @@ namespace {{packageName}}.Client
                 for (int i = 0; i < salt.Length; i++)
                     salt[i] = Convert.ToByte(saltstr.Substring(i * 2, 2), 16);
 
-                if (!(str.ReadLine() == ""))                
-                    return null;                
+                if (!(str.ReadLine() == ""))
+                    return null;
 
                 //------ remaining b64 data is encrypted RSA key ----
                 String encryptedstr = str.ReadToEnd();
@@ -467,19 +467,19 @@ namespace {{packageName}}.Client
             try
             {
                 twobytes = binr.ReadUInt16();
-                if (twobytes == 0x8130) //data read as little endian order (actual data order for Sequence is 30 81)                
-                    binr.ReadByte();    //advance 1 byte                
-                else if (twobytes == 0x8230)                
-                    binr.ReadInt16();   //advance 2 bytes                
+                if (twobytes == 0x8130) //data read as little endian order (actual data order for Sequence is 30 81)
+                    binr.ReadByte();    //advance 1 byte
+                else if (twobytes == 0x8230)
+                    binr.ReadInt16();   //advance 2 bytes
                 else
-                    return null;                
+                    return null;
 
                 twobytes = binr.ReadUInt16();
-                if (twobytes != 0x0102) //version number                
+                if (twobytes != 0x0102) //version number
                     return null;
                 
                 bt = binr.ReadByte();
-                if (bt != 0x00)                
+                if (bt != 0x00)
                     return null;
                 
                 //------  all private key components are Integer sequences ----
@@ -538,13 +538,13 @@ namespace {{packageName}}.Client
             byte highbyte = 0x00;
             int count = 0;
             bt = binr.ReadByte();
-            if (bt != 0x02) //expect integer            
+            if (bt != 0x02) //expect integer
                 return 0;
             
             bt = binr.ReadByte();
 
-            if (bt == 0x81)            
-                count = binr.ReadByte();    // data size in next byte            
+            if (bt == 0x81)
+                count = binr.ReadByte();    // data size in next byte
             else if (bt == 0x82)
             {
                 highbyte = binr.ReadByte(); // data size in next 2 bytes
@@ -552,10 +552,10 @@ namespace {{packageName}}.Client
                 byte[] modint = { lowbyte, highbyte, 0x00, 0x00 };
                 count = BitConverter.ToInt32(modint, 0);
             }
-            else            
+            else
                 count = bt;     // we already have the data size
             
-            while (binr.ReadByte() == 0x00)            
+            while (binr.ReadByte() == 0x00)
                 //remove high order zeros in data
                 count -= 1;
             
@@ -589,8 +589,8 @@ namespace {{packageName}}.Client
             for (int j = 0; j < miter; j++)
             {
                 // ----  Now hash consecutively for count times ------
-                if (j == 0)                
-                    result = data00;    //initialize                
+                if (j == 0)
+                    result = data00;    //initialize
                 else
                 {
                     Array.Copy(result{{#nullableReferenceTypes}}!{{/nullableReferenceTypes}}, hashtarget, result{{#nullableReferenceTypes}}!{{/nullableReferenceTypes}}.Length); // TODO: what do we do if result is null here?
@@ -641,8 +641,8 @@ namespace {{packageName}}.Client
         /// <returns></returns>
         private PrivateKeyType GetKeyType(string keyFilePath)
         {
-            if (!File.Exists(keyFilePath))            
-                throw new Exception("Key file path does not exist.");            
+            if (!File.Exists(keyFilePath))
+                throw new Exception("Key file path does not exist.");
 
             var ecPrivateKeyHeader = "BEGIN EC PRIVATE KEY";
             var ecPrivateKeyFooter = "END EC PRIVATE KEY";
@@ -653,9 +653,9 @@ namespace {{packageName}}.Client
             var keyType = PrivateKeyType.None;
             var key = File.ReadAllLines(keyFilePath);
 
-            if (key[0].ToString().Contains(rsaPrivateKeyHeader) && key[key.Length - 1].ToString().Contains(rsaPrivateFooter))            
-                keyType = PrivateKeyType.RSA;            
-            else if (key[0].ToString().Contains(ecPrivateKeyHeader) && key[key.Length - 1].ToString().Contains(ecPrivateKeyFooter))            
+            if (key[0].ToString().Contains(rsaPrivateKeyHeader) && key[key.Length - 1].ToString().Contains(rsaPrivateFooter))
+                keyType = PrivateKeyType.RSA;
+            else if (key[0].ToString().Contains(ecPrivateKeyHeader) && key[key.Length - 1].ToString().Contains(ecPrivateKeyFooter))
                 keyType = PrivateKeyType.ECDSA;
 
             else if (key[0].ToString().Contains(ecPrivateKeyHeader) && key[key.Length - 1].ToString().Contains(ecPrivateKeyFooter))
@@ -666,7 +666,7 @@ namespace {{packageName}}.Client
                 //TODO :- update the key based on oid
                 keyType = PrivateKeyType.ECDSA;
             }
-            else            
+            else
                 throw new Exception("Either the key is invalid or key is not supported");
             
             return keyType;
