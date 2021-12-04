@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
@@ -14,7 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CsharpNetcoreFunctionsServerCodegen extends CSharpNetCoreReducedClientCodegen  {
+public class CsharpNetcoreFunctionsServerCodegen extends CSharpNetCoreReducedClientCodegen {
     public static final String PROJECT_NAME = "projectName";
 
     final Logger LOGGER = LoggerFactory.getLogger(CsharpNetcoreFunctionsServerCodegen.class);
@@ -39,10 +55,10 @@ public class CsharpNetcoreFunctionsServerCodegen extends CSharpNetCoreReducedCli
         embeddedTemplateDir = templateDir = "csharp-netcore-functions";
         apiPackage = "Apis";
         modelPackage = "Models";
-		String clientPackageDir = "generatedSrc/Client";
+        String clientPackageDir = "generatedSrc/Client";
         supportingFiles.add(new SupportingFile("README.mustache", "generatedSrc", "README.md"));
         supportingFiles.add(new SupportingFile("project.mustache", "generatedSrc", "project.json"));
-		
+
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache",
                 clientPackageDir, "IApiAccessor.cs"));
         supportingFiles.add(new SupportingFile("Configuration.mustache",
@@ -58,15 +74,15 @@ public class CsharpNetcoreFunctionsServerCodegen extends CSharpNetCoreReducedCli
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache",
                 clientPackageDir, "OpenAPIDateConverter.cs"));
     }
-	
-	@Override
+
+    @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + "generatedSrc" + File.separator + "Functions";
     }
-	
-	@Override
+
+    @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + "generatedSrc" + File.separator +  "Models";
+        return outputFolder + File.separator + "generatedSrc" + File.separator + "Models";
     }
 
     @Override

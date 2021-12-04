@@ -952,6 +952,7 @@ Here is a list of template creators:
    * C# ASP.NET 5: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * C# ASP.NET Core 3.0: @A-Joshi
    * C# APS.NET Core 3.1: @phatcher
+   * C# Azure functions: @Abrhm7786
    * C# NancyFX: @mstefaniuk
    * C++ (Qt5 QHttpEngine): @etherealjoy
    * C++ Pistache: @sebymiano
