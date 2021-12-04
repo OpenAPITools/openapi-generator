@@ -570,19 +570,29 @@ public class DefaultCodegen implements CodegenConfig {
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
-                for (CodegenProperty cp : cm.allVars) {
-                    // detect self import
-                    if (cp.dataType.equalsIgnoreCase(cm.classname) ||
-                            (cp.isContainer && cp.items != null && cp.items.dataType.equalsIgnoreCase(cm.classname))) {
-                        cm.imports.remove(cm.classname); // remove self import
-                        cp.isSelfReference = true;
-                    }
-                }
+                removeSelfReferenceImports(cm);
             }
         }
         setCircularReferences(allModels);
 
         return objs;
+    }
+
+    /**
+     * Removes imports from the model that points to itself
+     * Marks a self referencing property, if detected
+     *
+     * @param model Self imports will be removed from this model.imports collection
+     */
+    protected void removeSelfReferenceImports(CodegenModel model) {
+        for (CodegenProperty cp : model.allVars) {
+            // detect self import
+            if (cp.dataType.equalsIgnoreCase(model.classname) ||
+                    (cp.isContainer && cp.items != null && cp.items.dataType.equalsIgnoreCase(model.classname))) {
+                model.imports.remove(model.classname); // remove self import
+                cp.isSelfReference = true;
+            }
+        }
     }
 
     public void setCircularReferences(Map<String, CodegenModel> models) {
@@ -5168,17 +5178,7 @@ public class DefaultCodegen implements CodegenConfig {
                     cm.hasOnlyReadOnly = false;
                 }
 
-                // TODO revise the logic to include map
-                if (cp.isContainer) {
-                    addImport(cm, typeMapping.get("array"));
-                }
-
-                addImport(cm, cp.baseType);
-                CodegenProperty innerCp = cp;
-                while (innerCp != null) {
-                    addImport(cm, innerCp.complexType);
-                    innerCp = innerCp.items;
-                }
+                addImportsForPropertyType(cm, cp);
 
                 // if required, add to the list "requiredVars"
                 if (Boolean.TRUE.equals(cp.required)) {
@@ -5197,6 +5197,28 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         return;
+    }
+
+    /**
+     * For a given property, adds all needed imports to the model
+     * This includes a flat property type (e.g. property type: ReferencedModel)
+     * as well as container type (property type: array of ReferencedModel's)
+     *
+     * @param model The codegen representation of the OAS schema.
+     * @param property The codegen representation of the OAS schema's property.
+     */
+    protected void addImportsForPropertyType(CodegenModel model, CodegenProperty property) {
+        // TODO revise the logic to include map
+        if (property.isContainer) {
+            addImport(model, typeMapping.get("array"));
+        }
+
+        addImport(model, property.baseType);
+        CodegenProperty innerCp = property;
+        while (innerCp != null) {
+            addImport(model, innerCp.complexType);
+            innerCp = innerCp.items;
+        }
     }
 
     /**
