@@ -18,10 +18,7 @@
 package org.openapitools.codegen;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -127,7 +124,9 @@ public class DefaultGenerator implements Generator {
             }
 
             TemplatePathLocator commonTemplateLocator = new CommonTemplateContentLocator();
+
             TemplatePathLocator generatorTemplateLocator = new GeneratorTemplateContentLocator(this.config);
+
             this.templateProcessor = new TemplateManager(
                     templateManagerOptions,
                     templatingEngine,
@@ -381,10 +380,58 @@ public class DefaultGenerator implements Generator {
         }
     }
 
-    private void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+    public void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+        boolean changed = false;
         for (String templateName : config.modelTemplateFiles().keySet()) {
             String filename = config.modelFilename(templateName, modelName);
+
+            /**
+             * kangtong changed
+             * get vars in the models
+            */
+            List<Object> openAPI = (List<Object>) models.get("models");
+            Map<String,Object> ob = (Map<String,Object>)openAPI.get(0);
+            CodegenModel cm = (CodegenModel)ob.get("model");
+            List<CodegenProperty> vars = cm.vars;
+
+            /**
+             * kangtong changed
+             * added additional properties in the vars
+             *
+             */
+            if(models.containsKey("disallowAdditionalPropertiesIfNotPresent") &&((String)models.get("disallowAdditionalPropertiesIfNotPresent")).equals("false")){
+                changed = true;
+                CodegenProperty cp2 = new CodegenProperty();
+                cp2.setBaseName("additionalProperty");
+                cp2.setName("additionalProperty");
+                cp2.setBaseType("Object");
+                cp2.datatypeWithEnum = "Object";
+                cp2.openApiType = "Object";
+                cp2.isNullable = false;
+                cp2.dataType = "Object";
+                cp2.jsonSchema = vars.get(0).jsonSchema;
+                cp2.isNull = false;
+                cp2.required = false;
+                cp2.isNullable = true;
+                cp2.hasValidation = false;
+                cp2.isFreeFormObject = true;
+                cp2.additionalProperties = vars.get(0).additionalProperties;
+                cp2.getter = "getAdditionalProperty";
+                cp2.setter = "setAdditionalProperty";
+
+                vars.add(0, cp2);
+            }
+
             File written = processTemplateToFile(models, templateName, filename, generateModels, CodegenConstants.MODELS);
+
+            /**
+             * kangtong changed
+             * remove additional properties in the vars
+             */
+            if(changed) {
+                vars.remove(0);
+            }
+
             if (written != null) {
                 files.add(written);
                 if (config.isEnablePostProcessFile() && !dryRun) {
@@ -500,6 +547,7 @@ public class DefaultGenerator implements Generator {
                 models.put("classname", config.toModelName(name));
                 models.putAll(config.additionalProperties());
                 allProcessedModels.put(name, models);
+
             } catch (Exception e) {
                 throw new RuntimeException("Could not process model '" + name + "'" + ".Please make sure that your schema is correct!", e);
             }
@@ -508,8 +556,10 @@ public class DefaultGenerator implements Generator {
         // loop through all models to update children models, isSelfReference, isCircularReference, etc
         allProcessedModels = config.updateAllModels(allProcessedModels);
 
+
         // post process all processed models
         allProcessedModels = config.postProcessAllModels(allProcessedModels);
+
 
         // generate files based on processed models
         for (String modelName : allProcessedModels.keySet()) {
@@ -520,6 +570,7 @@ public class DefaultGenerator implements Generator {
                 if (config.importMapping().containsKey(modelName)) {
                     continue;
                 }
+
 
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 List<Object> modelList = (List<Object>) models.get("models");
@@ -549,6 +600,8 @@ public class DefaultGenerator implements Generator {
                 throw new RuntimeException("Could not generate model '" + modelName + "'", e);
             }
         }
+
+
         if (GlobalSettings.getProperty("debugModels") != null) {
             LOGGER.info("############ Model info ############");
             Json.prettyPrint(allModels);
@@ -861,6 +914,7 @@ public class DefaultGenerator implements Generator {
 
     @Override
     public List<File> generate() {
+
         if (openAPI == null) {
             throw new RuntimeException("Issues with the OpenAPI input. Possible causes: invalid/missing spec, malformed JSON/YAML files, etc.");
         }
@@ -898,10 +952,13 @@ public class DefaultGenerator implements Generator {
         processUserDefinedTemplates();
 
         List<File> files = new ArrayList<>();
+
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+
         List<Object> allModels = new ArrayList<>();
         generateModels(files, allModels, filteredSchemas);
+
         // apis
         List<Object> allOperations = new ArrayList<>();
         generateApis(files, allOperations, allModels);
@@ -939,7 +996,6 @@ public class DefaultGenerator implements Generator {
             sb.append(System.lineSeparator()).append(System.lineSeparator());
             sb.append("States:");
             sb.append(System.lineSeparator()).append(System.lineSeparator());
-
             for (DryRunStatus.State state : DryRunStatus.State.values()) {
                 sb.append("  - ").append(state.getShortDisplay()).append(" ").append(state.getDescription()).append(System.lineSeparator());
             }
@@ -949,9 +1005,11 @@ public class DefaultGenerator implements Generator {
             LOGGER.error(sb.toString());
         } else {
             // This exists here rather than in the method which generates supporting files to avoid accidentally adding files after this metadata.
+
             if (generateSupportingFiles) {
                 generateFilesMetadata(files);
             }
+
         }
 
         // post-process
@@ -1043,6 +1101,7 @@ public class DefaultGenerator implements Generator {
                 if (!absoluteTarget.startsWith(outDir)) {
                     throw new RuntimeException(String.format(Locale.ROOT, "Target files must be generated within the output directory; absoluteTarget=%s outDir=%s", absoluteTarget, outDir));
                 }
+
                 return this.templateProcessor.write(templateData,templateName, target);
             } else {
                 this.templateProcessor.skip(target.toPath(), String.format(Locale.ROOT, "Skipped by %s options supplied by user.", skippedByOption));

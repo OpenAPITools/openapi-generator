@@ -27,6 +27,39 @@ import java.util.*;
 
 public class DefaultGeneratorTest {
 
+    // kangtong
+    @Test
+    public void testGenerateModel() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(true);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+            generator.setGeneratorPropertyDefault("disallowAdditionalPropertiesIfNotPresent", "false");
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            Assert.assertEquals(files.size(), 1);
+            TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/SomeObj.java");
+        } finally {
+            output.delete();
+        }
+    }
+
+
     @Test
     public void testIgnoreFileProcessing() throws IOException {
         Path target = Files.createTempDirectory("test");
