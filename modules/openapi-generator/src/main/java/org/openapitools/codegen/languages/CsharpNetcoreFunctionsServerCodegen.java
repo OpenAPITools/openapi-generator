@@ -39,10 +39,10 @@ public class CsharpNetcoreFunctionsServerCodegen extends CSharpNetCoreReducedCli
         embeddedTemplateDir = templateDir = "csharp-netcore-functions";
         apiPackage = "Apis";
         modelPackage = "Models";
-		String clientPackageDir = "generatedSrc/Client";
+        String clientPackageDir = "generatedSrc/Client";
         supportingFiles.add(new SupportingFile("README.mustache", "generatedSrc", "README.md"));
         supportingFiles.add(new SupportingFile("project.mustache", "generatedSrc", "project.json"));
-		
+        
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache",
                 clientPackageDir, "IApiAccessor.cs"));
         supportingFiles.add(new SupportingFile("Configuration.mustache",
@@ -58,13 +58,13 @@ public class CsharpNetcoreFunctionsServerCodegen extends CSharpNetCoreReducedCli
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache",
                 clientPackageDir, "OpenAPIDateConverter.cs"));
     }
-	
-	@Override
+
+    @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + "generatedSrc" + File.separator + "Functions";
     }
-	
-	@Override
+
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + "generatedSrc" + File.separator +  "Models";
     }
