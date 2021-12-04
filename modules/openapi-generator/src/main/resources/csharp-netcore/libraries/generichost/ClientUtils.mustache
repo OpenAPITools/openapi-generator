@@ -263,6 +263,25 @@ namespace {{packageName}}.Client
                 HostConfiguration config = new(services);
 
                 options(context, config);
+
+                // ensure that a token provider was provided for this token type
+                // if not, default to RateLimitProvider
+                var containerServices = services.Where(s => s.ServiceType.IsGenericType &&
+                    s.ServiceType.GetGenericTypeDefinition().IsAssignableTo(typeof(TokenContainer<>))).ToArray();
+
+                foreach(var containerService in containerServices)
+                {
+                    var tokenType = containerService.ServiceType.GenericTypeArguments[0];
+
+                    var provider = services.FirstOrDefault(s => s.ServiceType.IsAssignableTo(typeof(TokenProvider<>).MakeGenericType(tokenType)));
+
+                    if (provider == null)
+                    {
+                        services.AddSingleton(typeof(RateLimitProvider<>).MakeGenericType(tokenType));
+                        services.AddSingleton(typeof(TokenProvider<>).MakeGenericType(tokenType), 
+                            services => services.GetRequiredService(typeof(RateLimitProvider<>).MakeGenericType(tokenType)));
+                    }
+                }                
             });
 
             return builder;

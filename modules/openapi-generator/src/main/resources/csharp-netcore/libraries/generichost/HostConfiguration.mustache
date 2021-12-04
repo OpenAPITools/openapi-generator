@@ -57,30 +57,38 @@ namespace {{packageName}}.Client
         /// <summary>
         /// Adds tokens to your IServiceCollection
         /// </summary>
-        /// <typeparam name="TTokenProvider"></typeparam>
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="token"></param>
         /// <returns></returns>
-        public HostConfiguration AddTokens<TTokenProvider, TTokenBase>(TTokenBase token)
-            where TTokenProvider : TokenProvider<TTokenBase>
-            where TTokenBase : TokenBase
+        public HostConfiguration UseTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
         {
-            return AddTokens<TTokenProvider, TTokenBase>(new TTokenBase[]{ token });
+            return UseTokens<TTokenBase>(new TTokenBase[]{ token });
         }
 
         /// <summary>
         /// Adds tokens to your IServiceCollection
         /// </summary>
-        /// <typeparam name="TTokenProvider"></typeparam>
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="tokens"></param>
         /// <returns></returns>
-        public HostConfiguration AddTokens<TTokenProvider, TTokenBase>(IEnumerable<TTokenBase> tokens) 
-            where TTokenProvider : TokenProvider<TTokenBase>
-            where TTokenBase : TokenBase
+        public HostConfiguration UseTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
         {
             TokenContainer<TTokenBase> container = new TokenContainer<TTokenBase>(tokens);
             _services.AddSingleton<TokenContainer<TTokenBase>>(services => container);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a token provider to your IServiceCollection
+        /// </summary>
+        /// <typeparam name="TTokenProvider"></typeparam>
+        /// <typeparam name="TTokenBase"></typeparam>
+        /// <returns></returns>
+        public HostConfiguration UseProvider<TTokenProvider, TTokenBase>() 
+            where TTokenProvider : TokenProvider<TTokenBase>
+            where TTokenBase : TokenBase
+        {
             _services.AddSingleton<TTokenProvider>();
             _services.AddSingleton<TokenProvider<TTokenBase>>(services => services.GetRequiredService<TTokenProvider>());
 

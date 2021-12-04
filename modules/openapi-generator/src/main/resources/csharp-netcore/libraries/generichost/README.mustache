@@ -43,7 +43,10 @@ namespace YourProject
           {
               // the type of token here depends on the api security specifications
               ApiKeyToken token = new("<your token>");
-              options.AddTokens<RateLimitProvider<ApiKeyToken>, ApiKeyToken>(token);
+              options.UseTokens(token);
+
+              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
+              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
 
               options.ConfigureJsonOptions((jsonOptions) =>
               {
