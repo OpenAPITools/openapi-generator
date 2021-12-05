@@ -204,8 +204,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
-            setEnumSuffix(additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString());
-            additionalProperties.put("enumNameSuffix", getEnumSuffix());
+            enumSuffix = additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString();
         }
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
@@ -368,7 +367,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String toModelName(final String name) {
         String fullModelName = name;
         fullModelName = addPrefix(fullModelName, modelNamePrefix);
-        fullModelName = addSuffix(fullModelName, modelNameSuffix);         
+        fullModelName = addSuffix(fullModelName, modelNameSuffix);
         return toTypescriptTypeName(fullModelName, "Model");
     }
 
@@ -713,16 +712,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toEnumName(CodegenProperty property) {
         String enumName = property.name;
-        enumName = enumName + enumSuffix;
+        enumName = addSuffix(enumName, enumSuffix);
         return toTypescriptTypeName(enumName, "_");
-    }
-
-    public void setEnumSuffix(String suffix) {
-        enumSuffix = suffix;
-    }
-
-    public String getEnumSuffix() {
-        return enumSuffix;
     }
 
     protected void setEnumPropertyNaming(String naming) {
