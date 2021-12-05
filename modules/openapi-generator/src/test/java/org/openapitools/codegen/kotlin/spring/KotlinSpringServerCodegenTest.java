@@ -189,6 +189,21 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(codegen.supportingFiles().stream().anyMatch(supportingFile -> supportingFile.getTemplateFile().equals("apiUtil.mustache")));
     }
 
+    @Test
+    public void testFileNamePattern() {
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, false);
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.DELEGATE_PATTERN), false);
+        Assert.assertEquals(codegen.additionalProperties().get("isDelegate"), "false");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS), false);
+        Assert.assertTrue(codegen.getSwaggerAnnotations());
+
+        Assert.assertEquals(codegen.apiTemplateFiles().get("api.mustache"), "Controller.kt");
+        Assert.assertEquals(codegen.apiTemplateFiles().get("api_test.mustache"), ".kt");
+    }
+
     @Test(description = "test delegate with tags")
     public void delegateWithTags() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
