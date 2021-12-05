@@ -95,7 +95,7 @@ Void (empty response body)
 
 # **findPetsByStatus**
 ```swift
-    open class func findPetsByStatus(status: [String]) -> Observable<[Pet]>
+    open class func findPetsByStatus(status: [Status_findPetsByStatus]) -> Observable<[Pet]>
 ```
 
 Finds Pets by status

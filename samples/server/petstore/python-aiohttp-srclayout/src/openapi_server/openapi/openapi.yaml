@@ -680,22 +680,30 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         username:
+          title: username
           type: string
         firstName:
+          title: firstName
           type: string
         lastName:
+          title: lastName
           type: string
         email:
+          title: email
           type: string
         password:
+          title: password
           type: string
         phone:
+          title: phone
           type: string
         userStatus:
           description: User Status
           format: int32
+          title: userStatus
           type: integer
       title: a User
       type: object
@@ -738,15 +746,18 @@ components:
       properties:
         id:
           format: int64
+          title: id
           type: integer
         category:
           $ref: '#/components/schemas/Category'
         name:
           example: doggie
+          title: name
           type: string
         photoUrls:
           items:
             type: string
+          title: photoUrls
           type: array
           xml:
             name: photoUrl
@@ -754,6 +765,7 @@ components:
         tags:
           items:
             $ref: '#/components/schemas/Tag'
+          title: tags
           type: array
           xml:
             name: tag
@@ -764,6 +776,7 @@ components:
           - available
           - pending
           - sold
+          title: status
           type: string
       required:
       - name
