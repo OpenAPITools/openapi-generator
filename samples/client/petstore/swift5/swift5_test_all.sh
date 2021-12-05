@@ -19,6 +19,7 @@ mvn -f $DIRECTORY/alamofireLibrary/pom.xml integration-test
 mvn -f $DIRECTORY/combineLibrary/pom.xml integration-test
 mvn -f $DIRECTORY/default/pom.xml integration-test
 mvn -f $DIRECTORY/deprecated/pom.xml integration-test
+mvn -f $DIRECTORY/frozenEnums/pom.xml integration-test
 mvn -f $DIRECTORY/nonPublicApi/pom.xml integration-test
 mvn -f $DIRECTORY/objcCompatible/pom.xml integration-test
 mvn -f $DIRECTORY/oneOf/pom.xml integration-test
