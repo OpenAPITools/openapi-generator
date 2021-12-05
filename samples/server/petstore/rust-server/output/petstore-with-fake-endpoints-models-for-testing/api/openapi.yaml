@@ -656,7 +656,7 @@ paths:
         schema:
           enum:
           - 1
-          - -2
+          - null
           format: int32
           type: integer
       - description: Query parameter enum test (double)

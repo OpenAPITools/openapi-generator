@@ -119,7 +119,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("all_of_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failure".into())
+        Err(ApiError("Generic failuare".into()))
     }
 
     /// A dummy endpoint to make the spec valid.
@@ -129,7 +129,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("dummy_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failure".into())
+        Err(ApiError("Generic failuare".into()))
     }
 
     async fn dummy_put(
@@ -139,7 +139,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("dummy_put({:?}) - X-Span-ID: {:?}", nested_response, context.get().0.clone());
-        Err("Generic failure".into())
+        Err(ApiError("Generic failuare".into()))
     }
 
     /// Get a file
@@ -149,7 +149,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("file_response_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failure".into())
+        Err(ApiError("Generic failuare".into()))
     }
 
     async fn get_structured_yaml(
@@ -158,7 +158,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("get_structured_yaml() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failure".into())
+        Err(ApiError("Generic failuare".into()))
     }
 
     /// Test HTML handling
@@ -169,7 +169,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("html_post(\"{}\") - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err("Generic failure".into())
+        Err(ApiError("Generic failuare".into()))
     }
 
     async fn post_yaml(
@@ -179,7 +179,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("post_yaml(\"{}\") - X-Span-ID: {:?}", value, context.get().0.clone());
-        Err("Generic failure".into())
+        Err(ApiError("Generic failuare".into()))
     }
 
     /// Get an arbitrary JSON blob.
@@ -189,7 +189,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("raw_json_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err("Generic failure".into())
+        Err(ApiError("Generic failuare".into()))
     }
 
     /// Send an arbitrary JSON blob
@@ -200,7 +200,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("solo_object_post({:?}) - X-Span-ID: {:?}", value, context.get().0.clone());
-        Err("Generic failure".into())
+        Err(ApiError("Generic failuare".into()))
     }
 
 }

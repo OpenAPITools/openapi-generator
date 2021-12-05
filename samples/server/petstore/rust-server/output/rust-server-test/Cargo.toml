@@ -29,7 +29,7 @@ openssl = {version = "0.10", optional = true }
 async-trait = "0.1.24"
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.3"
-swagger = "5.0.2"
+swagger = "6.1.0"
 log = "0.4.0"
 mime = "0.3"
 
@@ -39,7 +39,7 @@ serde_json = "1.0"
 # Crates included if required by the API definition
 
 # Common between server and client features
-hyper = {version = "0.13", optional = true}
+hyper = {version = "~0.14", features = ["full"], optional = true}
 serde_ignored = {version = "0.1.1", optional = true}
 url = {version = "2.1", optional = true}
 
