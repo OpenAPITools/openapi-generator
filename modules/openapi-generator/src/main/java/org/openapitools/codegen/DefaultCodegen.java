@@ -3959,6 +3959,18 @@ public class DefaultCodegen implements CodegenConfig {
                 ApiResponse response = operationGetResponsesEntry.getValue();
                 addProducesInfo(response, op);
                 CodegenResponse r = fromResponse(key, response);
+                Map<String, Header> headers = response.getHeaders();
+                if (headers != null) {
+                    List<CodegenParameter> responseHeaders = new ArrayList<>();
+                    for (Entry<String, Header> entry: headers.entrySet()) {
+                        String headerName = entry.getKey();
+                        Header header = entry.getValue();
+                        CodegenParameter responseHeader = heeaderToCodegenParameter(header, headerName, imports);
+                        responseHeaders.add(responseHeader);
+                    }
+                    r.setResponseHeaders(responseHeaders);
+                }
+
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
                         !languageSpecificPrimitives.contains(r.baseType)) {
@@ -6590,6 +6602,27 @@ public class DefaultCodegen implements CodegenConfig {
         return toModelName(contentType + "Schema");
     }
 
+    private CodegenParameter heeaderToCodegenParameter(Header header, String headerName, Set<String> imports) {
+        if (header == null) {
+            return null;
+        }
+        Parameter headerParam = new Parameter();
+        headerParam.setName(headerName);
+        headerParam.setIn("header");
+        headerParam.setDescription(header.getDescription());
+        headerParam.setRequired(header.getRequired());
+        headerParam.setDeprecated(header.getDeprecated());
+        headerParam.setStyle(Parameter.StyleEnum.valueOf(header.getStyle().name()));
+        headerParam.setExplode(header.getExplode());
+        headerParam.setSchema(header.getSchema());
+        headerParam.setExamples(header.getExamples());
+        headerParam.setExample(header.getExample());
+        headerParam.setContent(header.getContent());
+        headerParam.setExtensions(header.getExtensions());
+        CodegenParameter param = fromParameter(headerParam, imports);
+        return param;
+    }
+
     protected LinkedHashMap<String, CodegenMediaType> getContent(Content content, Set<String> imports) {
         if (content == null) {
             return null;
@@ -6609,20 +6642,7 @@ public class DefaultCodegen implements CodegenConfig {
                         for (Entry<String, Header> headerEntry: encHeaders.entrySet()) {
                             String headerName = headerEntry.getKey();
                             Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
-                            Parameter headerParam = new Parameter();
-                            headerParam.setName(headerName);
-                            headerParam.setIn("header");
-                            headerParam.setDescription(header.getDescription());
-                            headerParam.setRequired(header.getRequired());
-                            headerParam.setDeprecated(header.getDeprecated());
-                            headerParam.setStyle(Parameter.StyleEnum.valueOf(header.getStyle().name()));
-                            headerParam.setExplode(header.getExplode());
-                            headerParam.setSchema(header.getSchema());
-                            headerParam.setExamples(header.getExamples());
-                            headerParam.setExample(header.getExample());
-                            headerParam.setContent(header.getContent());
-                            headerParam.setExtensions(header.getExtensions());
-                            CodegenParameter param = fromParameter(headerParam, imports);
+                            CodegenParameter param = heeaderToCodegenParameter(header, headerName, imports);
                             headers.add(param);
                         }
                     }
