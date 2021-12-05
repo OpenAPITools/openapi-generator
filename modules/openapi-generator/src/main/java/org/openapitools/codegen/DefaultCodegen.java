@@ -3976,6 +3976,12 @@ public class DefaultCodegen implements CodegenConfig {
                 if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseFile)) {
                     op.isResponseFile = Boolean.TRUE;
                 }
+
+                // check if any 4xx or 5xx reponse has an error response object defined
+                if ((Boolean.TRUE.equals(r.is4xx) || Boolean.TRUE.equals(r.is5xx)) &&
+                    Boolean.FALSE.equals(r.primitiveType) && Boolean.FALSE.equals(r.simpleType)) {
+                    op.hasErrorResponseObject = Boolean.TRUE;
+                }
             }
             op.responses.sort((a, b) -> {
                 int aScore = a.isWildcard() ? 2 : a.isRange() ? 1 : 0;
@@ -4269,6 +4275,7 @@ public class DefaultCodegen implements CodegenConfig {
         r.setComposedSchemas(getComposedSchemas(responseSchema));
         if (ModelUtils.isArraySchema(responseSchema)) {
             r.simpleType = false;
+            r.isArray = true;
             r.containerType = cp.containerType;
             ArraySchema as = (ArraySchema) responseSchema;
             CodegenProperty items = fromProperty("response", getSchemaItems(as));
@@ -4324,6 +4331,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isTypeObjectSchema(responseSchema)) {
             if (ModelUtils.isFreeFormObject(openAPI, responseSchema)) {
                 r.isFreeFormObject = true;
+            } else {
+                r.isModel = true;
             }
             r.simpleType = false;
             r.containerType = cp.containerType;
@@ -4335,9 +4344,6 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.debug("Property type is not primitive: {}", cp.dataType);
         }
 
-        if (!r.isMap && !r.isArray) {
-            r.simpleType = true;
-        }
         r.primitiveType = (r.baseType == null || languageSpecificPrimitives().contains(r.baseType));
 
         if (r.baseType == null) {

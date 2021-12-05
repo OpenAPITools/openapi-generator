@@ -3877,6 +3877,59 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testResponses() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/response-tests.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+        CodegenParameter cpa;
+        CodegenResponse cr;
+
+        path = "/pet/{petId}";
+        operation = openAPI.getPaths().get(path).getGet();
+        co = codegen.fromOperation(path, "GET", operation, null);
+        //assertTrue(co.hasErrorResponseObject);
+        cr = co.responses.get(0);
+        assertTrue(cr.is2xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+        cr = co.responses.get(3);
+        assertTrue(cr.is5xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+
+        path = "/pet";
+        operation = openAPI.getPaths().get(path).getPut();
+        co = codegen.fromOperation(path, "PUT", operation, null);
+        assertTrue(co.hasErrorResponseObject);
+
+        // 200 response
+        cr = co.responses.get(0);
+        assertTrue(cr.is2xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+
+        // 400 response
+        cr = co.responses.get(1);
+        assertTrue(cr.is4xx);
+        assertEquals(cr.code, "400");
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+
+        path = "/pet/findByTags";
+        operation = openAPI.getPaths().get(path).getGet();
+        co = codegen.fromOperation(path, "GET", operation, null);
+        assertFalse(co.hasErrorResponseObject);
+        cr = co.responses.get(0);
+        assertTrue(cr.is2xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+    }
+
     public void testParameterContent() {
         DefaultCodegen codegen = new DefaultCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
