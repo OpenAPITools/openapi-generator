@@ -130,7 +130,7 @@ defmodule OpenapiPetstore.Api.User do
   {:ok, OpenapiPetstore.Model.User.t} on success
   {:error, Tesla.Env.t} on failure
   """
-  @spec get_user_by_name(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:ok, User.t} | {:error, Tesla.Env.t}
+  @spec get_user_by_name(Tesla.Env.client, String.t, keyword()) :: {:ok, nil} | {:ok, OpenapiPetstore.Model.User.t} | {:error, Tesla.Env.t}
   def get_user_by_name(connection, username, _opts \\ []) do
     %{}
     |> method(:get)
@@ -168,7 +168,7 @@ defmodule OpenapiPetstore.Api.User do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %OpenapiPetstore.Model.String{}},
+      { 200, false},
       { 400, false}
     ])
   end
