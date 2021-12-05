@@ -8,7 +8,7 @@
     }
   ],
   "require": {
-    "php": "^7.3 || ^8.0",
+    "php": "^7.4 || ^8.0",
     "slim/slim": "^4.5.0",
     "dyorg/slim-token-authentication": "dev-slim4",
     "ybelenko/openapi-data-mocker": "^1.0",
