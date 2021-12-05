@@ -399,7 +399,7 @@ public class DefaultGenerator implements Generator {
              * added additional properties in the vars
              *
              */
-            if(models.containsKey("disallowAdditionalPropertiesIfNotPresent") &&((String)models.get("disallowAdditionalPropertiesIfNotPresent")).equals("false")){
+            if(models.containsKey("disallowAdditionalPropertiesIfNotPresent") && "false".equals((String)models.get("disallowAdditionalPropertiesIfNotPresent"))){
                 changed = true;
                 CodegenProperty cp2 = new CodegenProperty();
                 cp2.setBaseName("additionalProperty");
