@@ -844,6 +844,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2021-10-02 - [How to Write Fewer Lines of Code with the OpenAPI Generator](https://hackernoon.com/how-to-write-fewer-lines-of-code-with-the-openapi-generator) by [Mikhail Alfa](https://hackernoon.com/u/alphamikle)
 - 2021-10-12 - [OpenAPI Generator : 4000 étoiles sur GitHub et des spaghettis](https://www.youtube.com/watch?v=9hEsNBSqTFk) by [Jérémie Bresson](https://github.com/jmini) at [Devoxx FR 2021](https://cfp.devoxx.fr/2021/speaker/jeremie_bresson)
 - 2021-10-17 - [Generate a TypeScript HTTP Client From An OpenAPI Spec In DotNET 5](https://richardwillis.info/blog/generate-a-type-script-http-client-from-an-open-api-spec-in-dot-net-5) by [Richard Willis](https://github.com/badsyntax)
+- 2021-11-06 - [スタートアップの開発で意識したこと](https://zenn.dev/woo_noo/articles/5cb09f8e2899ae782ad1) by [woo-noo](https://zenn.dev/woo_noo)
+- 2021-11-09 - [Effective Software Development using OpenAPI Generator](https://apexlabs.ai/post/effective-software-development-using-openapi-generator) by Ajil Oomme
 
 ## [6 - About Us](#table-of-contents)
 
@@ -1060,7 +1062,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | GraphQL           | @renepardon (2018/12)                                                                                                                                                                                                             |
 | Groovy            |                                                                                                                                                                                                                                   |
 | Haskell           |                                                                                                                                                                                                                                   |
-| Java              | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @nmuesch (2021/01)                          |
+| Java              | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10)                        |
 | JMeter               | @kannkyo (2021/01)                                                                                                                                                                                                            |
 | Kotlin            | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03)                                                        |
 | Lua               | @daurnimator (2017/08)                                                                                                                                                                                                            |

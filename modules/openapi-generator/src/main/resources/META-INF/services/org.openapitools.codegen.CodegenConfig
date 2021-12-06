@@ -23,6 +23,7 @@ org.openapitools.codegen.languages.CSharpClientCodegen
 org.openapitools.codegen.languages.CSharpNetCoreClientCodegen
 org.openapitools.codegen.languages.CSharpDotNet2ClientCodegen
 org.openapitools.codegen.languages.CSharpNancyFXServerCodegen
+org.openapitools.codegen.languages.CsharpNetcoreFunctionsServerCodegen
 org.openapitools.codegen.languages.DartClientCodegen
 org.openapitools.codegen.languages.DartDioClientCodegen
 org.openapitools.codegen.languages.DartDioNextClientCodegen
