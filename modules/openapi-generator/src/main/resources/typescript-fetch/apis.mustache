@@ -125,7 +125,11 @@ export class {{classname}} extends runtime.BaseAPI {
             {{/isDate}}
             {{^isDate}}
             {{#isContainer}}
+            {{!isContainer adds a container wrapper}}
             {{#isExplode}}
+            {{!isExplode check if explode is true}}
+            {{!Generate separate parameters for}}
+            {{!each key-value pair of the map for the request}}
             for (const key in requestParameters.{{paramName}}) {
                 queryParameters[key] = requestParameters.{{paramName}}[key]
             }
