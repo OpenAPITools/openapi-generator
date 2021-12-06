@@ -131,7 +131,7 @@ function Invoke-PSApiClient {
     }
 
     if ($SkipCertificateCheck -eq $true) {
-        if ($Configuration["Proxy"] -eq $null) {
+        if ($null -eq $Configuration["Proxy"]) {
             # skip certification check, no proxy
             $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
                                       -Method $Method `
@@ -153,7 +153,7 @@ function Invoke-PSApiClient {
                                       -ProxyUseDefaultCredentials
         }
     } else {
-        if ($Configuration["Proxy"] -eq $null) {
+        if ($null -eq $Configuration["Proxy"]) {
             # perform certification check, no proxy
             $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
                                       -Method $Method `
@@ -228,7 +228,7 @@ function DeserializeResponse {
         [string[]]$ContentTypes
     )
 
-    If ($ContentTypes -eq $null) {
+    If ($null -eq $ContentTypes) {
         $ContentTypes = [string[]]@()
     }
 

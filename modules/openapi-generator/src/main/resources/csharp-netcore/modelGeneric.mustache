@@ -284,7 +284,7 @@
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class {{classname}} {\n");
             {{#parent}}
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
@@ -335,8 +335,9 @@
             {{/useCompareNetObjects}}
             {{^useCompareNetObjects}}
             if (input == null)
+            {
                 return false;
-
+            }
             return {{#vars}}{{#parent}}base.Equals(input) && {{/parent}}{{^isContainer}}
                 (
                     this.{{name}} == input.{{name}} ||
@@ -377,15 +378,19 @@
                 {{#vars}}
                 {{^vendorExtensions.x-is-value-type}}
                 if (this.{{name}} != null)
-                    hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.{{name}}.GetHashCode();
+                }
                 {{/vendorExtensions.x-is-value-type}}
                 {{#vendorExtensions.x-is-value-type}}
-                hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
+                hashCode = (hashCode * 59) + this.{{name}}.GetHashCode();
                 {{/vendorExtensions.x-is-value-type}}
                 {{/vars}}
                 {{#isAdditionalPropertiesTrue}}
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 {{/isAdditionalPropertiesTrue}}
                 return hashCode;
             }
@@ -423,7 +428,10 @@
             {{#parent}}
             {{^isArray}}
             {{^isMap}}
-            foreach(var x in BaseValidate(validationContext)) yield return x;
+            foreach (var x in BaseValidate(validationContext))
+            {
+                yield return x;
+            }
             {{/isMap}}
             {{/isArray}}
             {{/parent}}
@@ -432,7 +440,7 @@
             {{^isEnum}}
             {{#maxLength}}
             // {{{name}}} ({{{dataType}}}) maxLength
-            if(this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
+            if (this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
             }
@@ -440,7 +448,7 @@
             {{/maxLength}}
             {{#minLength}}
             // {{{name}}} ({{{dataType}}}) minLength
-            if(this.{{{name}}} != null && this.{{{name}}}.Length < {{minLength}})
+            if (this.{{{name}}} != null && this.{{{name}}}.Length < {{minLength}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
             }
@@ -448,7 +456,7 @@
             {{/minLength}}
             {{#maximum}}
             // {{{name}}} ({{{dataType}}}) maximum
-            if(this.{{{name}}} > ({{{dataType}}}){{maximum}})
+            if (this.{{{name}}} > ({{{dataType}}}){{maximum}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value less than or equal to {{maximum}}.", new [] { "{{{name}}}" });
             }
@@ -456,7 +464,7 @@
             {{/maximum}}
             {{#minimum}}
             // {{{name}}} ({{{dataType}}}) minimum
-            if(this.{{{name}}} < ({{{dataType}}}){{minimum}})
+            if (this.{{{name}}} < ({{{dataType}}}){{minimum}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value greater than or equal to {{minimum}}.", new [] { "{{{name}}}" });
             }

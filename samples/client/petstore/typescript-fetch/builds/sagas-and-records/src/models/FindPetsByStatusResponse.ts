@@ -18,11 +18,13 @@ import {
     PetFromJSON,
     PetFromJSONTyped,
     PetToJSON,
+} from './Pet';
+import {
     ResponseMeta,
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
-} from './';
+} from './ResponseMeta';
 
 /**
  * 
