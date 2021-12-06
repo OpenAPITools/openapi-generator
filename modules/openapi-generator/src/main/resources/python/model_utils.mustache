@@ -1082,7 +1082,9 @@ def deserialize_file(response_data, configuration, content_disposition=None):
     os.remove(path)
 
     if content_disposition:
-        filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?', content_disposition, flags=re.I)
+        filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?',
+                             content_disposition,
+                             flags=re.I)
         if filename is not None:
             filename = filename.group(1)
         else:
