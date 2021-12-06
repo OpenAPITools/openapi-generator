@@ -16,6 +16,7 @@ import os
 import pprint
 import re
 import tempfile
+import uuid
 
 from dateutil.parser import parse
 
@@ -1398,8 +1399,12 @@ def deserialize_file(response_data, configuration, content_disposition=None):
     os.remove(path)
 
     if content_disposition:
-        filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?',
-                             content_disposition).group(1)
+        filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?', content_disposition, flags=re.I)
+        if filename is not None:
+            filename = filename.group(1)
+        else:
+            filename = "default_" + str(uuid.uuid4())
+
         path = os.path.join(os.path.dirname(path), filename)
 
     with open(path, "wb") as f:
