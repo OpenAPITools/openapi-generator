@@ -563,6 +563,7 @@ class ApiClient {
     {{#emitJSDoc}}/**
     * If the date string contains a space between date and time
     * replace it with a 'T' separator 
+    * fix_issue 9523 
     */{{/emitJSDoc}}
     static parseDate(str) {
         if (isNaN(str)) {
