@@ -31,8 +31,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QDateTime>
-
-
+#include <time.h>
 
 namespace test_namespace {
 
@@ -40,19 +39,19 @@ class oauthToken
 {
 public:
     oauthToken(QString token, int expiresIn, QString scope, QString tokenType) : m_token(token), m_scope(scope), m_type(tokenType){
-        m_validUntil = QDateTime::fromMSecsSinceEpoch((QDateTime::currentSecsSinceEpoch() + expiresIn) * 1000);
+        m_validUntil = time(0) + expiresIn;
     }
     oauthToken(){
-        m_validUntil = QDateTime::fromMSecsSinceEpoch((QDateTime::currentSecsSinceEpoch() -1 )*1000);
+        m_validUntil = time(0) - 1;
     }
     QString getToken(){return m_token;};
     QString getScope(){return m_scope;};
     QString getType(){return m_type;};
-    bool isValid(){return QDateTime::currentDateTime() < m_validUntil;};
+    bool isValid(){return time(0) < m_validUntil;};
 
 private:
     QString m_token;
-    QDateTime m_validUntil;
+    time_t m_validUntil;
     QString m_scope;
     QString m_type;
 };
