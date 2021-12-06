@@ -1,0 +1,47 @@
+{{>partial_header}}
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+{{#models}}
+{{#model}}
+{{#discriminator}}
+using JsonSubTypes;
+{{/discriminator}}
+{{/model}}
+{{/models}}
+{{#validatable}}
+using System.ComponentModel.DataAnnotations;
+{{/validatable}}
+using OpenAPIDateConverter = {{packageName}}.Client.OpenAPIDateConverter;
+{{#useCompareNetObjects}}
+using OpenAPIClientUtils = {{packageName}}.Client.ClientUtils;
+{{/useCompareNetObjects}}
+{{#models}}
+{{#model}}
+{{#oneOf}}
+{{#-first}}
+using System.Reflection;
+{{/-first}}
+{{/oneOf}}
+{{#aneOf}}
+{{#-first}}
+using System.Reflection;
+{{/-first}}
+{{/aneOf}}
+
+namespace {{packageName}}.{{modelPackage}}
+{
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{#anyOf}}{{#-first}}{{>modelAnyOf}}{{/-first}}{{/anyOf}}{{^oneOf}}{{^anyOf}}{{>modelGeneric}}{{/anyOf}}{{/oneOf}}{{/isEnum}}
+{{/model}}
+{{/models}}
+}
