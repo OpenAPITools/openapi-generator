@@ -58,7 +58,6 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
         addCliOptions();
         artifactId = "openapi-camel";
         super.library = "";
-        super.interfaceOnly = true;
     }
 
     @Override
@@ -67,6 +66,7 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
             additionalProperties.put(DATE_LIBRARY, "legacy");
         }
         super.processOpts();
+        super.apiTemplateFiles.remove("apiController.mustache");
         LOGGER.info("***** Apache Camel Server Generator *****");
         supportingFiles.clear();
         manageAdditionalProperties();
@@ -98,7 +98,11 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
             supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                     (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                     "OpenAPI2SpringBoot.java"));
-            apiTemplateFiles.put("routesImpl.mustache", "RoutesImpl.java");
+
+            if (!interfaceOnly) {
+                apiTemplateFiles.put("routesImpl.mustache", "RoutesImpl.java");
+            }
+
             supportingFiles.add(new SupportingFile("application.mustache",
                     ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
