@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class AdditionalPropertiesClass {\n");
             sb.Append("  MapProperty: ").Append(MapProperty).Append("\n");
             sb.Append("  MapOfMapProperty: ").Append(MapOfMapProperty).Append("\n");
@@ -163,21 +163,37 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.MapProperty != null)
-                    hashCode = hashCode * 59 + this.MapProperty.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapProperty.GetHashCode();
+                }
                 if (this.MapOfMapProperty != null)
-                    hashCode = hashCode * 59 + this.MapOfMapProperty.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapOfMapProperty.GetHashCode();
+                }
                 if (this.Anytype1 != null)
-                    hashCode = hashCode * 59 + this.Anytype1.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Anytype1.GetHashCode();
+                }
                 if (this.MapWithUndeclaredPropertiesAnytype1 != null)
-                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesAnytype1.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype1.GetHashCode();
+                }
                 if (this.MapWithUndeclaredPropertiesAnytype2 != null)
-                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesAnytype2.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype2.GetHashCode();
+                }
                 if (this.MapWithUndeclaredPropertiesAnytype3 != null)
-                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesAnytype3.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype3.GetHashCode();
+                }
                 if (this.EmptyMap != null)
-                    hashCode = hashCode * 59 + this.EmptyMap.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.EmptyMap.GetHashCode();
+                }
                 if (this.MapWithUndeclaredPropertiesString != null)
-                    hashCode = hashCode * 59 + this.MapWithUndeclaredPropertiesString.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesString.GetHashCode();
+                }
                 return hashCode;
             }
         }

@@ -33,7 +33,7 @@ open class AnotherFakeAPI {
                 task = call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                     switch result {
                     case let .success(response):
-                        continuation.resume(returning: response.body!)
+                        continuation.resume(returning: response.body)
                     case let .failure(error):
                         continuation.resume(throwing: error)
                     }
