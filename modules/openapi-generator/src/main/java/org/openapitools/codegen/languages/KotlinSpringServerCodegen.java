@@ -272,6 +272,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     @Override
+    /** 
+     *
+     * Process opts
+     *
+    */
     public void processOpts() {
         super.processOpts();
 
@@ -379,6 +384,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         } else if (interfaceOnly) {
             apiTemplateFiles.put("apiInterface.mustache", ".kt");
         } else {
+            /* Suffix the file name with controller 
+            * When the interfaceOnly property is false and
+            * When the delegatePattern property is false
+            */
             apiTemplateFiles.put("api.mustache", "Controller.kt");
             apiTestTemplateFiles.put("api_test.mustache", ".kt");
         }
