@@ -319,6 +319,7 @@ public class JSONTest {
             FruitReq o = new FruitReq();
             assertEquals(o.getActualInstance(), null);
             assertEquals(json.getGson().toJson(o), "null");
+            assertEquals(json.getGson().toJson(null), "null");
         }
         {
             // Same test, but this time with additional (undeclared) properties.
