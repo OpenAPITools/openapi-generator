@@ -64,12 +64,14 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     }
 
                     {{/anyOf}}
-                    throw new IOException("Failed to deserialize as the type doesn't match anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
                 }
 
                 @Override
                 public {{classname}} read(JsonReader in) throws IOException {
                     Object deserialized = null;
+                    JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
+
                     {{#useOneOfDiscriminatorLookup}}
                     {{#discriminator}}
                     // use discriminator value for faster anyOf lookup
@@ -78,7 +80,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     switch (discriminatorValue) {
                     {{#mappedModels}}
                         case "{{{mappingName}}}":
-                            deserialized = gson.fromJson(in, {{{modelName}}}.class);
+                            deserialized = adapter{{modelName}}.fromJsonTree(jsonObject);
                             new{{classname}}.setActualInstance(deserialized);
                             return new{{classname}};
                     {{/mappedModels}}
@@ -92,7 +94,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{#anyOf}}
                     // deserialize {{{.}}}
                     try {
-                        deserialized = gson.fromJson(in, {{.}}.class);
+                        deserialized = adapter{{.}}.fromJsonTree(jsonObject);
                         log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
                         {{classname}} ret = new {{classname}}();
                         ret.setActualInstance(deserialized);
@@ -103,7 +105,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     }
 
                     {{/anyOf}}
-                    throw new IOException("Failed deserialization for {{classname}}: no match found.");
+                    throw new IOException(String.format("Failed deserialization for {{classname}} as data doesn't match anyOf schmeas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. JSON: %s", jsonObject.toString()));
                 }
             }.nullSafe();
         }
