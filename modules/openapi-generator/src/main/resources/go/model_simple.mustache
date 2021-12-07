@@ -251,15 +251,15 @@ func (o *{{classname}}) Unset{{name}}() {
 func (o *{{classname}}) Redact() {
 {{#vars}}
 {{#vendorExtensions.x-redact}}
-    {{^required}}o.{{name}} = nil{{/required}}{{#required}}zeroField(&o.{{name}}){{/required}}
+    {{^required}}o.{{name}} = nil{{/required}}{{#required}}o.zeroField(&o.{{name}}){{/required}}
 {{/vendorExtensions.x-redact}}
 {{^vendorExtensions.x-redact}}
-    recurseRedact({{#required}}&{{/required}}o.{{name}})
+    o.recurseRedact({{#required}}&{{/required}}o.{{name}})
 {{/vendorExtensions.x-redact}}
 {{/vars}}
 }
 
-func recurseRedact(v interface{}) {
+func (o *{{classname}}) recurseRedact(v interface{}) {
     type redactor interface {
         Redact()
     }
@@ -274,17 +274,17 @@ func recurseRedact(v interface{}) {
         case reflect.Slice, reflect.Array:
             for i := 0; i < val.Len(); i++ {
                 // support data types declared without pointers
-                recurseRedact(val.Index(i).Interface())
+                o.recurseRedact(val.Index(i).Interface())
                 // ... and data types that were declared without but need pointers (for Redact)
                 if val.Index(i).CanAddr() {
-                    recurseRedact(val.Index(i).Addr().Interface())
+                    o.recurseRedact(val.Index(i).Addr().Interface())
                 }
             }
         }
     }
 }
 
-func zeroField(v interface{}) {
+func (o {{classname}}) zeroField(v interface{}) {
     p := reflect.ValueOf(v).Elem()
     p.Set(reflect.Zero(p.Type()))
 }
