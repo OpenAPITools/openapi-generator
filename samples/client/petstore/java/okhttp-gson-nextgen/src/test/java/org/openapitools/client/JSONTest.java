@@ -287,6 +287,36 @@ public class JSONTest {
     }
 
     /**
+     * Validate an anyOf schema can be deserialized into the expected class.
+     * The anyOf schema does not have a discriminator.
+     */
+    @Test
+    public void testAnyOfSchemaWithoutDiscriminator() throws Exception {
+        {
+            String str = "{ \"cultivar\": \"golden delicious\", \"origin\": \"japan\" }";
+            String str2 = "{ \"origin_typo\": \"japan\" }";
+
+            // make sure deserialization works for pojo object
+            Apple a = json.getGson().fromJson(str, Apple.class);
+            assertEquals(a.getCultivar(), "golden delicious");
+            assertEquals(a.getOrigin(), "japan");
+
+            GmFruit o = json.getGson().fromJson(str, GmFruit.class);
+            assertTrue(o.getActualInstance() instanceof Apple);
+            Apple inst = (Apple) o.getActualInstance();
+            assertEquals(inst.getCultivar(), "golden delicious");
+            assertEquals(inst.getOrigin(), "japan");
+            assertEquals(json.getGson().toJson(inst), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
+            assertEquals(json.getGson().toJson(o), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
+
+            // no match
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                GmFruit o2 = json.getGson().fromJson(str2, GmFruit.class);
+            });
+        }
+    }
+
+    /**
      * Validate a oneOf schema can be deserialized into the expected class.
      * The oneOf schema does not have a discriminator. 
      */
@@ -308,6 +338,7 @@ public class JSONTest {
             assertEquals(inst.getCultivar(), "golden delicious");
             assertEquals(inst.getMealy(), false);
             assertEquals(json.getGson().toJson(inst), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
+            assertEquals(json.getGson().toJson(o), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
 
             AppleReq inst2 = o.getAppleReq();
             assertEquals(inst2.getCultivar(), "golden delicious");

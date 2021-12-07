@@ -88,18 +88,21 @@ public class Mammal extends AbstractOpenApiSchema {
                     if (value.getActualInstance() instanceof Pig) {
                         JsonObject obj = adapterPig.toJsonTree((Pig)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `Whale`
                     if (value.getActualInstance() instanceof Whale) {
                         JsonObject obj = adapterWhale.toJsonTree((Whale)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `Zebra`
                     if (value.getActualInstance() instanceof Zebra) {
                         JsonObject obj = adapterZebra.toJsonTree((Zebra)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: Pig, Whale, Zebra");

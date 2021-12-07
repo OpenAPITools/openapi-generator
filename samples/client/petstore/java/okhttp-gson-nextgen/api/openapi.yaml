@@ -2053,6 +2053,11 @@ components:
           pattern: /^[A-Z\s]*$/i
           type: string
       type: object
+    pineapple:
+      properties:
+        origin:
+          type: string
+      type: object
     banana:
       properties:
         lengthCm:
@@ -2113,6 +2118,7 @@ components:
     gmFruit:
       additionalProperties: false
       anyOf:
+      - $ref: '#/components/schemas/pineapple'
       - $ref: '#/components/schemas/apple'
       - $ref: '#/components/schemas/banana'
       properties:

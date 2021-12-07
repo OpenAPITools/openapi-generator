@@ -213,6 +213,7 @@ Class | Method | HTTP request | Description
  - [ParentPet](docs/ParentPet.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
+ - [Pineapple](docs/Pineapple.md)
  - [Quadrilateral](docs/Quadrilateral.md)
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)

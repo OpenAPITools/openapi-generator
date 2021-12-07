@@ -86,12 +86,14 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
                     if (value.getActualInstance() instanceof Quadrilateral) {
                         JsonObject obj = adapterQuadrilateral.toJsonTree((Quadrilateral)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `Triangle`
                     if (value.getActualInstance() instanceof Triangle) {
                         JsonObject obj = adapterTriangle.toJsonTree((Triangle)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: Quadrilateral, Triangle");
