@@ -78,7 +78,7 @@ public class Fruit extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Fruit>() {
                 @Override
                 public void write(JsonWriter out, Fruit value) throws IOException {
-                    if (value.getActualInstance() == null) {
+                    if (value == null || value.getActualInstance() == null) {
                         elementAdapter.write(out, null);
                         return;
                     }

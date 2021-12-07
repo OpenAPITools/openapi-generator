@@ -77,7 +77,7 @@ public class Pig extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Pig>() {
                 @Override
                 public void write(JsonWriter out, Pig value) throws IOException {
-                    if (value.getActualInstance() == null) {
+                    if (value == null || value.getActualInstance() == null) {
                         elementAdapter.write(out, null);
                         return;
                     }

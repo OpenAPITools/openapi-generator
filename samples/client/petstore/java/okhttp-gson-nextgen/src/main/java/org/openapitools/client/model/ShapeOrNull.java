@@ -77,7 +77,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<ShapeOrNull>() {
                 @Override
                 public void write(JsonWriter out, ShapeOrNull value) throws IOException {
-                    if (value.getActualInstance() == null) {
+                    if (value == null || value.getActualInstance() == null) {
                         elementAdapter.write(out, null);
                         return;
                     }

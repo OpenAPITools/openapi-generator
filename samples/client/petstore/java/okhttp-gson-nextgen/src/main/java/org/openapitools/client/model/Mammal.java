@@ -79,7 +79,7 @@ public class Mammal extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Mammal>() {
                 @Override
                 public void write(JsonWriter out, Mammal value) throws IOException {
-                    if (value.getActualInstance() == null) {
+                    if (value == null || value.getActualInstance() == null) {
                         elementAdapter.write(out, null);
                         return;
                     }

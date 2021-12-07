@@ -50,7 +50,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             return (TypeAdapter<T>) new TypeAdapter<{{classname}}>() {
                 @Override
                 public void write(JsonWriter out, {{classname}} value) throws IOException {
-                    if (value.getActualInstance() == null) {
+                    if (value == null || value.getActualInstance() == null) {
                         elementAdapter.write(out, null);
                         return;
                     }

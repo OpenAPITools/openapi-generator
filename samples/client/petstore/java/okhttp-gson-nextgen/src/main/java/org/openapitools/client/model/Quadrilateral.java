@@ -77,7 +77,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Quadrilateral>() {
                 @Override
                 public void write(JsonWriter out, Quadrilateral value) throws IOException {
-                    if (value.getActualInstance() == null) {
+                    if (value == null || value.getActualInstance() == null) {
                         elementAdapter.write(out, null);
                         return;
                     }
