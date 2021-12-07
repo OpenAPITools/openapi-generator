@@ -23,7 +23,7 @@ package org.openapitools.client.apis
 import org.openapitools.client.models.User
 
 import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.ApiInfrastructureResponse
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -75,13 +75,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * Create user
     * This can only be done by the logged in user.
     * @param body Created user object 
-    * @return ApiInfrastructureResponse<Unit?>
+    * @return ApiResponse<Unit?>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createUserWithHttpInfo(body: User) : ApiInfrastructureResponse<Unit?> {
+    fun createUserWithHttpInfo(body: User) : ApiResponse<Unit?> {
         val localVariableConfig = createUserRequestConfig(body = body)
 
         return request<User, Unit>(
@@ -141,13 +141,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * Creates list of users with given input array
     * 
     * @param body List of user object 
-    * @return ApiInfrastructureResponse<Unit?>
+    * @return ApiResponse<Unit?>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createUsersWithArrayInputWithHttpInfo(body: kotlin.collections.List<User>) : ApiInfrastructureResponse<Unit?> {
+    fun createUsersWithArrayInputWithHttpInfo(body: kotlin.collections.List<User>) : ApiResponse<Unit?> {
         val localVariableConfig = createUsersWithArrayInputRequestConfig(body = body)
 
         return request<kotlin.collections.List<User>, Unit>(
@@ -207,13 +207,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * Creates list of users with given input array
     * 
     * @param body List of user object 
-    * @return ApiInfrastructureResponse<Unit?>
+    * @return ApiResponse<Unit?>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createUsersWithListInputWithHttpInfo(body: kotlin.collections.List<User>) : ApiInfrastructureResponse<Unit?> {
+    fun createUsersWithListInputWithHttpInfo(body: kotlin.collections.List<User>) : ApiResponse<Unit?> {
         val localVariableConfig = createUsersWithListInputRequestConfig(body = body)
 
         return request<kotlin.collections.List<User>, Unit>(
@@ -273,13 +273,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * Delete user
     * This can only be done by the logged in user.
     * @param username The name that needs to be deleted 
-    * @return ApiInfrastructureResponse<Unit?>
+    * @return ApiResponse<Unit?>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteUserWithHttpInfo(username: kotlin.String) : ApiInfrastructureResponse<Unit?> {
+    fun deleteUserWithHttpInfo(username: kotlin.String) : ApiResponse<Unit?> {
         val localVariableConfig = deleteUserRequestConfig(username = username)
 
         return request<Unit, Unit>(
@@ -340,14 +340,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * Get user by user name
     * 
     * @param username The name that needs to be fetched. Use user1 for testing. 
-    * @return ApiInfrastructureResponse<User?>
+    * @return ApiResponse<User?>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getUserByNameWithHttpInfo(username: kotlin.String) : ApiInfrastructureResponse<User?> {
+    fun getUserByNameWithHttpInfo(username: kotlin.String) : ApiResponse<User?> {
         val localVariableConfig = getUserByNameRequestConfig(username = username)
 
         return request<Unit, User>(
@@ -410,14 +410,14 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * 
     * @param username The user name for login 
     * @param password The password for login in clear text 
-    * @return ApiInfrastructureResponse<kotlin.String?>
+    * @return ApiResponse<kotlin.String?>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun loginUserWithHttpInfo(username: kotlin.String, password: kotlin.String) : ApiInfrastructureResponse<kotlin.String?> {
+    fun loginUserWithHttpInfo(username: kotlin.String, password: kotlin.String) : ApiResponse<kotlin.String?> {
         val localVariableConfig = loginUserRequestConfig(username = username, password = password)
 
         return request<Unit, kotlin.String>(
@@ -480,13 +480,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     /**
     * Logs out current logged in user session
     * 
-    * @return ApiInfrastructureResponse<Unit?>
+    * @return ApiResponse<Unit?>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun logoutUserWithHttpInfo() : ApiInfrastructureResponse<Unit?> {
+    fun logoutUserWithHttpInfo() : ApiResponse<Unit?> {
         val localVariableConfig = logoutUserRequestConfig()
 
         return request<Unit, Unit>(
@@ -547,13 +547,13 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * This can only be done by the logged in user.
     * @param username name that need to be deleted 
     * @param body Updated user object 
-    * @return ApiInfrastructureResponse<Unit?>
+    * @return ApiResponse<Unit?>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateUserWithHttpInfo(username: kotlin.String, body: User) : ApiInfrastructureResponse<Unit?> {
+    fun updateUserWithHttpInfo(username: kotlin.String, body: User) : ApiResponse<Unit?> {
         val localVariableConfig = updateUserRequestConfig(username = username, body = body)
 
         return request<User, Unit>(

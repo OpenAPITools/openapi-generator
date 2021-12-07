@@ -311,7 +311,7 @@ import com.squareup.moshi.adapter
     }
     {{/hasAuthMethods}}
 
-    protected {{#useCoroutines}}suspend {{/useCoroutines}}inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
+    protected {{#useCoroutines}}suspend {{/useCoroutines}}inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiResponse<T?> {
         {{#jvm-okhttp3}}
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
         {{/jvm-okhttp3}}

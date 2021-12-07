@@ -23,7 +23,7 @@ package org.openapitools.client.apis
 import org.openapitools.client.models.ModelWithEnumPropertyHavingDefault
 
 import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.ApiInfrastructureResponse
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -74,14 +74,14 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * 
     * 
-    * @return ApiInfrastructureResponse<ModelWithEnumPropertyHavingDefault?>
+    * @return ApiResponse<ModelWithEnumPropertyHavingDefault?>
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun operationWithHttpInfo() : ApiInfrastructureResponse<ModelWithEnumPropertyHavingDefault?> {
+    fun operationWithHttpInfo() : ApiResponse<ModelWithEnumPropertyHavingDefault?> {
         val localVariableConfig = operationRequestConfig()
 
         return request<Unit, ModelWithEnumPropertyHavingDefault>(
