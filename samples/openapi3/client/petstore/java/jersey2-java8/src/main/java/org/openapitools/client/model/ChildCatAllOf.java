@@ -45,6 +45,8 @@ public class ChildCatAllOf {
   public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
   private String petType = "ChildCat";
 
+  public ChildCatAllOf() { 
+  }
 
   public ChildCatAllOf name(String name) {
     this.name = name;

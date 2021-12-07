@@ -130,9 +130,9 @@ public class CrystalClientCodegen extends DefaultCodegen {
         hideGenerationTimestamp = Boolean.TRUE;
 
         // reserved word. Ref: https://github.com/crystal-lang/crystal/wiki/Crystal-for-Rubyists#available-keywords
-        reservedWords = new HashSet<String>(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
-                        "abstract", "do", "if", "nil?", "select", "union",
+                        "abstract", "annotation", "do", "if", "nil?", "select", "union",
                         "alias", "else", "in", "of", "self", "unless",
                         "as", "elsif", "include", "out", "sizeof", "until",
                         "as?", "end", "instance", "sizeof", "pointerof", "struct", "verbatim",
@@ -557,8 +557,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        HashMap<String, Integer> processedModelMaps = new HashMap<String, Integer>();
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, Integer> processedModelMaps = new HashMap<>();
 
         for (Object o : allModels) {
             HashMap<String, Object> h = (HashMap<String, Object>) o;
@@ -870,7 +870,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
         // only process files with cr extension
         if ("cr".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = crystalPostProcessFile + " " + file.toString();
+            String command = crystalPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -882,7 +882,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
                         while ((line = br.readLine()) != null) {
                             sb.append(line);
                         }
-                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb.toString());
+                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb);
                     }
                 } else {
                     LOGGER.info("Successfully executed: {}", command);

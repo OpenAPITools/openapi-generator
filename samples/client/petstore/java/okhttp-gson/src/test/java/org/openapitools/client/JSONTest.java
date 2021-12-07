@@ -1,10 +1,8 @@
 package org.openapitools.client;
 
+import static org.junit.Assert.*;
+
 import com.google.gson.reflect.TypeToken;
-
-import org.openapitools.client.model.Order;
-
-import java.lang.Exception;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -14,16 +12,14 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
-
 import okio.ByteString;
 import org.junit.*;
+import org.openapitools.client.model.Order;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.format.DateTimeFormatter;
-
-import static org.junit.Assert.*;
 
 public class JSONTest {
     private ApiClient apiClient = null;
@@ -44,13 +40,20 @@ public class JSONTest {
 
         assertEquals(str, json.serialize(date));
         assertEquals(json.deserialize(str, java.sql.Date.class), date);
-        assertEquals(json.deserialize("\"2015-11-07T03:49:09.356" + getCurrentTimezoneOffset() + "\"", java.sql.Date.class).toString(), date.toString());
+        assertEquals(
+                json.deserialize(
+                                "\"2015-11-07T03:49:09.356" + getCurrentTimezoneOffset() + "\"",
+                                java.sql.Date.class)
+                        .toString(),
+                date.toString());
 
         // custom date format: without day
         DateFormat format = new SimpleDateFormat("yyyy-MM", Locale.ROOT);
         apiClient.setSqlDateFormat(format);
         String dateStr = "\"2015-11\"";
-        assertEquals(dateStr, json.serialize(json.deserialize("\"2015-11-07T03:49:09Z\"", java.sql.Date.class)));
+        assertEquals(
+                dateStr,
+                json.serialize(json.deserialize("\"2015-11-07T03:49:09Z\"", java.sql.Date.class)));
         assertEquals(dateStr, json.serialize(json.deserialize("\"2015-11\"", java.sql.Date.class)));
     }
 
@@ -85,9 +88,14 @@ public class JSONTest {
         apiClient.setDateFormat(format);
 
         String dateStr = "\"2015-11-07T13:49:09+10:00\"";
-        assertEquals(dateStr, json.serialize(json.deserialize("\"2015-11-07T03:49:09+00:00\"", Date.class)));
-        assertEquals(dateStr, json.serialize(json.deserialize("\"2015-11-07T03:49:09Z\"", Date.class)));
-        assertEquals(dateStr, json.serialize(json.deserialize("\"2015-11-07T00:49:09-03:00\"", Date.class)));
+        assertEquals(
+                dateStr,
+                json.serialize(json.deserialize("\"2015-11-07T03:49:09+00:00\"", Date.class)));
+        assertEquals(
+                dateStr, json.serialize(json.deserialize("\"2015-11-07T03:49:09Z\"", Date.class)));
+        assertEquals(
+                dateStr,
+                json.serialize(json.deserialize("\"2015-11-07T00:49:09-03:00\"", Date.class)));
 
         try {
             // invalid time zone format
@@ -103,16 +111,16 @@ public class JSONTest {
         } catch (RuntimeException e) {
             // OK
         }
-
     }
 
     @Test
     public void testOffsetDateTimeTypeAdapter() {
         final String str = "\"2016-09-09T08:02:03.123-03:00\"";
-        OffsetDateTime date = OffsetDateTime.of(2016, 9, 9, 8, 2, 3, 123000000, ZoneOffset.of("-3"));
+        OffsetDateTime date =
+                OffsetDateTime.of(2016, 9, 9, 8, 2, 3, 123000000, ZoneOffset.of("-3"));
 
         assertEquals(str, json.serialize(date));
-        //Use toString() instead of isEqual to verify that the offset is preserved
+        // Use toString() instead of isEqual to verify that the offset is preserved
         assertEquals(json.deserialize(str, OffsetDateTime.class).toString(), date.toString());
     }
 
@@ -125,7 +133,6 @@ public class JSONTest {
         assertEquals(json.deserialize(str, LocalDate.class), date);
     }
 
-
     @Test
     public void testDefaultDate() throws Exception {
         final DateTimeFormatter datetimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
@@ -133,19 +140,20 @@ public class JSONTest {
         order.setShipDate(datetimeFormat.parse(dateStr, OffsetDateTime.FROM));
 
         String str = json.serialize(order);
-        Type type = new TypeToken<Order>() { }.getType();
+        Type type = new TypeToken<Order>() {}.getType();
         Order o = json.deserialize(str, type);
         assertEquals(dateStr, datetimeFormat.format(o.getShipDate()));
     }
 
     @Test
     public void testCustomDate() throws Exception {
-        final DateTimeFormatter datetimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.of("Etc/GMT+2"));
+        final DateTimeFormatter datetimeFormat =
+                DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.of("Etc/GMT+2"));
         final String dateStr = "2015-11-07T14:11:05-02:00";
         order.setShipDate(datetimeFormat.parse(dateStr, OffsetDateTime.FROM));
 
         String str = json.serialize(order);
-        Type type = new TypeToken<Order>() { }.getType();
+        Type type = new TypeToken<Order>() {}.getType();
         Order o = json.deserialize(str, type);
         assertEquals(dateStr, datetimeFormat.format(o.getShipDate()));
     }
@@ -160,7 +168,8 @@ public class JSONTest {
         String serializedBytesWithQuotes = json.serialize(expectedBytes);
 
         // Assert
-        String serializedBytes = serializedBytesWithQuotes.substring(1, serializedBytesWithQuotes.length() - 1);
+        String serializedBytes =
+                serializedBytesWithQuotes.substring(1, serializedBytesWithQuotes.length() - 1);
         if (json.getGson().htmlSafe()) {
             serializedBytes = serializedBytes.replaceAll("\\\\u003d", "=");
         }
@@ -177,16 +186,18 @@ public class JSONTest {
         final ByteString expectedByteString = ByteString.of(expectedBytes);
         final String serializedBytes = expectedByteString.base64();
         final String serializedBytesWithQuotes = "\"" + serializedBytes + "\"";
-        Type type = new TypeToken<byte[]>() { }.getType();
+        Type type = new TypeToken<byte[]>() {}.getType();
 
         // Act
         byte[] actualDeserializedBytes = json.deserialize(serializedBytesWithQuotes, type);
 
         // Assert
-        assertEquals(expectedBytesAsString, new String(actualDeserializedBytes, StandardCharsets.UTF_8));
+        assertEquals(
+                expectedBytesAsString, new String(actualDeserializedBytes, StandardCharsets.UTF_8));
     }
 
-    // Obtained 22JAN2018 from stackoverflow answer by PuguaSoft https://stackoverflow.com/questions/11399491/java-timezone-offset
+    // Obtained 22JAN2018 from stackoverflow answer by PuguaSoft
+    // https://stackoverflow.com/questions/11399491/java-timezone-offset
     // Direct link https://stackoverflow.com/a/16680815/3166133
     public static String getCurrentTimezoneOffset() {
 
@@ -194,7 +205,12 @@ public class JSONTest {
         Calendar cal = GregorianCalendar.getInstance(tz, Locale.ROOT);
         int offsetInMillis = tz.getOffset(cal.getTimeInMillis());
 
-        String offset = String.format(Locale.ROOT,"%02d:%02d", Math.abs(offsetInMillis / 3600000), Math.abs((offsetInMillis / 60000) % 60));
+        String offset =
+                String.format(
+                        Locale.ROOT,
+                        "%02d:%02d",
+                        Math.abs(offsetInMillis / 3600000),
+                        Math.abs((offsetInMillis / 60000) % 60));
         offset = (offsetInMillis >= 0 ? "+" : "-") + offset;
 
         return offset;

@@ -29,7 +29,8 @@ public class CodegenOperation {
             isArray, isMultipart,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false;
+            isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false,
+            hasErrorResponseObject; // if 4xx, 5xx repsonses have at least one error object defined
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
@@ -225,9 +226,17 @@ public class CodegenOperation {
     /**
      * Check if body param is allowed for the request method
      *
-     * @return true request method is PUT, PATCH or POST; false otherwise
+     * @return true request method is DELETE, PUT, PATCH or POST; false otherwise
      */
     public boolean isBodyAllowed() {
+        return Arrays.asList("DELETE","PUT", "PATCH", "POST").contains(httpMethod.toUpperCase(Locale.ROOT));
+    }
+    /**
+     * Check if the request method is PUT or PATCH or POST
+     *
+     * @return true request method is PUT, PATCH or POST; false otherwise
+     */
+    public boolean isMethodPutOrPatchOrPost() {
         return Arrays.asList("PUT", "PATCH", "POST").contains(httpMethod.toUpperCase(Locale.ROOT));
     }
 
@@ -289,6 +298,7 @@ public class CodegenOperation {
         sb.append(", isResponseFile=").append(isResponseFile);
         sb.append(", hasReference=").append(hasReference);
         sb.append(", hasDefaultResponse=").append(hasDefaultResponse);
+        sb.append(", hasErrorResponseObject=").append(hasErrorResponseObject);
         sb.append(", isRestfulIndex=").append(isRestfulIndex);
         sb.append(", isRestfulShow=").append(isRestfulShow);
         sb.append(", isRestfulCreate=").append(isRestfulCreate);
@@ -363,6 +373,7 @@ public class CodegenOperation {
                 isResponseFile == that.isResponseFile &&
                 hasReference == that.hasReference &&
                 hasDefaultResponse == that.hasDefaultResponse &&
+                hasErrorResponseObject == that.hasErrorResponseObject &&
                 isRestfulIndex == that.isRestfulIndex &&
                 isRestfulShow == that.isRestfulShow &&
                 isRestfulCreate == that.isRestfulCreate &&
@@ -427,6 +438,7 @@ public class CodegenOperation {
                 produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams, pathParams, queryParams,
                 headerParams, formParams, cookieParams, requiredParams, optionalParams, authMethods, tags,
                 responses, callbacks, imports, examples, requestBodyExamples, externalDocs, vendorExtensions,
-                nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase, operationIdSnakeCase);
+                nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase, operationIdSnakeCase,
+                hasErrorResponseObject);
     }
 }

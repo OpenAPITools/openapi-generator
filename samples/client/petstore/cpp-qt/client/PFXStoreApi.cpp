@@ -458,4 +458,53 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
+void PFXStoreApi::tokenAvailable(){
+  
+    oauthToken token; 
+    switch (_OauthMethod) {
+    case 1: //implicit flow
+        token = _implicitFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _implicitFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 2: //authorization flow
+        token = _authFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _authFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 3: //client credentials flow
+        token = _credentialFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 4: //resource owner password flow
+        token = _passwordFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    default:
+        qDebug() << "No Oauth method set!";
+        break;
+    }
+}
 } // namespace test_namespace

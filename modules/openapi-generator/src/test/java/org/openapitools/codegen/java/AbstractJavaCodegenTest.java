@@ -568,7 +568,7 @@ public class AbstractJavaCodegenTest {
         Double doubleValue = 100.0;
         numberSchema.setDefault(doubleValue);
         defaultValue = codegen.toDefaultValue(numberSchema);
-        Assert.assertEquals(defaultValue, "new BigDecimal(\"" + doubleValue.toString() + "\")");
+        Assert.assertEquals(defaultValue, "new BigDecimal(\"" + doubleValue + "\")");
 
         // Test default value for number with format set to double
         numberSchema.setFormat("double");

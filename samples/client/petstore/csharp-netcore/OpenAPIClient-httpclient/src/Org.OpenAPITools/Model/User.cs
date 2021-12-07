@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class User {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Username: ").Append(Username).Append("\n");
@@ -211,30 +211,52 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.Id.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 if (this.Username != null)
-                    hashCode = hashCode * 59 + this.Username.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Username.GetHashCode();
+                }
                 if (this.FirstName != null)
-                    hashCode = hashCode * 59 + this.FirstName.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
+                }
                 if (this.LastName != null)
-                    hashCode = hashCode * 59 + this.LastName.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.LastName.GetHashCode();
+                }
                 if (this.Email != null)
-                    hashCode = hashCode * 59 + this.Email.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Email.GetHashCode();
+                }
                 if (this.Password != null)
-                    hashCode = hashCode * 59 + this.Password.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Password.GetHashCode();
+                }
                 if (this.Phone != null)
-                    hashCode = hashCode * 59 + this.Phone.GetHashCode();
-                hashCode = hashCode * 59 + this.UserStatus.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Phone.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
                 if (this.ObjectWithNoDeclaredProps != null)
-                    hashCode = hashCode * 59 + this.ObjectWithNoDeclaredProps.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredProps.GetHashCode();
+                }
                 if (this.ObjectWithNoDeclaredPropsNullable != null)
-                    hashCode = hashCode * 59 + this.ObjectWithNoDeclaredPropsNullable.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredPropsNullable.GetHashCode();
+                }
                 if (this.AnyTypeProp != null)
-                    hashCode = hashCode * 59 + this.AnyTypeProp.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AnyTypeProp.GetHashCode();
+                }
                 if (this.AnyTypePropNullable != null)
-                    hashCode = hashCode * 59 + this.AnyTypePropNullable.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AnyTypePropNullable.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

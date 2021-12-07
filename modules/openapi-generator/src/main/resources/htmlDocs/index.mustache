@@ -134,7 +134,7 @@
     {{#responses}}
     <h4 class="field-label">{{code}}</h4>
     {{message}}
-        {{#simpleType}}<a href="#{{dataType}}">{{dataType}}</a>{{/simpleType}}
+        {{^containerType}}<a href="#{{dataType}}">{{dataType}}</a>{{/containerType}}
     {{#examples}}
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: {{{contentType}}}</div>

@@ -444,7 +444,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
 
         // Converts, for example, PUT to HttpPut for controller attributes
-        operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+        operation.httpMethod = "Http" + operation.httpMethod.charAt(0) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
     }
 
     @Override
@@ -472,7 +472,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                             continue;
                         }
 
-                        if(consumesString.toString().equals("")) {
+                        if(consumesString.toString().isEmpty()) {
                             consumesString = new StringBuilder("\"" + consume.get("mediaType") + "\"");
                         }
                         else {
@@ -500,7 +500,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                         }
                     }
 
-                    if(!consumesString.toString().equals("")) {
+                    if(!consumesString.toString().isEmpty()) {
                         operation.vendorExtensions.put("x-aspnetcore-consumes", consumesString.toString());
                     }
                 }
