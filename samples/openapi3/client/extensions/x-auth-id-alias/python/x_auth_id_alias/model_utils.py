@@ -16,7 +16,6 @@ import os
 import pprint
 import re
 import tempfile
-import uuid
 
 from dateutil.parser import parse
 
@@ -1400,6 +1399,7 @@ def deserialize_file(response_data, configuration, content_disposition=None):
 
     if content_disposition:
         filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?',
+<<<<<<< HEAD
                              content_disposition,
                              flags=re.I)
         if filename is not None:
@@ -1407,6 +1407,9 @@ def deserialize_file(response_data, configuration, content_disposition=None):
         else:
             filename = "default_" + str(uuid.uuid4())
 
+=======
+                             content_disposition).group(1)
+>>>>>>> parent of 4bfc2864dc1 (updated documentation per PR instructions)
         path = os.path.join(os.path.dirname(path), filename)
 
     with open(path, "wb") as f:
