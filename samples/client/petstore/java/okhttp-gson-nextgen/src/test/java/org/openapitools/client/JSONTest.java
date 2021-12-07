@@ -310,7 +310,22 @@ public class JSONTest {
             assertEquals(json.getGson().toJson(o), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
 
             // no match
-            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+            Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+                Apple o2 = json.getGson().fromJson(str2, Apple.class);
+            });
+
+            // no match
+            Exception exception2 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+                Pineapple o2 = json.getGson().fromJson(str2, Pineapple.class);
+            });
+
+            // no match
+            Exception exception3 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+                Banana o2 = json.getGson().fromJson(str2, Banana.class);
+            });
+
+            // no match
+            Exception exception4 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
                 GmFruit o2 = json.getGson().fromJson(str2, GmFruit.class);
             });
         }
@@ -359,7 +374,7 @@ public class JSONTest {
             Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
                 FruitReq o = json.getGson().fromJson(str, FruitReq.class);
             });
-            assertTrue(exception.getMessage().contains("Failed deserialization for FruitReq: 0 classes match result"));
+            assertTrue(exception.getMessage().contains("Failed deserialization for FruitReq: 0 classes match result, expected 1. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}"));
         }
         {
             String str = "{ \"lengthCm\": 17 }";

@@ -151,7 +151,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1", match));
+                    throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
                 }
             }.nullSafe();
         }
