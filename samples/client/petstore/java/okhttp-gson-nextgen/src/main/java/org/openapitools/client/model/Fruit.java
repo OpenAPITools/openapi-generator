@@ -78,16 +78,23 @@ public class Fruit extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Fruit>() {
                 @Override
                 public void write(JsonWriter out, Fruit value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `Apple`
                     if (value.getActualInstance() instanceof Apple) {
                         JsonObject obj = adapterApple.toJsonTree((Apple)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `Banana`
                     if (value.getActualInstance() instanceof Banana) {
                         JsonObject obj = adapterBanana.toJsonTree((Banana)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: Apple, Banana");

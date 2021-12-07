@@ -66,6 +66,7 @@ docs/ParentPet.md
 docs/Pet.md
 docs/PetApi.md
 docs/Pig.md
+docs/Pineapple.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
@@ -178,6 +179,7 @@ src/main/java/org/openapitools/client/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/client/model/ParentPet.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Pig.java
+src/main/java/org/openapitools/client/model/Pineapple.java
 src/main/java/org/openapitools/client/model/Quadrilateral.java
 src/main/java/org/openapitools/client/model/QuadrilateralInterface.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
