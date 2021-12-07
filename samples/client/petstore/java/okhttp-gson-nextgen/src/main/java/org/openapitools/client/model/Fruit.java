@@ -97,7 +97,7 @@ public class Fruit extends AbstractOpenApiSchema {
                         return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: Apple, Banana");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Apple, Banana");
                 }
 
                 @Override

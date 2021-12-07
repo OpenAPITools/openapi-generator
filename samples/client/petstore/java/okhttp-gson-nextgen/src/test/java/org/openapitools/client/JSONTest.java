@@ -294,7 +294,6 @@ public class JSONTest {
     public void testAnyOfSchemaWithoutDiscriminator() throws Exception {
         {
             String str = "{ \"cultivar\": \"golden delicious\", \"origin\": \"japan\" }";
-            String str2 = "{ \"origin_typo\": \"japan\" }";
 
             // make sure deserialization works for pojo object
             Apple a = json.getGson().fromJson(str, Apple.class);
@@ -309,14 +308,10 @@ public class JSONTest {
             assertEquals(json.getGson().toJson(inst), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
             assertEquals(json.getGson().toJson(o), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
 
+            String str2 = "{ \"origin_typo\": \"japan\" }";
             // no match
             Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
-                Apple o2 = json.getGson().fromJson(str2, Apple.class);
-            });
-
-            // no match
-            Exception exception2 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
-                Pineapple o2 = json.getGson().fromJson(str2, Pineapple.class);
+                Apple o3 = json.getGson().fromJson(str2, Apple.class);
             });
 
             // no match
@@ -325,7 +320,7 @@ public class JSONTest {
             });
 
             // no match
-            Exception exception4 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+            Exception exception4 = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
                 GmFruit o2 = json.getGson().fromJson(str2, GmFruit.class);
             });
         }

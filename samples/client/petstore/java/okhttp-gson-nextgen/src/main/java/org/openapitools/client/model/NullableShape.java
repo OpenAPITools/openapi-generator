@@ -96,7 +96,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                         return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: Quadrilateral, Triangle");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Quadrilateral, Triangle");
                 }
 
                 @Override

@@ -105,7 +105,7 @@ public class Triangle extends AbstractOpenApiSchema {
                         return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle");
                 }
 
                 @Override

@@ -96,7 +96,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                         return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: ComplexQuadrilateral, SimpleQuadrilateral");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: ComplexQuadrilateral, SimpleQuadrilateral");
                 }
 
                 @Override

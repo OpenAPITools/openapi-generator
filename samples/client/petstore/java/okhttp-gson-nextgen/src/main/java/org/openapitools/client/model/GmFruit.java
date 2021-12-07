@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Apple;
 import org.openapitools.client.model.Banana;
-import org.openapitools.client.model.Pineapple;
 
 import javax.ws.rs.core.GenericType;
 
@@ -75,7 +74,6 @@ public class GmFruit extends AbstractOpenApiSchema {
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<Apple> adapterApple = gson.getDelegateAdapter(this, TypeToken.get(Apple.class));
             final TypeAdapter<Banana> adapterBanana = gson.getDelegateAdapter(this, TypeToken.get(Banana.class));
-            final TypeAdapter<Pineapple> adapterPineapple = gson.getDelegateAdapter(this, TypeToken.get(Pineapple.class));
 
             return (TypeAdapter<T>) new TypeAdapter<GmFruit>() {
                 @Override
@@ -99,20 +97,14 @@ public class GmFruit extends AbstractOpenApiSchema {
                         return;
                     }
 
-                    // check if the actual instance is of the type `Pineapple`
-                    if (value.getActualInstance() instanceof Pineapple) {
-                        JsonObject obj = adapterPineapple.toJsonTree((Pineapple)value.getActualInstance()).getAsJsonObject();
-                        elementAdapter.write(out, obj);
-                        return;
-                    }
-
-                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: Apple, Banana, Pineapple.");
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: Apple, Banana");
                 }
 
                 @Override
                 public GmFruit read(JsonReader in) throws IOException {
                     Object deserialized = null;
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
+
 
                     // deserialize Apple
                     try {
@@ -138,19 +130,7 @@ public class GmFruit extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data does not match schema 'Banana'", e);
                     }
 
-                    // deserialize Pineapple
-                    try {
-                        deserialized = adapterPineapple.fromJsonTree(jsonObject);
-                        log.log(Level.FINER, "Input data matches schema 'Pineapple'");
-                        GmFruit ret = new GmFruit();
-                        ret.setActualInstance(deserialized);
-                        return ret;
-                    } catch (Exception e) {
-                        // deserialization failed, continue
-                        log.log(Level.FINER, "Input data does not match schema 'Pineapple'", e);
-                    }
-
-                    throw new IOException(String.format("Failed to deserialize the data into GmFruit with anyOf schemas: Apple, Banana, Pineapple. JSON: %s", jsonObject.toString()));
+                    throw new IOException(String.format("Failed deserialization for GmFruit as data doesn't match anyOf schmeas: Apple, Banana. JSON: %s", jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -173,17 +153,10 @@ public class GmFruit extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
-    public GmFruit(Pineapple o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     static {
         schemas.put("Apple", new GenericType<Apple>() {
         });
         schemas.put("Banana", new GenericType<Banana>() {
-        });
-        schemas.put("Pineapple", new GenericType<Pineapple>() {
         });
     }
 
@@ -195,7 +168,7 @@ public class GmFruit extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the anyOf child schema, check
      * the instance parameter is valid against the anyOf child schemas:
-     * Apple, Banana, Pineapple
+     * Apple, Banana
      *
      * It could be an instance of the 'anyOf' schemas.
      * The anyOf child schemas may themselves be a composed schema (allOf, anyOf, anyOf).
@@ -212,19 +185,14 @@ public class GmFruit extends AbstractOpenApiSchema {
             return;
         }
 
-        if (instance instanceof Pineapple) {
-            super.setActualInstance(instance);
-            return;
-        }
-
-        throw new RuntimeException("Invalid instance type. Must be Apple, Banana, Pineapple");
+        throw new RuntimeException("Invalid instance type. Must be Apple, Banana");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * Apple, Banana, Pineapple
+     * Apple, Banana
      *
-     * @return The actual instance (Apple, Banana, Pineapple)
+     * @return The actual instance (Apple, Banana)
      */
     @Override
     public Object getActualInstance() {
@@ -251,17 +219,6 @@ public class GmFruit extends AbstractOpenApiSchema {
      */
     public Banana getBanana() throws ClassCastException {
         return (Banana)super.getActualInstance();
-    }
-
-    /**
-     * Get the actual instance of `Pineapple`. If the actual instance is not `Pineapple`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Pineapple`
-     * @throws ClassCastException if the instance is not `Pineapple`
-     */
-    public Pineapple getPineapple() throws ClassCastException {
-        return (Pineapple)super.getActualInstance();
     }
 
 }

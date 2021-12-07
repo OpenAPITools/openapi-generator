@@ -105,7 +105,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: Pig, Whale, Zebra");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Pig, Whale, Zebra");
                 }
 
                 @Override
