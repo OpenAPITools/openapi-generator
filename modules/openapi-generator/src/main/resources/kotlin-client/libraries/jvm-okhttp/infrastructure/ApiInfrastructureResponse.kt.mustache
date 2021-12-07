@@ -7,7 +7,7 @@ package {{packageName}}.infrastructure
 {{#nonPublicApi}}internal {{/nonPublicApi}}interface Response
 
 @Deprecated("Renamed to ApiResponse", ReplaceWith("ApiResponse"))
-{{#nonPublicApi}}internal {{/nonPublicApi}}typealias ApiInfrastructureResponse = ApiResponse
+{{#nonPublicApi}}internal {{/nonPublicApi}}typealias ApiInfrastructureResponse<T> = ApiResponse<T>
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}abstract class ApiResponse<T>(val responseType: ResponseType): Response {
     abstract val statusCode: Int

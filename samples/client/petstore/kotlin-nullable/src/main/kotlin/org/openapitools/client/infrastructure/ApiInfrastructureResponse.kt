@@ -7,7 +7,7 @@ enum class ResponseType {
 interface Response
 
 @Deprecated("Renamed to ApiResponse", ReplaceWith("ApiResponse"))
-typealias ApiInfrastructureResponse = ApiResponse
+typealias ApiInfrastructureResponse<T> = ApiResponse<T>
 
 abstract class ApiResponse<T>(val responseType: ResponseType): Response {
     abstract val statusCode: Int

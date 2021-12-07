@@ -7,7 +7,7 @@ internal enum class ResponseType {
 internal interface Response
 
 @Deprecated("Renamed to ApiResponse", ReplaceWith("ApiResponse"))
-internal typealias ApiInfrastructureResponse = ApiResponse
+internal typealias ApiInfrastructureResponse<T> = ApiResponse<T>
 
 internal abstract class ApiResponse<T>(val responseType: ResponseType): Response {
     abstract val statusCode: Int
