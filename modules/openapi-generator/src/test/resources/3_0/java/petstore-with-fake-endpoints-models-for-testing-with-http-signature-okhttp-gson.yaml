@@ -1888,6 +1888,11 @@ components:
           type: string
           pattern: /^[A-Z\s]*$/i
       nullable: true
+    pineapple:
+      type: object
+      properties:
+        origin:
+          type: string
     banana:
       type: object
       properties:
@@ -1950,6 +1955,7 @@ components:
           color:
              type: string
        anyOf:
+          - $ref: '#/components/schemas/pineapple'
           - $ref: '#/components/schemas/apple'
           - $ref: '#/components/schemas/banana'
        additionalProperties: false

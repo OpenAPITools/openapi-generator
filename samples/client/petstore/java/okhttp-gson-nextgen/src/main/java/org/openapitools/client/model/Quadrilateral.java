@@ -86,12 +86,14 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                     if (value.getActualInstance() instanceof ComplexQuadrilateral) {
                         JsonObject obj = adapterComplexQuadrilateral.toJsonTree((ComplexQuadrilateral)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `SimpleQuadrilateral`
                     if (value.getActualInstance() instanceof SimpleQuadrilateral) {
                         JsonObject obj = adapterSimpleQuadrilateral.toJsonTree((SimpleQuadrilateral)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: ComplexQuadrilateral, SimpleQuadrilateral");

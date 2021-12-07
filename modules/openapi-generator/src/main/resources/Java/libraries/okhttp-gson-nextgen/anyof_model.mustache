@@ -60,6 +60,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     if (value.getActualInstance() instanceof {{.}}) {
                         JsonObject obj = adapter{{.}}.toJsonTree(({{.}})value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     {{/anyOf}}

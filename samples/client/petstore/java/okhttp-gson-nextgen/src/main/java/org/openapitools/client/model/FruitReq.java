@@ -87,12 +87,14 @@ public class FruitReq extends AbstractOpenApiSchema {
                     if (value.getActualInstance() instanceof AppleReq) {
                         JsonObject obj = adapterAppleReq.toJsonTree((AppleReq)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `BananaReq`
                     if (value.getActualInstance() instanceof BananaReq) {
                         JsonObject obj = adapterBananaReq.toJsonTree((BananaReq)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: AppleReq, BananaReq");
