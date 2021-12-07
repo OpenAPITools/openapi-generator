@@ -3956,6 +3956,13 @@ public class DefaultCodegenTest {
         cp = mt.getSchema();
         assertFalse(cp.isMap); // because it is a referenced schema
         assertEquals(cp.complexType, "coordinates");
+
+        CodegenResponse cr = co.responses.get(0);
+        List<CodegenParameter> responseHeaders = cr.getResponseHeaders();
+        assertEquals(1, responseHeaders.size());
+        CodegenParameter header = responseHeaders.get(0);
+        assertEquals("X-Rate-Limit-Limit", header.baseName);
+        assertTrue(header.isUnboundedInteger);
     }
 
     @Test

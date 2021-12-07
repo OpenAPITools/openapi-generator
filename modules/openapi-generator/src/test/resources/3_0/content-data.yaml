@@ -29,6 +29,11 @@ paths:
       responses:
         '201':
           description: 'OK'
+          headers:
+            X-Rate-Limit-Limit:
+              description: "The number of allowed requests in the current period"
+              schema:
+                type: integer
   /inlineRequestBodySchemasDifferingByContentType:
     post:
       requestBody:
