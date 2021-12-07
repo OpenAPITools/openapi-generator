@@ -44,6 +44,8 @@ public class ClassModel {
   @XmlElement(name = "_class")
   private String propertyClass;
 
+  public ClassModel() { 
+  }
 
   public ClassModel propertyClass(String propertyClass) {
     

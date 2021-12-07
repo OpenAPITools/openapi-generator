@@ -58,7 +58,7 @@ public class TypeHolderExample implements Parcelable {
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
-  public TypeHolderExample() {
+  public TypeHolderExample() { 
   }
 
   public TypeHolderExample stringItem(String stringItem) {

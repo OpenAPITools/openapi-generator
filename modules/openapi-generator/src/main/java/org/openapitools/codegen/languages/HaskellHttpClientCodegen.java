@@ -136,8 +136,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     protected Map<String, Map<String, Object>> uniqueParamNameTypes = new HashMap<>();
     protected Map<String, Set<String>> modelMimeTypes = new HashMap<>();
     protected Map<String, String> knownMimeDataTypes = new HashMap<>();
-    protected Set<String> typeNames = new HashSet<String>();
-    protected Set<String> modelTypeNames = new HashSet<String>();
+    protected Set<String> typeNames = new HashSet<>();
+    protected Set<String> modelTypeNames = new HashSet<>();
 
     final private static Pattern CONTAINS_JSON_MIME_PATTERN = Pattern.compile("(?i)application/.*json(;.*)?");
 
@@ -235,7 +235,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("tests/PropMime.mustache", "tests", "PropMime.hs"));
         supportingFiles.add(new SupportingFile("tests/Test.mustache", "tests", "Test.hs"));
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "Bool",
                         "String",
@@ -555,7 +555,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
 
         if (!additionalProperties.containsKey(PROP_BASE_MODULE)) {
-            List<String> wordsCaps = new ArrayList<String>();
+            List<String> wordsCaps = new ArrayList<>();
             for (String word : baseTitle.split(" ")) {
                 wordsCaps.add(firstLetterToUpper(word));
             }
@@ -684,7 +684,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation op, Map<String, List<CodegenOperation>> operations) {
         List<CodegenOperation> opList = operations.get(tag);
         if (opList == null || opList.isEmpty()) {
-            opList = new ArrayList<CodegenOperation>();
+            opList = new ArrayList<>();
             operations.put(tag, opList);
         }
         // check for operationId uniqueness
@@ -1454,7 +1454,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = haskellPostProcessFile + " " + file.toString();
+            String command = haskellPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();

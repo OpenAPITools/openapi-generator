@@ -35,7 +35,7 @@ public class DogAllOf implements Parcelable {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
-  public DogAllOf() {
+  public DogAllOf() { 
   }
 
   public DogAllOf breed(String breed) {
