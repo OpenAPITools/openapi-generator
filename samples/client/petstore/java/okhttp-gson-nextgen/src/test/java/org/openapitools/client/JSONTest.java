@@ -315,6 +315,13 @@ public class JSONTest {
             assertEquals(json.getGson().toJson(inst2), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
         }
         {
+            // test to ensure the oneOf object can be serialized to "null" correctly
+            FruitReq o = new FruitReq();
+            assertEquals(o.getActualInstance(), null);
+            assertEquals(json.getGson().toJson(o), "null");
+            assertEquals(json.getGson().toJson(null), "null");
+        }
+        {
             // Same test, but this time with additional (undeclared) properties.
             // Since FruitReq has additionalProperties: false, deserialization should fail.
             String str = "{ \"cultivar\": \"golden delicious\", \"mealy\": false, \"garbage_prop\": \"abc\" }";

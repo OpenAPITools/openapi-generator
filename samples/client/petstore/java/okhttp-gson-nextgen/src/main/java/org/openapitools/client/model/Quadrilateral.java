@@ -77,6 +77,11 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Quadrilateral>() {
                 @Override
                 public void write(JsonWriter out, Quadrilateral value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `ComplexQuadrilateral`
                     if (value.getActualInstance() instanceof ComplexQuadrilateral) {
                         JsonObject obj = adapterComplexQuadrilateral.toJsonTree((ComplexQuadrilateral)value.getActualInstance()).getAsJsonObject();

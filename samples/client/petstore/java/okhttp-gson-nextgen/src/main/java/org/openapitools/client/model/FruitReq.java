@@ -78,6 +78,11 @@ public class FruitReq extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<FruitReq>() {
                 @Override
                 public void write(JsonWriter out, FruitReq value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `AppleReq`
                     if (value.getActualInstance() instanceof AppleReq) {
                         JsonObject obj = adapterAppleReq.toJsonTree((AppleReq)value.getActualInstance()).getAsJsonObject();

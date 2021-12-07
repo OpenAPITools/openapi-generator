@@ -77,6 +77,11 @@ public class Pig extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Pig>() {
                 @Override
                 public void write(JsonWriter out, Pig value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `BasquePig`
                     if (value.getActualInstance() instanceof BasquePig) {
                         JsonObject obj = adapterBasquePig.toJsonTree((BasquePig)value.getActualInstance()).getAsJsonObject();

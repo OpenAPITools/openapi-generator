@@ -78,6 +78,11 @@ public class GmFruit extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<GmFruit>() {
                 @Override
                 public void write(JsonWriter out, GmFruit value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `Apple`
                     if (value.getActualInstance() instanceof Apple) {
                         JsonObject obj = adapterApple.toJsonTree((Apple)value.getActualInstance()).getAsJsonObject();
