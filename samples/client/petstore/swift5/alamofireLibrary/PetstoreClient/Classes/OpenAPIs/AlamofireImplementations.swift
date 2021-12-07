@@ -114,6 +114,8 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
                             mpForm.append(string.data(using: String.Encoding.utf8)!, withName: k)
                         case let number as NSNumber:
                             mpForm.append(number.stringValue.data(using: String.Encoding.utf8)!, withName: k)
+                        case let data as Data:
+                            mpForm.append(data, withName: k)
                         default:
                             fatalError("Unprocessable value \(v) with key \(k)")
                         }
