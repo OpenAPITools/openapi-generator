@@ -50,12 +50,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String USE_COROUTINES = "useCoroutines";
     public static final String DO_NOT_USE_RX_AND_COROUTINES = "doNotUseRxAndCoroutines";
-<<<<<<< HEAD
     public static final String GENERATE_ROOM_MODELS = "generateRoomModels";
     public static final String ROOM_MODEL_PACKAGE = "roomModelPackage";
-=======
     public static final String OMIT_GRADLE_PLUGIN_VERSIONS = "omitGradlePluginVersions";
->>>>>>> 95377f68bfa1e054097ddafc62548de8fd5ca3a1
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
