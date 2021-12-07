@@ -77,6 +77,11 @@ public class Shape extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Shape>() {
                 @Override
                 public void write(JsonWriter out, Shape value) throws IOException {
+                    if (value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `Quadrilateral`
                     if (value.getActualInstance() instanceof Quadrilateral) {
                         JsonObject obj = adapterQuadrilateral.toJsonTree((Quadrilateral)value.getActualInstance()).getAsJsonObject();

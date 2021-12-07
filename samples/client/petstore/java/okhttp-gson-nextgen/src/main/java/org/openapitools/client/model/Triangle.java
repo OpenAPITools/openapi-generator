@@ -79,6 +79,11 @@ public class Triangle extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Triangle>() {
                 @Override
                 public void write(JsonWriter out, Triangle value) throws IOException {
+                    if (value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `EquilateralTriangle`
                     if (value.getActualInstance() instanceof EquilateralTriangle) {
                         JsonObject obj = adapterEquilateralTriangle.toJsonTree((EquilateralTriangle)value.getActualInstance()).getAsJsonObject();

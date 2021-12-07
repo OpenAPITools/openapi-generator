@@ -79,6 +79,11 @@ public class Mammal extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Mammal>() {
                 @Override
                 public void write(JsonWriter out, Mammal value) throws IOException {
+                    if (value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `Pig`
                     if (value.getActualInstance() instanceof Pig) {
                         JsonObject obj = adapterPig.toJsonTree((Pig)value.getActualInstance()).getAsJsonObject();
