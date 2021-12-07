@@ -22,8 +22,8 @@
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
-#include <pistache/optional.h>
 
+#include <optional>
 #include <utility>
 
 #include "User.h"
@@ -118,7 +118,7 @@ private:
     /// </remarks>
     /// <param name="username">The user name for login</param>
     /// <param name="password">The password for login in clear text</param>
-    virtual void login_user(const Pistache::Optional<std::string> &username, const Pistache::Optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void login_user(const std::optional<std::string> &username, const std::optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Logs out current logged in user session
     /// </summary>

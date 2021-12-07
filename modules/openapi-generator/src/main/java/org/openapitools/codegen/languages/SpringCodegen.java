@@ -89,6 +89,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String OPENAPI_DOCKET_CONFIG = "swaggerDocketConfig";
     public static final String API_FIRST = "apiFirst";
+    public static final String OAS3 = "oas3";
+    public static final String SPRING_CONTROLLER = "useSpringController";
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
@@ -119,6 +121,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
+    protected boolean useSpringController = false;
+    protected boolean oas3 = false;
 
     public SpringCodegen() {
         super();
@@ -194,6 +198,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                 CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
         cliOptions
                 .add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
+        cliOptions.add(CliOption.newBoolean(OAS3, "Use OAS 3 Swagger annotations instead of OAS 2 annotations", oas3));
+        cliOptions.add(CliOption.newBoolean(SPRING_CONTROLLER, "Annotate the generated API as a Spring Controller", useSpringController));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING,
                 "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).",
                 unhandledException));
@@ -360,6 +366,16 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setHateoas(Boolean.parseBoolean(additionalProperties.get(HATEOAS).toString()));
         }
 
+        if (additionalProperties.containsKey(SPRING_CONTROLLER)) {
+            this.setUseSpringController(convertPropertyToBoolean(SPRING_CONTROLLER));
+        }
+        writePropertyBack(SPRING_CONTROLLER, useSpringController);
+
+        if (additionalProperties.containsKey(OAS3)) {
+            this.setOas3(convertPropertyToBoolean(OAS3));
+        }
+        writePropertyBack(OAS3, oas3);
+
         if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
             this.setReturnSuccessCode(Boolean.parseBoolean(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
@@ -433,7 +449,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("homeController.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "HomeController.java"));
-                if (!reactive && !apiFirst) {
+                if (!reactive && !apiFirst && this.openapiDocketConfig) {
                     supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
                             (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                             "OpenAPIDocumentationConfig.java"));
@@ -496,9 +512,14 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
 
-        if (!apiFirst && !reactive) {
+        // Springfox cannot be used with oas3 or apiFirst or reactive. So, write the property back after determining
+        // whether it should be enabled or not.
+        boolean useSpringFox = false;
+        if (!apiFirst && !reactive && !oas3) {
+            useSpringFox = true;
             additionalProperties.put("useSpringfox", true);
         }
+        writePropertyBack("useSpringfox", useSpringFox);
 
         // Some well-known Spring or Spring-Cloud response wrappers
         if (isNotEmpty(responseWrapper)) {
@@ -554,7 +575,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 basePath = basePath.substring(0, pos);
             }
 
-            if ("".equals(basePath)) {
+            if (basePath.isEmpty()) {
                 basePath = "default";
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
@@ -852,6 +873,14 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setHateoas(boolean hateoas) {
         this.hateoas = hateoas;
+    }
+
+    public void setUseSpringController(boolean useSpringController) {
+        this.useSpringController = useSpringController;
+    }
+
+    public void setOas3(boolean oas3) {
+        this.oas3 = oas3;
     }
 
     public void setReturnSuccessCode(boolean returnSuccessCode) {

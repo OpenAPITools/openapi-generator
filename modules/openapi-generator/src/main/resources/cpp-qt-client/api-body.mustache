@@ -678,7 +678,127 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         if (findChildren<{{prefix}}HttpRequestWorker*>().count() == 0) {
             emit allPendingRequestsCompleted();
         }
+    });{{#authMethods}}{{#isOAuth}}{{#isCode}}
+    _OauthMethod = 2;
+    _implicitFlow.unlink();
+    _credentialFlow.unlink();
+    _passwordFlow.unlink();
+    _authFlow.link();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _authFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+    
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
     });
+
+    _latestInput = input;
+    _latestScope = scope;{{/isCode}}
+    {{#isImplicit}}
+    _OauthMethod = 1;
+    _implicitFlow.link();
+    _passwordFlow.unlink();
+    _authFlow.unlink();
+    _credentialFlow.unlink();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _implicitFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+    
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    _latestInput = input;
+    _latestScope = scope;{{/isImplicit}}
+    {{#isApplication}}
+    _OauthMethod = 3;
+    _authFlow.unlink();
+    _implicitFlow.unlink();
+    _passwordFlow.unlink();
+    _credentialFlow.link();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _credentialFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+    
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    _latestInput = input;
+    _latestScope = scope;{{/isApplication}}
+    {{#isPassword}}
+    _OauthMethod = 4;
+    _passwordFlow.link();
+    _authFlow.unlink();
+    _implicitFlow.unlink();
+    _credentialFlow.unlink();
+    QStringList scope;
+    {{#scopes}}
+    scope.append("{{scope}}");
+    {{/scopes}}
+    auto token = _passwordFlow.getToken(scope.join(" "));
+    if(token.isValid())
+        input.headers.insert("Authorization", "Bearer " + token.getToken());
+
+    _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
+    _latestWorker->setTimeOut(_timeOut);
+    _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
+    
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
+    connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
+    connect(_latestWorker, &QObject::destroyed, [this](){
+        if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
+            emit allPendingRequestsCompleted();
+        }
+    });
+
+    _latestInput = input;
+    _latestScope = scope;
+    {{/isPassword}}{{/isOAuth}}{{/authMethods}}
 
     worker->execute(&input);
 }
@@ -733,7 +853,56 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit {{nickname}}Signal({{#returnType}}output{{/returnType}});
-        emit {{nickname}}SignalFull(worker{{#returnType}}, output{{/returnType}});
+        emit {{nickname}}SignalFull(worker{{#returnType}}, output{{/returnType}});{{#authMethods}}{{#isOAuth}}{{#isCode}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_authFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString authorizationUrl("{{authorizationUrl}}");
+        QString tokenUrl("{{tokenUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _authFlow.setVariables(authorizationUrl, tokenUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId", "clientSecret");
+        emit _authFlow.authenticationNeeded();{{/isCode}}
+        {{#isImplicit}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_implicitFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString authorizationUrl("{{authorizationUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _implicitFlow.setVariables(authorizationUrl, scopeStr, "state" , "http://127.0.0.1:9999", "clientId");
+        emit _implicitFlow.authenticationNeeded();{{/isImplicit}}
+        {{#isApplication}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_credentialFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString tokenUrl("{{tokenUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _credentialFlow.setVariables(tokenUrl , scopeStr, "clientId", "clientSecret");
+        emit _credentialFlow.authenticationNeeded();{{/isApplication}}
+        {{#isPassword}}
+    } else if(worker->error_type == QNetworkReply::AuthenticationRequiredError){
+        connect(&_passwordFlow, SIGNAL(tokenReceived()), this, SLOT(tokenAvailable()));
+        QStringList scope;
+    {{#scopes}}
+        scope.append("{{scope}}");
+    {{/scopes}}
+        QString scopeStr = scope.join(" ");
+        QString tokenUrl("{{tokenUrl}}");
+        //TODO get clientID and Secret and state in the config? https://swagger.io/docs/specification/authentication/oauth2/ states that you should do as you like
+        _passwordFlow.setVariables(tokenUrl , scopeStr ,"clientId", "clientSecret", "username", "password");
+        emit _passwordFlow.authenticationNeeded();
+        {{/isPassword}}{{/isOAuth}}{{/authMethods}}
     } else {
         emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
         emit {{nickname}}SignalEFull(worker, error_type, error_str);
@@ -742,6 +911,55 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
 
 {{/operation}}
 {{/operations}}
+void {{classname}}::tokenAvailable(){
+  
+    oauthToken token; 
+    switch (_OauthMethod) {
+    case 1: //implicit flow
+        token = _implicitFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _implicitFlow.removeToken(_latestScope.join(" "));
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 2: //authorization flow
+        token = _authFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _authFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 3: //client credentials flow
+        token = _credentialFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    case 4: //resource owner password flow
+        token = _passwordFlow.getToken(_latestScope.join(" "));
+        if(token.isValid()){
+            _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
+            _latestWorker->execute(&_latestInput);
+        }else{
+            _credentialFlow.removeToken(_latestScope.join(" "));    
+            qDebug() << "Could not retreive a valid token";
+        }
+        break;
+    default:
+        qDebug() << "No Oauth method set!";
+        break;
+    }
+}
 {{#cppNamespaceDeclarations}}
 } // namespace {{this}}
 {{/cppNamespaceDeclarations}}

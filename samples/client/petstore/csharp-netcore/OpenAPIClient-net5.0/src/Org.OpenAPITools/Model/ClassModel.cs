@@ -60,7 +60,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
             sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -107,9 +107,13 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.Class != null)
-                    hashCode = hashCode * 59 + this.Class.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

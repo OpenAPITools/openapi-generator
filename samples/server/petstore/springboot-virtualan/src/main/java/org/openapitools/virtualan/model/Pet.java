@@ -1,9 +1,11 @@
 package org.openapitools.virtualan.model;
 
+import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -13,8 +15,12 @@ import java.util.Set;
 import org.openapitools.virtualan.model.Category;
 import org.openapitools.virtualan.model.Tag;
 import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+
+import java.util.*;
 
 /**
  * Pet
@@ -162,6 +168,7 @@ public class Pet   {
     return photoUrls;
   }
 
+  @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }

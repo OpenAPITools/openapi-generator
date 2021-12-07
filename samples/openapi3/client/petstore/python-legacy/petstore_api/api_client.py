@@ -521,16 +521,23 @@ class ApiClient(object):
         else:
             return ', '.join(accepts)
 
-    def select_header_content_type(self, content_types):
+    def select_header_content_type(self, content_types, method=None, body=None):
         """Returns `Content-Type` based on an array of content_types provided.
 
         :param content_types: List of content-types.
+        :param method: http method (e.g. POST, PATCH).
+        :param body: http body to send.
         :return: Content-Type (e.g. application/json).
         """
         if not content_types:
             return 'application/json'
 
         content_types = [x.lower() for x in content_types]
+
+        if (method == 'PATCH' and
+                'application/json-patch+json' in content_types and
+                isinstance(body, list)):
+            return 'application/json-patch+json'
 
         if 'application/json' in content_types or '*/*' in content_types:
             return 'application/json'

@@ -44,6 +44,8 @@ public class NumberOnly {
   @XmlElement(name = "JustNumber")
   private BigDecimal justNumber;
 
+  public NumberOnly() { 
+  }
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     

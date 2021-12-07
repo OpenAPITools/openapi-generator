@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
@@ -179,13 +179,21 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.Uuid != null)
-                    hashCode = hashCode * 59 + this.Uuid.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                }
                 if (this.DateTime != null)
-                    hashCode = hashCode * 59 + this.DateTime.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
+                }
                 if (this.Map != null)
-                    hashCode = hashCode * 59 + this.Map.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Map.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }

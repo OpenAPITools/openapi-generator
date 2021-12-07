@@ -205,8 +205,11 @@ class ApiClient(
 
     companion object {
         @JvmStatic
+        protected val baseUrlKey = "org.openapitools.client.baseUrl"
+
+        @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(baseUrlKey, "http://petstore.swagger.io/v2")
         }
     }
 }

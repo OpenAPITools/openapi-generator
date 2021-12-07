@@ -153,7 +153,7 @@ public class StringUtils {
 
             m = camelizeSlashPattern.matcher(word);
             while (m.find()) {
-                word = m.replaceFirst("" + Character.toUpperCase(m.group(1).charAt(0)) + m.group(1).substring(1)/*.toUpperCase()*/);
+                word = m.replaceFirst(Character.toUpperCase(m.group(1).charAt(0)) + m.group(1).substring(1)/*.toUpperCase()*/);
                 m = camelizeSlashPattern.matcher(word);
             }
 
@@ -256,7 +256,7 @@ public class StringUtils {
         EscapedNameOptions ns = new EscapedNameOptions(name, replacementMap.keySet(), charactersToAllow, appendToReplacement);
         return escapedWordsCache.get(ns, wordToEscape -> {
             String result = name.chars().mapToObj(c -> {
-                String character = "" + (char) c;
+                String character = String.valueOf((char) c);
                 if (charactersToAllow != null && charactersToAllow.contains(character)) {
                     return character;
                 } else if (replacementMap.containsKey(character)) {
@@ -264,7 +264,7 @@ public class StringUtils {
                 } else {
                     return character;
                 }
-            }).reduce( (c1, c2) -> "" + c1 + c2).orElse(null);
+            }).reduce( (c1, c2) -> c1 + c2).orElse(null);
 
             if (result != null) return result;
             throw new RuntimeException("Word '" + name + "' could not be escaped.");

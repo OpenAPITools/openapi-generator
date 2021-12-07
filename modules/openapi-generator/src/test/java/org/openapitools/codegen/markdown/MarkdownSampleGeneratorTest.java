@@ -43,7 +43,7 @@ public class MarkdownSampleGeneratorTest {
             Path expectedPath = this.outputTempDirectory.toPath().relativize(generated.toPath());
             File expected = expectedFiles.resolve(expectedPath).toFile();
 
-            Assert.assertTrue(expected.exists(), "Could not find " + expected.toString());
+            Assert.assertTrue(expected.exists(), "Could not find " + expected);
 
             Assert.assertEquals(FileUtils.readFileToString(generated, StandardCharsets.UTF_8).replace("\n", "").replace("\r", ""),
                     FileUtils.readFileToString(expected, StandardCharsets.UTF_8).replace("\n", "").replace("\r", ""));

@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Arrays;
-import java.lang.Exception;
 
 @SuppressWarnings("static-method")
 public class FSharpServerCodegenTest {

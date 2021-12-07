@@ -1,11 +1,10 @@
 package org.openapitools.client.model;
 
-import org.junit.Test;
-
-import com.google.gson.Gson;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import com.google.gson.Gson;
+import org.junit.Test;
 
 public class EnumValueTest {
 

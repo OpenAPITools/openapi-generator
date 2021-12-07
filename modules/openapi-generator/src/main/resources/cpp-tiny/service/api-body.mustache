@@ -40,10 +40,44 @@ using namespace Tiny;
         {{! Method start}}
         {
             std::string url = basepath + "{{{path}}}"; //{{#pathParams}}{{{paramName}}} {{/pathParams}}
+
+
+            // Headers  | {{#headerParams}} {{paramName}} {{/headerParams}}
+        {{#headerParams}}
+            addHeader("{{baseName}}",{{paramName}});
+        {{/headerParams}}
+
             // Query    | {{#queryParams}}{{paramName}} {{/queryParams}}
-            // Headers  | {{#headerParams}}{{paramName}} {{/headerParams}}
+        {{#queryParams}}
+        {{#isArray}}
+            for (auto &x : {{paramName}}){
+                addQueryParam("{{baseName}}", std::string(x));
+            }
+        {{/isArray}}
+        {{^isArray}}
+            addQueryParam("{{baseName}}",{{paramName}});
+        {{/isArray}}
+        {{/queryParams}}
+
             // Form     | {{#formParams}}{{paramName}} {{/formParams}}
-            // Body     | {{#bodyParam}}{{paramName}}{{/bodyParam}}
+        {{#hasFormParams}}
+            addHeader("Content-Type", "application/x-www-form-urlencoded");
+        {{/hasFormParams}}
+        {{#hasBodyParam}}
+            addHeader("Content-Type", "application/json");
+        {{/hasBodyParam}}
+
+        {{#formParams}}
+            {{#isArray}}
+            for (auto &x : {{paramName}}){
+                addFormParam("{{baseName}}", std::string(x));
+            }
+            {{/isArray}}
+            {{^isArray}}
+            addFormParam("{{baseName}}",{{paramName}});
+            {{/isArray}}
+        {{/formParams}}
+
 
             {{#pathParams}}
                 std::string s_{{paramName}}("{");
@@ -56,13 +90,12 @@ using namespace Tiny;
                 url.insert(pos, stringify({{paramName}}));
             {{/pathParams}}
 
-            begin(url);
 
             std::string payload = "";
             // Send Request
             // METHOD | {{httpMethod}}
+            // Body     | {{#bodyParam}}{{paramName}}{{/bodyParam}}
             {{#bodyParam}}
-            http.addHeader("Content-Type", "application/json");
 
             {{#isContainer}}
             {{#isArray}}
@@ -101,13 +134,11 @@ using namespace Tiny;
             {{/isContainer}}
 
             {{/bodyParam}}
-            int httpCode = http.sendRequest("{{httpMethod}}", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+            int httpCode = sendRequest(url, "{{httpMethod}}", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
 
             // Handle Request
-            String output = http.getString();
+            String output = getResponseBody();
             std::string output_string = output.c_str();
-
-            http.end();
 
             {{#returnType}}
 
