@@ -103,14 +103,23 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("addPet", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("addPet", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -177,14 +186,23 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("deletePet", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("deletePet", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -249,14 +267,18 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("findPetsByStatus", localVarResponse);
-      }
-      return new ApiResponse<List<Pet>>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("findPetsByStatus", localVarResponse);
+        }
+        return new ApiResponse<List<Pet>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -330,14 +352,18 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("findPetsByTags", localVarResponse);
-      }
-      return new ApiResponse<Set<Pet>>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("findPetsByTags", localVarResponse);
+        }
+        return new ApiResponse<Set<Pet>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -407,14 +433,18 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("getPetById", localVarResponse);
-      }
-      return new ApiResponse<Pet>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("getPetById", localVarResponse);
+        }
+        return new ApiResponse<Pet>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -474,14 +504,23 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("updatePet", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("updatePet", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -550,14 +589,23 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("updatePetWithForm", localVarResponse);
-      }
-      return new ApiResponse<Void>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("updatePetWithForm", localVarResponse);
+        }
+        return new ApiResponse<Void>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
+          
           null
         );
+      } finally {
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -623,14 +671,18 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("uploadFile", localVarResponse);
-      }
-      return new ApiResponse<ModelApiResponse>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("uploadFile", localVarResponse);
+        }
+        return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -696,14 +748,18 @@ public class PetApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("uploadFileWithRequiredFile", localVarResponse);
-      }
-      return new ApiResponse<ModelApiResponse>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("uploadFileWithRequiredFile", localVarResponse);
+        }
+        return new ApiResponse<ModelApiResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }

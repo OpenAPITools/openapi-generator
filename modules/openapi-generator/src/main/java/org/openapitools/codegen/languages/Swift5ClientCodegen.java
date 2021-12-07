@@ -66,6 +66,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
     public static final String USE_CLASSES = "useClasses";
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
+    public static final String GENERATE_FROZEN_ENUMS = "generateFrozenEnums";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
@@ -90,6 +91,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean useClasses = false;
     protected boolean useBacktickEscapes = false;
     protected boolean generateModelAdditionalProperties = true;
+    protected boolean generateFrozenEnums = true;
     protected boolean hashableModels = true;
     protected boolean mapFileBinaryToData = false;
     protected String[] responseAs = new String[0];
@@ -281,6 +283,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(USE_BACKTICK_ESCAPES,
                 "Escape reserved words using backticks (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(GENERATE_FROZEN_ENUMS,
+                "Generate frozen enums (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(GENERATE_MODEL_ADDITIONAL_PROPERTIES,
                 "Generate model additional properties (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
@@ -484,6 +489,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties.containsKey(USE_BACKTICK_ESCAPES)) {
             setUseBacktickEscapes(convertPropertyToBooleanAndWriteBack(USE_BACKTICK_ESCAPES));
         }
+
+        // Setup generateFrozenEnums option. If true, enums will strictly include
+        // cases matching the spec. If false, enums will also include an extra catch-all case.
+        if (additionalProperties.containsKey(GENERATE_FROZEN_ENUMS)) {
+            setGenerateFrozenEnums(convertPropertyToBooleanAndWriteBack(GENERATE_FROZEN_ENUMS));
+        }
+        additionalProperties.put(GENERATE_FROZEN_ENUMS, generateFrozenEnums);
 
         if (additionalProperties.containsKey(GENERATE_MODEL_ADDITIONAL_PROPERTIES)) {
             setGenerateModelAdditionalProperties(convertPropertyToBooleanAndWriteBack(GENERATE_MODEL_ADDITIONAL_PROPERTIES));
@@ -941,6 +953,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setUseBacktickEscapes(boolean useBacktickEscapes) {
         this.useBacktickEscapes = useBacktickEscapes;
+    }
+
+    public void setGenerateFrozenEnums(boolean generateFrozenEnums) {
+        this.generateFrozenEnums = generateFrozenEnums;
     }
 
     public void setGenerateModelAdditionalProperties(boolean generateModelAdditionalProperties) {

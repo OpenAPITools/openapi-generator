@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-    kotlin("multiplatform") version "1.5.31" // kotlin_version
-    kotlin("plugin.serialization") version "1.5.31" // kotlin_version
+    kotlin("multiplatform"){{^omitGradlePluginVersions}} version "1.5.31" // kotlin_version{{/omitGradlePluginVersions}}
+    kotlin("plugin.serialization"){{^omitGradlePluginVersions}} version "1.5.31" // kotlin_version{{/omitGradlePluginVersions}}
 }
 
 group = "{{groupId}}"
@@ -92,5 +92,8 @@ tasks {
                 commandLine("xcrun", "simctl", "spawn", device, binary.outputFile)
             }
         }
+    }
+    register("test") {
+        dependsOn("allTests")
     }
 }
