@@ -19,7 +19,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -79,7 +79,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deletePet(petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -151,7 +151,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: [Pet]
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByStatus(status: [Status_findPetsByStatus], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> [Pet] {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -215,7 +215,7 @@ open class PetAPI {
      - returns: [Pet]
      */
     @available(*, deprecated, message: "This operation is deprecated.")
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> [Pet] {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -279,7 +279,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Pet
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Pet {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -342,7 +342,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -403,7 +403,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -475,7 +475,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: ApiResponse
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> ApiResponse {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -547,7 +547,7 @@ open class PetAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: ApiResponse
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> ApiResponse {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {

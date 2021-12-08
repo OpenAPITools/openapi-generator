@@ -19,7 +19,7 @@ open class UserAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUser(body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -76,7 +76,7 @@ open class UserAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithArrayInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -132,7 +132,7 @@ open class UserAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithListInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -188,7 +188,7 @@ open class UserAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteUser(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -248,7 +248,7 @@ open class UserAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: User
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getUserByName(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> User {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -308,7 +308,7 @@ open class UserAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: String
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func loginUser(username: String, password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> String {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -369,7 +369,7 @@ open class UserAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -425,7 +425,7 @@ open class UserAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updateUser(username: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {

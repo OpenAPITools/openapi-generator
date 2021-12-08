@@ -19,7 +19,7 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Void
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -78,7 +78,7 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: [String: Int]
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> [String: Int] {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -137,7 +137,7 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Order
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Order {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
@@ -197,7 +197,7 @@ open class StoreAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Order
      */
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Order {
         var task: URLSessionTask?
         return try await withTaskCancellationHandler {
