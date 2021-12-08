@@ -6721,6 +6721,14 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isObjectSchema(schema)) {
                 // object type schema OR (AnyType schema with properties defined)
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+            } else {
+                if (StringUtils.isEmpty(name)) {
+                    codegenParameter.baseName = "body";  // default to body
+                } else {
+                    codegenParameter.baseName = bodyParameterName;
+                }
+                codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                codegenParameter.dataType = getTypeDeclaration(schema);
             }
             addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
         } else {
