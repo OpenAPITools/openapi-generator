@@ -782,6 +782,18 @@ public class DefaultCodegen implements CodegenConfig {
     // override to post-process any model properties
     @SuppressWarnings("unused")
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        if (property.getJsonSchema().contains("allOf")) {
+            if (property.description == null) {
+                property.isReadOnly = true;
+                return;
+            }
+            if (property.description.equals("")) {
+                property.isReadOnly = true;
+            } else if (property.description.endsWith("readOnly")) {
+                property.isReadOnly = true;
+            }
+            property.description = property.description.replaceAll(" readOnly$", "");
+        }
     }
 
     // override to post-process any parameters
@@ -950,8 +962,6 @@ public class DefaultCodegen implements CodegenConfig {
      * @return string with unsafe characters removed or escaped
      */
     public String escapeUnsafeCharacters(String input) {
-        LOGGER.warn("escapeUnsafeCharacters should be overridden in the code generator with proper logic to escape " +
-                "unsafe characters");
         // doing nothing by default and code generator should implement
         // the logic to prevent code injection
         // later we'll make this method abstract to make sure
@@ -966,8 +976,6 @@ public class DefaultCodegen implements CodegenConfig {
      * @return string with quotation mark removed or escaped
      */
     public String escapeQuotationMark(String input) {
-        LOGGER.warn("escapeQuotationMark should be overridden in the code generator with proper logic to escape " +
-                "single/double quote");
         return input.replace("\"", "\\\"");
     }
 
@@ -2046,7 +2054,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param schema
      * @return type
      */
-    private String getPrimitiveType(Schema schema) {
+    protected String getPrimitiveType(Schema schema) {
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
         } else if (typeMapping.containsKey(schema.getType() + "+" + schema.getFormat())) {
@@ -3426,7 +3434,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (isPropertyInnerMostEnum(property)) {
             // isEnum is set to true when the type is an enum
             // or the inner type of an array/map is an enum
-//            property.isEnum = true;
             // update datatypeWithEnum and default value for array
             // e.g. List<string> => List<StatusEnum>
             updateDataTypeWithEnumForArray(property);
@@ -3461,7 +3468,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (isPropertyInnerMostEnum(property)) {
             // isEnum is set to true when the type is an enum
             // or the inner type of an array/map is an enum
-//            property.isEnum = true;
             // update datatypeWithEnum and default value for map
             // e.g. Dictionary<string, string> => Dictionary<string, StatusEnum>
             updateDataTypeWithEnumForMap(property);

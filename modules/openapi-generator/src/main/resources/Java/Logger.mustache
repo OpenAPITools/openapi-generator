@@ -1,0 +1,406 @@
+package {{invokerPackage}};
+
+import java.text.SimpleDateFormat;
+import java.nio.charset.StandardCharsets;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Map;
+
+
+class Logger {
+    private String logFilePath = null;
+    private Boolean logToConsole = true;
+    private LogFormat format = LogFormat.Text;
+    private LogLevel level = LogLevel.LNone;
+    private Boolean logResponseBody = false;
+    private Boolean logRequestBody = false;
+    private BufferedWriter bw;
+
+    Logger() {
+        super();
+    }
+
+    Logger(
+        String logFilePath,
+        Boolean logToConsole,
+        LogFormat logFormat,
+        LogLevel logLevel,
+        Boolean logResponseBody,
+        Boolean logRequestBody
+    ) {
+        this.logFilePath = logFilePath;
+        this.logToConsole = logToConsole;
+        this.format = logFormat;
+        this.level = logLevel;
+        this.logResponseBody = logResponseBody;
+        this.logRequestBody = logRequestBody;
+    }
+
+    String getLogFilePath() {
+        return this.logFilePath;
+    }
+
+    void setLogFilePath(String logFilePath) {
+        if (logFilePath != null && !logFilePath.isEmpty()) {
+            try {
+                this.bw = new BufferedWriter(new FileWriter(logFilePath, true));
+                this.logFilePath = logFilePath;
+            } catch (IOException e) {
+                // no-op
+            }
+        }
+    }
+
+    boolean getLogToConsole() {
+        return logToConsole;
+    }
+
+    void setLogToConsole(boolean logToConsole) {
+        this.logToConsole = logToConsole;
+    }
+
+    LogFormat getFormat() {
+        return format;
+    }
+
+    void setFormat(LogFormat format) {
+        this.format = format;
+    }
+
+    LogLevel getLevel() {
+        return level;
+    }
+
+    void setLevel(LogLevel level) {
+        this.level = level;
+    }
+
+    boolean getLogResponseBody() {
+        return logResponseBody;
+    }
+
+    void setLogResponseBody(boolean logResponseBody) {
+        this.logResponseBody = logResponseBody;
+    }
+
+    boolean getLogRequestBody() {
+        return logRequestBody;
+    }
+
+    void setLogRequestBody(boolean logRequestBody) {
+        this.logRequestBody = logRequestBody;
+    }
+
+    static LogLevel logLevelFromString(String logLevel) {
+        String formattedLogLevel = "l" + logLevel;
+        try {
+            LogLevel logLevelValue = null;
+            for (LogLevel ll : LogLevel.values()) {
+                if (ll.name().equalsIgnoreCase(formattedLogLevel)) {
+                    logLevelValue = ll;
+                }
+            }
+            return logLevelValue;
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    static LogFormat logFormatFromString(String logFormat) {
+        try {
+            LogFormat logFormatValue = null;
+            for (LogFormat lf : LogFormat.values()) {
+                if (lf.name().equalsIgnoreCase(logFormat)) {
+                    logFormatValue = lf;
+                }
+            }
+            return logFormatValue;
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    void trace(
+        String method,
+        String url,
+        Object requestBody,
+        int statusCode,
+        Map<String, String> requestHeaders,
+        Map<String, String> responseHeaders
+    ) {
+        LogStatement logStatement = new LogStatement(
+            new Date(),
+            "trace",
+            method,
+            url,
+            requestHeaders,
+            responseHeaders,
+            statusCode,
+            requestBodyToString(requestBody)
+        );
+        log(LogLevel.LTrace, logStatement);
+    }
+
+    void debug(
+        String method,
+        String url,
+        Object requestBody,
+        int statusCode,
+        Map<String, String> requestHeaders
+    ) {
+        LogStatement logStatement = new LogStatement(
+            new Date(),
+            "debug",
+            method,
+            url,
+            requestHeaders,
+            statusCode,
+            requestBodyToString(requestBody)
+        );
+        log(LogLevel.LDebug, logStatement);
+    }
+
+    void error(
+        String method,
+        String url,
+        Object requestBody,
+        String responseBody,
+        int statusCode,
+        Map<String, String> requestHeaders,
+        Map<String, String> responseHeaders
+    ) {
+        LogStatement logStatement = new LogStatement(
+            new Date(),
+            "error",
+            method,
+            url,
+            requestHeaders,
+            responseHeaders,
+            statusCode,
+            requestBodyToString(requestBody),
+            responseBody
+        );
+        log(LogLevel.LError, logStatement);
+    }
+
+    private void log(LogLevel logLevel, LogStatement logStatement) {
+        if (logLevel.getOrder() >= this.level.getOrder()) {
+            String logString = logStatement.asString(this.format, this.logRequestBody, this.logResponseBody);
+            if (logToConsole)
+                System.out.println(logString);
+            if (this.bw != null) {
+                try {
+                    bw.write(logString);
+                    bw.newLine();
+                    bw.flush();
+                } catch (Exception e) {
+                    // no-op
+                }
+            }
+        }
+    }
+
+    private static String requestBodyToString(Object requestBody) {
+        if (requestBody != null) {
+            if (requestBody instanceof String) {
+                return requestBody.toString();
+            }
+            if (requestBody instanceof byte[]) {
+                return new String((byte[])requestBody, StandardCharsets.UTF_8);
+            }
+        }
+        return null;
+    }
+
+    enum LogFormat {
+        JSON,
+        Text
+    }
+
+    enum LogLevel {
+        LNone(3),
+        LError(2),
+        LDebug(1),
+        LTrace(0);
+
+        private int order;
+
+        LogLevel(int order) {
+            this.order = order;
+        }
+
+        int getOrder() {
+            return this.order;
+        }
+    }
+
+    class LogStatement {
+        private Date date;
+        private String level = null;
+        private String method = null;
+        private String url = null;
+        private Map<String, String> requestHeaders = null;
+        private Map<String, String> responseHeaders = null;
+        private String correlationId;
+        private int statusCode = 0;
+        private String requestBody = null;
+        private String responseBody = null;
+
+        // error constructor
+        LogStatement(
+            Date date,
+            String level,
+            String method,
+            String url,
+            Map<String, String> requestHeaders,
+            Map<String, String> responseHeaders,
+            int statusCode,
+            String requestBody,
+            String responseBody
+        ) {
+            this.date = date;
+            this.level = level;
+            this.method = method;
+            this.url = url;
+            this.requestHeaders = requestHeaders;
+            this.responseHeaders = responseHeaders;
+            this.correlationId = getCorrelationId(responseHeaders);
+            this.statusCode = statusCode;
+            this.requestBody = requestBody;
+            this.responseBody = responseBody;
+        }
+
+        // trace constructor
+        LogStatement(
+            Date date,
+            String level,
+            String method,
+            String url,
+            Map<String, String> requestHeaders,
+            Map<String, String> responseHeaders,
+            int statusCode,
+            String requestBody
+        ) {
+            this.date = date;
+            this.level = level;
+            this.method = method;
+            this.url = url;
+            this.requestHeaders = requestHeaders;
+            this.responseHeaders = responseHeaders;
+            this.correlationId = getCorrelationId(responseHeaders);
+            this.statusCode = statusCode;
+            this.requestBody = requestBody;
+        }
+
+        // debug constructor
+        LogStatement(
+            Date date,
+            String level,
+            String method,
+            String url,
+            Map<String, String> requestHeaders,
+            int statusCode,
+            String requestBody
+        ) {
+            this.date = date;
+            this.level = level;
+            this.method = method;
+            this.url = url;
+            this.requestHeaders = requestHeaders;
+            this.statusCode = statusCode;
+            this.requestBody = requestBody;
+        }
+
+        public Date getDate() {
+            return date;
+        }
+
+        public String getLevel() {
+            return level;
+        }
+
+        public String getMethod() {
+            return method;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public Map<String, String> getRequestHeaders() {
+            return requestHeaders;
+        }
+
+        public Map<String, String> getResponseHeaders() {
+            return responseHeaders;
+        }
+
+        public int getStatusCode() {
+            return statusCode;
+        }
+
+        public String getRequestBody() {
+            return requestBody;
+        }
+
+        public String getResponseBody() {
+            return responseBody;
+        }
+
+        String asString(LogFormat logFormat, boolean logRequestBody, boolean logResponseBody) {
+            this.requestHeaders.put("Authorization", "[REDACTED]");
+            if (!logRequestBody)
+                this.requestBody = null;
+            if (!logResponseBody)
+                this.responseBody = null;
+            if (logFormat == LogFormat.JSON) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+                objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+                try {
+                    return objectMapper.writeValueAsString(this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return String.format("%s: %s\n=== REQUEST ===%s%s%s%s\n=== RESPONSE ===%s%s%s%s",
+                this.level.toUpperCase(),
+                this.date,
+                formatValue("URL", url),
+                formatValue("Method", method),
+                formatValue("Headers", formatHeaders(requestHeaders)),
+                formatValue("Body", requestBody),
+                formatValue("Status", String.format("%d", statusCode)),
+                formatValue("Headers", formatHeaders(responseHeaders)),
+                formatValue("CorrelationId", correlationId),
+                formatValue("Body", responseBody));
+        }
+
+        private String formatValue(String name, String value) {
+            return (value == null || value.isEmpty()) ? "" : String.format("\n%s: %s", name, value);
+        }
+
+        private String formatHeaders(Map<String, String> headers) {
+            if (headers == null) {
+                return "";
+            }
+            StringBuilder result = new StringBuilder();
+            for(Map.Entry<String, String> entry : headers.entrySet()) {
+                result.append(String.format("\n\t%s: %s", entry.getKey(), entry.getValue()));
+            }
+            return result.toString();
+        }
+
+        private String getCorrelationId(Map<String, String> headers) {
+            if (headers == null) {
+                return "";
+            }
+            String correlationId = headers.getOrDefault("ININ-Correlation-Id", "");
+            return correlationId;
+        }
+    }
+}

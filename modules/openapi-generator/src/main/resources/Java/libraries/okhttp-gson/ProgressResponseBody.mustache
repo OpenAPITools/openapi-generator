@@ -1,9 +1,7 @@
-{{>licenseInfo}}
-
 package {{invokerPackage}};
 
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 
@@ -15,13 +13,17 @@ import okio.Source;
 
 public class ProgressResponseBody extends ResponseBody {
 
+    public interface ProgressListener {
+        void update(long bytesRead, long contentLength, boolean done);
+    }
+
     private final ResponseBody responseBody;
-    private final ApiCallback callback;
+    private final ProgressListener progressListener;
     private BufferedSource bufferedSource;
 
-    public ProgressResponseBody(ResponseBody responseBody, ApiCallback callback) {
+    public ProgressResponseBody(ResponseBody responseBody, ProgressListener progressListener) {
         this.responseBody = responseBody;
-        this.callback = callback;
+        this.progressListener = progressListener;
     }
 
     @Override
@@ -30,12 +32,12 @@ public class ProgressResponseBody extends ResponseBody {
     }
 
     @Override
-    public long contentLength() {
+    public long contentLength() throws IOException {
         return responseBody.contentLength();
     }
 
     @Override
-    public BufferedSource source() {
+    public BufferedSource source() throws IOException {
         if (bufferedSource == null) {
             bufferedSource = Okio.buffer(source(responseBody.source()));
         }
@@ -51,7 +53,7 @@ public class ProgressResponseBody extends ResponseBody {
                 long bytesRead = super.read(sink, byteCount);
                 // read() returns the number of bytes read, or -1 if this source is exhausted.
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-                callback.onDownloadProgress(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
+                progressListener.update(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
                 return bytesRead;
             }
         };

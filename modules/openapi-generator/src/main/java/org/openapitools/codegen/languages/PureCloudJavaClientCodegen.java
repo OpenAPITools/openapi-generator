@@ -1,9 +1,14 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.templating.mustache.PrefixNumberWithValue;
+import org.openapitools.codegen.templating.mustache.StringReplaceLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,19 +33,60 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.put("JsonNode", "com.fasterxml.jackson.databind.JsonNode");
         importMapping.put("LinkedHashSet", "java.util.ArrayList");
+        importMapping.put("Date", "java.util.Date");
+        importMapping.put("ArrayList", "java.util.ArrayList");
+        importMapping.put("HashMap", "java.util.HashMap");
+        importMapping.put("Map", "java.util.Map");
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
 
         // Type overrides
         typeMapping.put("date", "LocalDate");
         typeMapping.put("URI", "String");
         typeMapping.put("set", "List");
+        typeMapping.put("empty", "Object");
+        typeMapping.put("Empty", "Object");
 
         // Add special reserved words
         reservedWords.add("null");
         reservedWords.add("request");
 
-        supportingFiles.add(new SupportingFile("testng.mustache", "", "testng.xml").doNotOverwrite());
+        operationTemplateFiles.put("requestBuilder.mustache", ".java");
+
+        supportingFiles.add(new SupportingFile("testng-unit.mustache", "", "testng-unit.xml").doNotOverwrite());
+        supportingFiles.add(new SupportingFile("testng-integration.mustache", "", "testng-integration.xml").doNotOverwrite());
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, "com.mypurecloud.sdk.v2");
+
+        setRemoveEnumValuePrefix(false);
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+
+        for (CodegenParameter cp : op.allParams) {
+            if (cp.dataType.equals("Map<String, Object>")) {
+                cp.dataType = "Object";
+            }
+        }
+
+        if (op.hasRequiredParams) {
+            for (CodegenParameter cp : op.requiredParams) {
+                if (cp.dataType.equals("Map<String, Object>")) {
+                    cp.dataType = "Object";
+                }
+            }
+        }
+
+        if (op.bodyParam != null && op.bodyParam.dataType != null && op.bodyParam.dataType.equals("Map<String, Object>")) {
+            op.bodyParam.dataType = "Object";
+        }
+
+        if (op.returnType != null && op.returnType.equals("Object") && op.responses.size() > 0 && op.responses.get(0).jsonSchema.contains("#/components/schemas/Empty")) {
+            op.returnType = "Empty";
+        }
+
+        return op;
     }
 
     @Override
@@ -107,7 +153,7 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-            List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
+            List<CodegenProperty> vars = new ArrayList<>();
             // Iterate through properties
             for (CodegenProperty cp : cm.allVars) {
                 // Enums with values only
@@ -117,24 +163,25 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
                         ArrayList valuesArray = (ArrayList) valuesObject;
                         if (valuesArray.get(0) instanceof Integer) {
                             // Integer enum type
-                            System.out.println("Adding 'OUTDATEDSDKVERSION(-1)' to " + cm.name + "." + cp.name + "Enum");
                             valuesArray.add(0, -1);
                             Object enumVarsObject = cp.allowableValues.get("enumVars");
                             ArrayList enumVarsArray = (ArrayList) enumVarsObject;
-                            HashMap<String, String> newItem = new HashMap<String, String>();
+                            HashMap<String, String> newItem = new HashMap<>();
                             newItem.put("name", "OUTDATEDSDKVERSION");
                             newItem.put("value", toEnumValue("-1", "Integer"));
                             enumVarsArray.add(0, newItem);
                         } else {
                             // String enum type
-                            System.out.println("Adding 'OUTDATEDSDKVERSION(\"OutdatedSdkVersion\")' to " + cm.name + "." + cp.name + "Enum");
-                            valuesArray.add(0, "OutdatedSdkVersion");
-                            Object enumVarsObject = cp.allowableValues.get("enumVars");
-                            ArrayList enumVarsArray = (ArrayList) enumVarsObject;
-                            HashMap<String, String> newItem = new HashMap<String, String>();
-                            newItem.put("name", "OUTDATEDSDKVERSION");
-                            newItem.put("value", toEnumValue("OutdatedSdkVersion", "String"));
-                            enumVarsArray.add(0, newItem);
+                            if (!valuesArray.get(0).equals("OutdatedSdkVersion")) {
+                                valuesArray.add(0, "OutdatedSdkVersion");
+                                Object enumVarsObject = cp.allowableValues.get("enumVars");
+                                ArrayList enumVarsArray = (ArrayList) enumVarsObject;
+                                HashMap<String, String> newItem = new HashMap<>();
+                                newItem.put("name", "OUTDATEDSDKVERSION");
+                                newItem.put("isString", "true");
+                                newItem.put("value", toEnumValue("OutdatedSdkVersion", "String"));
+                                enumVarsArray.add(0, newItem);
+                            }
                         }
                     }
                 }
@@ -180,8 +227,6 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
                 return codegenModel;
             }
 
-            System.out.println(codegenModel.classname + " implements PagedResource");
-
             codegenModel.removeAllDuplicatedProperty();
 
             // datatypeWithEnum has the correct type including generics. complexType drops them.
@@ -189,7 +234,6 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
             codegenModel.pagedResourceType = entitiesProperty.get().datatypeWithEnum;
             if (codegenModel.pagedResourceType.startsWith("List")) {
                 codegenModel.pagedResourceType = codegenModel.pagedResourceType.substring(5, codegenModel.pagedResourceType.length() - 1);
-                System.out.println("  codegenModel.pagedResourceType truncated to " + codegenModel.pagedResourceType);
             }
             codegenModel.imports.add("PagedResource");
         }
@@ -207,5 +251,20 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
         } else {
             return super.toDefaultValue(schema);
         }
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        HashMap<String, String> replaceMap = new HashMap<>();
+        replaceMap.put(".", "_");
+        replaceMap.put("-", "_");
+        replaceMap.put("/", "_");
+        replaceMap.put(":", "_");
+        replaceMap.put("__", "_");
+
+        return super.addMustacheLambdas()
+                .put("replace", new StringReplaceLambda(replaceMap))
+                .put("prefixNumberWithUnderscore", new PrefixNumberWithValue("_", false))
+                .put("prefixNumberWithWord", new PrefixNumberWithValue("NUMBER_", true));
     }
 }

@@ -18,6 +18,8 @@
 package org.openapitools.codegen;
 
 import com.google.common.collect.ImmutableList;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -66,6 +68,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.removeStart;
+import static org.openapitools.codegen.TemplateManager.getCPResourcePath;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 @SuppressWarnings("rawtypes")
@@ -377,6 +380,34 @@ public class DefaultGenerator implements Generator {
     }
 
     private void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+
+        for (String k : models.keySet()) {
+            Object o = models.get(k);
+            if (k.equals("models")) {
+                ArrayList<HashMap> l = (ArrayList<HashMap>) o;
+                HashMap hm = l.get(0);
+                CodegenModel cm = (CodegenModel) hm.get("model");
+                // Iterate through properties
+                if (cm.classname.equals("DependencyObject")) {
+                    for (CodegenProperty cp : cm.allVars) {
+                        // Enums with values only
+                        if (cp.isEnum && cp.allowableValues != null) {
+                            Object valuesObject = cp.allowableValues.get("values");
+                            if (valuesObject != null) {
+                                ArrayList valuesArray = (ArrayList) valuesObject;
+                                if (!(valuesArray.get(0) instanceof Integer)) {
+                                    // String enum type
+                                    Object enumVarsObject = cp.allowableValues.get("enumVars");
+                                    ArrayList enumVarsArray = (ArrayList) enumVarsObject;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         for (String templateName : config.modelTemplateFiles().keySet()) {
             String filename = config.modelFilename(templateName, modelName);
             File written = processTemplateToFile(models, templateName, filename, generateModels, CodegenConstants.MODELS);
@@ -468,10 +499,6 @@ public class DefaultGenerator implements Generator {
                     Schema refSchema = new Schema();
                     refSchema.set$ref("#/components/schemas/"+name);
                     Schema unaliasedSchema = config.unaliasSchema(refSchema, config.importMapping());
-                    if (unaliasedSchema.get$ref() == null) {
-                        LOGGER.info("Model {} not generated since it's a free-form object", name);
-                        continue;
-                    }
                 } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
                     // A composed schema (allOf, oneOf, anyOf) is considered a Map schema if the additionalproperties attribute is set
                     // for that composed schema. However, in the case of a composed schema, the properties are defined or referenced
@@ -688,7 +715,6 @@ public class DefaultGenerator implements Generator {
             Map<String, Object> operation = processOperations(config, tag, paths.get(tag), allModels);
             for (String templateName : config.operationTemplateFiles().keySet()) {
                 Map<String, Object> api = ((Map<String, Object>)operation.get("operations"));
-                System.out.println("API: " + api.get("classname"));
 
                 for (CodegenOperation apiOperation : (List<CodegenOperation>)api.get("operation")) {
                     // Initialize data object for template

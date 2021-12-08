@@ -293,45 +293,6 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
-    @Test(description = "test enum array model")
-    public void enumArrayModelTest() {
-        // TODO: update yaml file.
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
-        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
-        codegen.processOpts();
-        codegen.setOpenAPI(openAPI);
-        final Schema schema = openAPI.getComponents().getSchemas().get("EnumArrays");
-
-        Schema property = (Schema) schema.getProperties().get("array_enum");
-        CodegenProperty prope = codegen.fromProperty("array_enum", property);
-        codegen.updateCodegenPropertyEnum(prope);
-        Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
-        Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
-        Assert.assertTrue(prope.isEnum);
-        Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
-
-        HashMap<String, Object> fish = new HashMap<String, Object>();
-        fish.put("name", "Fish");
-        fish.put("value", "'fish'");
-        fish.put("isString", false);
-        HashMap<String, Object> crab = new HashMap<String, Object>();
-        crab.put("name", "Crab");
-        crab.put("value", "'crab'");
-        crab.put("isString", false);
-        Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
-
-        // assert inner items
-        Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
-        Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
-        Assert.assertTrue(prope.items.isEnum);
-        Assert.assertEquals(prope.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
-        Assert.assertEquals(prope.items.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
-
-        //IMPORTANT: these are not final enum values, which may be further updated
-        //by postProcessModels
-
-    }
-
     @Test(description = "test enum model for values (numeric, string, etc)")
     public void enumModelValueTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");

@@ -130,6 +130,9 @@ public class CodegenConstants {
     public static final String IMPL_FOLDER = "implFolder";
     public static final String IMPL_FOLDER_DESC = "folder for generated implementation code";
 
+    public static final String LOCAL_VARIABLE_PREFIX = "localVariablePrefix";
+    public static final String LOCAL_VARIABLE_PREFIX_DESC = "prefix for generated code members and local variables";
+
     public static final String SERIALIZABLE_MODEL = "serializableModel";
     public static final String SERIALIZABLE_MODEL_DESC = "boolean - toggle \"implements Serializable\" for generated models";
 
@@ -170,6 +173,7 @@ public class CodegenConstants {
     public static final String PACKAGE_COMPANY_DESC = "Specifies an AssemblyCompany for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
     public static final String PACKAGE_AUTHORS = "packageAuthors";
     public static final String PACKAGE_AUTHORS_DESC = "Specifies Authors property in the .NET Core project file.";
+    public static final String PACKAGE_URL = "packageUrl";
     public static final String PACKAGE_COPYRIGHT = "packageCopyright";
     public static final String PACKAGE_COPYRIGHT_DESC = "Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
 

@@ -32,12 +32,10 @@ public class ApiKeyAuth implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate template) {
-        if ("query".equals(location)) {
+        if (location == "query") {
             template.query(paramName, apiKey);
-        } else if ("header".equals(location)) {
+        } else if (location == "header") {
             template.header(paramName, apiKey);
-        } else if ("cookie".equals(location)) {
-            template.header("Cookie", String.format("%s=%s", paramName, apiKey));
         }
     }
 }

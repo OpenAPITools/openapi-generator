@@ -14,7 +14,7 @@ import {{import}}
 {{/imports}}
 {{#operations}}
 
-{{>generatedAnnotation}}
+
 @Singleton
 class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classname}}){{#supportAsync}}(implicit executionContext: ExecutionContext){{/supportAsync}} extends AbstractController(cc) {
   {{#operation}}

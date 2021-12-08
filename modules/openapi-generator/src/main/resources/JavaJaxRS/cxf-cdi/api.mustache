@@ -29,7 +29,7 @@ import javax.validation.constraints.*;
 @Api(description = "the {{{baseName}}} API")
 {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}
 {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
-{{>generatedAnnotation}}
+
 
 public class {{classname}}  {
 
