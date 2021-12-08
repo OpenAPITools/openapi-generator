@@ -2109,6 +2109,11 @@ public class DefaultCodegen implements CodegenConfig {
                 // be used in the format field.
                 return schema.getFormat();
             }
+            if ("local-date-time".equals(schema.getFormat())) {
+                // Override for custom swagger format: local-date-time
+                // This is a datatype that contains a date and time, but no timezone
+                return "LocalDateTime";
+            }
             return "string";
         } else if (isFreeFormObject(schema)) {
             // Note: the value of a free-form object cannot be an arbitrary type. Per OAS specification,
