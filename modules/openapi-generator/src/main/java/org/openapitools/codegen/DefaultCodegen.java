@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen;
 
-import java.io.*;
-
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;

@@ -7,4 +7,3 @@ additionalProperties:
   serializableModel: "true"
   dateLibrary: java8
   enumUnknownDefaultCase: true
-
