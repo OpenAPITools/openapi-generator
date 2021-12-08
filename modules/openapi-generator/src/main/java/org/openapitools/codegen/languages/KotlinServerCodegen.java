@@ -191,6 +191,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
     public void processOpts() {
         super.processOpts();
 
+        if (isModelMutable()) {
+            typeMapping.put("array", "kotlin.collections.MutableList");
+        }
+
         // set default library to "ktor"
         if (StringUtils.isEmpty(library)) {
             this.setLibrary(DEFAULT_LIBRARY);
