@@ -3970,6 +3970,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     r.setResponseHeaders(responseHeaders);
                 }
+                r.setContent(getContent(response.getContent(), imports));
 
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
