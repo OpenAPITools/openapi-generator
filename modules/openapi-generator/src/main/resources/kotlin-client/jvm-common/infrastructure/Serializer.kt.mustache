@@ -2,6 +2,10 @@ package {{packageName}}.infrastructure
 
 {{#moshi}}
 import com.squareup.moshi.Moshi
+{{#enumUnknownDefaultCase}}
+import com.squareup.moshi.adapters.EnumJsonAdapter
+import {{modelPackage}}.*
+{{/enumUnknownDefaultCase}}
 {{^moshiCodeGen}}
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 {{/moshiCodeGen}}
@@ -66,6 +70,40 @@ import java.util.concurrent.atomic.AtomicLong
         {{/moshiCodeGen}}
         .add(BigDecimalAdapter())
         .add(BigIntegerAdapter())
+{{#enumUnknownDefaultCase}}
+{{#models}}
+{{#model}}
+{{#isEnum}}
+{{#allowableValues}}
+{{#enumVars}}
+{{#-last}}
+        .add({{classname}}::class.java, EnumJsonAdapter.create({{classname}}::class.java)
+            .withUnknownFallback({{classname}}.{{&name}}))
+{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+{{/isEnum}}
+{{^isEnum}}
+{{^isAlias}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+{{#allowableValues}}
+{{#enumVars}}
+{{#-last}}
+        .add({{classname}}.{{{nameInCamelCase}}}::class.java, EnumJsonAdapter.create({{classname}}.{{{nameInCamelCase}}}::class.java)
+            .withUnknownFallback({{classname}}.{{{nameInCamelCase}}}.{{&name}}))
+{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+{{/isAlias}}
+{{/isEnum}}
+{{/model}}
+{{/models}}
+{{/enumUnknownDefaultCase}}
 
     @JvmStatic
     val moshi: Moshi by lazy {
