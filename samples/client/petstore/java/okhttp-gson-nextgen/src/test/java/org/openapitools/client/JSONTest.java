@@ -382,6 +382,8 @@ public class JSONTest {
             assertTrue(o.getActualInstance() instanceof BananaReq);
             BananaReq inst = (BananaReq) o.getActualInstance();
             assertEquals(inst.getLengthCm(), new java.math.BigDecimal(17));
+            assertEquals(json.getGson().toJson(o), "{\"lengthCm\":17}");
+            assertEquals(json.getGson().toJson(inst), "{\"lengthCm\":17}");
         }
         {
             // Try to deserialize empty object. This should fail 'oneOf' because none will match
