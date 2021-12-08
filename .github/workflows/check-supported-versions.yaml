@@ -81,7 +81,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Download build artifact
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v2.1.0
         with:
           name: artifact
       - name: Run Ensures Script

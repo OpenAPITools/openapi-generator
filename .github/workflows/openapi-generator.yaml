@@ -93,7 +93,7 @@ jobs:
           java-version: 8
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v2.1.0
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -132,7 +132,7 @@ jobs:
           java-version: 8
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v2.0.10
+        uses: actions/download-artifact@v2.1.0
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
