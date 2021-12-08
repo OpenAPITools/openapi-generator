@@ -5904,10 +5904,10 @@ public class DefaultCodegen implements CodegenConfig {
             String enumName = "unknown_default_open_api";
 
             String enumValue;
-            if ("string".equalsIgnoreCase(dataType)) {
+            if (isDataTypeString(dataType)) {
                 enumValue = "unknown_default_open_api";
             } else {
-                // This is a dummy value that attempts to avoids collisions with previously specified cases.
+                // This is a dummy value that attempts to avoid collisions with previously specified cases.
                 // Int.min / 192
                 enumValue = String.valueOf(-11184809);
             }
