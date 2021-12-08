@@ -4,7 +4,8 @@
 // https://openapi-generator.tech
 //
 
-import Foundation
+import Foundation{{#useAlamofire}}
+import Alamofire{{/useAlamofire}}
 
 protocol JSONEncodable {
     func encodeToJSON() -> Any
@@ -77,4 +78,31 @@ extension CaseIterableDefaultsLast {
         }
         self.init(statusCode: response.statusCode, header: header, body: body)
     }
+}
+
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} final class RequestTask {
+{{#useAlamofire}}
+    private var request: Request?
+
+    internal func set(request: Request) {
+        self.request = request
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
+        request?.cancel()
+        request = nil
+    }
+{{/useAlamofire}}
+{{^useAlamofire}}
+    private var task: URLSessionTask?
+
+    internal func set(task: URLSessionTask) {
+        self.task = task
+    }
+
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
+        task?.cancel()
+        task = nil
+    }
+{{/useAlamofire}}
 }

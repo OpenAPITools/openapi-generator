@@ -21,7 +21,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func createUser(body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -30,7 +30,7 @@ open class UserAPI {
                   return
                 }
 
-                task = createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                requestTask = createUserWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -39,8 +39,8 @@ open class UserAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -78,7 +78,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func createUsersWithArrayInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -87,7 +87,7 @@ open class UserAPI {
                   return
                 }
 
-                task = createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                requestTask = createUsersWithArrayInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -96,8 +96,8 @@ open class UserAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -134,7 +134,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func createUsersWithListInput(body: [User], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -143,7 +143,7 @@ open class UserAPI {
                   return
                 }
 
-                task = createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                requestTask = createUsersWithListInputWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -152,8 +152,8 @@ open class UserAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -190,7 +190,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func deleteUser(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -199,7 +199,7 @@ open class UserAPI {
                   return
                 }
 
-                task = deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
+                requestTask = deleteUserWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -208,8 +208,8 @@ open class UserAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -250,7 +250,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func getUserByName(username: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> User {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -259,7 +259,7 @@ open class UserAPI {
                   return
                 }
 
-                task = getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
+                requestTask = getUserByNameWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -268,8 +268,8 @@ open class UserAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -310,7 +310,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func loginUser(username: String, password: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> String {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -319,7 +319,7 @@ open class UserAPI {
                   return
                 }
 
-                task = loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
+                requestTask = loginUserWithRequestBuilder(username: username, password: password).execute(apiResponseQueue) { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -328,8 +328,8 @@ open class UserAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -371,7 +371,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func logoutUser(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -380,7 +380,7 @@ open class UserAPI {
                   return
                 }
 
-                task = logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
+                requestTask = logoutUserWithRequestBuilder().execute(apiResponseQueue) { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -389,8 +389,8 @@ open class UserAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -427,7 +427,7 @@ open class UserAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func updateUser(username: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -436,7 +436,7 @@ open class UserAPI {
                   return
                 }
 
-                task = updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
+                requestTask = updateUserWithRequestBuilder(username: username, body: body).execute(apiResponseQueue) { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -445,8 +445,8 @@ open class UserAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 

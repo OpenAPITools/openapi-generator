@@ -21,7 +21,7 @@ open class StoreAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -30,7 +30,7 @@ open class StoreAPI {
                   return
                 }
 
-                task = deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+                requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                     switch result {
                     case .success:
                         continuation.resume(returning: ())
@@ -39,8 +39,8 @@ open class StoreAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -80,7 +80,7 @@ open class StoreAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> [String: Int] {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -89,7 +89,7 @@ open class StoreAPI {
                   return
                 }
 
-                task = getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
+                requestTask = getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -98,8 +98,8 @@ open class StoreAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -139,7 +139,7 @@ open class StoreAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Order {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -148,7 +148,7 @@ open class StoreAPI {
                   return
                 }
 
-                task = getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
+                requestTask = getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -157,8 +157,8 @@ open class StoreAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -199,7 +199,7 @@ open class StoreAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Order {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -208,7 +208,7 @@ open class StoreAPI {
                   return
                 }
 
-                task = placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                requestTask = placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -217,8 +217,8 @@ open class StoreAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
