@@ -5559,13 +5559,17 @@ public class DefaultCodegen implements CodegenConfig {
             String enumName;
             if (truncateIdx == 0) {
                 enumName = String.valueOf(value);
+                System.out.println("enumName 1 " + enumName);
             } else {
                 enumName = value.toString().substring(truncateIdx);
+                System.out.println("enumName 2 " + enumName + " " + value.toString());
                 if ("".equals(enumName)) {
                     enumName = value.toString();
                 }
+                System.out.println("enumName 3 " + enumName);
             }
 
+            System.out.println("calling toEnumVarName " + enumName);
             enumVar.put("name", toEnumVarName(enumName, dataType));
             enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
