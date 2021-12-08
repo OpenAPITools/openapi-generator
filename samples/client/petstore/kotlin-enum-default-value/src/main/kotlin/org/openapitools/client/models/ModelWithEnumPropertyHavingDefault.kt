@@ -43,10 +43,11 @@ data class ModelWithEnumPropertyHavingDefault (
     /**
      * 
      *
-     * Values: vALUE
+     * Values: vALUE,unknownDefaultOpenApi
      */
     enum class PropertyName(val value: kotlin.String) {
-        @Json(name = "VALUE") vALUE("VALUE");
+        @Json(name = "VALUE") vALUE("VALUE"),
+        @Json(name = "-11184809") unknownDefaultOpenApi("-11184809");
     }
 }
 

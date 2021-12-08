@@ -116,6 +116,7 @@ open class PetAPI {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
+        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
 
     /**

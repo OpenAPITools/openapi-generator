@@ -9,3 +9,4 @@ additionalProperties:
   artifactId: kotlin-petstore-okhttp4-coroutines-client
   serializableModel: "true"
   dateLibrary: java8
+  enumUnknownDefaultCase: true

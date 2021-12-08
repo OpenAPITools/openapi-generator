@@ -66,12 +66,13 @@ data class Pet (
     /**
      * pet status in the store
      *
-     * Values: available,pending,sold
+     * Values: available,pending,sold,unknownDefaultOpenApi
      */
     enum class Status(val value: kotlin.String) {
         @SerializedName(value = "available") available("available"),
         @SerializedName(value = "pending") pending("pending"),
-        @SerializedName(value = "sold") sold("sold");
+        @SerializedName(value = "sold") sold("sold"),
+        @SerializedName(value = "-11184809") unknownDefaultOpenApi("-11184809");
     }
 }
 

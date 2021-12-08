@@ -6,3 +6,5 @@ additionalProperties:
   artifactId: kotlin-enum-default-value
   serializableModel: "true"
   dateLibrary: java8
+  enumUnknownDefaultCase: true
+

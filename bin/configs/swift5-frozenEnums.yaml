@@ -8,5 +8,6 @@ additionalProperties:
   podSummary: PetstoreClient
   sortParamsByRequiredFlag: false
   generateFrozenEnums: false
+  enumUnknownDefaultCase: true
   projectName: PetstoreClient
   podHomepage: https://github.com/openapitools/openapi-generator

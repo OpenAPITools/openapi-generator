@@ -386,6 +386,12 @@ public class CodegenConstants {
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
         "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
         "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
+
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE = "enumUnknownDefaultCase";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_DESC =
+            "If the server adds new enum cases, they are unknown to the old spec/client, so they will fail to parse the network response." +
+            "With this option enabled, each enum will have a new cases, ´unknown_default_open_api´, so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.";
+
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.";
 }
