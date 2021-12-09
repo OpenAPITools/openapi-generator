@@ -59,7 +59,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'HealthCheckResult',) as HealthCheckResult;
     
     }
-    return Future<HealthCheckResult>.value();
+    return Future<HealthCheckResult?>.value();
   }
 
   /// test http signature authentication
@@ -183,7 +183,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'bool',) as bool;
     
     }
-    return Future<bool>.value();
+    return Future<bool?>.value();
   }
 
   /// Test serialization of object with outer number type
@@ -239,7 +239,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterComposite',) as OuterComposite;
     
     }
-    return Future<OuterComposite>.value();
+    return Future<OuterComposite?>.value();
   }
 
   /// Test serialization of outer number types
@@ -295,7 +295,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'num',) as num;
     
     }
-    return Future<num>.value();
+    return Future<num?>.value();
   }
 
   /// Test serialization of outer string types
@@ -351,7 +351,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
     
     }
-    return Future<String>.value();
+    return Future<String?>.value();
   }
 
   /// Test serialization of enum (int) properties with examples
@@ -407,7 +407,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterObjectWithEnumProperty',) as OuterObjectWithEnumProperty;
     
     }
-    return Future<OuterObjectWithEnumProperty>.value();
+    return Future<OuterObjectWithEnumProperty?>.value();
   }
 
   /// For this test, the body has to be a binary file.
@@ -608,7 +608,7 @@ class FakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
     
     }
-    return Future<ModelClient>.value();
+    return Future<ModelClient?>.value();
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 

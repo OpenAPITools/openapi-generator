@@ -271,7 +271,7 @@ class UserApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
     
     }
-    return Future<User>.value();
+    return Future<User?>.value();
   }
 
   /// Logs user into the system
@@ -336,7 +336,7 @@ class UserApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
     
     }
-    return Future<String>.value();
+    return Future<String?>.value();
   }
 
   /// Logs out current logged in user session

@@ -116,7 +116,7 @@ class StoreApi {
       return Map<String, int>.from(await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Map<String, int>'),);
 
     }
-    return Future<Map<String, int>>.value();
+    return Future<Map<String, int>?>.value();
   }
 
   /// Find purchase order by ID
@@ -177,7 +177,7 @@ class StoreApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
     
     }
-    return Future<Order>.value();
+    return Future<Order?>.value();
   }
 
   /// Place an order for a pet
@@ -233,6 +233,6 @@ class StoreApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Order',) as Order;
     
     }
-    return Future<Order>.value();
+    return Future<Order?>.value();
   }
 }

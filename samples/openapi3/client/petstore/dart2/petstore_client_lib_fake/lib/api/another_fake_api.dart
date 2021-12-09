@@ -73,6 +73,6 @@ class AnotherFakeApi {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
     
     }
-    return Future<ModelClient>.value();
+    return Future<ModelClient?>.value();
   }
 }
