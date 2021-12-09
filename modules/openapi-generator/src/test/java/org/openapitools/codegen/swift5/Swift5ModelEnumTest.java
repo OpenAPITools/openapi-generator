@@ -29,7 +29,7 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import java.io.*;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 
@@ -45,8 +45,6 @@ public class Swift5ModelEnumTest {
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
-        //codegen.processOpts();
-        //codegen.postProcess();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.vars.size(), 1);
@@ -71,8 +69,6 @@ public class Swift5ModelEnumTest {
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
-        //codegen.processOpts();
-        //codegen.postProcess();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.vars.size(), 1);
@@ -89,7 +85,6 @@ public class Swift5ModelEnumTest {
 
     @Test(description = "convert a java model with an integer enum and a default value")
     public void convertIntegerDefaultValueTest() {
-        System.out.print("HERE - it works!!");
         final IntegerSchema enumSchema = new IntegerSchema();
         enumSchema.setEnum(Arrays.asList(1, 2, 3));
         enumSchema.setDefault(2);
@@ -98,8 +93,6 @@ public class Swift5ModelEnumTest {
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
-        //codegen.processOpts();
-        //codegen.postProcess();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.vars.size(), 1);
@@ -124,8 +117,6 @@ public class Swift5ModelEnumTest {
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
-        //codegen.processOpts();
-        //codegen.postProcess();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.vars.size(), 1);

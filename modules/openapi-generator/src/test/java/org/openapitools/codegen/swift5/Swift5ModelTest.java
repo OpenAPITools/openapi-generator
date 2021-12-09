@@ -48,8 +48,6 @@ public class Swift5ModelTest {
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
-        //codegen.processOpts();
-        //codegen.postProcess();
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");

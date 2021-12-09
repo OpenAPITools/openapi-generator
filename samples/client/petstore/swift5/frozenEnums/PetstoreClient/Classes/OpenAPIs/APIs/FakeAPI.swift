@@ -409,7 +409,6 @@ open class FakeAPI {
     public enum EnumHeaderStringArray_testEnumParameters: String, CaseIterable {
         case greaterThan = ">"
         case dollar = "$"
-        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
 
     /**
@@ -419,7 +418,6 @@ open class FakeAPI {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"
-        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
 
     /**
@@ -428,7 +426,6 @@ open class FakeAPI {
     public enum EnumQueryStringArray_testEnumParameters: String, CaseIterable {
         case greaterThan = ">"
         case dollar = "$"
-        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
 
     /**
@@ -438,7 +435,6 @@ open class FakeAPI {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"
-        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
 
     /**
@@ -447,7 +443,6 @@ open class FakeAPI {
     public enum EnumQueryInteger_testEnumParameters: Int, CaseIterable {
         case _1 = 1
         case number2 = -2
-        case numberUnknownDefaultOpenApi = -11184809
     }
 
     /**
@@ -456,7 +451,6 @@ open class FakeAPI {
     public enum EnumQueryDouble_testEnumParameters: Double, CaseIterable {
         case _11 = 1.1
         case number12 = -1.2
-        case numberUnknownDefaultOpenApi = -11184809
     }
 
     /**
@@ -465,7 +459,6 @@ open class FakeAPI {
     public enum EnumFormStringArray_testEnumParameters: String, CaseIterable {
         case greaterThan = ">"
         case dollar = "$"
-        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
 
     /**
@@ -475,7 +468,6 @@ open class FakeAPI {
         case abc = "_abc"
         case efg = "-efg"
         case xyz = "(xyz)"
-        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
 
     /**

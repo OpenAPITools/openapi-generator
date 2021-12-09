@@ -102,8 +102,6 @@ public class Swift5ClientCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/binaryDataTest.json");
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         codegen.setOpenAPI(openAPI);
-        //codegen.processOpts();
-        //codegen.postProcess();
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
@@ -119,8 +117,6 @@ public class Swift5ClientCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         codegen.setOpenAPI(openAPI);
-        //codegen.processOpts();
-        //codegen.postProcess();
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
