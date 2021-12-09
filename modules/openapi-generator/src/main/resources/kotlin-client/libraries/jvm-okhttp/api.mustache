@@ -4,6 +4,25 @@ package {{apiPackage}}
 {{#imports}}import {{import}}
 {{/imports}}
 
+{{^multiplatform}}
+{{#gson}}
+import com.google.gson.annotations.SerializedName
+{{/gson}}
+{{#moshi}}
+import com.squareup.moshi.Json
+{{/moshi}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonProperty
+{{/jackson}}
+{{#kotlinx_serialization}}
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+{{/kotlinx_serialization}}
+{{/multiplatform}}
+{{#multiplatform}}
+import kotlinx.serialization.*
+{{/multiplatform}}
+
 {{^doNotUseRxAndCoroutines}}
 {{#useCoroutines}}
 import kotlinx.coroutines.Dispatchers

@@ -23,6 +23,8 @@ package org.openapitools.client.apis
 import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
 
+import com.squareup.moshi.Json
+
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiInfrastructureResponse
 import org.openapitools.client.infrastructure.ClientException

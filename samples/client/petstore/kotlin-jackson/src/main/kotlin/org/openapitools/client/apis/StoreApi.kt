@@ -22,6 +22,8 @@ package org.openapitools.client.apis
 
 import org.openapitools.client.models.Order
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiInfrastructureResponse
 import org.openapitools.client.infrastructure.ClientException

@@ -22,6 +22,8 @@ package org.openapitools.client.apis
 
 import org.openapitools.client.models.PetEnum
 
+import com.squareup.moshi.Json
+
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiInfrastructureResponse
 import org.openapitools.client.infrastructure.ClientException
