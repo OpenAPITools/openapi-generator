@@ -183,6 +183,16 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     }
 
     /**
+     * enum for parameter status
+     */
+     enum class Status_findPetsByStatus(val value: kotlin.String) {
+         @SerializedName(value = "available") available("available"),
+         @SerializedName(value = "pending") pending("pending"),
+         @SerializedName(value = "sold") sold("sold"),
+         ;
+     }
+
+    /**
     * Finds Pets by status
     * Multiple status values can be provided with comma separated strings
     * @param status Status values that need to be considered for filter 
@@ -193,7 +203,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>) : kotlin.collections.List<Pet> = withContext(Dispatchers.IO) {
+    suspend fun findPetsByStatus(status: kotlin.collections.List<Status_findPetsByStatus>) : kotlin.collections.List<Pet> = withContext(Dispatchers.IO) {
         val localVarResponse = findPetsByStatusWithHttpInfo(status = status)
 
         return@withContext when (localVarResponse.responseType) {
@@ -222,7 +232,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    suspend fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<kotlin.String>) : ApiInfrastructureResponse<kotlin.collections.List<Pet>?> = withContext(Dispatchers.IO) {
+    suspend fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<Status_findPetsByStatus>) : ApiInfrastructureResponse<kotlin.collections.List<Pet>?> = withContext(Dispatchers.IO) {
         val localVariableConfig = findPetsByStatusRequestConfig(status = status)
 
         return@withContext request<Unit, kotlin.collections.List<Pet>>(
@@ -236,9 +246,9 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @param status Status values that need to be considered for filter 
     * @return RequestConfig
     */
-    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
+    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<Status_findPetsByStatus>) : RequestConfig<Unit> {
         val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 put("status", toMultiValue(status.toList(), "csv"))
             }
@@ -314,7 +324,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     @Deprecated(message = "This operation is deprecated.")
     fun findPetsByTagsRequestConfig(tags: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
         val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 put("tags", toMultiValue(tags.toList(), "csv"))
             }

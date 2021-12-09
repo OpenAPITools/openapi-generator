@@ -434,7 +434,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
     */
     fun loginUserRequestConfig(username: kotlin.String, password: kotlin.String) : RequestConfig<Unit> {
         val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 put("username", listOf(username.toString()))
                 put("password", listOf(password.toString()))

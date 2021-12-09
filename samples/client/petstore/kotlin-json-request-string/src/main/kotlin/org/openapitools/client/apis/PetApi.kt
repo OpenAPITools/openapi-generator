@@ -241,7 +241,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     @Deprecated(message = "This operation is deprecated.")
     fun findPetsByTagsRequestConfig(tags: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
         val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 put("tags", toMultiValue(tags.toList(), "csv"))
             }
@@ -312,7 +312,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     */
     fun getAllPetsRequestConfig(lastUpdated: java.time.OffsetDateTime?) : RequestConfig<Unit> {
         val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (lastUpdated != null) {
                     put("lastUpdated", listOf(parseDateToQueryString(lastUpdated)))
