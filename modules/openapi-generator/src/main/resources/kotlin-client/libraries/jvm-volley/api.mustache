@@ -27,12 +27,12 @@ import {{packageName}}.infrastructure.CollectionFormats.*
 * Volley.newRequestQueue(context.applicationContext, myCustomHttpStack)
 */
 class {{classname}} (
-    val context: Context,
-    val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
+    private val context: Context,
+    private val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
         Volley.newRequestQueue(context.applicationContext)
     }),
-    val requestFactory: IRequestFactory = RequestFactory(),
-    val basePath: String = "{{{basePath}}}",
+    private val requestFactory: IRequestFactory = RequestFactory(),
+    private val basePath: String = "{{{basePath}}}",
     private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     {{#operation}}
@@ -47,10 +47,10 @@ class {{classname}} (
     {{/isDeprecated}}
     suspend fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}{{#operationAuthMethod}}, opAuthHeaderFactory = () -> map<String, String>{{/operationAuthMethod}}){{/-last}}{{/allParams}}: {{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         {{#bodyParam}}
-        var body: Any? = {{paramName}}
+        val body: Any? = {{paramName}}
         {{/bodyParam}}
         {{^bodyParam}}
-        var body: Any? = null
+        val body: Any? = null
         {{/bodyParam}}
         {{#allParams}}
         {{#required}}
@@ -60,8 +60,8 @@ class {{classname}} (
         {{/required}}
         {{/allParams}}
 
-        var contentTypes : Array<String> = arrayOf({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf({{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}})
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template

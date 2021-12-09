@@ -8,6 +8,10 @@ import java.net.URLEncoder
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.time.format.DateTimeFormatter
+import java.time.OffsetDateTime
+import java.time.LocalDate
+
 
 interface IRequestFactory {
 
@@ -16,26 +20,8 @@ interface IRequestFactory {
          * ISO 8601 date time format.
          * @see https://en.wikipedia.org/wiki/ISO_8601
          */
-        val DATE_TIME_FORMAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-
-        /**
-         * ISO 8601 date format.
-         * @see https://en.wikipedia.org/wiki/ISO_8601
-         */
-        val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd")
-
-        init {
-            DATE_TIME_FORMAT.timeZone = TimeZone.getTimeZone("UTC")
-            DATE_FORMAT.timeZone = TimeZone.getTimeZone("UTC")
-        }
-
-        fun formatDateTime(datetime: Date): String {
-            return DATE_TIME_FORMAT.format(datetime)
-        }
-
-        fun formatDate(date: Date): String {
-            return DATE_FORMAT.format(date)
-        }
+        fun formatDateTime(datetime: OffsetDateTime) = DateTimeFormatter.ISO_INSTANT.format(datetime)
+        fun formatDate(date: LocalDate) = DateTimeFormatter.ISO_LOCAL_DATE.format(date)
 
         fun escapeString(str: String): String {
             return try {
@@ -48,7 +34,7 @@ interface IRequestFactory {
         fun parameterToString(param: Any?) =
             when (param) {
                 null -> ""
-                is Date -> formatDateTime(param)
+                is OffsetDateTime -> formatDateTime(param)
                 is Collection<*> -> {
                   val b = StringBuilder()
                   for (o in param) {

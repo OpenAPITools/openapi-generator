@@ -192,8 +192,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.0. JSON processing: Kotlinx Serialization: 1.2.1.");
-        // TODO: Add version information.
-        supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley. JSON processing: gson");
+        supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
