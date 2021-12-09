@@ -180,8 +180,6 @@ public class FileSchemaTestClass {
         }
       }
 
-      // validate the field `file`
-      java.io.File.validateJsonObject(jsonObj.getAsJsonObject("file"));
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
