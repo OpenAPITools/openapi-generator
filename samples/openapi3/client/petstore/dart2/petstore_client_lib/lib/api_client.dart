@@ -11,7 +11,7 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://petstore.swagger.io/v2', HttpBearerAuth? httpBearerAuth}) {
+ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
     // Setup authentications (key: authentication name, value: authentication).
     _authentications[r'api_key'] = ApiKeyAuth('header', 'api_key');
     _authentications[r'petstore_auth'] = OAuth();

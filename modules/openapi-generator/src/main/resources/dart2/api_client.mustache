@@ -1,7 +1,7 @@
 {{>header}}
 {{>part_of}}
 class ApiClient {
-  ApiClient({this.basePath = '{{{basePath}}}', HttpBearerAuth? httpBearerAuth}) {
+ApiClient({this.basePath = '{{{basePath}}}'{{#isBasicBearer}}, HttpBearerAuth? httpBearerAuth{{/isBasicBearer}}}) {
   {{#hasAuthMethods}}
     // Setup authentications (key: authentication name, value: authentication).
   {{#authMethods}}
