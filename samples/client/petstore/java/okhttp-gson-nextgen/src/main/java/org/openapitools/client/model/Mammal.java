@@ -114,10 +114,13 @@ public class Mammal extends AbstractOpenApiSchema {
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
                     int match = 0;
+                    TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize Pig
                     try {
-                        deserialized = adapterPig.fromJsonTree(jsonObject);
+                        // validate the JSON object to see if any excpetion is thrown
+                        Pig.validateJsonObject(jsonObject.deepCopy());
+                        actualAdapter = adapterPig;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Pig'");
                     } catch (Exception e) {
@@ -127,7 +130,9 @@ public class Mammal extends AbstractOpenApiSchema {
 
                     // deserialize Whale
                     try {
-                        deserialized = adapterWhale.fromJsonTree(jsonObject);
+                        // validate the JSON object to see if any excpetion is thrown
+                        Whale.validateJsonObject(jsonObject.deepCopy());
+                        actualAdapter = adapterWhale;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Whale'");
                     } catch (Exception e) {
@@ -137,7 +142,9 @@ public class Mammal extends AbstractOpenApiSchema {
 
                     // deserialize Zebra
                     try {
-                        deserialized = adapterZebra.fromJsonTree(jsonObject);
+                        // validate the JSON object to see if any excpetion is thrown
+                        Zebra.validateJsonObject(jsonObject.deepCopy());
+                        actualAdapter = adapterZebra;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Zebra'");
                     } catch (Exception e) {
@@ -147,7 +154,7 @@ public class Mammal extends AbstractOpenApiSchema {
 
                     if (match == 1) {
                         Mammal ret = new Mammal();
-                        ret.setActualInstance(deserialized);
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject.deepCopy()));
                         return ret;
                     }
 
@@ -265,5 +272,40 @@ public class Mammal extends AbstractOpenApiSchema {
         return (Zebra)super.getActualInstance();
     }
 
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to Mammal
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+    // validate oneOf schemas one by one
+    int validCount = 0;
+    // validate the json string with Pig
+    try {
+      Pig.validateJsonObject(jsonObj);
+      validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    // validate the json string with Whale
+    try {
+      Whale.validateJsonObject(jsonObj);
+      validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    // validate the json string with Zebra
+    try {
+      Zebra.validateJsonObject(jsonObj);
+      validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    if (validCount != 1) {
+      throw new IOException(String.format("The JSON string is invalid for Mammal with oneOf schemas: Pig, Whale, Zebra. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+    }
+  }
 }
 

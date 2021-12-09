@@ -114,4 +114,37 @@ public class GrandparentAnimal {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("pet_type");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("pet_type");
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to GrandparentAnimal
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+
+      String discriminatorValue = jsonObj.get("pet_type").getAsString();
+      switch (discriminatorValue) {
+        case "ParentPet":
+          ParentPet.validateJsonObject(jsonObj);
+          break;
+        default: 
+          throw new IllegalArgumentException(String.format("The value of the `pet_type` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
+      }
+  }
+
 }
+

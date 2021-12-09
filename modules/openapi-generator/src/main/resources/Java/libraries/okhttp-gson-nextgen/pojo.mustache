@@ -379,7 +379,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     }
   };
 {{/parcelableModel}}
-{{^hasChildren}}
+
   public static HashSet<String> openapiFields;
   public static HashSet<String> openapiRequiredFields;
 
@@ -397,6 +397,62 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/requiredVars}}
   }
 
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to {{classname}}
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      {{^hasChildren}}
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!{{classname}}.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `{{classname}}` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+      {{#requiredVars}}
+      {{#-first}}
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : {{classname}}.openapiRequiredFields) {
+        if (jsonObj.get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
+        }
+      }
+      {{/-first}}
+      {{/requiredVars}}
+      {{/hasChildren}}
+      {{^discriminator}}
+      {{#vars}}
+      {{^isContainer}}
+      {{#isModel}}
+
+      // validate the field `{{{baseName}}}`
+      {{{dataType}}}.validateJsonObject(jsonObj.getAsJsonObject("{{{baseName}}}"));
+      {{/isModel}}
+      {{/isContainer}}
+      {{/vars}}
+      {{/discriminator}}
+      {{#hasChildren}}
+      {{#discriminator}}
+
+      String discriminatorValue = jsonObj.get("{{{propertyBaseName}}}").getAsString();
+      switch (discriminatorValue) {
+      {{#mappedModels}}
+        case "{{mappingName}}":
+          {{modelName}}.validateJsonObject(jsonObj);
+          break;
+      {{/mappedModels}}
+        default: 
+          throw new IllegalArgumentException(String.format("The value of the `{{{propertyBaseName}}}` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
+      }
+      {{/discriminator}}
+      {{/hasChildren}}
+  }
+
+{{^hasChildren}}
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
     @SuppressWarnings("unchecked")
     @Override
@@ -417,27 +473,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
            @Override
            public {{classname}} read(JsonReader in) throws IOException {
-             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
-             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-             // check to see if the JSON string contains additional fields
-             for (Entry<String, JsonElement> entry: entries) {
-               if (!{{classname}}.openapiFields.contains(entry.getKey())) {
-                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `{{classname}}` properties");
-               }
-             }
-
-             {{#requiredVars}}
-             {{#-first}}
-             // check to make sure all required properties/fields are present in the JSON string
-             for (String requiredField : {{classname}}.openapiRequiredFields) {
-               if (obj.get(requiredField) == null) {
-                 throw new IllegalArgumentException("The required field `" + requiredField + "` is not found in the JSON string");
-               }
-             }
-
-             {{/-first}}
-             {{/requiredVars}}
-             return thisAdapter.fromJsonTree(obj);
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject().deepCopy();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
            }
 
        }.nullSafe();

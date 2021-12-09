@@ -106,10 +106,13 @@ public class Fruit extends AbstractOpenApiSchema {
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
                     int match = 0;
+                    TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize Apple
                     try {
-                        deserialized = adapterApple.fromJsonTree(jsonObject);
+                        // validate the JSON object to see if any excpetion is thrown
+                        Apple.validateJsonObject(jsonObject.deepCopy());
+                        actualAdapter = adapterApple;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Apple'");
                     } catch (Exception e) {
@@ -119,7 +122,9 @@ public class Fruit extends AbstractOpenApiSchema {
 
                     // deserialize Banana
                     try {
-                        deserialized = adapterBanana.fromJsonTree(jsonObject);
+                        // validate the JSON object to see if any excpetion is thrown
+                        Banana.validateJsonObject(jsonObject.deepCopy());
+                        actualAdapter = adapterBanana;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Banana'");
                     } catch (Exception e) {
@@ -129,7 +134,7 @@ public class Fruit extends AbstractOpenApiSchema {
 
                     if (match == 1) {
                         Fruit ret = new Fruit();
-                        ret.setActualInstance(deserialized);
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject.deepCopy()));
                         return ret;
                     }
 
@@ -224,5 +229,33 @@ public class Fruit extends AbstractOpenApiSchema {
         return (Banana)super.getActualInstance();
     }
 
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to Fruit
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+    // validate oneOf schemas one by one
+    int validCount = 0;
+    // validate the json string with Apple
+    try {
+      Apple.validateJsonObject(jsonObj);
+      validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    // validate the json string with Banana
+    try {
+      Banana.validateJsonObject(jsonObj);
+      validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    if (validCount != 1) {
+      throw new IOException(String.format("The JSON string is invalid for Fruit with oneOf schemas: Apple, Banana. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+    }
+  }
 }
 
