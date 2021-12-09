@@ -78,3 +78,16 @@ open class Response<T> {
         self.init(statusCode: response.statusCode, header: header, body: body)
     }
 }
+
+public final class RequestTask {
+    private var task: URLSessionTask?
+
+    internal func set(task: URLSessionTask) {
+        self.task = task
+    }
+
+    public func cancel() {
+        task?.cancel()
+        task = nil
+    }
+}
