@@ -3965,12 +3965,14 @@ public class DefaultCodegen implements CodegenConfig {
                     for (Entry<String, Header> entry: headers.entrySet()) {
                         String headerName = entry.getKey();
                         Header header = entry.getValue();
-                        CodegenParameter responseHeader = heeaderToCodegenParameter(header, headerName, imports);
+                        String headerMediaTypeSchemaSuffix = String.format("For%sResponseHeader%s", r.code, toModelName(headerName));
+                        CodegenParameter responseHeader = heeaderToCodegenParameter(header, headerName, imports, headerMediaTypeSchemaSuffix);
                         responseHeaders.add(responseHeader);
                     }
                     r.setResponseHeaders(responseHeaders);
                 }
-                r.setContent(getContent(response.getContent(), imports));
+                String mediaTypeSchemaSuffix = String.format("For%sResponseBody", r.code);
+                r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
 
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
@@ -4077,7 +4079,8 @@ public class DefaultCodegen implements CodegenConfig {
             for (Parameter param : parameters) {
                 param = ModelUtils.getReferencedParameter(this.openAPI, param);
 
-                CodegenParameter p = fromParameter(param, imports);
+                String mediaTypeSchemaSuffix = String.format("ForRequestParameter%s", toModelName(param.getName()));
+                CodegenParameter p = fromParameter(param, imports, mediaTypeSchemaSuffix);
 
                 // ensure unique params
                 if (ensureUniqueParams) {
@@ -4502,7 +4505,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param imports   set of imports for library/package/module
      * @return Codegen Parameter object
      */
-    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports, String mediaTypeSchemaSuffix) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
 
         codegenParameter.baseName = parameter.getName();
@@ -4515,7 +4518,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isDeprecated = parameter.getDeprecated();
         }
         codegenParameter.jsonSchema = Json.pretty(parameter);
-        codegenParameter.setContent(getContent(parameter.getContent(), imports));
+        codegenParameter.setContent(getContent(parameter.getContent(), imports, mediaTypeSchemaSuffix));
 
         if (GlobalSettings.getProperty("debugParser") != null) {
             LOGGER.info("working on Parameter {}", parameter.getName());
@@ -4529,7 +4532,8 @@ public class DefaultCodegen implements CodegenConfig {
         Schema parameterSchema;
         if (parameter.getSchema() != null) {
             parameterSchema = parameter.getSchema();
-            CodegenProperty prop = fromProperty(parameter.getName(), parameterSchema);
+            String schemaName = String.format("Schema%s", mediaTypeSchemaSuffix);
+            CodegenProperty prop = fromProperty(schemaName, parameterSchema);
             codegenParameter.setSchema(prop);
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
@@ -4739,6 +4743,17 @@ public class DefaultCodegen implements CodegenConfig {
         finishUpdatingParameter(codegenParameter, parameter);
         return codegenParameter;
     }
+
+    /**
+     * This is depracated, users should use fromParameter with 3 inputs going forward
+     * @param parameter
+     * @param imports
+     * @return
+     */
+    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+        return fromParameter(parameter, imports, "");
+    }
+
 
     /**
      * Returns the data type of a parameter.
@@ -6599,11 +6614,11 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.pattern = toRegularExpression(schema.getPattern());
     }
 
-    protected String toMediaTypeSchemaName(String contentType) {
-        return toModelName(contentType + "Schema");
+    protected String toMediaTypeSchemaName(String contentType, String suffix) {
+        return toModelName("Schema" + toModelName(contentType) + suffix);
     }
 
-    private CodegenParameter heeaderToCodegenParameter(Header header, String headerName, Set<String> imports) {
+    private CodegenParameter heeaderToCodegenParameter(Header header, String headerName, Set<String> imports, String mediaTypeSchemaSuffix) {
         if (header == null) {
             return null;
         }
@@ -6623,11 +6638,11 @@ public class DefaultCodegen implements CodegenConfig {
         headerParam.setExample(header.getExample());
         headerParam.setContent(header.getContent());
         headerParam.setExtensions(header.getExtensions());
-        CodegenParameter param = fromParameter(headerParam, imports);
+        CodegenParameter param = fromParameter(headerParam, imports, mediaTypeSchemaSuffix);
         return param;
     }
 
-    protected LinkedHashMap<String, CodegenMediaType> getContent(Content content, Set<String> imports) {
+    protected LinkedHashMap<String, CodegenMediaType> getContent(Content content, Set<String> imports, String mediaTypeSchemaSuffix) {
         if (content == null) {
             return null;
         }
@@ -6646,7 +6661,7 @@ public class DefaultCodegen implements CodegenConfig {
                         for (Entry<String, Header> headerEntry: encHeaders.entrySet()) {
                             String headerName = headerEntry.getKey();
                             Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
-                            CodegenParameter param = heeaderToCodegenParameter(header, headerName, imports);
+                            CodegenParameter param = heeaderToCodegenParameter(header, headerName, imports, mediaTypeSchemaSuffix);
                             headers.add(param);
                         }
                     }
@@ -6662,7 +6677,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             String contentType = contentEntry.getKey();
-            CodegenProperty schemaProp = fromProperty(toMediaTypeSchemaName(contentType), mt.getSchema());
+            CodegenProperty schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema());
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
             cmtContent.put(contentType, codegenMt);
         }
@@ -6690,7 +6705,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema == null) {
             throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
         }
-        codegenParameter.setContent(getContent(body.getContent(), imports));
+        codegenParameter.setContent(getContent(body.getContent(), imports, "ForRequestBody"));
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());

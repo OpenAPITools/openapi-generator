@@ -3930,7 +3930,8 @@ public class DefaultCodegenTest {
         assertFalse(cr.primitiveType);
     }
 
-    public void testParameterContent() {
+    @Test
+    public void testRequestParameterContent() {
         DefaultCodegen codegen = new DefaultCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
         codegen.setOpenAPI(openAPI);
@@ -3948,6 +3949,7 @@ public class DefaultCodegenTest {
         CodegenProperty cp = mt.getSchema();
         assertTrue(cp.isMap);
         assertEquals(cp.complexType, "object");
+        assertEquals(cp.baseName, "SchemaApplicationJsonForRequestParameterCoordinatesInlineSchema");
 
         CodegenParameter coordinatesReferencedSchema = co.queryParams.get(1);
         content = coordinatesReferencedSchema.getContent();
@@ -3956,13 +3958,7 @@ public class DefaultCodegenTest {
         cp = mt.getSchema();
         assertFalse(cp.isMap); // because it is a referenced schema
         assertEquals(cp.complexType, "coordinates");
-
-        CodegenResponse cr = co.responses.get(0);
-        List<CodegenParameter> responseHeaders = cr.getResponseHeaders();
-        assertEquals(1, responseHeaders.size());
-        CodegenParameter header = responseHeaders.get(0);
-        assertEquals("X-Rate-Limit-Limit", header.baseName);
-        assertTrue(header.isUnboundedInteger);
+        assertEquals(cp.baseName, "SchemaApplicationJsonForRequestParameterCoordinatesReferencedSchema");
     }
 
     @Test
@@ -3982,13 +3978,13 @@ public class DefaultCodegenTest {
         CodegenMediaType mt = content.get("application/json");
         assertNull(mt.getEncoding());
         CodegenProperty cp = mt.getSchema();
-        assertEquals(cp.baseName, "ApplicationJsonSchema");
+        assertEquals(cp.baseName, "SchemaApplicationJsonForRequestBody");
         assertNotNull(cp);
 
         mt = content.get("text/plain");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
-        assertEquals(cp.baseName, "TextPlainSchema");
+        assertEquals(cp.baseName, "SchemaTextPlainForRequestBody");
         assertNotNull(cp);
         // Note: the inline model resolver has a bug for this use case; it extracts an inline request body into a component
         // but the schema it references is not string type
@@ -4002,13 +3998,72 @@ public class DefaultCodegenTest {
         mt = content.get("application/json");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
-        assertEquals(cp.baseName, "ApplicationJsonSchema");
+        assertEquals(cp.baseName, "SchemaApplicationJsonForRequestBody");
         assertEquals(cp.complexType, "coordinates");
 
         mt = content.get("text/plain");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
-        assertEquals(cp.baseName, "TextPlainSchema");
+        assertEquals(cp.baseName, "SchemaTextPlainForRequestBody");
+        assertTrue(cp.isString);
+    }
+
+    @Test
+    public void testResponseContentAndHeader() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+
+        path = "/jsonQueryParams";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        CodegenParameter coordinatesInlineSchema = co.queryParams.get(0);
+        LinkedHashMap<String, CodegenMediaType> content = coordinatesInlineSchema.getContent();
+        assertNotNull(content);
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json")));
+
+        CodegenParameter schemaParam = co.queryParams.get(2);
+        assertEquals(schemaParam.getSchema().baseName, "SchemaForRequestParameterStringWithMinLength");
+
+
+        CodegenResponse cr = co.responses.get(0);
+        List<CodegenParameter> responseHeaders = cr.getResponseHeaders();
+        assertEquals(1, responseHeaders.size());
+        CodegenParameter header = responseHeaders.get(0);
+        assertEquals("X-Rate-Limit", header.baseName);
+        assertTrue(header.isUnboundedInteger);
+        assertEquals(header.getSchema().baseName, "SchemaFor200ResponseHeaderXRateLimit");
+
+        content = cr.getContent();
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));
+        CodegenMediaType mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        CodegenProperty cp = mt.getSchema();
+        assertFalse(cp.isMap); // because it is a referenced schema
+        assertEquals(cp.complexType, "coordinates");
+        assertEquals(cp.baseName, "SchemaApplicationJsonFor200ResponseBody");
+
+        mt = content.get("text/plain");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertEquals(cp.baseName, "SchemaTextPlainFor200ResponseBody");
+        assertTrue(cp.isString);
+
+        cr = co.responses.get(1);
+        content = cr.getContent();
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));
+        mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertFalse(cp.isMap); // because it is a referenced schema
+        assertEquals(cp.complexType, "coordinates");
+        assertEquals(cp.baseName, "SchemaApplicationJsonFor201ResponseBody");
+
+        mt = content.get("text/plain");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertEquals(cp.baseName, "SchemaTextPlainFor201ResponseBody");
         assertTrue(cp.isString);
     }
 }
