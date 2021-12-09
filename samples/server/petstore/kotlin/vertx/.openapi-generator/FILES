@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 README.md
 pom.xml
 src/main/kotlin/org/openapitools/server/api/model/ApiResponse.kt
