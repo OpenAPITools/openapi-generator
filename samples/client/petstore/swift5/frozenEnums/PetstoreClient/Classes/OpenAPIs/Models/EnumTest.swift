@@ -27,12 +27,12 @@ public struct EnumTest: Codable, Hashable {
     public enum EnumInteger: Int, Codable, CaseIterable, CaseIterableDefaultsLast {
         case _1 = 1
         case number1 = -1
-        case numberUnknownDefaultOpenApi = -11184809
+        case unknownDefaultOpenApi = 11184809
     }
     public enum EnumNumber: Double, Codable, CaseIterable, CaseIterableDefaultsLast {
         case _11 = 1.1
         case number12 = -1.2
-        case numberUnknownDefaultOpenApi = -11184809
+        case unknownDefaultOpenApi = 11184809
     }
     public var enumString: EnumString?
     public var enumStringRequired: EnumStringRequired

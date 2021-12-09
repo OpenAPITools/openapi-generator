@@ -972,6 +972,12 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             return "empty";
         }
 
+        if (enumUnknownDefaultCase) {
+            if (name.equals(enumUnknownDefaultCaseName)) {
+                return camelize(name, true);
+            }
+        }
+
         Pattern startWithNumberPattern = Pattern.compile("^\\d+");
         Matcher startWithNumberMatcher = startWithNumberPattern.matcher(name);
         if (startWithNumberMatcher.find()) {

@@ -256,6 +256,7 @@ public class DefaultCodegen implements CodegenConfig {
     // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
     // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
     protected boolean enumUnknownDefaultCase = false;
+    protected String enumUnknownDefaultCaseName = "unknown_default_open_api";
 
     // make openapi available to all methods
     protected OpenAPI openAPI;
@@ -5901,19 +5902,19 @@ public class DefaultCodegen implements CodegenConfig {
             // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
             // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
             Map<String, Object> enumVar = new HashMap<>();
-            String enumName = "unknown_default_open_api";
+            String enumName = enumUnknownDefaultCaseName;
 
             String enumValue;
             if (isDataTypeString(dataType)) {
-                enumValue = "unknown_default_open_api";
+                enumValue = enumUnknownDefaultCaseName;
             } else {
                 // This is a dummy value that attempts to avoid collisions with previously specified cases.
-                // Int.min / 192
+                // Int.max / 192
                 // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
                 // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
                 // Since this functionality was born in the Swift 5 generator and latter on broth to all generatorss
                 // https://github.com/OpenAPITools/openapi-generator/pull/11013
-                enumValue = String.valueOf(-11184809);
+                enumValue = String.valueOf(11184809);
             }
 
             enumVar.put("name", toEnumVarName(enumName, dataType));
