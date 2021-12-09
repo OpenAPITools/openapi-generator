@@ -18,11 +18,13 @@ import {
     AnimalFromJSON,
     AnimalFromJSONTyped,
     AnimalToJSON,
+} from './Animal';
+import {
     CatAllOf,
     CatAllOfFromJSON,
     CatAllOfFromJSONTyped,
     CatAllOfToJSON,
-} from './';
+} from './CatAllOf';
 
 /**
  * 

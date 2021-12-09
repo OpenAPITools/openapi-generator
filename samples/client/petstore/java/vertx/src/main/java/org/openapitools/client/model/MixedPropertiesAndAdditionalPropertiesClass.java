@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
@@ -50,6 +51,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP = "map";
   private Map<String, Animal> map = null;
 
+  public MixedPropertiesAndAdditionalPropertiesClass() { 
+  }
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     

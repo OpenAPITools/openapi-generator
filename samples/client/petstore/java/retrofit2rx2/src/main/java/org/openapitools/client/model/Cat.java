@@ -36,7 +36,7 @@ public class Cat extends Animal {
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
-  public Cat() {
+  public Cat() { 
     this.className = this.getClass().getSimpleName();
   }
 

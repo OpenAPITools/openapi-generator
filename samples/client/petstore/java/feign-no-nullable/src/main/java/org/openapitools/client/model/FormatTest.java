@@ -28,6 +28,7 @@ import java.util.UUID;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * FormatTest
@@ -94,6 +95,8 @@ public class FormatTest {
   public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
   private BigDecimal bigDecimal;
 
+  public FormatTest() { 
+  }
 
   public FormatTest integer(Integer integer) {
     

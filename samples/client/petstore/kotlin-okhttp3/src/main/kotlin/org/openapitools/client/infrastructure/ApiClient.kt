@@ -12,6 +12,7 @@ import okhttp3.MultipartBody
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
+import okhttp3.internal.Util.EMPTY_REQUEST
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -41,6 +42,7 @@ open class ApiClient(val baseUrl: String) {
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
+        const val baseUrlKey = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val client: OkHttpClient by lazy {
@@ -101,9 +103,15 @@ open class ApiClient(val baseUrl: String) {
                     }
                 }.build()
             }
-            mediaType == JsonMediaType -> RequestBody.create(
-                MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
-            )
+            mediaType == JsonMediaType -> {
+                if (content == null) {
+                    EMPTY_REQUEST
+                } else {
+                    RequestBody.create(
+                        MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+                    )
+                }
+            }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")

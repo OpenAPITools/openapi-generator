@@ -39,7 +39,7 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 @SuppressWarnings("unchecked")
 public class KtormSchemaCodegen extends AbstractKotlinCodegen {
-    static Logger LOGGER = LoggerFactory.getLogger(KtormSchemaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(KtormSchemaCodegen.class);
 
     public static final String VENDOR_EXTENSION_SCHEMA = "x-ktorm-schema";
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
@@ -1055,7 +1055,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         // identifier name cannot be empty
         if (escapedName.isEmpty()) {
-            throw new RuntimeException("Empty database/table/column name for property '" + name.toString() + "' not allowed");
+            throw new RuntimeException("Empty database/table/column name for property '" + name + "' not allowed");
         }
         return escapedName;
     }

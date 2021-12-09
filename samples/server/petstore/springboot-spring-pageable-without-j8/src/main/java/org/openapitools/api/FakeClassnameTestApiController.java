@@ -40,7 +40,9 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
      * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
-    public ResponseEntity<Client> testClassname(@ApiParam(value = "client model", required = true) @Valid @RequestBody Client body) {
+    public ResponseEntity<Client> testClassname(
+
+@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"client\" : \"client\" }";

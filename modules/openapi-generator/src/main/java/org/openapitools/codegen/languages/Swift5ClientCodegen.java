@@ -58,6 +58,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String POD_SCREENSHOTS = "podScreenshots";
     public static final String POD_DOCUMENTATION_URL = "podDocumentationURL";
     public static final String READONLY_PROPERTIES = "readonlyProperties";
+    public static final String REMOVE_MIGRATION_PROJECT_NAME_CLASS = "removeMigrationProjectNameClass";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
@@ -65,6 +66,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
     public static final String USE_CLASSES = "useClasses";
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
+    public static final String GENERATE_FROZEN_ENUMS = "generateFrozenEnums";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
@@ -75,18 +77,21 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected static final String RESPONSE_LIBRARY_RX_SWIFT = "RxSwift";
     protected static final String RESPONSE_LIBRARY_RESULT = "Result";
     protected static final String RESPONSE_LIBRARY_COMBINE = "Combine";
-    protected static final String[] RESPONSE_LIBRARIES = {RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE};
+    protected static final String RESPONSE_LIBRARY_ASYNC_AWAIT = "AsyncAwait";
+    protected static final String[] RESPONSE_LIBRARIES = {RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_ASYNC_AWAIT};
     protected String projectName = "OpenAPIClient";
     protected boolean nonPublicApi = false;
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
     protected boolean readonlyProperties = false;
+    protected boolean removeMigrationProjectNameClass = false;
     protected boolean swiftUseApiNamespace = false;
     protected boolean useSPMFileStructure = false;
     protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
     protected boolean useClasses = false;
     protected boolean useBacktickEscapes = false;
     protected boolean generateModelAdditionalProperties = true;
+    protected boolean generateFrozenEnums = true;
     protected boolean hashableModels = true;
     protected boolean mapFileBinaryToData = false;
     protected String[] responseAs = new String[0];
@@ -263,6 +268,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 "Documentation URL used for Podspec"));
         cliOptions.add(new CliOption(READONLY_PROPERTIES, "Make properties "
                 + "readonly (default: false)"));
+        cliOptions.add(new CliOption(REMOVE_MIGRATION_PROJECT_NAME_CLASS, "Make properties "
+                + "removeMigrationProjectNameClass (default: false)"));
         cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE,
                 "Flag to make all the API classes inner-class "
                         + "of {{projectName}}API"));
@@ -276,6 +283,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(USE_BACKTICK_ESCAPES,
                 "Escape reserved words using backticks (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(GENERATE_FROZEN_ENUMS,
+                "Generate frozen enums (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(GENERATE_MODEL_ADDITIONAL_PROPERTIES,
                 "Generate model additional properties (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
@@ -439,6 +449,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_COMBINE)) {
             additionalProperties.put("useCombine", true);
         }
+        if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_ASYNC_AWAIT)) {
+            additionalProperties.put("useAsyncAwait", true);
+        }
 
         // Setup readonlyProperties option, which declares properties so they can only
         // be set at initialization
@@ -447,8 +460,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         additionalProperties.put(READONLY_PROPERTIES, readonlyProperties);
 
+        // Setup removeMigrationProjectNameClass option, which keeps or remove the projectName class
+        if (additionalProperties.containsKey(REMOVE_MIGRATION_PROJECT_NAME_CLASS)) {
+            setRemoveMigrationProjectNameClass(convertPropertyToBooleanAndWriteBack(REMOVE_MIGRATION_PROJECT_NAME_CLASS));
+        }
+        additionalProperties.put(REMOVE_MIGRATION_PROJECT_NAME_CLASS, removeMigrationProjectNameClass);
+
         // Setup swiftUseApiNamespace option, which makes all the API
-        // classes inner-class of {{projectName}}
+        // classes inner-class of {{projectName}}API
         if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
             setSwiftUseApiNamespace(convertPropertyToBooleanAndWriteBack(SWIFT_USE_API_NAMESPACE));
         }
@@ -470,6 +489,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties.containsKey(USE_BACKTICK_ESCAPES)) {
             setUseBacktickEscapes(convertPropertyToBooleanAndWriteBack(USE_BACKTICK_ESCAPES));
         }
+
+        // Setup generateFrozenEnums option. If true, enums will strictly include
+        // cases matching the spec. If false, enums will also include an extra catch-all case.
+        if (additionalProperties.containsKey(GENERATE_FROZEN_ENUMS)) {
+            setGenerateFrozenEnums(convertPropertyToBooleanAndWriteBack(GENERATE_FROZEN_ENUMS));
+        }
+        additionalProperties.put(GENERATE_FROZEN_ENUMS, generateFrozenEnums);
 
         if (additionalProperties.containsKey(GENERATE_MODEL_ADDITIONAL_PROPERTIES)) {
             setGenerateModelAdditionalProperties(convertPropertyToBooleanAndWriteBack(GENERATE_MODEL_ADDITIONAL_PROPERTIES));
@@ -721,7 +747,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 // In Java, we need to be creative to get the Timestamp in Microseconds as a long.
                 Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
                 long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + (instant.get(ChronoField.MICRO_OF_SECOND));
-                return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
+                return "Date(timeIntervalSince1970: " + epochMicro + ".0 / 1_000_000)";
             } else if (ModelUtils.isStringSchema(p)) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
             }
@@ -901,6 +927,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.readonlyProperties = readonlyProperties;
     }
 
+    public void setRemoveMigrationProjectNameClass(boolean removeMigrationProjectNameClass) {
+        this.removeMigrationProjectNameClass = removeMigrationProjectNameClass;
+    }
+
     public void setResponseAs(String[] responseAs) {
         this.responseAs = responseAs;
     }
@@ -925,6 +955,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.useBacktickEscapes = useBacktickEscapes;
     }
 
+    public void setGenerateFrozenEnums(boolean generateFrozenEnums) {
+        this.generateFrozenEnums = generateFrozenEnums;
+    }
+
     public void setGenerateModelAdditionalProperties(boolean generateModelAdditionalProperties) {
         this.generateModelAdditionalProperties = generateModelAdditionalProperties;
     }
@@ -937,7 +971,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toEnumValue(String value, String datatype) {
         // for string, array of string
         if ("String".equals(datatype) || "[String]".equals(datatype) || "[String: String]".equals(datatype)) {
-            return "\"" + String.valueOf(value) + "\"";
+            return "\"" + value + "\"";
         } else {
             return String.valueOf(value);
         }
@@ -1097,7 +1131,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = swiftPostProcessFile + " " + file.toString();
+            String command = swiftPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -1128,7 +1162,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             for (CodegenParameter cp : operation.allParams) {
-                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<String>()));
+                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<>()));
             }
         }
         return objs;

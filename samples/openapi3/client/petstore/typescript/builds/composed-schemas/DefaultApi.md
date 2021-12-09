@@ -27,7 +27,7 @@ const apiInstance = new petstore.DefaultApi(configuration);
 let body:petstore.DefaultApiFilePostRequest = {
   // InlineObject (optional)
   inlineObject: {
-    file: ,
+    file: null,
   },
 };
 
@@ -81,7 +81,7 @@ const apiInstance = new petstore.DefaultApi(configuration);
 
 let body:petstore.DefaultApiPetsFilteredPatchRequest = {
   // PetByAge | PetByType (optional)
-  petByAgePetByType: ,
+  petByAgePetByType: null,
 };
 
 apiInstance.petsFilteredPatch(body).then((data:any) => {
@@ -134,7 +134,7 @@ const apiInstance = new petstore.DefaultApi(configuration);
 
 let body:petstore.DefaultApiPetsPatchRequest = {
   // Cat | Dog (optional)
-  catDog: ,
+  catDog: null,
 };
 
 apiInstance.petsPatch(body).then((data:any) => {

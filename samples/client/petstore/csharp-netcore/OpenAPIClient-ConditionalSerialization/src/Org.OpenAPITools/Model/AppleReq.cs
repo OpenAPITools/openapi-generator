@@ -45,7 +45,10 @@ namespace Org.OpenAPITools.Model
         public AppleReq(string cultivar = default(string), bool mealy = default(bool))
         {
             // to ensure "cultivar" is required (not null)
-            this._Cultivar = cultivar ?? throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null");
+            if (cultivar == null) {
+                throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null");
+            }
+            this._Cultivar = cultivar;
             this._Mealy = mealy;
         }
 
@@ -103,7 +106,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class AppleReq {\n");
             sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
             sb.Append("  Mealy: ").Append(Mealy).Append("\n");
@@ -150,8 +153,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 if (this.Cultivar != null)
-                    hashCode = hashCode * 59 + this.Cultivar.GetHashCode();
-                hashCode = hashCode * 59 + this.Mealy.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Cultivar.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.Mealy.GetHashCode();
                 return hashCode;
             }
         }
@@ -161,7 +166,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
         {
             yield break;
         }

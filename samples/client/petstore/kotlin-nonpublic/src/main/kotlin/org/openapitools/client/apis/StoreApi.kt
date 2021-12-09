@@ -23,6 +23,7 @@ package org.openapitools.client.apis
 import org.openapitools.client.models.Order
 
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiInfrastructureResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -38,7 +39,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://petstore.swagger.io/v2")
         }
     }
 
@@ -53,11 +54,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun deleteOrder(orderId: kotlin.String) : Unit {
-        val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
-
-        val localVarResponse = request<Unit, Unit>(
-            localVariableConfig
-        )
+        val localVarResponse = deleteOrderWithHttpInfo(orderId = orderId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -72,6 +69,24 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    /**
+    * Delete purchase order by ID
+    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    * @param orderId ID of the order that needs to be deleted 
+    * @return ApiInfrastructureResponse<Unit?>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun deleteOrderWithHttpInfo(orderId: kotlin.String) : ApiInfrastructureResponse<Unit?> {
+        val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
+
+        return request<Unit, Unit>(
+            localVariableConfig
+        )
     }
 
     /**
@@ -105,11 +120,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getInventory() : kotlin.collections.Map<kotlin.String, kotlin.Int> {
-        val localVariableConfig = getInventoryRequestConfig()
-
-        val localVarResponse = request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
-            localVariableConfig
-        )
+        val localVarResponse = getInventoryWithHttpInfo()
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.Map<kotlin.String, kotlin.Int>
@@ -124,6 +135,24 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    /**
+    * Returns pet inventories by status
+    * Returns a map of status codes to quantities
+    * @return ApiInfrastructureResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getInventoryWithHttpInfo() : ApiInfrastructureResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> {
+        val localVariableConfig = getInventoryRequestConfig()
+
+        return request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
+            localVariableConfig
+        )
     }
 
     /**
@@ -157,11 +186,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getOrderById(orderId: kotlin.Long) : Order {
-        val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
-
-        val localVarResponse = request<Unit, Order>(
-            localVariableConfig
-        )
+        val localVarResponse = getOrderByIdWithHttpInfo(orderId = orderId)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Order
@@ -176,6 +201,25 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    /**
+    * Find purchase order by ID
+    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    * @param orderId ID of pet that needs to be fetched 
+    * @return ApiInfrastructureResponse<Order?>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : ApiInfrastructureResponse<Order?> {
+        val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
+
+        return request<Unit, Order>(
+            localVariableConfig
+        )
     }
 
     /**
@@ -210,11 +254,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun placeOrder(body: Order) : Order {
-        val localVariableConfig = placeOrderRequestConfig(body = body)
-
-        val localVarResponse = request<Order, Order>(
-            localVariableConfig
-        )
+        val localVarResponse = placeOrderWithHttpInfo(body = body)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Order
@@ -229,6 +269,25 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    /**
+    * Place an order for a pet
+    * 
+    * @param body order placed for purchasing the pet 
+    * @return ApiInfrastructureResponse<Order?>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun placeOrderWithHttpInfo(body: Order) : ApiInfrastructureResponse<Order?> {
+        val localVariableConfig = placeOrderRequestConfig(body = body)
+
+        return request<Order, Order>(
+            localVariableConfig
+        )
     }
 
     /**

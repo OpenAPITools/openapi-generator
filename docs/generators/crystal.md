@@ -41,10 +41,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
+<li>::File</li>
 <li>Array</li>
 <li>Boolean</li>
 <li>Date</li>
-<li>File</li>
 <li>Float</li>
 <li>Hash</li>
 <li>Integer</li>
@@ -58,6 +58,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>abstract</li>
 <li>alias</li>
+<li>annotation</li>
 <li>as</li>
 <li>as?</li>
 <li>asm</li>

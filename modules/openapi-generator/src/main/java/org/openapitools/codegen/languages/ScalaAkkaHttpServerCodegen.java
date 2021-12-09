@@ -50,7 +50,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     public static final String GENERATE_AS_MANAGED_SOURCES_DESC = "Resulting files cab be used as managed resources. No build files or default controllers will be generated";
     public static final boolean DEFAULT_GENERATE_AS_MANAGED_SOURCES = false;
 
-    static final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -264,16 +264,17 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     @Override
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter param = super.fromParameter(parameter, imports);
-        // Removing unhandled types
-        if (!primitiveParamTypes.contains(param.dataType)) {
-            param.dataType = "String";
-        }
-        if (!param.required) {
-            param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
-            // Escaping default string values
-            if (param.defaultValue != null && "String".equals(param.dataType)) {
-                param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
+        if (primitiveParamTypes.contains(param.dataType)) {
+            if (!param.required) {
+                param.vendorExtensions.put("x-has-default-value", param.defaultValue != null);
+                // Escaping default string values
+                if (param.defaultValue != null && "String".equals(param.dataType)) {
+                    param.defaultValue = String.format(Locale.ROOT, "\"%s\"", param.defaultValue);
+                }
             }
+        } else {
+            // Removing unhandled types
+            param.dataType = "String";
         }
         return param;
     }
@@ -305,7 +306,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         .put("String", "Segment")
     .build();
 
-    protected static void addPathMatcher(CodegenOperation codegenOperation) {
+    protected void addPathMatcher(CodegenOperation codegenOperation) {
         LinkedList<String> allPaths = new LinkedList<>(Arrays.asList(codegenOperation.path.split("/")));
         allPaths.removeIf(""::equals);
 

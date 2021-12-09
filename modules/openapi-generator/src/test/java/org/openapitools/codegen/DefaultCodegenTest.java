@@ -222,6 +222,7 @@ public class DefaultCodegenTest {
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
+        Assert.assertEquals(codegenParameter.getSchema(), null);
     }
 
     @Test
@@ -2035,6 +2036,9 @@ public class DefaultCodegenTest {
         Assert.assertEquals(parameter.dataType, "PageQuery1");
         Assert.assertEquals(imports.size(), 1);
         Assert.assertEquals(imports.iterator().next(), "PageQuery1");
+
+        Assert.assertNotNull(parameter.getSchema());
+        Assert.assertEquals(parameter.getSchema().baseType, "object");
     }
 
     @Test
@@ -2425,7 +2429,7 @@ public class DefaultCodegenTest {
         Schema sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel cm = codegen.fromModel(modelName, sc);
 
-        final Set<CodegenDiscriminator.MappedModel> expectedMappedModels = new HashSet<>(Arrays.asList(new CodegenDiscriminator.MappedModel("UserSleep", "UserSleep")));
+        final Set<CodegenDiscriminator.MappedModel> expectedMappedModels = Sets.newHashSet(new CodegenDiscriminator.MappedModel("UserSleep", "UserSleep"));
         final Set<CodegenDiscriminator.MappedModel> mappedModels = cm.getDiscriminator().getMappedModels();
         assertEquals(mappedModels, expectedMappedModels);
 
@@ -3635,5 +3639,369 @@ public class DefaultCodegenTest {
         operation = openAPI.getPaths().get(path).getGet();
         co = codegen.fromOperation(path, "GET", operation, null);
         assertEquals(co.operationId, "getAll");
+    }
+
+    @Test
+    public void testComposedPropertyTypes() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10330.yaml");
+        codegen.setOpenAPI(openAPI);
+        String modelName;
+
+        modelName = "ObjectWithComposedProperties";
+        CodegenModel m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.vars.get(0).getIsMap());
+        assertTrue(m.vars.get(1).getIsNumber());
+        assertTrue(m.vars.get(2).getIsUnboundedInteger());
+        assertTrue(m.vars.get(3).getIsString());
+        assertTrue(m.vars.get(4).getIsBoolean());
+        assertTrue(m.vars.get(5).getIsArray());
+        assertTrue(m.vars.get(6).getIsNull());
+        assertTrue(m.vars.get(7).getIsAnyType());
+    }
+
+    @Test
+    public void testComposedModelTypes() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10330.yaml");
+        codegen.setOpenAPI(openAPI);
+        String modelName;
+        CodegenModel m;
+
+        modelName = "ComposedObject";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsMap());
+
+        modelName = "ComposedNumber";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsNumber());
+
+        modelName = "ComposedInteger";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsUnboundedInteger());
+
+        modelName = "ComposedString";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsString());
+
+        modelName = "ComposedBool";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsBoolean());
+
+        modelName = "ComposedArray";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsArray());
+
+        modelName = "ComposedNone";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsNull());
+
+        modelName = "ComposedAnyType";
+        m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        assertTrue(m.getIsAnyType());
+    }
+
+    @Test
+    public void testComposedResponseTypes() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10330.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+        CodegenResponse cr;
+
+        path = "/ComposedObject";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cr = co.responses.get(0);
+        assertTrue(cr.getIsMap());
+
+        path = "/ComposedNumber";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cr = co.responses.get(0);
+        assertTrue(cr.getIsNumber());
+
+        path = "/ComposedInteger";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cr = co.responses.get(0);
+        assertTrue(cr.getIsUnboundedInteger());
+
+        path = "/ComposedString";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cr = co.responses.get(0);
+        assertTrue(cr.getIsString());
+
+        path = "/ComposedBool";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cr = co.responses.get(0);
+        assertTrue(cr.getIsBoolean());
+
+        path = "/ComposedArray";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cr = co.responses.get(0);
+        assertTrue(cr.getIsArray());
+
+        path = "/ComposedNone";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cr = co.responses.get(0);
+        assertTrue(cr.getIsNull());
+
+        path = "/ComposedAnyType";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cr = co.responses.get(0);
+        assertTrue(cr.getIsAnyType());
+    }
+
+    @Test
+    public void testComposedRequestBodyTypes() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10330.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+        CodegenParameter cp;
+
+        path = "/ComposedObject";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsMap());
+
+        path = "/ComposedNumber";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsNumber());
+
+        path = "/ComposedInteger";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsUnboundedInteger());
+
+        path = "/ComposedString";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsString());
+
+        path = "/ComposedBool";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsBoolean());
+
+        path = "/ComposedArray";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsArray());
+
+        path = "/ComposedNone";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsNull());
+
+        path = "/ComposedAnyType";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.getIsAnyType());
+    }
+
+    @Test
+    public void testComposedRequestQueryParamTypes() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10330.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+        CodegenParameter cp;
+
+        path = "/ComposedObject";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsMap());
+
+        path = "/ComposedNumber";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsNumber());
+
+        path = "/ComposedInteger";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsUnboundedInteger());
+
+        path = "/ComposedString";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsString());
+
+        path = "/ComposedBool";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsBoolean());
+
+        path = "/ComposedArray";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsArray());
+
+        path = "/ComposedNone";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsNull());
+
+        path = "/ComposedAnyType";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        cp = co.queryParams.get(0);
+        assertTrue(cp.getIsAnyType());
+    }
+
+    @Test
+    public void testByteArrayTypeInSchemas() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10725.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+        CodegenParameter cp;
+
+        path = "/TxRxByteArray";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        cp = co.bodyParam;
+        assertTrue(cp.isByteArray);
+        assertFalse(cp.getIsString());
+        CodegenResponse cr = co.responses.get(0);
+        assertTrue(cr.isByteArray);
+        assertFalse(cr.getIsString());
+
+        String modelName = "ObjectContainingByteArray";
+        CodegenModel m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        CodegenProperty pr = m.vars.get(0);
+        assertTrue(pr.isByteArray);
+        assertFalse(pr.getIsString());
+    }
+
+    @Test
+    public void testResponses() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/response-tests.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+        CodegenParameter cpa;
+        CodegenResponse cr;
+
+        path = "/pet/{petId}";
+        operation = openAPI.getPaths().get(path).getGet();
+        co = codegen.fromOperation(path, "GET", operation, null);
+        //assertTrue(co.hasErrorResponseObject);
+        cr = co.responses.get(0);
+        assertTrue(cr.is2xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+        cr = co.responses.get(3);
+        assertTrue(cr.is5xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+
+        path = "/pet";
+        operation = openAPI.getPaths().get(path).getPut();
+        co = codegen.fromOperation(path, "PUT", operation, null);
+        assertTrue(co.hasErrorResponseObject);
+
+        // 200 response
+        cr = co.responses.get(0);
+        assertTrue(cr.is2xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+
+        // 400 response
+        cr = co.responses.get(1);
+        assertTrue(cr.is4xx);
+        assertEquals(cr.code, "400");
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+
+        path = "/pet/findByTags";
+        operation = openAPI.getPaths().get(path).getGet();
+        co = codegen.fromOperation(path, "GET", operation, null);
+        assertFalse(co.hasErrorResponseObject);
+        cr = co.responses.get(0);
+        assertTrue(cr.is2xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+    }
+
+    public void testParameterContent() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+
+        path = "/jsonQueryParams";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        CodegenParameter coordinatesInlineSchema = co.queryParams.get(0);
+        LinkedHashMap<String, CodegenMediaType> content = coordinatesInlineSchema.getContent();
+        assertNotNull(content);
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json")));
+        CodegenMediaType mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        CodegenProperty cp = mt.getSchema();
+        assertTrue(cp.isMap);
+        assertEquals(cp.complexType, "object");
+
+        CodegenParameter coordinatesReferencedSchema = co.queryParams.get(1);
+        content = coordinatesReferencedSchema.getContent();
+        mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertFalse(cp.isMap); // because it is a referenced schema
+        assertEquals(cp.complexType, "coordinates");
+    }
+
+    @Test
+    public void testRequestBodyContent() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+
+        path = "/inlineRequestBodySchemasDifferingByContentType";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        CodegenParameter bodyParameter = co.bodyParam;
+        LinkedHashMap<String, CodegenMediaType> content = bodyParameter.getContent();
+        assertNotNull(content);
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));
+        CodegenMediaType mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        CodegenProperty cp = mt.getSchema();
+        assertEquals(cp.baseName, "ApplicationJsonSchema");
+        assertNotNull(cp);
+
+        mt = content.get("text/plain");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertEquals(cp.baseName, "TextPlainSchema");
+        assertNotNull(cp);
+        // Note: the inline model resolver has a bug for this use case; it extracts an inline request body into a component
+        // but the schema it references is not string type
+
+        path = "/refRequestBodySchemasDifferingByContentType";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        bodyParameter = co.bodyParam;
+        content = bodyParameter.getContent();
+        assertNotNull(content);
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));
+        mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertEquals(cp.baseName, "ApplicationJsonSchema");
+        assertEquals(cp.complexType, "coordinates");
+
+        mt = content.get("text/plain");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertEquals(cp.baseName, "TextPlainSchema");
+        assertTrue(cp.isString);
     }
 }

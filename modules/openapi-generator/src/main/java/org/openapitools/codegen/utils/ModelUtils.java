@@ -408,6 +408,21 @@ public class ModelUtils {
     }
 
     /**
+     * Return true if the specified schema is type object
+     * We can't use isObjectSchema because it requires properties to exist which is not required
+     * We can't use isMap because it is true for AnyType use cases
+     *
+     * @param schema the OAS schema
+     * @return true if the specified schema is an Object schema.
+     */
+    public static boolean isTypeObjectSchema(Schema schema) {
+        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Return true if the specified schema is an object with a fixed number of properties.
      *
      * A ObjectSchema differs from an MapSchema in the following way:
@@ -1058,7 +1073,7 @@ public class ModelUtils {
      */
     public static Schema unaliasSchema(OpenAPI openAPI,
                                        Schema schema) {
-        return unaliasSchema(openAPI, schema, Collections.<String, String>emptyMap());
+        return unaliasSchema(openAPI, schema, Collections.emptyMap());
     }
 
     /**
@@ -1243,7 +1258,7 @@ public class ModelUtils {
         } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
             return composed.getOneOf();
         } else {
-            return Collections.<Schema>emptyList();
+            return Collections.emptyList();
         }
     }
 
@@ -1487,16 +1502,21 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * For when a type is not defined on a schema
+     * Note: properties, additionalProperties, enums, validations, items, and composed schemas (oneOf/anyOf/allOf)
+     * can be defined or omitted on these any type schemas
+     * @param schema the schema that we are checking
+     * @return boolean
+     */
+    public static boolean isAnyType(Schema schema) {
+        return (schema.get$ref() == null && schema.getType() == null);
+    }
+
     public static void syncValidationProperties(Schema schema, IJsonSchemaValidationProperties target) {
+        // TODO move this method to IJsonSchemaValidationProperties
         if (schema != null && target != null) {
             if (isNullType(schema) || schema.get$ref() != null || isBooleanSchema(schema)) {
-                return;
-            }
-            boolean isAnyType = (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
-                    (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
-                    schema.getAdditionalProperties() == null && schema.getNot() == null &&
-                    schema.getEnum() == null);
-            if (isAnyType) {
                 return;
             }
             Integer minItems = schema.getMinItems();
@@ -1515,7 +1535,7 @@ public class ModelUtils {
 
             if (isArraySchema(schema)) {
                 setArrayValidations(minItems, maxItems, uniqueItems, target);
-            } else if (isMapSchema(schema) || isObjectSchema(schema)) {
+            } else if (isTypeObjectSchema(schema)) {
                 setObjectValidations(minProperties, maxProperties, target);
             } else if (isStringSchema(schema)) {
                 setStringValidations(minLength, maxLength, pattern, target);
@@ -1524,8 +1544,8 @@ public class ModelUtils {
                 }
             } else if (isNumberSchema(schema) || isIntegerSchema(schema)) {
                 setNumericValidations(schema, multipleOf, minimum, maximum, exclusiveMinimum, exclusiveMaximum, target);
-            } else if (isComposedSchema(schema)) {
-                // this could be composed out of anything so set all validations here
+            } else if (isAnyType(schema)) {
+                // anyType can have any validations set on it
                 setArrayValidations(minItems, maxItems, uniqueItems, target);
                 setObjectValidations(minProperties, maxProperties, target);
                 setStringValidations(minLength, maxLength, pattern, target);

@@ -12,8 +12,8 @@
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
-#include <pistache/optional.h>
 {{^hasModelImport}}#include <nlohmann/json.hpp>{{/hasModelImport}}
+#include <optional>
 #include <utility>
 
 {{#imports}}{{{import}}}

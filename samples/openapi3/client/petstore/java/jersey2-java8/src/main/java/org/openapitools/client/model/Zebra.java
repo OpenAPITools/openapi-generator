@@ -84,6 +84,8 @@ public class Zebra {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;
 
+  public Zebra() { 
+  }
 
   public Zebra type(TypeEnum type) {
     this.type = type;

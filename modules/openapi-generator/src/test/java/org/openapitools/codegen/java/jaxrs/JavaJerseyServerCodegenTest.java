@@ -119,7 +119,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
 
         // Check files for Single, Mixed
-        String[] fileS = new String[] {
+        String[] fileS = {
                                "MultipartSingleApi.java", "MultipartSingleApiService.java", "MultipartSingleApiServiceImpl.java",
                                "MultipartMixedApi.java",  "MultipartMixedApiService.java",  "MultipartMixedApiServiceImpl.java"    };
         for (String f : fileS){
@@ -127,7 +127,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         }
 
         // Check files for Array
-        final String[] fileA = new String[] { "MultipartArrayApiService.java", "MultipartArrayApi.java", "MultipartArrayApiServiceImpl.java"};
+        final String[] fileA = { "MultipartArrayApiService.java", "MultipartArrayApi.java", "MultipartArrayApiServiceImpl.java"};
         for (String f : fileA) {
             assertFileContains( files.get(f).toPath(), "List<FormDataBodyPart> files");
         }

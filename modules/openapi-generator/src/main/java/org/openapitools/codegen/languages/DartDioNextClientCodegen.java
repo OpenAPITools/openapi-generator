@@ -37,7 +37,12 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DartDioNextClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DartDioNextClientCodegen.class);
+
+    public static final String DIO_LIBRARY = "dioLibrary";
+    public static final String DIO_ORIGINAL = "dio";
+    public static final String DIO_HTTP = "dio_http";
+    public static final String DIO_LIBRARY_DEFAULT = DIO_ORIGINAL;
 
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String DATE_LIBRARY_CORE = "core";
@@ -47,10 +52,12 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     public static final String SERIALIZATION_LIBRARY_BUILT_VALUE = "built_value";
     public static final String SERIALIZATION_LIBRARY_DEFAULT = SERIALIZATION_LIBRARY_BUILT_VALUE;
 
-    private static final String DIO_IMPORT = "package:dio/dio.dart";
     private static final String CLIENT_NAME = "clientName";
 
     private String dateLibrary;
+
+    private String dioLibrary;
+    private String dioImport;
 
     private String clientName;
 
@@ -80,6 +87,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
         cliOptions.add(serializationLibrary);
 
+        // Date Library Option
         final CliOption dateOption = CliOption.newString(DATE_LIBRARY, "Specify Date library");
         dateOption.setDefault(DATE_LIBRARY_DEFAULT);
 
@@ -88,6 +96,16 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         dateOptions.put(DATE_LIBRARY_TIME_MACHINE, "Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.");
         dateOption.setEnum(dateOptions);
         cliOptions.add(dateOption);
+
+        // Dio Library Option
+        final CliOption dioOption = CliOption.newString(DIO_LIBRARY, "Specify Dio library");
+        dioOption.setDefault(DIO_LIBRARY_DEFAULT);
+
+        final Map<String, String> dioOptions = new HashMap<>();
+        dioOptions.put(DIO_ORIGINAL, "[DEFAULT] dio 4.x");
+        dioOptions.put(DIO_HTTP, "dio_http 5.x");
+        dioOption.setEnum(dioOptions);
+        cliOptions.add(dioOption);
     }
 
     public String getDateLibrary() {
@@ -96,6 +114,14 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
+    }
+
+    public String getDioLibrary() {
+        return dioLibrary;
+    }
+
+    public void setDioLibrary(String library) {
+        this.dioLibrary = library;
     }
 
     public String getClientName() {
@@ -137,6 +163,12 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         }
         setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
 
+        if (!additionalProperties.containsKey(DIO_LIBRARY)) {
+            additionalProperties.put(DIO_LIBRARY, DIO_LIBRARY_DEFAULT);
+            LOGGER.debug("Dio library not set, using default {}", DIO_LIBRARY_DEFAULT);
+        }
+        setDioLibrary(additionalProperties.get(DIO_LIBRARY).toString());
+
         if (!additionalProperties.containsKey(CLIENT_NAME)) {
             final String name = org.openapitools.codegen.utils.StringUtils.camelize(pubName);
             additionalProperties.put(CLIENT_NAME, name);
@@ -162,8 +194,21 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
+        configureDioLibrary();
         configureSerializationLibrary(srcFolder);
         configureDateLibrary(srcFolder);
+    }
+
+    private void configureDioLibrary() {
+        switch (dioLibrary) {
+            case DIO_HTTP:
+                dioImport = "package:dio_http/dio_http.dart";
+                break;
+            case DIO_ORIGINAL:
+            default:
+                dioImport = "package:dio/dio.dart";
+                break;
+        }
     }
 
     private void configureSerializationLibrary(String srcFolder) {
@@ -171,6 +216,9 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             default:
             case SERIALIZATION_LIBRARY_BUILT_VALUE:
                 additionalProperties.put("useBuiltValue", "true");
+                additionalProperties.put("useDioHttp", dioLibrary.equals(DIO_HTTP));
+                additionalProperties.put("dioImport", dioImport);
+                additionalProperties.put("dioLibrary", dioLibrary);
                 configureSerializationLibraryBuiltValue(srcFolder);
                 break;
         }
@@ -195,7 +243,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         imports.put("BuiltMap", "package:built_collection/built_collection.dart");
         imports.put("JsonObject", "package:built_value/json_object.dart");
         imports.put("Uint8List", "dart:typed_data");
-        imports.put("MultipartFile", DIO_IMPORT);
+        imports.put("MultipartFile", dioImport);
     }
 
     private void configureDateLibrary(String srcFolder) {
@@ -275,6 +323,21 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 // enums are generated with built_value and make use of BuiltSet
                 model.imports.add("BuiltSet");
             }
+
+            if (property.isContainer) {
+                // Figure out if there are any container type additionalProperties
+                // that need a custom serializer builder factory added.
+                final CodegenProperty items = property.items;
+                if (items.getAdditionalProperties() != null) {
+                    addBuiltValueSerializer(new BuiltValueSerializer(
+                            items.isArray,
+                            items.getUniqueItems(),
+                            items.isMap,
+                            items.items.isNullable,
+                            items.getAdditionalProperties().dataType
+                    ));
+                }
+            }
         }
     }
 
@@ -284,7 +347,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
-        Set<Map<String, Object>> serializers = new HashSet<>();
         Set<String> resultImports = new HashSet<>();
 
         for (CodegenOperation op : operationList) {
@@ -322,12 +384,13 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 // Generate serializer factories for all container type parameters.
                 // But skip binary and file parameters, JSON serializers don't make sense there.
                 if (param.isContainer && !(param.isBinary || param.isFile )) {
-                    final Map<String, Object> serializer = new HashMap<>();
-                    serializer.put("isArray", param.isArray);
-                    serializer.put("uniqueItems", param.uniqueItems);
-                    serializer.put("isMap", param.isMap);
-                    serializer.put("baseType", param.baseType);
-                    serializers.add(serializer);
+                    addBuiltValueSerializer(new BuiltValueSerializer(
+                            param.isArray,
+                            param.uniqueItems,
+                            param.isMap,
+                            param.items.isNullable,
+                            param.baseType
+                    ));
                 }
             }
 
@@ -339,17 +402,17 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             // Generate serializer factories for response types.
             // But skip binary and file response, JSON serializers don't make sense there.
             if (op.returnContainer != null && !(op.isResponseBinary || op.isResponseFile)) {
-                final Map<String, Object> serializer = new HashMap<>();
-                serializer.put("isArray", Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer));
-                serializer.put("uniqueItems", op.uniqueItems);
-                serializer.put("isMap", Objects.equals("map", op.returnContainer));
-                serializer.put("baseType", op.returnBaseType);
-                serializers.add(serializer);
+                addBuiltValueSerializer(new BuiltValueSerializer(
+                        Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer),
+                        op.uniqueItems,
+                        Objects.equals("map", op.returnContainer),
+                        false,
+                        op.returnBaseType
+                ));
             }
         }
 
         objs.put("imports", resultImports.stream().sorted().collect(Collectors.toList()));
-        objs.put("serializers", serializers);
 
         return objs;
     }
@@ -362,20 +425,89 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         });
     }
 
+    /**
+     * Adds the serializer to the global list of custom built_value serializers.
+     * @param serializer
+     */
+    private void addBuiltValueSerializer(BuiltValueSerializer serializer) {
+        System.out.println("######## Add serializer!");
+        additionalProperties.compute("builtValueSerializers", (k, v) -> {
+            Set<BuiltValueSerializer> serializers = v == null ? Sets.newHashSet() : ((Set<BuiltValueSerializer>) v);
+            serializers.add(serializer);
+            return serializers;
+        });
+    }
+
     private Set<String> rewriteImports(Set<String> originalImports, boolean isModel) {
         Set<String> resultImports = Sets.newHashSet();
         for (String modelImport : originalImports) {
             if (imports.containsKey(modelImport)) {
                 String i = imports.get(modelImport);
-                if (Objects.equals(i, DIO_IMPORT) && !isModel) {
+                if (Objects.equals(i, dioImport) && !isModel) {
                     // Don't add imports to operations that are already imported
                     continue;
                 }
                 resultImports.add(i);
+            } else if (importMapping().containsKey(modelImport)) {
+                resultImports.add(importMapping().get(modelImport));
             } else {
                 resultImports.add("package:" + pubName + "/src/model/" + underscore(modelImport) + ".dart");
             }
         }
         return resultImports;
+    }
+
+    static class BuiltValueSerializer {
+
+        final boolean isArray;
+
+        final boolean uniqueItems;
+
+        final boolean isMap;
+
+        final boolean isNullable;
+
+        final String dataType;
+
+        private BuiltValueSerializer(boolean isArray, boolean uniqueItems, boolean isMap, boolean isNullable, String dataType) {
+            this.isArray = isArray;
+            this.uniqueItems = uniqueItems;
+            this.isMap = isMap;
+            this.isNullable = isNullable;
+            this.dataType = dataType;
+        }
+
+        public boolean isArray() {
+            return isArray;
+        }
+
+        public boolean isUniqueItems() {
+            return uniqueItems;
+        }
+
+        public boolean isMap() {
+            return isMap;
+        }
+
+        public boolean isNullable() {
+            return isNullable;
+        }
+
+        public String getDataType() {
+            return dataType;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            BuiltValueSerializer that = (BuiltValueSerializer) o;
+            return isArray == that.isArray && uniqueItems == that.uniqueItems && isMap == that.isMap && isNullable == that.isNullable && dataType.equals(that.dataType);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(isArray, uniqueItems, isMap, isNullable, dataType);
+        }
     }
 }

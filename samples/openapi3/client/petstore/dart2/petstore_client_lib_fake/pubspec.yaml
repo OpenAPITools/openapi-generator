@@ -12,7 +12,5 @@ dependencies:
   http: '>=0.13.0 <0.14.0'
   intl: '^0.17.0'
   meta: '^1.1.8'
-
 dev_dependencies:
   test: '>=1.16.0 <1.18.0'
-

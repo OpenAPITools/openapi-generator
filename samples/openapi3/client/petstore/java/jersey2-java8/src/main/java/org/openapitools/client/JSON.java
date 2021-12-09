@@ -2,6 +2,7 @@ package org.openapitools.client;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.openapitools.client.model.*;
@@ -21,7 +22,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
   public JSON() {
     mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    mapper.configure(MapperFeature.ALLOW_COERCION_OF_SCALARS, false);
+    JsonMapper.builder().configure(MapperFeature.ALLOW_COERCION_OF_SCALARS, false);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
     mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, true);
     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
