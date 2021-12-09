@@ -469,7 +469,7 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 156);
+        Assert.assertEquals(files.size(), 162);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Dog.java"),
@@ -694,7 +694,7 @@ public class JavaClientCodegenTest {
 
         // this is the type of the field 'typeAlias'. With a working importMapping it should
         // be 'foo.bar.TypeAlias' or just 'TypeAlias'
-        Assert.assertEquals(fieldMatcher.group(1), "foo.bar.TypeAlias");
+        Assert.assertEquals(fieldMatcher.group(1), "TypeAlias");
     }
 
     @Test
