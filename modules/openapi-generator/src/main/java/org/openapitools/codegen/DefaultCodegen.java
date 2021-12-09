@@ -253,8 +253,8 @@ public class DefaultCodegen implements CodegenConfig {
     // See CodegenConstants.java for more details.
     protected boolean disallowAdditionalPropertiesIfNotPresent = true;
 
-    // If the server adds new enum cases, they are unknown to the old spec/client, so they will fail to parse the network response.
-    // With this option enabled, each enum will have a new cases, ´unknown_default_open_api´, so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.
+    // If the server adds new enum cases, that are unknown by old spec/client, the client will fail to parse the network response.
+    // With the enumUnknownDefaultCase option enabled, each enum will have a new case, ´unknown_default_open_api´, so that when the server send an enum case that is not known by the client/spec, they can safely fallback to this case.
     protected boolean enumUnknownDefaultCase = false;
 
     // make openapi available to all methods
