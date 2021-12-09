@@ -111,7 +111,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("ping_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failuare".into()))
+        Err(ApiError("Generic failure".into()))
     }
 
 }

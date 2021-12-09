@@ -111,7 +111,7 @@ impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("callback_callback_with_header_post({:?}) - X-Span-ID: {:?}", information, context.get().0.clone());
-        Err(ApiError("Generic failuare".into()))
+        Err(ApiError("Generic failure".into()))
     }
 
     async fn callback_callback_post(
@@ -121,7 +121,7 @@ impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("callback_callback_post() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failuare".into()))
+        Err(ApiError("Generic failure".into()))
     }
 
 }

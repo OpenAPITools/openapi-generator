@@ -116,7 +116,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("multipart_related_request_post({:?}, {:?}, {:?}) - X-Span-ID: {:?}", required_binary_field, object_field, optional_binary_field, context.get().0.clone());
-        Err(ApiError("Generic failuare".into()))
+        Err(ApiError("Generic failure".into()))
     }
 
     async fn multipart_request_post(
@@ -129,7 +129,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("multipart_request_post(\"{}\", {:?}, {:?}, {:?}) - X-Span-ID: {:?}", string_field, binary_field, optional_string_field, object_field, context.get().0.clone());
-        Err(ApiError("Generic failuare".into()))
+        Err(ApiError("Generic failure".into()))
     }
 
     async fn multiple_identical_mime_types_post(
@@ -140,7 +140,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("multiple_identical_mime_types_post({:?}, {:?}) - X-Span-ID: {:?}", binary1, binary2, context.get().0.clone());
-        Err(ApiError("Generic failuare".into()))
+        Err(ApiError("Generic failure".into()))
     }
 
 }
