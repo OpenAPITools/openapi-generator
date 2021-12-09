@@ -86,7 +86,7 @@ class Order {
         id: json[r'id'] as int,
         petId: json[r'petId'] as int,
         quantity: json[r'quantity'] as int,
-        shipDate: mapDateTime(json, r'shipDate', ''),
+        shipDate: mapDateTime(json, r'shipDate', '')!,
         status: OrderStatusEnum.fromJson(json[r'status']),
         complete: json[r'complete'] as bool,
     );

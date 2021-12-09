@@ -88,7 +88,7 @@ Future<String> _decodeBodyBytes(Response response) async {
 }
 
 /// Returns a valid [DateTime] found at the specified Map [key], null otherwise.
-DateTime mapDateTime(dynamic map, String key, [String? pattern]) {
+DateTime? mapDateTime(dynamic map, String key, [String? pattern]) {
   final dynamic value = map is Map ? map[key] : null;
   if (value != null) {
     int? millis;
@@ -105,5 +105,5 @@ DateTime mapDateTime(dynamic map, String key, [String? pattern]) {
       return DateTime.fromMillisecondsSinceEpoch(millis, isUtc: true);
     }
   }
-  return DateTime(1970);
+  return null;
 }

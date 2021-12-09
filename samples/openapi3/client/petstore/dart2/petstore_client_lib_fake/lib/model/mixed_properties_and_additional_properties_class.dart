@@ -59,7 +59,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
   // ignore: prefer_constructors_over_static_methods
   static MixedPropertiesAndAdditionalPropertiesClass fromJson(Map<String, dynamic> json) => MixedPropertiesAndAdditionalPropertiesClass(
         uuid: json[r'uuid'] as String,
-        dateTime: mapDateTime(json, r'dateTime', ''),
+        dateTime: mapDateTime(json, r'dateTime', '')!,
         map: json[r'map'] as Map<String, Animal>,
     );
 

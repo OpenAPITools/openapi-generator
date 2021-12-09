@@ -176,8 +176,8 @@ class FormatTest {
         string: json[r'string'] as String,
         byte: json[r'byte'] as String,
         binary: null, // No support for decoding binary content from JSON
-        date: mapDateTime(json, r'date', ''),
-        dateTime: mapDateTime(json, r'dateTime', ''),
+        date: mapDateTime(json, r'date', '')!,
+        dateTime: mapDateTime(json, r'dateTime', '')!,
         uuid: json[r'uuid'] as String,
         password: json[r'password'] as String,
         patternWithDigits: json[r'pattern_with_digits'] as String,

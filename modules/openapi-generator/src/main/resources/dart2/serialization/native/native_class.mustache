@@ -75,10 +75,10 @@ class {{{classname}}} {
   static {{{classname}}} fromJson(Map<String, dynamic> json) => {{{classname}}}(
   {{#vars}}
     {{#isDateTime}}
-        {{{name}}}: mapDateTime(json, r'{{{baseName}}}', '{{{pattern}}}'),
+        {{{name}}}: mapDateTime(json, r'{{{baseName}}}', '{{{pattern}}}'){{^isNullable}}!{{/isNullable}},
     {{/isDateTime}}
     {{#isDate}}
-        {{{name}}}: mapDateTime(json, r'{{{baseName}}}', '{{{pattern}}}'),
+        {{{name}}}: mapDateTime(json, r'{{{baseName}}}', '{{{pattern}}}'){{^isNullable}}!{{/isNullable}},
     {{/isDate}}
     {{^isDateTime}}
       {{^isDate}}
