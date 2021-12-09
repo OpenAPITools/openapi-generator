@@ -20,7 +20,6 @@ import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 import java.net.URLConnection
-import java.util.Date
 import java.util.Locale
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
@@ -248,7 +247,7 @@ open class ApiClient(val baseUrl: String) {
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date ->
+        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime ->
             parseDateToQueryString(value)
         else -> value.toString()
     }

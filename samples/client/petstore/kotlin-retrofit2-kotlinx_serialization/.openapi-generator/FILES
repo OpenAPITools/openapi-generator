@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 README.md
 build.gradle
 docs/ApiResponse.md
@@ -30,7 +31,6 @@ src/main/kotlin/org/openapitools/client/infrastructure/BigDecimalAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/BigIntegerAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ByteArrayAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/CollectionFormats.kt
-src/main/kotlin/org/openapitools/client/infrastructure/DateAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateTimeAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/OffsetDateTimeAdapter.kt
