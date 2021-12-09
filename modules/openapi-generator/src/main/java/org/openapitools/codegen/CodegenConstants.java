@@ -389,8 +389,8 @@ public class CodegenConstants {
 
     public static final String ENUM_UNKNOWN_DEFAULT_CASE = "enumUnknownDefaultCase";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_DESC =
-            "If the server adds new enum cases, that are unknown by old spec/client, the client will fail to parse the network response." +
-            "With the enumUnknownDefaultCase option enabled, each enum will have a new case, ´unknown_default_open_api´, so that when the server send an enum case that is not known by the client/spec, they can safely fallback to this case.";
+            "If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response." +
+            "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.";
 
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.";

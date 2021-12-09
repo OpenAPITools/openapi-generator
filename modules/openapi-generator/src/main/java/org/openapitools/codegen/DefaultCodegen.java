@@ -253,8 +253,8 @@ public class DefaultCodegen implements CodegenConfig {
     // See CodegenConstants.java for more details.
     protected boolean disallowAdditionalPropertiesIfNotPresent = true;
 
-    // If the server adds new enum cases, that are unknown by old spec/client, the client will fail to parse the network response.
-    // With the enumUnknownDefaultCase option enabled, each enum will have a new case, ´unknown_default_open_api´, so that when the server send an enum case that is not known by the client/spec, they can safely fallback to this case.
+    // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
+    // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
     protected boolean enumUnknownDefaultCase = false;
 
     // make openapi available to all methods
@@ -1662,7 +1662,7 @@ public class DefaultCodegen implements CodegenConfig {
         enumUnknownDefaultCaseOpts.put("false",
                 "No changes to the enum's are made, this is the default option.");
         enumUnknownDefaultCaseOpts.put("true",
-                "With this option enabled, each enum will have a new cases, ´unknown_default_open_api´, so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.");
+                "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.");
         enumUnknownDefaultCaseOpt.setEnum(enumUnknownDefaultCaseOpts);
         cliOptions.add(enumUnknownDefaultCaseOpt);
         this.setEnumUnknownDefaultCase(false);
@@ -5898,6 +5898,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (enumUnknownDefaultCase) {
+            // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
+            // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
             Map<String, Object> enumVar = new HashMap<>();
             String enumName = "unknown_default_open_api";
 
@@ -5907,6 +5909,10 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 // This is a dummy value that attempts to avoid collisions with previously specified cases.
                 // Int.min / 192
+                // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
+                // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
+                // Since this functionality was born in the Swift 5 generator and latter on broth to all generatorss
+                // https://github.com/OpenAPITools/openapi-generator/pull/11013
                 enumValue = String.valueOf(-11184809);
             }
 
