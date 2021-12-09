@@ -6,10 +6,10 @@ buildscript {
         maven {
             url 'https://dl.google.com/dl/android/maven2'
         }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10"
         classpath 'com.android.tools.build:gradle:4.0.2'
     }
 }
@@ -17,7 +17,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -25,11 +25,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '30.0.3'
+    compileSdkVersion 30
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -66,15 +65,15 @@ ext {
 
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     implementation "com.google.code.gson:gson:$gson_version"
     implementation "com.android.volley:volley:${volley_version}"
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.robolectric:robolectric:${robolectric_version}"
     testImplementation "net.jodah:concurrentunit:${concurrent_unit_version}"
-    annotationProcessor "androidx.room:room-runtime:2.3.0-alpha03"
-    implementation "androidx.room:room-runtime:2.3.0-alpha03"
+    annotationProcessor "androidx.room:room-runtime:2.3.0"
+    implementation "androidx.room:room-runtime:2.3.0"
 }
 
 afterEvaluate {
