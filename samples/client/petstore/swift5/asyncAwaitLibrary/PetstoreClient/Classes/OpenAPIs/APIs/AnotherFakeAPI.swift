@@ -21,7 +21,7 @@ open class AnotherFakeAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func call123testSpecialTags(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Client {
-        var task: URLSessionTask?
+        var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
             try Task.checkCancellation()
             return try await withCheckedThrowingContinuation { continuation in
@@ -30,7 +30,7 @@ open class AnotherFakeAPI {
                   return
                 }
 
-                task = call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                requestTask = call123testSpecialTagsWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                     switch result {
                     case let .success(response):
                         continuation.resume(returning: response.body)
@@ -39,8 +39,8 @@ open class AnotherFakeAPI {
                     }
                 }
             }
-        } onCancel: { [task] in
-            task?.cancel()
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
