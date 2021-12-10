@@ -3965,12 +3965,12 @@ public class DefaultCodegen implements CodegenConfig {
                     for (Entry<String, Header> entry: headers.entrySet()) {
                         String headerName = entry.getKey();
                         Header header = entry.getValue();
-                        CodegenParameter responseHeader = heeaderToCodegenParameter(header, headerName, imports, String.format("%sResponseParameter", r.code));
+                        CodegenParameter responseHeader = heeaderToCodegenParameter(header, headerName, imports, String.format(Locale.ROOT, "%sResponseParameter", r.code));
                         responseHeaders.add(responseHeader);
                     }
                     r.setResponseHeaders(responseHeaders);
                 }
-                String mediaTypeSchemaSuffix = String.format("%sResponseBody", r.code);
+                String mediaTypeSchemaSuffix = String.format(Locale.ROOT, "%sResponseBody", r.code);
                 r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
 
                 if (r.baseType != null &&
