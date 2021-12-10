@@ -29,6 +29,8 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PythonLegacyClientCodegenTest {
 
@@ -91,9 +93,42 @@ public class PythonLegacyClientCodegenTest {
         Assert.assertEquals(op.allParams.get(4).pattern, "/^pattern\\/\\d{3}$/");
         // pattern_with_modifiers '/^pattern\d{3}$/i
         Assert.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
+
+        // Issue #6675: Validating regex issue_6675_fine_pattern from issue_1517.yaml
+        Assert.assertEquals(op.allParams.get(6).pattern, "/^['\\\"\\-\\w\\s]+$/");
+        // Issue #6675: Validating regex issue_6675_problematic_pattern_1 from issue_1517.yaml
+        Assert.assertEquals(op.allParams.get(7).pattern, "/^['\"\\-\\w\\s]+$/");
+        // Issue #6675: Validating regex issue_6675_problematic_pattern_2 from issue_1517.yaml
+        Assert.assertEquals(op.allParams.get(8).pattern, "/^[\\'\\\"\\-\\w\\s]+$/");
     }
 
+    @Test(description = "test fixing errors caused by adding backslash to some regex patterns")
+    public void testFixRegexBackSlashError() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_1517.yaml");
+        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final String path = "/ping";
+        final Operation p = openAPI.getPaths().get(path).getGet();
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        Map<String, Object> dummyMap = new HashMap<String, Object>();;
 
+        // Issue #6675: Transform issue_6675_fine_pattern from issue_1517.yaml
+        // Original: ^['\"\-\w\s]+$ -> Transformed: ^[\'\"\-\w\s]+$
+        // Transformation occurs because original regex pattern works fine according to issue
+        Assert.assertEquals(codegen.fixRegexBackSlashError(op.allParams.get(6).pattern, dummyMap), "^[\\'\\\"\\-\\w\\s]+$");
+        // Issue #6675: Transform issue_6675_problematic_pattern_1 from issue_1517.yaml
+        // Original: ^['"\-\w\s]+$ -> Transformed: /^['"\-\w\s]+$/
+        // Transformation should not occur according to reported error in issue
+        Assert.assertEquals(codegen.fixRegexBackSlashError(op.allParams.get(7).pattern, dummyMap), "/^['\"\\-\\w\\s]+$/");
+        // Issue #6675: Transform issue_6675_problematic_pattern_2 from issue_1517.yaml
+        // Original: ^[\'\"\-\w\s]+$ -> Transformed: /^[\'\"\-\w\s]+$/
+        // Transformation should not occur according to reported error in issue
+        Assert.assertEquals(codegen.fixRegexBackSlashError(op.allParams.get(8).pattern, dummyMap), "/^[\\'\\\"\\-\\w\\s]+$/");
+        // Issue #6675: Test edge case
+        // Original: ^[\'\"\-\w\'\s]+$ -> Transformed: ^[\'\"\-\w\'\s]+$
+        // Transformation should not occur
+        Assert.assertEquals(codegen.fixRegexBackSlashError("^[\\'\\\"\\-\\w\\'\\s]+$", dummyMap), "^[\\'\\\"\\-\\w\\'\\s]+$");
+    }
 
     @Test(description = "test generated example values for string properties")
     public void testGeneratedExampleValues() {

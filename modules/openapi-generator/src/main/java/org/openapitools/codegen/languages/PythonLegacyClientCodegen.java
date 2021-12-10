@@ -323,7 +323,8 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
                         + "/pattern/modifiers convention. " + pattern + " is not valid.");
             }
 
-            String regex = pattern.substring(1, i).replace("'", "\\'");
+            fixRegexBackSlashError(pattern, vendorExtensions);
+
             List<String> modifiers = new ArrayList<String>();
 
             for (char c : pattern.substring(i).toCharArray()) {
@@ -333,9 +334,43 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
                 }
             }
 
-            vendorExtensions.put("x-regex", regex);
             vendorExtensions.put("x-modifiers", modifiers);
         }
+    }
+
+    /**
+     * // CS427 Issue link: https://github.com/OpenAPITools/openapi-generator/issues/6675
+     *
+     * Fixes errors caused by adding backslash to some regex patterns
+     *
+     * @parem pattern Regex pattern defined in the OpenAPI specification file
+     * @parem vendorExtensions HashMap which stores strings used in the generated code templates
+     * @return resultPattern Regex pattern which is or is not transformed
+     */
+    public String fixRegexBackSlashError(String pattern, Map<String, Object> vendorExtensions) {
+
+        String resultPattern;
+
+        int i = pattern.lastIndexOf('/');
+        int bracketIndex = pattern.indexOf('[');
+        int firstBackSlashIndex = pattern.indexOf('\\');
+
+        if ((bracketIndex != -1) && (firstBackSlashIndex != -1) && (firstBackSlashIndex > bracketIndex)) {
+            String betweenBracketAndSlash = pattern.substring(bracketIndex, firstBackSlashIndex);
+            if ((firstBackSlashIndex == bracketIndex+1) || (betweenBracketAndSlash.length() > 2)) {
+                vendorExtensions.put("x-regex", pattern);
+                resultPattern = pattern;
+            } else {
+                String regex = pattern.substring(1, i).replace("'", "\\'");
+                vendorExtensions.put("x-regex", regex);
+                resultPattern = regex;
+            }
+        } else {
+            String regex = pattern.substring(1, i).replace("'", "\\'");
+            vendorExtensions.put("x-regex", regex);
+            resultPattern = regex;
+        }
+        return resultPattern;
     }
 
     @Override

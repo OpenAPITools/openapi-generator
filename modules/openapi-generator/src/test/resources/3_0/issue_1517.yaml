@@ -45,6 +45,21 @@ paths:
           schema:
             type: string
             pattern: '/^pattern\d{3}$/i'
+        - name: issue_6675_fine_pattern
+          in: header
+          schema:
+            type: string
+            pattern: ^['\"\-\w\s]+$
+        - name: issue_6675_problematic_pattern_1
+          in: header
+          schema:
+            type: string
+            pattern: ^['"\-\w\s]+$
+        - name: issue_6675_problematic_pattern_2
+          in: header
+          schema:
+            type: string
+            pattern: ^[\'\"\-\w\s]+$
 
       responses:
         '200':
