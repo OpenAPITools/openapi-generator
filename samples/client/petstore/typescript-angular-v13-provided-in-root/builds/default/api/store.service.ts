@@ -121,12 +121,12 @@ export class StoreService {
         }
 
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 
@@ -181,12 +181,12 @@ export class StoreService {
         }
 
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 
@@ -238,12 +238,12 @@ export class StoreService {
         }
 
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 
@@ -302,12 +302,12 @@ export class StoreService {
             localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 

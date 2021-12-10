@@ -148,12 +148,12 @@ export class PetService {
             localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 
@@ -209,12 +209,12 @@ export class PetService {
 
 
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 
@@ -274,12 +274,12 @@ export class PetService {
 
 
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 
@@ -341,12 +341,12 @@ export class PetService {
 
 
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 
@@ -401,12 +401,12 @@ export class PetService {
 
 
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 
@@ -467,12 +467,12 @@ export class PetService {
             localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
         }
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 
@@ -548,12 +548,12 @@ export class PetService {
             localVarFormParams = localVarFormParams.append('status', <any>status) as any || localVarFormParams;
         }
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 
@@ -633,12 +633,12 @@ export class PetService {
             localVarFormParams = localVarFormParams.append('file', <any>file) as any || localVarFormParams;
         }
 
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        let responseType_: 'text' | 'json' | 'blob' = 'blob';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (!localVarHttpHeaderAcceptSelected.includes('json')) {
-                responseType_ = 'blob';
+            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
             }
         }
 
