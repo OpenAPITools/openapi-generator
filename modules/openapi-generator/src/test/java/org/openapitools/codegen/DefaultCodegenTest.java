@@ -3949,7 +3949,7 @@ public class DefaultCodegenTest {
         CodegenProperty cp = mt.getSchema();
         assertTrue(cp.isMap);
         assertEquals(cp.complexType, "object");
-        assertEquals(cp.baseName, "SchemaForParameterApplicationJson");
+        assertEquals(cp.baseName, "SchemaForRequestParameterCoordinatesInlineSchemaApplicationJson");
 
         CodegenParameter coordinatesReferencedSchema = co.queryParams.get(1);
         content = coordinatesReferencedSchema.getContent();
@@ -3958,7 +3958,7 @@ public class DefaultCodegenTest {
         cp = mt.getSchema();
         assertFalse(cp.isMap); // because it is a referenced schema
         assertEquals(cp.complexType, "coordinates");
-        assertEquals(cp.baseName, "SchemaForParameterApplicationJson");
+        assertEquals(cp.baseName, "SchemaForRequestParameterCoordinatesReferencedSchemaApplicationJson");
     }
 
     @Test
