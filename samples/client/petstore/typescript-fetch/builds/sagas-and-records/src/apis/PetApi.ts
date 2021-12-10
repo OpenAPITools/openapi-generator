@@ -49,7 +49,7 @@ export interface FindPetsByIdsRequest {
 }
 
 export interface FindPetsByStatusRequest {
-    status: Array<FindPetsByStatusStatusEnum>;
+    status: Array<StatusEnum>;
 }
 
 export interface FindPetsByTagsRequest {
@@ -246,7 +246,7 @@ export class PetApi extends runtime.BaseAPI {
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      */
-    async findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, initOverrides?: RequestInit): Promise<FindPetsByStatusResponse> {
+    async findPetsByStatus(status: Array<StatusEnum>, initOverrides?: RequestInit): Promise<FindPetsByStatusResponse> {
         const response = await this.findPetsByStatusRaw({ status: status }, initOverrides);
         return await response.value();
     }

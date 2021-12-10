@@ -99,14 +99,14 @@ export interface TestEndpointParametersRequest {
 }
 
 export interface TestEnumParametersRequest {
-    enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>;
-    enumHeaderString?: TestEnumParametersEnumHeaderStringEnum;
-    enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>;
-    enumQueryString?: TestEnumParametersEnumQueryStringEnum;
-    enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum;
-    enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum;
-    enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>;
-    enumFormString?: TestEnumParametersEnumFormStringEnum;
+    enumHeaderStringArray?: Array<EnumHeaderStringArrayEnum>;
+    enumHeaderString?: EnumHeaderStringEnum;
+    enumQueryStringArray?: Array<EnumQueryStringArrayEnum>;
+    enumQueryString?: EnumQueryStringEnum;
+    enumQueryInteger?: EnumQueryIntegerEnum;
+    enumQueryDouble?: EnumQueryDoubleEnum;
+    enumFormStringArray?: Array<EnumFormStringArrayEnum>;
+    enumFormString?: EnumFormStringEnum;
 }
 
 export interface TestGroupParametersRequest {

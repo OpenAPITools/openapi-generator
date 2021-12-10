@@ -605,9 +605,6 @@ instance Arbitrary E'EnumInteger where
 instance Arbitrary E'EnumNumber where
   arbitrary = arbitraryBoundedEnum
 
-instance Arbitrary E'EnumQueryInteger where
-  arbitrary = arbitraryBoundedEnum
-
 instance Arbitrary E'EnumString where
   arbitrary = arbitraryBoundedEnum
 
@@ -618,6 +615,9 @@ instance Arbitrary E'JustSymbol where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'Kind where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'SchemaForRequestParameterEnumQueryInteger where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'Status where

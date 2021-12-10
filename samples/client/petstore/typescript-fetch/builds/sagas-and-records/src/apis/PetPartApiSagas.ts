@@ -48,7 +48,7 @@ export interface PayloadGetFakePetPartType extends PayloadGetFakePetPartTypeRequ
 }
 
 export interface PayloadGetFakePetPartTypeRequest {
-    fakePetPartId: string;
+    fakePetPartId: ;
 }
 
 export const getFakePetPartTypeRequest = createSagaAction<PayloadGetFakePetPartTypeRequest>("getFakePetPartTypeRequest");
@@ -71,7 +71,7 @@ export function *getFakePetPartTypeSagaImp(_action_: Action<PayloadGetFakePetPar
         yield put(getFakePetPartTypeRequest(_action_.payload));
 
         const response: Required<GetPetPartTypeResponse> = yield apiCall(Api.petPartApi, Api.petPartApi.getFakePetPartType,
-            parseFloat(fakePetPartId),
+            fakePetPartId,
         );
 
         let successReturnValue: any = undefined;
@@ -92,12 +92,12 @@ export interface PayloadGetMatchingParts extends PayloadGetMatchingPartsRequest,
 }
 
 export interface PayloadGetMatchingPartsRequest {
-    fakePetPartId: string;
-    _long: boolean;
-    smooth: boolean;
-    _short: boolean;
-    name?: string;
-    connectedPart?: string;
+    fakePetPartId: ;
+    _long: ;
+    smooth: ;
+    _short: ;
+    name?: ;
+    connectedPart?: ;
 }
 
 export const getMatchingPartsRequest = createSagaAction<PayloadGetMatchingPartsRequest>("getMatchingPartsRequest");
@@ -127,7 +127,7 @@ export function *getMatchingPartsSagaImp(_action_: Action<PayloadGetMatchingPart
         yield put(getMatchingPartsRequest(requestPayload));
 
         const response: Required<GetMatchingPartsResponse> = yield apiCall(Api.petPartApi, Api.petPartApi.getMatchingParts,
-            parseFloat(fakePetPartId),
+            fakePetPartId,
             _long,
             smooth,
             _short,

@@ -801,7 +801,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         boolean hasEnum = false;
         for (ExtendedCodegenOperation op : operationList) {
             for (CodegenParameter cpParam : op.allParams) {
-                ExtendedCodegenParameter param = (ExtendedCodegenParameter) cpParam;
+                ExtendedCodegenParameter param = new ExtendedCodegenParameter(cpParam);
 
                 if (Boolean.TRUE.equals(param.isEnum)) {
                     hasEnum = true;
@@ -822,7 +822,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         List<ExtendedCodegenOperation> operationList = (List<ExtendedCodegenOperation>) _operations.get("operation");
         for (ExtendedCodegenOperation op : operationList) {
             for (CodegenParameter cpParam : op.allParams) {
-                ExtendedCodegenParameter param = (ExtendedCodegenParameter) cpParam;
+                ExtendedCodegenParameter param = new ExtendedCodegenParameter(cpParam);
 
                 if (param.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
                     param.isUniqueId = Boolean.TRUE.equals(param.vendorExtensions.get(X_IS_UNIQUE_ID));

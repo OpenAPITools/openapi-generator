@@ -33,9 +33,9 @@ import {
 } from '../models';
 
 export interface FakeEnumRequestGetInlineRequest {
-    stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;
+    stringEnum?: StringEnumEnum;
     nullableStringEnum?: string | null;
-    numberEnum?: FakeEnumRequestGetInlineNumberEnumEnum;
+    numberEnum?: NumberEnumEnum;
     nullableNumberEnum?: number | null;
 }
 

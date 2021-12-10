@@ -92,7 +92,7 @@ Multiple status values can be provided with comma separated strings
 ### Example
 
 ```bash
-petstore-cli findPetsByStatus  Specify as:  status="value1,value2,..."
+petstore-cli findPetsByStatus  Specify as: 
 ```
 
 ### Parameters
@@ -127,7 +127,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 
 ```bash
-petstore-cli findPetsByTags  Specify as:  tags="value1,value2,..."
+petstore-cli findPetsByTags  Specify as: 
 ```
 
 ### Parameters

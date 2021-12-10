@@ -112,7 +112,7 @@ newtype EnumHeaderStringArray = EnumHeaderStringArray { unEnumHeaderStringArray 
 newtype EnumQueryDouble = EnumQueryDouble { unEnumQueryDouble :: E'EnumNumber } deriving (P.Eq, P.Show)
 
 -- ** EnumQueryInteger
-newtype EnumQueryInteger = EnumQueryInteger { unEnumQueryInteger :: E'EnumQueryInteger } deriving (P.Eq, P.Show)
+newtype EnumQueryInteger = EnumQueryInteger { unEnumQueryInteger :: E'SchemaForRequestParameterEnumQueryInteger } deriving (P.Eq, P.Show)
 
 -- ** EnumQueryString
 newtype EnumQueryString = EnumQueryString { unEnumQueryString :: E'EnumFormString } deriving (P.Eq, P.Show)
@@ -2153,34 +2153,6 @@ toE'EnumNumber = \case
   s -> P.Left $ "toE'EnumNumber: enum parse failure: " P.++ P.show s
 
 
--- ** E'EnumQueryInteger
-
--- | Enum of 'Int'
-data E'EnumQueryInteger
-  = E'EnumQueryInteger'Num1 -- ^ @1@
-  | E'EnumQueryInteger'NumMinus_2 -- ^ @-2@
-  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
-
-instance A.ToJSON E'EnumQueryInteger where toJSON = A.toJSON . fromE'EnumQueryInteger
-instance A.FromJSON E'EnumQueryInteger where parseJSON o = P.either P.fail (pure . P.id) . toE'EnumQueryInteger =<< A.parseJSON o
-instance WH.ToHttpApiData E'EnumQueryInteger where toQueryParam = WH.toQueryParam . fromE'EnumQueryInteger
-instance WH.FromHttpApiData E'EnumQueryInteger where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'EnumQueryInteger
-instance MimeRender MimeMultipartFormData E'EnumQueryInteger where mimeRender _ = mimeRenderDefaultMultipartFormData
-
--- | unwrap 'E'EnumQueryInteger' enum
-fromE'EnumQueryInteger :: E'EnumQueryInteger -> Int
-fromE'EnumQueryInteger = \case
-  E'EnumQueryInteger'Num1 -> 1
-  E'EnumQueryInteger'NumMinus_2 -> -2
-
--- | parse 'E'EnumQueryInteger' enum
-toE'EnumQueryInteger :: Int -> P.Either String E'EnumQueryInteger
-toE'EnumQueryInteger = \case
-  1 -> P.Right E'EnumQueryInteger'Num1
-  -2 -> P.Right E'EnumQueryInteger'NumMinus_2
-  s -> P.Left $ "toE'EnumQueryInteger: enum parse failure: " P.++ P.show s
-
-
 -- ** E'EnumString
 
 -- | Enum of 'Text'
@@ -2300,6 +2272,34 @@ toE'Kind = \case
   "leopards" -> P.Right E'Kind'Leopards
   "jaguars" -> P.Right E'Kind'Jaguars
   s -> P.Left $ "toE'Kind: enum parse failure: " P.++ P.show s
+
+
+-- ** E'SchemaForRequestParameterEnumQueryInteger
+
+-- | Enum of 'Int'
+data E'SchemaForRequestParameterEnumQueryInteger
+  = E'SchemaForRequestParameterEnumQueryInteger'Num1 -- ^ @1@
+  | E'SchemaForRequestParameterEnumQueryInteger'NumMinus_2 -- ^ @-2@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'SchemaForRequestParameterEnumQueryInteger where toJSON = A.toJSON . fromE'SchemaForRequestParameterEnumQueryInteger
+instance A.FromJSON E'SchemaForRequestParameterEnumQueryInteger where parseJSON o = P.either P.fail (pure . P.id) . toE'SchemaForRequestParameterEnumQueryInteger =<< A.parseJSON o
+instance WH.ToHttpApiData E'SchemaForRequestParameterEnumQueryInteger where toQueryParam = WH.toQueryParam . fromE'SchemaForRequestParameterEnumQueryInteger
+instance WH.FromHttpApiData E'SchemaForRequestParameterEnumQueryInteger where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'SchemaForRequestParameterEnumQueryInteger
+instance MimeRender MimeMultipartFormData E'SchemaForRequestParameterEnumQueryInteger where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'SchemaForRequestParameterEnumQueryInteger' enum
+fromE'SchemaForRequestParameterEnumQueryInteger :: E'SchemaForRequestParameterEnumQueryInteger -> Int
+fromE'SchemaForRequestParameterEnumQueryInteger = \case
+  E'SchemaForRequestParameterEnumQueryInteger'Num1 -> 1
+  E'SchemaForRequestParameterEnumQueryInteger'NumMinus_2 -> -2
+
+-- | parse 'E'SchemaForRequestParameterEnumQueryInteger' enum
+toE'SchemaForRequestParameterEnumQueryInteger :: Int -> P.Either String E'SchemaForRequestParameterEnumQueryInteger
+toE'SchemaForRequestParameterEnumQueryInteger = \case
+  1 -> P.Right E'SchemaForRequestParameterEnumQueryInteger'Num1
+  -2 -> P.Right E'SchemaForRequestParameterEnumQueryInteger'NumMinus_2
+  s -> P.Left $ "toE'SchemaForRequestParameterEnumQueryInteger: enum parse failure: " P.++ P.show s
 
 
 -- ** E'Status

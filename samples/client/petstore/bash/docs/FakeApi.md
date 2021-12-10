@@ -366,7 +366,7 @@ To test enum parameters
 ### Example
 
 ```bash
-petstore-cli testEnumParameters enum_header_string_array:value enum_header_string:value  Specify as:  enum_query_string_array="value1,value2,..."  enum_query_string=value  enum_query_integer=value  enum_query_double=value
+petstore-cli testEnumParameters enum_header_string_array:value enum_header_string:value  Specify as:   enum_query_string=value  enum_query_integer=value  enum_query_double=value
 ```
 
 ### Parameters
@@ -515,7 +515,7 @@ To test the collection format in query parameters
 ### Example
 
 ```bash
-petstore-cli testQueryParameterCollectionFormat  Specify as:  pipe="value1,value2,..."  Specify as:  ioutil="value1,value2,..."  Specify as:  http="value1 value2 ..."  Specify as:  url="value1,value2,..."  Specify as:  context=value1 context=value2 context=...
+petstore-cli testQueryParameterCollectionFormat  Specify as:   Specify as:   Specify as:   Specify as:   Specify as: 
 ```
 
 ### Parameters

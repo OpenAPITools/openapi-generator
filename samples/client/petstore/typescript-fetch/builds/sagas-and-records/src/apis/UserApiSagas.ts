@@ -52,7 +52,7 @@ export interface PayloadCreateUser extends PayloadCreateUserRequest, BasePayload
 }
 
 export interface PayloadCreateUserRequest {
-    body: UserRecord;
+    body: ;
 }
 
 export const createUserRequest = createSagaAction<PayloadCreateUserRequest>("createUserRequest");
@@ -75,7 +75,7 @@ export function *createUserSagaImp(_action_: Action<PayloadCreateUser>) {
         yield put(createUserRequest(_action_.payload));
 
         const response = yield apiCall(Api.userApi, Api.userApi.createUser,
-            userRecordUtils.toApi(body),
+            Utils.toApi(body),
         );
 
             yield put(createUserSuccess());
@@ -94,7 +94,7 @@ export interface PayloadCreateUsersWithArrayInput extends PayloadCreateUsersWith
 }
 
 export interface PayloadCreateUsersWithArrayInputRequest {
-    body: List<UserRecord>;
+    body: ;
 }
 
 export const createUsersWithArrayInputRequest = createSagaAction<PayloadCreateUsersWithArrayInputRequest>("createUsersWithArrayInputRequest");
@@ -136,7 +136,7 @@ export interface PayloadCreateUsersWithListInput extends PayloadCreateUsersWithL
 }
 
 export interface PayloadCreateUsersWithListInputRequest {
-    body: List<UserRecord>;
+    body: ;
 }
 
 export const createUsersWithListInputRequest = createSagaAction<PayloadCreateUsersWithListInputRequest>("createUsersWithListInputRequest");
@@ -178,7 +178,7 @@ export interface PayloadDeleteUser extends PayloadDeleteUserRequest, BasePayload
 }
 
 export interface PayloadDeleteUserRequest {
-    username: string;
+    username: ;
 }
 
 export const deleteUserRequest = createSagaAction<PayloadDeleteUserRequest>("deleteUserRequest");
@@ -220,7 +220,7 @@ export interface PayloadGetUserByName extends PayloadGetUserByNameRequest, BaseE
 }
 
 export interface PayloadGetUserByNameRequest {
-    username: string;
+    username: ;
 }
 
 export const getUserByNameRequest = createSagaAction<PayloadGetUserByNameRequest>("getUserByNameRequest");
@@ -273,8 +273,8 @@ export interface PayloadLoginUser extends PayloadLoginUserRequest, BasePayloadAp
 }
 
 export interface PayloadLoginUserRequest {
-    username: string;
-    password: string;
+    username: ;
+    password: ;
 }
 
 export const loginUserRequest = createSagaAction<PayloadLoginUserRequest>("loginUserRequest");
@@ -354,8 +354,8 @@ export interface PayloadUpdateUser extends PayloadUpdateUserRequest, BasePayload
 }
 
 export interface PayloadUpdateUserRequest {
-    username: string;
-    body: UserRecord;
+    username: ;
+    body: ;
 }
 
 export const updateUserRequest = createSagaAction<PayloadUpdateUserRequest>("updateUserRequest");
@@ -380,7 +380,7 @@ export function *updateUserSagaImp(_action_: Action<PayloadUpdateUser>) {
 
         const response: Required<DefaultMetaOnlyResponse> = yield apiCall(Api.userApi, Api.userApi.updateUser,
             username,
-            userRecordUtils.toApi(body),
+            Utils.toApi(body),
         );
 
             yield put(updateUserSuccess());

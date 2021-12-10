@@ -73,7 +73,7 @@ export interface PayloadAddPet extends PayloadAddPetRequest, BasePayloadApiActio
 }
 
 export interface PayloadAddPetRequest {
-    dummyCat: CategoryRecord;
+    dummyCat: ;
 }
 
 export const addPetRequest = createSagaAction<PayloadAddPetRequest>("addPetRequest");
@@ -96,7 +96,7 @@ export function *addPetSagaImp(_action_: Action<PayloadAddPet>) {
         yield put(addPetRequest(_action_.payload));
 
         const response = yield apiCall(Api.petApi, Api.petApi.addPet,
-            categoryRecordUtils.toApi(dummyCat),
+            Utils.toApi(dummyCat),
         );
 
             yield put(addPetSuccess());
@@ -115,8 +115,8 @@ export interface PayloadDeletePet extends PayloadDeletePetRequest, BasePayloadAp
 }
 
 export interface PayloadDeletePetRequest {
-    petId: string;
-    apiKey?: string;
+    petId: ;
+    apiKey?: ;
 }
 
 export const deletePetRequest = createSagaAction<PayloadDeletePetRequest>("deletePetRequest");
@@ -140,7 +140,7 @@ export function *deletePetSagaImp(_action_: Action<PayloadDeletePet>) {
         yield put(deletePetRequest(_action_.payload));
 
         const response = yield apiCall(Api.petApi, Api.petApi.deletePet,
-            parseFloat(petId),
+            petId,
             apiKey,
         );
 
@@ -160,7 +160,7 @@ export interface PayloadFindPetsByIds extends PayloadFindPetsByIdsRequest, BaseE
 }
 
 export interface PayloadFindPetsByIdsRequest {
-    ids: List<string>;
+    ids: ;
 }
 
 export const findPetsByIdsRequest = createSagaAction<PayloadFindPetsByIdsRequest>("findPetsByIdsRequest");
@@ -185,7 +185,7 @@ export function *findPetsByIdsSagaImp(_action_: Action<PayloadFindPetsByIds>) {
         yield put(findPetsByIdsRequest(requestPayload));
 
         const response: Required<Array<Pet>> = yield apiCall(Api.petApi, Api.petApi.findPetsByIds,
-            ids.map(p => (p ? parseFloat(p) : null) as number ).toArray(),
+            ids.toJS(),
         );
 
         let successReturnValue: any = undefined;
@@ -213,7 +213,7 @@ export interface PayloadFindPetsByStatus extends PayloadFindPetsByStatusRequest,
 }
 
 export interface PayloadFindPetsByStatusRequest {
-    status: List<FindPetsByStatusStatusEnum>;
+    status: ;
 }
 
 export const findPetsByStatusRequest = createSagaAction<PayloadFindPetsByStatusRequest>("findPetsByStatusRequest");
@@ -266,7 +266,7 @@ export interface PayloadFindPetsByTags extends PayloadFindPetsByTagsRequest, Bas
 }
 
 export interface PayloadFindPetsByTagsRequest {
-    tags: List<string>;
+    tags: ;
 }
 
 export const findPetsByTagsRequest = createSagaAction<PayloadFindPetsByTagsRequest>("findPetsByTagsRequest");
@@ -319,7 +319,7 @@ export interface PayloadFindPetsByUserIds extends PayloadFindPetsByUserIdsReques
 }
 
 export interface PayloadFindPetsByUserIdsRequest {
-    ids: List<string>;
+    ids: ;
 }
 
 export const findPetsByUserIdsRequest = createSagaAction<PayloadFindPetsByUserIdsRequest>("findPetsByUserIdsRequest");
@@ -344,7 +344,7 @@ export function *findPetsByUserIdsSagaImp(_action_: Action<PayloadFindPetsByUser
         yield put(findPetsByUserIdsRequest(requestPayload));
 
         const response: Required<FindPetsByUserResponse> = yield apiCall(Api.petApi, Api.petApi.findPetsByUserIds,
-            ids.map(p => (p ? parseFloat(p) : null) as number ).toArray(),
+            ids.toJS(),
         );
 
         let successReturnValue: any = undefined;
@@ -372,7 +372,7 @@ export interface PayloadGetPetById extends PayloadGetPetByIdRequest, BaseEntityS
 }
 
 export interface PayloadGetPetByIdRequest {
-    petId: string;
+    petId: ;
 }
 
 export const getPetByIdRequest = createSagaAction<PayloadGetPetByIdRequest>("getPetByIdRequest");
@@ -397,7 +397,7 @@ export function *getPetByIdSagaImp(_action_: Action<PayloadGetPetById>) {
         yield put(getPetByIdRequest(requestPayload));
 
         const response: Required<Pet> = yield apiCall(Api.petApi, Api.petApi.getPetById,
-            parseFloat(petId),
+            petId,
         );
 
         let successReturnValue: any = undefined;
@@ -425,7 +425,7 @@ export interface PayloadGetPetRegions extends PayloadGetPetRegionsRequest, BaseP
 }
 
 export interface PayloadGetPetRegionsRequest {
-    petId: string;
+    petId: ;
 }
 
 export const getPetRegionsRequest = createSagaAction<PayloadGetPetRegionsRequest>("getPetRegionsRequest");
@@ -448,7 +448,7 @@ export function *getPetRegionsSagaImp(_action_: Action<PayloadGetPetRegions>) {
         yield put(getPetRegionsRequest(_action_.payload));
 
         const response: Required<PetRegionsResponse> = yield apiCall(Api.petApi, Api.petApi.getPetRegions,
-            parseFloat(petId),
+            petId,
         );
 
         let successReturnValue: any = undefined;
@@ -469,7 +469,7 @@ export interface PayloadUpdatePet extends PayloadUpdatePetRequest, BasePayloadAp
 }
 
 export interface PayloadUpdatePetRequest {
-    body: PetRecord;
+    body: ;
 }
 
 export const updatePetRequest = createSagaAction<PayloadUpdatePetRequest>("updatePetRequest");
@@ -492,7 +492,7 @@ export function *updatePetSagaImp(_action_: Action<PayloadUpdatePet>) {
         yield put(updatePetRequest(_action_.payload));
 
         const response = yield apiCall(Api.petApi, Api.petApi.updatePet,
-            petRecordUtils.toApi(body),
+            Utils.toApi(body),
         );
 
             yield put(updatePetSuccess());
@@ -511,8 +511,8 @@ export interface PayloadUpdatePetRegions extends PayloadUpdatePetRegionsRequest,
 }
 
 export interface PayloadUpdatePetRegionsRequest {
-    petId: string;
-    newRegions: List<List<string | null>>;
+    petId: ;
+    newRegions: ;
 }
 
 export const updatePetRegionsRequest = createSagaAction<PayloadUpdatePetRegionsRequest>("updatePetRegionsRequest");
@@ -536,8 +536,8 @@ export function *updatePetRegionsSagaImp(_action_: Action<PayloadUpdatePetRegion
         yield put(updatePetRegionsRequest(_action_.payload));
 
         const response: Required<PetRegionsResponse> = yield apiCall(Api.petApi, Api.petApi.updatePetRegions,
-            parseFloat(petId),
-            newRegions.map(p => p.toArray().map(p2 => (p2 ? parseFloat(p2) : null) as number)).toArray(),
+            petId,
+            newRegions.toJS(),
         );
 
         let successReturnValue: any = undefined;
@@ -558,9 +558,9 @@ export interface PayloadUpdatePetWithForm extends PayloadUpdatePetWithFormReques
 }
 
 export interface PayloadUpdatePetWithFormRequest {
-    petId: string;
-    name?: string;
-    status?: string;
+    petId: ;
+    name?: ;
+    status?: ;
 }
 
 export const updatePetWithFormRequest = createSagaAction<PayloadUpdatePetWithFormRequest>("updatePetWithFormRequest");
@@ -585,7 +585,7 @@ export function *updatePetWithFormSagaImp(_action_: Action<PayloadUpdatePetWithF
         yield put(updatePetWithFormRequest(_action_.payload));
 
         const response = yield apiCall(Api.petApi, Api.petApi.updatePetWithForm,
-            parseFloat(petId),
+            petId,
             name,
             status,
         );
@@ -606,9 +606,9 @@ export interface PayloadUploadFile extends PayloadUploadFileRequest, BaseEntityS
 }
 
 export interface PayloadUploadFileRequest {
-    petId: string;
-    additionalMetadata?: string;
-    file?: Blob;
+    petId: ;
+    additionalMetadata?: ;
+    file?: ;
 }
 
 export const uploadFileRequest = createSagaAction<PayloadUploadFileRequest>("uploadFileRequest");
@@ -635,7 +635,7 @@ export function *uploadFileSagaImp(_action_: Action<PayloadUploadFile>) {
         yield put(uploadFileRequest(requestPayload));
 
         const response: Required<ModelApiResponse> = yield apiCall(Api.petApi, Api.petApi.uploadFile,
-            parseFloat(petId),
+            petId,
             additionalMetadata,
             file,
         );

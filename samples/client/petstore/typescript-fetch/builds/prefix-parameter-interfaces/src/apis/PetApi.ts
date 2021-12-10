@@ -33,7 +33,7 @@ export interface PetApiDeletePetRequest {
 }
 
 export interface PetApiFindPetsByStatusRequest {
-    status: Array<FindPetsByStatusStatusEnum>;
+    status: Array<StatusEnum>;
 }
 
 export interface PetApiFindPetsByTagsRequest {

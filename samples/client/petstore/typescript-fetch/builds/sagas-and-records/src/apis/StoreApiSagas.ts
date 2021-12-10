@@ -45,7 +45,7 @@ export interface PayloadDeleteOrder extends PayloadDeleteOrderRequest, BasePaylo
 }
 
 export interface PayloadDeleteOrderRequest {
-    orderId: string;
+    orderId: ;
 }
 
 export const deleteOrderRequest = createSagaAction<PayloadDeleteOrderRequest>("deleteOrderRequest");
@@ -123,7 +123,7 @@ export interface PayloadGetOrderById extends PayloadGetOrderByIdRequest, BaseEnt
 }
 
 export interface PayloadGetOrderByIdRequest {
-    orderId: string;
+    orderId: ;
 }
 
 export const getOrderByIdRequest = createSagaAction<PayloadGetOrderByIdRequest>("getOrderByIdRequest");
@@ -148,7 +148,7 @@ export function *getOrderByIdSagaImp(_action_: Action<PayloadGetOrderById>) {
         yield put(getOrderByIdRequest(requestPayload));
 
         const response: Required<Order> = yield apiCall(Api.storeApi, Api.storeApi.getOrderById,
-            parseFloat(orderId),
+            orderId,
         );
 
         let successReturnValue: any = undefined;
@@ -176,7 +176,7 @@ export interface PayloadPlaceOrder extends PayloadPlaceOrderRequest, BaseEntityS
 }
 
 export interface PayloadPlaceOrderRequest {
-    body: OrderRecord;
+    body: ;
 }
 
 export const placeOrderRequest = createSagaAction<PayloadPlaceOrderRequest>("placeOrderRequest");
@@ -201,7 +201,7 @@ export function *placeOrderSagaImp(_action_: Action<PayloadPlaceOrder>) {
         yield put(placeOrderRequest(requestPayload));
 
         const response: Required<Order> = yield apiCall(Api.storeApi, Api.storeApi.placeOrder,
-            orderRecordUtils.toApi(body),
+            Utils.toApi(body),
         );
 
         let successReturnValue: any = undefined;

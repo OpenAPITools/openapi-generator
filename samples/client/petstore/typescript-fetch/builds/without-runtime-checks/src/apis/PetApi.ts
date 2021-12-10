@@ -29,7 +29,7 @@ export interface DeletePetRequest {
 }
 
 export interface FindPetsByStatusRequest {
-    status: Array<FindPetsByStatusStatusEnum>;
+    status: Array<StatusEnum>;
 }
 
 export interface FindPetsByTagsRequest {

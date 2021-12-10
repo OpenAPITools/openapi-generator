@@ -47,7 +47,7 @@ export interface PayloadGetBehaviorPermissions extends PayloadGetBehaviorPermiss
 }
 
 export interface PayloadGetBehaviorPermissionsRequest {
-    behaviorId: string;
+    behaviorId: ;
 }
 
 export const getBehaviorPermissionsRequest = createSagaAction<PayloadGetBehaviorPermissionsRequest>("getBehaviorPermissionsRequest");
@@ -70,7 +70,7 @@ export function *getBehaviorPermissionsSagaImp(_action_: Action<PayloadGetBehavi
         yield put(getBehaviorPermissionsRequest(_action_.payload));
 
         const response: Required<GetBehaviorPermissionsResponse> = yield apiCall(Api.behaviorApi, Api.behaviorApi.getBehaviorPermissions,
-            parseFloat(behaviorId),
+            behaviorId,
         );
 
         let successReturnValue: any = undefined;
@@ -91,7 +91,7 @@ export interface PayloadGetBehaviorType extends PayloadGetBehaviorTypeRequest, B
 }
 
 export interface PayloadGetBehaviorTypeRequest {
-    behaviorId: string;
+    behaviorId: ;
 }
 
 export const getBehaviorTypeRequest = createSagaAction<PayloadGetBehaviorTypeRequest>("getBehaviorTypeRequest");
@@ -114,7 +114,7 @@ export function *getBehaviorTypeSagaImp(_action_: Action<PayloadGetBehaviorType>
         yield put(getBehaviorTypeRequest(_action_.payload));
 
         const response: Required<GetBehaviorTypeResponse> = yield apiCall(Api.behaviorApi, Api.behaviorApi.getBehaviorType,
-            parseFloat(behaviorId),
+            behaviorId,
         );
 
         let successReturnValue: any = undefined;

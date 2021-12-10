@@ -282,9 +282,9 @@ operation_parameters_collection_type["testEndpointParameters:::date"]=""
 operation_parameters_collection_type["testEndpointParameters:::dateTime"]=""
 operation_parameters_collection_type["testEndpointParameters:::password"]=""
 operation_parameters_collection_type["testEndpointParameters:::callback"]=""
-operation_parameters_collection_type["testEnumParameters:::enum_header_string_array"]="csv"
+operation_parameters_collection_type["testEnumParameters:::enum_header_string_array"]=
 operation_parameters_collection_type["testEnumParameters:::enum_header_string"]=""
-operation_parameters_collection_type["testEnumParameters:::enum_query_string_array"]="csv"
+operation_parameters_collection_type["testEnumParameters:::enum_query_string_array"]=
 operation_parameters_collection_type["testEnumParameters:::enum_query_string"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_integer"]=""
 operation_parameters_collection_type["testEnumParameters:::enum_query_double"]=""
@@ -299,17 +299,17 @@ operation_parameters_collection_type["testGroupParameters:::int64_group"]=""
 operation_parameters_collection_type["testInlineAdditionalProperties:::param"]=
 operation_parameters_collection_type["testJsonFormData:::param"]=""
 operation_parameters_collection_type["testJsonFormData:::param2"]=""
-operation_parameters_collection_type["testQueryParameterCollectionFormat:::pipe"]="csv"
-operation_parameters_collection_type["testQueryParameterCollectionFormat:::ioutil"]="csv"
-operation_parameters_collection_type["testQueryParameterCollectionFormat:::http"]="ssv"
-operation_parameters_collection_type["testQueryParameterCollectionFormat:::url"]="csv"
-operation_parameters_collection_type["testQueryParameterCollectionFormat:::context"]="multi"
+operation_parameters_collection_type["testQueryParameterCollectionFormat:::pipe"]=
+operation_parameters_collection_type["testQueryParameterCollectionFormat:::ioutil"]=
+operation_parameters_collection_type["testQueryParameterCollectionFormat:::http"]=
+operation_parameters_collection_type["testQueryParameterCollectionFormat:::url"]=
+operation_parameters_collection_type["testQueryParameterCollectionFormat:::context"]=
 operation_parameters_collection_type["testClassname:::body"]=""
 operation_parameters_collection_type["addPet:::body"]=""
 operation_parameters_collection_type["deletePet:::petId"]=""
 operation_parameters_collection_type["deletePet:::api_key"]=""
-operation_parameters_collection_type["findPetsByStatus:::status"]="csv"
-operation_parameters_collection_type["findPetsByTags:::tags"]="csv"
+operation_parameters_collection_type["findPetsByStatus:::status"]=
+operation_parameters_collection_type["findPetsByTags:::tags"]=
 operation_parameters_collection_type["getPetById:::petId"]=""
 operation_parameters_collection_type["updatePet:::body"]=""
 operation_parameters_collection_type["updatePetWithForm:::petId"]=""
@@ -1087,7 +1087,7 @@ print_testEnumParameters_help() {
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}enum_header_string_array${OFF} ${BLUE}[array[string]]${OFF} ${CYAN}(default: null)${OFF} - Header parameter enum test (string array) ${YELLOW}Specify as: enum_header_string_array:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}enum_header_string${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: -efg)${OFF} - Header parameter enum test (string) ${YELLOW}Specify as: enum_header_string:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}enum_query_string_array${OFF} ${BLUE}[array[string]]${OFF} ${CYAN}(default: null)${OFF} - Query parameter enum test (string array)${YELLOW} Specify as: enum_query_string_array="value1,value2,..."${OFF}" \
+    echo -e "  * ${GREEN}enum_query_string_array${OFF} ${BLUE}[array[string]]${OFF} ${CYAN}(default: null)${OFF} - Query parameter enum test (string array)${YELLOW} Specify as: ${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e "  * ${GREEN}enum_query_string${OFF} ${BLUE}[string]${OFF} ${CYAN}(default: -efg)${OFF} - Query parameter enum test (string)${YELLOW} Specify as: enum_query_string=value${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
@@ -1173,15 +1173,15 @@ print_testQueryParameterCollectionFormat_help() {
     echo -e "To test the collection format in query parameters" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}pipe${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: pipe="value1,value2,..."${OFF}" \
+    echo -e "  * ${GREEN}pipe${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: ${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}ioutil${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: ioutil="value1,value2,..."${OFF}" \
+    echo -e "  * ${GREEN}ioutil${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: ${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}http${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: http="value1 value2 ..."${OFF}" \
+    echo -e "  * ${GREEN}http${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: ${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}url${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: url="value1,value2,..."${OFF}" \
+    echo -e "  * ${GREEN}url${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: ${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
-    echo -e "  * ${GREEN}context${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: context=value1 context=value2 context=...${OFF}" \
+    echo -e "  * ${GREEN}context${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ${YELLOW} Specify as: ${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1257,7 +1257,7 @@ print_findPetsByStatus_help() {
     echo -e "Multiple status values can be provided with comma separated strings" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}status${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - Status values that need to be considered for filter${YELLOW} Specify as: status="value1,value2,..."${OFF}" \
+    echo -e "  * ${GREEN}status${OFF} ${BLUE}[array[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - Status values that need to be considered for filter${YELLOW} Specify as: ${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
@@ -1278,7 +1278,7 @@ print_findPetsByTags_help() {
     echo -e "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing." | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
-    echo -e "  * ${GREEN}tags${OFF} ${BLUE}[Set[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - Tags to filter by${YELLOW} Specify as: tags="value1,value2,..."${OFF}" \
+    echo -e "  * ${GREEN}tags${OFF} ${BLUE}[Set[string]]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - Tags to filter by${YELLOW} Specify as: ${OFF}" \
         | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
