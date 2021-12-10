@@ -33,13 +33,19 @@ export class BaseAPI {
         return this.withMiddleware<T>(...middlewares);
     }
 
+    withFailMiddleware<T extends BaseAPI>(this: T, ...failMiddlewares: Array<Middleware['fail']>) {
+        const middlewares = failMiddlewares.map((fail) => ({ fail }));
+        return this.withMiddleware<T>(...middlewares);
+    }
+
+    withCompleteMiddleware<T extends BaseAPI>(this: T, ...completeMiddlewares: Array<Middleware['complete']>) {
+        const middlewares = completeMiddlewares.map((complete) => ({ complete }));
+        return this.withMiddleware<T>(...middlewares);
+    }
+
     protected async request(context: RequestOpts, initOverrides?: RequestInit): Promise<Response> {
         const { url, init } = this.createFetchParams(context, initOverrides);
-        const response = await this.fetchApi(url, init);
-        if (response.status >= 200 && response.status < 300) {
-            return response;
-        }
-        throw response;
+        return this.fetchApi(url, init);
     }
 
     private createFetchParams(context: RequestOpts, initOverrides?: RequestInit) {
@@ -66,27 +72,55 @@ export class BaseAPI {
     }
 
     private fetchApi = async (url: string, init: RequestInit) => {
-        let fetchParams = { url, init };
+        let fetchParams = {url, init};
+        const requestContext = {
+            fetch: this.fetchApi,
+            ...fetchParams,
+        };
+
         for (const middleware of this.middleware) {
             if (middleware.pre) {
-                fetchParams = await middleware.pre({
-                    fetch: this.fetchApi,
-                    ...fetchParams,
-                }) || fetchParams;
+                fetchParams = (await middleware.pre(requestContext)) || fetchParams;
             }
         }
-        let response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
-        for (const middleware of this.middleware) {
-            if (middleware.post) {
-                response = await middleware.post({
-                    fetch: this.fetchApi,
-                    url: fetchParams.url,
-                    init: fetchParams.init,
-                    response: response.clone(),
-                }) || response;
+
+        try {
+            let response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
+            const responseContext = {
+                fetch: this.fetchApi,
+                url: fetchParams.url,
+                init: fetchParams.init,
+                response: response.clone(),
+            };
+
+            for (const middleware of this.middleware) {
+                if (middleware.post) {
+                    response = (await middleware.post(responseContext)) || response;
+                }
+            }
+
+            if (response.status >= 200 && response.status < 300) {
+                return response;
+            }
+
+            throw response;
+        } catch (err) {
+            let error;
+
+            for (const middleware of this.middleware) {
+                if (middleware.fail) {
+                    error = (await middleware.fail(responseContext, err)) || err;
+                }
+            }
+
+            throw error;
+        } finally {
+            for (const middleware of this.middleware) {
+                if (middleware.complete) {
+                    middleware.complete(requestContext);
+                }
             }
         }
-        return response;
     }
 
     /**
@@ -265,6 +299,8 @@ export interface ResponseContext {
 export interface Middleware {
     pre?(context: RequestContext): Promise<FetchParams | void>;
     post?(context: ResponseContext): Promise<Response | void>;
+    fail?(context: RequestContext, err: unknown): Promise<unknown | void>;
+    complete?(context: RequestContext): void;
 }
 
 export interface ApiResponse<T> {
