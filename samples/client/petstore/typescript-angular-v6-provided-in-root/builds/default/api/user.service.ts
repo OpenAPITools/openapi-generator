@@ -129,7 +129,7 @@ export class UserService {
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             }
         }
@@ -187,7 +187,7 @@ export class UserService {
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             }
         }
@@ -245,7 +245,7 @@ export class UserService {
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             }
         }
@@ -296,7 +296,7 @@ export class UserService {
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             }
         }
@@ -347,7 +347,7 @@ export class UserService {
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             }
         }
@@ -412,7 +412,7 @@ export class UserService {
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             }
         }
@@ -458,7 +458,7 @@ export class UserService {
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             }
         }
@@ -520,7 +520,7 @@ export class UserService {
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
                 responseType_ = 'text';
-            } else if (isJsonMime(localVarHttpHeaderAcceptSelected)) {
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             }
         }
