@@ -3970,7 +3970,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     r.setResponseHeaders(responseHeaders);
                 }
-                String mediaTypeSchemaSuffix = String.format("For%sResponseBody", r.code);
+                String mediaTypeSchemaSuffix = String.format("%sResponseBody", r.code);
                 r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
 
                 if (r.baseType != null &&
@@ -4516,7 +4516,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isDeprecated = parameter.getDeprecated();
         }
         codegenParameter.jsonSchema = Json.pretty(parameter);
-        codegenParameter.setContent(getContent(parameter.getContent(), imports, "ForParameter"));
+        codegenParameter.setContent(getContent(parameter.getContent(), imports, "Parameter"));
 
         if (GlobalSettings.getProperty("debugParser") != null) {
             LOGGER.info("working on Parameter {}", parameter.getName());
@@ -6601,7 +6601,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected String toMediaTypeSchemaName(String contentType, String mediaTypeSchemaSuffix) {
-        return toModelName("Schema" +  contentType + mediaTypeSchemaSuffix);
+        return "SchemaFor" + mediaTypeSchemaSuffix +  toModelName(contentType);
     }
 
     private CodegenParameter heeaderToCodegenParameter(Header header, String headerName, Set<String> imports) {
@@ -6691,7 +6691,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema == null) {
             throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
         }
-        codegenParameter.setContent(getContent(body.getContent(), imports, "ForRequestBody"));
+        codegenParameter.setContent(getContent(body.getContent(), imports, "RequestBody"));
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());

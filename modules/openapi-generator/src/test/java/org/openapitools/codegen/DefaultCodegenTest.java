@@ -3949,7 +3949,7 @@ public class DefaultCodegenTest {
         CodegenProperty cp = mt.getSchema();
         assertTrue(cp.isMap);
         assertEquals(cp.complexType, "object");
-        assertEquals(cp.baseName, "ApplicationJsonSchema");
+        assertEquals(cp.baseName, "SchemaForParameterApplicationJson");
 
         CodegenParameter coordinatesReferencedSchema = co.queryParams.get(1);
         content = coordinatesReferencedSchema.getContent();
@@ -3958,7 +3958,7 @@ public class DefaultCodegenTest {
         cp = mt.getSchema();
         assertFalse(cp.isMap); // because it is a referenced schema
         assertEquals(cp.complexType, "coordinates");
-        assertEquals(cp.baseName, "ApplicationJsonSchema");
+        assertEquals(cp.baseName, "SchemaForParameterApplicationJson");
     }
 
     @Test
@@ -3978,13 +3978,13 @@ public class DefaultCodegenTest {
         CodegenMediaType mt = content.get("application/json");
         assertNull(mt.getEncoding());
         CodegenProperty cp = mt.getSchema();
-        assertEquals(cp.baseName, "ApplicationJsonSchema");
+        assertEquals(cp.baseName, "SchemaForRequestBodyApplicationJson");
         assertNotNull(cp);
 
         mt = content.get("text/plain");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
-        assertEquals(cp.baseName, "TextPlainSchema");
+        assertEquals(cp.baseName, "SchemaForRequestBodyTextPlain");
         assertNotNull(cp);
         // Note: the inline model resolver has a bug for this use case; it extracts an inline request body into a component
         // but the schema it references is not string type
@@ -3998,13 +3998,13 @@ public class DefaultCodegenTest {
         mt = content.get("application/json");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
-        assertEquals(cp.baseName, "ApplicationJsonSchema");
+        assertEquals(cp.baseName, "SchemaForRequestBodyApplicationJson");
         assertEquals(cp.complexType, "coordinates");
 
         mt = content.get("text/plain");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
-        assertEquals(cp.baseName, "TextPlainSchema");
+        assertEquals(cp.baseName, "SchemaForRequestBodyTextPlain");
         assertTrue(cp.isString);
     }
 
@@ -4042,12 +4042,12 @@ public class DefaultCodegenTest {
         CodegenProperty cp = mt.getSchema();
         assertFalse(cp.isMap); // because it is a referenced schema
         assertEquals(cp.complexType, "coordinates");
-        assertEquals(cp.baseName, "ApplicationJsonSchema");
+        assertEquals(cp.baseName, "SchemaFor200ResponseBodyApplicationJson");
 
         mt = content.get("text/plain");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
-        assertEquals(cp.baseName, "TextPlainSchema");
+        assertEquals(cp.baseName, "SchemaFor200ResponseBodyTextPlain");
         assertTrue(cp.isString);
 
         cr = co.responses.get(1);
@@ -4058,12 +4058,12 @@ public class DefaultCodegenTest {
         cp = mt.getSchema();
         assertFalse(cp.isMap); // because it is a referenced schema
         assertEquals(cp.complexType, "coordinates");
-        assertEquals(cp.baseName, "ApplicationJsonSchema");
+        assertEquals(cp.baseName, "SchemaFor201ResponseBodyApplicationJson");
 
         mt = content.get("text/plain");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
-        assertEquals(cp.baseName, "TextPlainSchema");
+        assertEquals(cp.baseName, "SchemaFor201ResponseBodyTextPlain");
         assertTrue(cp.isString);
     }
 }
