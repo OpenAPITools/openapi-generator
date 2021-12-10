@@ -477,6 +477,15 @@ private class FormDataEncoding: ParameterEncoding {
                     )
                 }
 
+            case let data as Data:
+
+                urlRequest = configureDataUploadRequest(
+                    urlRequest: urlRequest,
+                    boundary: boundary,
+                    name: key,
+                    data: data
+                )
+
             default:
                 fatalError("Unprocessable value \(value) with key \(key)")
             }
