@@ -343,8 +343,8 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
      *
      * Fixes errors caused by adding backslash to some regex patterns
      *
-     * @parem pattern Regex pattern defined in the OpenAPI specification file
-     * @parem vendorExtensions HashMap which stores strings used in the generated code templates
+     * @param pattern Regex pattern defined in the OpenAPI specification file
+     * @param vendorExtensions HashMap which stores strings used in the generated code templates
      * @return resultPattern Regex pattern which is or is not transformed
      */
     public String fixRegexBackSlashError(String pattern, Map<String, Object> vendorExtensions) {
