@@ -99,7 +99,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
+        
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/store/order/{orderId}".replace("{"+"orderId"+"}", "$orderId"),
@@ -164,6 +164,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -232,6 +233,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -300,6 +302,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,

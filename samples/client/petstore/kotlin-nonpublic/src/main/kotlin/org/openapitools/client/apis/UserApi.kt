@@ -99,7 +99,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
+        
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user",
@@ -165,7 +165,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
+        
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithArray",
@@ -231,7 +231,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
+        
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithList",
@@ -297,7 +297,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
+        
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/user/{username}".replace("{"+"username"+"}", "$username"),
@@ -365,6 +365,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -440,6 +441,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
                 put("password", listOf(password.toString()))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -503,7 +505,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
+        
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/user/logout",
@@ -572,7 +574,7 @@ internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(ba
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-
+        
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/user/{username}".replace("{"+"username"+"}", "$username"),

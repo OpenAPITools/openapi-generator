@@ -57,7 +57,7 @@ Configure petstore_auth:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 <a name="deletePet"></a>
@@ -155,7 +155,7 @@ Configure petstore_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
@@ -204,7 +204,7 @@ Configure petstore_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
 <a name="getPetById"></a>
 # **getPetById**
@@ -254,7 +254,7 @@ Configure api_key:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
 <a name="updatePet"></a>
 # **updatePet**
@@ -299,7 +299,7 @@ Configure petstore_auth:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 <a name="updatePetWithForm"></a>
