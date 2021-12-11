@@ -20,6 +20,8 @@
 
 package org.openapitools.client.apis
 
+import java.io.IOException
+
 import org.openapitools.client.models.PetEnum
 
 import com.squareup.moshi.Json
@@ -49,12 +51,14 @@ class EnumApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * Get enums
     * 
     * @return PetEnum
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getEnum() : PetEnum {
         val localVarResponse = getEnumWithHttpInfo()
 
@@ -77,12 +81,11 @@ class EnumApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * Get enums
     * 
     * @return ApiInfrastructureResponse<PetEnum?>
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class)
     fun getEnumWithHttpInfo() : ApiInfrastructureResponse<PetEnum?> {
         val localVariableConfig = getEnumRequestConfig()
 
@@ -100,6 +103,7 @@ class EnumApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
