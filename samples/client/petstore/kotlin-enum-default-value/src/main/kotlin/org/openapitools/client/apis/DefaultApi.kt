@@ -25,7 +25,7 @@ import java.io.IOException
 import org.openapitools.client.models.ModelWithEnumPropertyHavingDefault
 
 import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.ApiInfrastructureResponse
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -78,13 +78,13 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     /**
     * 
     * 
-    * @return ApiInfrastructureResponse<ModelWithEnumPropertyHavingDefault?>
+    * @return ApiResponse<ModelWithEnumPropertyHavingDefault?>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun operationWithHttpInfo() : ApiInfrastructureResponse<ModelWithEnumPropertyHavingDefault?> {
+    fun operationWithHttpInfo() : ApiResponse<ModelWithEnumPropertyHavingDefault?> {
         val localVariableConfig = operationRequestConfig()
 
         return request<Unit, ModelWithEnumPropertyHavingDefault>(

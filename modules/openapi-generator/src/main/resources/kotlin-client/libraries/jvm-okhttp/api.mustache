@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 {{/useCoroutines}}
 {{/doNotUseRxAndCoroutines}}
 import {{packageName}}.infrastructure.ApiClient
-import {{packageName}}.infrastructure.ApiInfrastructureResponse
+import {{packageName}}.infrastructure.ApiResponse
 import {{packageName}}.infrastructure.ClientException
 import {{packageName}}.infrastructure.ClientError
 import {{packageName}}.infrastructure.ServerException
@@ -76,7 +76,7 @@ import {{packageName}}.infrastructure.toMultiValue
     * {{summary}}
     * {{notes}}
     {{#allParams}}* @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-    {{/allParams}}* @return ApiInfrastructureResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>
+    {{/allParams}}* @return ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */{{#returnType}}
@@ -85,7 +85,7 @@ import {{packageName}}.infrastructure.toMultiValue
     {{#isDeprecated}}
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
-    {{^doNotUseRxAndCoroutines}}{{#useCoroutines}}suspend {{/useCoroutines}}{{/doNotUseRxAndCoroutines}}fun {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : ApiInfrastructureResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>{{^doNotUseRxAndCoroutines}}{{#useCoroutines}} = withContext(Dispatchers.IO){{/useCoroutines}}{{/doNotUseRxAndCoroutines}} {
+    {{^doNotUseRxAndCoroutines}}{{#useCoroutines}}suspend {{/useCoroutines}}{{/doNotUseRxAndCoroutines}}fun {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>{{^doNotUseRxAndCoroutines}}{{#useCoroutines}} = withContext(Dispatchers.IO){{/useCoroutines}}{{/doNotUseRxAndCoroutines}} {
         {{#isDeprecated}}
         @Suppress("DEPRECATION")
         {{/isDeprecated}}
