@@ -21,10 +21,7 @@
 package org.openapitools.client.models
 
 
-import kotlinx.serialization.Serializable as KSerializable
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Contextual
-import java.io.Serializable
+import com.squareup.moshi.Json
 
 /**
  * Describes the result of uploading an image resource
@@ -33,22 +30,17 @@ import java.io.Serializable
  * @param type 
  * @param message 
  */
-@KSerializable
-data class ApiResponse (
 
-    @SerialName(value = "code")
+data class ModelApiResponse (
+
+    @Json(name = "code")
     val code: kotlin.Int? = null,
 
-    @SerialName(value = "type")
+    @Json(name = "type")
     val type: kotlin.String? = null,
 
-    @SerialName(value = "message")
+    @Json(name = "message")
     val message: kotlin.String? = null
 
-) : Serializable {
-    companion object {
-        private const val serialVersionUID: Long = 123
-    }
-
-}
+)
 

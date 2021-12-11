@@ -21,7 +21,9 @@
 package org.openapitools.client.models
 
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable as KSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Contextual
 import java.io.Serializable
 
 /**
@@ -31,16 +33,16 @@ import java.io.Serializable
  * @param type 
  * @param message 
  */
+@KSerializable
+data class ModelApiResponse (
 
-data class ApiResponse (
-
-    @SerializedName("code")
+    @SerialName(value = "code")
     val code: kotlin.Int? = null,
 
-    @SerializedName("type")
+    @SerialName(value = "type")
     val type: kotlin.String? = null,
 
-    @SerializedName("message")
+    @SerialName(value = "message")
     val message: kotlin.String? = null
 
 ) : Serializable {

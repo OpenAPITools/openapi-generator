@@ -22,6 +22,7 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * Describes the result of uploading an image resource
@@ -31,7 +32,7 @@ import com.squareup.moshi.Json
  * @param message 
  */
 
-internal data class ApiResponse (
+data class ModelApiResponse (
 
     @Json(name = "code")
     val code: kotlin.Int? = null,
@@ -42,5 +43,10 @@ internal data class ApiResponse (
     @Json(name = "message")
     val message: kotlin.String? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 
