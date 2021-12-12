@@ -252,6 +252,13 @@ public class Drawing extends HashMap<String, Fruit> {
   * @throws IOException if the JSON Object is invalid with respect to Drawing
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (Drawing.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in Drawing is not found in the empty JSON string", Drawing.openapiRequiredFields.toString()));
+        }
+      }
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -259,15 +266,18 @@ public class Drawing extends HashMap<String, Fruit> {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Drawing` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-
-      // validate the field `mainShape`
-      Shape.validateJsonObject(jsonObj.getAsJsonObject("mainShape"));
-
-      // validate the field `shapeOrNull`
-      ShapeOrNull.validateJsonObject(jsonObj.getAsJsonObject("shapeOrNull"));
-
-      // validate the field `nullableShape`
-      NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
+      // validate the optional field `mainShape`
+      if (jsonObj.getAsJsonObject("mainShape") != null) {
+        Shape.validateJsonObject(jsonObj.getAsJsonObject("mainShape"));
+      }
+      // validate the optional field `shapeOrNull`
+      if (jsonObj.getAsJsonObject("shapeOrNull") != null) {
+        ShapeOrNull.validateJsonObject(jsonObj.getAsJsonObject("shapeOrNull"));
+      }
+      // validate the optional field `nullableShape`
+      if (jsonObj.getAsJsonObject("nullableShape") != null) {
+        NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -290,7 +300,7 @@ public class Drawing extends HashMap<String, Fruit> {
 
            @Override
            public Drawing read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject().deepCopy();
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              return thisAdapter.fromJsonTree(jsonObj);
            }

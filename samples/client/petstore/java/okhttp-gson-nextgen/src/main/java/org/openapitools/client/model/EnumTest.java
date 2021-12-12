@@ -628,6 +628,13 @@ public class EnumTest {
   * @throws IOException if the JSON Object is invalid with respect to EnumTest
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (EnumTest.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in EnumTest is not found in the empty JSON string", EnumTest.openapiRequiredFields.toString()));
+        }
+      }
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -664,7 +671,7 @@ public class EnumTest {
 
            @Override
            public EnumTest read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject().deepCopy();
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              return thisAdapter.fromJsonTree(jsonObj);
            }

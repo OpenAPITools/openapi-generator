@@ -110,7 +110,7 @@ public class Pig extends AbstractOpenApiSchema {
                     // deserialize BasquePig
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        BasquePig.validateJsonObject(jsonObject.deepCopy());
+                        BasquePig.validateJsonObject(jsonObject);
                         actualAdapter = adapterBasquePig;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'BasquePig'");
@@ -122,7 +122,7 @@ public class Pig extends AbstractOpenApiSchema {
                     // deserialize DanishPig
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        DanishPig.validateJsonObject(jsonObject.deepCopy());
+                        DanishPig.validateJsonObject(jsonObject);
                         actualAdapter = adapterDanishPig;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'DanishPig'");
@@ -133,7 +133,7 @@ public class Pig extends AbstractOpenApiSchema {
 
                     if (match == 1) {
                         Pig ret = new Pig();
-                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject.deepCopy()));
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject));
                         return ret;
                     }
 

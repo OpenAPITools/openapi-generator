@@ -110,7 +110,7 @@ public class Shape extends AbstractOpenApiSchema {
                     // deserialize Quadrilateral
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        Quadrilateral.validateJsonObject(jsonObject.deepCopy());
+                        Quadrilateral.validateJsonObject(jsonObject);
                         actualAdapter = adapterQuadrilateral;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
@@ -122,7 +122,7 @@ public class Shape extends AbstractOpenApiSchema {
                     // deserialize Triangle
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        Triangle.validateJsonObject(jsonObject.deepCopy());
+                        Triangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterTriangle;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Triangle'");
@@ -133,7 +133,7 @@ public class Shape extends AbstractOpenApiSchema {
 
                     if (match == 1) {
                         Shape ret = new Shape();
-                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject.deepCopy()));
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject));
                         return ret;
                     }
 

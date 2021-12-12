@@ -408,7 +408,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         if ({{classname}}.openapiRequiredFields.isEmpty()) {
           return;
         } else { // has reuqired fields
-          throw new IllegalArgumentException(String.format("The required field(s) `%s` is not found in the empty JSON string", {{classname}}.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format("The required field(s) %s in {{{classname}}} is not found in the empty JSON string", {{classname}}.openapiRequiredFields.toString()));
         }
       }
       {{^hasChildren}}
@@ -435,9 +435,16 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{#vars}}
       {{^isContainer}}
       {{#isModel}}
-
-      // validate the field `{{{baseName}}}`
+      {{#isRequired}}
+      // validate the required field `{{{baseName}}}`
       {{{dataType}}}.validateJsonObject(jsonObj.getAsJsonObject("{{{baseName}}}"));
+      {{/isRequired}}
+      {{^isRequired}}
+      // validate the optional field `{{{baseName}}}`
+      if (jsonObj.getAsJsonObject("{{{baseName}}}") != null) {
+        {{{dataType}}}.validateJsonObject(jsonObj.getAsJsonObject("{{{baseName}}}"));
+      }
+      {{/isRequired}}
       {{/isModel}}
       {{/isContainer}}
       {{/vars}}
@@ -480,7 +487,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
            @Override
            public {{classname}} read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject().deepCopy();
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              return thisAdapter.fromJsonTree(jsonObj);
            }

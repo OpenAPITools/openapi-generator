@@ -119,7 +119,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     // deserialize EquilateralTriangle
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        EquilateralTriangle.validateJsonObject(jsonObject.deepCopy());
+                        EquilateralTriangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterEquilateralTriangle;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
@@ -131,7 +131,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     // deserialize IsoscelesTriangle
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        IsoscelesTriangle.validateJsonObject(jsonObject.deepCopy());
+                        IsoscelesTriangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterIsoscelesTriangle;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
@@ -143,7 +143,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     // deserialize ScaleneTriangle
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        ScaleneTriangle.validateJsonObject(jsonObject.deepCopy());
+                        ScaleneTriangle.validateJsonObject(jsonObject);
                         actualAdapter = adapterScaleneTriangle;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
@@ -154,7 +154,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
                     if (match == 1) {
                         Triangle ret = new Triangle();
-                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject.deepCopy()));
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject));
                         return ret;
                     }
 

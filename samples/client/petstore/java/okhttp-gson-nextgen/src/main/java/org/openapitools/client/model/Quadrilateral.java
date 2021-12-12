@@ -110,7 +110,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                     // deserialize ComplexQuadrilateral
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        ComplexQuadrilateral.validateJsonObject(jsonObject.deepCopy());
+                        ComplexQuadrilateral.validateJsonObject(jsonObject);
                         actualAdapter = adapterComplexQuadrilateral;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
@@ -122,7 +122,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                     // deserialize SimpleQuadrilateral
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        SimpleQuadrilateral.validateJsonObject(jsonObject.deepCopy());
+                        SimpleQuadrilateral.validateJsonObject(jsonObject);
                         actualAdapter = adapterSimpleQuadrilateral;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'SimpleQuadrilateral'");
@@ -133,7 +133,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
                     if (match == 1) {
                         Quadrilateral ret = new Quadrilateral();
-                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject.deepCopy()));
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject));
                         return ret;
                     }
 

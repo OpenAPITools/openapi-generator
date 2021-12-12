@@ -531,6 +531,13 @@ public class NullableClass extends HashMap<String, Object> {
   * @throws IOException if the JSON Object is invalid with respect to NullableClass
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (NullableClass.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in NullableClass is not found in the empty JSON string", NullableClass.openapiRequiredFields.toString()));
+        }
+      }
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -560,7 +567,7 @@ public class NullableClass extends HashMap<String, Object> {
 
            @Override
            public NullableClass read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject().deepCopy();
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              return thisAdapter.fromJsonTree(jsonObj);
            }

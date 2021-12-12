@@ -133,6 +133,13 @@ public class TriangleInterface {
   * @throws IOException if the JSON Object is invalid with respect to TriangleInterface
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (TriangleInterface.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in TriangleInterface is not found in the empty JSON string", TriangleInterface.openapiRequiredFields.toString()));
+        }
+      }
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -169,7 +176,7 @@ public class TriangleInterface {
 
            @Override
            public TriangleInterface read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject().deepCopy();
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              return thisAdapter.fromJsonTree(jsonObj);
            }

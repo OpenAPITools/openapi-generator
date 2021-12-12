@@ -107,6 +107,13 @@ public class ParentPet extends GrandparentAnimal {
   * @throws IOException if the JSON Object is invalid with respect to ParentPet
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (ParentPet.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in ParentPet is not found in the empty JSON string", ParentPet.openapiRequiredFields.toString()));
+        }
+      }
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -143,7 +150,7 @@ public class ParentPet extends GrandparentAnimal {
 
            @Override
            public ParentPet read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject().deepCopy();
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              return thisAdapter.fromJsonTree(jsonObj);
            }

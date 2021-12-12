@@ -133,6 +133,13 @@ public class InlineResponseDefault {
   * @throws IOException if the JSON Object is invalid with respect to InlineResponseDefault
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (InlineResponseDefault.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in InlineResponseDefault is not found in the empty JSON string", InlineResponseDefault.openapiRequiredFields.toString()));
+        }
+      }
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -140,9 +147,10 @@ public class InlineResponseDefault {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `InlineResponseDefault` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-
-      // validate the field `string`
-      Foo.validateJsonObject(jsonObj.getAsJsonObject("string"));
+      // validate the optional field `string`
+      if (jsonObj.getAsJsonObject("string") != null) {
+        Foo.validateJsonObject(jsonObj.getAsJsonObject("string"));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -165,7 +173,7 @@ public class InlineResponseDefault {
 
            @Override
            public InlineResponseDefault read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject().deepCopy();
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              return thisAdapter.fromJsonTree(jsonObj);
            }

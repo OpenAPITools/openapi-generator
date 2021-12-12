@@ -111,7 +111,7 @@ public class FruitReq extends AbstractOpenApiSchema {
                     // deserialize AppleReq
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        AppleReq.validateJsonObject(jsonObject.deepCopy());
+                        AppleReq.validateJsonObject(jsonObject);
                         actualAdapter = adapterAppleReq;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'AppleReq'");
@@ -123,7 +123,7 @@ public class FruitReq extends AbstractOpenApiSchema {
                     // deserialize BananaReq
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        BananaReq.validateJsonObject(jsonObject.deepCopy());
+                        BananaReq.validateJsonObject(jsonObject);
                         actualAdapter = adapterBananaReq;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'BananaReq'");
@@ -134,7 +134,7 @@ public class FruitReq extends AbstractOpenApiSchema {
 
                     if (match == 1) {
                         FruitReq ret = new FruitReq();
-                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject.deepCopy()));
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject));
                         return ret;
                     }
 

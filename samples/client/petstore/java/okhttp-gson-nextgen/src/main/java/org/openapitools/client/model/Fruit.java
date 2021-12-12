@@ -111,7 +111,7 @@ public class Fruit extends AbstractOpenApiSchema {
                     // deserialize Apple
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        Apple.validateJsonObject(jsonObject.deepCopy());
+                        Apple.validateJsonObject(jsonObject);
                         actualAdapter = adapterApple;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Apple'");
@@ -123,7 +123,7 @@ public class Fruit extends AbstractOpenApiSchema {
                     // deserialize Banana
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        Banana.validateJsonObject(jsonObject.deepCopy());
+                        Banana.validateJsonObject(jsonObject);
                         actualAdapter = adapterBanana;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'Banana'");
@@ -134,7 +134,7 @@ public class Fruit extends AbstractOpenApiSchema {
 
                     if (match == 1) {
                         Fruit ret = new Fruit();
-                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject.deepCopy()));
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject));
                         return ret;
                     }
 

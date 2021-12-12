@@ -259,6 +259,8 @@ public class JSON {
             .registerTypeAdapterFactory(new org.openapitools.client.model.MixedPropertiesAndAdditionalPropertiesClass.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Model200Response.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.ModelApiResponse.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ModelFile.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.ModelList.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.ModelReturn.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Name.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.NullableClass.CustomTypeAdapterFactory())

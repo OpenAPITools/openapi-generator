@@ -350,6 +350,13 @@ public class Pet {
   * @throws IOException if the JSON Object is invalid with respect to Pet
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (Pet.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in Pet is not found in the empty JSON string", Pet.openapiRequiredFields.toString()));
+        }
+      }
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -364,9 +371,10 @@ public class Pet {
           throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
         }
       }
-
-      // validate the field `category`
-      Category.validateJsonObject(jsonObj.getAsJsonObject("category"));
+      // validate the optional field `category`
+      if (jsonObj.getAsJsonObject("category") != null) {
+        Category.validateJsonObject(jsonObj.getAsJsonObject("category"));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -389,7 +397,7 @@ public class Pet {
 
            @Override
            public Pet read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject().deepCopy();
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              return thisAdapter.fromJsonTree(jsonObj);
            }

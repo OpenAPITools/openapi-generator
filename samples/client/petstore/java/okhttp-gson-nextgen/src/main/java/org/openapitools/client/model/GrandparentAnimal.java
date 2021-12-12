@@ -135,6 +135,13 @@ public class GrandparentAnimal {
   * @throws IOException if the JSON Object is invalid with respect to GrandparentAnimal
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (GrandparentAnimal.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in GrandparentAnimal is not found in the empty JSON string", GrandparentAnimal.openapiRequiredFields.toString()));
+        }
+      }
 
       String discriminatorValue = jsonObj.get("pet_type").getAsString();
       switch (discriminatorValue) {

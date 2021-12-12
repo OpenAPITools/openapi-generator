@@ -240,6 +240,13 @@ public class ObjectWithDeprecatedFields {
   * @throws IOException if the JSON Object is invalid with respect to ObjectWithDeprecatedFields
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (ObjectWithDeprecatedFields.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in ObjectWithDeprecatedFields is not found in the empty JSON string", ObjectWithDeprecatedFields.openapiRequiredFields.toString()));
+        }
+      }
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -247,9 +254,10 @@ public class ObjectWithDeprecatedFields {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ObjectWithDeprecatedFields` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
         }
       }
-
-      // validate the field `deprecatedRef`
-      DeprecatedObject.validateJsonObject(jsonObj.getAsJsonObject("deprecatedRef"));
+      // validate the optional field `deprecatedRef`
+      if (jsonObj.getAsJsonObject("deprecatedRef") != null) {
+        DeprecatedObject.validateJsonObject(jsonObj.getAsJsonObject("deprecatedRef"));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -272,7 +280,7 @@ public class ObjectWithDeprecatedFields {
 
            @Override
            public ObjectWithDeprecatedFields read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject().deepCopy();
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              return thisAdapter.fromJsonTree(jsonObj);
            }

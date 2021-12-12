@@ -163,7 +163,13 @@ public class Category {
   * @throws IOException if the JSON Object is invalid with respect to Category
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) return;
+      if (jsonObj == null) {
+        if (Category.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in Category is not found in the empty JSON string", Category.openapiRequiredFields.toString()));
+        }
+      }
       Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
@@ -200,7 +206,7 @@ public class Category {
 
            @Override
            public Category read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject().deepCopy();
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
              validateJsonObject(jsonObj);
              return thisAdapter.fromJsonTree(jsonObj);
            }

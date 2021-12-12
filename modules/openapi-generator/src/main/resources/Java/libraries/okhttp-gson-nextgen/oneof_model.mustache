@@ -80,7 +80,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     switch (discriminatorValue) {
                     {{#mappedModels}}
                         case "{{{mappingName}}}":
-                            deserialized = adapter{{modelName}}.fromJsonTree(jsonObject.deepCopy());
+                            deserialized = adapter{{modelName}}.fromJsonTree(jsonObject);
                             new{{classname}}.setActualInstance(deserialized);
                             return new{{classname}};
                     {{/mappedModels}}
@@ -97,7 +97,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     // deserialize {{{.}}}
                     try {
                         // validate the JSON object to see if any excpetion is thrown
-                        {{.}}.validateJsonObject(jsonObject.deepCopy());
+                        {{.}}.validateJsonObject(jsonObject);
                         actualAdapter = adapter{{.}};
                         match++;
                         log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
@@ -109,7 +109,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{/oneOf}}
                     if (match == 1) {
                         {{classname}} ret = new {{classname}}();
-                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject.deepCopy()));
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject));
                         return ret;
                     }
 
