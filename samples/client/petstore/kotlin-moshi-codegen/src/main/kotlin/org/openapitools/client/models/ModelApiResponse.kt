@@ -21,7 +21,8 @@
 package org.openapitools.client.models
 
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * Describes the result of uploading an image resource
@@ -30,16 +31,16 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param type 
  * @param message 
  */
+@JsonClass(generateAdapter = true)
+data class ModelApiResponse (
 
-data class ApiResponse (
-
-    @field:JsonProperty("code")
+    @Json(name = "code")
     val code: kotlin.Int? = null,
 
-    @field:JsonProperty("type")
+    @Json(name = "type")
     val type: kotlin.String? = null,
 
-    @field:JsonProperty("message")
+    @Json(name = "message")
     val message: kotlin.String? = null
 
 )

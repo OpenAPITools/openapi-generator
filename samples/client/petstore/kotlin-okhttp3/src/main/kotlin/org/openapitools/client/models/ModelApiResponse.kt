@@ -21,9 +21,7 @@
 package org.openapitools.client.models
 
 
-import kotlinx.serialization.*
-import kotlinx.serialization.descriptors.*
-import kotlinx.serialization.encoding.*
+import com.squareup.moshi.Json
 
 /**
  * Describes the result of uploading an image resource
@@ -32,14 +30,17 @@ import kotlinx.serialization.encoding.*
  * @param type 
  * @param message 
  */
-@Serializable
-data class ApiResponse (
 
-    @SerialName(value = "code") val code: kotlin.Int? = null,
+data class ModelApiResponse (
 
-    @SerialName(value = "type") val type: kotlin.String? = null,
+    @Json(name = "code")
+    val code: kotlin.Int? = null,
 
-    @SerialName(value = "message") val message: kotlin.String? = null
+    @Json(name = "type")
+    val type: kotlin.String? = null,
+
+    @Json(name = "message")
+    val message: kotlin.String? = null
 
 )
 
