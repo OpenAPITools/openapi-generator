@@ -198,5 +198,3 @@ src/main/java/org/openapitools/client/model/TriangleInterface.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/Whale.java
 src/main/java/org/openapitools/client/model/Zebra.java
-src/test/java/org/openapitools/client/model/ModelFileTest.java
-src/test/java/org/openapitools/client/model/ModelListTest.java

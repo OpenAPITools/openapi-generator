@@ -436,18 +436,18 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{#vars}}
       {{#isArray}}
       {{#items.isModel}}
-      JsonArray jsonArray = jsonObj.getAsJsonArray("{{{baseName}}}");
+      JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
       {{#isRequired}}
       // validate the required field `{{{baseName}}}` (array)
-      for (int i = 0; i < jsonArray.size(); i++) {
-        {{{items.dataType}}}.validateJsonObject(jsonArray.get(i).getAsJsonObject());
+      for (int i = 0; i < jsonArray{{name}}.size(); i++) {
+        {{{items.dataType}}}.validateJsonObject(jsonArray{{name}}.get(i).getAsJsonObject());
       };
       {{/isRequired}}
       {{^isRequired}}
       // validate the optional field `{{{baseName}}}` (array)
-      if (jsonArray != null) {
-        for (int i = 0; i < jsonArray.size(); i++) {
-          {{{items.dataType}}}.validateJsonObject(jsonArray.get(i).getAsJsonObject());
+      if (jsonArray{{name}} != null) {
+        for (int i = 0; i < jsonArray{{name}}.size(); i++) {
+          {{{items.dataType}}}.validateJsonObject(jsonArray{{name}}.get(i).getAsJsonObject());
         };
       }
       {{/isRequired}}

@@ -192,11 +192,11 @@ public class FileSchemaTestClass {
       if (jsonObj.getAsJsonObject("file") != null) {
         ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
       }
-      JsonArray jsonArray = jsonObj.getAsJsonArray("files");
+      JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
       // validate the optional field `files` (array)
-      if (jsonArray != null) {
-        for (int i = 0; i < jsonArray.size(); i++) {
-          ModelFile.validateJsonObject(jsonArray.get(i).getAsJsonObject());
+      if (jsonArrayfiles != null) {
+        for (int i = 0; i < jsonArrayfiles.size(); i++) {
+          ModelFile.validateJsonObject(jsonArrayfiles.get(i).getAsJsonObject());
         };
       }
   }

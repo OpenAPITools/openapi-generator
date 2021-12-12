@@ -279,11 +279,11 @@ public class Drawing extends HashMap<String, Fruit> {
       if (jsonObj.getAsJsonObject("nullableShape") != null) {
         NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
       }
-      JsonArray jsonArray = jsonObj.getAsJsonArray("shapes");
+      JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
       // validate the optional field `shapes` (array)
-      if (jsonArray != null) {
-        for (int i = 0; i < jsonArray.size(); i++) {
-          Shape.validateJsonObject(jsonArray.get(i).getAsJsonObject());
+      if (jsonArrayshapes != null) {
+        for (int i = 0; i < jsonArrayshapes.size(); i++) {
+          Shape.validateJsonObject(jsonArrayshapes.get(i).getAsJsonObject());
         };
       }
   }

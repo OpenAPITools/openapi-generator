@@ -133,5 +133,3 @@ src/main/java/org/openapitools/client/model/TypeHolderDefault.java
 src/main/java/org/openapitools/client/model/TypeHolderExample.java
 src/main/java/org/openapitools/client/model/User.java
 src/main/java/org/openapitools/client/model/XmlItem.java
-src/test/java/org/openapitools/client/model/ModelFileTest.java
-src/test/java/org/openapitools/client/model/ModelListTest.java

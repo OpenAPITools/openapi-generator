@@ -125,5 +125,3 @@ src/main/java/org/openapitools/model/XmlItem.java
 src/main/java/org/openapitools/query/QueryParam.java
 src/main/java/org/openapitools/query/QueryParamBinder.java
 src/main/resources/application.yml
-src/test/groovy/org/openapitools/model/ModelFileSpec.groovy
-src/test/groovy/org/openapitools/model/ModelListSpec.groovy

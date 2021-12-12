@@ -376,11 +376,11 @@ public class Pet {
       if (jsonObj.getAsJsonObject("category") != null) {
         Category.validateJsonObject(jsonObj.getAsJsonObject("category"));
       }
-      JsonArray jsonArray = jsonObj.getAsJsonArray("tags");
+      JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
       // validate the optional field `tags` (array)
-      if (jsonArray != null) {
-        for (int i = 0; i < jsonArray.size(); i++) {
-          Tag.validateJsonObject(jsonArray.get(i).getAsJsonObject());
+      if (jsonArraytags != null) {
+        for (int i = 0; i < jsonArraytags.size(); i++) {
+          Tag.validateJsonObject(jsonArraytags.get(i).getAsJsonObject());
         };
       }
   }
