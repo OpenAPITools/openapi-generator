@@ -2279,6 +2279,45 @@ components:
             $ref: '#/components/schemas/Bar'
           type: array
       type: object
+    PetWithRequiredTags:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          items:
+            type: string
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      - tags
+      type: object
+      xml:
+        name: Pet
     inline_response_default:
       example:
         string:

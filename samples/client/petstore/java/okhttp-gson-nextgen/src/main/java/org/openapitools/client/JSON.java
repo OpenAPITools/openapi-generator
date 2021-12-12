@@ -271,6 +271,7 @@ public class JSON {
             .registerTypeAdapterFactory(new org.openapitools.client.model.OuterComposite.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.ParentPet.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Pet.CustomTypeAdapterFactory())
+            .registerTypeAdapterFactory(new org.openapitools.client.model.PetWithRequiredTags.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Pig.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.Quadrilateral.CustomTypeAdapterFactory())
             .registerTypeAdapterFactory(new org.openapitools.client.model.QuadrilateralInterface.CustomTypeAdapterFactory())

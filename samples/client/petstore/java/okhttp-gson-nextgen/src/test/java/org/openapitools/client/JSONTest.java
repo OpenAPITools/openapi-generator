@@ -245,10 +245,46 @@ public class JSONTest {
         assertEquals(t2.getId(), null);
        
         // with all required fields 
-        String json3 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"]}"; // missing photoUrls (required field)
+        String json3 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"]}";
         Pet t3 = gson.fromJson(json3, Pet.class);
         assertEquals(t3.getName(), "pet test 1");
         assertEquals(t3.getId(), Long.valueOf(5847));
+        
+        // with all required fields and tags (optional) 
+        String json4 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"],\"tags\":[{\"id\":\"tag 123\"}]}";
+        Pet t4 = gson.fromJson(json3, Pet.class);
+        assertEquals(t4.getName(), "pet test 1");
+        assertEquals(t4.getId(), Long.valueOf(5847));
+
+        // test Tag
+        String json5 = "{\"unknown_field\": 543, \"id\":\"tag 123\"}";
+        Exception exception5 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+                Tag t5 = gson.fromJson(json5, Tag.class);
+                });
+        assertTrue(exception5.getMessage().contains("The field `unknown_field` in the JSON string is not defined in the `Tag` properties. JSON: {\"unknown_field\":543,\"id\":\"tag 123\"}"));
+
+        // test Pet with invalid tags
+        String json6 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"],\"tags\":[{\"unknown_field\": 543, \"id\":\"tag 123\"}]}";
+        Exception exception6 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+                Pet t6 = gson.fromJson(json6, Pet.class);
+                });
+        assertTrue(exception6.getMessage().contains("The field `unknown_field` in the JSON string is not defined in the `Tag` properties. JSON: {\"unknown_field\":543,\"id\":\"tag 123\"}"));
+
+        // test Pet with invalid tags (required)
+        String json7 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"],\"tags\":[{\"unknown_field\": 543, \"id\":\"tag 123\"}]}";
+        Exception exception7 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+                PetWithRequiredTags t7 = gson.fromJson(json7, PetWithRequiredTags.class);
+                });
+        assertTrue(exception7.getMessage().contains("The field `unknown_field` in the JSON string is not defined in the `Tag` properties. JSON: {\"unknown_field\":543,\"id\":\"tag 123\"}"));
+
+        // test Pet with invalid tags (missing reqired)
+        String json8 = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"]}";
+        Exception exception8 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+                PetWithRequiredTags t8 = gson.fromJson(json8, PetWithRequiredTags.class);
+                });
+        assertTrue(exception8.getMessage().contains("The required field `tags` is not found in the JSON string: {\"id\":5847,\"name\":\"pet test 1\",\"photoUrls\":[\"https://a.com\",\"https://b.com\"]}"));
+
+
     }
 
     /** Model tests for Pet */

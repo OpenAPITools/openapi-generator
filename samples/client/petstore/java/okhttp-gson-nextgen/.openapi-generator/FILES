@@ -67,6 +67,7 @@ docs/OuterEnumIntegerDefaultValue.md
 docs/ParentPet.md
 docs/Pet.md
 docs/PetApi.md
+docs/PetWithRequiredTags.md
 docs/Pig.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
@@ -181,6 +182,7 @@ src/main/java/org/openapitools/client/model/OuterEnumInteger.java
 src/main/java/org/openapitools/client/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/client/model/ParentPet.java
 src/main/java/org/openapitools/client/model/Pet.java
+src/main/java/org/openapitools/client/model/PetWithRequiredTags.java
 src/main/java/org/openapitools/client/model/Pig.java
 src/main/java/org/openapitools/client/model/Quadrilateral.java
 src/main/java/org/openapitools/client/model/QuadrilateralInterface.java

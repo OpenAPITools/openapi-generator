@@ -82,13 +82,13 @@ return ok();
 
     public abstract void updatePetWithForm(Http.Request request, Long petId, String name, String status) throws Exception;
 
-    public Result uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception {
-        ModelApiResponse obj = uploadFile(request, petId, additionalMetadata, file);
+    public Result uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) throws Exception {
+        ModelApiResponse obj = uploadFile(request, petId, additionalMetadata, _file);
 JsonNode result = mapper.valueToTree(obj);
 return ok(result);
 
     }
 
-    public abstract ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception;
+    public abstract ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) throws Exception;
 
 }

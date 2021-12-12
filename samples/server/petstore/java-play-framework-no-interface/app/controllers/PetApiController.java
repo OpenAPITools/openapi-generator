@@ -177,9 +177,9 @@ return ok();
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData<TemporaryFile> bodyfile = request.body().asMultipartFormData();
-        Http.MultipartFormData.FilePart<TemporaryFile> file = bodyfile.getFile("file");
-        ModelApiResponse obj = imp.uploadFile(request, petId, additionalMetadata, file);
+        Http.MultipartFormData<TemporaryFile> body_file = request.body().asMultipartFormData();
+        Http.MultipartFormData.FilePart<TemporaryFile> _file = body_file.getFile("file");
+        ModelApiResponse obj = imp.uploadFile(request, petId, additionalMetadata, _file);
     if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
     }

@@ -214,6 +214,7 @@ Class | Method | HTTP request | Description
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [ParentPet](docs/ParentPet.md)
  - [Pet](docs/Pet.md)
+ - [PetWithRequiredTags](docs/PetWithRequiredTags.md)
  - [Pig](docs/Pig.md)
  - [Quadrilateral](docs/Quadrilateral.md)
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)

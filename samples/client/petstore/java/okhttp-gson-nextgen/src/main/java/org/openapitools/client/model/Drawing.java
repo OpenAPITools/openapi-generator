@@ -35,6 +35,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -277,6 +278,13 @@ public class Drawing extends HashMap<String, Fruit> {
       // validate the optional field `nullableShape`
       if (jsonObj.getAsJsonObject("nullableShape") != null) {
         NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
+      }
+      JsonArray jsonArray = jsonObj.getAsJsonArray("shapes");
+      // validate the optional field `shapes` (array)
+      if (jsonArray != null) {
+        for (int i = 0; i < jsonArray.size(); i++) {
+          Shape.validateJsonObject(jsonArray.get(i).getAsJsonObject());
+        };
       }
   }
 

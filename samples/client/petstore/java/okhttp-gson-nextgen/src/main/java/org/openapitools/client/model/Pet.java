@@ -30,6 +30,7 @@ import org.openapitools.client.model.Tag;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -374,6 +375,13 @@ public class Pet {
       // validate the optional field `category`
       if (jsonObj.getAsJsonObject("category") != null) {
         Category.validateJsonObject(jsonObj.getAsJsonObject("category"));
+      }
+      JsonArray jsonArray = jsonObj.getAsJsonArray("tags");
+      // validate the optional field `tags` (array)
+      if (jsonArray != null) {
+        for (int i = 0; i < jsonArray.size(); i++) {
+          Tag.validateJsonObject(jsonArray.get(i).getAsJsonObject());
+        };
       }
   }
 

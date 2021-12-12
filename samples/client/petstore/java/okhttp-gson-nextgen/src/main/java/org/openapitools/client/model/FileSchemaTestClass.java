@@ -29,6 +29,7 @@ import org.openapitools.client.model.ModelFile;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -190,6 +191,13 @@ public class FileSchemaTestClass {
       // validate the optional field `file`
       if (jsonObj.getAsJsonObject("file") != null) {
         ModelFile.validateJsonObject(jsonObj.getAsJsonObject("file"));
+      }
+      JsonArray jsonArray = jsonObj.getAsJsonArray("files");
+      // validate the optional field `files` (array)
+      if (jsonArray != null) {
+        for (int i = 0; i < jsonArray.size(); i++) {
+          ModelFile.validateJsonObject(jsonArray.get(i).getAsJsonObject());
+        };
       }
   }
 
