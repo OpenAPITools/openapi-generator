@@ -219,4 +219,16 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
       throw new IOException(String.format("The JSON string is invalid for {{classname}} with oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
     }
   }
+
+ /**
+  * Create an instance of {{classname}} given an JSON string
+  *
+  * @param jsonString JSON string 
+  * @return An instance of {{classname}}
+  * @throws IOException if the JSON string is invalid with respect to {{classname}}
+  */
+  public static {{{classname}}} fromJson(String jsonString) throws IOException {
+    Gson gson = new JSON().getGson();
+    return gson.fromJson(jsonString, {{{classname}}}.class);
+  }
 }

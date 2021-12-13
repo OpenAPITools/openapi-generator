@@ -307,5 +307,17 @@ public class Mammal extends AbstractOpenApiSchema {
       throw new IOException(String.format("The JSON string is invalid for Mammal with oneOf schemas: Pig, Whale, Zebra. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
     }
   }
+
+ /**
+  * Create an instance of Mammal given an JSON string
+  *
+  * @param jsonString JSON string 
+  * @return An instance of Mammal
+  * @throws IOException if the JSON string is invalid with respect to Mammal
+  */
+  public static Mammal fromJson(String jsonString) throws IOException {
+    Gson gson = new JSON().getGson();
+    return gson.fromJson(jsonString, Mammal.class);
+  }
 }
 

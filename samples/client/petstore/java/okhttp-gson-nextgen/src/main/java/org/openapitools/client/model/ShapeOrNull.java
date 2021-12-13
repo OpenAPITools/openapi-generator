@@ -261,5 +261,17 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
       throw new IOException(String.format("The JSON string is invalid for ShapeOrNull with oneOf schemas: Quadrilateral, Triangle. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
     }
   }
+
+ /**
+  * Create an instance of ShapeOrNull given an JSON string
+  *
+  * @param jsonString JSON string 
+  * @return An instance of ShapeOrNull
+  * @throws IOException if the JSON string is invalid with respect to ShapeOrNull
+  */
+  public static ShapeOrNull fromJson(String jsonString) throws IOException {
+    Gson gson = new JSON().getGson();
+    return gson.fromJson(jsonString, ShapeOrNull.class);
+  }
 }
 

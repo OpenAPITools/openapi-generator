@@ -257,5 +257,17 @@ public class Fruit extends AbstractOpenApiSchema {
       throw new IOException(String.format("The JSON string is invalid for Fruit with oneOf schemas: Apple, Banana. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
     }
   }
+
+ /**
+  * Create an instance of Fruit given an JSON string
+  *
+  * @param jsonString JSON string 
+  * @return An instance of Fruit
+  * @throws IOException if the JSON string is invalid with respect to Fruit
+  */
+  public static Fruit fromJson(String jsonString) throws IOException {
+    Gson gson = new JSON().getGson();
+    return gson.fromJson(jsonString, Fruit.class);
+  }
 }
 

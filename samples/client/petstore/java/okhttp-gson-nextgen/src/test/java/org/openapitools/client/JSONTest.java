@@ -390,6 +390,15 @@ public class JSONTest {
             assertEquals(inst2.getCultivar(), "golden delicious");
             assertEquals(inst2.getMealy(), false);
             assertEquals(json.getGson().toJson(inst2), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
+
+            // test fromJson
+            FruitReq o3 = FruitReq.fromJson(str);
+            assertTrue(o3.getActualInstance() instanceof AppleReq);
+            AppleReq inst3 = (AppleReq) o3.getActualInstance();
+            assertEquals(inst3.getCultivar(), "golden delicious");
+            assertEquals(inst3.getMealy(), false);
+            assertEquals(json.getGson().toJson(inst3), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
+            assertEquals(json.getGson().toJson(o3), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
         }
         {
             // test to ensure the oneOf object can be serialized to "null" correctly

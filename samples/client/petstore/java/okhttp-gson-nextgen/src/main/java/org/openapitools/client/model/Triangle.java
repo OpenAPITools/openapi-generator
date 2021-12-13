@@ -307,5 +307,17 @@ public class Triangle extends AbstractOpenApiSchema {
       throw new IOException(String.format("The JSON string is invalid for Triangle with oneOf schemas: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
     }
   }
+
+ /**
+  * Create an instance of Triangle given an JSON string
+  *
+  * @param jsonString JSON string 
+  * @return An instance of Triangle
+  * @throws IOException if the JSON string is invalid with respect to Triangle
+  */
+  public static Triangle fromJson(String jsonString) throws IOException {
+    Gson gson = new JSON().getGson();
+    return gson.fromJson(jsonString, Triangle.class);
+  }
 }
 

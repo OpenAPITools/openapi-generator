@@ -261,5 +261,17 @@ public class NullableShape extends AbstractOpenApiSchema {
       throw new IOException(String.format("The JSON string is invalid for NullableShape with oneOf schemas: Quadrilateral, Triangle. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
     }
   }
+
+ /**
+  * Create an instance of NullableShape given an JSON string
+  *
+  * @param jsonString JSON string 
+  * @return An instance of NullableShape
+  * @throws IOException if the JSON string is invalid with respect to NullableShape
+  */
+  public static NullableShape fromJson(String jsonString) throws IOException {
+    Gson gson = new JSON().getGson();
+    return gson.fromJson(jsonString, NullableShape.class);
+  }
 }
 
