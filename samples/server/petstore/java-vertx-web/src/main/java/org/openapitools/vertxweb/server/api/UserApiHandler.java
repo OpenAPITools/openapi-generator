@@ -1,6 +1,5 @@
 package org.openapitools.vertxweb.server.api;
 
-import java.time.OffsetDateTime;
 import org.openapitools.vertxweb.server.model.User;
 
 import com.fasterxml.jackson.core.type.TypeReference;

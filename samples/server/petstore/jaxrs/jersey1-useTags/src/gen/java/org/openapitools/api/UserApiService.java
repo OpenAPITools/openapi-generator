@@ -5,7 +5,6 @@ import org.openapitools.model.*;
 
 import com.sun.jersey.multipart.FormDataParam;
 
-import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 

@@ -294,7 +294,7 @@ val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
 val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
 val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
 
-val result : ModelApiResponse = webService.uploadFile(petId, additionalMetadata, file)
+val result : ApiResponse = webService.uploadFile(petId, additionalMetadata, file)
 ```
 
 ### Parameters
@@ -307,7 +307,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ModelApiResponse**](ModelApiResponse.md)
+[**ApiResponse**](ApiResponse.md)
 
 ### Authorization
 

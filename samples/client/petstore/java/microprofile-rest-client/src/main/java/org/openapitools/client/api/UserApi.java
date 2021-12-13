@@ -12,7 +12,6 @@
 
 package org.openapitools.client.api;
 
-import java.util.Date;
 import org.openapitools.client.model.User;
 
 import java.io.InputStream;

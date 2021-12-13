@@ -57,7 +57,7 @@ Configure petstore_auth:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
 <a name="deletePet"></a>
@@ -155,7 +155,7 @@ Configure petstore_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
@@ -204,7 +204,7 @@ Configure petstore_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 
 <a name="getPetById"></a>
 # **getPetById**
@@ -254,7 +254,7 @@ Configure api_key:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 
 <a name="updatePet"></a>
 # **updatePet**
@@ -299,7 +299,7 @@ Configure petstore_auth:
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
 <a name="updatePetWithForm"></a>
@@ -354,7 +354,7 @@ Configure petstore_auth:
 
 <a name="uploadFile"></a>
 # **uploadFile**
-> ModelApiResponse uploadFile(petId, additionalMetadata, file)
+> ApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
@@ -369,7 +369,7 @@ val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
 val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
 val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
 try {
-    val result : ModelApiResponse? = apiInstance.uploadFile(petId, additionalMetadata, file)
+    val result : ApiResponse? = apiInstance.uploadFile(petId, additionalMetadata, file)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#uploadFile")
@@ -390,7 +390,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ModelApiResponse**](ModelApiResponse.md)
+[**ApiResponse**](ApiResponse.md)
 
 ### Authorization
 

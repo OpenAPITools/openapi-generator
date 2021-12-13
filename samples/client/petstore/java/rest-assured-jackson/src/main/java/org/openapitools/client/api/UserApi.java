@@ -13,7 +13,6 @@
 
 package org.openapitools.client.api;
 
-import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;

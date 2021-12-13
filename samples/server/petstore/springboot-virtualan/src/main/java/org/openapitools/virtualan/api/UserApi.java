@@ -6,7 +6,6 @@
 package org.openapitools.virtualan.api;
 
 import java.util.List;
-import java.time.OffsetDateTime;
 import org.openapitools.virtualan.model.User;
 import io.swagger.annotations.*;
 import io.virtualan.annotation.ApiVirtual;

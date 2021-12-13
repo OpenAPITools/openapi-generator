@@ -238,7 +238,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -308,7 +308,7 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
         val localVariableBody = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,

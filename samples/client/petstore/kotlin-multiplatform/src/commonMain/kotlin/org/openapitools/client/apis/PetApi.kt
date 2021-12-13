@@ -20,7 +20,7 @@
 
 package org.openapitools.client.apis
 
-import org.openapitools.client.models.ModelApiResponse
+import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
 
 import org.openapitools.client.infrastructure.*
@@ -303,10 +303,10 @@ class PetApi(
      * @param petId ID of pet to update 
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)
-     * @return ModelApiResponse
+     * @return ApiResponse
      */
     @Suppress("UNCHECKED_CAST")
-    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.InputProvider?): HttpResponse<ModelApiResponse> {
+    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.ktor.client.request.forms.InputProvider?): HttpResponse<ApiResponse> {
 
         val localVariableAuthNames = listOf<String>("petstore_auth")
 

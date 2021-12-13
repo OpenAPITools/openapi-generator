@@ -147,7 +147,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 
 <a name="placeOrder"></a>
 # **placeOrder**
@@ -192,5 +192,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 

@@ -129,14 +129,14 @@ export class DefaultService {
     }
 
     /**
-     * @param body 
+     * @param UNKNOWN_PARAM_NAME 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public test(body?: any, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined,}): Observable<any>;
-    public test(body?: any, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined,}): Observable<HttpResponse<any>>;
-    public test(body?: any, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined,}): Observable<HttpEvent<any>>;
-    public test(body?: any, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined,}): Observable<any> {
+    public test(UNKNOWN_PARAM_NAME?: , observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined,}): Observable<any>;
+    public test(UNKNOWN_PARAM_NAME?: , observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined,}): Observable<HttpResponse<any>>;
+    public test(UNKNOWN_PARAM_NAME?: , observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined,}): Observable<HttpEvent<any>>;
+    public test(UNKNOWN_PARAM_NAME?: , observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined,}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -168,7 +168,7 @@ export class DefaultService {
         }
 
         return this.httpClient.put<any>(`${this.configuration.basePath}/`,
-            body,
+            UNKNOWN_PARAM_NAME,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,

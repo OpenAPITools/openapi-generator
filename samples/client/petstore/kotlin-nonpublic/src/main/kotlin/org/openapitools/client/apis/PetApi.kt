@@ -22,7 +22,7 @@ package org.openapitools.client.apis
 
 import java.io.IOException
 
-import org.openapitools.client.models.ModelApiResponse
+import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
 
 import org.openapitools.client.infrastructure.ApiClient
@@ -104,6 +104,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Content-Type"] = "application/xml"
         
         return RequestConfig(
             method = RequestMethod.POST,
@@ -247,7 +248,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
                 put("status", toMultiValue(status.toList(), "csv"))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -325,7 +326,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
                 put("tags", toMultiValue(tags.toList(), "csv"))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -395,7 +396,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -464,6 +465,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Content-Type"] = "application/xml"
         
         return RequestConfig(
             method = RequestMethod.PUT,
@@ -553,7 +555,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     * @param petId ID of pet to update 
     * @param additionalMetadata Additional data to pass to server (optional)
     * @param file file to upload (optional)
-    * @return ModelApiResponse
+    * @return ApiResponse
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
@@ -562,11 +564,11 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ModelApiResponse {
+    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiResponse {
         val localVarResponse = uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> (localVarResponse as Success<*>).data as ModelApiResponse
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ApiResponse
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -586,16 +588,16 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     * @param petId ID of pet to update 
     * @param additionalMetadata Additional data to pass to server (optional)
     * @param file file to upload (optional)
-    * @return ApiResponse<ModelApiResponse?>
+    * @return ApiResponse<ApiResponse?>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiResponse<ModelApiResponse?> {
+    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiResponse<ApiResponse?> {
         val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
 
-        return request<Map<String, Any?>, ModelApiResponse>(
+        return request<Map<String, Any?>, ApiResponse>(
             localVariableConfig
         )
     }

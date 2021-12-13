@@ -372,7 +372,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -449,7 +449,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
                 put("password", listOf(password.toString()))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,

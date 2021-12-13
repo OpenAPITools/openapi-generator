@@ -14,7 +14,6 @@ package org.openapitools.example.api
 
 import java.text.SimpleDateFormat
 
-import java.util.Date
 import org.openapitools.client.model.User
 import org.openapitools.example.invoker.{ApiInvoker, ApiException}
 
