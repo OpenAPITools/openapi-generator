@@ -26,12 +26,12 @@ import org.openapitools.client.models.Pet
 * Volley.newRequestQueue(context.applicationContext, myCustomHttpStack)
 */
 class PetApi (
-    val context: Context,
-    val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
+    private val context: Context,
+    private val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
         Volley.newRequestQueue(context.applicationContext)
     }),
-    val requestFactory: IRequestFactory = RequestFactory(),
-    val basePath: String = "http://petstore.swagger.io/v2",
+    private val requestFactory: IRequestFactory = RequestFactory(),
+    private val basePath: String = "http://petstore.swagger.io/v2",
     private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     /**
@@ -41,13 +41,13 @@ class PetApi (
        * @return void
     */
     suspend fun addPet(body: Pet): Unit {
-        var body: Any? = body
+        val body: Any? = body
         // verify the required parameter 'body' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(body)
 
-        var contentTypes : Array<String> = arrayOf("application/json","application/xml")
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf("application/json","application/xml")
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -109,13 +109,13 @@ class PetApi (
        * @return void
     */
     suspend fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): Unit {
-        var body: Any? = null
+        val body: Any? = null
         // verify the required parameter 'petId' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(petId)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -177,13 +177,13 @@ class PetApi (
        * @return kotlin.collections.List<Pet>
     */
     suspend fun findPetsByStatus(status: CSVParams): kotlin.collections.List<Pet>? {
-        var body: Any? = null
+        val body: Any? = null
         // verify the required parameter 'status' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(status)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -246,13 +246,13 @@ class PetApi (
     */
     @Deprecated("This api was deprecated")
     suspend fun findPetsByTags(tags: CSVParams): kotlin.collections.List<Pet>? {
-        var body: Any? = null
+        val body: Any? = null
         // verify the required parameter 'tags' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(tags)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -314,13 +314,13 @@ class PetApi (
        * @return Pet
     */
     suspend fun getPetById(petId: kotlin.Long): Pet? {
-        var body: Any? = null
+        val body: Any? = null
         // verify the required parameter 'petId' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(petId)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -381,13 +381,13 @@ class PetApi (
        * @return void
     */
     suspend fun updatePet(body: Pet): Unit {
-        var body: Any? = body
+        val body: Any? = body
         // verify the required parameter 'body' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(body)
 
-        var contentTypes : Array<String> = arrayOf("application/json","application/xml")
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf("application/json","application/xml")
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -450,13 +450,13 @@ class PetApi (
        * @return void
     */
     suspend fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Unit {
-        var body: Any? = null
+        val body: Any? = null
         // verify the required parameter 'petId' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(petId)
 
-        var contentTypes : Array<String> = arrayOf("application/x-www-form-urlencoded")
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf("application/x-www-form-urlencoded")
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -521,13 +521,13 @@ class PetApi (
        * @return ApiResponse
     */
     suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ApiResponse? {
-        var body: Any? = null
+        val body: Any? = null
         // verify the required parameter 'petId' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(petId)
 
-        var contentTypes : Array<String> = arrayOf("multipart/form-data")
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf("multipart/form-data")
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template

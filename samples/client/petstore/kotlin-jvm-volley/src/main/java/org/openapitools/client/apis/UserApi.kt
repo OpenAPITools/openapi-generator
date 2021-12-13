@@ -25,12 +25,12 @@ import org.openapitools.client.models.User
 * Volley.newRequestQueue(context.applicationContext, myCustomHttpStack)
 */
 class UserApi (
-    val context: Context,
-    val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
+    private val context: Context,
+    private val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
         Volley.newRequestQueue(context.applicationContext)
     }),
-    val requestFactory: IRequestFactory = RequestFactory(),
-    val basePath: String = "http://petstore.swagger.io/v2",
+    private val requestFactory: IRequestFactory = RequestFactory(),
+    private val basePath: String = "http://petstore.swagger.io/v2",
     private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     /**
@@ -40,13 +40,13 @@ class UserApi (
        * @return void
     */
     suspend fun createUser(body: User): Unit {
-        var body: Any? = body
+        val body: Any? = body
         // verify the required parameter 'body' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(body)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -107,13 +107,13 @@ class UserApi (
        * @return void
     */
     suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Unit {
-        var body: Any? = body
+        val body: Any? = body
         // verify the required parameter 'body' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(body)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -174,13 +174,13 @@ class UserApi (
        * @return void
     */
     suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit {
-        var body: Any? = body
+        val body: Any? = body
         // verify the required parameter 'body' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(body)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -241,13 +241,13 @@ class UserApi (
        * @return void
     */
     suspend fun deleteUser(username: kotlin.String): Unit {
-        var body: Any? = null
+        val body: Any? = null
         // verify the required parameter 'username' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(username)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -308,13 +308,13 @@ class UserApi (
        * @return User
     */
     suspend fun getUserByName(username: kotlin.String): User? {
-        var body: Any? = null
+        val body: Any? = null
         // verify the required parameter 'username' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(username)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -376,7 +376,7 @@ class UserApi (
        * @return kotlin.String
     */
     suspend fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String? {
-        var body: Any? = null
+        val body: Any? = null
         // verify the required parameter 'username' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(username)
@@ -384,8 +384,8 @@ class UserApi (
         // This is probably taken care of by non-null types anyway
         requireNotNull(password)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -447,10 +447,10 @@ class UserApi (
        * @return void
     */
     suspend fun logoutUser(): Unit {
-        var body: Any? = null
+        val body: Any? = null
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -512,7 +512,7 @@ class UserApi (
        * @return void
     */
     suspend fun updateUser(username: kotlin.String, body: User): Unit {
-        var body: Any? = body
+        val body: Any? = body
         // verify the required parameter 'username' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(username)
@@ -520,8 +520,8 @@ class UserApi (
         // This is probably taken care of by non-null types anyway
         requireNotNull(body)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template

@@ -25,12 +25,12 @@ import org.openapitools.client.models.Order
 * Volley.newRequestQueue(context.applicationContext, myCustomHttpStack)
 */
 class StoreApi (
-    val context: Context,
-    val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
+    private val context: Context,
+    private val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
         Volley.newRequestQueue(context.applicationContext)
     }),
-    val requestFactory: IRequestFactory = RequestFactory(),
-    val basePath: String = "http://petstore.swagger.io/v2",
+    private val requestFactory: IRequestFactory = RequestFactory(),
+    private val basePath: String = "http://petstore.swagger.io/v2",
     private val postProcessors :List <(Request<*>) -> Unit> = listOf()) {
 
     /**
@@ -40,13 +40,13 @@ class StoreApi (
        * @return void
     */
     suspend fun deleteOrder(orderId: kotlin.String): Unit {
-        var body: Any? = null
+        val body: Any? = null
         // verify the required parameter 'orderId' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(orderId)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -106,10 +106,10 @@ class StoreApi (
        * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
     */
     suspend fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int>? {
-        var body: Any? = null
+        val body: Any? = null
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -170,13 +170,13 @@ class StoreApi (
        * @return Order
     */
     suspend fun getOrderById(orderId: kotlin.Long): Order? {
-        var body: Any? = null
+        val body: Any? = null
         // verify the required parameter 'orderId' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(orderId)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
@@ -237,13 +237,13 @@ class StoreApi (
        * @return Order
     */
     suspend fun placeOrder(body: Order): Order? {
-        var body: Any? = body
+        val body: Any? = body
         // verify the required parameter 'body' is set
         // This is probably taken care of by non-null types anyway
         requireNotNull(body)
 
-        var contentTypes : Array<String> = arrayOf()
-        var contentType: String = if (contentTypes.size > 0) { contentTypes[0] } else { "application/json" }
+        val contentTypes : Array<String> = arrayOf()
+        val contentType: String = if (contentTypes.isNotEmpty()) { contentTypes.first() } else { "application/json" }
 
         // Do some work or avoid some work based on what we know about the model, 
         // before we delegate to a pluggable request factory template
