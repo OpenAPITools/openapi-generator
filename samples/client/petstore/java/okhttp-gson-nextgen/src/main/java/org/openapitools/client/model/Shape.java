@@ -265,8 +265,7 @@ public class Shape extends AbstractOpenApiSchema {
   * @throws IOException if the JSON string is invalid with respect to Shape
   */
   public static Shape fromJson(String jsonString) throws IOException {
-    Gson gson = new JSON().getGson();
-    return gson.fromJson(jsonString, Shape.class);
+    return JSON.getGson().fromJson(jsonString, Shape.class);
   }
 }
 

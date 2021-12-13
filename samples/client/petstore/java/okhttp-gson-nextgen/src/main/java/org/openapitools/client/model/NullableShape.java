@@ -270,8 +270,7 @@ public class NullableShape extends AbstractOpenApiSchema {
   * @throws IOException if the JSON string is invalid with respect to NullableShape
   */
   public static NullableShape fromJson(String jsonString) throws IOException {
-    Gson gson = new JSON().getGson();
-    return gson.fromJson(jsonString, NullableShape.class);
+    return JSON.getGson().fromJson(jsonString, NullableShape.class);
   }
 }
 

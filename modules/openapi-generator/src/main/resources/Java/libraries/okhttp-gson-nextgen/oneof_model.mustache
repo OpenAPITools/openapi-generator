@@ -228,7 +228,6 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
   * @throws IOException if the JSON string is invalid with respect to {{classname}}
   */
   public static {{{classname}}} fromJson(String jsonString) throws IOException {
-    Gson gson = new JSON().getGson();
-    return gson.fromJson(jsonString, {{{classname}}}.class);
+    return JSON.getGson().fromJson(jsonString, {{{classname}}}.class);
   }
 }

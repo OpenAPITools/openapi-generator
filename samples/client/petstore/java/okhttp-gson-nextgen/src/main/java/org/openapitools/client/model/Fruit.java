@@ -266,8 +266,7 @@ public class Fruit extends AbstractOpenApiSchema {
   * @throws IOException if the JSON string is invalid with respect to Fruit
   */
   public static Fruit fromJson(String jsonString) throws IOException {
-    Gson gson = new JSON().getGson();
-    return gson.fromJson(jsonString, Fruit.class);
+    return JSON.getGson().fromJson(jsonString, Fruit.class);
   }
 }
 

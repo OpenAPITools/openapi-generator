@@ -265,8 +265,7 @@ public class Pig extends AbstractOpenApiSchema {
   * @throws IOException if the JSON string is invalid with respect to Pig
   */
   public static Pig fromJson(String jsonString) throws IOException {
-    Gson gson = new JSON().getGson();
-    return gson.fromJson(jsonString, Pig.class);
+    return JSON.getGson().fromJson(jsonString, Pig.class);
   }
 }
 

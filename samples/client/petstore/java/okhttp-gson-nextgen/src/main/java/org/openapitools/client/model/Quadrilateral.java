@@ -265,8 +265,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
   * @throws IOException if the JSON string is invalid with respect to Quadrilateral
   */
   public static Quadrilateral fromJson(String jsonString) throws IOException {
-    Gson gson = new JSON().getGson();
-    return gson.fromJson(jsonString, Quadrilateral.class);
+    return JSON.getGson().fromJson(jsonString, Quadrilateral.class);
   }
 }
 

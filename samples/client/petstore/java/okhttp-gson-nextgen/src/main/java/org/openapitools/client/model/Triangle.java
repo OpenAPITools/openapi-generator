@@ -316,8 +316,7 @@ public class Triangle extends AbstractOpenApiSchema {
   * @throws IOException if the JSON string is invalid with respect to Triangle
   */
   public static Triangle fromJson(String jsonString) throws IOException {
-    Gson gson = new JSON().getGson();
-    return gson.fromJson(jsonString, Triangle.class);
+    return JSON.getGson().fromJson(jsonString, Triangle.class);
   }
 }
 

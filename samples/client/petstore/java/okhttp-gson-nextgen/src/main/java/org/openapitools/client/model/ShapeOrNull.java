@@ -270,8 +270,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
   * @throws IOException if the JSON string is invalid with respect to ShapeOrNull
   */
   public static ShapeOrNull fromJson(String jsonString) throws IOException {
-    Gson gson = new JSON().getGson();
-    return gson.fromJson(jsonString, ShapeOrNull.class);
+    return JSON.getGson().fromJson(jsonString, ShapeOrNull.class);
   }
 }
 
