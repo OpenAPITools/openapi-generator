@@ -21,15 +21,26 @@ open class PetAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func addPet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    continuation.resume(returning: ())
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = addPetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                    switch result {
+                    case .success:
+                        continuation.resume(returning: ())
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -70,15 +81,26 @@ open class PetAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func deletePet(petId: Int64, apiKey: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    continuation.resume(returning: ())
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(apiResponseQueue) { result in
+                    switch result {
+                    case .success:
+                        continuation.resume(returning: ())
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -130,16 +152,27 @@ open class PetAPI {
      - returns: [Pet]
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
-    open class func findPetsByStatus(status: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> [Pet] {
-        return try await withCheckedThrowingContinuation { continuation in
-            findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    continuation.resume(returning: response.body!)
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+    open class func findPetsByStatus(status: [Status_findPetsByStatus], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> [Pet] {
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = findPetsByStatusWithRequestBuilder(status: status).execute(apiResponseQueue) { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response.body)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -153,7 +186,7 @@ open class PetAPI {
      - parameter status: (query) Status values that need to be considered for filter 
      - returns: RequestBuilder<[Pet]> 
      */
-    open class func findPetsByStatusWithRequestBuilder(status: [String]) -> RequestBuilder<[Pet]> {
+    open class func findPetsByStatusWithRequestBuilder(status: [Status_findPetsByStatus]) -> RequestBuilder<[Pet]> {
         let localVariablePath = "/pet/findByStatus"
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -184,15 +217,26 @@ open class PetAPI {
     @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func findPetsByTags(tags: [String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> [Pet] {
-        return try await withCheckedThrowingContinuation { continuation in
-            findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    continuation.resume(returning: response.body!)
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = findPetsByTagsWithRequestBuilder(tags: tags).execute(apiResponseQueue) { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response.body)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -237,15 +281,26 @@ open class PetAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func getPetById(petId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> Pet {
-        return try await withCheckedThrowingContinuation { continuation in
-            getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    continuation.resume(returning: response.body!)
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = getPetByIdWithRequestBuilder(petId: petId).execute(apiResponseQueue) { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response.body)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -289,15 +344,26 @@ open class PetAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func updatePet(body: Pet, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    continuation.resume(returning: ())
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = updatePetWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
+                    switch result {
+                    case .success:
+                        continuation.resume(returning: ())
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -339,15 +405,26 @@ open class PetAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws {
-        return try await withCheckedThrowingContinuation { continuation in
-            updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    continuation.resume(returning: ())
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(apiResponseQueue) { result in
+                    switch result {
+                    case .success:
+                        continuation.resume(returning: ())
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -400,15 +477,26 @@ open class PetAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> ApiResponse {
-        return try await withCheckedThrowingContinuation { continuation in
-            uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    continuation.resume(returning: response.body!)
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(apiResponseQueue) { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response.body)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 
@@ -461,15 +549,26 @@ open class PetAPI {
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) async throws -> ApiResponse {
-        return try await withCheckedThrowingContinuation { continuation in
-            uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    continuation.resume(returning: response.body!)
-                case let .failure(error):
-                    continuation.resume(throwing: error)
+        var requestTask: RequestTask?
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                  continuation.resume(throwing: CancellationError())
+                  return
+                }
+
+                requestTask = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(apiResponseQueue) { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response.body)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
                 }
             }
+        } onCancel: { [requestTask] in
+            requestTask?.cancel()
         }
     }
 

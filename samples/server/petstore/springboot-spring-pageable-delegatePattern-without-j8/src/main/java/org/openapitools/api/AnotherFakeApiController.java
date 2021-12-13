@@ -38,7 +38,9 @@ public class AnotherFakeApiController implements AnotherFakeApi {
      * @return successful operation (status code 200)
      * @see AnotherFakeApi#call123testSpecialTags
      */
-    public ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model", required = true) @Valid @RequestBody Client body) {
+    public ResponseEntity<Client> call123testSpecialTags(
+
+@ApiParam(value = "client model", required = true )   @Valid @RequestBody Client body) {
         return delegate.call123testSpecialTags(body);
     }
 

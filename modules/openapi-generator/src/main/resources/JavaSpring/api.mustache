@@ -7,7 +7,19 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
+{{#oas3}}
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+{{/oas3}}
+{{^oas3}}
 import io.swagger.annotations.*;
+{{/oas3}}
 {{#jdk8-no-delegate}}
 {{#virtualService}}
 import io.virtualan.annotation.ApiVirtual;
@@ -20,6 +32,9 @@ import org.springframework.http.ResponseEntity;
 {{#useBeanValidation}}
 import org.springframework.validation.annotation.Validated;
 {{/useBeanValidation}}
+{{#useSpringController}}
+import org.springframework.stereotype.Controller;
+{{/useSpringController}}
 import org.springframework.web.bind.annotation.*;
 {{#jdk8-no-delegate}}
     {{^reactive}}
@@ -55,7 +70,10 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}
-@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
+{{#useSpringController}}
+@Controller
+{{/useSpringController}}
+{{#oas3}}@Tag(name = "{{{baseName}}}", description = "the {{{baseName}}} API"){{/oas3}}{{^oas3}}@Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API"){{/oas3}}
 {{#operations}}
 {{#virtualService}}
 @VirtualService
@@ -101,6 +119,10 @@ public interface {{classname}} {
     {{#virtualService}}
     @ApiVirtual
     {{/virtualService}}
+    {{#oas3}}
+    @Operation(summary = "{{{summary}}}", tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} }, responses = { {{#responses}} @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = @Content(mediaType = "application/json", schema = @Schema(implementation =  {{{baseType}}}.class)){{/baseType}}){{^-last}},{{/-last}}{{/responses}} }{{#hasAuthMethods}},security = {
+        {{#authMethods}}@SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes={ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} }{{/isOAuth}}){{^-last}},{{/-last}}{{/authMethods}} } {{/hasAuthMethods}})
+    {{/oas3}}{{^oas3}}
     @ApiOperation(value = "{{{summary}}}", nickname = "{{{operationId}}}", notes = "{{{notes}}}"{{#returnBaseType}}, response = {{{.}}}.class{{/returnBaseType}}{{#returnContainer}}, responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
         {{#authMethods}}{{#isOAuth}}@Authorization(value = "{{name}}", scopes = {
             {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},
@@ -108,9 +130,16 @@ public interface {{classname}} {
         {{^isOAuth}}@Authorization(value = "{{name}}"){{^-last}},{{/-last}}
         {{/isOAuth}}{{/authMethods}} }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
     @ApiResponses(value = { {{#responses}}
+
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}.class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}} })
+    {{/oas3}}
     {{#implicitHeaders}}
+    {{#oas3}}
+    @Parameters({
+    {{/oas3}}
+    {{^oas3}}
     @ApiImplicitParams({
+    {{/oas3}}
     {{#headerParams}}
     {{>implicitHeader}}
     {{/headerParams}}
@@ -124,13 +153,13 @@ public interface {{classname}} {
         produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }{{/hasConsumes}}{{/singleContentTypes}}
     )
-    {{#jdk8-default-interface}}default {{/jdk8-default-interface}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{#delegate-method}}_{{/delegate-method}}{{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},{{/-last}}{{#-last}}{{#reactive}}, {{/reactive}}{{/-last}}{{/allParams}}{{#reactive}}@springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, @springfox.documentation.annotations.ApiIgnore final org.springframework.data.domain.Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}}{{#unhandledException}} throws Exception{{/unhandledException}} {
+    {{#jdk8-default-interface}}default {{/jdk8-default-interface}}{{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{#delegate-method}}_{{/delegate-method}}{{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},{{/-last}}{{#-last}}{{#reactive}}, {{/reactive}}{{/-last}}{{/allParams}}{{#reactive}}{{#oas3}}@Hidden{{/oas3}}{{^oas3}}@springfox.documentation.annotations.ApiIgnore{{/oas3}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, {{#oas3}}@Hidden{{/oas3}}{{^oas3}}@springfox.documentation.annotations.ApiIgnore{{/oas3}} final org.springframework.data.domain.Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}}{{#unhandledException}} throws Exception{{/unhandledException}} {
         {{#delegate-method}}
         return {{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, pageable{{/vendorExtensions.x-spring-paginated}});
     }
 
     // Override this method
-    {{#jdk8-default-interface}}default {{/jdk8-default-interface}} {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{{dataType}}}{{/reactive}}{{#reactive}}{{^isArray}}Mono<{{{dataType}}}>{{/isArray}}{{#isArray}}Flux<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#reactive}}Flux<Part>{{/reactive}}{{^reactive}}MultipartFile{{/reactive}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}@springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, @springfox.documentation.annotations.ApiIgnore final org.springframework.data.domain.Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}} {
+    {{#jdk8-default-interface}}default {{/jdk8-default-interface}} {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{{dataType}}}{{/reactive}}{{#reactive}}{{^isArray}}Mono<{{{dataType}}}>{{/isArray}}{{#isArray}}Flux<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#reactive}}Flux<Part>{{/reactive}}{{^reactive}}MultipartFile{{/reactive}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}{{#oas3}}@Hidden{{/oas3}}{{^oas3}}@springfox.documentation.annotations.ApiIgnore{{/oas3}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}, {{#oas3}}@Hidden{{/oas3}}{{^oas3}}@springfox.documentation.annotations.ApiIgnore{{/oas3}} final org.springframework.data.domain.Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}} {
         {{/delegate-method}}
         {{^isDelegate}}
         {{>methodBody}}

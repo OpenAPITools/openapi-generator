@@ -56,7 +56,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         supportsInheritance = true;
         hideGenerationTimestamp = Boolean.FALSE;
 
-        defaultIncludes = new HashSet<String>(
+        defaultIncludes = new HashSet<>(
                 Arrays.asList(
                         "map",
                         "array")
@@ -77,7 +77,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
 
-        languageSpecificPrimitives = new HashSet<String>(
+        languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
                         "string",
                         "bool",
@@ -133,14 +133,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         typeMapping.put("object", "map[string]interface{}");
         typeMapping.put("AnyType", "interface{}");
 
-        numberTypes = new HashSet<String>(
+        numberTypes = new HashSet<>(
                 Arrays.asList(
                         "uint", "uint8", "uint16", "uint32", "uint64",
                         "int", "int8", "int16", "int32", "int64",
                         "float32", "float64")
         );
 
-        importMapping = new HashMap<String, String>();
+        importMapping = new HashMap<>();
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
@@ -252,7 +252,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         String[] parts = name.split("_");
         String suffix = parts[parts.length - 1];
 
-        Set<String> reservedSuffixes = new HashSet<String>(Arrays.asList(
+        Set<String> reservedSuffixes = new HashSet<>(Arrays.asList(
                 // Test
                 "test",
                 // $GOOS
@@ -699,7 +699,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     public Map<String, String> createMapping(String key, String value) {
-        Map<String, String> customImport = new HashMap<String, String>();
+        Map<String, String> customImport = new HashMap<>();
         customImport.put(key, value);
 
         return customImport;
@@ -813,7 +813,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // only process the following type (or we can simply rely on the file extension to check if it's a Go file)
-        Set<String> supportedFileType = new HashSet<String>(
+        Set<String> supportedFileType = new HashSet<>(
                 Arrays.asList(
                         "supporting-mustache",
                         "model-test",
@@ -828,7 +828,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if ("go".equals(FilenameUtils.getExtension(file.toString()))) {
             // e.g. "gofmt -w yourcode.go"
             // e.g. "go fmt path/to/your/package"
-            String command = goPostProcessFile + " " + file.toString();
+            String command = goPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();

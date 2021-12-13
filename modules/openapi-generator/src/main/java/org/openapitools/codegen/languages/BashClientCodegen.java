@@ -209,7 +209,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         /**
          * Bash reserved words.
          */
-        reservedWords = new HashSet<String>(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "case",
                         "do",

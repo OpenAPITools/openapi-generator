@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>5.3.0-SNAPSHOT</version>
+    <version>5.3.1-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -176,14 +176,12 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <printSummary>true</printSummary>
-                    <forkedProcessExitTimeoutInSeconds>120</forkedProcessExitTimeoutInSeconds>
+                    <parallel>classes</parallel>
+                    <threadCountClasses>3</threadCountClasses>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
                     <argLine>@{argLine} -XX:+StartAttachListener</argLine>
-                    <forkCount>3</forkCount>
-                    <reuseForks>true</reuseForks>
-                    <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
                     <systemPropertyVariables>
                         <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
                         <org.openapitools.codegen.utils.oncelogger.cachesize>5000</org.openapitools.codegen.utils.oncelogger.cachesize>
@@ -1150,7 +1148,9 @@
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
+                <!--
                 <module>samples/client/petstore/cpp-qt</module>
+                -->
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
@@ -1173,7 +1173,6 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/kotlin-springboot</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>
@@ -1231,7 +1230,6 @@
                 <module>samples/server/petstore/scala-akka-http-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/scala-finch</module>
-                <!--<module>samples/server/petstore/kotlin/vertx</module>-->
             </modules>
         </profile>
         <!-- node 3 tests in CircleCI -->
@@ -1248,57 +1246,6 @@
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
                 <module>samples/openapi3/client/petstore/python</module>
-            </modules>
-        </profile>
-        <!-- other tests in CircleCI -->
-        <profile>
-            <id>samples.circleci.others</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.circleci.others</value>
-                </property>
-            </activation>
-            <modules>
-                <!-- clients -->
-                <!-- test java-related projects -->
-                <module>samples/client/petstore/scala-akka</module>
-                <module>samples/client/petstore/scala-sttp</module>
-                <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
-                <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/feign</module>
-                <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2-java8</module>
-                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
-                <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx2</module>
-                <module>samples/client/petstore/java/retrofit2rx3</module>
-                <module>samples/client/petstore/java/retrofit2-play26</module>
-                <module>samples/client/petstore/jaxrs-cxf-client</module>
-                <module>samples/client/petstore/java/resttemplate</module>
-                <module>samples/client/petstore/java/resttemplate-withXml</module>
-                <module>samples/client/petstore/java/webclient</module>
-                <module>samples/client/petstore/java/webclient-nulable-arrays</module>
-                <module>samples/client/petstore/java/vertx</module>
-                <module>samples/client/petstore/java/jersey2-java8-localdatetime</module>
-                <module>samples/client/petstore/java/resteasy</module>
-                <module>samples/client/petstore/java/google-api-client</module>
-                <module>samples/client/petstore/java/rest-assured</module>
-                <module>samples/client/petstore/java/rest-assured-jackson</module>
-                <module>samples/client/petstore/java/microprofile-rest-client</module>
-                <module>samples/client/petstore/java/apache-httpclient</module>
-                <module>samples/client/petstore/groovy</module>
-                <!-- test non-java projects -->
-                <module>samples/client/petstore/go</module>
-                <module>samples/openapi3/client/petstore/go</module>
-                <module>samples/client/petstore/javascript-flowtyped</module>
-                <module>samples/client/petstore/javascript-es6</module>
-                <module>samples/client/petstore/javascript-promise-es6</module>
-                <module>samples/server/petstore/go-api-server</module>
-                <module>samples/server/petstore/go-gin-api-server</module>
-                <module>samples/server/petstore/go-echo-server</module>
                 <!-- TODO comment out below when the test for typescript-nestjs is ready
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`
@@ -1323,6 +1270,53 @@
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
                 <module>samples/client/petstore/typescript-axios/builds/with-npm-version</module>
                 <module>samples/client/petstore/typescript-axios/tests/default</module>
+                <module>samples/client/petstore/javascript-flowtyped</module>
+                <module>samples/client/petstore/javascript-es6</module>
+                <module>samples/client/petstore/javascript-promise-es6</module>
+            </modules>
+        </profile>
+        <!-- other tests in CircleCI -->
+        <profile>
+            <id>samples.circleci.others</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.circleci.others</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <!-- test java-related projects -->
+                <module>samples/client/petstore/groovy</module>
+                <module>samples/client/petstore/scala-akka</module>
+                <module>samples/client/petstore/scala-sttp</module>
+                <module>samples/client/petstore/scala-httpclient</module>
+                <module>samples/client/petstore/scalaz</module>
+                <module>samples/client/petstore/clojure</module>
+                <module>samples/client/petstore/java/feign</module>
+                <module>samples/client/petstore/java/jersey1</module>
+                <module>samples/client/petstore/java/jersey2-java8</module>
+                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
+                <module>samples/client/others/java/okhttp-gson-streaming</module>
+                <module>samples/client/petstore/java/okhttp-gson</module>
+                <module>samples/client/petstore/java/okhttp-gson-nextgen</module>
+                <module>samples/client/petstore/java/retrofit2</module>
+                <module>samples/client/petstore/java/retrofit2rx2</module>
+                <module>samples/client/petstore/java/retrofit2rx3</module>
+                <module>samples/client/petstore/java/retrofit2-play26</module>
+                <module>samples/client/petstore/jaxrs-cxf-client</module>
+                <module>samples/client/petstore/java/resttemplate</module>
+                <module>samples/client/petstore/java/resttemplate-withXml</module>
+                <module>samples/client/petstore/java/webclient</module>
+                <module>samples/client/petstore/java/webclient-nulable-arrays</module>
+                <module>samples/client/petstore/java/vertx</module>
+                <module>samples/client/petstore/java/jersey2-java8-localdatetime</module>
+                <module>samples/client/petstore/java/resteasy</module>
+                <module>samples/client/petstore/java/google-api-client</module>
+                <module>samples/client/petstore/java/rest-assured</module>
+                <module>samples/client/petstore/java/rest-assured-jackson</module>
+                <module>samples/client/petstore/java/microprofile-rest-client</module>
+                <module>samples/client/petstore/java/apache-httpclient</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->
@@ -1356,6 +1350,8 @@
                 <module>samples/client/petstore/kotlin-threetenbp</module>
                 <module>samples/client/petstore/kotlin-uppercase-enum</module>
                 <!-- servers -->
+                <module>samples/server/petstore/kotlin-springboot</module>
+                <!--<module>samples/server/petstore/kotlin/vertx</module>-->
                 <!--<module>samples/server/petstore/erlang-server</module>-->
             </modules>
         </profile>
@@ -1388,6 +1384,12 @@
                 <!--<module>samples/client/petstore/haskell-http-client</module>-->
                 <!-- servers -->
                 <!--<module>samples/server/petstore/haskell-servant</module>-->
+                <!-- test Go projects -->
+                <module>samples/client/petstore/go</module>
+                <module>samples/openapi3/client/petstore/go</module>
+                <module>samples/server/petstore/go-api-server</module>
+                <module>samples/server/petstore/go-gin-api-server</module>
+                <module>samples/server/petstore/go-echo-server</module>
             </modules>
         </profile>
         <profile>
@@ -1432,6 +1434,7 @@
                 <module>samples/client/petstore/swift5/combineLibrary</module>
                 <module>samples/client/petstore/swift5/default</module>
                 <module>samples/client/petstore/swift5/deprecated</module>
+                <module>samples/client/petstore/swift5/frozenEnums</module>
                 <module>samples/client/petstore/swift5/nonPublicApi</module>
                 <module>samples/client/petstore/swift5/objcCompatible</module>
                 <module>samples/client/petstore/swift5/promisekitLibrary</module>
@@ -1574,7 +1577,7 @@
         <swagger-core.version>2.1.2</swagger-core.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
         <swagger-parser.version>2.0.26</swagger-parser.version>
-        <testng.version>7.4.0</testng.version>
+        <testng.version>7.3.0</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>
         <wagon-svn.version>1.12</wagon-svn.version>

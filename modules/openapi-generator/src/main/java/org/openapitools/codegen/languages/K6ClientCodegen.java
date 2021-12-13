@@ -363,7 +363,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String BASE_URL = "baseURL";
     public static final String PRESERVE_LEADING_PARAM_CHAR = "preserveLeadingParamChar";
     static final Collection<String> INVOKER_PKG_SUPPORTING_FILES = Arrays.asList("script.mustache", "README.mustache");
-    static final String[][] JAVASCRIPT_SUPPORTING_FILES = new String[][]{
+    static final String[][] JAVASCRIPT_SUPPORTING_FILES = {
             new String[]{"script.mustache", "script.js"}, new String[]{"README.mustache", "README.md"}};
 
     protected String projectName;

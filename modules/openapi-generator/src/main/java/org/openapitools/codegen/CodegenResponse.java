@@ -21,6 +21,7 @@ import java.util.*;
 
 public class CodegenResponse implements IJsonSchemaValidationProperties {
     public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
+    private List<CodegenParameter> responseHeaders = new ArrayList<CodegenParameter>();
     public String code;
     public boolean is1xx;
     public boolean is2xx;
@@ -85,6 +86,9 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private boolean hasVars;
     private boolean hasRequired;
     private boolean hasDiscriminatorWithNonEmptyMapping;
+    private CodegenComposedSchemas composedSchemas;
+    private boolean hasMultipleTypes = false;
+    private LinkedHashMap<String, CodegenMediaType> content;
 
     @Override
     public int hashCode() {
@@ -96,7 +100,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
                 is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired,
-                hasDiscriminatorWithNonEmptyMapping);
+                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, responseHeaders, content);
     }
 
     @Override
@@ -141,9 +145,13 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 is4xx == that.is4xx &&
                 is5xx == that.is5xx &&
                 hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
+                hasMultipleTypes == that.getHasMultipleTypes() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
                 getHasVars() == that.getHasVars() &&
                 getHasRequired() == that.getHasRequired() &&
+                Objects.equals(content, that.getContent()) &&
+                Objects.equals(responseHeaders, that.getResponseHeaders()) &&
+                Objects.equals(composedSchemas, that.getComposedSchemas()) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(headers, that.headers) &&
@@ -170,6 +178,22 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 Objects.equals(getPattern(), that.getPattern()) &&
                 Objects.equals(getMultipleOf(), that.getMultipleOf());
 
+    }
+
+    public LinkedHashMap<String, CodegenMediaType> getContent() {
+        return content;
+    }
+
+    public void setContent(LinkedHashMap<String, CodegenMediaType> content) {
+        this.content = content;
+    }
+
+    public List<CodegenParameter> getResponseHeaders() {
+        return responseHeaders;
+    }
+
+    public void setResponseHeaders(List<CodegenParameter> responseHeaders) {
+        this.responseHeaders = responseHeaders;
     }
 
     @Override
@@ -482,6 +506,10 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", getHasVars=").append(hasVars);
         sb.append(", getHasRequired=").append(hasRequired);
         sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", composedSchemas=").append(composedSchemas);
+        sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
+        sb.append(", responseHeaders=").append(responseHeaders);
+        sb.append(", content=").append(content);
         sb.append('}');
         return sb.toString();
     }
@@ -570,4 +598,20 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public void setIsAnyType(boolean isAnyType)  {
         this.isAnyType = isAnyType;
     }
+
+    @Override
+    public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
+        this.composedSchemas = composedSchemas;
+    }
+
+    @Override
+    public CodegenComposedSchemas getComposedSchemas() {
+        return composedSchemas;
+    }
+
+    @Override
+    public boolean getHasMultipleTypes() {return hasMultipleTypes; }
+
+    @Override
+    public void setHasMultipleTypes(boolean hasMultipleTypes) { this.hasMultipleTypes = hasMultipleTypes; }
 }

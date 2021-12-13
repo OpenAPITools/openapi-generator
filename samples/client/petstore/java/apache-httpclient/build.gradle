@@ -119,7 +119,7 @@ ext {
     jackson_databind_nullable_version = "0.2.1"
     jakarta_annotation_version = "1.3.5"
     jackson_threetenbp_version = "2.9.10"
-    jersey_version = "1.19.4"
+    httpclient_version = "4.5.13"
     jodatime_version = "2.9.9"
     junit_version = "4.13.1"
 }
@@ -127,8 +127,8 @@ ext {
 dependencies {
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
-    implementation "com.sun.jersey:jersey-client:$jersey_version"
-    implementation "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
+    implementation "org.apache.httpcomponents:httpclient:$httpclient_version"
+    implementation "org.apache.httpcomponents:httpmime:$httpclient_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"

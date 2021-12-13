@@ -56,6 +56,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String PLAY_VERSION = "playVersion";
     public static final String ASYNC_NATIVE = "asyncNative";
+    public static final String CONFIG_KEY = "configKey";
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
@@ -63,7 +64,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
+    public static final String SUPPORT_STREAMING = "supportStreaming";
     public static final String GRADLE_PROPERTIES= "gradleProperties";
+    public static final String ERROR_OBJECT_TYPE= "errorObjectType";
+    public static final String ERROR_OBJECT_SUBTYPE= "errorObjectSubtype";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -78,6 +82,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String JERSEY2 = "jersey2";
     public static final String NATIVE = "native";
     public static final String OKHTTP_GSON = "okhttp-gson";
+    public static final String OKHTTP_GSON_NEXTGEN = "okhttp-gson-nextgen";
     public static final String RESTEASY = "resteasy";
     public static final String RESTTEMPLATE = "resttemplate";
     public static final String WEBCLIENT = "webclient";
@@ -101,6 +106,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_26;
     protected String microprofileFramework = MICROPROFILE_DEFAULT;
+    protected String configKey = null;
 
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
@@ -112,7 +118,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean caseInsensitiveResponseHeaders = false;
     protected boolean useAbstractionForFiles = false;
     protected boolean dynamicOperations = false;
+    protected boolean supportStreaming = false;
     protected String gradleProperties;
+    protected String errorObjectType;
+    protected List<String> errorObjectSubtype;
     protected String authFolder;
     protected String serializationLibrary = null;
 
@@ -154,14 +163,18 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
         cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
-        cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
+        cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, libraries"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
         cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle proeprties to the gradle.properties file"));
+        cliOptions.add(CliOption.newString(ERROR_OBJECT_TYPE, "Error Object type. (This option is for okhttp-gson-next-gen only)"));
+        cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x.");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
+        supportedLibraries.put(OKHTTP_GSON_NEXTGEN, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x.'. Better support for oneOf/anyOf with breaking changes. Will replace `okhttp-gson` in the 6.0.0 release.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x");
@@ -278,6 +291,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(MICROPROFILE_FRAMEWORK, microprofileFramework);
 
+        if (additionalProperties.containsKey(CONFIG_KEY)) {
+            this.setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
+        }
+
         if (additionalProperties.containsKey(ASYNC_NATIVE)) {
             this.setAsyncNative(convertPropertyToBooleanAndWriteBack(ASYNC_NATIVE));
         }
@@ -321,10 +338,25 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(DYNAMIC_OPERATIONS, dynamicOperations);
 
+        if (additionalProperties.containsKey(SUPPORT_STREAMING)) {
+            this.setSupportStreaming(Boolean.parseBoolean(additionalProperties.get(SUPPORT_STREAMING).toString()));
+        }
+        additionalProperties.put(SUPPORT_STREAMING, supportStreaming);
+
         if (additionalProperties.containsKey(GRADLE_PROPERTIES)) {
             this.setGradleProperties(additionalProperties.get(GRADLE_PROPERTIES).toString());
         }
         additionalProperties.put(GRADLE_PROPERTIES, gradleProperties);
+
+        if (additionalProperties.containsKey(ERROR_OBJECT_TYPE)) {
+            this.setErrorObjectType(additionalProperties.get(ERROR_OBJECT_TYPE).toString());
+        }
+        additionalProperties.put(ERROR_OBJECT_TYPE, errorObjectType);
+
+        if (additionalProperties.containsKey(ERROR_OBJECT_SUBTYPE)) {
+            this.setErrorObjectSubtype((List<String>)additionalProperties.get(ERROR_OBJECT_SUBTYPE));
+        }
+        additionalProperties.put(ERROR_OBJECT_SUBTYPE, errorObjectSubtype);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
@@ -408,7 +440,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("ParamExpander.mustache", invokerFolder, "ParamExpander.java"));
             supportingFiles.add(new SupportingFile("EncodingUtils.mustache", invokerFolder, "EncodingUtils.java"));
             supportingFiles.add(new SupportingFile("auth/DefaultApi20Impl.mustache", authFolder, "DefaultApi20Impl.java"));
-        } else if (OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) {
+        } else if (OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary()) || OKHTTP_GSON_NEXTGEN.equals(getLibrary())) {
             // the "okhttp-gson" library template requires "ApiCallback.mustache" for async call
             supportingFiles.add(new SupportingFile("ApiCallback.mustache", invokerFolder, "ApiCallback.java"));
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
@@ -416,6 +448,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("ProgressRequestBody.mustache", invokerFolder, "ProgressRequestBody.java"));
             supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
             supportingFiles.add(new SupportingFile("GzipRequestInterceptor.mustache", invokerFolder, "GzipRequestInterceptor.java"));
+            if (OKHTTP_GSON_NEXTGEN.equals(getLibrary())) {
+                supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", modelsFolder, "AbstractOpenApiSchema.java"));
+            }
 
             // NOTE: below moved to postProcessOperationsWithModels
             //supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
@@ -600,7 +635,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         // has OAuth defined
         if (ProcessUtils.hasOAuthMethods(openAPI)) {
             // for okhttp-gson (default), check to see if OAuth is defined and included OAuth-related files accordingly
-            if ((OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary()))) {
+            if ((OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) || OKHTTP_GSON_NEXTGEN.equals(getLibrary())) {
                 supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
                 supportingFiles.add(new SupportingFile("auth/RetryingOAuth.mustache", authFolder, "RetryingOAuth.java"));
             }
@@ -791,6 +826,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             model.imports.remove("JsonSerialize");
             model.imports.remove("ToStringSerializer");
         }
+
+        if ("set".equals(property.containerType) && !JACKSON.equals(serializationLibrary)) {
+            // clean-up
+            model.imports.remove("JsonDeserialize");
+            property.vendorExtensions.remove("x-setter-extra-annotation");
+        }
     }
 
     @Override
@@ -895,7 +936,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             CodegenModel cm = (CodegenModel) mo.get("model");
 
             cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
-            if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary())) {
+            if (JERSEY2.equals(getLibrary()) || NATIVE.equals(getLibrary()) || OKHTTP_GSON_NEXTGEN.equals(getLibrary())) {
                 cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
 
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
@@ -956,6 +997,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.microprofileFramework = microprofileFramework;
     }
 
+    public void setConfigKey(String configKey) {
+        this.configKey = configKey;
+    }
+
     public void setParcelableModel(boolean parcelableModel) {
         this.parcelableModel = parcelableModel;
     }
@@ -992,8 +1037,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.dynamicOperations = dynamicOperations;
     }
 
+    public void setSupportStreaming(final boolean supportStreaming) {
+        this.supportStreaming = supportStreaming;
+    }
+
     public void setGradleProperties(final String gradleProperties) {
         this.gradleProperties= gradleProperties;
+    }
+
+    public void setErrorObjectType(final String errorObjectType) {
+        this.errorObjectType= errorObjectType;
+    }
+
+    public void setErrorObjectSubtype(final List<String> errorObjectSubtype) {
+        this.errorObjectSubtype= errorObjectSubtype;
     }
 
     /**
