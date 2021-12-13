@@ -10,6 +10,32 @@ protocol JSONEncodable {
     func encodeToJSON() -> Any
 }
 
+extension JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
+/// An enum where the last case value can be used as a default catch-all.
+protocol CaseIterableDefaultsLast: Decodable & CaseIterable & RawRepresentable
+where RawValue: Decodable, AllCases: BidirectionalCollection {}
+
+extension CaseIterableDefaultsLast {
+    /// Initializes an enum such that if a known raw value is found, then it is decoded.
+    /// Otherwise the last case is used.
+    /// - Parameter decoder: A decoder.
+    public init(from decoder: Decoder) throws {
+        if let value = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) {
+            self = value
+        } else if let lastValue = Self.allCases.last {
+            self = lastValue
+        } else {
+            throw DecodingError.valueNotFound(
+                Self.Type.self,
+                .init(codingPath: decoder.codingPath, debugDescription: "CaseIterableDefaultsLast")
+            )
+        }
+    }
+}
+
 internal enum ErrorResponse: Error {
     case error(Int, Data?, URLResponse?, Error)
 }
@@ -33,15 +59,15 @@ internal enum DecodableRequestBuilderError: Error {
 internal class Response<T> {
     internal let statusCode: Int
     internal let header: [String: String]
-    internal let body: T?
+    internal let body: T
 
-    internal init(statusCode: Int, header: [String: String], body: T?) {
+    internal init(statusCode: Int, header: [String: String], body: T) {
         self.statusCode = statusCode
         self.header = header
         self.body = body
     }
 
-    internal convenience init(response: HTTPURLResponse, body: T?) {
+    internal convenience init(response: HTTPURLResponse, body: T) {
         let rawHeader = response.allHeaderFields
         var header = [String: String]()
         for (key, value) in rawHeader {
@@ -50,5 +76,18 @@ internal class Response<T> {
             }
         }
         self.init(statusCode: response.statusCode, header: header, body: body)
+    }
+}
+
+internal final class RequestTask {
+    private var task: URLSessionTask?
+
+    internal func set(task: URLSessionTask) {
+        self.task = task
+    }
+
+    internal func cancel() {
+        task?.cancel()
+        task = nil
     }
 }

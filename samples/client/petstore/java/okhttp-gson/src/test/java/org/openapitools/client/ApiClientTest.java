@@ -342,4 +342,22 @@ public class ApiClientTest {
     public void testNullHttpClient() {
         apiClient.setHttpClient(null);
     }
+
+    /**
+     * Tests the ApiClient serialize methods
+     */
+    @Test
+    public void testSerializeRequest() throws ApiException {
+        assertNotNull(apiClient.serialize("test", "text/plain"));
+        assertNotNull(apiClient.serialize("{}", "application/json"));
+    }
+
+    /**
+     * Tests the ApiClient serialize methods with unsupported content-type
+     * should raise ApiException
+     */
+    @Test(expected = ApiException.class)
+    public void testUnsupportedSerializeRequest() throws ApiException {
+        apiClient.serialize("test", "unsupported/type");
+    }
 }

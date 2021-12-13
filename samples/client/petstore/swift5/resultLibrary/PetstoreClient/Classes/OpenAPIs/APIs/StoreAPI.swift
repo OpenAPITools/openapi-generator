@@ -20,7 +20,7 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> URLSessionTask? {
+    open class func deleteOrder(orderId: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
         return deleteOrderWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
             switch result {
             case .success:
@@ -66,11 +66,11 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[String: Int], ErrorResponse>) -> Void)) -> URLSessionTask? {
+    open class func getInventory(apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[String: Int], ErrorResponse>) -> Void)) -> RequestTask {
         return getInventoryWithRequestBuilder().execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(.success(response.body!))
+                completion(.success(response.body))
             case let .failure(error):
                 completion(.failure(error))
             }
@@ -112,11 +112,11 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> URLSessionTask? {
+    open class func getOrderById(orderId: Int64, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> RequestTask {
         return getOrderByIdWithRequestBuilder(orderId: orderId).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(.success(response.body!))
+                completion(.success(response.body))
             case let .failure(error):
                 completion(.failure(error))
             }
@@ -159,11 +159,11 @@ open class StoreAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> URLSessionTask? {
+    open class func placeOrder(body: Order, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Order, ErrorResponse>) -> Void)) -> RequestTask {
         return placeOrderWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
-                completion(.success(response.body!))
+                completion(.success(response.body))
             case let .failure(error):
                 completion(.failure(error))
             }

@@ -6,6 +6,7 @@
 package org.openapitools.api;
 
 import java.util.List;
+import java.time.LocalDateTime;
 import org.openapitools.model.User;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
