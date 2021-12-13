@@ -21,7 +21,8 @@
 package org.openapitools.client.models
 
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * Describes the result of uploading an image resource
@@ -31,16 +32,21 @@ import com.google.gson.annotations.SerializedName
  * @param message 
  */
 
-data class ApiResponse (
+data class ModelApiResponse (
 
-    @SerializedName("code")
+    @Json(name = "code")
     val code: kotlin.Int? = null,
 
-    @SerializedName("type")
+    @Json(name = "type")
     val type: kotlin.String? = null,
 
-    @SerializedName("message")
+    @Json(name = "message")
     val message: kotlin.String? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

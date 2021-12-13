@@ -29,7 +29,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.ApiInfrastructureResponse
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -83,12 +83,12 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     * Delete purchase order by ID
     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     * @param orderId ID of the order that needs to be deleted 
-    * @return ApiInfrastructureResponse<Unit?>
+    * @return ApiResponse<Unit?>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Throws(IllegalStateException::class, IOException::class)
-    suspend fun deleteOrderWithHttpInfo(orderId: kotlin.String) : ApiInfrastructureResponse<Unit?> = withContext(Dispatchers.IO) {
+    suspend fun deleteOrderWithHttpInfo(orderId: kotlin.String) : ApiResponse<Unit?> = withContext(Dispatchers.IO) {
         val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
 
         return@withContext request<Unit, Unit>(
@@ -149,13 +149,13 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     /**
     * Returns pet inventories by status
     * Returns a map of status codes to quantities
-    * @return ApiInfrastructureResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>
+    * @return ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    suspend fun getInventoryWithHttpInfo() : ApiInfrastructureResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> = withContext(Dispatchers.IO) {
+    suspend fun getInventoryWithHttpInfo() : ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> = withContext(Dispatchers.IO) {
         val localVariableConfig = getInventoryRequestConfig()
 
         return@withContext request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
@@ -218,13 +218,13 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     * Find purchase order by ID
     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     * @param orderId ID of pet that needs to be fetched 
-    * @return ApiInfrastructureResponse<Order?>
+    * @return ApiResponse<Order?>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    suspend fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : ApiInfrastructureResponse<Order?> = withContext(Dispatchers.IO) {
+    suspend fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : ApiResponse<Order?> = withContext(Dispatchers.IO) {
         val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
 
         return@withContext request<Unit, Order>(
@@ -288,13 +288,13 @@ class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) 
     * Place an order for a pet
     * 
     * @param body order placed for purchasing the pet 
-    * @return ApiInfrastructureResponse<Order?>
+    * @return ApiResponse<Order?>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    suspend fun placeOrderWithHttpInfo(body: Order) : ApiInfrastructureResponse<Order?> = withContext(Dispatchers.IO) {
+    suspend fun placeOrderWithHttpInfo(body: Order) : ApiResponse<Order?> = withContext(Dispatchers.IO) {
         val localVariableConfig = placeOrderRequestConfig(body = body)
 
         return@withContext request<Order, Order>(

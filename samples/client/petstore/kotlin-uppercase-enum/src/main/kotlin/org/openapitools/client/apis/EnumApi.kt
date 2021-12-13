@@ -27,7 +27,7 @@ import org.openapitools.client.models.PetEnum
 import com.squareup.moshi.Json
 
 import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.ApiInfrastructureResponse
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -80,13 +80,13 @@ class EnumApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     /**
     * Get enums
     * 
-    * @return ApiInfrastructureResponse<PetEnum?>
+    * @return ApiResponse<PetEnum?>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getEnumWithHttpInfo() : ApiInfrastructureResponse<PetEnum?> {
+    fun getEnumWithHttpInfo() : ApiResponse<PetEnum?> {
         val localVariableConfig = getEnumRequestConfig()
 
         return request<Unit, PetEnum>(

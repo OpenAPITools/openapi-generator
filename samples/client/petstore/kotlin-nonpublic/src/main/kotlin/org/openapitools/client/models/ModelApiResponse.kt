@@ -22,7 +22,6 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 
 /**
  * Describes the result of uploading an image resource
@@ -31,8 +30,8 @@ import com.squareup.moshi.JsonClass
  * @param type 
  * @param message 
  */
-@JsonClass(generateAdapter = true)
-data class ApiResponse (
+
+internal data class ModelApiResponse (
 
     @Json(name = "code")
     val code: kotlin.Int? = null,

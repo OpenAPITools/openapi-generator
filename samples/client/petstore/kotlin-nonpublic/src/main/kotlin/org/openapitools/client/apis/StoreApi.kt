@@ -27,7 +27,7 @@ import org.openapitools.client.models.Order
 import com.squareup.moshi.Json
 
 import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.ApiInfrastructureResponse
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -81,12 +81,12 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     * Delete purchase order by ID
     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     * @param orderId ID of the order that needs to be deleted 
-    * @return ApiInfrastructureResponse<Unit?>
+    * @return ApiResponse<Unit?>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteOrderWithHttpInfo(orderId: kotlin.String) : ApiInfrastructureResponse<Unit?> {
+    fun deleteOrderWithHttpInfo(orderId: kotlin.String) : ApiResponse<Unit?> {
         val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
 
         return request<Unit, Unit>(
@@ -147,13 +147,13 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     /**
     * Returns pet inventories by status
     * Returns a map of status codes to quantities
-    * @return ApiInfrastructureResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>
+    * @return ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getInventoryWithHttpInfo() : ApiInfrastructureResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> {
+    fun getInventoryWithHttpInfo() : ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?> {
         val localVariableConfig = getInventoryRequestConfig()
 
         return request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
@@ -216,13 +216,13 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     * Find purchase order by ID
     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     * @param orderId ID of pet that needs to be fetched 
-    * @return ApiInfrastructureResponse<Order?>
+    * @return ApiResponse<Order?>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : ApiInfrastructureResponse<Order?> {
+    fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : ApiResponse<Order?> {
         val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
 
         return request<Unit, Order>(
@@ -286,13 +286,13 @@ internal class StoreApi(basePath: kotlin.String = defaultBasePath) : ApiClient(b
     * Place an order for a pet
     * 
     * @param body order placed for purchasing the pet 
-    * @return ApiInfrastructureResponse<Order?>
+    * @return ApiResponse<Order?>
     * @throws IllegalStateException If the request is not correctly configured
     * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun placeOrderWithHttpInfo(body: Order) : ApiInfrastructureResponse<Order?> {
+    fun placeOrderWithHttpInfo(body: Order) : ApiResponse<Order?> {
         val localVariableConfig = placeOrderRequestConfig(body = body)
 
         return request<Order, Order>(

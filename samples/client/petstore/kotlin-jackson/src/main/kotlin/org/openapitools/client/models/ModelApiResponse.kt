@@ -21,8 +21,7 @@
 package org.openapitools.client.models
 
 
-import com.google.gson.annotations.SerializedName
-import java.io.Serializable
+import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
  * Describes the result of uploading an image resource
@@ -32,21 +31,16 @@ import java.io.Serializable
  * @param message 
  */
 
-data class ApiResponse (
+data class ModelApiResponse (
 
-    @SerializedName("code")
+    @field:JsonProperty("code")
     val code: kotlin.Int? = null,
 
-    @SerializedName("type")
+    @field:JsonProperty("type")
     val type: kotlin.String? = null,
 
-    @SerializedName("message")
+    @field:JsonProperty("message")
     val message: kotlin.String? = null
 
-) : Serializable {
-    companion object {
-        private const val serialVersionUID: Long = 123
-    }
-
-}
+)
 

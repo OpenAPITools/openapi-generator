@@ -21,7 +21,7 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 /**
@@ -32,15 +32,15 @@ import java.io.Serializable
  * @param message 
  */
 
-data class ApiResponse (
+data class ModelApiResponse (
 
-    @Json(name = "code")
+    @SerializedName("code")
     val code: kotlin.Int? = null,
 
-    @Json(name = "type")
+    @SerializedName("type")
     val type: kotlin.String? = null,
 
-    @Json(name = "message")
+    @SerializedName("message")
     val message: kotlin.String? = null
 
 ) : Serializable {
