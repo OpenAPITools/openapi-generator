@@ -260,7 +260,7 @@ public class Shape extends AbstractOpenApiSchema {
  /**
   * Create an instance of Shape given an JSON string
   *
-  * @param jsonString JSON string 
+  * @param jsonString JSON string
   * @return An instance of Shape
   * @throws IOException if the JSON string is invalid with respect to Shape
   */

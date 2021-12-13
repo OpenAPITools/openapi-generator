@@ -311,7 +311,7 @@ public class Triangle extends AbstractOpenApiSchema {
  /**
   * Create an instance of Triangle given an JSON string
   *
-  * @param jsonString JSON string 
+  * @param jsonString JSON string
   * @return An instance of Triangle
   * @throws IOException if the JSON string is invalid with respect to Triangle
   */

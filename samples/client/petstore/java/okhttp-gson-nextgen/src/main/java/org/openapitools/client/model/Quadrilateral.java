@@ -260,7 +260,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
  /**
   * Create an instance of Quadrilateral given an JSON string
   *
-  * @param jsonString JSON string 
+  * @param jsonString JSON string
   * @return An instance of Quadrilateral
   * @throws IOException if the JSON string is invalid with respect to Quadrilateral
   */

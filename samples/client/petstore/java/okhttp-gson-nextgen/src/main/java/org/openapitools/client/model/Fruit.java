@@ -261,7 +261,7 @@ public class Fruit extends AbstractOpenApiSchema {
  /**
   * Create an instance of Fruit given an JSON string
   *
-  * @param jsonString JSON string 
+  * @param jsonString JSON string
   * @return An instance of Fruit
   * @throws IOException if the JSON string is invalid with respect to Fruit
   */

@@ -311,7 +311,7 @@ public class Mammal extends AbstractOpenApiSchema {
  /**
   * Create an instance of Mammal given an JSON string
   *
-  * @param jsonString JSON string 
+  * @param jsonString JSON string
   * @return An instance of Mammal
   * @throws IOException if the JSON string is invalid with respect to Mammal
   */

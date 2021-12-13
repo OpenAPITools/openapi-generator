@@ -260,7 +260,7 @@ public class Pig extends AbstractOpenApiSchema {
  /**
   * Create an instance of Pig given an JSON string
   *
-  * @param jsonString JSON string 
+  * @param jsonString JSON string
   * @return An instance of Pig
   * @throws IOException if the JSON string is invalid with respect to Pig
   */

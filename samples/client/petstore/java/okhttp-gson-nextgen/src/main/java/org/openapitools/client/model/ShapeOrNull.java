@@ -265,7 +265,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
  /**
   * Create an instance of ShapeOrNull given an JSON string
   *
-  * @param jsonString JSON string 
+  * @param jsonString JSON string
   * @return An instance of ShapeOrNull
   * @throws IOException if the JSON string is invalid with respect to ShapeOrNull
   */

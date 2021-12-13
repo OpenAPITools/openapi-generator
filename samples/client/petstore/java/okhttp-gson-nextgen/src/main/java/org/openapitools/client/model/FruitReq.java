@@ -266,7 +266,7 @@ public class FruitReq extends AbstractOpenApiSchema {
  /**
   * Create an instance of FruitReq given an JSON string
   *
-  * @param jsonString JSON string 
+  * @param jsonString JSON string
   * @return An instance of FruitReq
   * @throws IOException if the JSON string is invalid with respect to FruitReq
   */

@@ -265,7 +265,7 @@ public class NullableShape extends AbstractOpenApiSchema {
  /**
   * Create an instance of NullableShape given an JSON string
   *
-  * @param jsonString JSON string 
+  * @param jsonString JSON string
   * @return An instance of NullableShape
   * @throws IOException if the JSON string is invalid with respect to NullableShape
   */
