@@ -86,7 +86,7 @@ class {{classname}} (
             {{#queryParams}}
             "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}),
             {{/queryParams}}
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
             {{#headerParams}}
