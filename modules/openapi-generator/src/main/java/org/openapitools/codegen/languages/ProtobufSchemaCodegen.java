@@ -91,7 +91,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         apiTemplateFiles.put("api.mustache", ".proto");
         embeddedTemplateDir = templateDir = "protobuf-schema";
         hideGenerationTimestamp = Boolean.TRUE;
-        modelPackage = "messages";
+        modelPackage = "models";
         apiPackage = "services";
 
         defaultIncludes = new HashSet<>(
@@ -167,11 +167,19 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         apiDocTemplateFiles.clear(); // TODO: add api doc template
         modelDocTemplateFiles.clear(); // TODO: add model doc template
 
-        modelPackage = "models";
-        apiPackage = "services";
-
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        }
+        else {
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
         if (additionalProperties.containsKey(this.NUMBERED_FIELD_NUMBER_LIST)) {
