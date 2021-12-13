@@ -2,18 +2,9 @@
 package {{packageName}}
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 
-{{#routers}}
-	{{#mux}}
-	"github.com/gorilla/mux"
-	{{/mux}}
-	{{#chi}}
-	"github.com/go-chi/chi/v5"
-	{{/chi}}
-{{/routers}}
 )
 
 // {{classname}}Controller binds http requests to an api service and writes the service results to the http response
