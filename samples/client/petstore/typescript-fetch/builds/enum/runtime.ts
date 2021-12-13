@@ -116,11 +116,11 @@ export class BaseAPI {
 
             throw response;
         } catch (err) {
-            let error;
+            let error = err;
 
             for (const middleware of this.middleware) {
                 if (middleware.fail) {
-                    error = (await middleware.fail(responseContext, err)) || err;
+                    error = (await middleware.fail(responseContext, error)) || error;
                 }
             }
 
@@ -311,7 +311,7 @@ export interface Middleware {
     pre?(context: RequestContext): Promise<FetchParams | void>;
     post?(context: ResponseContext): Promise<Response | void>;
     fail?(context: RequestContext, err: unknown): Promise<unknown | void>;
-    complete?(context: RequestContext): void;
+    complete?(context: RequestContext): Promise<void>;
 }
 
 export interface ApiResponse<T> {
