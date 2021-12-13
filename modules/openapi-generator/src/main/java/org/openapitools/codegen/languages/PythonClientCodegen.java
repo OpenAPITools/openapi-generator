@@ -108,6 +108,9 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         cliOptions.add(new CliOption(CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET, CodegenConstants.PYTHON_ATTR_NONE_IF_UNSET_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
 
+        cliOptions.add(new CliOption(CodegenConstants.INIT_REQUIRED_VARS, CodegenConstants.INIT_REQUIRED_VARS_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
+
         // option to change how we process + set the data in the 'additionalProperties' keyword.
         CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
                 CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
@@ -184,6 +187,11 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
         }
         this.setDisallowAdditionalPropertiesIfNotPresent(disallowAddProps);
 
+        Boolean initRequiredVars = false;
+        if (additionalProperties.containsKey(CodegenConstants.INIT_REQUIRED_VARS)) {
+            initRequiredVars = Boolean.valueOf(additionalProperties.get(CodegenConstants.INIT_REQUIRED_VARS).toString());
+        }
+        additionalProperties.put("initRequiredVars", initRequiredVars);
 
         // check library option to ensure only urllib3 is supported
         if (!DEFAULT_LIBRARY.equals(getLibrary())) {
