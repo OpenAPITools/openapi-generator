@@ -287,6 +287,46 @@ public class JSONTest {
     }
 
     /**
+     * Validate an anyOf schema can be deserialized into the expected class.
+     * The anyOf schema does not have a discriminator.
+     */
+    @Test
+    public void testAnyOfSchemaWithoutDiscriminator() throws Exception {
+        {
+            String str = "{ \"cultivar\": \"golden delicious\", \"origin\": \"japan\" }";
+
+            // make sure deserialization works for pojo object
+            Apple a = json.getGson().fromJson(str, Apple.class);
+            assertEquals(a.getCultivar(), "golden delicious");
+            assertEquals(a.getOrigin(), "japan");
+
+            GmFruit o = json.getGson().fromJson(str, GmFruit.class);
+            assertTrue(o.getActualInstance() instanceof Apple);
+            Apple inst = (Apple) o.getActualInstance();
+            assertEquals(inst.getCultivar(), "golden delicious");
+            assertEquals(inst.getOrigin(), "japan");
+            assertEquals(json.getGson().toJson(inst), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
+            assertEquals(json.getGson().toJson(o), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
+
+            String str2 = "{ \"origin_typo\": \"japan\" }";
+            // no match
+            Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+                Apple o3 = json.getGson().fromJson(str2, Apple.class);
+            });
+
+            // no match
+            Exception exception3 = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+                Banana o2 = json.getGson().fromJson(str2, Banana.class);
+            });
+
+            // no match
+            Exception exception4 = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                GmFruit o2 = json.getGson().fromJson(str2, GmFruit.class);
+            });
+        }
+    }
+
+    /**
      * Validate a oneOf schema can be deserialized into the expected class.
      * The oneOf schema does not have a discriminator. 
      */
@@ -308,11 +348,19 @@ public class JSONTest {
             assertEquals(inst.getCultivar(), "golden delicious");
             assertEquals(inst.getMealy(), false);
             assertEquals(json.getGson().toJson(inst), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
+            assertEquals(json.getGson().toJson(o), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
 
             AppleReq inst2 = o.getAppleReq();
             assertEquals(inst2.getCultivar(), "golden delicious");
             assertEquals(inst2.getMealy(), false);
             assertEquals(json.getGson().toJson(inst2), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
+        }
+        {
+            // test to ensure the oneOf object can be serialized to "null" correctly
+            FruitReq o = new FruitReq();
+            assertEquals(o.getActualInstance(), null);
+            assertEquals(json.getGson().toJson(o), "null");
+            assertEquals(json.getGson().toJson(null), "null");
         }
         {
             // Same test, but this time with additional (undeclared) properties.
@@ -321,7 +369,7 @@ public class JSONTest {
             Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
                 FruitReq o = json.getGson().fromJson(str, FruitReq.class);
             });
-            assertTrue(exception.getMessage().contains("Failed deserialization for FruitReq: 0 classes match result"));
+            assertTrue(exception.getMessage().contains("Failed deserialization for FruitReq: 0 classes match result, expected 1. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}"));
         }
         {
             String str = "{ \"lengthCm\": 17 }";
@@ -334,6 +382,8 @@ public class JSONTest {
             assertTrue(o.getActualInstance() instanceof BananaReq);
             BananaReq inst = (BananaReq) o.getActualInstance();
             assertEquals(inst.getLengthCm(), new java.math.BigDecimal(17));
+            assertEquals(json.getGson().toJson(o), "{\"lengthCm\":17}");
+            assertEquals(json.getGson().toJson(inst), "{\"lengthCm\":17}");
         }
         {
             // Try to deserialize empty object. This should fail 'oneOf' because none will match

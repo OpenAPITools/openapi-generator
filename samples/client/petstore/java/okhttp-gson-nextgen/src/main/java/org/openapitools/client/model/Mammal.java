@@ -79,25 +79,33 @@ public class Mammal extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Mammal>() {
                 @Override
                 public void write(JsonWriter out, Mammal value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `Pig`
                     if (value.getActualInstance() instanceof Pig) {
                         JsonObject obj = adapterPig.toJsonTree((Pig)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `Whale`
                     if (value.getActualInstance() instanceof Whale) {
                         JsonObject obj = adapterWhale.toJsonTree((Whale)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `Zebra`
                     if (value.getActualInstance() instanceof Zebra) {
                         JsonObject obj = adapterZebra.toJsonTree((Zebra)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: Pig, Whale, Zebra");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Pig, Whale, Zebra");
                 }
 
                 @Override
@@ -143,7 +151,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1", match));
+                    throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
                 }
             }.nullSafe();
         }

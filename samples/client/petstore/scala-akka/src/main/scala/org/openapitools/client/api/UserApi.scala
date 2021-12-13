@@ -11,6 +11,7 @@
  */
 package org.openapitools.client.api
 
+import java.time.OffsetDateTime
 import org.openapitools.client.model.User
 import org.openapitools.client.core._
 import org.openapitools.client.core.CollectionFormats._

@@ -78,28 +78,37 @@ public class GmFruit extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<GmFruit>() {
                 @Override
                 public void write(JsonWriter out, GmFruit value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `Apple`
                     if (value.getActualInstance() instanceof Apple) {
                         JsonObject obj = adapterApple.toJsonTree((Apple)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `Banana`
                     if (value.getActualInstance() instanceof Banana) {
                         JsonObject obj = adapterBanana.toJsonTree((Banana)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match anyOf schemas: Apple, Banana");
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: Apple, Banana");
                 }
 
                 @Override
                 public GmFruit read(JsonReader in) throws IOException {
                     Object deserialized = null;
+                    JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
+
 
                     // deserialize Apple
                     try {
-                        deserialized = gson.fromJson(in, Apple.class);
+                        deserialized = adapterApple.fromJsonTree(jsonObject);
                         log.log(Level.FINER, "Input data matches schema 'Apple'");
                         GmFruit ret = new GmFruit();
                         ret.setActualInstance(deserialized);
@@ -111,7 +120,7 @@ public class GmFruit extends AbstractOpenApiSchema {
 
                     // deserialize Banana
                     try {
-                        deserialized = gson.fromJson(in, Banana.class);
+                        deserialized = adapterBanana.fromJsonTree(jsonObject);
                         log.log(Level.FINER, "Input data matches schema 'Banana'");
                         GmFruit ret = new GmFruit();
                         ret.setActualInstance(deserialized);
@@ -121,7 +130,7 @@ public class GmFruit extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data does not match schema 'Banana'", e);
                     }
 
-                    throw new IOException("Failed deserialization for GmFruit: no match found.");
+                    throw new IOException(String.format("Failed deserialization for GmFruit as data doesn't match anyOf schmeas: Apple, Banana. JSON: %s", jsonObject.toString()));
                 }
             }.nullSafe();
         }

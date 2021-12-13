@@ -323,6 +323,21 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 // enums are generated with built_value and make use of BuiltSet
                 model.imports.add("BuiltSet");
             }
+
+            if (property.isContainer) {
+                // Figure out if there are any container type additionalProperties
+                // that need a custom serializer builder factory added.
+                final CodegenProperty items = property.items;
+                if (items.getAdditionalProperties() != null) {
+                    addBuiltValueSerializer(new BuiltValueSerializer(
+                            items.isArray,
+                            items.getUniqueItems(),
+                            items.isMap,
+                            items.items.isNullable,
+                            items.getAdditionalProperties().dataType
+                    ));
+                }
+            }
         }
     }
 
@@ -332,7 +347,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
-        Set<Map<String, Object>> serializers = new HashSet<>();
         Set<String> resultImports = new HashSet<>();
 
         for (CodegenOperation op : operationList) {
@@ -370,12 +384,13 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
                 // Generate serializer factories for all container type parameters.
                 // But skip binary and file parameters, JSON serializers don't make sense there.
                 if (param.isContainer && !(param.isBinary || param.isFile )) {
-                    final Map<String, Object> serializer = new HashMap<>();
-                    serializer.put("isArray", param.isArray);
-                    serializer.put("uniqueItems", param.uniqueItems);
-                    serializer.put("isMap", param.isMap);
-                    serializer.put("baseType", param.baseType);
-                    serializers.add(serializer);
+                    addBuiltValueSerializer(new BuiltValueSerializer(
+                            param.isArray,
+                            param.uniqueItems,
+                            param.isMap,
+                            param.items.isNullable,
+                            param.baseType
+                    ));
                 }
             }
 
@@ -387,17 +402,17 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             // Generate serializer factories for response types.
             // But skip binary and file response, JSON serializers don't make sense there.
             if (op.returnContainer != null && !(op.isResponseBinary || op.isResponseFile)) {
-                final Map<String, Object> serializer = new HashMap<>();
-                serializer.put("isArray", Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer));
-                serializer.put("uniqueItems", op.uniqueItems);
-                serializer.put("isMap", Objects.equals("map", op.returnContainer));
-                serializer.put("baseType", op.returnBaseType);
-                serializers.add(serializer);
+                addBuiltValueSerializer(new BuiltValueSerializer(
+                        Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer),
+                        op.uniqueItems,
+                        Objects.equals("map", op.returnContainer),
+                        false,
+                        op.returnBaseType
+                ));
             }
         }
 
         objs.put("imports", resultImports.stream().sorted().collect(Collectors.toList()));
-        objs.put("serializers", serializers);
 
         return objs;
     }
@@ -407,6 +422,19 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             Set<String> imports = v == null ? Sets.newHashSet() : ((Set<String>) v);
             imports.addAll(rewriteImports(Sets.newHashSet(type), true));
             return imports;
+        });
+    }
+
+    /**
+     * Adds the serializer to the global list of custom built_value serializers.
+     * @param serializer
+     */
+    private void addBuiltValueSerializer(BuiltValueSerializer serializer) {
+        System.out.println("######## Add serializer!");
+        additionalProperties.compute("builtValueSerializers", (k, v) -> {
+            Set<BuiltValueSerializer> serializers = v == null ? Sets.newHashSet() : ((Set<BuiltValueSerializer>) v);
+            serializers.add(serializer);
+            return serializers;
         });
     }
 
@@ -427,5 +455,59 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             }
         }
         return resultImports;
+    }
+
+    static class BuiltValueSerializer {
+
+        final boolean isArray;
+
+        final boolean uniqueItems;
+
+        final boolean isMap;
+
+        final boolean isNullable;
+
+        final String dataType;
+
+        private BuiltValueSerializer(boolean isArray, boolean uniqueItems, boolean isMap, boolean isNullable, String dataType) {
+            this.isArray = isArray;
+            this.uniqueItems = uniqueItems;
+            this.isMap = isMap;
+            this.isNullable = isNullable;
+            this.dataType = dataType;
+        }
+
+        public boolean isArray() {
+            return isArray;
+        }
+
+        public boolean isUniqueItems() {
+            return uniqueItems;
+        }
+
+        public boolean isMap() {
+            return isMap;
+        }
+
+        public boolean isNullable() {
+            return isNullable;
+        }
+
+        public String getDataType() {
+            return dataType;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            BuiltValueSerializer that = (BuiltValueSerializer) o;
+            return isArray == that.isArray && uniqueItems == that.uniqueItems && isMap == that.isMap && isNullable == that.isNullable && dataType.equals(that.dataType);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(isArray, uniqueItems, isMap, isNullable, dataType);
+        }
     }
 }

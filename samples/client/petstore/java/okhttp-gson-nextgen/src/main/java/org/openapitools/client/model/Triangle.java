@@ -79,25 +79,33 @@ public class Triangle extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Triangle>() {
                 @Override
                 public void write(JsonWriter out, Triangle value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `EquilateralTriangle`
                     if (value.getActualInstance() instanceof EquilateralTriangle) {
                         JsonObject obj = adapterEquilateralTriangle.toJsonTree((EquilateralTriangle)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `IsoscelesTriangle`
                     if (value.getActualInstance() instanceof IsoscelesTriangle) {
                         JsonObject obj = adapterIsoscelesTriangle.toJsonTree((IsoscelesTriangle)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `ScaleneTriangle`
                     if (value.getActualInstance() instanceof ScaleneTriangle) {
                         JsonObject obj = adapterScaleneTriangle.toJsonTree((ScaleneTriangle)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle");
                 }
 
                 @Override
@@ -143,7 +151,7 @@ public class Triangle extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Triangle: %d classes match result, expected 1", match));
+                    throw new IOException(String.format("Failed deserialization for Triangle: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
                 }
             }.nullSafe();
         }

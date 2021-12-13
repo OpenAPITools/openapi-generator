@@ -1132,6 +1132,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1160,6 +1163,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         return self.array_model_endpoint.call_with_http_info(**kwargs)
 
@@ -1194,6 +1199,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1222,6 +1230,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         return self.boolean_endpoint.call_with_http_info(**kwargs)
 
@@ -1258,6 +1268,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1286,6 +1299,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         kwargs['xml_item'] = \
             xml_item
@@ -1322,6 +1337,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1350,6 +1368,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         return self.number_with_validations_endpoint.call_with_http_info(**kwargs)
 
@@ -1384,6 +1404,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1412,6 +1435,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         return self.object_model_with_ref_props_endpoint.call_with_http_info(**kwargs)
 
@@ -1446,6 +1471,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1474,6 +1502,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         return self.string_endpoint.call_with_http_info(**kwargs)
 
@@ -1508,6 +1538,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1536,6 +1569,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         return self.string_enum_endpoint.call_with_http_info(**kwargs)
 
@@ -1572,6 +1607,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1600,6 +1638,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         kwargs['body'] = \
             body
@@ -1639,6 +1679,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1667,6 +1710,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         kwargs['query'] = \
             query
@@ -1707,6 +1752,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1735,6 +1783,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         kwargs['body'] = \
             body
@@ -1781,6 +1831,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1809,6 +1862,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         kwargs['query_integer'] = \
             query_integer
@@ -1871,6 +1926,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1899,6 +1957,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         kwargs['number'] = \
             number
@@ -1948,6 +2008,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -1976,6 +2039,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         return self.test_enum_parameters_endpoint.call_with_http_info(**kwargs)
 
@@ -2019,6 +2084,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -2047,6 +2115,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         kwargs['required_string_group'] = \
             required_string_group
@@ -2088,6 +2158,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -2116,6 +2189,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         kwargs['param'] = \
             param
@@ -2155,6 +2230,9 @@ class FakeApi(object):
             _check_return_type (bool): specifies if type checking
                 should be done one the data received from the server.
                 Default is True.
+            _content_type (str/None): force body content-type.
+                Default is None and content-type will be predicted by allowed
+                content-types and body.
             _host_index (int/None): specifies the index of the server
                 that we want to use.
                 Default is read from the configuration.
@@ -2183,6 +2261,8 @@ class FakeApi(object):
         kwargs['_check_return_type'] = kwargs.get(
             '_check_return_type', True
         )
+        kwargs['_content_type'] = kwargs.get(
+            '_content_type')
         kwargs['_host_index'] = kwargs.get('_host_index')
         kwargs['param'] = \
             param
