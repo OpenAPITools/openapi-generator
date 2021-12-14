@@ -1,6 +1,6 @@
 package org.openapitools.server.api.verticle
 
-import org.openapitools.server.api.model.ApiResponse
+import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 import io.vertx.core.Vertx
 import io.vertx.core.json.JsonObject
@@ -41,7 +41,7 @@ interface PetApi  {
     suspend fun updatePetWithForm(petId:kotlin.Long?,name:kotlin.String?,status:kotlin.String?,context:OperationRequest):Response<Void>
     /* uploadFile
      * uploads an image */
-    suspend fun uploadFile(petId:kotlin.Long?,additionalMetadata:kotlin.String?,file:kotlin.collections.List<java.io.File>?,context:OperationRequest):Response<ApiResponse>
+    suspend fun uploadFile(petId:kotlin.Long?,additionalMetadata:kotlin.String?,file:kotlin.collections.List<java.io.File>?,context:OperationRequest):Response<ModelApiResponse>
     companion object {
         const val address = "PetApi-service"
         suspend fun createRouterFactory(vertx: Vertx,path:String): io.vertx.ext.web.api.contract.openapi3.OpenAPI3RouterFactory {
