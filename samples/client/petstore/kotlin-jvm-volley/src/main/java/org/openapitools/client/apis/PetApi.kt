@@ -17,7 +17,7 @@ import org.openapitools.client.request.IRequestFactory
 import org.openapitools.client.request.RequestFactory
 import org.openapitools.client.infrastructure.CollectionFormats.*
 
-import org.openapitools.client.models.ApiResponse
+import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
 /*
@@ -518,9 +518,9 @@ class PetApi (
        * @param petId ID of pet to update
        * @param additionalMetadata Additional data to pass to server
        * @param file file to upload
-       * @return ApiResponse
+       * @return ModelApiResponse
     */
-    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ApiResponse? {
+    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ModelApiResponse? {
         val body: Any? = null
         // verify the required parameter 'petId' is set
         // This is probably taken care of by non-null types anyway
@@ -554,7 +554,7 @@ class PetApi (
         )
 
         return suspendCoroutine { continuation ->
-            val responseListener = Response.Listener<ApiResponse> { response ->
+            val responseListener = Response.Listener<ModelApiResponse> { response ->
                 continuation.resume(response)
             }
 
@@ -562,11 +562,11 @@ class PetApi (
                 continuation.resumeWithException(error)
             }
 
-            val responseType = object : TypeToken<ApiResponse>() {}.type
+            val responseType = object : TypeToken<ModelApiResponse>() {}.type
 
             // Call the correct request builder based on whether we have a return type or a body.
             // All other switching on types must be done in code inside the builder
-            val request: Request<ApiResponse> = requestFactory.build(
+            val request: Request<ModelApiResponse> = requestFactory.build(
                     Request.Method.POST,
                     "$basePath$path",
                     body,
