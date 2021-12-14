@@ -539,27 +539,30 @@ namespace {{packageName}}.Client
             IReadOnlyDictionary<string, object> server = servers[index];
             string url = (string)server["url"];
 
-            // go through variable and assign a value
-            foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>)server["variables"])
+            if (server.ContainsKey("variables"))
             {
-
-                IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
-
-                if (inputVariables.ContainsKey(variable.Key))
+                // go through each variable and assign a value
+                foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>)server["variables"])
                 {
-                    if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
+
+                    IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
+
+                    if (inputVariables.ContainsKey(variable.Key))
                     {
-                        url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
+                        if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
+                        {
+                            url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
+                        }
                     }
                     else
                     {
-                        throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
+                        // use default value
+                        url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
                     }
-                }
-                else
-                {
-                    // use default value
-                    url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
                 }
             }
 
