@@ -22,7 +22,7 @@ class RequestFactory(private val headerFactories : List<() -> Map<String, String
 
      val apiKeyAuthHeaderFactoryBuilder = {
           paramName: String, apiKeyPrefix: String?, apiKey: String? -> {
-              mapOf("$paramName" to
+              mapOf(paramName to
                  if (apiKeyPrefix != null) {
                     "$apiKeyPrefix $apiKey"
                  } else {

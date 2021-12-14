@@ -65,7 +65,7 @@ class StoreApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
         )
@@ -128,7 +128,7 @@ class StoreApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
         )
@@ -195,7 +195,7 @@ class StoreApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
         )
@@ -262,7 +262,7 @@ class StoreApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
         )

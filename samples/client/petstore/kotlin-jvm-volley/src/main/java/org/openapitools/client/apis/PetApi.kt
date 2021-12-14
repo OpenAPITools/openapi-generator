@@ -66,7 +66,7 @@ class PetApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
         )
@@ -134,7 +134,7 @@ class PetApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
             "api_key" to IRequestFactory.parameterToString(apiKey),
@@ -203,7 +203,7 @@ class PetApi (
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
             "status" to IRequestFactory.parameterToString(status),
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
         )
@@ -272,7 +272,7 @@ class PetApi (
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
             "tags" to IRequestFactory.parameterToString(tags),
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
         )
@@ -339,7 +339,7 @@ class PetApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
         )
@@ -406,7 +406,7 @@ class PetApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
         )
@@ -477,7 +477,7 @@ class PetApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
         )
@@ -548,7 +548,7 @@ class PetApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-        ).filter { it.value != ""}
+        ).filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf(
         )
