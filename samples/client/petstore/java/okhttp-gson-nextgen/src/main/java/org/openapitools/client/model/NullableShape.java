@@ -77,19 +77,26 @@ public class NullableShape extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<NullableShape>() {
                 @Override
                 public void write(JsonWriter out, NullableShape value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `Quadrilateral`
                     if (value.getActualInstance() instanceof Quadrilateral) {
                         JsonObject obj = adapterQuadrilateral.toJsonTree((Quadrilateral)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `Triangle`
                     if (value.getActualInstance() instanceof Triangle) {
                         JsonObject obj = adapterTriangle.toJsonTree((Triangle)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: Quadrilateral, Triangle");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Quadrilateral, Triangle");
                 }
 
                 @Override
@@ -125,7 +132,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for NullableShape: %d classes match result, expected 1", match));
+                    throw new IOException(String.format("Failed deserialization for NullableShape: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
                 }
             }.nullSafe();
         }

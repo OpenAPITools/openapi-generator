@@ -78,19 +78,26 @@ public class FruitReq extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<FruitReq>() {
                 @Override
                 public void write(JsonWriter out, FruitReq value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `AppleReq`
                     if (value.getActualInstance() instanceof AppleReq) {
                         JsonObject obj = adapterAppleReq.toJsonTree((AppleReq)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `BananaReq`
                     if (value.getActualInstance() instanceof BananaReq) {
                         JsonObject obj = adapterBananaReq.toJsonTree((BananaReq)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: AppleReq, BananaReq");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: AppleReq, BananaReq");
                 }
 
                 @Override
@@ -126,7 +133,7 @@ public class FruitReq extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for FruitReq: %d classes match result, expected 1", match));
+                    throw new IOException(String.format("Failed deserialization for FruitReq: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
                 }
             }.nullSafe();
         }

@@ -77,19 +77,26 @@ public class Pig extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<Pig>() {
                 @Override
                 public void write(JsonWriter out, Pig value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `BasquePig`
                     if (value.getActualInstance() instanceof BasquePig) {
                         JsonObject obj = adapterBasquePig.toJsonTree((BasquePig)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `DanishPig`
                     if (value.getActualInstance() instanceof DanishPig) {
                         JsonObject obj = adapterDanishPig.toJsonTree((DanishPig)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: BasquePig, DanishPig");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: BasquePig, DanishPig");
                 }
 
                 @Override
@@ -125,7 +132,7 @@ public class Pig extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Pig: %d classes match result, expected 1", match));
+                    throw new IOException(String.format("Failed deserialization for Pig: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
                 }
             }.nullSafe();
         }
