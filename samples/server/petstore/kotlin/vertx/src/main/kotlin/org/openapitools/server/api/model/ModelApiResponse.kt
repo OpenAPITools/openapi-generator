@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class ApiResponse (
+data class ModelApiResponse (
     var code: kotlin.Int? = null,
     var type: kotlin.String? = null,
     var message: kotlin.String? = null
