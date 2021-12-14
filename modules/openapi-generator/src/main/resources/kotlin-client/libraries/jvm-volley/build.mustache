@@ -28,7 +28,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.android.tools.build:gradle:4.0.2'
         {{#useAndroidMavenGradlePlugin}}
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
@@ -88,16 +88,6 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-}
-
-ext {
-    kotlin_version = '1.5.10'
-    swagger_annotations_version = "1.6.2"
-    gson_version = "2.8.6"
-    volley_version = "1.2.0"
-    junit_version = "4.13.2"
-    robolectric_version = "4.5.1"
-    concurrent_unit_version = "0.4.6"
 }
 
 dependencies {
