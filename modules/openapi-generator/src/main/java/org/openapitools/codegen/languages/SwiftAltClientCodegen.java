@@ -57,6 +57,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
      */
     public SwiftAltClientCodegen() {
         super();
+        this.supportsAdditionalPropertiesWithComposedSchema = true;
         this.useOneOfInterfaces = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -295,6 +296,14 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     protected boolean isReservedWord(String word) {
         return word != null && reservedWords.contains(word); //don't lowercase as super does
+    }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name;
     }
 
     @Override

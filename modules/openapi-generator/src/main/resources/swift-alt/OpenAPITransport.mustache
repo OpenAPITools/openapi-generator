@@ -209,7 +209,7 @@ public extension OpenAPITransportError {
 
 public protocol URLSessionOpenAPITransportDelegate: AnyObject {
     func willStart(request: URLRequest)
-    func didFinish(request: URLRequest, response: HTTPURLResponse?)
+    func didFinish(request: URLRequest, response: HTTPURLResponse?, data: Data)
 }
 
 open class URLSessionOpenAPITransport: OpenAPITransport {
@@ -245,7 +245,7 @@ open class URLSessionOpenAPITransport: OpenAPITransport {
                     }
                     .flatMap { output -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> in
                         let response = output.response as? HTTPURLResponse
-                        self.config.delegate?.didFinish(request: request, response: response)
+                        self.config.delegate?.didFinish(request: request, response: response, data: output.data)
                         switch self.config.policy.defineState(for: output.response) {
                         case .success:
                             let OpenAPITransportResponse = OpenAPITransportResponse(data: output.data, statusCode: 200)
