@@ -90,6 +90,13 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         /// <value>The servers</value>
         private IList<IReadOnlyDictionary<string, object>> _servers;
+
+        /// <summary>
+        /// Gets or sets the operation servers defined in the OpenAPI spec.
+        /// </summary>
+        /// <value>The operation servers</value>
+        private IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> _operationServers;
+
         #endregion Private Members
 
         #region Constructors
@@ -114,6 +121,109 @@ namespace Org.OpenAPITools.Client
                         {"description", "No description provided"},
                     }
                 }
+            };
+            OperationServers = new Dictionary<string, List<IReadOnlyDictionary<string, object>>>()
+            {
+                {
+                    "PetApi.AddPet", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "PetApi.DeletePet", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "PetApi.FindPetsByStatus", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "PetApi.FindPetsByTags", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "PetApi.GetPetById", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "PetApi.UpdatePet", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "PetApi.UpdatePetWithForm", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "PetApi.UploadFile", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "StoreApi.DeleteOrder", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "StoreApi.GetInventory", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "StoreApi.GetOrderById", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "StoreApi.PlaceOrder", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "UserApi.CreateUser", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "UserApi.CreateUsersWithArrayInput", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "UserApi.CreateUsersWithListInput", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "UserApi.DeleteUser", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "UserApi.GetUserByName", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "UserApi.LoginUser", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "UserApi.LogoutUser", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
+                {
+                    "UserApi.UpdateUser", new List<IReadOnlyDictionary<string, object>>
+                    {
+                    }
+                },
             };
 
             // Setting Timeout has side effects (forces ApiClient creation).
@@ -375,6 +485,23 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
+        /// Gets or sets the operation servers.
+        /// </summary>
+        /// <value>The operation servers.</value>
+        public virtual IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> OperationServers
+        {
+            get { return _operationServers; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new InvalidOperationException("Operation servers may not be null.");
+                }
+                _operationServers = value;
+            }
+        }
+
+        /// <summary>
         /// Returns URL based on server settings without providing values
         /// for the variables
         /// </summary>
@@ -382,7 +509,7 @@ namespace Org.OpenAPITools.Client
         /// <return>The server URL.</return>
         public string GetServerUrl(int index)
         {
-            return GetServerUrl(index, null);
+            return GetServerUrl(Servers, index, null);
         }
 
         /// <summary>
@@ -393,9 +520,49 @@ namespace Org.OpenAPITools.Client
         /// <return>The server URL.</return>
         public string GetServerUrl(int index, Dictionary<string, string> inputVariables)
         {
-            if (index < 0 || index >= Servers.Count)
+            return GetServerUrl(Servers, index, inputVariables);
+        }
+
+        /// <summary>
+        /// Returns URL based on operation server settings.
+        /// </summary>
+        /// <param name="operation">Operation associated with the request path.</param>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <return>The operation server URL.</return>
+        public string GetOperationServerUrl(string operation, int index)
+        {
+            return GetOperationServerUrl(operation, index, null);
+        }
+
+        /// <summary>
+        /// Returns URL based on operation server settings.
+        /// </summary>
+        /// <param name="operation">Operation associated with the request path.</param>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <param name="inputVariables">Dictionary of the variables and the corresponding values.</param>
+        /// <return>The operation server URL.</return>
+        public string GetOperationServerUrl(string operation, int index, Dictionary<string, string> inputVariables)
+        {
+            if (OperationServers.TryGetValue(operation, out var operationServer))
             {
-                throw new InvalidOperationException($"Invalid index {index} when selecting the server. Must be less than {Servers.Count}.");
+                return GetServerUrl(operationServer, index, inputVariables);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns URL based on server settings.
+        /// </summary>
+        /// <param name="servers">Dictionary of server settings.</param>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <param name="inputVariables">Dictionary of the variables and the corresponding values.</param>
+        /// <return>The server URL.</return>
+        private string GetServerUrl(IList<IReadOnlyDictionary<string, object>> servers, int index, Dictionary<string, string> inputVariables)
+        {
+            if (index < 0 || index >= servers.Count)
+            {
+                throw new InvalidOperationException($"Invalid index {index} when selecting the server. Must be less than {servers.Count}.");
             }
 
             if (inputVariables == null)
@@ -403,30 +570,33 @@ namespace Org.OpenAPITools.Client
                 inputVariables = new Dictionary<string, string>();
             }
 
-            IReadOnlyDictionary<string, object> server = Servers[index];
+            IReadOnlyDictionary<string, object> server = servers[index];
             string url = (string)server["url"];
 
-            // go through variable and assign a value
-            foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>)server["variables"])
+            if (server.ContainsKey("variables"))
             {
-
-                IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
-
-                if (inputVariables.ContainsKey(variable.Key))
+                // go through each variable and assign a value
+                foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>)server["variables"])
                 {
-                    if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
+
+                    IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
+
+                    if (inputVariables.ContainsKey(variable.Key))
                     {
-                        url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
+                        if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
+                        {
+                            url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
+                        }
                     }
                     else
                     {
-                        throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
+                        // use default value
+                        url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
                     }
-                }
-                else
-                {
-                    // use default value
-                    url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
                 }
             }
 
