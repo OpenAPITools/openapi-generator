@@ -20,10 +20,12 @@
 
 package org.openapitools.client.apis
 
+import java.io.IOException
+
 import org.openapitools.client.models.PetEnum
 
 import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.ApiInfrastructureResponse
+import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -47,12 +49,14 @@ class EnumApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * Get enums
     * 
     * @return PetEnum
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getEnum() : PetEnum {
         val localVarResponse = getEnumWithHttpInfo()
 
@@ -74,14 +78,13 @@ class EnumApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     /**
     * Get enums
     * 
-    * @return ApiInfrastructureResponse<PetEnum?>
-    * @throws UnsupportedOperationException If the API returns an informational or redirection response
-    * @throws ClientException If the API returns a client error response
-    * @throws ServerException If the API returns a server error response
+    * @return ApiResponse<PetEnum?>
+    * @throws IllegalStateException If the request is not correctly configured
+    * @throws IOException Rethrows the OkHttp execute method exception
     */
     @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getEnumWithHttpInfo() : ApiInfrastructureResponse<PetEnum?> {
+    @Throws(IllegalStateException::class, IOException::class)
+    fun getEnumWithHttpInfo() : ApiResponse<PetEnum?> {
         val localVariableConfig = getEnumRequestConfig()
 
         return request<Unit, PetEnum>(
@@ -98,6 +101,7 @@ class EnumApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
