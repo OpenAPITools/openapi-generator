@@ -198,5 +198,14 @@ public class ShapeInterface {
   public static ShapeInterface fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ShapeInterface.class);
   }
+
+ /**
+  * Convert an instance of ShapeInterface to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

@@ -191,5 +191,14 @@ public class ClassModel {
   public static ClassModel fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ClassModel.class);
   }
+
+ /**
+  * Convert an instance of ClassModel to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

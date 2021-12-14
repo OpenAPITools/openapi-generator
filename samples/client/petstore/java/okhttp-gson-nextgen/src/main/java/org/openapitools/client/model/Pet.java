@@ -426,5 +426,14 @@ public class Pet {
   public static Pet fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Pet.class);
   }
+
+ /**
+  * Convert an instance of Pet to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

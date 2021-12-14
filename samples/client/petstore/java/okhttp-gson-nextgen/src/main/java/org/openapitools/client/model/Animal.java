@@ -201,5 +201,14 @@ public class Animal {
   public static Animal fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Animal.class);
   }
+
+ /**
+  * Convert an instance of Animal to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

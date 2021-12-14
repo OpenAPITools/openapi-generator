@@ -242,5 +242,14 @@ public class FileSchemaTestClass {
   public static FileSchemaTestClass fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, FileSchemaTestClass.class);
   }
+
+ /**
+  * Convert an instance of FileSchemaTestClass to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

@@ -192,5 +192,14 @@ public class DeprecatedObject {
   public static DeprecatedObject fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, DeprecatedObject.class);
   }
+
+ /**
+  * Convert an instance of DeprecatedObject to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

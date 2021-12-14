@@ -231,5 +231,14 @@ public class ComplexQuadrilateral {
   public static ComplexQuadrilateral fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ComplexQuadrilateral.class);
   }
+
+ /**
+  * Convert an instance of ComplexQuadrilateral to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

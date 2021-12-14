@@ -190,5 +190,14 @@ public class DogAllOf {
   public static DogAllOf fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, DogAllOf.class);
   }
+
+ /**
+  * Convert an instance of DogAllOf to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

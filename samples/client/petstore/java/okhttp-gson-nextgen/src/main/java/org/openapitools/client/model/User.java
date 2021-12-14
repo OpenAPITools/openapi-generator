@@ -532,5 +532,14 @@ public class User {
   public static User fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, User.class);
   }
+
+ /**
+  * Convert an instance of User to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

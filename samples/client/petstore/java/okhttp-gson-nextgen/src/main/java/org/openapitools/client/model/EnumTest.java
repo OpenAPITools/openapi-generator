@@ -693,5 +693,14 @@ public class EnumTest {
   public static EnumTest fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, EnumTest.class);
   }
+
+ /**
+  * Convert an instance of EnumTest to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

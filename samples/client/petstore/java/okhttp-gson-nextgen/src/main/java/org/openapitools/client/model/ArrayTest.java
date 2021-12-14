@@ -277,5 +277,14 @@ public class ArrayTest {
   public static ArrayTest fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayTest.class);
   }
+
+ /**
+  * Convert an instance of ArrayTest to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

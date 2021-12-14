@@ -329,5 +329,14 @@ public class Drawing extends HashMap<String, Fruit> {
   public static Drawing fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Drawing.class);
   }
+
+ /**
+  * Convert an instance of Drawing to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

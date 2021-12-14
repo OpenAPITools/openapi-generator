@@ -220,5 +220,14 @@ public class Apple {
   public static Apple fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Apple.class);
   }
+
+ /**
+  * Convert an instance of Apple to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

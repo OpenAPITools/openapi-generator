@@ -201,5 +201,14 @@ public class ArrayOfArrayOfNumberOnly {
   public static ArrayOfArrayOfNumberOnly fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayOfArrayOfNumberOnly.class);
   }
+
+ /**
+  * Convert an instance of ArrayOfArrayOfNumberOnly to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

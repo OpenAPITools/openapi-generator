@@ -267,5 +267,14 @@ public class Quadrilateral extends AbstractOpenApiSchema {
   public static Quadrilateral fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Quadrilateral.class);
   }
+
+ /**
+  * Convert an instance of Quadrilateral to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

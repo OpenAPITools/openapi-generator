@@ -191,5 +191,14 @@ public class Banana {
   public static Banana fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Banana.class);
   }
+
+ /**
+  * Convert an instance of Banana to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

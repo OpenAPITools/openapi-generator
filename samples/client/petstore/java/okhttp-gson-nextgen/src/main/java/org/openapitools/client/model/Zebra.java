@@ -281,5 +281,14 @@ public class Zebra extends HashMap<String, Object> {
   public static Zebra fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Zebra.class);
   }
+
+ /**
+  * Convert an instance of Zebra to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

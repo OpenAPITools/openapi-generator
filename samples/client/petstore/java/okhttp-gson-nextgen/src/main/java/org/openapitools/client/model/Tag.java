@@ -220,5 +220,14 @@ public class Tag {
   public static Tag fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Tag.class);
   }
+
+ /**
+  * Convert an instance of Tag to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

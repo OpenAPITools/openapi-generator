@@ -220,5 +220,14 @@ public class SpecialModelName {
   public static SpecialModelName fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, SpecialModelName.class);
   }
+
+ /**
+  * Convert an instance of SpecialModelName to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

@@ -221,5 +221,14 @@ public class Model200Response {
   public static Model200Response fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Model200Response.class);
   }
+
+ /**
+  * Convert an instance of Model200Response to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

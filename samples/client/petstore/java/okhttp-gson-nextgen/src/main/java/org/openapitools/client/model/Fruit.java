@@ -268,5 +268,14 @@ public class Fruit extends AbstractOpenApiSchema {
   public static Fruit fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Fruit.class);
   }
+
+ /**
+  * Convert an instance of Fruit to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

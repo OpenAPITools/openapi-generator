@@ -272,5 +272,14 @@ public class NullableShape extends AbstractOpenApiSchema {
   public static NullableShape fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, NullableShape.class);
   }
+
+ /**
+  * Convert an instance of NullableShape to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

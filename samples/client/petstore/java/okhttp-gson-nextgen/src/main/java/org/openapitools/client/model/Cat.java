@@ -205,5 +205,14 @@ public class Cat extends Animal {
   public static Cat fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Cat.class);
   }
+
+ /**
+  * Convert an instance of Cat to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

@@ -212,5 +212,14 @@ public class HasOnlyReadOnly {
   public static HasOnlyReadOnly fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, HasOnlyReadOnly.class);
   }
+
+ /**
+  * Convert an instance of HasOnlyReadOnly to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

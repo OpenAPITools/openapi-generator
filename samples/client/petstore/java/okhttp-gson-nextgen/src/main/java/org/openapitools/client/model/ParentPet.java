@@ -172,5 +172,14 @@ public class ParentPet extends GrandparentAnimal {
   public static ParentPet fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ParentPet.class);
   }
+
+ /**
+  * Convert an instance of ParentPet to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

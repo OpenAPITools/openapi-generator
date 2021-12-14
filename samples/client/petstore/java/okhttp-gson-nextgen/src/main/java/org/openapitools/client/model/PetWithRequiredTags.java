@@ -424,5 +424,14 @@ public class PetWithRequiredTags {
   public static PetWithRequiredTags fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, PetWithRequiredTags.class);
   }
+
+ /**
+  * Convert an instance of PetWithRequiredTags to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

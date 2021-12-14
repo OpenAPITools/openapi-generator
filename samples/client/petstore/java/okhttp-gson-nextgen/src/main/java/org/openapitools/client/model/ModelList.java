@@ -190,5 +190,14 @@ public class ModelList {
   public static ModelList fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ModelList.class);
   }
+
+ /**
+  * Convert an instance of ModelList to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

@@ -390,5 +390,14 @@ public class Order {
   public static Order fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Order.class);
   }
+
+ /**
+  * Convert an instance of Order to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

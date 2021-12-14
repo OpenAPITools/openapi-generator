@@ -231,5 +231,14 @@ public class ScaleneTriangle {
   public static ScaleneTriangle fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ScaleneTriangle.class);
   }
+
+ /**
+  * Convert an instance of ScaleneTriangle to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

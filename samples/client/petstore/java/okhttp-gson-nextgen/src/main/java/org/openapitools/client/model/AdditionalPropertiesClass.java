@@ -447,5 +447,14 @@ public class AdditionalPropertiesClass {
   public static AdditionalPropertiesClass fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AdditionalPropertiesClass.class);
   }
+
+ /**
+  * Convert an instance of AdditionalPropertiesClass to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

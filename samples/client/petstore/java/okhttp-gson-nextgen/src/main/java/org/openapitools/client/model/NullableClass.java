@@ -589,5 +589,14 @@ public class NullableClass extends HashMap<String, Object> {
   public static NullableClass fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, NullableClass.class);
   }
+
+ /**
+  * Convert an instance of NullableClass to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

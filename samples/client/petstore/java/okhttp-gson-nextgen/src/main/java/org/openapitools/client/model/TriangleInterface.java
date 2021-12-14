@@ -198,5 +198,14 @@ public class TriangleInterface {
   public static TriangleInterface fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, TriangleInterface.class);
   }
+
+ /**
+  * Convert an instance of TriangleInterface to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

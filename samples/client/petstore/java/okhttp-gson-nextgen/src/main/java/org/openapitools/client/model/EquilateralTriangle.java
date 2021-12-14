@@ -231,5 +231,14 @@ public class EquilateralTriangle {
   public static EquilateralTriangle fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, EquilateralTriangle.class);
   }
+
+ /**
+  * Convert an instance of EquilateralTriangle to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

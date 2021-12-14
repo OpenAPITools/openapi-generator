@@ -191,5 +191,14 @@ public class ModelFile {
   public static ModelFile fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ModelFile.class);
   }
+
+ /**
+  * Convert an instance of ModelFile to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

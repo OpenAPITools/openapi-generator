@@ -195,5 +195,14 @@ public class InlineResponseDefault {
   public static InlineResponseDefault fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, InlineResponseDefault.class);
   }
+
+ /**
+  * Convert an instance of InlineResponseDefault to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

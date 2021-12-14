@@ -167,5 +167,14 @@ public class GrandparentAnimal {
   public static GrandparentAnimal fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, GrandparentAnimal.class);
   }
+
+ /**
+  * Convert an instance of GrandparentAnimal to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

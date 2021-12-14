@@ -230,4 +230,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
   public static {{{classname}}} fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, {{{classname}}}.class);
   }
+
+ /**
+  * Convert an instance of {{classname}} to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }

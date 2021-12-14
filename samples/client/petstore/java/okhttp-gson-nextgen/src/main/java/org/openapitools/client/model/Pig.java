@@ -267,5 +267,14 @@ public class Pig extends AbstractOpenApiSchema {
   public static Pig fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Pig.class);
   }
+
+ /**
+  * Convert an instance of Pig to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

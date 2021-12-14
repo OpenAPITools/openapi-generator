@@ -281,5 +281,14 @@ public class Name {
   public static Name fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Name.class);
   }
+
+ /**
+  * Convert an instance of Name to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

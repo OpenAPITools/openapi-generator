@@ -205,5 +205,14 @@ public class Dog extends Animal {
   public static Dog fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Dog.class);
   }
+
+ /**
+  * Convert an instance of Dog to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

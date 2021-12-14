@@ -258,5 +258,14 @@ public class Whale {
   public static Whale fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Whale.class);
   }
+
+ /**
+  * Convert an instance of Whale to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

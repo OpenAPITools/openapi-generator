@@ -231,5 +231,14 @@ public class IsoscelesTriangle {
   public static IsoscelesTriangle fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, IsoscelesTriangle.class);
   }
+
+ /**
+  * Convert an instance of IsoscelesTriangle to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

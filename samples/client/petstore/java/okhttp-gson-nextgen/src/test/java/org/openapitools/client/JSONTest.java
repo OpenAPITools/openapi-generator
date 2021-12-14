@@ -342,7 +342,9 @@ public class JSONTest {
             assertEquals(inst.getCultivar(), "golden delicious");
             assertEquals(inst.getOrigin(), "japan");
             assertEquals(json.getGson().toJson(inst), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
+            assertEquals(inst.toJson(), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
             assertEquals(json.getGson().toJson(o), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
+            assertEquals(o.toJson(), "{\"cultivar\":\"golden delicious\",\"origin\":\"japan\"}");
 
             String str2 = "{ \"origin_typo\": \"japan\" }";
             // no match
@@ -384,12 +386,15 @@ public class JSONTest {
             assertEquals(inst.getCultivar(), "golden delicious");
             assertEquals(inst.getMealy(), false);
             assertEquals(json.getGson().toJson(inst), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
+            assertEquals(inst.toJson(), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
             assertEquals(json.getGson().toJson(o), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
+            assertEquals(o.toJson(), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
 
             AppleReq inst2 = o.getAppleReq();
             assertEquals(inst2.getCultivar(), "golden delicious");
             assertEquals(inst2.getMealy(), false);
             assertEquals(json.getGson().toJson(inst2), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
+            assertEquals(inst2.toJson(), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
 
             // test fromJson
             FruitReq o3 = FruitReq.fromJson(str);
@@ -398,13 +403,15 @@ public class JSONTest {
             assertEquals(inst3.getCultivar(), "golden delicious");
             assertEquals(inst3.getMealy(), false);
             assertEquals(json.getGson().toJson(inst3), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
-            assertEquals(json.getGson().toJson(o3), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
+            assertEquals(inst3.toJson(), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
+            assertEquals(o3.toJson(), "{\"cultivar\":\"golden delicious\",\"mealy\":false}");
         }
         {
             // test to ensure the oneOf object can be serialized to "null" correctly
             FruitReq o = new FruitReq();
             assertEquals(o.getActualInstance(), null);
             assertEquals(json.getGson().toJson(o), "null");
+            assertEquals(o.toJson(), "null");
             assertEquals(json.getGson().toJson(null), "null");
         }
         {

@@ -250,5 +250,14 @@ public class ModelApiResponse {
   public static ModelApiResponse fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ModelApiResponse.class);
   }
+
+ /**
+  * Convert an instance of ModelApiResponse to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

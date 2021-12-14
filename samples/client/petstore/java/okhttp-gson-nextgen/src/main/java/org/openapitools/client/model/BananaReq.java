@@ -229,5 +229,14 @@ public class BananaReq {
   public static BananaReq fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, BananaReq.class);
   }
+
+ /**
+  * Convert an instance of BananaReq to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

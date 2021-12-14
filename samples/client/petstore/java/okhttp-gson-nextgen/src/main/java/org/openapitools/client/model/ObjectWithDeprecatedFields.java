@@ -302,5 +302,14 @@ public class ObjectWithDeprecatedFields {
   public static ObjectWithDeprecatedFields fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ObjectWithDeprecatedFields.class);
   }
+
+ /**
+  * Convert an instance of ObjectWithDeprecatedFields to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

@@ -198,5 +198,14 @@ public class BasquePig {
   public static BasquePig fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, BasquePig.class);
   }
+
+ /**
+  * Convert an instance of BasquePig to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

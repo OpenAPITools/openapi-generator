@@ -191,5 +191,14 @@ public class ModelReturn {
   public static ModelReturn fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ModelReturn.class);
   }
+
+ /**
+  * Convert an instance of ModelReturn to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

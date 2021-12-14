@@ -340,5 +340,14 @@ public class Capitalization {
   public static Capitalization fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Capitalization.class);
   }
+
+ /**
+  * Convert an instance of Capitalization to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

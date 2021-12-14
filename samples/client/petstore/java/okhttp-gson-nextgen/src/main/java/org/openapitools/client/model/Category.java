@@ -228,5 +228,14 @@ public class Category {
   public static Category fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Category.class);
   }
+
+ /**
+  * Convert an instance of Category to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 

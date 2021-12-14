@@ -198,5 +198,14 @@ public class DanishPig {
   public static DanishPig fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, DanishPig.class);
   }
+
+ /**
+  * Convert an instance of DanishPig to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 
