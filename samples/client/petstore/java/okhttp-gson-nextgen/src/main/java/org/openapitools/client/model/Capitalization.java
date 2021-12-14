@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Capitalization
  */
@@ -326,6 +328,17 @@ public class Capitalization {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of Capitalization given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Capitalization
+  * @throws IOException if the JSON string is invalid with respect to Capitalization
+  */
+  public static Capitalization fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Capitalization.class);
   }
 }
 

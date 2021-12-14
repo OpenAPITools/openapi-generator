@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * IsoscelesTriangle
  */
@@ -217,6 +219,17 @@ public class IsoscelesTriangle {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of IsoscelesTriangle given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of IsoscelesTriangle
+  * @throws IOException if the JSON string is invalid with respect to IsoscelesTriangle
+  */
+  public static IsoscelesTriangle fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, IsoscelesTriangle.class);
   }
 }
 

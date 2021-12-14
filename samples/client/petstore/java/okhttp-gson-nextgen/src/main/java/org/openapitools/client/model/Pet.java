@@ -45,6 +45,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Pet
  */
@@ -412,6 +414,17 @@ public class Pet {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of Pet given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Pet
+  * @throws IOException if the JSON string is invalid with respect to Pet
+  */
+  public static Pet fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Pet.class);
   }
 }
 

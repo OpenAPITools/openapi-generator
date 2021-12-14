@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
@@ -177,6 +179,17 @@ public class ClassModel {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of ClassModel given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ClassModel
+  * @throws IOException if the JSON string is invalid with respect to ClassModel
+  */
+  public static ClassModel fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ClassModel.class);
   }
 }
 

@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * GrandparentAnimal
  */
@@ -154,5 +156,16 @@ public class GrandparentAnimal {
       }
   }
 
+
+ /**
+  * Create an instance of GrandparentAnimal given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of GrandparentAnimal
+  * @throws IOException if the JSON string is invalid with respect to GrandparentAnimal
+  */
+  public static GrandparentAnimal fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, GrandparentAnimal.class);
+  }
 }
 

@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * InlineResponseDefault
  */
@@ -181,6 +183,17 @@ public class InlineResponseDefault {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of InlineResponseDefault given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of InlineResponseDefault
+  * @throws IOException if the JSON string is invalid with respect to InlineResponseDefault
+  */
+  public static InlineResponseDefault fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, InlineResponseDefault.class);
   }
 }
 

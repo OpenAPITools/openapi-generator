@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * BananaReq
  */
@@ -215,6 +217,17 @@ public class BananaReq {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of BananaReq given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of BananaReq
+  * @throws IOException if the JSON string is invalid with respect to BananaReq
+  */
+  public static BananaReq fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, BananaReq.class);
   }
 }
 

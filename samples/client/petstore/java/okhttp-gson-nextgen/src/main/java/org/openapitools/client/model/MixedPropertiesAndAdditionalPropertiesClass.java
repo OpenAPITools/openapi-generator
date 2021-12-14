@@ -47,6 +47,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
@@ -250,6 +252,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of MixedPropertiesAndAdditionalPropertiesClass given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of MixedPropertiesAndAdditionalPropertiesClass
+  * @throws IOException if the JSON string is invalid with respect to MixedPropertiesAndAdditionalPropertiesClass
+  */
+  public static MixedPropertiesAndAdditionalPropertiesClass fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, MixedPropertiesAndAdditionalPropertiesClass.class);
   }
 }
 

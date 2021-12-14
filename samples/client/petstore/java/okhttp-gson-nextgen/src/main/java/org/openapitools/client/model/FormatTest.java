@@ -46,6 +46,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * FormatTest
  */
@@ -652,6 +654,17 @@ public class FormatTest {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of FormatTest given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of FormatTest
+  * @throws IOException if the JSON string is invalid with respect to FormatTest
+  */
+  public static FormatTest fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, FormatTest.class);
   }
 }
 

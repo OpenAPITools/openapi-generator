@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Model for testing reserved words
  */
@@ -177,6 +179,17 @@ public class ModelReturn {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of ModelReturn given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ModelReturn
+  * @throws IOException if the JSON string is invalid with respect to ModelReturn
+  */
+  public static ModelReturn fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ModelReturn.class);
   }
 }
 

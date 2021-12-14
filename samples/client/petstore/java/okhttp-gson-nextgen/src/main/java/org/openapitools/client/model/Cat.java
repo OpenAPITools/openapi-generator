@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Cat
  */
@@ -191,6 +193,17 @@ public class Cat extends Animal {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of Cat given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Cat
+  * @throws IOException if the JSON string is invalid with respect to Cat
+  */
+  public static Cat fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Cat.class);
   }
 }
 

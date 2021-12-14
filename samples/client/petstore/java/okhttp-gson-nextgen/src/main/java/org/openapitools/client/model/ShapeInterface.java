@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * ShapeInterface
  */
@@ -184,6 +186,17 @@ public class ShapeInterface {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of ShapeInterface given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ShapeInterface
+  * @throws IOException if the JSON string is invalid with respect to ShapeInterface
+  */
+  public static ShapeInterface fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ShapeInterface.class);
   }
 }
 

@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * ScaleneTriangle
  */
@@ -217,6 +219,17 @@ public class ScaleneTriangle {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of ScaleneTriangle given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ScaleneTriangle
+  * @throws IOException if the JSON string is invalid with respect to ScaleneTriangle
+  */
+  public static ScaleneTriangle fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ScaleneTriangle.class);
   }
 }
 

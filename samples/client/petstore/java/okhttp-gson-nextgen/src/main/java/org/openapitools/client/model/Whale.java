@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Whale
  */
@@ -244,6 +246,17 @@ public class Whale {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of Whale given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Whale
+  * @throws IOException if the JSON string is invalid with respect to Whale
+  */
+  public static Whale fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Whale.class);
   }
 }
 

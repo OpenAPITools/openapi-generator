@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * User
  */
@@ -518,6 +520,17 @@ public class User {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of User given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of User
+  * @throws IOException if the JSON string is invalid with respect to User
+  */
+  public static User fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, User.class);
   }
 }
 

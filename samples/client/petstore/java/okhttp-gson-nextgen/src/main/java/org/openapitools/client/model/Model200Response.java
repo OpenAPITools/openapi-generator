@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Model for testing model name starting with number
  */
@@ -207,6 +209,17 @@ public class Model200Response {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of Model200Response given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Model200Response
+  * @throws IOException if the JSON string is invalid with respect to Model200Response
+  */
+  public static Model200Response fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Model200Response.class);
   }
 }
 

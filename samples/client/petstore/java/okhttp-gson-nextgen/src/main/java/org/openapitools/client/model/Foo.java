@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Foo
  */
@@ -176,6 +178,17 @@ public class Foo {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of Foo given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Foo
+  * @throws IOException if the JSON string is invalid with respect to Foo
+  */
+  public static Foo fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Foo.class);
   }
 }
 

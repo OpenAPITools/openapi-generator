@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * BasquePig
  */
@@ -184,6 +186,17 @@ public class BasquePig {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of BasquePig given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of BasquePig
+  * @throws IOException if the JSON string is invalid with respect to BasquePig
+  */
+  public static BasquePig fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, BasquePig.class);
   }
 }
 

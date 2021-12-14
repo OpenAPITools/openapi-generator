@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Model for testing model name same as property name
  */
@@ -267,6 +269,17 @@ public class Name {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of Name given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Name
+  * @throws IOException if the JSON string is invalid with respect to Name
+  */
+  public static Name fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Name.class);
   }
 }
 

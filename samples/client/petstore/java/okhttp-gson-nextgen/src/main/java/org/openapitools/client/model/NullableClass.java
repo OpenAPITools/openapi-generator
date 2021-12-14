@@ -49,6 +49,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * NullableClass
  */
@@ -575,6 +577,17 @@ public class NullableClass extends HashMap<String, Object> {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of NullableClass given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of NullableClass
+  * @throws IOException if the JSON string is invalid with respect to NullableClass
+  */
+  public static NullableClass fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, NullableClass.class);
   }
 }
 

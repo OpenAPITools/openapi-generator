@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * DanishPig
  */
@@ -184,6 +186,17 @@ public class DanishPig {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of DanishPig given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of DanishPig
+  * @throws IOException if the JSON string is invalid with respect to DanishPig
+  */
+  public static DanishPig fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, DanishPig.class);
   }
 }
 

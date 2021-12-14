@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * DeprecatedObject
  * @deprecated
@@ -178,6 +180,17 @@ public class DeprecatedObject {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of DeprecatedObject given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of DeprecatedObject
+  * @throws IOException if the JSON string is invalid with respect to DeprecatedObject
+  */
+  public static DeprecatedObject fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, DeprecatedObject.class);
   }
 }
 

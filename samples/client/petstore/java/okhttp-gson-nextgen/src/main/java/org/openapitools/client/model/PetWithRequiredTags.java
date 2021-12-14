@@ -45,6 +45,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * PetWithRequiredTags
  */
@@ -410,6 +412,17 @@ public class PetWithRequiredTags {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of PetWithRequiredTags given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of PetWithRequiredTags
+  * @throws IOException if the JSON string is invalid with respect to PetWithRequiredTags
+  */
+  public static PetWithRequiredTags fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, PetWithRequiredTags.class);
   }
 }
 

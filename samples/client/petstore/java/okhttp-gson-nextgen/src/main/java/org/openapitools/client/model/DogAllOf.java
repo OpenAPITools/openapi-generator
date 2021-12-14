@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * DogAllOf
  */
@@ -176,6 +178,17 @@ public class DogAllOf {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of DogAllOf given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of DogAllOf
+  * @throws IOException if the JSON string is invalid with respect to DogAllOf
+  */
+  public static DogAllOf fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, DogAllOf.class);
   }
 }
 

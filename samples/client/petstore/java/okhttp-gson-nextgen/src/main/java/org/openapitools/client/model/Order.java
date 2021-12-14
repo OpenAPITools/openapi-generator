@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Order
  */
@@ -376,6 +378,17 @@ public class Order {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of Order given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Order
+  * @throws IOException if the JSON string is invalid with respect to Order
+  */
+  public static Order fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Order.class);
   }
 }
 

@@ -45,6 +45,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * AdditionalPropertiesClass
  */
@@ -433,6 +435,17 @@ public class AdditionalPropertiesClass {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of AdditionalPropertiesClass given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of AdditionalPropertiesClass
+  * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesClass
+  */
+  public static AdditionalPropertiesClass fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, AdditionalPropertiesClass.class);
   }
 }
 

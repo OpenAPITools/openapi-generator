@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * EnumArrays
  */
@@ -310,6 +312,17 @@ public class EnumArrays {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of EnumArrays given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of EnumArrays
+  * @throws IOException if the JSON string is invalid with respect to EnumArrays
+  */
+  public static EnumArrays fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, EnumArrays.class);
   }
 }
 

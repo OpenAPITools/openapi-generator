@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Zebra
  */
@@ -267,6 +269,17 @@ public class Zebra extends HashMap<String, Object> {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of Zebra given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Zebra
+  * @throws IOException if the JSON string is invalid with respect to Zebra
+  */
+  public static Zebra fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Zebra.class);
   }
 }
 

@@ -46,6 +46,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * EnumTest
  */
@@ -679,6 +681,17 @@ public class EnumTest {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of EnumTest given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of EnumTest
+  * @throws IOException if the JSON string is invalid with respect to EnumTest
+  */
+  public static EnumTest fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, EnumTest.class);
   }
 }
 

@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * NumberOnly
  */
@@ -177,6 +179,17 @@ public class NumberOnly {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of NumberOnly given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of NumberOnly
+  * @throws IOException if the JSON string is invalid with respect to NumberOnly
+  */
+  public static NumberOnly fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, NumberOnly.class);
   }
 }
 

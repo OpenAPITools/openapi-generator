@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * QuadrilateralInterface
  */
@@ -184,6 +186,17 @@ public class QuadrilateralInterface {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of QuadrilateralInterface given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of QuadrilateralInterface
+  * @throws IOException if the JSON string is invalid with respect to QuadrilateralInterface
+  */
+  public static QuadrilateralInterface fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, QuadrilateralInterface.class);
   }
 }
 

@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * TriangleInterface
  */
@@ -184,6 +186,17 @@ public class TriangleInterface {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of TriangleInterface given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of TriangleInterface
+  * @throws IOException if the JSON string is invalid with respect to TriangleInterface
+  */
+  public static TriangleInterface fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, TriangleInterface.class);
   }
 }
 

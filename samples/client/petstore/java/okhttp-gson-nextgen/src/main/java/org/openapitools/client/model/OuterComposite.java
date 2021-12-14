@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * OuterComposite
  */
@@ -237,6 +239,17 @@ public class OuterComposite {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of OuterComposite given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of OuterComposite
+  * @throws IOException if the JSON string is invalid with respect to OuterComposite
+  */
+  public static OuterComposite fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, OuterComposite.class);
   }
 }
 

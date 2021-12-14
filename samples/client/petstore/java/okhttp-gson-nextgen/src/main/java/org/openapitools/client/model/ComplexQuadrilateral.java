@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * ComplexQuadrilateral
  */
@@ -217,6 +219,17 @@ public class ComplexQuadrilateral {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of ComplexQuadrilateral given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ComplexQuadrilateral
+  * @throws IOException if the JSON string is invalid with respect to ComplexQuadrilateral
+  */
+  public static ComplexQuadrilateral fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ComplexQuadrilateral.class);
   }
 }
 

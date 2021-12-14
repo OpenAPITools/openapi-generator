@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Client
  */
@@ -176,6 +178,17 @@ public class Client {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of Client given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Client
+  * @throws IOException if the JSON string is invalid with respect to Client
+  */
+  public static Client fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Client.class);
   }
 }
 

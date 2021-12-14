@@ -50,6 +50,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Drawing
  */
@@ -315,6 +317,17 @@ public class Drawing extends HashMap<String, Fruit> {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of Drawing given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Drawing
+  * @throws IOException if the JSON string is invalid with respect to Drawing
+  */
+  public static Drawing fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Drawing.class);
   }
 }
 

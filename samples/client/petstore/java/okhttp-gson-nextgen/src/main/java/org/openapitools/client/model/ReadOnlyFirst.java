@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * ReadOnlyFirst
  */
@@ -205,6 +207,17 @@ public class ReadOnlyFirst {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of ReadOnlyFirst given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ReadOnlyFirst
+  * @throws IOException if the JSON string is invalid with respect to ReadOnlyFirst
+  */
+  public static ReadOnlyFirst fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ReadOnlyFirst.class);
   }
 }
 

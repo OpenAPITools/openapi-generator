@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * AppleReq
  */
@@ -214,6 +216,17 @@ public class AppleReq {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of AppleReq given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of AppleReq
+  * @throws IOException if the JSON string is invalid with respect to AppleReq
+  */
+  public static AppleReq fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, AppleReq.class);
   }
 }
 

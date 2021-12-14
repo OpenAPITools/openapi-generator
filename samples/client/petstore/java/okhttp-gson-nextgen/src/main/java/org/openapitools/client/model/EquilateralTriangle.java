@@ -43,6 +43,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * EquilateralTriangle
  */
@@ -217,6 +219,17 @@ public class EquilateralTriangle {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of EquilateralTriangle given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of EquilateralTriangle
+  * @throws IOException if the JSON string is invalid with respect to EquilateralTriangle
+  */
+  public static EquilateralTriangle fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, EquilateralTriangle.class);
   }
 }
 

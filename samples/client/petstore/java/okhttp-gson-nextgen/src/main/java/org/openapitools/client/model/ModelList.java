@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * ModelList
  */
@@ -176,6 +178,17 @@ public class ModelList {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of ModelList given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ModelList
+  * @throws IOException if the JSON string is invalid with respect to ModelList
+  */
+  public static ModelList fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ModelList.class);
   }
 }
 

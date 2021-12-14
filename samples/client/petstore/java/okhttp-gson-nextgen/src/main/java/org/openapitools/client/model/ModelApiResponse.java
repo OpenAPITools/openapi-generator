@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * ModelApiResponse
  */
@@ -236,6 +238,17 @@ public class ModelApiResponse {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of ModelApiResponse given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of ModelApiResponse
+  * @throws IOException if the JSON string is invalid with respect to ModelApiResponse
+  */
+  public static ModelApiResponse fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, ModelApiResponse.class);
   }
 }
 

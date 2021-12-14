@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
@@ -189,6 +191,17 @@ public class HealthCheckResult {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of HealthCheckResult given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of HealthCheckResult
+  * @throws IOException if the JSON string is invalid with respect to HealthCheckResult
+  */
+  public static HealthCheckResult fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, HealthCheckResult.class);
   }
 }
 

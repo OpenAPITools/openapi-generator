@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import {{invokerPackage}}.JSON;
+
 /**
  * {{description}}{{^description}}{{classname}}{{/description}}{{#isDeprecated}}
  * @deprecated{{/isDeprecated}}
@@ -516,4 +518,15 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     }
   }
 {{/hasChildren}}
+
+ /**
+  * Create an instance of {{classname}} given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of {{classname}}
+  * @throws IOException if the JSON string is invalid with respect to {{classname}}
+  */
+  public static {{{classname}}} fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, {{{classname}}}.class);
+  }
 }

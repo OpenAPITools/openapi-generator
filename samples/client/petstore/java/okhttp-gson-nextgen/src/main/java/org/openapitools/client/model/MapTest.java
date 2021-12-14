@@ -44,6 +44,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.openapitools.client.JSON;
+
 /**
  * MapTest
  */
@@ -348,6 +350,17 @@ public class MapTest {
 
        }.nullSafe();
     }
+  }
+
+ /**
+  * Create an instance of MapTest given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of MapTest
+  * @throws IOException if the JSON string is invalid with respect to MapTest
+  */
+  public static MapTest fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, MapTest.class);
   }
 }
 
