@@ -514,14 +514,13 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 final PathItem.HttpMethod method = methodOperation.getKey();
                 OptionalInt operationGroupingOrder = OptionalInt.empty();
 
-                final CodegenOperation cgOperation = super.fromOperation(path, method.name(), operation, null);
-
                 String operationId = operation.getOperationId();
 
                 boolean hasRequestBodyExample = false;
 
                 // optionally group and order operations - see `X_OPERATION_GROUPING` K6 vendor
                 // extension
+                final CodegenOperation cgOperation = super.fromOperation(path, method.name(), operation, null);
                 Optional<OperationGrouping> operationGrouping = extractOperationGrouping(cgOperation);
                 if (operationGrouping.isPresent()) {
                     groupName = operationGrouping.get().groupName;
