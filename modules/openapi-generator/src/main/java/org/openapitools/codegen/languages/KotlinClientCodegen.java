@@ -493,14 +493,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 break;
 
             case gson:
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/DateAdapter.kt.mustache", infrastructureFolder, "DateAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
                 break;
 
             case jackson:
-                //supportingFiles.add(new SupportingFile("jvm-common/infrastructure/DateAdapter.kt.mustache", infrastructureFolder, "DateAdapter.kt"));
                 break;
 
             case kotlinx_serialization:
@@ -511,7 +509,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/URLAdapter.kt.mustache", infrastructureFolder, "URLAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigIntegerAdapter.kt.mustache", infrastructureFolder, "BigIntegerAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigDecimalAdapter.kt.mustache", infrastructureFolder, "BigDecimalAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/DateAdapter.kt.mustache", infrastructureFolder, "DateAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
