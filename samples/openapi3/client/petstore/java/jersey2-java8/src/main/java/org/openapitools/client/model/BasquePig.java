@@ -39,6 +39,8 @@ public class BasquePig {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;
 
+  public BasquePig() { 
+  }
 
   public BasquePig className(String className) {
     this.className = className;

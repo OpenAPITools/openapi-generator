@@ -112,6 +112,8 @@ public class MapTest {
   @XmlElement(name = "inner")
   private Map<String, Boolean> indirectMap = null;
 
+  public MapTest() { 
+  }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     

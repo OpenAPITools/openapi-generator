@@ -222,6 +222,7 @@ public class DefaultCodegenTest {
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
+        Assert.assertEquals(codegenParameter.getSchema(), null);
     }
 
     @Test
@@ -1672,12 +1673,12 @@ public class DefaultCodegenTest {
     public void testDefaultResponseShouldBeLast() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         Operation myOperation = new Operation().operationId("myOperation").responses(
-            new ApiResponses()
-            .addApiResponse(
-                "default", new ApiResponse().description("Default"))
-            .addApiResponse(
-                "422", new ApiResponse().description("Error"))
-            );
+                new ApiResponses()
+                        .addApiResponse(
+                                "default", new ApiResponse().description("Default"))
+                        .addApiResponse(
+                                "422", new ApiResponse().description("Error"))
+        );
         openAPI.path("/here", new PathItem().get(myOperation));
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
@@ -2035,6 +2036,9 @@ public class DefaultCodegenTest {
         Assert.assertEquals(parameter.dataType, "PageQuery1");
         Assert.assertEquals(imports.size(), 1);
         Assert.assertEquals(imports.iterator().next(), "PageQuery1");
+
+        Assert.assertNotNull(parameter.getSchema());
+        Assert.assertEquals(parameter.getSchema().baseType, "object");
     }
 
     @Test
@@ -2349,49 +2353,49 @@ public class DefaultCodegenTest {
     @Test
     public void testFormComposedSchema() {
         OpenAPI openAPI = TestUtils.parseContent("openapi: 3.0.1\n" +
-            "info:\n" +
-            "  version: '1.0.0'\n" +
-            "  title: the title\n" +
-            "\n" +
-            "paths:\n" +
-            "  '/users/me':\n" +
-            "    post:\n" +
-            "      description: Change user password.\n" +
-            "      operationId: changeCurrentUserPassword\n" +
-            "      requestBody:\n" +
-            "        required: true\n" +
-            "        content:\n" +
-            "          multipart/form-data:\n" +
-            "            schema:\n" +
-            "              $ref: '#/components/schemas/ChangePasswordRequest'\n" +
-            "      responses:\n" +
-            "        '200':\n" +
-            "          description: Successful operation\n" +
-            "          content: {}\n" +
-            "\n" +
-            "components:\n" +
-            "  schemas:\n" +
-            "    CommonPasswordRequest:\n" +
-            "      type: object\n" +
-            "      required: [ password, passwordConfirmation ]\n" +
-            "      properties:\n" +
-            "        password:\n" +
-            "          type: string\n" +
-            "          format: password\n" +
-            "        passwordConfirmation:\n" +
-            "          type: string\n" +
-            "          format: password\n" +
-            "\n" +
-            "    ChangePasswordRequest:\n" +
-            "      type: object\n" +
-            "      allOf:\n" +
-            "        - $ref: '#/components/schemas/CommonPasswordRequest'\n" +
-            "        - type: object\n" +
-            "          required: [ oldPassword ]\n" +
-            "          properties:\n" +
-            "            oldPassword:\n" +
-            "              type: string\n" +
-            "              format: password\n");
+                "info:\n" +
+                "  version: '1.0.0'\n" +
+                "  title: the title\n" +
+                "\n" +
+                "paths:\n" +
+                "  '/users/me':\n" +
+                "    post:\n" +
+                "      description: Change user password.\n" +
+                "      operationId: changeCurrentUserPassword\n" +
+                "      requestBody:\n" +
+                "        required: true\n" +
+                "        content:\n" +
+                "          multipart/form-data:\n" +
+                "            schema:\n" +
+                "              $ref: '#/components/schemas/ChangePasswordRequest'\n" +
+                "      responses:\n" +
+                "        '200':\n" +
+                "          description: Successful operation\n" +
+                "          content: {}\n" +
+                "\n" +
+                "components:\n" +
+                "  schemas:\n" +
+                "    CommonPasswordRequest:\n" +
+                "      type: object\n" +
+                "      required: [ password, passwordConfirmation ]\n" +
+                "      properties:\n" +
+                "        password:\n" +
+                "          type: string\n" +
+                "          format: password\n" +
+                "        passwordConfirmation:\n" +
+                "          type: string\n" +
+                "          format: password\n" +
+                "\n" +
+                "    ChangePasswordRequest:\n" +
+                "      type: object\n" +
+                "      allOf:\n" +
+                "        - $ref: '#/components/schemas/CommonPasswordRequest'\n" +
+                "        - type: object\n" +
+                "          required: [ oldPassword ]\n" +
+                "          properties:\n" +
+                "            oldPassword:\n" +
+                "              type: string\n" +
+                "              format: password\n");
 
         final DefaultCodegen cg = new DefaultCodegen();
         cg.setOpenAPI(openAPI);
@@ -2400,16 +2404,16 @@ public class DefaultCodegenTest {
 
         final PathItem path = openAPI.getPaths().get("/users/me");
         final CodegenOperation operation = cg.fromOperation(
-            "/users/me",
-            "post",
-            path.getPost(),
-            path.getServers());
+                "/users/me",
+                "post",
+                path.getPost(),
+                path.getServers());
         assertEquals(operation.formParams.size(), 3,
-            "The list of parameters should include inherited type");
+                "The list of parameters should include inherited type");
 
         final List<String> names = operation.formParams.stream()
-            .map(param -> param.paramName)
-            .collect(Collectors.toList());
+                .map(param -> param.paramName)
+                .collect(Collectors.toList());
         assertTrue(names.contains("password"));
         assertTrue(names.contains("passwordConfirmation"));
         assertTrue(names.contains("oldPassword"));
@@ -3343,7 +3347,7 @@ public class DefaultCodegenTest {
                 assertTrue(hasRequired);
             } else {
                 // All variables must be in the above sets
-                 fail();
+                fail();
             }
         }
     }
@@ -3870,5 +3874,196 @@ public class DefaultCodegenTest {
         CodegenProperty pr = m.vars.get(0);
         assertTrue(pr.isByteArray);
         assertFalse(pr.getIsString());
+    }
+
+    @Test
+    public void testResponses() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/response-tests.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String path;
+        Operation operation;
+        CodegenOperation co;
+        CodegenParameter cpa;
+        CodegenResponse cr;
+
+        path = "/pet/{petId}";
+        operation = openAPI.getPaths().get(path).getGet();
+        co = codegen.fromOperation(path, "GET", operation, null);
+        //assertTrue(co.hasErrorResponseObject);
+        cr = co.responses.get(0);
+        assertTrue(cr.is2xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+        cr = co.responses.get(3);
+        assertTrue(cr.is5xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+
+        path = "/pet";
+        operation = openAPI.getPaths().get(path).getPut();
+        co = codegen.fromOperation(path, "PUT", operation, null);
+        assertTrue(co.hasErrorResponseObject);
+
+        // 200 response
+        cr = co.responses.get(0);
+        assertTrue(cr.is2xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+
+        // 400 response
+        cr = co.responses.get(1);
+        assertTrue(cr.is4xx);
+        assertEquals(cr.code, "400");
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+
+        path = "/pet/findByTags";
+        operation = openAPI.getPaths().get(path).getGet();
+        co = codegen.fromOperation(path, "GET", operation, null);
+        assertFalse(co.hasErrorResponseObject);
+        cr = co.responses.get(0);
+        assertTrue(cr.is2xx);
+        assertFalse(cr.simpleType);
+        assertFalse(cr.primitiveType);
+    }
+
+    @Test
+    public void testRequestParameterContent() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+
+        path = "/jsonQueryParams";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        CodegenParameter coordinatesInlineSchema = co.queryParams.get(0);
+        LinkedHashMap<String, CodegenMediaType> content = coordinatesInlineSchema.getContent();
+        assertNotNull(content);
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json")));
+        CodegenMediaType mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        CodegenProperty cp = mt.getSchema();
+        assertTrue(cp.isMap);
+        assertEquals(cp.complexType, "object");
+        assertEquals(cp.baseName, "SchemaForRequestParameterCoordinatesInlineSchemaApplicationJson");
+
+        CodegenParameter coordinatesReferencedSchema = co.queryParams.get(1);
+        content = coordinatesReferencedSchema.getContent();
+        mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertFalse(cp.isMap); // because it is a referenced schema
+        assertEquals(cp.complexType, "coordinates");
+        assertEquals(cp.baseName, "SchemaForRequestParameterCoordinatesReferencedSchemaApplicationJson");
+    }
+
+    @Test
+    public void testRequestBodyContent() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+
+        path = "/inlineRequestBodySchemasDifferingByContentType";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        CodegenParameter bodyParameter = co.bodyParam;
+        LinkedHashMap<String, CodegenMediaType> content = bodyParameter.getContent();
+        assertNotNull(content);
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));
+        CodegenMediaType mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        CodegenProperty cp = mt.getSchema();
+        assertEquals(cp.baseName, "SchemaForRequestBodyApplicationJson");
+        assertNotNull(cp);
+
+        mt = content.get("text/plain");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertEquals(cp.baseName, "SchemaForRequestBodyTextPlain");
+        assertNotNull(cp);
+        // Note: the inline model resolver has a bug for this use case; it extracts an inline request body into a component
+        // but the schema it references is not string type
+
+        path = "/refRequestBodySchemasDifferingByContentType";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        bodyParameter = co.bodyParam;
+        content = bodyParameter.getContent();
+        assertNotNull(content);
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));
+        mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertEquals(cp.baseName, "SchemaForRequestBodyApplicationJson");
+        assertEquals(cp.complexType, "coordinates");
+
+        mt = content.get("text/plain");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertEquals(cp.baseName, "SchemaForRequestBodyTextPlain");
+        assertTrue(cp.isString);
+    }
+
+    @Test
+    public void testResponseContentAndHeader() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+
+        path = "/jsonQueryParams";
+        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+        CodegenParameter coordinatesInlineSchema = co.queryParams.get(0);
+        LinkedHashMap<String, CodegenMediaType> content = coordinatesInlineSchema.getContent();
+        assertNotNull(content);
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json")));
+
+        CodegenParameter schemaParam = co.queryParams.get(2);
+        assertEquals(schemaParam.getSchema().baseName, "stringWithMinLength");
+
+
+        CodegenResponse cr = co.responses.get(0);
+        List<CodegenParameter> responseHeaders = cr.getResponseHeaders();
+        assertEquals(1, responseHeaders.size());
+        CodegenParameter header = responseHeaders.get(0);
+        assertEquals("X-Rate-Limit", header.baseName);
+        assertTrue(header.isUnboundedInteger);
+        assertEquals(header.getSchema().baseName, "X-Rate-Limit");
+
+        content = cr.getContent();
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));
+        CodegenMediaType mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        CodegenProperty cp = mt.getSchema();
+        assertFalse(cp.isMap); // because it is a referenced schema
+        assertEquals(cp.complexType, "coordinates");
+        assertEquals(cp.baseName, "SchemaFor200ResponseBodyApplicationJson");
+
+        mt = content.get("text/plain");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertEquals(cp.baseName, "SchemaFor200ResponseBodyTextPlain");
+        assertTrue(cp.isString);
+
+        cr = co.responses.get(1);
+        content = cr.getContent();
+        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json", "text/plain")));
+        mt = content.get("application/json");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertFalse(cp.isMap); // because it is a referenced schema
+        assertEquals(cp.complexType, "coordinates");
+        assertEquals(cp.baseName, "SchemaFor201ResponseBodyApplicationJson");
+
+        mt = content.get("text/plain");
+        assertNull(mt.getEncoding());
+        cp = mt.getSchema();
+        assertEquals(cp.baseName, "SchemaFor201ResponseBodyTextPlain");
+        assertTrue(cp.isString);
     }
 }

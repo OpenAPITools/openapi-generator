@@ -49,6 +49,8 @@ public class EquilateralTriangle {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
   private String triangleType;
 
+  public EquilateralTriangle() { 
+  }
 
   public EquilateralTriangle shapeType(String shapeType) {
     this.shapeType = shapeType;
