@@ -1247,7 +1247,9 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     input_class_simple = get_simple_class(input_value)
     valid_type = is_valid_type(input_class_simple, valid_classes)
     if not valid_type:
-        if configuration or (input_class_simple == dict and not dict in valid_classes):
+        if (configuration 
+                or (input_class_simple == dict 
+                    and not dict in valid_classes)):
             # if input_value is not valid_type try to convert it
             converted_instance = attempt_convert_item(
                 input_value,
