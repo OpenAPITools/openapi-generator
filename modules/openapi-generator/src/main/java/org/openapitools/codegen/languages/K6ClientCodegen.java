@@ -1145,16 +1145,14 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             Map<String, DataExtractSubstituteParameter> dataExtractSubstituteParams, HTTPRequestGroup requestGroup) {
 
         if (!dataExtractSubstituteParams.isEmpty()) {
-            List<String> existingVariablesNames = requestGroup.variables.stream().map(v -> v.key)
-                    .collect(Collectors.toList());
+            Set<String> existingVariablesNames = requestGroup.variables.stream().map(v -> v.key)
+                    .collect(Collectors.toSet());
 
             Set<DataExtractSubstituteParameter> initializeVariables = dataExtractSubstituteParams.values().stream()
                     .filter(p -> !existingVariablesNames.contains(toVarName(p.paramName))).collect(Collectors.toSet());
 
-            if (!initializeVariables.isEmpty()) {
-                for (DataExtractSubstituteParameter initializeVariable : initializeVariables) {
-                    requestGroup.variables.add(new Parameter(toVarName(initializeVariable.paramName), true));
-                }
+            for (DataExtractSubstituteParameter initializeVariable : initializeVariables) {
+                requestGroup.variables.add(new Parameter(toVarName(initializeVariable.paramName), true));
             }
         }
     }
