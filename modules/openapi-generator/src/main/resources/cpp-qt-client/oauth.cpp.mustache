@@ -1,6 +1,8 @@
 #include "{{prefix}}Oauth.h"
 
-namespace OpenAPI {
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
 
 /*
  * Base class to perform oauth2 flows
@@ -343,5 +345,6 @@ void ReplyServer::read()
     emit dataReceived(queryParams);
 }
 
-
-}
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}

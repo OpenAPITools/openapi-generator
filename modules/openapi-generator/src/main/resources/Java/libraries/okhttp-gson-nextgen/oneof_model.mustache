@@ -50,15 +50,21 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             return (TypeAdapter<T>) new TypeAdapter<{{classname}}>() {
                 @Override
                 public void write(JsonWriter out, {{classname}} value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     {{#oneOf}}
                     // check if the actual instance is of the type `{{.}}`
                     if (value.getActualInstance() instanceof {{.}}) {
                         JsonObject obj = adapter{{.}}.toJsonTree(({{.}})value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     {{/oneOf}}
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
                 }
 
                 @Override
@@ -74,7 +80,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     switch (discriminatorValue) {
                     {{#mappedModels}}
                         case "{{{mappingName}}}":
-                            deserialized = adapter{{.}}.fromJsonTree(jsonObject);
+                            deserialized = adapter{{modelName}}.fromJsonTree(jsonObject);
                             new{{classname}}.setActualInstance(deserialized);
                             return new{{classname}};
                     {{/mappedModels}}
@@ -104,7 +110,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+                    throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
                 }
             }.nullSafe();
         }
