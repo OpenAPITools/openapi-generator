@@ -47,7 +47,6 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
 {{/threetenbp}}
-import java.util.Date
 import java.util.Locale
 {{#useCoroutines}}
 import kotlin.coroutines.resume
@@ -419,7 +418,7 @@ import com.squareup.moshi.adapter
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date ->
+        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime ->
             parseDateToQueryString(value)
         else -> value.toString()
     }
