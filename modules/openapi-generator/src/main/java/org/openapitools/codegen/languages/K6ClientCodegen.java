@@ -634,8 +634,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                                 break;
                         }
                     }
-                } catch (NullPointerException ignored) {
-
+                } catch (NullPointerException e) {
+                    LOGGER.error(e.getMessage(), e);
                 }
 
                 pathVariables.put(groupName, variables);
