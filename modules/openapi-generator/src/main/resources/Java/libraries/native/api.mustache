@@ -222,14 +222,25 @@ public class {{classname}} {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("{{operationId}}", localVarResponse);
-      }
-      return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("{{operationId}}", localVarResponse);
+        }
+        return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          {{#returnType}}memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}){{/returnType}}{{^returnType}}null{{/returnType}}
+          {{#returnType}}memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}) // closes the InputStream{{/returnType}}
+          {{^returnType}}null{{/returnType}}
         );
+      } finally {
+        {{^returnType}}
+        // Drain the InputStream
+        while (localVarResponse.body().read() != -1) {
+            // Ignore
+        }
+        localVarResponse.body().close();
+        {{/returnType}}
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }

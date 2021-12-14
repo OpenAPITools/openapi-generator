@@ -8,7 +8,7 @@ This server has been generated with [Slim PSR-7](https://github.com/slimphp/Slim
 ## Requirements
 
 * Web server with URL rewriting
-* PHP 7.3 or newer
+* PHP 7.4 or newer
 
 This package contains `.htaccess` for Apache configuration.
 If you use another server(Nginx, HHVM, IIS, lighttpd) check out [Web Servers](https://www.slimframework.com/docs/v3/start/web-servers.html) doc.

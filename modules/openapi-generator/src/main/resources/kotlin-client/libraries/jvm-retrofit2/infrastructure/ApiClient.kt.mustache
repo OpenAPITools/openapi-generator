@@ -325,8 +325,11 @@ import okhttp3.MediaType.Companion.toMediaType
 
     companion object {
         @JvmStatic
+        protected val baseUrlKey = "{{packageName}}.baseUrl"
+
+        @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("{{packageName}}.baseUrl", "{{{basePath}}}")
+            System.getProperties().getProperty(baseUrlKey, "{{{basePath}}}")
         }
     }
 }

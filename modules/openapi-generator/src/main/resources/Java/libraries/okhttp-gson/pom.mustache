@@ -57,7 +57,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M1</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <id>enforce-maven</id>
@@ -77,7 +77,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M4</version>
+                <version>3.0.0-M5</version>
                 <configuration>
                     <systemProperties>
                         <property>
@@ -104,16 +104,14 @@
                     </execution>
                 </executions>
             </plugin>
-
             <!-- attach test jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.2</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>jar</goal>
                             <goal>test-jar</goal>
                         </goals>
                     </execution>
@@ -121,11 +119,10 @@
                 <configuration>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.10</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>add_sources</id>
@@ -156,7 +153,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -179,7 +176,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -188,6 +185,48 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- Use spotless plugin to automatically format code, remove unused import, etc
+                 To apply changes directly to the file, run `mvn spotless:apply`
+                 Ref: https://github.com/diffplug/spotless/tree/main/plugin-maven
+            -->
+            <plugin>
+              <groupId>com.diffplug.spotless</groupId>
+              <artifactId>spotless-maven-plugin</artifactId>
+              <version>${spotless.version}</version>
+              <configuration>
+                <formats>
+                  <!-- you can define as many formats as you want, each is independent -->
+                  <format>
+                    <!-- define the files to apply to -->
+                    <includes>
+                      <include>.gitignore</include>
+                    </includes>
+                    <!-- define the steps to apply to those files -->
+                    <trimTrailingWhitespace/>
+                    <endWithNewline/>
+                    <indent>
+                      <spaces>true</spaces> <!-- or <tabs>true</tabs> -->
+                      <spacesPerTab>4</spacesPerTab> <!-- optional, default is 4 -->
+                    </indent>
+                  </format>
+                </formats>
+                <!-- define a language-specific format -->
+                <java>
+                  <!-- no need to specify files, inferred automatically, but you can if you want -->
+
+                  <!-- apply a specific flavor of google-java-format and reflow long strings -->
+                  <googleJavaFormat>
+                    <version>1.8</version>
+                    <style>AOSP</style>
+                    <reflowLongStrings>true</reflowLongStrings>
+                  </googleJavaFormat>
+
+                  <removeUnusedImports/>
+                  <importOrder/>
+
+                </java>
+              </configuration>
             </plugin>
         </plugins>
     </build>
@@ -200,7 +239,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -278,7 +317,7 @@
         <dependency>
             <groupId>io.swagger.parser.v3</groupId>
             <artifactId>swagger-parser-v3</artifactId>
-            <version>2.0.23</version>
+            <version>2.0.28</version>
         </dependency>
         {{/dynamicOperations}}
         {{#useBeanValidation}}
@@ -295,7 +334,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.4.1.Final</version>
+            <version>5.4.3.Final</version>
         </dependency>
         <dependency>
             <groupId>jakarta.el</groupId>
@@ -335,19 +374,19 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.11.2</version>
+            <version>3.12.4</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
     <properties>
-        <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
+        <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <gson-fire-version>1.8.5</gson-fire-version>
-        <swagger-core-version>1.6.2</swagger-core-version>
-        <okhttp-version>4.9.1</okhttp-version>
-        <gson-version>2.8.6</gson-version>
-        <commons-lang3-version>3.11</commons-lang3-version>
+        <swagger-core-version>1.6.3</swagger-core-version>
+        <okhttp-version>4.9.2</okhttp-version>
+        <gson-version>2.8.8</gson-version>
+        <commons-lang3-version>3.12.0</commons-lang3-version>
         {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         {{/openApiNullable}}
@@ -362,9 +401,10 @@
         <jakarta.el-version>3.0.3</jakarta.el-version>
 {{/performBeanValidation}}
 {{#useBeanValidation}}
-		<beanvalidation-version>2.0.2</beanvalidation-version>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
-        <junit-version>4.13.1</junit-version>
+        <junit-version>4.13.2</junit-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spotless.version>2.17.3</spotless.version>
     </properties>
 </project>

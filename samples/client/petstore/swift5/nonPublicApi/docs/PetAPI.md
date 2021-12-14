@@ -115,7 +115,7 @@ Void (empty response body)
 
 # **findPetsByStatus**
 ```swift
-    internal class func findPetsByStatus(status: [String], completion: @escaping (_ data: [Pet]?, _ error: Error?) -> Void)
+    internal class func findPetsByStatus(status: [Status_findPetsByStatus], completion: @escaping (_ data: [Pet]?, _ error: Error?) -> Void)
 ```
 
 Finds Pets by status

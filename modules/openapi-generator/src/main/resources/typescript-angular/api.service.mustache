@@ -9,9 +9,11 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 {{#imports}}
-import { {{classname}} } from '../model/models';
+// @ts-ignore
+import { {{ classname }} } from '{{ filename }}';
 {{/imports}}
 
+// @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { {{configurationClassName}} }                                     from '../configuration';
 {{#withInterfaces}}
@@ -306,20 +308,20 @@ export class {{classname}} {
         let localVarFormParams: { append(param: string, value: any): any; };
         let localVarUseForm = false;
         let localVarConvertFormParamsToString = false;
-{{#localVarFormParams}}
+{{#formParams}}
 {{#isFile}}
         // use FormData to transmit files using content-type "multipart/form-data"
         // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
         localVarUseForm = canConsumeForm;
 {{/isFile}}
-{{/localVarFormParams}}
+{{/formParams}}
         if (localVarUseForm) {
             localVarFormParams = new FormData();
         } else {
             localVarFormParams = new HttpParams({encoder: this.encoder});
         }
 
-{{#localVarFormParams}}
+{{#formParams}}
         {{#isArray}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
@@ -343,7 +345,7 @@ export class {{classname}} {
             localVarFormParams = localVarFormParams.append('{{baseName}}', {{^isModel}}<any>{{paramName}}{{/isModel}}{{#isModel}}localVarUseForm ? new Blob([JSON.stringify({{paramName}})], {type: 'application/json'}) : <any>{{paramName}}{{/isModel}}) as any || localVarFormParams;
         }
         {{/isArray}}
-{{/localVarFormParams}}
+{{/formParams}}
 
 {{/hasFormParams}}
     {{^isResponseFile}}
@@ -353,8 +355,14 @@ export class {{classname}} {
         }
 
     {{/isResponseFile}}
+    {{#deleteAcceptsBody}}
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}{{{path}}}`,{{#isBodyAllowed}}
             {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+    {{/deleteAcceptsBody}}
+    {{^deleteAcceptsBody}}
+        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}{{{path}}}`,{{#isMethodPutOrPatchOrPost}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isMethodPutOrPatchOrPost}}
+    {{/deleteAcceptsBody}}
             {
     {{#httpContextInOptions}}
                 context: localVarHttpContext,

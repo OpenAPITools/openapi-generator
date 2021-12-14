@@ -655,7 +655,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                     var.addTestData(randomBigDecimal);
                 }
             } else {
-                buffer.append(randomBigDecimal.toString()).append('D');
+                buffer.append(randomBigDecimal).append('D');
             }
         }
     }
@@ -1294,7 +1294,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataCache.root().flush(out);
-                    String testDataJson = new String(out.toByteArray(), "UTF-8");
+                    String testDataJson = out.toString("UTF-8");
                     objs.put("test-data.json", testDataJson);
                     supportingFiles.add(new SupportingFile("testData.mustache", testDataFile.getAbsolutePath()));
                 }
@@ -1306,7 +1306,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 if (testDataControlCache.root().isDirty()) {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     testDataControlCache.root().flush(out);
-                    String testDataControlJson = new String(out.toByteArray(), "UTF-8");
+                    String testDataControlJson = out.toString("UTF-8");
                     objs.put("test-data-control.json", testDataControlJson);
                     supportingFiles
                             .add(new SupportingFile("testDataControl.mustache", testDataControlFile.getAbsolutePath()));

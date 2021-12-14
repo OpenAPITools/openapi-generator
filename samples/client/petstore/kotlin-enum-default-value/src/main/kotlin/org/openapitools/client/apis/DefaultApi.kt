@@ -23,6 +23,7 @@ package org.openapitools.client.apis
 import org.openapitools.client.models.ModelWithEnumPropertyHavingDefault
 
 import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ApiInfrastructureResponse
 import org.openapitools.client.infrastructure.ClientException
 import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
@@ -38,7 +39,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://localhost")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://localhost")
         }
     }
 
@@ -53,11 +54,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun operation() : ModelWithEnumPropertyHavingDefault {
-        val localVariableConfig = operationRequestConfig()
-
-        val localVarResponse = request<Unit, ModelWithEnumPropertyHavingDefault>(
-            localVariableConfig
-        )
+        val localVarResponse = operationWithHttpInfo()
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ModelWithEnumPropertyHavingDefault
@@ -72,6 +69,24 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
                 throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
             }
         }
+    }
+
+    /**
+    * 
+    * 
+    * @return ApiInfrastructureResponse<ModelWithEnumPropertyHavingDefault?>
+    * @throws UnsupportedOperationException If the API returns an informational or redirection response
+    * @throws ClientException If the API returns a client error response
+    * @throws ServerException If the API returns a server error response
+    */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun operationWithHttpInfo() : ApiInfrastructureResponse<ModelWithEnumPropertyHavingDefault?> {
+        val localVariableConfig = operationRequestConfig()
+
+        return request<Unit, ModelWithEnumPropertyHavingDefault>(
+            localVariableConfig
+        )
     }
 
     /**
