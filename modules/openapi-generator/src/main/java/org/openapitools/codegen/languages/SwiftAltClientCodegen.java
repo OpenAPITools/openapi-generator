@@ -776,6 +776,13 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
             for (CodegenParameter cp : operation.allParams) {
                 cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<String>()));
             }
+            for (CodegenParameter cp : operation.queryParams) {
+                if (cp.isArray && modelMaps.get(cp.baseType).isEnum) {
+                    cp.vendorExtensions.put("x-swift-isBaseTypeEnum", true);
+                } else {
+                    cp.vendorExtensions.put("x-swift-isBaseTypeEnum", false);
+                }
+            }
             if (notCodableTypes.contains(operation.returnType)) {
                 operation.vendorExtensions.put("x-swift-isNotCodable", true);
             }
