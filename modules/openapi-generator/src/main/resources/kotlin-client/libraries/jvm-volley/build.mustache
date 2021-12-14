@@ -4,6 +4,21 @@ project.version = '{{artifactVersion}}'
 {{/useAndroidMavenGradlePlugin}}
 
 buildscript {
+
+    ext.kotlin_version = '1.5.10'
+
+    ext.swagger_annotations_version = "1.6.2"
+
+    ext.gson_version = "2.8.6"
+
+    ext.volley_version = "1.2.0"
+
+    ext.junit_version = "4.13.2"
+
+    ext.robolectric_version = "4.5.1"
+
+    ext.concurrent_unit_version = "0.4.6"
+
     repositories {
         mavenLocal()
         google()
