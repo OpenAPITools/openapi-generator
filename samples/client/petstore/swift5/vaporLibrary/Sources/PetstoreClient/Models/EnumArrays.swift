@@ -14,7 +14,7 @@ import Vapor
 public final class EnumArrays: Content, Hashable {
 
     public enum JustSymbol: String, Content, Hashable, CaseIterable {
-        case greaterThanOrEqualTo = ">="
+        case greaterThanEqual = ">="
         case dollar = "$"
     }
     public enum ArrayEnum: String, Content, Hashable, CaseIterable {
