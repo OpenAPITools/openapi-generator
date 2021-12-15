@@ -999,6 +999,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             return "_" + replaceSpecialCharacters(camelize(name, true));
         }
 
+        // for symbol, e.g. $, #
+        if (getSymbolName(name) != null) {
+            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
+        }
+        
         // Camelize only when we have a structure defined below
         Boolean camelized = false;
         if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
