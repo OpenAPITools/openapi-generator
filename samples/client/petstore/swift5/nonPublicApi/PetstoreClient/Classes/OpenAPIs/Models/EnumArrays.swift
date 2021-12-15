@@ -13,7 +13,7 @@ import AnyCodable
 internal struct EnumArrays: Codable, Hashable {
 
     internal enum JustSymbol: String, Codable, CaseIterable {
-        case greaterThanEqual = ">="
+        case greaterThanOrEqualTo = ">="
         case dollar = "$"
     }
     internal enum ArrayEnum: String, Codable, CaseIterable {
