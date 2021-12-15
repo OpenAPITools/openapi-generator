@@ -375,7 +375,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             // longer in use.
             if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))
                     && op.responses.stream().filter(response -> response.dataType != null)
-                            .noneMatch(response -> response.dataType.equals("Uint8List"))) {
+                    .noneMatch(response -> response.dataType.equals("Uint8List"))) {
                 // Remove unused imports after processing
                 op.imports.remove("Uint8List");
             }
@@ -383,7 +383,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             for (CodegenParameter param : op.allParams) {
                 // Generate serializer factories for all container type parameters.
                 // But skip binary and file parameters, JSON serializers don't make sense there.
-                if (param.isContainer && !(param.isBinary || param.isFile )) {
+                if (param.isContainer && !(param.isBinary || param.isFile)) {
                     addBuiltValueSerializer(new BuiltValueSerializer(
                             param.isArray,
                             param.uniqueItems,
@@ -427,10 +427,11 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     /**
      * Adds the serializer to the global list of custom built_value serializers.
+     *
      * @param serializer
      */
     private void addBuiltValueSerializer(BuiltValueSerializer serializer) {
-        System.out.println("######## Add serializer!");
+        LOGGER.debug("######## Add serializer!");
         additionalProperties.compute("builtValueSerializers", (k, v) -> {
             Set<BuiltValueSerializer> serializers = v == null ? Sets.newHashSet() : ((Set<BuiltValueSerializer>) v);
             serializers.add(serializer);
