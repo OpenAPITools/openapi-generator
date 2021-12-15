@@ -127,6 +127,17 @@ class OpenApiModel(object):
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
 
+        if name not in self.attribute_map:
+            if name in self.attribute_map.values():
+                # redefine variable name using attribute map
+                name = list(self.attribute_map.keys())[list(self.attribute_map.values()).index(name)]
+            else:
+                raise ApiAttributeError(
+                    "{0} has no attribute '{1}'".format(
+                    type(self).__name__, name),
+                    path_to_item
+                )
+
         if name in self.openapi_types:
             required_types_mixed = self.openapi_types[name]
         elif self.additional_properties_type is None:
