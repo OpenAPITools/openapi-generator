@@ -39,7 +39,7 @@ jobs:
         run: mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - run: ls -la  modules/openapi-generator-cli/target
       - name: Upload openapi-generator-cli.jar artifact
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
@@ -75,7 +75,7 @@ jobs:
         run: mvn --no-snapshot-updates --batch-mode --quiet --fail-at-end test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - name: Publish unit test reports
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: surefire-test-results
           path: '**/surefire-reports/TEST-*.xml'

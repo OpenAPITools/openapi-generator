@@ -50,7 +50,7 @@ jobs:
         run: mvn -nsu -B --quiet -Djacoco.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress clean install --file pom.xml ${{ matrix.flags }}
 
       - name: Upload Maven build artifact
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v2.3.1
         if: matrix.java == '8' && matrix.os == 'ubuntu-latest'
         with:
           name: artifact
