@@ -14,7 +14,7 @@ lazy val root = (project in file(".")).
       "com.squareup.okhttp3" % "logging-interceptor" % "4.9.1",
       "com.google.code.gson" % "gson" % "2.8.6",
       "org.apache.commons" % "commons-lang3" % "3.10",
-      "org.openapitools" % "jackson-databind-nullable" % "0.2.1",
+      "org.openapitools" % "jackson-databind-nullable" % "0.2.2",
       "com.github.scribejava" % "scribejava-core" % "8.3.1",
       "com.github.scribejava" % "scribejava-httpclient-okhttp" % "8.3.1",
       "org.threeten" % "threetenbp" % "1.4.3" % "compile",
