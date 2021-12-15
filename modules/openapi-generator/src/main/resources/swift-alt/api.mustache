@@ -35,7 +35,7 @@ open class {{classname}} {
     /**
      * enum for parameter {{paramName}}
      */
-    public enum {{enumName}}_{{operationId}}: {{dataType}}, Hashable, Codable, CaseIterable {
+    public enum {{{vendorExtensions.x-swift-nested-enum-type}}}: {{dataType}}, Hashable, Codable, CaseIterable {
         {{#allowableValues}}
         {{#enumVars}}
         case {{name}} = {{{value}}}
@@ -45,6 +45,28 @@ open class {{classname}} {
 
     {{/isEnum}}
     {{/allParams}}
+
+    {{#vendorExtensions.x-swift-custom-error-type}}
+    public enum {{{vendorExtensions.x-swift-custom-error-type}}}: Error, CustomStringConvertible {
+        {{#responses}}
+        {{#vendorExtensions.x-swift-has-custom-error-type}}
+        // {{{message}}}
+        case code{{{code}}}Error{{#dataType}}({{{dataType}}}){{/dataType}}
+        {{/vendorExtensions.x-swift-has-custom-error-type}}
+        {{/responses}}
+
+        public var description: String {
+            switch self {
+            {{#responses}}
+            {{#vendorExtensions.x-swift-has-custom-error-type}}
+            case .code{{{code}}}Error{{#dataType}}(let object){{/dataType}}:
+                return "{{{vendorExtensions.x-swift-custom-error-type}}}: {{{message}}}{{#dataType}}: \(object){{/dataType}}"
+            {{/vendorExtensions.x-swift-has-custom-error-type}}
+            {{/responses}}
+            }
+        }
+    }
+    {{/vendorExtensions.x-swift-custom-error-type}}
 
     /**
     {{#summary}}
@@ -70,7 +92,7 @@ open class {{classname}} {
     {{/allParams}}
         - returns: AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {{description}}
         */
-    open func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {
+    open func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{vendorExtensions.x-swift-nested-enum-type}}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> {
         // Creating final URL with query items and path
         guard let baseURL = transport.baseURL ?? self.baseURL else {
             return Fail(error: OpenAPITransportError.badURLError())
@@ -107,6 +129,9 @@ open class {{classname}} {
         ].compactMapValues { $0 }
         {{#hasBodyParam}}{{#bodyParam}}// Setting JSON body
         request.httpBody = try? {{classname}}.encoder.encode({{paramName}})
+        if request.value(forHTTPHeaderField: "Content-Type") == nil {
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
         {{/bodyParam}}{{/hasBodyParam}}
         {{#hasFormParams}} // Setting form encoded body
         var formEncodedItems: [String] = []
@@ -118,19 +143,41 @@ open class {{classname}} {
         // Getting auth type {{! TODO: Set proper auth type) }}
         let securitySchemes: [SecurityScheme] = [{{#authMethods}}{{#isBasicBearer}}.bearer{{/isBasicBearer}}{{/authMethods}}]
         return transport.send(request: request, securitySchemes: securitySchemes)
+        {{#vendorExtensions.x-swift-custom-error-type}}
+            .mapError { transportError -> Error in 
+                {{#responses}}
+                {{#vendorExtensions.x-swift-has-custom-error-type}}
+                if transportError.statusCode == {{{code}}} {
+                    {{#dataType}}
+                    do {
+                        let error = try {{classname}}.decoder.decode({{{dataType}}}.self, from: transportError.data)
+                        return {{{vendorExtensions.x-swift-custom-error-type}}}.code{{{code}}}Error(error)
+                    } catch {
+                        return error
+                    }
+                    {{/dataType}}
+                    {{^dataType}}
+                    return {{{vendorExtensions.x-swift-custom-error-type}}}.code{{{code}}}Error
+                    {{/dataType}}
+                }
+                {{/vendorExtensions.x-swift-has-custom-error-type}}
+                {{/responses}}
+                return transportError
+            }
+        {{/vendorExtensions.x-swift-custom-error-type}}
             .tryMap { response in
                 {{! TODO: Check responses properly }}
                 {{#returnType}}
-                {{#vendorExtensions.x-swift-isNotCodable}}
+                {{#vendorExtensions.x-swift-is-not-codable}}
                 if let object = try JSONSerialization.jsonObject(with: response.data, options: []) as? {{{returnType}}} {
                     return object
                 } else {
                     throw OpenAPITransportError.invalidResponseMappingError(data: response.data)
                 }
-                {{/vendorExtensions.x-swift-isNotCodable}} 
-                {{^vendorExtensions.x-swift-isNotCodable}} 
+                {{/vendorExtensions.x-swift-is-not-codable}} 
+                {{^vendorExtensions.x-swift-is-not-codable}} 
                 try {{classname}}.decoder.decode({{{returnType}}}.self, from: response.data)
-                {{/vendorExtensions.x-swift-isNotCodable}} 
+                {{/vendorExtensions.x-swift-is-not-codable}} 
                 {{/returnType}}
                 {{^returnType}}
                 return ()

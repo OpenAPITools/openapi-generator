@@ -19,8 +19,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.openapitools.codegen.*;
@@ -33,12 +33,15 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.time.OffsetDateTime;
 import java.time.Instant;
 import java.time.temporal.ChronoField;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -50,15 +53,15 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     protected String privateFolder = "Sources/Private";
     protected String sourceFolder = "Sources";
     protected String transportFolder = "OpenAPITransport";
-    protected List<String> notCodableTypes = Arrays.asList("Any", "AnyObject", "[String: Any]");
+    protected List<String> notCodableTypes = Arrays.asList("Any", "AnyObject", "[String: Any]", "[String: [String: Any]");
 
     /**
      * Constructor for the swift alt language codegen module.
      */
     public SwiftAltClientCodegen() {
         super();
-        this.supportsAdditionalPropertiesWithComposedSchema = true;
         this.useOneOfInterfaces = true;
+        this.supportsInheritance = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.STABLE)
@@ -183,50 +186,14 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("file", "Data");
         typeMapping.put("binary", "Data");
 
+        instantiationTypes.put("array", "Array");
+        instantiationTypes.put("list", "Array");
+
         importMapping = new HashMap<>();
 
         cliOptions.add(new CliOption(PROJECT_NAME, "Project name in Xcode"));
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
-    }
-
-    private static CodegenModel reconcileProperties(CodegenModel codegenModel,
-                                                    CodegenModel parentCodegenModel) {
-        // To support inheritance in this generator, we will analyze
-        // the parent and child models, look for properties that match, and remove
-        // them from the child models and leave them in the parent.
-        // Because the child models extend the parents, the properties
-        // will be available via the parent.
-
-        // Get the properties for the parent and child models
-        final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
-        List<CodegenProperty> codegenProperties = codegenModel.vars;
-        codegenModel.allVars = new ArrayList<CodegenProperty>(codegenProperties);
-        codegenModel.parentVars = parentCodegenModel.allVars;
-
-        // Iterate over all of the parent model properties
-        boolean removedChildProperty = false;
-
-        for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
-            // Now that we have found a prop in the parent class,
-            // and search the child class for the same prop.
-            Iterator<CodegenProperty> iterator = codegenProperties.iterator();
-            while (iterator.hasNext()) {
-                CodegenProperty codegenProperty = iterator.next();
-                if (codegenProperty.baseName.equals(parentModelCodegenProperty.baseName)) {
-                    // We found a property in the child class that is
-                    // a duplicate of the one in the parent, so remove it.
-                    iterator.remove();
-                    removedChildProperty = true;
-                }
-            }
-        }
-
-        if (removedChildProperty) {
-            codegenModel.vars = codegenProperties;
-        }
-
-        return codegenModel;
     }
 
     @Override
@@ -242,25 +209,6 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getHelp() {
         return "Generates a Swift 5 alternative client library.";
-    }
-
-    @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
-                                                       Schema schema) {
-
-        final Schema additionalProperties = getAdditionalProperties(schema);
-
-        if (additionalProperties != null) {
-            Schema inner = null;
-            if (ModelUtils.isArraySchema(schema)) {
-                ArraySchema ap = (ArraySchema) schema;
-                inner = ap.getItems();
-            } else if (ModelUtils.isMapSchema(schema)) {
-                inner = getAdditionalProperties(schema);
-            }
-
-            codegenModel.additionalPropertiesType = inner != null ? getTypeDeclaration(inner) : getSchemaType(additionalProperties);
-        }
     }
 
     @Override
@@ -320,15 +268,23 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        if (ModelUtils.isArraySchema(target)) {
+            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            return ModelUtils.isSet(target) ? "Set<" + getTypeDeclaration(items) + ">" : "[" + getTypeDeclaration(items) + "]";
+        } else if (ModelUtils.isMapSchema(target)) {
+            // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
+            // additionalproperties: true
+            Schema<?> inner = getAdditionalProperties(target);
+            if (inner == null) {
+                LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
+                inner = new StringSchema().description("TODO default missing map inner type to string");
+                p.setAdditionalProperties(inner);
+            }
             return "[String: " + getTypeDeclaration(inner) + "]";
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(target);
     }
 
     @Override
@@ -553,27 +509,26 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model) {
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
-        CodegenModel codegenModel = super.fromModel(name, model);
-        if (codegenModel.description != null) {
-            codegenModel.imports.add("ApiModel");
-        }
-        if (allDefinitions != null) {
-            String parentSchema = codegenModel.parentSchema;
-
-            // multilevel inheritance: reconcile properties of all the parents
-            while (parentSchema != null) {
-                final Schema parentModel = allDefinitions.get(parentSchema);
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent,
-                        parentModel);
-                codegenModel = SwiftAltClientCodegen.reconcileProperties(codegenModel, parentCodegenModel);
-
-                // get the next parent
-                parentSchema = parentCodegenModel.parentSchema;
-            }
-        }
-        return codegenModel;
+    public CodegenModel fromModel(String name, Schema schema) {
+        CodegenModel m = super.fromModel(name, schema);
+        m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
+        // Update allVars/requiredVars/optionalVars with isInherited
+        // Each of these lists contains elements that are similar, but they are all cloned
+        // via CodegenModel.removeAllDuplicatedProperty and therefore need to be updated
+        // separately.
+        // First find only the parent vars via baseName matching
+        Map<String, CodegenProperty> allVarsMap = m.allVars.stream()
+                .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
+        allVarsMap.keySet()
+                .removeAll(m.vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toSet()));
+        // Update the allVars
+        allVarsMap.values().forEach(p -> p.isInherited = true);
+        // Update any other vars (requiredVars, optionalVars)
+        Stream.of(m.requiredVars, m.optionalVars)
+                .flatMap(List::stream)
+                .filter(p -> allVarsMap.containsKey(p.baseName))
+                .forEach(p -> p.isInherited = true);
+        return m;
     }
 
     public void setProjectName(String projectName) {
@@ -773,127 +728,35 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
 
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
-            for (CodegenParameter cp : operation.allParams) {
-                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<String>()));
+            operation.allParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
+            operation.queryParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
+            operation.bodyParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
+            operation.formParams.forEach(cp -> addVendorExtensions(cp, operation, modelMaps));
+            if (notCodableTypes.contains(operation.returnType) || notCodableTypes.contains(operation.returnBaseType)) {
+                operation.vendorExtensions.put("x-swift-is-not-codable", true);
             }
-            for (CodegenParameter cp : operation.queryParams) {
-                if (cp.isArray && modelMaps.get(cp.baseType).isEnum) {
-                    cp.vendorExtensions.put("x-swift-isBaseTypeEnum", true);
-                } else {
-                    cp.vendorExtensions.put("x-swift-isBaseTypeEnum", false);
+            List<CodegenResponse> responses = operation.responses;
+            for (CodegenResponse response : responses) {
+                if (response.is4xx || response.is5xx) {
+                    response.vendorExtensions.put("x-swift-has-custom-error-type", true);
+                    response.vendorExtensions.put("x-swift-custom-error-type", WordUtils.capitalize(operation.operationId) + "Error");
+                    operation.vendorExtensions.put("x-swift-custom-error-type", WordUtils.capitalize(operation.operationId) + "Error");
                 }
-            }
-            if (notCodableTypes.contains(operation.returnType)) {
-                operation.vendorExtensions.put("x-swift-isNotCodable", true);
+                response.vendorExtensions.put("x-swift-is-response-code-explicit", !response.code.contains("x"));
             }
         }
         return objs;
     }
 
-    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
-        if (codegenParameter.isArray) { // array
-            return "[" + constructExampleCode(codegenParameter.items, modelMaps, visitedModels) + "]";
-        } else if (codegenParameter.isMap) { // TODO: map, file type
-            return "\"TODO\"";
-        } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
-            if ("String".equals(codegenParameter.dataType) || "Character".equals(codegenParameter.dataType)) {
-                if (StringUtils.isEmpty(codegenParameter.example)) {
-                    return "\"" + codegenParameter.example + "\"";
-                } else {
-                    return "\"" + codegenParameter.paramName + "_example\"";
-                }
-            } else if ("Bool".equals(codegenParameter.dataType)) { // boolean
-                if (Boolean.parseBoolean(codegenParameter.example)) {
-                    return "true";
-                } else {
-                    return "false";
-                }
-            } else if ("URL".equals(codegenParameter.dataType)) { // URL
-                return "URL(string: \"https://example.com\")!";
-            } else if ("Data".equals(codegenParameter.dataType)) { // URL
-                return "Data([9, 8, 7])";
-            } else if ("Date".equals(codegenParameter.dataType)) { // date
-                return "Date()";
-            } else { // numeric
-                if (StringUtils.isEmpty(codegenParameter.example)) {
-                    return codegenParameter.example;
-                } else {
-                    return "987";
-                }
-            }
-        } else { // model
-            // look up the model
-            if (modelMaps.containsKey(codegenParameter.dataType)) {
-                if (visitedModels.contains(codegenParameter.dataType)) {
-                    // recursive/self-referencing model, simply return nil to avoid stackoverflow
-                    return "nil";
-                } else {
-                    visitedModels.add(codegenParameter.dataType);
-                    return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, visitedModels);
-                }
-            } else {
-                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
-                return "TODO";
-            }
+    protected void addVendorExtensions(CodegenParameter cp, CodegenOperation operation, HashMap<String, CodegenModel> modelMaps) {
+        cp.vendorExtensions.put("x-swift-is-base-type-enum", cp.isArray && modelMaps.get(cp.baseType).isEnum);
+        if (cp.isEnum) {
+            cp.vendorExtensions.put("x-swift-nested-enum-type", WordUtils.capitalize(operation.operationId) + WordUtils.capitalize(cp.enumName));
         }
-    }
-
-    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
-        if (codegenProperty.isArray) { // array
-            return "[" + constructExampleCode(codegenProperty.items, modelMaps, visitedModels) + "]";
-        } else if (codegenProperty.isMap) { // TODO: map, file type
-            return "\"TODO\"";
-        } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
-            if ("String".equals(codegenProperty.dataType) || "Character".equals(codegenProperty.dataType)) {
-                if (StringUtils.isEmpty(codegenProperty.example)) {
-                    return "\"" + codegenProperty.example + "\"";
-                } else {
-                    return "\"" + codegenProperty.name + "_example\"";
-                }
-            } else if ("Bool".equals(codegenProperty.dataType)) { // boolean
-                if (Boolean.parseBoolean(codegenProperty.example)) {
-                    return "true";
-                } else {
-                    return "false";
-                }
-            } else if ("URL".equals(codegenProperty.dataType)) { // URL
-                return "URL(string: \"https://example.com\")!";
-            } else if ("Date".equals(codegenProperty.dataType)) { // date
-                return "Date()";
-            } else { // numeric
-                if (StringUtils.isEmpty(codegenProperty.example)) {
-                    return codegenProperty.example;
-                } else {
-                    return "123";
-                }
-            }
-        } else {
-            // look up the model
-            if (modelMaps.containsKey(codegenProperty.dataType)) {
-                if (visitedModels.contains(codegenProperty.dataType)) {
-                    // recursive/self-referencing model, simply return nil to avoid stackoverflow
-                    return "nil";
-                } else {
-                    visitedModels.add(codegenProperty.dataType);
-                    return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, visitedModels);
-                }
-            } else {
-                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
-                return "\"TODO\"";
-            }
+        CodegenModel model = modelMaps.get(cp.dataType);
+        if (cp.isEnum || (model != null && model.isEnum)) {
+            cp.vendorExtensions.put("x-swift-is-enum-type", true);
         }
-    }
-
-    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, Set<String> visitedModels) {
-        String example;
-        example = codegenModel.name + "(";
-        List<String> propertyExamples = new ArrayList<>();
-        for (CodegenProperty codegenProperty : codegenModel.vars) {
-            propertyExamples.add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps, visitedModels));
-        }
-        example += StringUtils.join(propertyExamples, ", ");
-        example += ")";
-        return example;
     }
 
     @Override
@@ -901,7 +764,7 @@ public class SwiftAltClientCodegen extends DefaultCodegen implements CodegenConf
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift alternative generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift alternative generator v0.1.0                                           #");
+        System.out.println("# swift alternative generator v0.2.0                                           #");
         System.out.println("################################################################################");
     }
 }

@@ -12,30 +12,6 @@ public enum SecurityScheme {
     // Security schemes not supported yet https://swagger.io/docs/specification/authentication/
 }
 
-// MARK: - Authenticator
-
-// Class which is able to add authentication headers and refresh authentication
-public protocol Authenticator {
-    func authenticate(request: URLRequest, securitySchemes: [SecurityScheme]) -> AnyPublisher<URLRequest, OpenAPITransportError>
-    func refresh(request: URLRequest, securitySchemes: [SecurityScheme]) -> AnyPublisher<Void, OpenAPITransportError>
-}
-
-final class DefaultAuthenticator: Authenticator {
-    func authenticate(request: URLRequest, securitySchemes: [SecurityScheme]) -> AnyPublisher<URLRequest, OpenAPITransportError> {
-        Just(request)
-            .setFailureType(to: OpenAPITransportError.self)
-            .eraseToAnyPublisher()
-    }
-
-    func refresh(request: URLRequest, securitySchemes: [SecurityScheme]) -> AnyPublisher<Void, OpenAPITransportError> {
-        Fail(outputType: Void.self, failure: OpenAPITransportError.failedAuthenticationRefreshError())
-            .eraseToAnyPublisher()
-    }
-
-    init() {
-    }
-}
-
 // MARK: - Policy
 
 /// Policy to define whether response is successful or requires authentication
@@ -44,18 +20,19 @@ public protocol URLResponsePolicy {
 }
 
 public enum URLResponseState {
+    // Return success to client
     case success
+    // Return error to client
     case failure
-    case requiresAuthentication
+    // Repeat request
+    case retry
 }
 
 final class DefaultURLResponsePolicy: URLResponsePolicy {
     func defineState(for response: URLResponse) -> URLResponseState {
         switch (response as? HTTPURLResponse)?.statusCode {
-        case .some(200):
+        case .some(200...299):
             return .success
-        case .some(401):
-            return .requiresAuthentication
         default:
             return .failure
         }
@@ -65,13 +42,13 @@ final class DefaultURLResponsePolicy: URLResponsePolicy {
 /// Define how to customize URL request before network call
 public protocol URLRequestProcessor {
     /// Customize request before performing. Add headers or encrypt body for example.
-    func enrich(request: URLRequest) -> AnyPublisher<URLRequest, OpenAPITransportError>
+    func enrich(request: URLRequest, securitySchemes: [SecurityScheme]) -> AnyPublisher<URLRequest, OpenAPITransportError>
     /// Customize response before handling. Decrypt body for example.
     func decode(output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<URLSession.DataTaskPublisher.Output, OpenAPITransportError>
 }
 
 final class DefaultURLRequestProcessor: URLRequestProcessor {
-    func enrich(request: URLRequest) -> AnyPublisher<URLRequest, OpenAPITransportError> {
+    func enrich(request: URLRequest, securitySchemes: [SecurityScheme]) -> AnyPublisher<URLRequest, OpenAPITransportError> {
         Just(request)
             .setFailureType(to: OpenAPITransportError.self)
             .eraseToAnyPublisher()
@@ -227,14 +204,8 @@ open class URLSessionOpenAPITransport: OpenAPITransport {
     ) -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> {
         
         config.processor
-            // Add custom headers or  if needed
-            .enrich(request: request)
-            // Add authentication headers if needed before request
-            .flatMap { request in
-                self.config.authenticator
-                    .authenticate(request: request, securitySchemes: securitySchemes)
-                    .eraseToAnyPublisher()
-            }
+            // Add custom headers or refresh token if needed
+            .enrich(request: request, securitySchemes: securitySchemes)
             .flatMap { request -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> in
                 self.config.delegate?.willStart(request: request)
                 // Perform network call
@@ -250,17 +221,9 @@ open class URLSessionOpenAPITransport: OpenAPITransport {
                         case .success:
                             let OpenAPITransportResponse = OpenAPITransportResponse(data: output.data, statusCode: 200)
                             return Result.success(OpenAPITransportResponse).publisher.eraseToAnyPublisher()
-                        case .requiresAuthentication:
-                            // Refresh authentication if possible
-                            return self.config.authenticator
-                                .refresh(request: request, securitySchemes: securitySchemes)
-                                .flatMap {
-                                    // Try performing network call again
-                                    self.send(request: request, securitySchemes: securitySchemes)
-                                }
-                                .eraseToAnyPublisher()
-                        // TODO: Check too many attempts error
-                        default:
+                        case .retry:
+                            return self.send(request: request, securitySchemes: securitySchemes)
+                        case .failure:
                             let code = response?.statusCode ?? OpenAPITransportError.noResponseCode
                             let error = OpenAPITransportError(statusCode: code, data: output.data)
                             return Fail(error: error).eraseToAnyPublisher()
@@ -280,7 +243,6 @@ public extension URLSessionOpenAPITransport {
     struct Config {
         public var baseURL: URL? = nil
         public var session: URLSession = .shared
-        public var authenticator: Authenticator = DefaultAuthenticator()
         public var processor: URLRequestProcessor = DefaultURLRequestProcessor()
         public var policy: URLResponsePolicy = DefaultURLResponsePolicy()
         public weak var delegate: URLSessionOpenAPITransportDelegate?
