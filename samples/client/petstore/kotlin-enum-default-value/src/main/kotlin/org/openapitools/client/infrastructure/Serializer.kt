@@ -16,11 +16,10 @@ object Serializer {
         .add(KotlinJsonAdapterFactory())
         .add(BigDecimalAdapter())
         .add(BigIntegerAdapter())
-        .add(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName::class.java, EnumJsonAdapter.create(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName::class.java)
-            .withUnknownFallback(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName.unknownDefaultOpenApi))
 
     @JvmStatic
     val moshi: Moshi by lazy {
+        SerializerHelper.addEnumUnknownDefaultCase(moshiBuilder)
         moshiBuilder.build()
     }
 }

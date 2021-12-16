@@ -483,6 +483,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         switch (getSerializationLibrary()) {
             case moshi:
+                if (enumUnknownDefaultCase) {
+                    supportingFiles.add(new SupportingFile("jvm-common/infrastructure/SerializerHelper.kt.mustache", infrastructureFolder, "SerializerHelper.kt"));
+                }
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));

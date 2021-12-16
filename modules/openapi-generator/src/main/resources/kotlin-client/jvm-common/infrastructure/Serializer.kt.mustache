@@ -69,43 +69,12 @@ import java.util.concurrent.atomic.AtomicLong
         {{/moshiCodeGen}}
         .add(BigDecimalAdapter())
         .add(BigIntegerAdapter())
-{{#enumUnknownDefaultCase}}
-{{#models}}
-{{#model}}
-{{#isEnum}}
-{{#allowableValues}}
-{{#enumVars}}
-{{#-last}}
-        .add({{modelPackage}}.{{classname}}::class.java, EnumJsonAdapter.create({{modelPackage}}.{{classname}}::class.java)
-            .withUnknownFallback({{modelPackage}}.{{classname}}.{{&name}}))
-{{/-last}}
-{{/enumVars}}
-{{/allowableValues}}
-{{/isEnum}}
-{{^isEnum}}
-{{^isAlias}}
-{{#hasEnums}}
-{{#vars}}
-{{#isEnum}}
-{{#allowableValues}}
-{{#enumVars}}
-{{#-last}}
-        .add({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}::class.java, EnumJsonAdapter.create({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}::class.java)
-            .withUnknownFallback({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}.{{&name}}))
-{{/-last}}
-{{/enumVars}}
-{{/allowableValues}}
-{{/isEnum}}
-{{/vars}}
-{{/hasEnums}}
-{{/isAlias}}
-{{/isEnum}}
-{{/model}}
-{{/models}}
-{{/enumUnknownDefaultCase}}
 
     @JvmStatic
     val moshi: Moshi by lazy {
+{{#enumUnknownDefaultCase}}
+        SerializerHelper.addEnumUnknownDefaultCase(moshiBuilder)
+{{/enumUnknownDefaultCase}}
         moshiBuilder.build()
     }
 {{/moshi}}
