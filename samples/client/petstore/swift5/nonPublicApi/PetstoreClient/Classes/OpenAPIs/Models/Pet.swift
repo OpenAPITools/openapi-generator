@@ -25,7 +25,7 @@ internal struct Pet: Codable, Hashable {
     /** pet status in the store */
     internal var status: NullEncodable<Status>
 
-    internal init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<String>) {
+    internal init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<Status>) {
         self.id = id
         self.category = category
         self.name = name

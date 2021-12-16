@@ -30,7 +30,7 @@ import AnyCodable
     /** pet status in the store */
     public var status: NullEncodable<Status>
 
-    public init(_id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<String>) {
+    public init(_id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<Status>) {
         self._id = _id
         self.category = category
         self.name = name

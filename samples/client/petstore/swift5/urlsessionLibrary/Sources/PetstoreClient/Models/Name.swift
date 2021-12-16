@@ -60,7 +60,7 @@ public final class Name: Codable, Hashable {
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(name.hashValue)
-        hasher.combine(snakeCase?.hashValue)
+        hasher.combine(snakeCase.hashValue)
         hasher.combine(property?.hashValue)
         hasher.combine(_123number?.hashValue)
         
