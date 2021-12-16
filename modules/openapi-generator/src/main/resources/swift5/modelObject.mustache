@@ -21,7 +21,16 @@
     {{#vendorExtensions.x-swift-optional-scalar}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var {{{name}}}Num: NSNumber? {
         get {
+            {{^vendorExtensions.x-null-encodable}}
             return {{{name}}} as NSNumber?
+            {{/vendorExtensions.x-null-encodable}}
+            {{#vendorExtensions.x-null-encodable}}
+            if case .encodeValue(let value) = {{name}} {
+                return value as NSNumber?
+            } else {
+                return nil
+            }
+            {{/vendorExtensions.x-null-encodable}}
         }
     }
     {{/vendorExtensions.x-swift-optional-scalar}}

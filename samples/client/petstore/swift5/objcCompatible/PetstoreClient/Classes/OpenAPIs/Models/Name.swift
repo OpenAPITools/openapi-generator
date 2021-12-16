@@ -17,7 +17,11 @@ import AnyCodable
     public var snakeCase: NullEncodable<Int>
     public var snakeCaseNum: NSNumber? {
         get {
-            return snakeCase as NSNumber?
+            if case .encodeValue(let value) = snakeCase {
+                return value as NSNumber?
+            } else {
+                return nil
+            }
         }
     }
     public var property: String?
