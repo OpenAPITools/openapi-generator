@@ -26,7 +26,6 @@ src/main/java/org/openapitools/client/infrastructure/ITransformForStorage.kt
 src/main/java/org/openapitools/client/infrastructure/LocalDateAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/LocalDateTimeAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/OffsetDateTimeAdapter.kt
-src/main/java/org/openapitools/client/infrastructure/Serializer.kt
 src/main/java/org/openapitools/client/models/Category.kt
 src/main/java/org/openapitools/client/models/ModelApiResponse.kt
 src/main/java/org/openapitools/client/models/Order.kt
