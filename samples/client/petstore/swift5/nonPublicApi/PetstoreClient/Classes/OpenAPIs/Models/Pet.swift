@@ -23,9 +23,9 @@ internal struct Pet: Codable, Hashable {
     internal var photoUrls: [String]
     internal var tags: [Tag]?
     /** pet status in the store */
-    internal var status: Status?
+    internal var status: NullEncodable<Status>
 
-    internal init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: Status? = nil) {
+    internal init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<String>) {
         self.id = id
         self.category = category
         self.name = name
@@ -52,7 +52,10 @@ internal struct Pet: Codable, Hashable {
         try container.encode(name, forKey: .name)
         try container.encode(photoUrls, forKey: .photoUrls)
         try container.encodeIfPresent(tags, forKey: .tags)
-        try container.encodeIfPresent(status, forKey: .status)
+        switch status {
+        case .encodeNothing: break
+        case .encodeNull, .encodeValue: try container.encode(status, forKey: .status)
+        }
     }
 }
 
