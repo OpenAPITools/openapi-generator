@@ -572,6 +572,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             throw new RuntimeException("This library currently only supports gson serialization. Try adding '--additional-properties serializationLibrary=gson' to your command.");
         }
         addSupportingSerializerAdapters(infrastructureFolder);
+        supportingFiles.remove(new SupportingFile("jvm-common/infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
+
     }
 
     private void addSupportingSerializerAdapters(final String infrastructureFolder) {
