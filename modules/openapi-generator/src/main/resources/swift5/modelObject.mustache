@@ -11,12 +11,12 @@
 {{#isEnum}}
     {{#description}}/** {{{.}}} */
     {{/description}}{{#deprecated}}@available(*, deprecated, message: "This property is deprecated.")
-    {{/deprecated}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var {{{name}}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
+    {{/deprecated}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var {{{name}}}: {{#vendorExtensions.x-null-encodable}}NullEncodable<{{{datatypeWithEnum}}}>{{/vendorExtensions.x-null-encodable}}{{^vendorExtensions.x-null-encodable}}{{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/vendorExtensions.x-null-encodable}}
 {{/isEnum}}
 {{^isEnum}}
     {{#description}}/** {{{.}}} */
     {{/description}}{{#deprecated}}@available(*, deprecated, message: "This property is deprecated.")
-    {{/deprecated}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var {{{name}}}: {{{datatype}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
+    {{/deprecated}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var {{{name}}}: {{#vendorExtensions.x-null-encodable}}NullEncodable<{{{datatype}}}>{{/vendorExtensions.x-null-encodable}}{{^vendorExtensions.x-null-encodable}}{{{datatype}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/vendorExtensions.x-null-encodable}}
     {{#objcCompatible}}
     {{#vendorExtensions.x-swift-optional-scalar}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var {{{name}}}Num: NSNumber? {
@@ -30,7 +30,7 @@
 {{/allVars}}
 {{#hasVars}}
 
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#allVars}}{{{name}}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}}{{^required}} = nil{{/required}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/allVars}}) {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#allVars}}{{{name}}}: {{#vendorExtensions.x-null-encodable}}NullEncodable<{{{datatype}}}>{{/vendorExtensions.x-null-encodable}}{{^vendorExtensions.x-null-encodable}}{{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}}{{^required}} = nil{{/required}}{{/defaultValue}}{{/vendorExtensions.x-null-encodable}}{{^-last}}, {{/-last}}{{/allVars}}) {
         {{#allVars}}
         self.{{{name}}} = {{{name}}}
         {{/allVars}}
@@ -63,7 +63,15 @@
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         {{#allVars}}
+        {{#vendorExtensions.x-null-encodable}}
+        switch {{{name}}} {
+        case .encodeNothing: break
+        case .encodeNull, .encodeValue: try container.encode({{{name}}}, forKey: .{{{name}}})
+        }
+        {{/vendorExtensions.x-null-encodable}}
+        {{^vendorExtensions.x-null-encodable}}
         try container.encode{{^required}}IfPresent{{/required}}({{{name}}}, forKey: .{{{name}}})
+        {{/vendorExtensions.x-null-encodable}}
         {{/allVars}}
         {{#generateModelAdditionalProperties}}
         {{#additionalPropertiesType}}
