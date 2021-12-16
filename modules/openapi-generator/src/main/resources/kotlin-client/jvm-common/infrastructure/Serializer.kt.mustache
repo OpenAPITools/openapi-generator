@@ -4,7 +4,6 @@ package {{packageName}}.infrastructure
 import com.squareup.moshi.Moshi
 {{#enumUnknownDefaultCase}}
 import com.squareup.moshi.adapters.EnumJsonAdapter
-import {{modelPackage}}.*
 {{/enumUnknownDefaultCase}}
 {{^moshiCodeGen}}
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -77,8 +76,8 @@ import java.util.concurrent.atomic.AtomicLong
 {{#allowableValues}}
 {{#enumVars}}
 {{#-last}}
-        .add({{classname}}::class.java, EnumJsonAdapter.create({{classname}}::class.java)
-            .withUnknownFallback({{classname}}.{{&name}}))
+        .add({{modelPackage}}.{{classname}}::class.java, EnumJsonAdapter.create({{modelPackage}}.{{classname}}::class.java)
+            .withUnknownFallback({{modelPackage}}.{{classname}}.{{&name}}))
 {{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
@@ -91,8 +90,8 @@ import java.util.concurrent.atomic.AtomicLong
 {{#allowableValues}}
 {{#enumVars}}
 {{#-last}}
-        .add({{classname}}.{{{nameInCamelCase}}}::class.java, EnumJsonAdapter.create({{classname}}.{{{nameInCamelCase}}}::class.java)
-            .withUnknownFallback({{classname}}.{{{nameInCamelCase}}}.{{&name}}))
+        .add({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}::class.java, EnumJsonAdapter.create({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}::class.java)
+            .withUnknownFallback({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}.{{&name}}))
 {{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
