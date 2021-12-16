@@ -17,39 +17,18 @@ import com.google.gson.annotations.SerializedName
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 /**
- * An order for a pets from the pet store
- * @param id 
- * @param petId 
- * @param quantity 
- * @param shipDate 
- * @param status Order Status
- * @param complete 
+ * Describes the result of uploading an image resource
+ * @param code 
+ * @param type 
+ * @param message 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class Order (
-    var id: kotlin.Long? = null,
-    var petId: kotlin.Long? = null,
-    var quantity: kotlin.Int? = null,
-    var shipDate: java.time.OffsetDateTime? = null,
-    /* Order Status */
-    var status: Order.Status? = null,
-    var complete: kotlin.Boolean? = false
+data class ModelApiResponse (
+    var code: kotlin.Int? = null,
+    var type: kotlin.String? = null,
+    var message: kotlin.String? = null
 ) {
-
-    /**
-    * Order Status
-    * Values: placed,approved,delivered
-    */
-    enum class Status(val value: kotlin.String){
-    
-        placed("placed"),
-    
-        approved("approved"),
-    
-        delivered("delivered");
-    
-    }
 
 }
 

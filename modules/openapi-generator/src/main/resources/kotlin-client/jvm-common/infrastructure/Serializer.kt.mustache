@@ -31,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 {{/jackson}}
 {{#kotlinx_serialization}}
-import java.util.Date
 import java.math.BigDecimal
 import java.math.BigInteger
 {{^threetenbp}}
@@ -103,7 +102,6 @@ import java.util.concurrent.atomic.AtomicLong
     val kotlinSerializationAdapters = SerializersModule {
         contextual(BigDecimal::class, BigDecimalAdapter)
         contextual(BigInteger::class, BigIntegerAdapter)
-        contextual(Date::class, DateAdapter)
         contextual(LocalDate::class, LocalDateAdapter)
         contextual(LocalDateTime::class, LocalDateTimeAdapter)
         contextual(OffsetDateTime::class, OffsetDateTimeAdapter)
