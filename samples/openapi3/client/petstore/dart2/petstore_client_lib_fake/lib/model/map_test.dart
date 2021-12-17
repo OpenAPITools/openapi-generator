@@ -91,7 +91,7 @@ class MapTest {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 
   static Map<String, MapTest> mapFromJson(dynamic json) {
@@ -163,7 +163,7 @@ class MapTestMapOfEnumStringEnum {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 }
 

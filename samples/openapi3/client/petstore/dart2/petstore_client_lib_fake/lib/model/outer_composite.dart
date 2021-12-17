@@ -110,7 +110,7 @@ class OuterComposite {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 
   static Map<String, OuterComposite> mapFromJson(dynamic json) {

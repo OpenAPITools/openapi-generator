@@ -87,7 +87,7 @@ class FakeApi {
     final formParams = <String, String>{};
 
     if (query1 != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'query_1', query1));
+      queryParams.addAll(_queryParams('', 'query_1', query1));
     }
 
     if (header1 != null) {
@@ -520,7 +520,7 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'query', query));
+      queryParams.addAll(_queryParams('', 'query', query));
 
     const authNames = <String>[];
     const contentTypes = <String>['application/json'];
@@ -822,16 +822,16 @@ class FakeApi {
     final formParams = <String, String>{};
 
     if (enumQueryStringArray != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('multi', 'enum_query_string_array', enumQueryStringArray));
+      queryParams.addAll(_queryParams('multi', 'enum_query_string_array', enumQueryStringArray));
     }
     if (enumQueryString != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'enum_query_string', enumQueryString));
+      queryParams.addAll(_queryParams('', 'enum_query_string', enumQueryString));
     }
     if (enumQueryInteger != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'enum_query_integer', enumQueryInteger));
+      queryParams.addAll(_queryParams('', 'enum_query_integer', enumQueryInteger));
     }
     if (enumQueryDouble != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'enum_query_double', enumQueryDouble));
+      queryParams.addAll(_queryParams('', 'enum_query_double', enumQueryDouble));
     }
 
     if (enumHeaderStringArray != null) {
@@ -935,13 +935,13 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'required_string_group', requiredStringGroup));
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'required_int64_group', requiredInt64Group));
+      queryParams.addAll(_queryParams('', 'required_string_group', requiredStringGroup));
+      queryParams.addAll(_queryParams('', 'required_int64_group', requiredInt64Group));
     if (stringGroup != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'string_group', stringGroup));
+      queryParams.addAll(_queryParams('', 'string_group', stringGroup));
     }
     if (int64Group != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'int64_group', int64Group));
+      queryParams.addAll(_queryParams('', 'int64_group', int64Group));
     }
 
     headerParams[r'required_boolean_group'] = parameterToString(requiredBooleanGroup);
@@ -1133,15 +1133,15 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('pipes', 'pipe', pipe));
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'ioutil', ioutil));
-      queryParams.addAll(_convertParametersForCollectionFormat('ssv', 'http', http));
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'url', url));
-      queryParams.addAll(_convertParametersForCollectionFormat('multi', 'context', context));
+      queryParams.addAll(_queryParams('pipes', 'pipe', pipe));
+      queryParams.addAll(_queryParams('csv', 'ioutil', ioutil));
+      queryParams.addAll(_queryParams('ssv', 'http', http));
+      queryParams.addAll(_queryParams('csv', 'url', url));
+      queryParams.addAll(_queryParams('multi', 'context', context));
     if (language != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'language', language));
+      queryParams.addAll(_queryParams('', 'language', language));
     }
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'allowEmpty', allowEmpty));
+      queryParams.addAll(_queryParams('', 'allowEmpty', allowEmpty));
 
     const authNames = <String>[];
     const contentTypes = <String>[];

@@ -79,7 +79,7 @@ class EnumArrays {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 
   static Map<String, EnumArrays> mapFromJson(dynamic json) {
@@ -151,7 +151,7 @@ class EnumArraysJustSymbolEnum {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 }
 
@@ -225,7 +225,7 @@ class EnumArraysArrayEnumEnum {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 }
 

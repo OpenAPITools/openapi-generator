@@ -11,11 +11,7 @@ class QueryParam {
 }
 
 // Ported from the Java version.
-Iterable<QueryParam> _convertParametersForCollectionFormat(
-  String collectionFormat,
-  String name,
-  dynamic value,
-) {
+Iterable<QueryParam> _queryParams(String collectionFormat, String name, dynamic value,) {
   // Assertions to run in debug mode only.
   assert(name.isNotEmpty, 'Parameter cannot be an empty string.');
 
@@ -23,9 +19,7 @@ Iterable<QueryParam> _convertParametersForCollectionFormat(
 
   if (value is List) {
     if (collectionFormat == 'multi') {
-      return value.map(
-        (dynamic v) => QueryParam(name, parameterToString(v)),
-      );
+      return value.map((dynamic v) => QueryParam(name, parameterToString(v)),);
     }
 
     // Default collection format is 'csv'.
@@ -35,14 +29,9 @@ Iterable<QueryParam> _convertParametersForCollectionFormat(
 
     final delimiter = _delimiters[collectionFormat] ?? ',';
 
-    params.add(
-      QueryParam(name, value.map<dynamic>(parameterToString).join(delimiter)),
-    );
+    params.add(QueryParam(name, value.map<dynamic>(parameterToString).join(delimiter),));
   } else if (value != null) {
-    params.add(QueryParam(
-      name,
-      parameterToString(value),
-    ));
+    params.add(QueryParam(name, parameterToString(value)));
   }
 
   return params;
@@ -75,18 +64,6 @@ Future<String> _decodeBodyBytes(Response response) async {
   return contentType != null && contentType.toLowerCase().startsWith('application/json')
     ? response.bodyBytes.isEmpty ? '' : utf8.decode(response.bodyBytes)
     : response.body;
-}
-
-/// Returns true if the provided map contains all required keys and their values are
-/// not null, false otherwise.
-bool ensureNonNullValues(Map<String, dynamic> map, List<String> keys) {
-  for (final key in keys) {
-    final value = map[key];
-    if (null == value) {
-      return false;
-    }
-  }
-  return true;
 }
 
 /// Returns a valid [T] value found at the specified Map [key], null otherwise.

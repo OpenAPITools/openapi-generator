@@ -66,7 +66,7 @@ class {{{classname}}} {
         {{^required}}
     if ({{{paramName}}} != null) {
           {{/required}}
-      queryParams.addAll(_convertParametersForCollectionFormat('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
+      queryParams.addAll(_queryParams('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
           {{^required}}
     }
         {{/required}}

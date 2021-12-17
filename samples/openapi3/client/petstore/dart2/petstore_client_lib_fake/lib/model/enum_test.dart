@@ -151,7 +151,7 @@ class EnumTest {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 
   static Map<String, EnumTest> mapFromJson(dynamic json) {
@@ -226,7 +226,7 @@ class EnumTestEnumStringEnum {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 }
 
@@ -303,7 +303,7 @@ class EnumTestEnumStringRequiredEnum {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 }
 
@@ -378,7 +378,7 @@ class EnumTestEnumIntegerEnum {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 }
 
@@ -452,7 +452,7 @@ class EnumTestEnumNumberEnum {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 }
 

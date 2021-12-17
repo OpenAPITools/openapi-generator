@@ -115,7 +115,7 @@ class Name {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 
   static Map<String, Name> mapFromJson(dynamic json) {

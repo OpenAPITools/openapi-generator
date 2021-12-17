@@ -149,7 +149,7 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'status', status));
+      queryParams.addAll(_queryParams('csv', 'status', status));
 
     const authNames = <String>['petstore_auth'];
     const contentTypes = <String>[];
@@ -214,7 +214,7 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'tags', tags));
+      queryParams.addAll(_queryParams('csv', 'tags', tags));
 
     const authNames = <String>['petstore_auth'];
     const contentTypes = <String>[];

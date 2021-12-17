@@ -92,7 +92,7 @@ class Dog {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 
   static Map<String, Dog> mapFromJson(dynamic json) {

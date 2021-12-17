@@ -295,8 +295,8 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'username', username));
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'password', password));
+      queryParams.addAll(_queryParams('', 'username', username));
+      queryParams.addAll(_queryParams('', 'password', password));
 
     const authNames = <String>[];
     const contentTypes = <String>[];

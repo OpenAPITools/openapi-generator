@@ -140,7 +140,7 @@ class Order {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 
   static Map<String, Order> mapFromJson(dynamic json) {
@@ -214,7 +214,7 @@ class OrderStatusEnum {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 }
 

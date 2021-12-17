@@ -126,7 +126,7 @@ class Pet {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 
   static Map<String, Pet> mapFromJson(dynamic json) {
@@ -202,7 +202,7 @@ class PetStatusEnum {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 }
 

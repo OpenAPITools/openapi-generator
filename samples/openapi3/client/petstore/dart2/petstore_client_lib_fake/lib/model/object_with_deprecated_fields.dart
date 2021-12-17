@@ -119,7 +119,7 @@ class ObjectWithDeprecatedFields {
         }
       }
     }
-    return emptyIsNull ? null : result.toList(growable: growable);
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
   }
 
   static Map<String, ObjectWithDeprecatedFields> mapFromJson(dynamic json) {
