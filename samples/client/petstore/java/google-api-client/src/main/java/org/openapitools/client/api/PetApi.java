@@ -654,12 +654,12 @@ public class PetApi {
     * <p><b>200</b> - successful operation
     * @param petId ID of pet to update
     * @param additionalMetadata Additional data to pass to server
-    * @param _file file to upload
+    * @param file file to upload
     * @return ModelApiResponse
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws IOException {
-        HttpResponse response = uploadFileForHttpResponse(petId, additionalMetadata, _file);
+    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws IOException {
+        HttpResponse response = uploadFileForHttpResponse(petId, additionalMetadata, file);
         TypeReference<ModelApiResponse> typeRef = new TypeReference<ModelApiResponse>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
@@ -678,7 +678,7 @@ public class PetApi {
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse uploadFileForHttpResponse(Long petId, String additionalMetadata, File _file) throws IOException {
+    public HttpResponse uploadFileForHttpResponse(Long petId, String additionalMetadata, File file) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFile");

@@ -40,6 +40,6 @@ public abstract class PetApiService {
  ) throws NotFoundException;
     public abstract Response uploadFile(Long petId
  ,String additionalMetadata
- ,InputStream _fileInputStream, FileInfo _fileDetail
+ ,InputStream fileInputStream, FileInfo fileDetail
  ) throws NotFoundException;
 }

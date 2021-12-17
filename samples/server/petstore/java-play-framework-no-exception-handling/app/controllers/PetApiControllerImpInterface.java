@@ -97,8 +97,8 @@ return ok();
 
     public abstract void updatePetWithForm(Http.Request request, Long petId, String name, String status) ;
 
-    public Result uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file)  {
-        ModelApiResponse obj = uploadFile(request, petId, additionalMetadata, _file);
+    public Result uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file)  {
+        ModelApiResponse obj = uploadFile(request, petId, additionalMetadata, file);
     if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
     }
@@ -107,6 +107,6 @@ return ok(result);
 
     }
 
-    public abstract ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> _file) ;
+    public abstract ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) ;
 
 }

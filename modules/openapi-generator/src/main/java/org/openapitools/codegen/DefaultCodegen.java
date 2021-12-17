@@ -1578,7 +1578,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("array", "List");
         typeMapping.put("set", "Set");
         typeMapping.put("map", "Map");
-        //typeMapping.put("List", "List");
+        typeMapping.put("List", "List");
         typeMapping.put("Set", "Set");
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("string", "String");

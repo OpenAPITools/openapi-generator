@@ -20,5 +20,5 @@ public interface PetApi  {
     Future<ApiResponse<Pet>> getPetById(Long petId);
     Future<ApiResponse<Pet>> updatePet(Pet pet);
     Future<ApiResponse<Void>> updatePetWithForm(Long petId, JsonObject formBody);
-    Future<ApiResponse<ModelApiResponse>> uploadFile(Long petId, FileUpload _file);
+    Future<ApiResponse<ModelApiResponse>> uploadFile(Long petId, FileUpload file);
 }

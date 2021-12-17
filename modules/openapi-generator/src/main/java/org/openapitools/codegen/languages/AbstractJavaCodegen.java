@@ -147,7 +147,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // special words
-                        "object", "list", "file",
+                        "object",
                         // used as internal variables, can collide with parameter names
                         "localVarPath", "localVarQueryParams", "localVarCollectionQueryParams",
                         "localVarHeaderParams", "localVarCookieParams", "localVarFormParams", "localVarPostBody",
@@ -755,9 +755,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String toModelName(final String name) {
         // We need to check if import-mapping has a different model for this class, so we use it
         // instead of the auto-generated one.
-        //if (importMapping.containsKey(name)) {
-        //    return importMapping.get(name);
-        //}
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
 
         final String sanitizedName = sanitizeName(name);
 
@@ -818,17 +818,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
         }
-        if (schema == null) {
-            LOGGER.warn("Null schema found. Default type to `NULL_SCHEMA_ERR`");
-            return "NULL_SCHEMA_ERR";
-        }
-
-        String oasType = getSchemaType(schema);
-        if (typeMapping.containsKey(oasType)) {
-            return typeMapping.get(oasType);
-        }
-
-        return oasType;
+        return super.getTypeDeclaration(target);
     }
 
     @Override

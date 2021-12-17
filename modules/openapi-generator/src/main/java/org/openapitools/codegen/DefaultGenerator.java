@@ -436,9 +436,7 @@ public class DefaultGenerator implements Generator {
         // process models only
         for (String name : modelKeys) {
             try {
-                LOGGER.info("Processing Model {} => {}", name, config.toModelName(name));
                 //don't generate models that have an import mapping
-/*
                 if (config.importMapping().containsKey(name)) {
                     LOGGER.debug("Model {} not imported due to import mapping", name);
 
@@ -450,7 +448,7 @@ public class DefaultGenerator implements Generator {
                     }
                     continue;
                 }
-*/
+
                 // don't generate models that are not used as object (e.g. form parameters)
                 if (unusedModels.contains(name)) {
                     if (Boolean.FALSE.equals(skipFormModel)) {
@@ -518,12 +516,10 @@ public class DefaultGenerator implements Generator {
             Map<String, Object> models = (Map<String, Object>) allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
             try {
-                /*
                 //don't generate models that have an import mapping
                 if (config.importMapping().containsKey(modelName)) {
                     continue;
                 }
-                */
 
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 List<Object> modelList = (List<Object>) models.get("models");

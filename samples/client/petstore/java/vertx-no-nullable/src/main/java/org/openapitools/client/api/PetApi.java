@@ -43,9 +43,9 @@ public interface PetApi {
 
     void updatePetWithForm(Long petId, String name, String status, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
-    void uploadFile(Long petId, String additionalMetadata, AsyncFile _file, Handler<AsyncResult<ModelApiResponse>> handler);
+    void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> handler);
 
-    void uploadFile(Long petId, String additionalMetadata, AsyncFile _file, ApiClient.AuthInfo authInfo, Handler<AsyncResult<ModelApiResponse>> handler);
+    void uploadFile(Long petId, String additionalMetadata, AsyncFile file, ApiClient.AuthInfo authInfo, Handler<AsyncResult<ModelApiResponse>> handler);
 
     void uploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> handler);
 

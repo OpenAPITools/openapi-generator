@@ -69,7 +69,7 @@ public class PetApiServiceImpl extends PetApiService {
     @Override
     public Response uploadFile(Long petId
 , String additionalMetadata
-, InputStream _fileInputStream, FileInfo _fileDetail
+, InputStream fileInputStream, FileInfo fileDetail
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
