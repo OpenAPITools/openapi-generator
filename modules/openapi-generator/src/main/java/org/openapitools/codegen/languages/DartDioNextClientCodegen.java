@@ -430,7 +430,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
      * @param serializer
      */
     private void addBuiltValueSerializer(BuiltValueSerializer serializer) {
-        System.out.println("######## Add serializer!");
         additionalProperties.compute("builtValueSerializers", (k, v) -> {
             Set<BuiltValueSerializer> serializers = v == null ? Sets.newHashSet() : ((Set<BuiltValueSerializer>) v);
             serializers.add(serializer);
