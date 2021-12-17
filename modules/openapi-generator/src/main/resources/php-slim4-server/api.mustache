@@ -9,7 +9,6 @@
  */
 namespace {{apiPackage}};
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Exception\HttpNotImplementedException;
@@ -23,25 +22,8 @@ use Slim\Exception\HttpNotImplementedException;
  */
 abstract class {{classname}}
 {
-
-    /**
-     * @var ContainerInterface|null Slim app container instance
-     */
-    protected $container;
-
-    /**
-     * Route Controller constructor receives container
-     *
-     * @param ContainerInterface|null $container Slim app container instance
-     */
-    public function __construct(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
     {{#operations}}
     {{#operation}}
-
     /**
      * {{httpMethod}} {{operationId}}
      {{#summary}}
@@ -105,6 +87,9 @@ abstract class {{classname}}
         $message = "How about implementing {{nickname}} as a {{httpMethod}} method in {{apiPackage}}\{{userClassname}} class?";
         throw new HttpNotImplementedException($request, $message);
     }
+    {{^-last}}
+
+    {{/-last}}
     {{/operation}}
     {{/operations}}
 }
