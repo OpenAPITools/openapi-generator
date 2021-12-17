@@ -1085,6 +1085,16 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                     prop.vendorExtensions.put("x-codegen-escaped-property-name", true);
                     modelHasPropertyWithEscapedName = true;
                 }
+
+                if (prop.vendorExtensions.containsKey("x-null-encodable")) {
+                    if (prop.vendorExtensions.get("x-null-encodable").toString().equals("true")) {
+                        if (prop.defaultValue == null || prop.defaultValue.equals("null")) {
+                            prop.vendorExtensions.put("x-codegen-alt-default-value", ".encodeNull");
+                        } else {
+                            prop.vendorExtensions.put("x-codegen-alt-default-value", ".encodeValue(" + prop.defaultValue + ")");
+                        }
+                    }
+                }
             }
             if (modelHasPropertyWithEscapedName) {
                 cm.vendorExtensions.put("x-codegen-has-escaped-property-names", true);

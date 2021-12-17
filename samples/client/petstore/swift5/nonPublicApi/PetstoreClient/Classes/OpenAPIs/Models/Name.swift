@@ -18,7 +18,7 @@ internal struct Name: Codable, Hashable {
     internal var property: String?
     internal var _123number: Int?
 
-    internal init(name: Int, snakeCase: NullEncodable<Int>, property: String? = nil, _123number: Int? = nil) {
+    internal init(name: Int, snakeCase: NullEncodable<Int> = .encodeNull, property: String? = nil, _123number: Int? = nil) {
         self.name = name
         self.snakeCase = snakeCase
         self.property = property

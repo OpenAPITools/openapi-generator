@@ -1170,6 +1170,7 @@ definitions:
         type: string
         description: pet status in the store
         x-null-encodable: true
+        default: available
         enum:
           - available
           - pending

@@ -23,7 +23,7 @@ public final class Name: Codable, Hashable {
     public var property: String?
     public var _123number: Int?
 
-    public init(name: Int, snakeCase: NullEncodable<Int>, property: String? = nil, _123number: Int? = nil) {
+    public init(name: Int, snakeCase: NullEncodable<Int> = .encodeNull, property: String? = nil, _123number: Int? = nil) {
         self.name = name
         self.snakeCase = snakeCase
         self.property = property

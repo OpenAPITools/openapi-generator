@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **name** | **String** |  | 
 **photoUrls** | **[String]** |  | 
 **tags** | [Tag] |  | [optional] 
-**status** | **String** | pet status in the store | [optional] 
+**status** | **String** | pet status in the store | [optional] [default to .encodeValue(.available)]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
