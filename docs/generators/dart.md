@@ -19,7 +19,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |pubLibrary|Library name in generated code| |null|
 |pubName|Name in generated pubspec| |null|
 |pubVersion|Version in generated pubspec| |null|
-|serializationLibrary|Specify serialization library|<dl><dt>**native_serialization**</dt><dd>Use native serializer, backwards compatible</dd><dt>**json_serializable**</dt><dd>Use json_serializable. Experimental and subject to breaking changes without further notice</dd></dl>|native_serialization|
+|serializationLibrary|Specify serialization library|<dl><dt>**native_serialization**</dt><dd>Use native serializer, backwards compatible</dd></dl>|native_serialization|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|Source folder for generated code| |null|

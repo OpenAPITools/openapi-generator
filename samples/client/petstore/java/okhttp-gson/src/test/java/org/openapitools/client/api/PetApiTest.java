@@ -10,45 +10,41 @@
  * Do not edit the class manually.
  */
 
-
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
-import org.openapitools.client.model.Pet;
-import org.openapitools.client.auth.*;
-import org.openapitools.client.model.*;
-import org.openapitools.client.*;
+import static org.junit.Assert.*;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.util.concurrent.TimeUnit;
+import org.junit.*;
+import org.openapitools.client.*;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.model.Pet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.junit.*;
-
-import static org.junit.Assert.*;
-
-/**
- * API tests for PetApi
- */
+/** API tests for PetApi */
 public class PetApiTest {
 
     private PetApi api = new PetApi();
     private final Logger LOG = LoggerFactory.getLogger(PetApiTest.class);
-    // In the circle.yml file, /etc/host is configured with an entry to resolve petstore.swagger.io to 127.0.0.1
+    // In the circle.yml file, /etc/host is configured with an entry to resolve petstore.swagger.io
+    // to 127.0.0.1
     private static String basePath = "http://petstore.swagger.io:80/v2";
 
     @Before
@@ -118,27 +114,35 @@ public class PetApiTest {
         // to store returned Pet or error message/exception
         final Map<String, Object> result = new HashMap<String, Object>();
 
-        api.getPetByIdAsync(pet.getId(), new ApiCallback<Pet>() {
-            @Override
-            public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
-                result.put("error", e.getMessage());
-            }
+        api.getPetByIdAsync(
+                pet.getId(),
+                new ApiCallback<Pet>() {
+                    @Override
+                    public void onFailure(
+                            ApiException e,
+                            int statusCode,
+                            Map<String, List<String>> responseHeaders) {
+                        result.put("error", e.getMessage());
+                    }
 
-            @Override
-            public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
-                result.put("pet", pet);
-            }
+                    @Override
+                    public void onSuccess(
+                            Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
+                        result.put("pet", pet);
+                    }
 
-            @Override
-            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
-                //empty
-            }
+                    @Override
+                    public void onUploadProgress(
+                            long bytesWritten, long contentLength, boolean done) {
+                        // empty
+                    }
 
-            @Override
-            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
-                //empty
-            }
-        });
+                    @Override
+                    public void onDownloadProgress(
+                            long bytesRead, long contentLength, boolean done) {
+                        // empty
+                    }
+                });
 
         // wait for the asynchronous call to finish (at most 10 seconds)
         final int maxTry = 10;
@@ -167,27 +171,35 @@ public class PetApiTest {
 
         // test getting a nonexistent pet
         result.clear();
-        api.getPetByIdAsync(-10000L, new ApiCallback<Pet>() {
-            @Override
-            public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
-                result.put("exception", e);
-            }
+        api.getPetByIdAsync(
+                -10000L,
+                new ApiCallback<Pet>() {
+                    @Override
+                    public void onFailure(
+                            ApiException e,
+                            int statusCode,
+                            Map<String, List<String>> responseHeaders) {
+                        result.put("exception", e);
+                    }
 
-            @Override
-            public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
-                result.put("pet", pet);
-            }
+                    @Override
+                    public void onSuccess(
+                            Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
+                        result.put("pet", pet);
+                    }
 
-            @Override
-            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
-                //empty
-            }
+                    @Override
+                    public void onUploadProgress(
+                            long bytesWritten, long contentLength, boolean done) {
+                        // empty
+                    }
 
-            @Override
-            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
-                //empty
-            }
-        });
+                    @Override
+                    public void onDownloadProgress(
+                            long bytesRead, long contentLength, boolean done) {
+                        // empty
+                    }
+                });
 
         // wait for the asynchronous call to finish (at most 10 seconds)
         final int maxTry = 10;
@@ -271,7 +283,6 @@ public class PetApiTest {
         api.deletePet(pet1.getId(), null);
         api.deletePet(pet2.getId(), null);
     }
-
 
     @Test
     public void testUpdatePet() throws Exception {
@@ -398,7 +409,8 @@ public class PetApiTest {
         assertTrue(pet1.hashCode() == pet1.hashCode());
 
         pet2.setName("really-happy");
-        pet2.setPhotoUrls(new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
+        pet2.setPhotoUrls(
+                new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
         assertFalse(pet1.equals(pet2));
         assertFalse(pet2.equals(pet1));
         assertFalse(pet1.hashCode() == (pet2.hashCode()));
@@ -406,14 +418,14 @@ public class PetApiTest {
         assertTrue(pet2.hashCode() == pet2.hashCode());
 
         pet1.setName("really-happy");
-        pet1.setPhotoUrls(new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
+        pet1.setPhotoUrls(
+                new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2")));
         assertTrue(pet1.equals(pet2));
         assertTrue(pet2.equals(pet1));
         assertTrue(pet1.hashCode() == pet2.hashCode());
         assertTrue(pet1.equals(pet1));
         assertTrue(pet1.hashCode() == pet1.hashCode());
     }
-
 
     private Pet createPet() {
         Pet pet = new Pet();
@@ -425,7 +437,8 @@ public class PetApiTest {
 
         pet.setCategory(category);
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
-        Set<String> photos = new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
+        Set<String> photos =
+                new HashSet<>(Arrays.asList("http://foo.bar.com/1", "http://foo.bar.com/2"));
         pet.setPhotoUrls(photos);
 
         return pet;
@@ -443,17 +456,14 @@ public class PetApiTest {
         assertNotNull(actual);
         assertEquals(expected.getId(), actual.getId());
         assertNotNull(actual.getCategory());
-        assertEquals(expected.getCategory().getName(),
-                actual.getCategory().getName());
+        assertEquals(expected.getCategory().getName(), actual.getCategory().getName());
     }
 
     /**
-     * Assert that the given upload/download progress list satisfies the
-     * following constraints:
-     * <p>
-     * - List is not empty
-     * - Byte count should be nondecreasing
-     * - The last element, and only the last element, should have done=true
+     * Assert that the given upload/download progress list satisfies the following constraints:
+     *
+     * <p>- List is not empty - Byte count should be nondecreasing - The last element, and only the
+     * last element, should have done=true
      */
     private void assertValidProgress(List<Progress> progressList) {
         assertFalse(progressList.isEmpty());
@@ -463,8 +473,7 @@ public class PetApiTest {
         for (Progress progress : progressList) {
             if (prev != null) {
                 if (prev.done || prev.bytes > progress.bytes) {
-                    fail("Progress list out of order at index " + index
-                            + ": " + progressList);
+                    fail("Progress list out of order at index " + index + ": " + progressList);
                 }
             }
             prev = progress;
@@ -495,7 +504,8 @@ public class PetApiTest {
         }
 
         @Override
-        public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
+        public void onFailure(
+                ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
             exception = e;
             this.done = true;
             this.success = false;

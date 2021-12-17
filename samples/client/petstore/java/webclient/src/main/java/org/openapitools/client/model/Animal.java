@@ -27,6 +27,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.Dog;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Animal
@@ -50,6 +51,8 @@ public class Animal {
   public static final String JSON_PROPERTY_COLOR = "color";
   private String color = "red";
 
+  public Animal() { 
+  }
 
   public Animal className(String className) {
     

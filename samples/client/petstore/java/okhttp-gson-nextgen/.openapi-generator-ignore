@@ -1,0 +1,14 @@
+# OpenAPI Generator Ignore
+# These tests are "live" tests and should not be overwritten
+src/test/java/org/openapitools/client/StringUtilTest.java
+src/test/java/org/openapitools/client/ApiClientTest.java
+src/test/java/org/openapitools/client/ConfigurationTest.java
+src/test/java/org/openapitools/client/auth/ApiKeyAuthTest.java
+src/test/java/org/openapitools/client/auth/HttpBasicAuthTest.java
+src/test/java/org/openapitools/client/auth/RetryingOAuthTest.java
+src/test/java/org/openapitools/client/model/EnumValueTest.java
+src/test/java/org/openapitools/client/model/PetTest.java
+src/test/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnlyTest.java
+src/test/java/org/openapitools/client/JSONTest.java
+src/test/java/org/openapitools/client/api/PetApiTest.java
+

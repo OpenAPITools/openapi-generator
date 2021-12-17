@@ -136,6 +136,11 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isFreeFormObject}}
+    {{/isModel}}
     {{#isUuid}}
     {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isUuid}}
@@ -219,6 +224,14 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
         {{classname}}->{{name}} = NULL;
     }
     {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    if ({{{classname}}}->{{{name}}}) {
+        {{{complexType}}}_free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
+    {{/isFreeFormObject}}
     {{/isModel}}
     {{#isUuid}}
     if ({{{classname}}}->{{{name}}}) {
@@ -398,6 +411,18 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     }
     {{/isEnum}}
     {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    cJSON *{{{name}}}_local_JSON = {{complexType}}_convertToJSON({{{classname}}}->{{{name}}});
+    if({{{name}}}_local_JSON == NULL) {
+        goto fail; // custom
+    }
+    cJSON_AddItemToObject(item, "{{{baseName}}}", {{{name}}}_local_JSON);
+    if(item->child == NULL) {
+        goto fail;
+    }
+    {{/isFreeFormObject}}
+    {{/isModel}}
     {{#isUuid}}
     if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //uuid
@@ -528,6 +553,26 @@ fail:
     {{classname}}_t *{{classname}}_local_var = NULL;
 
     {{#vars}}
+    {{^isContainer}}
+    {{^isPrimitiveType}}
+    {{#isModel}}
+    {{^isEnum}}
+    // define the local variable for {{{classname}}}->{{{name}}}
+    {{^isFreeFormObject}}{{complexType}}{{/isFreeFormObject}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_t *{{name}}_local_nonprim = NULL;
+
+    {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    // define the local variable for {{{classname}}}->{{{name}}}
+    {{complexType}}_t *{{name}}_local_nonprim = NULL;
+
+    {{/isFreeFormObject}}
+    {{/isModel}}
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{/vars}}
+    {{#vars}}
     // {{{classname}}}->{{{name}}}
     cJSON *{{{name}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
     {{#required}}
@@ -614,10 +659,15 @@ fail:
     {{{name}}}_local_nonprim_enum = {{datatypeWithEnum}}_parseFromJSON({{{name}}}); //enum model
     {{/isEnum}}
     {{^isEnum}}
-    {{^isFreeFormObject}}{{complexType}}{{/isFreeFormObject}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_t *{{name}}_local_nonprim = NULL;
     {{^required}}if ({{{name}}}) { {{/required}}
     {{{name}}}_local_nonprim = {{complexType}}{{#isFreeFormObject}}object{{/isFreeFormObject}}_parseFromJSON({{{name}}}); //nonprimitive
     {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    {{^required}}if ({{{name}}}) { {{/required}}
+    {{{name}}}_local_nonprim = {{complexType}}_parseFromJSON({{{name}}}); //custom
+    {{/isFreeFormObject}}
     {{/isModel}}
     {{#isUuid}}
     {{^required}}if ({{{name}}}) { {{/required}}
@@ -769,6 +819,11 @@ fail:
         {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isEnum}}
         {{/isModel}}
+        {{^isModel}}
+        {{^isFreeFormObject}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{/isFreeFormObject}}
+        {{/isModel}}
         {{#isUuid}}
         {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isUuid}}
@@ -838,6 +893,14 @@ end:
         {{{name}}}_local_nonprim = NULL;
     }
     {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    if ({{{name}}}_local_nonprim) {
+        {{complexType}}_free({{{name}}}_local_nonprim);
+        {{{name}}}_local_nonprim = NULL;
+    }
+    {{/isFreeFormObject}}
     {{/isModel}}
     {{/isPrimitiveType}}
     {{/isContainer}}

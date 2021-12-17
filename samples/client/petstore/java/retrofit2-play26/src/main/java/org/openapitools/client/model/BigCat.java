@@ -27,6 +27,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.BigCatAllOf;
 import org.openapitools.client.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -83,6 +84,8 @@ public class BigCat extends Cat {
   public static final String JSON_PROPERTY_KIND = "kind";
   private KindEnum kind;
 
+  public BigCat() { 
+  }
 
   public BigCat kind(KindEnum kind) {
     

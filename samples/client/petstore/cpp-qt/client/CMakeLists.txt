@@ -13,6 +13,7 @@ endif ()
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Network REQUIRED)
+find_package(Qt5Gui REQUIRED)
 
 add_library(${PROJECT_NAME}
     PFXApiResponse.cpp
@@ -27,9 +28,9 @@ add_library(${PROJECT_NAME}
     PFXHelpers.cpp
     PFXHttpRequest.cpp
     PFXHttpFileElement.cpp
+    PFXOauth.cpp
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Network )
-
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Network Qt5::Gui)
 if(NOT APPLE)
   target_link_libraries(${PROJECT_NAME} PRIVATE ssl crypto)
 endif()

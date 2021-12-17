@@ -2,7 +2,7 @@
 
 /**
  * OpenAPI Petstore
- * PHP version 7.2
+ * PHP version 7.4
  *
  * @package OpenAPIServer
  * @author  OpenAPI Generator team
@@ -39,6 +39,9 @@ if (is_array($prodConfig = @include(__DIR__ . '/../config/prod/config.inc.php'))
 
 $router = new SlimRouter($config);
 $app = $router->getSlimApp();
+
+// Parse json, form data and xml
+$app->addBodyParsingMiddleware();
 
 /**
  * The routing middleware should be added before the ErrorMiddleware

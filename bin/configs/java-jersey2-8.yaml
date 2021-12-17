@@ -10,3 +10,4 @@ additionalProperties:
   dateLibrary: java8
   useOneOfDiscriminatorLookup: true
   disallowAdditionalPropertiesIfNotPresent: false
+  gradleProperties: "\n# JVM arguments\norg.gradle.jvmargs=-Xmx2024m -XX:MaxPermSize=512m\n# set timeout\norg.gradle.daemon.idletimeout=3600000\n# show all warnings\norg.gradle.warning.mode=all"

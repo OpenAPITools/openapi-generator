@@ -66,6 +66,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String SWIFT_PACKAGE_PATH = "swiftPackagePath";
     public static final String USE_CLASSES = "useClasses";
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
+    public static final String GENERATE_FROZEN_ENUMS = "generateFrozenEnums";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
@@ -90,6 +91,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean useClasses = false;
     protected boolean useBacktickEscapes = false;
     protected boolean generateModelAdditionalProperties = true;
+    protected boolean generateFrozenEnums = true;
     protected boolean hashableModels = true;
     protected boolean mapFileBinaryToData = false;
     protected String[] responseAs = new String[0];
@@ -281,6 +283,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(USE_BACKTICK_ESCAPES,
                 "Escape reserved words using backticks (default: false)")
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(GENERATE_FROZEN_ENUMS,
+                "Generate frozen enums (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(GENERATE_MODEL_ADDITIONAL_PROPERTIES,
                 "Generate model additional properties (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
@@ -484,6 +489,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties.containsKey(USE_BACKTICK_ESCAPES)) {
             setUseBacktickEscapes(convertPropertyToBooleanAndWriteBack(USE_BACKTICK_ESCAPES));
         }
+
+        // Setup generateFrozenEnums option. If true, enums will strictly include
+        // cases matching the spec. If false, enums will also include an extra catch-all case.
+        if (additionalProperties.containsKey(GENERATE_FROZEN_ENUMS)) {
+            setGenerateFrozenEnums(convertPropertyToBooleanAndWriteBack(GENERATE_FROZEN_ENUMS));
+        }
+        additionalProperties.put(GENERATE_FROZEN_ENUMS, generateFrozenEnums);
 
         if (additionalProperties.containsKey(GENERATE_MODEL_ADDITIONAL_PROPERTIES)) {
             setGenerateModelAdditionalProperties(convertPropertyToBooleanAndWriteBack(GENERATE_MODEL_ADDITIONAL_PROPERTIES));
@@ -735,7 +747,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 // In Java, we need to be creative to get the Timestamp in Microseconds as a long.
                 Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
                 long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + (instant.get(ChronoField.MICRO_OF_SECOND));
-                return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
+                return "Date(timeIntervalSince1970: " + epochMicro + ".0 / 1_000_000)";
             } else if (ModelUtils.isStringSchema(p)) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
             }
@@ -943,6 +955,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.useBacktickEscapes = useBacktickEscapes;
     }
 
+    public void setGenerateFrozenEnums(boolean generateFrozenEnums) {
+        this.generateFrozenEnums = generateFrozenEnums;
+    }
+
     public void setGenerateModelAdditionalProperties(boolean generateModelAdditionalProperties) {
         this.generateModelAdditionalProperties = generateModelAdditionalProperties;
     }
@@ -955,7 +971,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toEnumValue(String value, String datatype) {
         // for string, array of string
         if ("String".equals(datatype) || "[String]".equals(datatype) || "[String: String]".equals(datatype)) {
-            return "\"" + String.valueOf(value) + "\"";
+            return "\"" + value + "\"";
         } else {
             return String.valueOf(value);
         }
@@ -972,20 +988,22 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             return "empty";
         }
 
-        Pattern startWithNumberPattern = Pattern.compile("^\\d+");
-        Matcher startWithNumberMatcher = startWithNumberPattern.matcher(name);
-        if (startWithNumberMatcher.find()) {
-            String startingNumbers = startWithNumberMatcher.group(0);
-            String nameWithoutStartingNumbers = name.substring(startingNumbers.length());
+        // Reserved Name
+        String nameLowercase = StringUtils.lowerCase(name);
+        if (isReservedWord(nameLowercase)) {
+            return escapeReservedWord(nameLowercase);
+        }
 
-            return "_" + startingNumbers + camelize(nameWithoutStartingNumbers, true);
+        // Prefix with underscore if name starts with number
+        if (name.matches("\\d.*")) {
+            return "_" + replaceSpecialCharacters(camelize(name, true));
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
             return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
         }
-
+        
         // Camelize only when we have a structure defined below
         Boolean camelized = false;
         if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
@@ -993,32 +1011,65 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             camelized = true;
         }
 
-        // Reserved Name
-        String nameLowercase = StringUtils.lowerCase(name);
-        if (isReservedWord(nameLowercase)) {
-            return escapeReservedWord(nameLowercase);
-        }
-
         // Check for numerical conversions
         if ("Int".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype)
                 || "Float".equals(datatype) || "Double".equals(datatype)) {
             String varName = "number" + camelize(name);
-            varName = varName.replaceAll("-", "minus");
-            varName = varName.replaceAll("\\+", "plus");
-            varName = varName.replaceAll("\\.", "dot");
-            return varName;
+            return replaceSpecialCharacters(varName);
         }
 
         // If we have already camelized the word, don't progress
         // any further
         if (camelized) {
-            return name;
+            return replaceSpecialCharacters(name);
         }
 
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
-        return camelize(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
-                        .replaceAll("[-_ :\\(\\)]", ""),
+        return camelize(replaceSpecialCharacters(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
+                        .replaceAll("[-_ :\\(\\)]", "")),
                 true);
+    }
+
+    private String replaceSpecialCharacters(String name) {
+        for (Map.Entry<String, String> specialCharacters : specialCharReplacements.entrySet()) {
+            String specialChar = specialCharacters.getKey();
+            String replacement = specialCharacters.getValue();
+            // Underscore is the only special character we'll allow
+            if (!specialChar.equals("_") && name.contains(specialChar)) {
+                name = replaceCharacters(name, specialChar, replacement);
+            }
+        }
+
+        // Fallback, replace unknowns with underscore.
+        name = name.replaceAll("\\W+", "_");
+
+        return name;
+    }
+
+    private String replaceCharacters(String word, String oldValue, String newValue) {
+        if (!word.contains(oldValue)) {
+            return word;
+        }
+        if (word.equals(oldValue)) {
+            return newValue;
+        }
+        int i = word.indexOf(oldValue);
+        String start = word.substring(0, i);
+        String end = recurseOnEndOfWord(word, oldValue, newValue, i);
+        return start + newValue + end;
+    }
+
+    private String recurseOnEndOfWord(String word, String oldValue, String newValue, int lastReplacedValue) {
+        String end = word.substring(lastReplacedValue + 1);
+        if (!end.isEmpty()) {
+            end = titleCase(end);
+            end = replaceCharacters(end, oldValue, newValue);
+        }
+        return end;
+    }
+
+    private String titleCase(final String input) {
+        return input.substring(0, 1).toUpperCase(Locale.ROOT) + input.substring(1);
     }
 
     @Override
@@ -1115,7 +1166,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = swiftPostProcessFile + " " + file.toString();
+            String command = swiftPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
@@ -1146,7 +1197,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             for (CodegenParameter cp : operation.allParams) {
-                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<String>()));
+                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<>()));
             }
         }
         return objs;

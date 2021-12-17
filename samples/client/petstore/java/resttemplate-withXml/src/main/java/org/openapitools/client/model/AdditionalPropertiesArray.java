@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -45,6 +46,8 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
   @XmlElement(name = "name")
   private String name;
 
+  public AdditionalPropertiesArray() { 
+  }
 
   public AdditionalPropertiesArray name(String name) {
     

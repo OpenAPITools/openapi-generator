@@ -47,7 +47,6 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
 {{/threetenbp}}
-import java.util.Date
 import java.util.Locale
 {{#useCoroutines}}
 import kotlin.coroutines.resume
@@ -90,6 +89,7 @@ import com.squareup.moshi.adapter
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
+        const val baseUrlKey = "{{packageName}}.baseUrl"
 
         @JvmStatic
         val client: OkHttpClient by lazy {
@@ -166,8 +166,8 @@ import com.squareup.moshi.adapter
                     }
                 }.build()
             }
+            mediaType.startsWith("application/") && mediaType.endsWith("json") ->
             {{#jvm-okhttp3}}
-            mediaType == JsonMediaType -> {
                 if (content == null) {
                     EMPTY_REQUEST
                 } else {
@@ -186,10 +186,8 @@ import com.squareup.moshi.adapter
                         {{/kotlinx_serialization}}
                     )
                 }
-            }
             {{/jvm-okhttp3}}
             {{#jvm-okhttp4}}
-            mediaType == JsonMediaType -> {
                 if (content == null) {
                     EMPTY_REQUEST
                 } else {
@@ -209,7 +207,6 @@ import com.squareup.moshi.adapter
                             mediaType.toMediaTypeOrNull()
                         )
                 }
-            }
             {{/jvm-okhttp4}}
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
             // TODO: this should be extended with other serializers
@@ -246,8 +243,9 @@ import com.squareup.moshi.adapter
             out.close()
             return f as T
         }
-        return when(mediaType) {
-            JsonMediaType -> {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
+        return when {
+        mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+                {{#moshi}}Serializer.moshi.adapter<T>().fromJson(bodyContent){{/moshi}}{{#gson}}Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType()){{/gson}}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{#kotlinx_serialization}}Serializer.jvmJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -310,7 +308,7 @@ import com.squareup.moshi.adapter
     }
     {{/hasAuthMethods}}
 
-    protected {{#useCoroutines}}suspend {{/useCoroutines}}inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiInfrastructureResponse<T?> {
+    protected {{#useCoroutines}}suspend {{/useCoroutines}}inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiResponse<T?> {
         {{#jvm-okhttp3}}
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
         {{/jvm-okhttp3}}
@@ -342,11 +340,11 @@ import com.squareup.moshi.adapter
         }
         val headers = requestConfig.headers
 
-        if(headers[ContentType] ?: "" == "") {
+        if(headers[ContentType].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Content-Type header. This is required.")
         }
 
-        if(headers[Accept] ?: "" == "") {
+        if(headers[Accept].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Accept header. This is required.")
         }
 
@@ -420,7 +418,7 @@ import com.squareup.moshi.adapter
         null -> ""
         is Array<*> -> toMultiValue(value, "csv").toString()
         is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime, is Date ->
+        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime ->
             parseDateToQueryString(value)
         else -> value.toString()
     }

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * ObjectWithDeprecatedFields
@@ -52,6 +53,8 @@ public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_BARS = "bars";
   private List<String> bars = null;
 
+  public ObjectWithDeprecatedFields() { 
+  }
 
   public ObjectWithDeprecatedFields uuid(String uuid) {
     

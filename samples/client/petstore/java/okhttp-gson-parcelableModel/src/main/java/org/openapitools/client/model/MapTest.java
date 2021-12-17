@@ -97,7 +97,7 @@ public class MapTest implements Parcelable {
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
   private Map<String, Boolean> indirectMap = null;
 
-  public MapTest() {
+  public MapTest() { 
   }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {

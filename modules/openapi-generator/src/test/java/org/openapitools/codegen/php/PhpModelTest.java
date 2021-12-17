@@ -76,7 +76,7 @@ public class PhpModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.complexType, "\\DateTime");
+        Assert.assertEquals(property3.complexType, null);
         Assert.assertEquals(property3.dataType, "\\DateTime");
         Assert.assertEquals(property3.name, "created_at");
         Assert.assertEquals(property3.defaultValue, null);
@@ -314,11 +314,11 @@ public class PhpModelTest {
         HashMap<String, Object> fish= new HashMap<String, Object>();
         fish.put("name", "FISH");
         fish.put("value", "\'fish\'");
-        fish.put("isString", false);
+        fish.put("isString", true);
         HashMap<String, Object> crab= new HashMap<String, Object>();
         crab.put("name", "CRAB");
         crab.put("value", "\'crab\'");
-        crab.put("isString", false);
+        crab.put("isString", true);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
         // assert inner items

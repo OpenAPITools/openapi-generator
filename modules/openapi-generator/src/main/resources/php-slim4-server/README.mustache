@@ -19,7 +19,7 @@ This server has been generated with [Laminas (Zend) PSR-7 implementation](https:
 ## Requirements
 
 * Web server with URL rewriting
-* PHP 7.2 or newer
+* PHP 7.4 or newer
 
 This package contains `.htaccess` for Apache configuration.
 If you use another server(Nginx, HHVM, IIS, lighttpd) check out [Web Servers](https://www.slimframework.com/docs/v3/start/web-servers.html) doc.
@@ -46,6 +46,7 @@ $ php -S localhost:8888 -t php-slim-server/public
 > It may also be useful for testing purposes or for application demonstrations that are run in controlled environments.
 > It is not intended to be a full-featured web server. It should not be used on a public network.
 
+{{#generateTests}}
 ## Tests
 
 ### PHPUnit
@@ -59,9 +60,14 @@ How to write tests read at [2. Writing Tests for PHPUnit - PHPUnit 8.5 Manual](h
 Command | Target
 ---- | ----
 `$ composer test` | All tests
+{{#generateApiTests}}
 `$ composer test-apis` | Apis tests
+{{/generateApiTests}}
+{{#generateModelTests}}
 `$ composer test-models` | Models tests
+{{/generateModelTests}}
 
+{{/generateTests}}
 #### Config
 
 Package contains fully functional config `./phpunit.xml.dist` file. Create `./phpunit.xml` in root folder to override it.
