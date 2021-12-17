@@ -1,7 +1,6 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -54,53 +53,61 @@ class User {
   @override
   int get hashCode =>
   // ignore: unnecessary_parenthesis
-    (id == null ? 0 : id.hashCode) +
-    (username == null ? 0 : username.hashCode) +
-    (firstName == null ? 0 : firstName.hashCode) +
-    (lastName == null ? 0 : lastName.hashCode) +
-    (email == null ? 0 : email.hashCode) +
-    (password == null ? 0 : password.hashCode) +
-    (phone == null ? 0 : phone.hashCode) +
-    (userStatus == null ? 0 : userStatus.hashCode);
+    (id.hashCode) +
+    (username.hashCode) +
+    (firstName.hashCode) +
+    (lastName.hashCode) +
+    (email.hashCode) +
+    (password.hashCode) +
+    (phone.hashCode) +
+    (userStatus.hashCode);
 
   @override
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (id != null) {
       json[r'id'] = id;
-    }
-    if (username != null) {
       json[r'username'] = username;
-    }
-    if (firstName != null) {
       json[r'firstName'] = firstName;
-    }
-    if (lastName != null) {
       json[r'lastName'] = lastName;
-    }
-    if (email != null) {
       json[r'email'] = email;
-    }
-    if (password != null) {
       json[r'password'] = password;
-    }
-    if (phone != null) {
       json[r'phone'] = phone;
-    }
-    if (userStatus != null) {
       json[r'userStatus'] = userStatus;
-    }
     return json;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 
   /// Returns a new [User] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static User fromJson(dynamic value) {
+  static User? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
+
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(
+        false,
+        () {
+          for (final key in requiredKeys) {
+            if (!json.containsKey(key)) {
+              throw FormatException('Required key "User.$key" is missing from JSON.', json);
+            }
+            final value = json[key];
+            if (null == value) {
+              throw FormatException('Required key "User.$key" cannot be null.', json);
+            }
+          }
+        },
+      );
+
       return User(
         id: mapValueOfType<int>(json, r'id'),
         username: mapValueOfType<String>(json, r'username'),
@@ -115,34 +122,44 @@ class User {
     return null;
   }
 
-  static List<User> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(User.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <User>[];
+  static List<User>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+    final result = <User>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = User.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return emptyIsNull ? null : result.toList(growable: growable);
+  }
 
   static Map<String, User> mapFromJson(dynamic json) {
     final map = <String, User>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) => map[key] = User.fromJson(value));
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = User.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of User-objects as value to a dart map
-  static Map<String, List<User>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<User>> mapListFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
     final map = <String, List<User>>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) {
-          map[key] = User.listFromJson(
-            value,
-            emptyIsNull: emptyIsNull,
-            growable: growable,
-          );
-        });
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = User.listFromJson(entry.value, emptyIsNull: emptyIsNull, growable: growable,);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }

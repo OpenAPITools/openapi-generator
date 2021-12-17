@@ -1,7 +1,6 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -25,25 +24,47 @@ class DogAllOf {
   @override
   int get hashCode =>
   // ignore: unnecessary_parenthesis
-    (breed == null ? 0 : breed.hashCode);
+    (breed.hashCode);
 
   @override
   String toString() => 'DogAllOf[breed=$breed]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (breed != null) {
       json[r'breed'] = breed;
-    }
     return json;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 
   /// Returns a new [DogAllOf] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static DogAllOf fromJson(dynamic value) {
+  static DogAllOf? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
+
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(
+        false,
+        () {
+          for (final key in requiredKeys) {
+            if (!json.containsKey(key)) {
+              throw FormatException('Required key "DogAllOf.$key" is missing from JSON.', json);
+            }
+            final value = json[key];
+            if (null == value) {
+              throw FormatException('Required key "DogAllOf.$key" cannot be null.', json);
+            }
+          }
+        },
+      );
+
       return DogAllOf(
         breed: mapValueOfType<String>(json, r'breed'),
       );
@@ -51,34 +72,44 @@ class DogAllOf {
     return null;
   }
 
-  static List<DogAllOf> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(DogAllOf.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <DogAllOf>[];
+  static List<DogAllOf>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+    final result = <DogAllOf>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = DogAllOf.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return emptyIsNull ? null : result.toList(growable: growable);
+  }
 
   static Map<String, DogAllOf> mapFromJson(dynamic json) {
     final map = <String, DogAllOf>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) => map[key] = DogAllOf.fromJson(value));
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = DogAllOf.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of DogAllOf-objects as value to a dart map
-  static Map<String, List<DogAllOf>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<DogAllOf>> mapListFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
     final map = <String, List<DogAllOf>>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) {
-          map[key] = DogAllOf.listFromJson(
-            value,
-            emptyIsNull: emptyIsNull,
-            growable: growable,
-          );
-        });
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = DogAllOf.listFromJson(entry.value, emptyIsNull: emptyIsNull, growable: growable,);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }

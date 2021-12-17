@@ -1,7 +1,6 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -26,25 +25,47 @@ class ModelFile {
   @override
   int get hashCode =>
   // ignore: unnecessary_parenthesis
-    (sourceURI == null ? 0 : sourceURI.hashCode);
+    (sourceURI.hashCode);
 
   @override
   String toString() => 'ModelFile[sourceURI=$sourceURI]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (sourceURI != null) {
       json[r'sourceURI'] = sourceURI;
-    }
     return json;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 
   /// Returns a new [ModelFile] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ModelFile fromJson(dynamic value) {
+  static ModelFile? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
+
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(
+        false,
+        () {
+          for (final key in requiredKeys) {
+            if (!json.containsKey(key)) {
+              throw FormatException('Required key "ModelFile.$key" is missing from JSON.', json);
+            }
+            final value = json[key];
+            if (null == value) {
+              throw FormatException('Required key "ModelFile.$key" cannot be null.', json);
+            }
+          }
+        },
+      );
+
       return ModelFile(
         sourceURI: mapValueOfType<String>(json, r'sourceURI'),
       );
@@ -52,34 +73,44 @@ class ModelFile {
     return null;
   }
 
-  static List<ModelFile> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(ModelFile.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <ModelFile>[];
+  static List<ModelFile>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+    final result = <ModelFile>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ModelFile.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return emptyIsNull ? null : result.toList(growable: growable);
+  }
 
   static Map<String, ModelFile> mapFromJson(dynamic json) {
     final map = <String, ModelFile>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) => map[key] = ModelFile.fromJson(value));
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = ModelFile.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of ModelFile-objects as value to a dart map
-  static Map<String, List<ModelFile>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<ModelFile>> mapListFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
     final map = <String, List<ModelFile>>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) {
-          map[key] = ModelFile.listFromJson(
-            value,
-            emptyIsNull: emptyIsNull,
-            growable: growable,
-          );
-        });
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = ModelFile.listFromJson(entry.value, emptyIsNull: emptyIsNull, growable: growable,);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }

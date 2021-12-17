@@ -1,7 +1,6 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -29,65 +28,95 @@ class FileSchemaTestClass {
   @override
   int get hashCode =>
   // ignore: unnecessary_parenthesis
-    (file == null ? 0 : file.hashCode) +
-    (files == null ? 0 : files.hashCode);
+    (file.hashCode) +
+    (files.hashCode);
 
   @override
   String toString() => 'FileSchemaTestClass[file=$file, files=$files]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (file != null) {
       json[r'file'] = file;
-    }
-    if (files != null) {
       json[r'files'] = files;
-    }
     return json;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 
   /// Returns a new [FileSchemaTestClass] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static FileSchemaTestClass fromJson(dynamic value) {
+  static FileSchemaTestClass? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
+
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(
+        false,
+        () {
+          for (final key in requiredKeys) {
+            if (!json.containsKey(key)) {
+              throw FormatException('Required key "FileSchemaTestClass.$key" is missing from JSON.', json);
+            }
+            final value = json[key];
+            if (null == value) {
+              throw FormatException('Required key "FileSchemaTestClass.$key" cannot be null.', json);
+            }
+          }
+        },
+      );
+
       return FileSchemaTestClass(
         file: ModelFile.fromJson(json[r'file']),
-        files: ModelFile.listFromJson(json[r'files']),
+        files: ModelFile.listFromJson(json[r'files']) ?? const [],
       );
     }
     return null;
   }
 
-  static List<FileSchemaTestClass> listFromJson(dynamic json, {bool emptyIsNull, bool growable,}) =>
-    json is List && json.isNotEmpty
-      ? json.map(FileSchemaTestClass.fromJson).toList(growable: true == growable)
-      : true == emptyIsNull ? null : <FileSchemaTestClass>[];
+  static List<FileSchemaTestClass>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+    final result = <FileSchemaTestClass>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = FileSchemaTestClass.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return emptyIsNull ? null : result.toList(growable: growable);
+  }
 
   static Map<String, FileSchemaTestClass> mapFromJson(dynamic json) {
     final map = <String, FileSchemaTestClass>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) => map[key] = FileSchemaTestClass.fromJson(value));
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = FileSchemaTestClass.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of FileSchemaTestClass-objects as value to a dart map
-  static Map<String, List<FileSchemaTestClass>> mapListFromJson(dynamic json, {bool emptyIsNull, bool growable,}) {
+  static Map<String, List<FileSchemaTestClass>> mapListFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
     final map = <String, List<FileSchemaTestClass>>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) {
-          map[key] = FileSchemaTestClass.listFromJson(
-            value,
-            emptyIsNull: emptyIsNull,
-            growable: growable,
-          );
-        });
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = FileSchemaTestClass.listFromJson(entry.value, emptyIsNull: emptyIsNull, growable: growable,);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
