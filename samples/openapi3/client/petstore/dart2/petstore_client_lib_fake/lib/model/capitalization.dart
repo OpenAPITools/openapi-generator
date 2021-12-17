@@ -20,18 +20,54 @@ class Capitalization {
     this.ATT_NAME,
   });
 
-  String smallCamel;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? smallCamel;
 
-  String capitalCamel;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? capitalCamel;
 
-  String smallSnake;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? smallSnake;
 
-  String capitalSnake;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? capitalSnake;
 
-  String sCAETHFlowPoints;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? sCAETHFlowPoints;
 
   /// Name of the pet 
-  String ATT_NAME;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? ATT_NAME;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
@@ -44,32 +80,39 @@ class Capitalization {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (smallCamel.hashCode) +
-    (capitalCamel.hashCode) +
-    (smallSnake.hashCode) +
-    (capitalSnake.hashCode) +
-    (sCAETHFlowPoints.hashCode) +
-    (ATT_NAME.hashCode);
+    // ignore: unnecessary_parenthesis
+    (smallCamel == null ? 0 : smallCamel!.hashCode) +
+    (capitalCamel == null ? 0 : capitalCamel!.hashCode) +
+    (smallSnake == null ? 0 : smallSnake!.hashCode) +
+    (capitalSnake == null ? 0 : capitalSnake!.hashCode) +
+    (sCAETHFlowPoints == null ? 0 : sCAETHFlowPoints!.hashCode) +
+    (ATT_NAME == null ? 0 : ATT_NAME!.hashCode);
 
   @override
   String toString() => 'Capitalization[smallCamel=$smallCamel, capitalCamel=$capitalCamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, sCAETHFlowPoints=$sCAETHFlowPoints, ATT_NAME=$ATT_NAME]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (smallCamel != null) {
       json[r'smallCamel'] = smallCamel;
+    }
+    if (capitalCamel != null) {
       json[r'CapitalCamel'] = capitalCamel;
+    }
+    if (smallSnake != null) {
       json[r'small_Snake'] = smallSnake;
+    }
+    if (capitalSnake != null) {
       json[r'Capital_Snake'] = capitalSnake;
+    }
+    if (sCAETHFlowPoints != null) {
       json[r'SCA_ETH_Flow_Points'] = sCAETHFlowPoints;
+    }
+    if (ATT_NAME != null) {
       json[r'ATT_NAME'] = ATT_NAME;
+    }
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
 
   /// Returns a new [Capitalization] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -81,20 +124,13 @@ class Capitalization {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "Capitalization.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "Capitalization.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "Capitalization[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "Capitalization[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return Capitalization(
         smallCamel: mapValueOfType<String>(json, r'smallCamel'),
@@ -149,5 +185,10 @@ class Capitalization {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 

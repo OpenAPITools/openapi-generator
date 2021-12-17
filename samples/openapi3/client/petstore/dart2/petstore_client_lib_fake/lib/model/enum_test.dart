@@ -22,21 +22,39 @@ class EnumTest {
     this.outerEnumIntegerDefaultValue,
   });
 
-  EnumTestEnumStringEnum enumString;
+  EnumTestEnumStringEnum? enumString;
 
   EnumTestEnumStringRequiredEnum enumStringRequired;
 
-  EnumTestEnumIntegerEnum enumInteger;
+  EnumTestEnumIntegerEnum? enumInteger;
 
-  EnumTestEnumNumberEnum enumNumber;
+  EnumTestEnumNumberEnum? enumNumber;
 
   OuterEnum? outerEnum;
 
-  OuterEnumInteger outerEnumInteger;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  OuterEnumInteger? outerEnumInteger;
 
-  OuterEnumDefaultValue outerEnumDefaultValue;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  OuterEnumDefaultValue? outerEnumDefaultValue;
 
-  OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
@@ -51,39 +69,45 @@ class EnumTest {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (enumString.hashCode) +
+    // ignore: unnecessary_parenthesis
+    (enumString == null ? 0 : enumString!.hashCode) +
     (enumStringRequired.hashCode) +
-    (enumInteger.hashCode) +
-    (enumNumber.hashCode) +
-    (outerEnum == null ? 0 : outerEnum.hashCode) +
-    (outerEnumInteger.hashCode) +
-    (outerEnumDefaultValue.hashCode) +
-    (outerEnumIntegerDefaultValue.hashCode);
+    (enumInteger == null ? 0 : enumInteger!.hashCode) +
+    (enumNumber == null ? 0 : enumNumber!.hashCode) +
+    (outerEnum == null ? 0 : outerEnum!.hashCode) +
+    (outerEnumInteger == null ? 0 : outerEnumInteger!.hashCode) +
+    (outerEnumDefaultValue == null ? 0 : outerEnumDefaultValue!.hashCode) +
+    (outerEnumIntegerDefaultValue == null ? 0 : outerEnumIntegerDefaultValue!.hashCode);
 
   @override
   String toString() => 'EnumTest[enumString=$enumString, enumStringRequired=$enumStringRequired, enumInteger=$enumInteger, enumNumber=$enumNumber, outerEnum=$outerEnum, outerEnumInteger=$outerEnumInteger, outerEnumDefaultValue=$outerEnumDefaultValue, outerEnumIntegerDefaultValue=$outerEnumIntegerDefaultValue]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (enumString != null) {
       json[r'enum_string'] = enumString;
+    }
       json[r'enum_string_required'] = enumStringRequired;
+    if (enumInteger != null) {
       json[r'enum_integer'] = enumInteger;
+    }
+    if (enumNumber != null) {
       json[r'enum_number'] = enumNumber;
+    }
     if (outerEnum != null) {
       json[r'outerEnum'] = outerEnum;
     }
+    if (outerEnumInteger != null) {
       json[r'outerEnumInteger'] = outerEnumInteger;
+    }
+    if (outerEnumDefaultValue != null) {
       json[r'outerEnumDefaultValue'] = outerEnumDefaultValue;
+    }
+    if (outerEnumIntegerDefaultValue != null) {
       json[r'outerEnumIntegerDefaultValue'] = outerEnumIntegerDefaultValue;
+    }
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    'enum_string_required',
-
-  };
 
   /// Returns a new [EnumTest] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -95,20 +119,13 @@ class EnumTest {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "EnumTest.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "EnumTest.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "EnumTest[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "EnumTest[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return EnumTest(
         enumString: EnumTestEnumStringEnum.fromJson(json[r'enum_string']),
@@ -165,6 +182,12 @@ class EnumTest {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    'enum_string_required',
+
+  };
 }
 
 

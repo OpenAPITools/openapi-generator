@@ -21,7 +21,13 @@ class Dog {
 
   String color;
 
-  String breed;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? breed;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Dog &&
@@ -31,10 +37,10 @@ class Dog {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
+    // ignore: unnecessary_parenthesis
     (className.hashCode) +
     (color.hashCode) +
-    (breed.hashCode);
+    (breed == null ? 0 : breed!.hashCode);
 
   @override
   String toString() => 'Dog[className=$className, color=$color, breed=$breed]';
@@ -43,15 +49,11 @@ class Dog {
     final json = <String, dynamic>{};
       json[r'className'] = className;
       json[r'color'] = color;
+    if (breed != null) {
       json[r'breed'] = breed;
+    }
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    'className',
-
-  };
 
   /// Returns a new [Dog] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -63,20 +65,13 @@ class Dog {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "Dog.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "Dog.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "Dog[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "Dog[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return Dog(
         className: mapValueOfType<String>(json, r'className')!,
@@ -128,5 +123,11 @@ class Dog {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    'className',
+
+  };
 }
 

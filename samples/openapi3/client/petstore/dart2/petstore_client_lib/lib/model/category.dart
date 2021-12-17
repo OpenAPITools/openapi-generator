@@ -16,9 +16,21 @@ class Category {
     this.name,
   });
 
-  int id;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? id;
 
-  String name;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? name;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Category &&
@@ -27,24 +39,23 @@ class Category {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (id.hashCode) +
-    (name.hashCode);
+    // ignore: unnecessary_parenthesis
+    (id == null ? 0 : id!.hashCode) +
+    (name == null ? 0 : name!.hashCode);
 
   @override
   String toString() => 'Category[id=$id, name=$name]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (id != null) {
       json[r'id'] = id;
+    }
+    if (name != null) {
       json[r'name'] = name;
+    }
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
 
   /// Returns a new [Category] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -56,20 +67,13 @@ class Category {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "Category.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "Category.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "Category[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "Category[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return Category(
         id: mapValueOfType<int>(json, r'id'),
@@ -120,5 +124,10 @@ class Category {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 

@@ -31,7 +31,7 @@ class ArrayTest {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
+    // ignore: unnecessary_parenthesis
     (arrayOfString.hashCode) +
     (arrayArrayOfInteger.hashCode) +
     (arrayArrayOfModel.hashCode);
@@ -47,11 +47,6 @@ class ArrayTest {
     return json;
   }
 
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
-
   /// Returns a new [ArrayTest] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
@@ -62,20 +57,13 @@ class ArrayTest {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "ArrayTest.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "ArrayTest.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "ArrayTest[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ArrayTest[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return ArrayTest(
         arrayOfString: json[r'array_of_string'] is List
@@ -137,5 +125,10 @@ class ArrayTest {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 

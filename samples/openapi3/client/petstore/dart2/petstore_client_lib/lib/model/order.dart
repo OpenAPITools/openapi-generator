@@ -20,16 +20,40 @@ class Order {
     this.complete = false,
   });
 
-  int id;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? id;
 
-  int petId;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? petId;
 
-  int quantity;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? quantity;
 
-  DateTime shipDate;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? shipDate;
 
   /// Order Status
-  OrderStatusEnum status;
+  OrderStatusEnum? status;
 
   bool complete;
 
@@ -44,12 +68,12 @@ class Order {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (id.hashCode) +
-    (petId.hashCode) +
-    (quantity.hashCode) +
-    (shipDate.hashCode) +
-    (status.hashCode) +
+    // ignore: unnecessary_parenthesis
+    (id == null ? 0 : id!.hashCode) +
+    (petId == null ? 0 : petId!.hashCode) +
+    (quantity == null ? 0 : quantity!.hashCode) +
+    (shipDate == null ? 0 : shipDate!.hashCode) +
+    (status == null ? 0 : status!.hashCode) +
     (complete.hashCode);
 
   @override
@@ -57,19 +81,24 @@ class Order {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (id != null) {
       json[r'id'] = id;
+    }
+    if (petId != null) {
       json[r'petId'] = petId;
+    }
+    if (quantity != null) {
       json[r'quantity'] = quantity;
-      json[r'shipDate'] = shipDate.toUtc().toIso8601String();
+    }
+    if (shipDate != null) {
+      json[r'shipDate'] = shipDate!.toUtc().toIso8601String();
+    }
+    if (status != null) {
       json[r'status'] = status;
+    }
       json[r'complete'] = complete;
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
 
   /// Returns a new [Order] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -81,20 +110,13 @@ class Order {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "Order.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "Order.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "Order[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "Order[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return Order(
         id: mapValueOfType<int>(json, r'id'),
@@ -149,6 +171,11 @@ class Order {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 
 /// Order Status

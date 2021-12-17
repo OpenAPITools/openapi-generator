@@ -3,8 +3,8 @@
   {{#vars}}
     {{!
         A field is required in Dart when it is
-        required && !nullable in OAS
+        required && !defaultValue in OAS
     }}
-    {{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}this.{{{name}}}{{^required}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{.}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/required}},
+    {{#required}}{{^defaultValue}}required {{/defaultValue}}{{/required}}this.{{{name}}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{.}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}},
   {{/vars}}
   });

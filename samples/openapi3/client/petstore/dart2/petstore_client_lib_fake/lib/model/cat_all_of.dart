@@ -15,7 +15,13 @@ class CatAllOf {
     this.declawed,
   });
 
-  bool declawed;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? declawed;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is CatAllOf &&
@@ -23,22 +29,19 @@ class CatAllOf {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (declawed.hashCode);
+    // ignore: unnecessary_parenthesis
+    (declawed == null ? 0 : declawed!.hashCode);
 
   @override
   String toString() => 'CatAllOf[declawed=$declawed]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (declawed != null) {
       json[r'declawed'] = declawed;
+    }
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
 
   /// Returns a new [CatAllOf] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -50,20 +53,13 @@ class CatAllOf {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "CatAllOf.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "CatAllOf.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "CatAllOf[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "CatAllOf[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return CatAllOf(
         declawed: mapValueOfType<bool>(json, r'declawed'),
@@ -113,5 +109,10 @@ class CatAllOf {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 

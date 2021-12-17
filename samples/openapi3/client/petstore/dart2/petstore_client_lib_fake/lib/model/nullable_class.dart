@@ -67,18 +67,18 @@ class NullableClass {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (integerProp == null ? 0 : integerProp.hashCode) +
-    (numberProp == null ? 0 : numberProp.hashCode) +
-    (booleanProp == null ? 0 : booleanProp.hashCode) +
-    (stringProp == null ? 0 : stringProp.hashCode) +
-    (dateProp == null ? 0 : dateProp.hashCode) +
-    (datetimeProp == null ? 0 : datetimeProp.hashCode) +
-    (arrayNullableProp == null ? 0 : arrayNullableProp.hashCode) +
-    (arrayAndItemsNullableProp == null ? 0 : arrayAndItemsNullableProp.hashCode) +
+    // ignore: unnecessary_parenthesis
+    (integerProp == null ? 0 : integerProp!.hashCode) +
+    (numberProp == null ? 0 : numberProp!.hashCode) +
+    (booleanProp == null ? 0 : booleanProp!.hashCode) +
+    (stringProp == null ? 0 : stringProp!.hashCode) +
+    (dateProp == null ? 0 : dateProp!.hashCode) +
+    (datetimeProp == null ? 0 : datetimeProp!.hashCode) +
+    (arrayNullableProp == null ? 0 : arrayNullableProp!.hashCode) +
+    (arrayAndItemsNullableProp == null ? 0 : arrayAndItemsNullableProp!.hashCode) +
     (arrayItemsNullable.hashCode) +
-    (objectNullableProp == null ? 0 : objectNullableProp.hashCode) +
-    (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp.hashCode) +
+    (objectNullableProp == null ? 0 : objectNullableProp!.hashCode) +
+    (objectAndItemsNullableProp == null ? 0 : objectAndItemsNullableProp!.hashCode) +
     (objectItemsNullable.hashCode);
 
   @override
@@ -99,10 +99,10 @@ class NullableClass {
       json[r'string_prop'] = stringProp;
     }
     if (dateProp != null) {
-      json[r'date_prop'] = _dateFormatter.format(dateProp.toUtc());
+      json[r'date_prop'] = _dateFormatter.format(dateProp!.toUtc());
     }
     if (datetimeProp != null) {
-      json[r'datetime_prop'] = datetimeProp.toUtc().toIso8601String();
+      json[r'datetime_prop'] = datetimeProp!.toUtc().toIso8601String();
     }
     if (arrayNullableProp != null) {
       json[r'array_nullable_prop'] = arrayNullableProp;
@@ -121,11 +121,6 @@ class NullableClass {
     return json;
   }
 
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
-
   /// Returns a new [NullableClass] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
@@ -136,20 +131,13 @@ class NullableClass {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "NullableClass.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "NullableClass.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "NullableClass[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "NullableClass[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return NullableClass(
         integerProp: mapValueOfType<int>(json, r'integer_prop'),
@@ -212,5 +200,10 @@ class NullableClass {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 

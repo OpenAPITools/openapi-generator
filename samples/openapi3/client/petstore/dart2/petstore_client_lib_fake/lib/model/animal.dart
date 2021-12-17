@@ -27,7 +27,7 @@ class Animal {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
+    // ignore: unnecessary_parenthesis
     (className.hashCode) +
     (color.hashCode);
 
@@ -41,12 +41,6 @@ class Animal {
     return json;
   }
 
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    'className',
-
-  };
-
   /// Returns a new [Animal] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
@@ -57,20 +51,13 @@ class Animal {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "Animal.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "Animal.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "Animal[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "Animal[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return Animal(
         className: mapValueOfType<String>(json, r'className')!,
@@ -121,5 +108,11 @@ class Animal {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    'className',
+
+  };
 }
 

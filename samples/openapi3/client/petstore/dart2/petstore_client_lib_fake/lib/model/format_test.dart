@@ -30,54 +30,121 @@ class FormatTest {
     this.patternWithDigitsAndDelimiter,
   });
 
-  ///
   /// Minimum value: 10
   /// Maximum value: 100
-  int integer;
-
   ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? integer;
+
   /// Minimum value: 20
   /// Maximum value: 200
-  int int32;
-
-  int int64;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? int32;
 
   ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? int64;
+
   /// Minimum value: 32.1
   /// Maximum value: 543.2
   num number;
 
-  ///
   /// Minimum value: 54.3
   /// Maximum value: 987.6
-  double float;
-
   ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  double? float;
+
   /// Minimum value: 67.8
   /// Maximum value: 123.4
-  double double_;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  double? double_;
 
-  double decimal;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  double? decimal;
 
-  String string;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? string;
 
   String byte;
 
-  MultipartFile binary;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  MultipartFile? binary;
 
   DateTime date;
 
-  DateTime dateTime;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  DateTime? dateTime;
 
-  String uuid;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? uuid;
 
   String password;
 
   /// A string that is a 10 digit number. Can have leading zeros.
-  String patternWithDigits;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? patternWithDigits;
 
   /// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
-  String patternWithDigitsAndDelimiter;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? patternWithDigitsAndDelimiter;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
@@ -100,56 +167,71 @@ class FormatTest {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (integer.hashCode) +
-    (int32.hashCode) +
-    (int64.hashCode) +
+    // ignore: unnecessary_parenthesis
+    (integer == null ? 0 : integer!.hashCode) +
+    (int32 == null ? 0 : int32!.hashCode) +
+    (int64 == null ? 0 : int64!.hashCode) +
     (number.hashCode) +
-    (float.hashCode) +
-    (double_.hashCode) +
-    (decimal.hashCode) +
-    (string.hashCode) +
+    (float == null ? 0 : float!.hashCode) +
+    (double_ == null ? 0 : double_!.hashCode) +
+    (decimal == null ? 0 : decimal!.hashCode) +
+    (string == null ? 0 : string!.hashCode) +
     (byte.hashCode) +
-    (binary.hashCode) +
+    (binary == null ? 0 : binary!.hashCode) +
     (date.hashCode) +
-    (dateTime.hashCode) +
-    (uuid.hashCode) +
+    (dateTime == null ? 0 : dateTime!.hashCode) +
+    (uuid == null ? 0 : uuid!.hashCode) +
     (password.hashCode) +
-    (patternWithDigits.hashCode) +
-    (patternWithDigitsAndDelimiter.hashCode);
+    (patternWithDigits == null ? 0 : patternWithDigits!.hashCode) +
+    (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter!.hashCode);
 
   @override
   String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (integer != null) {
       json[r'integer'] = integer;
+    }
+    if (int32 != null) {
       json[r'int32'] = int32;
+    }
+    if (int64 != null) {
       json[r'int64'] = int64;
+    }
       json[r'number'] = number;
+    if (float != null) {
       json[r'float'] = float;
+    }
+    if (double_ != null) {
       json[r'double'] = double_;
+    }
+    if (decimal != null) {
       json[r'decimal'] = decimal;
+    }
+    if (string != null) {
       json[r'string'] = string;
+    }
       json[r'byte'] = byte;
+    if (binary != null) {
       json[r'binary'] = binary;
+    }
       json[r'date'] = _dateFormatter.format(date.toUtc());
-      json[r'dateTime'] = dateTime.toUtc().toIso8601String();
+    if (dateTime != null) {
+      json[r'dateTime'] = dateTime!.toUtc().toIso8601String();
+    }
+    if (uuid != null) {
       json[r'uuid'] = uuid;
+    }
       json[r'password'] = password;
+    if (patternWithDigits != null) {
       json[r'pattern_with_digits'] = patternWithDigits;
+    }
+    if (patternWithDigitsAndDelimiter != null) {
       json[r'pattern_with_digits_and_delimiter'] = patternWithDigitsAndDelimiter;
+    }
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    'number',
-'byte',
-'date',
-'password',
-
-  };
 
   /// Returns a new [FormatTest] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -161,20 +243,13 @@ class FormatTest {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "FormatTest.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "FormatTest.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "FormatTest[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "FormatTest[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return FormatTest(
         integer: mapValueOfType<int>(json, r'integer'),
@@ -241,5 +316,14 @@ class FormatTest {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    'number',
+'byte',
+'date',
+'password',
+
+  };
 }
 

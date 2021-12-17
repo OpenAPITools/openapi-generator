@@ -23,8 +23,8 @@ class HealthCheckResult {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (nullableMessage == null ? 0 : nullableMessage.hashCode);
+    // ignore: unnecessary_parenthesis
+    (nullableMessage == null ? 0 : nullableMessage!.hashCode);
 
   @override
   String toString() => 'HealthCheckResult[nullableMessage=$nullableMessage]';
@@ -37,11 +37,6 @@ class HealthCheckResult {
     return json;
   }
 
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
-
   /// Returns a new [HealthCheckResult] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
@@ -52,20 +47,13 @@ class HealthCheckResult {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "HealthCheckResult.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "HealthCheckResult.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "HealthCheckResult[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "HealthCheckResult[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return HealthCheckResult(
         nullableMessage: mapValueOfType<String>(json, r'NullableMessage'),
@@ -115,5 +103,10 @@ class HealthCheckResult {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 

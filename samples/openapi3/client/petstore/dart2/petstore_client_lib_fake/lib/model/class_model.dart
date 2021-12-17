@@ -15,7 +15,13 @@ class ClassModel {
     this.class_,
   });
 
-  String class_;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? class_;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ClassModel &&
@@ -23,22 +29,19 @@ class ClassModel {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (class_.hashCode);
+    // ignore: unnecessary_parenthesis
+    (class_ == null ? 0 : class_!.hashCode);
 
   @override
   String toString() => 'ClassModel[class_=$class_]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (class_ != null) {
       json[r'_class'] = class_;
+    }
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
 
   /// Returns a new [ClassModel] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -50,20 +53,13 @@ class ClassModel {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "ClassModel.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "ClassModel.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "ClassModel[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ClassModel[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return ClassModel(
         class_: mapValueOfType<String>(json, r'_class'),
@@ -113,5 +109,10 @@ class ClassModel {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 

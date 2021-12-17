@@ -15,14 +15,26 @@ class Pet {
     this.id,
     this.category,
     required this.name,
-    required this.photoUrls,
+    this.photoUrls = const [],
     this.tags = const [],
     this.status,
   });
 
-  int id;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? id;
 
-  Category category;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  Category? category;
 
   String name;
 
@@ -31,7 +43,7 @@ class Pet {
   List<Tag> tags;
 
   /// pet status in the store
-  PetStatusEnum status;
+  PetStatusEnum? status;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Pet &&
@@ -44,34 +56,33 @@ class Pet {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (id.hashCode) +
-    (category.hashCode) +
+    // ignore: unnecessary_parenthesis
+    (id == null ? 0 : id!.hashCode) +
+    (category == null ? 0 : category!.hashCode) +
     (name.hashCode) +
     (photoUrls.hashCode) +
     (tags.hashCode) +
-    (status.hashCode);
+    (status == null ? 0 : status!.hashCode);
 
   @override
   String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (id != null) {
       json[r'id'] = id;
+    }
+    if (category != null) {
       json[r'category'] = category;
+    }
       json[r'name'] = name;
       json[r'photoUrls'] = photoUrls;
       json[r'tags'] = tags;
+    if (status != null) {
       json[r'status'] = status;
+    }
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    'name',
-'photoUrls',
-
-  };
 
   /// Returns a new [Pet] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -83,20 +94,13 @@ class Pet {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "Pet.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "Pet.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "Pet[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "Pet[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return Pet(
         id: mapValueOfType<int>(json, r'id'),
@@ -153,6 +157,13 @@ class Pet {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    'name',
+'photoUrls',
+
+  };
 }
 
 /// pet status in the store

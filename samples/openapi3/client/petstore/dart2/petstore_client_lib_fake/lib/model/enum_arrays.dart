@@ -16,7 +16,7 @@ class EnumArrays {
     this.arrayEnum = const [],
   });
 
-  EnumArraysJustSymbolEnum justSymbol;
+  EnumArraysJustSymbolEnum? justSymbol;
 
   List<EnumArraysArrayEnumEnum> arrayEnum;
 
@@ -27,8 +27,8 @@ class EnumArrays {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (justSymbol.hashCode) +
+    // ignore: unnecessary_parenthesis
+    (justSymbol == null ? 0 : justSymbol!.hashCode) +
     (arrayEnum.hashCode);
 
   @override
@@ -36,15 +36,12 @@ class EnumArrays {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (justSymbol != null) {
       json[r'just_symbol'] = justSymbol;
+    }
       json[r'array_enum'] = arrayEnum;
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
 
   /// Returns a new [EnumArrays] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -56,20 +53,13 @@ class EnumArrays {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "EnumArrays.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "EnumArrays.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "EnumArrays[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "EnumArrays[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return EnumArrays(
         justSymbol: EnumArraysJustSymbolEnum.fromJson(json[r'just_symbol']),
@@ -120,6 +110,11 @@ class EnumArrays {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 
 

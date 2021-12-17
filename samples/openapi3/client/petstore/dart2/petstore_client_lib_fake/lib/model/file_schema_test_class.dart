@@ -16,7 +16,13 @@ class FileSchemaTestClass {
     this.files = const [],
   });
 
-  ModelFile file;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  ModelFile? file;
 
   List<ModelFile> files;
 
@@ -27,8 +33,8 @@ class FileSchemaTestClass {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (file.hashCode) +
+    // ignore: unnecessary_parenthesis
+    (file == null ? 0 : file!.hashCode) +
     (files.hashCode);
 
   @override
@@ -36,15 +42,12 @@ class FileSchemaTestClass {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (file != null) {
       json[r'file'] = file;
+    }
       json[r'files'] = files;
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
 
   /// Returns a new [FileSchemaTestClass] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -56,20 +59,13 @@ class FileSchemaTestClass {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "FileSchemaTestClass.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "FileSchemaTestClass.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "FileSchemaTestClass[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "FileSchemaTestClass[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return FileSchemaTestClass(
         file: ModelFile.fromJson(json[r'file']),
@@ -120,5 +116,10 @@ class FileSchemaTestClass {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 

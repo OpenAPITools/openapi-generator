@@ -15,7 +15,13 @@ class ModelList {
     this.n123list,
   });
 
-  String n123list;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? n123list;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelList &&
@@ -23,22 +29,19 @@ class ModelList {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (n123list.hashCode);
+    // ignore: unnecessary_parenthesis
+    (n123list == null ? 0 : n123list!.hashCode);
 
   @override
   String toString() => 'ModelList[n123list=$n123list]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (n123list != null) {
       json[r'123-list'] = n123list;
+    }
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
 
   /// Returns a new [ModelList] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -50,20 +53,13 @@ class ModelList {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "ModelList.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "ModelList.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "ModelList[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ModelList[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return ModelList(
         n123list: mapValueOfType<String>(json, r'123-list'),
@@ -113,5 +109,10 @@ class ModelList {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 

@@ -6,17 +6,33 @@ class {{{classname}}} {
   {{/description}}
   {{^isEnum}}
     {{#minimum}}
+      {{#description}}
   ///
+      {{/description}}
   /// Minimum value: {{{.}}}
     {{/minimum}}
     {{#maximum}}
-    {{^minimum}}
+      {{#description}}
+        {{^minimum}}
   ///
-    {{/minimum}}
+        {{/minimum}}
+      {{/description}}
   /// Maximum value: {{{.}}}
     {{/maximum}}
+    {{^isNullable}}
+      {{^required}}
+        {{^defaultValue}}
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+        {{/defaultValue}}
+      {{/required}}
+    {{/isNullable}}
   {{/isEnum}}
-  {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
+  {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{/isNullable}} {{{name}}};
 
 {{/vars}}
   @override
@@ -27,9 +43,9 @@ class {{{classname}}} {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
+    // ignore: unnecessary_parenthesis
   {{#vars}}
-    ({{#isNullable}}{{{name}}} == null ? 0 : {{/isNullable}}{{{name}}}.hashCode){{^-last}} +{{/-last}}{{#-last}};{{/-last}}
+    ({{#isNullable}}{{{name}}} == null ? 0 : {{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}{{{name}}} == null ? 0 : {{/defaultValue}}{{/required}}{{/isNullable}}{{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.hashCode){{^-last}} +{{/-last}}{{#-last}};{{/-last}}
   {{/vars}}
 
   @override
@@ -41,43 +57,51 @@ class {{{classname}}} {
     {{#isNullable}}
     if ({{{name}}} != null) {
     {{/isNullable}}
+    {{^isNullable}}
+      {{^required}}
+        {{^defaultValue}}
+    if ({{{name}}} != null) {
+        {{/defaultValue}}
+      {{/required}}
+    {{/isNullable}}
     {{#isDateTime}}
       {{#pattern}}
-      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateEpochMarker == '{{{pattern}}}'
-        ? {{{name}}}{{#isNullable}}!{{/isNullable}}.millisecondsSinceEpoch
-        : {{{name}}}{{#isNullable}}!{{/isNullable}}.toUtc().toIso8601String();
+      json[r'{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
+        ? {{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.millisecondsSinceEpoch
+        : {{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc().toIso8601String();
       {{/pattern}}
       {{^pattern}}
-      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}{{{name}}}.toUtc().toIso8601String();
+      json[r'{{{baseName}}}'] = {{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc().toIso8601String();
       {{/pattern}}
     {{/isDateTime}}
     {{#isDate}}
       {{#pattern}}
-      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateEpochMarker == '{{{pattern}}}'
-        ? {{{name}}}{{#isNullable}}!{{/isNullable}}.millisecondsSinceEpoch
-        : _dateFormatter.format({{{name}}}{{#isNullable}}!{{/isNullable}}.toUtc());
+      json[r'{{{baseName}}}'] = _dateEpochMarker == '{{{pattern}}}'
+        ? {{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.millisecondsSinceEpoch
+        : _dateFormatter.format({{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc());
       {{/pattern}}
       {{^pattern}}
-      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}_dateFormatter.format({{{name}}}.toUtc());
+      json[r'{{{baseName}}}'] = _dateFormatter.format({{{name}}}{{#isNullable}}!{{/isNullable}}{{^isNullable}}{{^required}}{{^defaultValue}}!{{/defaultValue}}{{/required}}{{/isNullable}}.toUtc());
       {{/pattern}}
     {{/isDate}}
     {{^isDateTime}}
       {{^isDate}}
-      json[r'{{{baseName}}}'] = {{#required}}{{#isNullable}}{{{name}}} == null ? null : {{/isNullable}}{{/required}}{{{name}}};
+      json[r'{{{baseName}}}'] = {{{name}}};
       {{/isDate}}
     {{/isDateTime}}
     {{#isNullable}}
     }
     {{/isNullable}}
+    {{^isNullable}}
+      {{^required}}
+        {{^defaultValue}}
+    }
+        {{/defaultValue}}
+      {{/required}}
+    {{/isNullable}}
   {{/vars}}
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    {{#vars}}{{#required}}'{{{baseName}}}',
-{{/required}}{{/vars}}
-  };
 
   /// Returns a new [{{{classname}}}] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -89,20 +113,13 @@ class {{{classname}}} {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "{{{classname}}}.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "{{{classname}}}.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "{{{classname}}}[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "{{{classname}}}[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return {{{classname}}}(
   {{#vars}}
@@ -249,6 +266,12 @@ class {{{classname}}} {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    {{#vars}}{{#required}}'{{{baseName}}}',
+{{/required}}{{/vars}}
+  };
 }
 {{#vars}}
     {{#isEnum}}

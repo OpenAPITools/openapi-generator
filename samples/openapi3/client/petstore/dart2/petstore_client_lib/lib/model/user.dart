@@ -22,22 +22,70 @@ class User {
     this.userStatus,
   });
 
-  int id;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? id;
 
-  String username;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? username;
 
-  String firstName;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? firstName;
 
-  String lastName;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? lastName;
 
-  String email;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? email;
 
-  String password;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? password;
 
-  String phone;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? phone;
 
   /// User Status
-  int userStatus;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? userStatus;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
@@ -52,36 +100,47 @@ class User {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
-    (id.hashCode) +
-    (username.hashCode) +
-    (firstName.hashCode) +
-    (lastName.hashCode) +
-    (email.hashCode) +
-    (password.hashCode) +
-    (phone.hashCode) +
-    (userStatus.hashCode);
+    // ignore: unnecessary_parenthesis
+    (id == null ? 0 : id!.hashCode) +
+    (username == null ? 0 : username!.hashCode) +
+    (firstName == null ? 0 : firstName!.hashCode) +
+    (lastName == null ? 0 : lastName!.hashCode) +
+    (email == null ? 0 : email!.hashCode) +
+    (password == null ? 0 : password!.hashCode) +
+    (phone == null ? 0 : phone!.hashCode) +
+    (userStatus == null ? 0 : userStatus!.hashCode);
 
   @override
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (id != null) {
       json[r'id'] = id;
+    }
+    if (username != null) {
       json[r'username'] = username;
+    }
+    if (firstName != null) {
       json[r'firstName'] = firstName;
+    }
+    if (lastName != null) {
       json[r'lastName'] = lastName;
+    }
+    if (email != null) {
       json[r'email'] = email;
+    }
+    if (password != null) {
       json[r'password'] = password;
+    }
+    if (phone != null) {
       json[r'phone'] = phone;
+    }
+    if (userStatus != null) {
       json[r'userStatus'] = userStatus;
+    }
     return json;
   }
-
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
 
   /// Returns a new [User] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
@@ -93,20 +152,13 @@ class User {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "User.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "User.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "User[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "User[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return User(
         id: mapValueOfType<int>(json, r'id'),
@@ -163,5 +215,10 @@ class User {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 

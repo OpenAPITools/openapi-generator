@@ -35,7 +35,7 @@ class MapTest {
 
   @override
   int get hashCode =>
-  // ignore: unnecessary_parenthesis
+    // ignore: unnecessary_parenthesis
     (mapMapOfString.hashCode) +
     (mapOfEnumString.hashCode) +
     (directMap.hashCode) +
@@ -53,11 +53,6 @@ class MapTest {
     return json;
   }
 
-  /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-    
-  };
-
   /// Returns a new [MapTest] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
@@ -68,20 +63,13 @@ class MapTest {
       // Ensure that the map contains the required keys.
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
-      assert(
-        false,
-        () {
-          for (final key in requiredKeys) {
-            if (!json.containsKey(key)) {
-              throw FormatException('Required key "MapTest.$key" is missing from JSON.', json);
-            }
-            final value = json[key];
-            if (null == value) {
-              throw FormatException('Required key "MapTest.$key" cannot be null.', json);
-            }
-          }
-        },
-      );
+      assert(() {
+        for (final key in requiredKeys) {
+          assert(json.containsKey(key), 'Required key "MapTest[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "MapTest[$key]" cannot be null.');
+        }
+        return true;
+      }());
 
       return MapTest(
         mapMapOfString: mapCastOfType<String, dynamic>(json, r'map_map_of_string') ?? const {},
@@ -134,6 +122,11 @@ class MapTest {
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    
+  };
 }
 
 
