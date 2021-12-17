@@ -339,6 +339,8 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
     }
 
     /**
+     * // CS427 Issue link: https://github.com/OpenAPITools/openapi-generator/issues/6675
+     *
      * Fixes errors caused by adding backslash to some regex patterns
      *
      * @parem pattern Regex pattern defined in the OpenAPI specification file
