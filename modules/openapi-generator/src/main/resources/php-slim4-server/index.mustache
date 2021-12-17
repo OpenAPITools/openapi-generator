@@ -12,7 +12,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use DI\Bridge\Slim\Bridge;
 use DI\ContainerBuilder;
 use {{appPackage}}\RegisterDependencies;
-use {{appPackage}}\SlimRouter;
+use {{appPackage}}\RegisterRoutes;
 use {{appPackage}}\RegisterMiddlewares;
 use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\ResponseEmitter;
@@ -59,7 +59,7 @@ $middleware($app);
 
 // Register routes
 // yes, it's anti-pattern you shouldn't get deps from container directly
-$routes = $container->get(SlimRouter::class);
+$routes = $container->get(RegisterRoutes::class);
 $routes($app);
 
 // Create Request object from globals
