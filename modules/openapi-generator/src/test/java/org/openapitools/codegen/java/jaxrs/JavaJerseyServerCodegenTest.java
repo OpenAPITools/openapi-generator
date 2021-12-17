@@ -122,9 +122,9 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         String[] fileS = {
                                "MultipartSingleApi.java", "MultipartSingleApiService.java", "MultipartSingleApiServiceImpl.java",
                                "MultipartMixedApi.java",  "MultipartMixedApiService.java",  "MultipartMixedApiServiceImpl.java"    };
-        /*for (String f : fileS){
+        for (String f : fileS){
             assertFileContains( files.get(f).toPath(), "FormDataBodyPart file" );
-        }*/
+        }
 
         // Check files for Array
         final String[] fileA = { "MultipartArrayApiService.java", "MultipartArrayApi.java", "MultipartArrayApiServiceImpl.java"};
