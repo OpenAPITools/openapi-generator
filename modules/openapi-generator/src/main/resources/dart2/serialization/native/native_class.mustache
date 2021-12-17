@@ -107,10 +107,10 @@ class {{{classname}}} {
       return {{{classname}}}(
   {{#vars}}
     {{#isDateTime}}
-        {{{name}}}: mapDateTime(json, r'{{{baseName}}}', '{{{pattern}}}'){{#required}}!{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: mapDateTime(json, r'{{{baseName}}}', '{{{pattern}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
     {{/isDateTime}}
     {{#isDate}}
-        {{{name}}}: mapDateTime(json, r'{{{baseName}}}', '{{{pattern}}}'){{#required}}!{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: mapDateTime(json, r'{{{baseName}}}', '{{{pattern}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
     {{/isDate}}
     {{^isDateTime}}
       {{^isDate}}
@@ -129,7 +129,7 @@ class {{{classname}}} {
           : null,
             {{/items.isArray}}
             {{^items.isArray}}
-        {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}']){{#required}}!{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
             {{/items.isArray}}
           {{/isArray}}
           {{^isArray}}
@@ -147,14 +147,14 @@ class {{{classname}}} {
               {{^items.isArray}}
                 {{#items.isMap}}
                   {{#items.complexType}}
-        {{{name}}}: {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']){{#required}}!{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: {{items.complexType}}.mapFromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
                   {{/items.complexType}}
                   {{^items.complexType}}
-        {{{name}}}: mapCastOfType<String, dynamic>(json, r'{{{baseName}}}'){{#required}}!{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: mapCastOfType<String, dynamic>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
                   {{/items.complexType}}
                 {{/items.isMap}}
                 {{^items.isMap}}
-        {{{name}}}: mapValueOfType<{{{datatypeWithEnum}}}>(json, r'{{{baseName}}}'){{#required}}!{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: mapValueOfType<{{{datatypeWithEnum}}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
                 {{/items.isMap}}
               {{/items.isArray}}
             {{/isMap}}
@@ -163,7 +163,7 @@ class {{{classname}}} {
         {{{name}}}: null, // No support for decoding binary content from JSON
               {{/isBinary}}
               {{^isBinary}}
-        {{{name}}}: {{{complexType}}}.fromJson(json[r'{{{baseName}}}']){{#required}}!{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: {{{complexType}}}.fromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
               {{/isBinary}}
             {{/isMap}}
           {{/isArray}}
@@ -171,7 +171,7 @@ class {{{classname}}} {
         {{^complexType}}
           {{#isArray}}
             {{#isEnum}}
-        {{{name}}}: {{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']){{#required}}!{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: {{{items.datatypeWithEnum}}}.listFromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
             {{/isEnum}}
             {{^isEnum}}
         {{{name}}}: json[r'{{{baseName}}}'] is {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}
@@ -181,7 +181,7 @@ class {{{classname}}} {
           {{/isArray}}
           {{^isArray}}
             {{#isMap}}
-        {{{name}}}: mapCastOfType<String, {{{items.datatype}}}>(json, r'{{{baseName}}}'){{#required}}!{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: mapCastOfType<String, {{{items.datatype}}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
             {{/isMap}}
             {{^isMap}}
               {{#isNumber}}
@@ -191,10 +191,10 @@ class {{{classname}}} {
               {{/isNumber}}
               {{^isNumber}}
                 {{^isEnum}}
-        {{{name}}}: mapValueOfType<{{{datatypeWithEnum}}}>(json, r'{{{baseName}}}'){{#required}}!{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: mapValueOfType<{{{datatypeWithEnum}}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
                 {{/isEnum}}
                 {{#isEnum}}
-        {{{name}}}: {{{enumName}}}.fromJson(json[r'{{{baseName}}}']){{#required}}!{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
+        {{{name}}}: {{{enumName}}}.fromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
                 {{/isEnum}}
               {{/isNumber}}
             {{/isMap}}
