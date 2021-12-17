@@ -158,6 +158,10 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     public void processOpts() {
         super.processOpts();
 
+        Boolean generateModels = additionalProperties.containsKey(CodegenConstants.GENERATE_MODELS) && Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_MODELS));
+        Boolean generateApiTests = additionalProperties.containsKey(CodegenConstants.GENERATE_API_TESTS) && Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_API_TESTS));
+        Boolean generateModelTests = additionalProperties.containsKey(CodegenConstants.GENERATE_MODEL_TESTS) && Boolean.TRUE.equals(additionalProperties.get(CodegenConstants.GENERATE_MODEL_TESTS));
+
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             // Update the invokerPackage for the default authPackage
             authPackage = invokerPackage + "\\" + authDirName;
@@ -210,14 +214,26 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("index.mustache", "public", "index.php"));
         supportingFiles.add(new SupportingFile(".htaccess", "public", ".htaccess"));
         supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
-        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
+
+        // don't generate phpunit config when tests generation disabled
+        if (Boolean.TRUE.equals(generateApiTests) || Boolean.TRUE.equals(generateModelTests)) {
+            supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
+            additionalProperties.put("generateTests", Boolean.TRUE);
+        }
+
         supportingFiles.add(new SupportingFile("phpcs.xml.mustache", "", "phpcs.xml.dist"));
 
         supportingFiles.add(new SupportingFile("htaccess_deny_all", "config", ".htaccess"));
         supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "dev", "example.inc.php"));
         supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "prod", "example.inc.php"));
-        supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));
-        supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
+
+        if (Boolean.TRUE.equals(generateModels)) {
+            supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));
+        }
+
+        if (Boolean.TRUE.equals(generateModelTests)) {
+            supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
+        }
     }
 
     @Override
