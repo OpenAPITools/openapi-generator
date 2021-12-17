@@ -14,7 +14,7 @@ import AnyCodable
 @objc public class Name: NSObject, Codable {
 
     public var name: Int
-    public var snakeCase: NullEncodable<Int>
+    public var snakeCase: NullEncodable<Int> = .encodeValue(11033)
     public var snakeCaseNum: NSNumber? {
         get {
             if case .encodeValue(let value) = snakeCase {
@@ -32,7 +32,7 @@ import AnyCodable
         }
     }
 
-    public init(name: Int, snakeCase: NullEncodable<Int> = .encodeNull, property: String? = nil, _123number: Int? = nil) {
+    public init(name: Int, snakeCase: NullEncodable<Int> = .encodeValue(11033), property: String? = nil, _123number: Int? = nil) {
         self.name = name
         self.snakeCase = snakeCase
         self.property = property

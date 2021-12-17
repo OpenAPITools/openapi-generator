@@ -1170,7 +1170,7 @@ definitions:
         type: string
         description: pet status in the store
         x-null-encodable: true
-        default: available
+        default: null
         enum:
           - available
           - pending
@@ -1215,6 +1215,7 @@ definitions:
         type: integer
         format: int32
         x-null-encodable: true
+        default: 11033
       property:
         type: string
       123Number:

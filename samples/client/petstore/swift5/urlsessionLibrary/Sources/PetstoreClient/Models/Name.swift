@@ -19,11 +19,11 @@ extension PetstoreClientAPI {
 public final class Name: Codable, Hashable {
 
     public var name: Int
-    public var snakeCase: NullEncodable<Int>
+    public var snakeCase: NullEncodable<Int> = .encodeValue(11033)
     public var property: String?
     public var _123number: Int?
 
-    public init(name: Int, snakeCase: NullEncodable<Int> = .encodeNull, property: String? = nil, _123number: Int? = nil) {
+    public init(name: Int, snakeCase: NullEncodable<Int> = .encodeValue(11033), property: String? = nil, _123number: Int? = nil) {
         self.name = name
         self.snakeCase = snakeCase
         self.property = property

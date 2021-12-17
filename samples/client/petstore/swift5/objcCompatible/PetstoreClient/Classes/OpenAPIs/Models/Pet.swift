@@ -28,9 +28,9 @@ import AnyCodable
     public var photoUrls: [String]
     public var tags: [Tag]?
     /** pet status in the store */
-    public var status: NullEncodable<Status> = .encodeValue(.available)
+    public var status: NullEncodable<Status>
 
-    public init(_id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<Status> = .encodeValue(.available)) {
+    public init(_id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<Status> = .encodeNull) {
         self._id = _id
         self.category = category
         self.name = name

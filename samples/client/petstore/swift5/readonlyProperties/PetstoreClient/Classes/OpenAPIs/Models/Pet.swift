@@ -23,9 +23,9 @@ public struct Pet: Codable, Hashable {
     public private(set) var photoUrls: [String]
     public private(set) var tags: [Tag]?
     /** pet status in the store */
-    public private(set) var status: NullEncodable<Status> = .encodeValue(.available)
+    public private(set) var status: NullEncodable<Status>
 
-    public init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<Status> = .encodeValue(.available)) {
+    public init(id: Int64? = nil, category: Category? = nil, name: String, photoUrls: [String], tags: [Tag]? = nil, status: NullEncodable<Status> = .encodeNull) {
         self.id = id
         self.category = category
         self.name = name

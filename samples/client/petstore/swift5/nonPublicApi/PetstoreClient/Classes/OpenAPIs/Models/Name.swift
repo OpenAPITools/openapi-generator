@@ -14,11 +14,11 @@ import AnyCodable
 internal struct Name: Codable, Hashable {
 
     internal var name: Int
-    internal var snakeCase: NullEncodable<Int>
+    internal var snakeCase: NullEncodable<Int> = .encodeValue(11033)
     internal var property: String?
     internal var _123number: Int?
 
-    internal init(name: Int, snakeCase: NullEncodable<Int> = .encodeNull, property: String? = nil, _123number: Int? = nil) {
+    internal init(name: Int, snakeCase: NullEncodable<Int> = .encodeValue(11033), property: String? = nil, _123number: Int? = nil) {
         self.name = name
         self.snakeCase = snakeCase
         self.property = property
