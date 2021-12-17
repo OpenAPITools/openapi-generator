@@ -1089,9 +1089,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 if (prop.vendorExtensions.containsKey("x-null-encodable")) {
                     if (prop.vendorExtensions.get("x-null-encodable").toString().equals("true")) {
                         if (prop.defaultValue == null || prop.defaultValue.equals("null")) {
-                            prop.vendorExtensions.put("x-codegen-alt-default-value", ".encodeNull");
+                            prop.vendorExtensions.put("x-null-encodable-default-value", ".encodeNull");
                         } else {
-                            prop.vendorExtensions.put("x-codegen-alt-default-value", ".encodeValue(" + prop.defaultValue + ")");
+                            prop.vendorExtensions.put("x-null-encodable-default-value", ".encodeValue(" + prop.defaultValue + ")");
                         }
                     }
                 }
