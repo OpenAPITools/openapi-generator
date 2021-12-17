@@ -18,11 +18,11 @@ class NullableClass {
     this.stringProp,
     this.dateProp,
     this.datetimeProp,
-    this.arrayNullableProp,
-    this.arrayAndItemsNullableProp,
+    this.arrayNullableProp = const [],
+    this.arrayAndItemsNullableProp = const [],
     this.arrayItemsNullable = const [],
-    this.objectNullableProp,
-    this.objectAndItemsNullableProp,
+    this.objectNullableProp = const {},
+    this.objectAndItemsNullableProp = const {},
     this.objectItemsNullable = const {},
   });
 

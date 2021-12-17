@@ -13,7 +13,7 @@ class Category {
   /// Returns a new [Category] instance.
   Category({
     this.id,
-    this.name = 'default-name',
+    required this.name,
   });
 
   int id;
