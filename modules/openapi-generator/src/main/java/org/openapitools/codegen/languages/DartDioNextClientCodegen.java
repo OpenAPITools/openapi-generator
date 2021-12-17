@@ -39,11 +39,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(DartDioNextClientCodegen.class);
 
-    public static final String DIO_LIBRARY = "dioLibrary";
-    public static final String DIO_ORIGINAL = "dio";
-    public static final String DIO_HTTP = "dio_http";
-    public static final String DIO_LIBRARY_DEFAULT = DIO_ORIGINAL;
-
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String DATE_LIBRARY_CORE = "core";
     public static final String DATE_LIBRARY_TIME_MACHINE = "timemachine";
@@ -52,12 +47,10 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
     public static final String SERIALIZATION_LIBRARY_BUILT_VALUE = "built_value";
     public static final String SERIALIZATION_LIBRARY_DEFAULT = SERIALIZATION_LIBRARY_BUILT_VALUE;
 
+    private static final String DIO_IMPORT = "package:dio/dio.dart";
     private static final String CLIENT_NAME = "clientName";
 
     private String dateLibrary;
-
-    private String dioLibrary;
-    private String dioImport;
 
     private String clientName;
 
@@ -87,7 +80,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
         cliOptions.add(serializationLibrary);
 
-        // Date Library Option
         final CliOption dateOption = CliOption.newString(DATE_LIBRARY, "Specify Date library");
         dateOption.setDefault(DATE_LIBRARY_DEFAULT);
 
@@ -96,16 +88,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         dateOptions.put(DATE_LIBRARY_TIME_MACHINE, "Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.");
         dateOption.setEnum(dateOptions);
         cliOptions.add(dateOption);
-
-        // Dio Library Option
-        final CliOption dioOption = CliOption.newString(DIO_LIBRARY, "Specify Dio library");
-        dioOption.setDefault(DIO_LIBRARY_DEFAULT);
-
-        final Map<String, String> dioOptions = new HashMap<>();
-        dioOptions.put(DIO_ORIGINAL, "[DEFAULT] dio 4.x");
-        dioOptions.put(DIO_HTTP, "dio_http 5.x");
-        dioOption.setEnum(dioOptions);
-        cliOptions.add(dioOption);
     }
 
     public String getDateLibrary() {
@@ -114,14 +96,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
 
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
-    }
-
-    public String getDioLibrary() {
-        return dioLibrary;
-    }
-
-    public void setDioLibrary(String library) {
-        this.dioLibrary = library;
     }
 
     public String getClientName() {
@@ -163,12 +137,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         }
         setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
 
-        if (!additionalProperties.containsKey(DIO_LIBRARY)) {
-            additionalProperties.put(DIO_LIBRARY, DIO_LIBRARY_DEFAULT);
-            LOGGER.debug("Dio library not set, using default {}", DIO_LIBRARY_DEFAULT);
-        }
-        setDioLibrary(additionalProperties.get(DIO_LIBRARY).toString());
-
         if (!additionalProperties.containsKey(CLIENT_NAME)) {
             final String name = org.openapitools.codegen.utils.StringUtils.camelize(pubName);
             additionalProperties.put(CLIENT_NAME, name);
@@ -194,21 +162,8 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
-        configureDioLibrary();
         configureSerializationLibrary(srcFolder);
         configureDateLibrary(srcFolder);
-    }
-
-    private void configureDioLibrary() {
-        switch (dioLibrary) {
-            case DIO_HTTP:
-                dioImport = "package:dio_http/dio_http.dart";
-                break;
-            case DIO_ORIGINAL:
-            default:
-                dioImport = "package:dio/dio.dart";
-                break;
-        }
     }
 
     private void configureSerializationLibrary(String srcFolder) {
@@ -216,9 +171,6 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
             default:
             case SERIALIZATION_LIBRARY_BUILT_VALUE:
                 additionalProperties.put("useBuiltValue", "true");
-                additionalProperties.put("useDioHttp", dioLibrary.equals(DIO_HTTP));
-                additionalProperties.put("dioImport", dioImport);
-                additionalProperties.put("dioLibrary", dioLibrary);
                 configureSerializationLibraryBuiltValue(srcFolder);
                 break;
         }
@@ -243,7 +195,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         imports.put("BuiltMap", "package:built_collection/built_collection.dart");
         imports.put("JsonObject", "package:built_value/json_object.dart");
         imports.put("Uint8List", "dart:typed_data");
-        imports.put("MultipartFile", dioImport);
+        imports.put("MultipartFile", DIO_IMPORT);
     }
 
     private void configureDateLibrary(String srcFolder) {
@@ -442,7 +394,7 @@ public class DartDioNextClientCodegen extends AbstractDartCodegen {
         for (String modelImport : originalImports) {
             if (imports.containsKey(modelImport)) {
                 String i = imports.get(modelImport);
-                if (Objects.equals(i, dioImport) && !isModel) {
+                if (Objects.equals(i, DIO_IMPORT) && !isModel) {
                     // Don't add imports to operations that are already imported
                     continue;
                 }
