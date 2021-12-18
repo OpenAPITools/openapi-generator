@@ -22,48 +22,63 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use OpenAPIServer\SlimRouter;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use OpenAPIServer\Mock\OpenApiDataMocker;
+use DI\Bridge\Slim\Bridge;
+use DI\ContainerBuilder;
+use OpenAPIServer\App\RegisterDependencies;
+use OpenAPIServer\App\RegisterRoutes;
+use OpenAPIServer\App\RegisterMiddlewares;
+use Slim\Factory\ServerRequestCreatorFactory;
+use Slim\ResponseEmitter;
 
-// load config file
-$config = [];
-if (is_array($prodConfig = @include(__DIR__ . '/../config/prod/config.inc.php'))) {
-    $config = $prodConfig;
-} elseif (is_array($devConfig = @include(__DIR__ . '/../config/dev/config.inc.php'))) {
-    $config = $devConfig;
-} else {
-    throw new InvalidArgumentException('Config file missed or broken.');
+// Instantiate PHP-DI ContainerBuilder
+$builder = new ContainerBuilder();
+
+// consider prod by default
+$env;
+switch (strtolower($_SERVER['APP_ENV'] ?? 'prod')) {
+    case 'development':
+    case 'dev':
+        $env = 'dev';
+        break;
+    case 'production':
+    case 'prod':
+    default:
+        $env = 'prod';
 }
 
-$router = new SlimRouter($config);
-$app = $router->getSlimApp();
+// Main configuration
+$builder->addDefinitions(__DIR__ . "/../config/{$env}/default.inc.php");
 
-// Parse json, form data and xml
-$app->addBodyParsingMiddleware();
+// Config file for the environment if exists
+$userConfig = __DIR__ . "/../config/{$env}/config.inc.php";
+if (file_exists($userConfig)) {
+    $builder->addDefinitions($userConfig);
+}
 
-/**
- * The routing middleware should be added before the ErrorMiddleware
- * Otherwise exceptions thrown from it will not be handled
- */
-$app->addRoutingMiddleware();
+// Set up dependencies
+$dependencies = new RegisterDependencies();
+$dependencies($builder);
 
-/**
- * Add Error Handling Middleware
- *
- * @param bool $displayErrorDetails -> Should be set to false in production
- * @param bool $logErrors -> Parameter is passed to the default ErrorHandler
- * @param bool $logErrorDetails -> Display error details in error log
- * which can be replaced by a callable of your choice.
+// Build PHP-DI Container instance
+$container = $builder->build();
 
- * Note: This middleware should be added last. It will not handle any exceptions/errors
- * for middleware added after it.
- */
-$app->addErrorMiddleware(
-    $config['slimSettings']['displayErrorDetails'] ?? false,
-    $config['slimSettings']['logErrors'] ?? true,
-    $config['slimSettings']['logErrorDetails'] ?? true
-);
+// Instantiate the app
+$app = Bridge::create($container);
 
-$app->run();
+// Register middleware
+$middleware = new RegisterMiddlewares();
+$middleware($app);
+
+// Register routes
+// yes, it's anti-pattern you shouldn't get deps from container directly
+$routes = $container->get(RegisterRoutes::class);
+$routes($app);
+
+// Create Request object from globals
+$serverRequestCreator = ServerRequestCreatorFactory::create();
+$request = $serverRequestCreator->createServerRequestFromGlobals();
+
+// Run App & Emit Response
+$response = $app->handle($request);
+$responseEmitter = new ResponseEmitter();
+$responseEmitter->emit($response);
