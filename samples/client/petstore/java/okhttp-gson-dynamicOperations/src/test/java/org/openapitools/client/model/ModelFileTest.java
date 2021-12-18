@@ -21,41 +21,31 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 
 /**
- * Model tests for FileSchemaTestClass
+ * Model tests for ModelFile
  */
-public class FileSchemaTestClassTest {
-    private final FileSchemaTestClass model = new FileSchemaTestClass();
+public class ModelFileTest {
+    private final ModelFile model = new ModelFile();
 
     /**
-     * Model tests for FileSchemaTestClass
+     * Model tests for ModelFile
      */
     @Test
-    public void testFileSchemaTestClass() {
-        // TODO: test FileSchemaTestClass
+    public void testModelFile() {
+        // TODO: test ModelFile
     }
 
     /**
-     * Test the property 'file'
+     * Test the property 'sourceURI'
      */
     @Test
-    public void fileTest() {
-        // TODO: test file
-    }
-
-    /**
-     * Test the property 'files'
-     */
-    @Test
-    public void filesTest() {
-        // TODO: test files
+    public void sourceURITest() {
+        // TODO: test sourceURI
     }
 
 }
