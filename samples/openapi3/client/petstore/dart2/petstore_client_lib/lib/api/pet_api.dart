@@ -1,7 +1,6 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -29,7 +28,7 @@ class PetApi {
     final path = r'/pet';
 
     // ignore: prefer_final_locals
-    Object? postBody = pet;
+    Object postBody = pet;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -46,7 +45,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -65,11 +64,11 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
     
     }
-    return Future<Pet?>.value();
+    return null;
   }
 
   /// Deletes a pet
@@ -109,7 +108,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -150,7 +149,7 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'status', status));
+      queryParams.addAll(_queryParams('csv', 'status', status));
 
     const authNames = <String>['petstore_auth'];
     const contentTypes = <String>[];
@@ -163,7 +162,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -184,14 +183,14 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
-        .toList(growable: false);
+        .toList();
 
     }
-    return Future<List<Pet>?>.value();
+    return null;
   }
 
   /// Finds Pets by tags
@@ -215,7 +214,7 @@ class PetApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'tags', tags));
+      queryParams.addAll(_queryParams('csv', 'tags', tags));
 
     const authNames = <String>['petstore_auth'];
     const contentTypes = <String>[];
@@ -228,7 +227,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -249,14 +248,14 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
-        .toList(growable: false);
+        .toList();
 
     }
-    return Future<List<Pet>?>.value();
+    return null;
   }
 
   /// Find pet by ID
@@ -292,7 +291,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -313,11 +312,11 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
     
     }
-    return Future<Pet?>.value();
+    return null;
   }
 
   /// Update an existing pet
@@ -333,7 +332,7 @@ class PetApi {
     final path = r'/pet';
 
     // ignore: prefer_final_locals
-    Object? postBody = pet;
+    Object postBody = pet;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -350,7 +349,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -369,11 +368,11 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
     
     }
-    return Future<Pet?>.value();
+    return null;
   }
 
   /// Updates a pet in the store with form data
@@ -419,7 +418,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -494,7 +493,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -519,10 +518,10 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
     
     }
-    return Future<ApiResponse?>.value();
+    return null;
   }
 }

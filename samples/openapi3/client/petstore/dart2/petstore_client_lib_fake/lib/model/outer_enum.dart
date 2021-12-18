@@ -1,7 +1,6 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -16,12 +15,12 @@ class OuterEnum {
   const OuterEnum._(this.value);
 
   /// The underlying value of this enum member.
-  final String? value;
+  final String value;
 
   @override
-  String toString() => value ?? '';
+  String toString() => value;
 
-  String? toJson() => value;
+  String toJson() => value;
 
   static const placed = OuterEnum._(r'placed');
   static const approved = OuterEnum._(r'approved');
@@ -34,13 +33,20 @@ class OuterEnum {
     delivered,
   ];
 
-  static OuterEnum fromJson(dynamic value) =>
-    OuterEnumTypeTransformer().decode(value);
+  static OuterEnum? fromJson(dynamic value) => OuterEnumTypeTransformer().decode(value);
 
-  static List<OuterEnum> listFromJson(List json, {bool? growable,}) =>
-    json.isNotEmpty
-      ? json.map<OuterEnum>((i) => OuterEnum.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
-      : <OuterEnum>[];
+  static List<OuterEnum>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+    final result = <OuterEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = OuterEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
+  }
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnum] to String,
@@ -50,23 +56,29 @@ class OuterEnumTypeTransformer {
 
   const OuterEnumTypeTransformer._();
 
-  String? encode(OuterEnum data) => data.value;
+  String encode(OuterEnum data) => data.value;
 
   /// Decodes a [dynamic value][data] to a OuterEnum.
   ///
-  /// If the [dynamic value][data] cannot be decoded successfully, then an [UnimplementedError] is thrown.
-  OuterEnum decode(dynamic data) {
-    if (data == r'placed') {
-      return OuterEnum.placed;
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  OuterEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data.toString()) {
+        case r'placed': return OuterEnum.placed;
+        case r'approved': return OuterEnum.approved;
+        case r'delivered': return OuterEnum.delivered;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
     }
-    if (data == r'approved') {
-      return OuterEnum.approved;
-    }
-    if (data == r'delivered') {
-      return OuterEnum.delivered;
-    }
-    throw ArgumentError('Unknown enum value to decode: $data');
-
+    return null;
   }
 
   /// Singleton [OuterEnumTypeTransformer] instance.
