@@ -1,6 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -35,7 +36,7 @@ class EnumClass {
 
   static EnumClass? fromJson(dynamic value) => EnumClassTypeTransformer().decode(value);
 
-  static List<EnumClass>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static List<EnumClass>? listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumClass>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -45,7 +46,7 @@ class EnumClass {
         }
       }
     }
-    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
+    return result.toList(growable: growable);
   }
 }
 

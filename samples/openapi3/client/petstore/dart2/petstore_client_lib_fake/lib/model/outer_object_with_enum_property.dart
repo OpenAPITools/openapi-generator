@@ -1,6 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -60,7 +61,7 @@ class OuterObjectWithEnumProperty {
     return null;
   }
 
-  static List<OuterObjectWithEnumProperty>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static List<OuterObjectWithEnumProperty>? listFromJson(dynamic json, {bool growable = false,}) {
     final result = <OuterObjectWithEnumProperty>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -70,7 +71,7 @@ class OuterObjectWithEnumProperty {
         }
       }
     }
-    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
+    return result.toList(growable: growable);
   }
 
   static Map<String, OuterObjectWithEnumProperty> mapFromJson(dynamic json) {
@@ -88,12 +89,12 @@ class OuterObjectWithEnumProperty {
   }
 
   // maps a json object with a list of OuterObjectWithEnumProperty-objects as value to a dart map
-  static Map<String, List<OuterObjectWithEnumProperty>> mapListFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static Map<String, List<OuterObjectWithEnumProperty>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<OuterObjectWithEnumProperty>>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = OuterObjectWithEnumProperty.listFromJson(entry.value, emptyIsNull: emptyIsNull, growable: growable,);
+        final value = OuterObjectWithEnumProperty.listFromJson(entry.value, growable: growable,);
         if (value != null) {
           map[entry.key] = value;
         }

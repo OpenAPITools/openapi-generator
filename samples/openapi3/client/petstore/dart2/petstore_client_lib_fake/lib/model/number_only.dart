@@ -1,6 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -70,7 +71,7 @@ class NumberOnly {
     return null;
   }
 
-  static List<NumberOnly>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static List<NumberOnly>? listFromJson(dynamic json, {bool growable = false,}) {
     final result = <NumberOnly>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -80,7 +81,7 @@ class NumberOnly {
         }
       }
     }
-    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
+    return result.toList(growable: growable);
   }
 
   static Map<String, NumberOnly> mapFromJson(dynamic json) {
@@ -98,12 +99,12 @@ class NumberOnly {
   }
 
   // maps a json object with a list of NumberOnly-objects as value to a dart map
-  static Map<String, List<NumberOnly>> mapListFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static Map<String, List<NumberOnly>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<NumberOnly>>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = NumberOnly.listFromJson(entry.value, emptyIsNull: emptyIsNull, growable: growable,);
+        final value = NumberOnly.listFromJson(entry.value, growable: growable,);
         if (value != null) {
           map[entry.key] = value;
         }

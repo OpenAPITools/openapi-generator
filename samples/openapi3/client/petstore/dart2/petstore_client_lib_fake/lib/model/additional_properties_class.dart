@@ -1,6 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -67,7 +68,7 @@ class AdditionalPropertiesClass {
     return null;
   }
 
-  static List<AdditionalPropertiesClass>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static List<AdditionalPropertiesClass>? listFromJson(dynamic json, {bool growable = false,}) {
     final result = <AdditionalPropertiesClass>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -77,7 +78,7 @@ class AdditionalPropertiesClass {
         }
       }
     }
-    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
+    return result.toList(growable: growable);
   }
 
   static Map<String, AdditionalPropertiesClass> mapFromJson(dynamic json) {
@@ -95,12 +96,12 @@ class AdditionalPropertiesClass {
   }
 
   // maps a json object with a list of AdditionalPropertiesClass-objects as value to a dart map
-  static Map<String, List<AdditionalPropertiesClass>> mapListFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static Map<String, List<AdditionalPropertiesClass>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<AdditionalPropertiesClass>>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = AdditionalPropertiesClass.listFromJson(entry.value, emptyIsNull: emptyIsNull, growable: growable,);
+        final value = AdditionalPropertiesClass.listFromJson(entry.value, growable: growable,);
         if (value != null) {
           map[entry.key] = value;
         }

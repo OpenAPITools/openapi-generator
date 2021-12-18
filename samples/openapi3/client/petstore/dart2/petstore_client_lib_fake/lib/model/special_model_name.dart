@@ -1,6 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -68,7 +69,7 @@ class SpecialModelName {
     return null;
   }
 
-  static List<SpecialModelName>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static List<SpecialModelName>? listFromJson(dynamic json, {bool growable = false,}) {
     final result = <SpecialModelName>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -78,7 +79,7 @@ class SpecialModelName {
         }
       }
     }
-    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
+    return result.toList(growable: growable);
   }
 
   static Map<String, SpecialModelName> mapFromJson(dynamic json) {
@@ -96,12 +97,12 @@ class SpecialModelName {
   }
 
   // maps a json object with a list of SpecialModelName-objects as value to a dart map
-  static Map<String, List<SpecialModelName>> mapListFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static Map<String, List<SpecialModelName>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<SpecialModelName>>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = SpecialModelName.listFromJson(entry.value, emptyIsNull: emptyIsNull, growable: growable,);
+        final value = SpecialModelName.listFromJson(entry.value, growable: growable,);
         if (value != null) {
           map[entry.key] = value;
         }

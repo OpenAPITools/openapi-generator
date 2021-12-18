@@ -1,6 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -69,7 +70,7 @@ class EnumArrays {
     return null;
   }
 
-  static List<EnumArrays>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static List<EnumArrays>? listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumArrays>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -79,7 +80,7 @@ class EnumArrays {
         }
       }
     }
-    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
+    return result.toList(growable: growable);
   }
 
   static Map<String, EnumArrays> mapFromJson(dynamic json) {
@@ -97,12 +98,12 @@ class EnumArrays {
   }
 
   // maps a json object with a list of EnumArrays-objects as value to a dart map
-  static Map<String, List<EnumArrays>> mapListFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static Map<String, List<EnumArrays>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<EnumArrays>>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = EnumArrays.listFromJson(entry.value, emptyIsNull: emptyIsNull, growable: growable,);
+        final value = EnumArrays.listFromJson(entry.value, growable: growable,);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -140,7 +141,7 @@ class EnumArraysJustSymbolEnum {
 
   static EnumArraysJustSymbolEnum? fromJson(dynamic value) => EnumArraysJustSymbolEnumTypeTransformer().decode(value);
 
-  static List<EnumArraysJustSymbolEnum>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static List<EnumArraysJustSymbolEnum>? listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumArraysJustSymbolEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -150,7 +151,7 @@ class EnumArraysJustSymbolEnum {
         }
       }
     }
-    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
+    return result.toList(growable: growable);
   }
 }
 
@@ -214,7 +215,7 @@ class EnumArraysArrayEnumEnum {
 
   static EnumArraysArrayEnumEnum? fromJson(dynamic value) => EnumArraysArrayEnumEnumTypeTransformer().decode(value);
 
-  static List<EnumArraysArrayEnumEnum>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static List<EnumArraysArrayEnumEnum>? listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumArraysArrayEnumEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -224,7 +225,7 @@ class EnumArraysArrayEnumEnum {
         }
       }
     }
-    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
+    return result.toList(growable: growable);
   }
 }
 

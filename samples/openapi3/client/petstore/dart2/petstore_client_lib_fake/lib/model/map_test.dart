@@ -1,6 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -81,7 +82,7 @@ class MapTest {
     return null;
   }
 
-  static List<MapTest>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static List<MapTest>? listFromJson(dynamic json, {bool growable = false,}) {
     final result = <MapTest>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -91,7 +92,7 @@ class MapTest {
         }
       }
     }
-    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
+    return result.toList(growable: growable);
   }
 
   static Map<String, MapTest> mapFromJson(dynamic json) {
@@ -109,12 +110,12 @@ class MapTest {
   }
 
   // maps a json object with a list of MapTest-objects as value to a dart map
-  static Map<String, List<MapTest>> mapListFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static Map<String, List<MapTest>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<MapTest>>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = MapTest.listFromJson(entry.value, emptyIsNull: emptyIsNull, growable: growable,);
+        final value = MapTest.listFromJson(entry.value, growable: growable,);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -152,7 +153,7 @@ class MapTestMapOfEnumStringEnum {
 
   static MapTestMapOfEnumStringEnum? fromJson(dynamic value) => MapTestMapOfEnumStringEnumTypeTransformer().decode(value);
 
-  static List<MapTestMapOfEnumStringEnum>? listFromJson(dynamic json, {bool emptyIsNull = false, bool growable = false,}) {
+  static List<MapTestMapOfEnumStringEnum>? listFromJson(dynamic json, {bool growable = false,}) {
     final result = <MapTestMapOfEnumStringEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -162,7 +163,7 @@ class MapTestMapOfEnumStringEnum {
         }
       }
     }
-    return emptyIsNull && result.isEmpty ? null : result.toList(growable: growable);
+    return result.toList(growable: growable);
   }
 }
 
