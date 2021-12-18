@@ -376,6 +376,14 @@ public class DefaultCodegen implements CodegenConfig {
             this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
+        if (additionalProperties.containsKey(CodegenConstants.USE_ONE_OF_INTERFACES)) {
+            this.setUseOneOfInterfaces(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.USE_ONE_OF_INTERFACES).toString()));
+        }
+        if (additionalProperties.containsKey(CodegenConstants.ADD_ONE_OF_INTERFACE_IMPORTS)) {
+            this.setAddOneOfInterfaceImports(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.ADD_ONE_OF_INTERFACE_IMPORTS).toString()));
+        }
     }
 
     /***
@@ -1316,6 +1324,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setUseOneOfInterfaces(Boolean useOneOfInterfaces) {
         this.useOneOfInterfaces = useOneOfInterfaces;
+    }
+
+    public void setAddOneOfInterfaceImports(Boolean addOneOfInterfaceImports) {
+        this.addOneOfInterfaceImports = addOneOfInterfaceImports;
     }
 
     /**

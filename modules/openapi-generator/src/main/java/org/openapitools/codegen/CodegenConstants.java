@@ -388,4 +388,10 @@ public class CodegenConstants {
         "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.";
+
+    public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
+    public static final String USE_ONE_OF_INTERFACES_DESC = "Flag to indicate whether to use the utils.OneOfImplementorAdditionalData related logic";
+
+    public static final String ADD_ONE_OF_INTERFACE_IMPORTS = "addOneOfInterfaceImports";
+    public static final String ADD_ONE_OF_INTERFACE_IMPORTS_DESC = "Whether or not the oneOf imports machinery should add oneOf interfaces as imports in implementing classes.";
 }
