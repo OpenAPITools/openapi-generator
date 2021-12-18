@@ -174,6 +174,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
 
+        useOneOfInterfaces = true;
+        addOneOfInterfaceImports = true;
+
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DateLibrary.THREETENBP.value, "Threetenbp - Backport of JSR310 (jvm only, preferred for jdk < 1.8)");
