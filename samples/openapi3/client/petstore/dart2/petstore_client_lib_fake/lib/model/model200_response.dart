@@ -68,10 +68,10 @@ class Model200Response {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        for (final key in requiredKeys) {
+        requiredKeys.forEach((key) {
           assert(json.containsKey(key), 'Required key "Model200Response[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "Model200Response[$key]" cannot be null.');
-        }
+          assert(json[key] != null, 'Required key "Model200Response[$key]" has a null value in JSON.');
+        });
         return true;
       }());
 
@@ -127,7 +127,6 @@ class Model200Response {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    
   };
 }
 

@@ -111,10 +111,10 @@ class Order {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        for (final key in requiredKeys) {
+        requiredKeys.forEach((key) {
           assert(json.containsKey(key), 'Required key "Order[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "Order[$key]" cannot be null.');
-        }
+          assert(json[key] != null, 'Required key "Order[$key]" has a null value in JSON.');
+        });
         return true;
       }());
 
@@ -174,7 +174,6 @@ class Order {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    
   };
 }
 
