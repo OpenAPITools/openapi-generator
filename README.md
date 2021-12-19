@@ -76,7 +76,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 |                                  | Languages/Frameworks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later, .NET Standard 1.3 - 2.0, .NET Core 2.0, .NET 5.0. Libraries: RestSharp, HttpClient), **C++** (Arduino, cpp-restsdk, Qt5, Tizen, Unreal Engine 4), **Clojure**, **Crystal**, **Dart**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Apache HttpClient, Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client, MicroProfile Rest Client), **k6**, **Kotlin**, **Lua**, **Nim**, **Node.js/JavaScript** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types, Apollo GraphQL DataStore), **Objective-C**, **OCaml**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (hyper, reqwest, rust-server), **Scala** (akka, http4s, scalaz, sttp, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x, 5.x), **Typescript** (AngularJS, Angular (2.x - 11.x), Aurelia, Axios, Fetch, Inversify, jQuery, Nestjs, Node, redux-query, Rxjs) |
-| **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin, Echo), **Haskell** (Servant, Yesod), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, Jersey, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples), [Vert.x](https://vertx.io/)), **Kotlin** (Spring Boot, Ktor, Vertx), **PHP** (Laravel, Lumen, [Mezzio (fka Zend Expressive)](https://github.com/mezzio/mezzio), Slim, Silex, [Symfony](https://symfony.com/)), **Python** (FastAPI, Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** (Akka, [Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), Scalatra)                                                                                                                                                                                         |
+| **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx, Azure Functions), **C++** (Pistache, Restbed, Qt5 QHTTPEngine), **Erlang**, **F#** (Giraffe), **Go** (net/http, Gin, Echo), **Haskell** (Servant, Yesod), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, Jersey, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples), [Vert.x](https://vertx.io/)), **Kotlin** (Spring Boot, Ktor, Vertx), **PHP** (Laravel, Lumen, [Mezzio (fka Zend Expressive)](https://github.com/mezzio/mezzio), Slim, Silex, [Symfony](https://symfony.com/)), **Python** (FastAPI, Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** (Akka, [Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), Scalatra)                                                                                                                                                                                         |
 | **API documentation generators** | **HTML**, **Confluence Wiki**, **Asciidoc**, **Markdown**, **PlantUML**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | **Configuration files**          | [**Apache2**](https://httpd.apache.org/)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | **Others**                       | **GraphQL**, **JMeter**, **Ktorm**, **MySQL Schema**, **Protocol Buffer**, **WSDL**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -223,21 +223,21 @@ Examples:
 # Execute latest released openapi-generator-cli
 openapi-generator-cli version
 
-# Execute version 3.1.0 for the current invocation, regardless of the latest released version
-OPENAPI_GENERATOR_VERSION=3.1.0 openapi-generator-cli version
+# Execute version 4.1.0 for the current invocation, regardless of the latest released version
+OPENAPI_GENERATOR_VERSION=4.1.0 openapi-generator-cli version
 
-# Execute version 3.1.0-SNAPSHOT for the current invocation
-OPENAPI_GENERATOR_VERSION=3.1.0-SNAPSHOT openapi-generator-cli version
+# Execute version 4.1.0-SNAPSHOT for the current invocation
+OPENAPI_GENERATOR_VERSION=4.1.0-SNAPSHOT openapi-generator-cli version
 
-# Execute version 3.0.2 for every invocation in the current shell session
-export OPENAPI_GENERATOR_VERSION=3.0.2
-openapi-generator-cli version # is 3.0.2
-openapi-generator-cli version # is also 3.0.2
+# Execute version 4.0.2 for every invocation in the current shell session
+export OPENAPI_GENERATOR_VERSION=4.0.2
+openapi-generator-cli version # is 4.0.2
+openapi-generator-cli version # is also 4.0.2
 
 # To "install" a specific version, set the variable in .bashrc/.bash_profile
-echo "export OPENAPI_GENERATOR_VERSION=3.0.2" >> ~/.bashrc
+echo "export OPENAPI_GENERATOR_VERSION=4.0.2" >> ~/.bashrc
 source ~/.bashrc
-openapi-generator-cli version # is always 3.0.2, unless any of the above overrides are done ad hoc
+openapi-generator-cli version # is always 4.0.2, unless any of the above overrides are done ad hoc
 ```
 
 ### [1.4 - Build Projects](#table-of-contents)
@@ -577,6 +577,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Adaptant Solutions AG](https://www.adaptant.io/)
 - [adesso SE](https://www.adesso.de/)
 - [Agoda](https://www.agoda.com/)
+- [Airthings](https://www.airthings.com/)
 - [Allianz](https://www.allianz.com)
 - [Angular.Schule](https://angular.schule/)
 - [Aqovia](https://aqovia.com/)
@@ -843,6 +844,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2021-10-02 - [How to Write Fewer Lines of Code with the OpenAPI Generator](https://hackernoon.com/how-to-write-fewer-lines-of-code-with-the-openapi-generator) by [Mikhail Alfa](https://hackernoon.com/u/alphamikle)
 - 2021-10-12 - [OpenAPI Generator : 4000 étoiles sur GitHub et des spaghettis](https://www.youtube.com/watch?v=9hEsNBSqTFk) by [Jérémie Bresson](https://github.com/jmini) at [Devoxx FR 2021](https://cfp.devoxx.fr/2021/speaker/jeremie_bresson)
 - 2021-10-17 - [Generate a TypeScript HTTP Client From An OpenAPI Spec In DotNET 5](https://richardwillis.info/blog/generate-a-type-script-http-client-from-an-open-api-spec-in-dot-net-5) by [Richard Willis](https://github.com/badsyntax)
+- 2021-11-06 - [スタートアップの開発で意識したこと](https://zenn.dev/woo_noo/articles/5cb09f8e2899ae782ad1) by [woo-noo](https://zenn.dev/woo_noo)
+- 2021-11-09 - [Effective Software Development using OpenAPI Generator](https://apexlabs.ai/post/effective-software-development-using-openapi-generator) by Ajil Oomme
 
 ## [6 - About Us](#table-of-contents)
 
@@ -951,6 +954,7 @@ Here is a list of template creators:
    * C# ASP.NET 5: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * C# ASP.NET Core 3.0: @A-Joshi
    * C# APS.NET Core 3.1: @phatcher
+   * C# Azure functions: @Abrhm7786
    * C# NancyFX: @mstefaniuk
    * C++ (Qt5 QHttpEngine): @etherealjoy
    * C++ Pistache: @sebymiano
@@ -1059,7 +1063,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | GraphQL           | @renepardon (2018/12)                                                                                                                                                                                                             |
 | Groovy            |                                                                                                                                                                                                                                   |
 | Haskell           |                                                                                                                                                                                                                                   |
-| Java              | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10) @nmuesch (2021/01)                          |
+| Java              | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) @lwlee2608 (2019/10)                        |
 | JMeter               | @kannkyo (2021/01)                                                                                                                                                                                                            |
 | Kotlin            | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) @andrewemery (2019/10) @4brunu (2019/11) @yutaka0m (2020/03)                                                        |
 | Lua               | @daurnimator (2017/08)                                                                                                                                                                                                            |

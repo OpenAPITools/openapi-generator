@@ -144,7 +144,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class Pet {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Category: ").Append(Category).Append("\n");
@@ -195,18 +195,28 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.Id.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 if (this.Category != null)
-                    hashCode = hashCode * 59 + this.Category.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Category.GetHashCode();
+                }
                 if (this.Name != null)
-                    hashCode = hashCode * 59 + this.Name.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
                 if (this.PhotoUrls != null)
-                    hashCode = hashCode * 59 + this.PhotoUrls.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.PhotoUrls.GetHashCode();
+                }
                 if (this.Tags != null)
-                    hashCode = hashCode * 59 + this.Tags.GetHashCode();
-                hashCode = hashCode * 59 + this.Status.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.Tags.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.Status.GetHashCode();
                 if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                }
                 return hashCode;
             }
         }
