@@ -41,7 +41,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -55,11 +55,11 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'HealthCheckResult',) as HealthCheckResult;
     
     }
-    return Future<HealthCheckResult?>.value();
+    return null;
   }
 
   /// test http signature authentication
@@ -81,14 +81,14 @@ class FakeApi {
     final path = r'/fake/http-signature-test';
 
     // ignore: prefer_final_locals
-    Object? postBody = pet;
+    Object postBody = pet;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
     if (query1 != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'query_1', query1));
+      queryParams.addAll(_queryParams('', 'query_1', query1));
     }
 
     if (header1 != null) {
@@ -106,7 +106,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -143,7 +143,7 @@ class FakeApi {
     final path = r'/fake/outer/boolean';
 
     // ignore: prefer_final_locals
-    Object? postBody = body;
+    Object postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -160,7 +160,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -179,11 +179,11 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'bool',) as bool;
     
     }
-    return Future<bool?>.value();
+    return null;
   }
 
   /// Test serialization of object with outer number type
@@ -199,7 +199,7 @@ class FakeApi {
     final path = r'/fake/outer/composite';
 
     // ignore: prefer_final_locals
-    Object? postBody = outerComposite;
+    Object postBody = outerComposite;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -216,7 +216,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -235,11 +235,11 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterComposite',) as OuterComposite;
     
     }
-    return Future<OuterComposite?>.value();
+    return null;
   }
 
   /// Test serialization of outer number types
@@ -255,7 +255,7 @@ class FakeApi {
     final path = r'/fake/outer/number';
 
     // ignore: prefer_final_locals
-    Object? postBody = body;
+    Object postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -272,7 +272,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -291,11 +291,11 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'num',) as num;
     
     }
-    return Future<num?>.value();
+    return null;
   }
 
   /// Test serialization of outer string types
@@ -311,7 +311,7 @@ class FakeApi {
     final path = r'/fake/outer/string';
 
     // ignore: prefer_final_locals
-    Object? postBody = body;
+    Object postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -328,7 +328,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -347,11 +347,11 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
     
     }
-    return Future<String?>.value();
+    return null;
   }
 
   /// Test serialization of enum (int) properties with examples
@@ -367,7 +367,7 @@ class FakeApi {
     final path = r'/fake/property/enum-int';
 
     // ignore: prefer_final_locals
-    Object? postBody = outerObjectWithEnumProperty;
+    Object postBody = outerObjectWithEnumProperty;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -384,7 +384,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -403,11 +403,11 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'OuterObjectWithEnumProperty',) as OuterObjectWithEnumProperty;
     
     }
-    return Future<OuterObjectWithEnumProperty?>.value();
+    return null;
   }
 
   /// For this test, the body has to be a binary file.
@@ -423,7 +423,7 @@ class FakeApi {
     final path = r'/fake/body-with-binary';
 
     // ignore: prefer_final_locals
-    Object? postBody = body;
+    Object postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -440,7 +440,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -470,7 +470,7 @@ class FakeApi {
     final path = r'/fake/body-with-file-schema';
 
     // ignore: prefer_final_locals
-    Object? postBody = fileSchemaTestClass;
+    Object postBody = fileSchemaTestClass;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -487,7 +487,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -515,13 +515,13 @@ class FakeApi {
     final path = r'/fake/body-with-query-params';
 
     // ignore: prefer_final_locals
-    Object? postBody = user;
+    Object postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'query', query));
+      queryParams.addAll(_queryParams('', 'query', query));
 
     const authNames = <String>[];
     const contentTypes = <String>['application/json'];
@@ -534,7 +534,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -566,7 +566,7 @@ class FakeApi {
     final path = r'/fake';
 
     // ignore: prefer_final_locals
-    Object? postBody = modelClient;
+    Object postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -583,7 +583,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -604,11 +604,11 @@ class FakeApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ModelClient',) as ModelClient;
     
     }
-    return Future<ModelClient?>.value();
+    return null;
   }
 
   /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -721,7 +721,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -823,16 +823,16 @@ class FakeApi {
     final formParams = <String, String>{};
 
     if (enumQueryStringArray != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('multi', 'enum_query_string_array', enumQueryStringArray));
+      queryParams.addAll(_queryParams('multi', 'enum_query_string_array', enumQueryStringArray));
     }
     if (enumQueryString != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'enum_query_string', enumQueryString));
+      queryParams.addAll(_queryParams('', 'enum_query_string', enumQueryString));
     }
     if (enumQueryInteger != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'enum_query_integer', enumQueryInteger));
+      queryParams.addAll(_queryParams('', 'enum_query_integer', enumQueryInteger));
     }
     if (enumQueryDouble != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'enum_query_double', enumQueryDouble));
+      queryParams.addAll(_queryParams('', 'enum_query_double', enumQueryDouble));
     }
 
     if (enumHeaderStringArray != null) {
@@ -859,7 +859,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -936,13 +936,13 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'required_string_group', requiredStringGroup));
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'required_int64_group', requiredInt64Group));
+      queryParams.addAll(_queryParams('', 'required_string_group', requiredStringGroup));
+      queryParams.addAll(_queryParams('', 'required_int64_group', requiredInt64Group));
     if (stringGroup != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'string_group', stringGroup));
+      queryParams.addAll(_queryParams('', 'string_group', stringGroup));
     }
     if (int64Group != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'int64_group', int64Group));
+      queryParams.addAll(_queryParams('', 'int64_group', int64Group));
     }
 
     headerParams[r'required_boolean_group'] = parameterToString(requiredBooleanGroup);
@@ -961,7 +961,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -1009,7 +1009,7 @@ class FakeApi {
     final path = r'/fake/inline-additionalProperties';
 
     // ignore: prefer_final_locals
-    Object? postBody = requestBody;
+    Object postBody = requestBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1026,7 +1026,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -1083,7 +1083,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -1134,15 +1134,15 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('pipes', 'pipe', pipe));
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'ioutil', ioutil));
-      queryParams.addAll(_convertParametersForCollectionFormat('ssv', 'http', http));
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'url', url));
-      queryParams.addAll(_convertParametersForCollectionFormat('multi', 'context', context));
+      queryParams.addAll(_queryParams('pipes', 'pipe', pipe));
+      queryParams.addAll(_queryParams('csv', 'ioutil', ioutil));
+      queryParams.addAll(_queryParams('ssv', 'http', http));
+      queryParams.addAll(_queryParams('csv', 'url', url));
+      queryParams.addAll(_queryParams('multi', 'context', context));
     if (language != null) {
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'language', language));
+      queryParams.addAll(_queryParams('', 'language', language));
     }
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'allowEmpty', allowEmpty));
+      queryParams.addAll(_queryParams('', 'allowEmpty', allowEmpty));
 
     const authNames = <String>[];
     const contentTypes = <String>[];
@@ -1155,7 +1155,7 @@ class FakeApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }

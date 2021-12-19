@@ -31,7 +31,7 @@ class UserApi {
     final path = r'/user';
 
     // ignore: prefer_final_locals
-    Object? postBody = user;
+    Object postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -48,7 +48,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -81,7 +81,7 @@ class UserApi {
     final path = r'/user/createWithArray';
 
     // ignore: prefer_final_locals
-    Object? postBody = user;
+    Object postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -98,7 +98,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -129,7 +129,7 @@ class UserApi {
     final path = r'/user/createWithList';
 
     // ignore: prefer_final_locals
-    Object? postBody = user;
+    Object postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -146,7 +146,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -197,7 +197,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -248,7 +248,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -267,11 +267,11 @@ class UserApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'User',) as User;
     
     }
-    return Future<User?>.value();
+    return null;
   }
 
   /// Logs user into the system
@@ -296,8 +296,8 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'username', username));
-      queryParams.addAll(_convertParametersForCollectionFormat('', 'password', password));
+      queryParams.addAll(_queryParams('', 'username', username));
+      queryParams.addAll(_queryParams('', 'password', password));
 
     const authNames = <String>[];
     const contentTypes = <String>[];
@@ -310,7 +310,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -332,11 +332,11 @@ class UserApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'String',) as String;
     
     }
-    return Future<String?>.value();
+    return null;
   }
 
   /// Logs out current logged in user session
@@ -364,7 +364,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -396,7 +396,7 @@ class UserApi {
       .replaceAll('{username}', username);
 
     // ignore: prefer_final_locals
-    Object? postBody = user;
+    Object postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -413,7 +413,7 @@ class UserApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }

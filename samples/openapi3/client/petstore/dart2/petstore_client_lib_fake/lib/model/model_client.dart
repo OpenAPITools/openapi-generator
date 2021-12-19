@@ -16,7 +16,12 @@ class ModelClient {
     this.client,
   });
 
-
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? client;
 
   @override
@@ -25,7 +30,8 @@ class ModelClient {
 
   @override
   int get hashCode =>
-    client.hashCode;
+    // ignore: unnecessary_parenthesis
+    (client == null ? 0 : client!.hashCode);
 
   @override
   String toString() => 'ModelClient[client=$client]';
@@ -41,39 +47,72 @@ class ModelClient {
   /// Returns a new [ModelClient] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ModelClient fromJson(Map<String, dynamic> json) => ModelClient(
-        client: json[r'client'] as String,
-    );
+  static ModelClient? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
 
-  static List<ModelClient> listFromJson(List json, {bool? growable,}) =>
-    json.isNotEmpty
-      ? json.map<ModelClient>((i) => ModelClient.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
-      : <ModelClient>[];
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "ModelClient[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ModelClient[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
+
+      return ModelClient(
+        client: mapValueOfType<String>(json, r'client'),
+      );
+    }
+    return null;
+  }
+
+  static List<ModelClient>? listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ModelClient>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ModelClient.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 
   static Map<String, ModelClient> mapFromJson(dynamic json) {
     final map = <String, ModelClient>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) => map[key] = ModelClient.fromJson(value));
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = ModelClient.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of ModelClient-objects as value to a dart map
-  static Map<String, List<ModelClient>> mapListFromJson(dynamic json, {bool? growable,}) {
+  static Map<String, List<ModelClient>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ModelClient>>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) {
-          map[key] = ModelClient.listFromJson(
-            value,
-            growable: growable,
-          );
-        });
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = ModelClient.listFromJson(entry.value, growable: growable,);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+  };
 }
 

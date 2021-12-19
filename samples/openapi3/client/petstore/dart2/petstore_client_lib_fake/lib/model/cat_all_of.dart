@@ -16,7 +16,12 @@ class CatAllOf {
     this.declawed,
   });
 
-
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   bool? declawed;
 
   @override
@@ -25,7 +30,8 @@ class CatAllOf {
 
   @override
   int get hashCode =>
-    declawed.hashCode;
+    // ignore: unnecessary_parenthesis
+    (declawed == null ? 0 : declawed!.hashCode);
 
   @override
   String toString() => 'CatAllOf[declawed=$declawed]';
@@ -41,39 +47,72 @@ class CatAllOf {
   /// Returns a new [CatAllOf] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static CatAllOf fromJson(Map<String, dynamic> json) => CatAllOf(
-        declawed: json[r'declawed'] as bool,
-    );
+  static CatAllOf? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
 
-  static List<CatAllOf> listFromJson(List json, {bool? growable,}) =>
-    json.isNotEmpty
-      ? json.map<CatAllOf>((i) => CatAllOf.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
-      : <CatAllOf>[];
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "CatAllOf[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "CatAllOf[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
+
+      return CatAllOf(
+        declawed: mapValueOfType<bool>(json, r'declawed'),
+      );
+    }
+    return null;
+  }
+
+  static List<CatAllOf>? listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <CatAllOf>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = CatAllOf.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 
   static Map<String, CatAllOf> mapFromJson(dynamic json) {
     final map = <String, CatAllOf>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) => map[key] = CatAllOf.fromJson(value));
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = CatAllOf.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of CatAllOf-objects as value to a dart map
-  static Map<String, List<CatAllOf>> mapListFromJson(dynamic json, {bool? growable,}) {
+  static Map<String, List<CatAllOf>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<CatAllOf>>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) {
-          map[key] = CatAllOf.listFromJson(
-            value,
-            growable: growable,
-          );
-        });
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = CatAllOf.listFromJson(entry.value, growable: growable,);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+  };
 }
 

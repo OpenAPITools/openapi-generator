@@ -16,7 +16,12 @@ class ClassModel {
     this.class_,
   });
 
-
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? class_;
 
   @override
@@ -25,7 +30,8 @@ class ClassModel {
 
   @override
   int get hashCode =>
-    class_.hashCode;
+    // ignore: unnecessary_parenthesis
+    (class_ == null ? 0 : class_!.hashCode);
 
   @override
   String toString() => 'ClassModel[class_=$class_]';
@@ -41,39 +47,72 @@ class ClassModel {
   /// Returns a new [ClassModel] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static ClassModel fromJson(Map<String, dynamic> json) => ClassModel(
-        class_: json[r'_class'] as String,
-    );
+  static ClassModel? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
 
-  static List<ClassModel> listFromJson(List json, {bool? growable,}) =>
-    json.isNotEmpty
-      ? json.map<ClassModel>((i) => ClassModel.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
-      : <ClassModel>[];
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "ClassModel[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "ClassModel[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
+
+      return ClassModel(
+        class_: mapValueOfType<String>(json, r'_class'),
+      );
+    }
+    return null;
+  }
+
+  static List<ClassModel>? listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ClassModel>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ClassModel.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 
   static Map<String, ClassModel> mapFromJson(dynamic json) {
     final map = <String, ClassModel>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) => map[key] = ClassModel.fromJson(value));
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = ClassModel.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of ClassModel-objects as value to a dart map
-  static Map<String, List<ClassModel>> mapListFromJson(dynamic json, {bool? growable,}) {
+  static Map<String, List<ClassModel>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ClassModel>>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) {
-          map[key] = ClassModel.listFromJson(
-            value,
-            growable: growable,
-          );
-        });
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = ClassModel.listFromJson(entry.value, growable: growable,);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+  };
 }
 

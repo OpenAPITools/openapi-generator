@@ -17,7 +17,12 @@ class Category {
     this.name = 'default-name',
   });
 
-
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   int? id;
 
   String name;
@@ -29,8 +34,9 @@ class Category {
 
   @override
   int get hashCode =>
-    id.hashCode +
-    name.hashCode;
+    // ignore: unnecessary_parenthesis
+    (id == null ? 0 : id!.hashCode) +
+    (name.hashCode);
 
   @override
   String toString() => 'Category[id=$id, name=$name]';
@@ -47,40 +53,74 @@ class Category {
   /// Returns a new [Category] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static Category fromJson(Map<String, dynamic> json) => Category(
-        id: json[r'id'] as int,
-        name: json[r'name'] as String,
-    );
+  static Category? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
 
-  static List<Category> listFromJson(List json, {bool? growable,}) =>
-    json.isNotEmpty
-      ? json.map<Category>((i) => Category.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
-      : <Category>[];
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "Category[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "Category[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
+
+      return Category(
+        id: mapValueOfType<int>(json, r'id'),
+        name: mapValueOfType<String>(json, r'name')!,
+      );
+    }
+    return null;
+  }
+
+  static List<Category>? listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <Category>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = Category.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 
   static Map<String, Category> mapFromJson(dynamic json) {
     final map = <String, Category>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) => map[key] = Category.fromJson(value));
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = Category.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of Category-objects as value to a dart map
-  static Map<String, List<Category>> mapListFromJson(dynamic json, {bool? growable,}) {
+  static Map<String, List<Category>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<Category>>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) {
-          map[key] = Category.listFromJson(
-            value,
-            growable: growable,
-          );
-        });
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = Category.listFromJson(entry.value, growable: growable,);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    'name',
+  };
 }
 

@@ -11,7 +11,6 @@
 part of openapi.api;
 
 class HttpBasicAuth implements Authentication {
-
   HttpBasicAuth(this.username, this.password);
 
   String username;
@@ -19,7 +18,7 @@ class HttpBasicAuth implements Authentication {
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
-    final credentials = '${username}:${password}';
+    final credentials = '$username:$password';
     headerParams['Authorization'] = 'Basic ${base64.encode(utf8.encode(credentials))}';
   }
 }

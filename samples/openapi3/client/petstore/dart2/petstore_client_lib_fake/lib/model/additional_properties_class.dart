@@ -17,10 +17,9 @@ class AdditionalPropertiesClass {
     this.mapOfMapProperty = const {},
   });
 
+  Map<String, String> mapProperty;
 
-  Map<String, String>? mapProperty;
-
-  Map<String, Map<String, String>>? mapOfMapProperty;
+  Map<String, Map<String, String>> mapOfMapProperty;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
@@ -29,60 +28,90 @@ class AdditionalPropertiesClass {
 
   @override
   int get hashCode =>
-    mapProperty.hashCode +
-    mapOfMapProperty.hashCode;
+    // ignore: unnecessary_parenthesis
+    (mapProperty.hashCode) +
+    (mapOfMapProperty.hashCode);
 
   @override
   String toString() => 'AdditionalPropertiesClass[mapProperty=$mapProperty, mapOfMapProperty=$mapOfMapProperty]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (mapProperty != null) {
       json[r'map_property'] = mapProperty;
-    }
-    if (mapOfMapProperty != null) {
       json[r'map_of_map_property'] = mapOfMapProperty;
-    }
     return json;
   }
 
   /// Returns a new [AdditionalPropertiesClass] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static AdditionalPropertiesClass fromJson(Map<String, dynamic> json) => AdditionalPropertiesClass(
-        mapProperty: json[r'map_property'] as Map<String, String>,
-        mapOfMapProperty: json[r'map_of_map_property'] as Map<String, Map<String, String>>,
-    );
+  static AdditionalPropertiesClass? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
 
-  static List<AdditionalPropertiesClass> listFromJson(List json, {bool? growable,}) =>
-    json.isNotEmpty
-      ? json.map<AdditionalPropertiesClass>((i) => AdditionalPropertiesClass.fromJson(i as Map<String, dynamic>)).toList(growable: true == growable)
-      : <AdditionalPropertiesClass>[];
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "AdditionalPropertiesClass[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "AdditionalPropertiesClass[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
+
+      return AdditionalPropertiesClass(
+        mapProperty: mapCastOfType<String, String>(json, r'map_property') ?? const {},
+        mapOfMapProperty: mapCastOfType<String, dynamic>(json, r'map_of_map_property') ?? const {},
+      );
+    }
+    return null;
+  }
+
+  static List<AdditionalPropertiesClass>? listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <AdditionalPropertiesClass>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = AdditionalPropertiesClass.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
 
   static Map<String, AdditionalPropertiesClass> mapFromJson(dynamic json) {
     final map = <String, AdditionalPropertiesClass>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) => map[key] = AdditionalPropertiesClass.fromJson(value));
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = AdditionalPropertiesClass.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
 
   // maps a json object with a list of AdditionalPropertiesClass-objects as value to a dart map
-  static Map<String, List<AdditionalPropertiesClass>> mapListFromJson(dynamic json, {bool? growable,}) {
+  static Map<String, List<AdditionalPropertiesClass>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<AdditionalPropertiesClass>>{};
     if (json is Map && json.isNotEmpty) {
-      json
-        .cast<String, dynamic>()
-        .forEach((key, dynamic value) {
-          map[key] = AdditionalPropertiesClass.listFromJson(
-            value,
-            growable: growable,
-          );
-        });
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = AdditionalPropertiesClass.listFromJson(entry.value, growable: growable,);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
     }
     return map;
   }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+  };
 }
 

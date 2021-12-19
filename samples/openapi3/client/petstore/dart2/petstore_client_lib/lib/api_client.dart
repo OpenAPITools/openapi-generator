@@ -11,7 +11,7 @@
 part of openapi.api;
 
 class ApiClient {
-ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
+  ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
     // Setup authentications (key: authentication name, value: authentication).
     _authentications[r'api_key'] = ApiKeyAuth('header', 'api_key');
     _authentications[r'petstore_auth'] = OAuth();
@@ -58,31 +58,25 @@ ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
     Object? body,
     Map<String, String> headerParams,
     Map<String, String> formParams,
-    String? nullableContentType,
+    String? contentType,
     List<String> authNames,
   ) async {
     _updateParamsForAuth(authNames, queryParams, headerParams);
 
     headerParams.addAll(_defaultHeaderMap);
-
-    final urlEncodedQueryParams = queryParams
-      .map((param) => '$param');
-
-    final queryString = urlEncodedQueryParams.isNotEmpty
-      ? '?${urlEncodedQueryParams.join('&')}'
-      : '';
-
-    final uri = Uri.parse('$basePath$path$queryString');
-
-    if (nullableContentType != null) {
-      headerParams['Content-Type'] = nullableContentType;
+    if (contentType != null) {
+      headerParams['Content-Type'] = contentType;
     }
+
+    final urlEncodedQueryParams = queryParams.map((param) => '$param');
+    final queryString = urlEncodedQueryParams.isNotEmpty ? '?${urlEncodedQueryParams.join('&')}' : '';
+    final uri = Uri.parse('$basePath$path$queryString');
 
     try {
       // Special case for uploading a single file which isn't a 'multipart/form-data'.
       if (
-        body is MultipartFile && (nullableContentType == null ||
-        !nullableContentType.toLowerCase().startsWith('multipart/form-data'))
+        body is MultipartFile && (contentType == null ||
+        !contentType.toLowerCase().startsWith('multipart/form-data'))
       ) {
         final request = StreamedRequest(method, uri);
         request.headers.addAll(headerParams);
@@ -108,7 +102,7 @@ ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
         return Response.fromStream(response);
       }
 
-      final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
+      final msgBody = contentType == 'application/x-www-form-urlencoded'
         ? formParams
         : await serializeAsync(body);
       final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
@@ -121,27 +115,55 @@ ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
         case 'HEAD': return await _client.head(uri, headers: nullableHeaderParams,);
         case 'GET': return await _client.get(uri, headers: nullableHeaderParams,);
       }
-    } on SocketException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Socket operation failed: $method $path', e, trace,);
-    } on TlsException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'TLS/SSL communication failed: $method $path', e, trace,);
-    } on IOException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'I/O operation failed: $method $path', e, trace,);
-    } on ClientException catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'HTTP connection failed: $method $path', e, trace,);
-    } on Exception catch (e, trace) {
-      throw ApiException.withInner(HttpStatus.badRequest, 'Exception occurred: $method $path', e, trace,);
+    } on SocketException catch (error, trace) {
+      throw ApiException.withInner(
+        HttpStatus.badRequest,
+        'Socket operation failed: $method $path',
+        error,
+        trace,
+      );
+    } on TlsException catch (error, trace) {
+      throw ApiException.withInner(
+        HttpStatus.badRequest,
+        'TLS/SSL communication failed: $method $path',
+        error,
+        trace,
+      );
+    } on IOException catch (error, trace) {
+      throw ApiException.withInner(
+        HttpStatus.badRequest,
+        'I/O operation failed: $method $path',
+        error,
+        trace,
+      );
+    } on ClientException catch (error, trace) {
+      throw ApiException.withInner(
+        HttpStatus.badRequest,
+        'HTTP connection failed: $method $path',
+        error,
+        trace,
+      );
+    } on Exception catch (error, trace) {
+      throw ApiException.withInner(
+        HttpStatus.badRequest,
+        'Exception occurred: $method $path',
+        error,
+        trace,
+      );
     }
 
-    throw ApiException(HttpStatus.badRequest, 'Invalid HTTP operation: $method $path',);
+    throw ApiException(
+      HttpStatus.badRequest,
+      'Invalid HTTP operation: $method $path',
+    );
   }
 
-  Future<dynamic> deserializeAsync(String json, String targetType, {bool growable = false}) async =>
+  Future<dynamic> deserializeAsync(String json, String targetType, {bool growable = false,}) async =>
     // ignore: deprecated_member_use_from_same_package
     deserialize(json, targetType, growable: growable);
 
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use deserializeAsync() instead.')
-  dynamic deserialize(String json, String targetType, {bool growable = false}) {
+  dynamic deserialize(String json, String targetType, {bool growable = false,}) {
     // Remove all spaces. Necessary for regular expressions as well.
     targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
 
@@ -201,24 +223,21 @@ ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
         case 'User':
           return User.fromJson(value);
         default:
-          Match? match;
-          if (value is List && (match = _regList.firstMatch(targetType)) != null) {
-            targetType = match![1]!; // ignore: parameter_assignments
+          dynamic match;
+          if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {
             return value
-              .map<dynamic>((dynamic v) => _deserialize(v, targetType, growable: growable))
+              .map<dynamic>((dynamic v) => _deserialize(v, match, growable: growable,))
               .toList(growable: growable);
           }
-          if (value is Set && (match = _regSet.firstMatch(targetType)) != null) {
-            targetType = match![1]!; // ignore: parameter_assignments
+          if (value is Set && (match = _regSet.firstMatch(targetType)?.group(1)) != null) {
             return value
-              .map<dynamic>((dynamic v) => _deserialize(v, targetType, growable: growable))
+              .map<dynamic>((dynamic v) => _deserialize(v, match, growable: growable,))
               .toSet();
           }
-          if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
-            targetType = match![1]!; // ignore: parameter_assignments
+          if (value is Map && (match = _regMap.firstMatch(targetType)?.group(1)) != null) {
             return Map<String, dynamic>.fromIterables(
               value.keys.cast<String>(),
-              value.values.map<dynamic>((dynamic v) => _deserialize(v, targetType, growable: growable)),
+              value.values.map<dynamic>((dynamic v) => _deserialize(v, match, growable: growable,)),
             );
           }
       }
