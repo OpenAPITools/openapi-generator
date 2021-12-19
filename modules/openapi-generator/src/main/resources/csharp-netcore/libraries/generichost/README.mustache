@@ -3,20 +3,37 @@
 <a name="cli"></a>
 ## Run the following powershell command to generate the library
 
-```
+```ps1
+$properties = @(
+    'projectName={{projectName}}'
+    'packageName={{packageName}}',
+    'targetFramework={{targetFramework}}'
+    'validatable={{validatable}}',
+    'nullableReferenceTypes={{nullableReferenceTypes}}',
+    'hideGenerationTimestamp={{hideGenerationTimestamp}}',
+    'packageVersion={{packageVersion}}'
+) -join ","
+
+$global = @(
+    'apiDocs={{generateApiDocs}}'
+    'modelDocs={{generateModelDocs}}',
+    'apiTests={{generateApiTests}}',
+    'modelTests={{generateModelTests}}',
+) -join ","
+
 java -jar "<path>/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar" generate `
     -g csharp-netcore `
     --library generichost `
     -i <your-swagger-file>.yml `
     -o <your-output-folder> `
-    --additional-properties="packageName=YourPackageName,targetFramework=net5.0,validatable=false,nullableReferenceTypes=true"
+    --additional-properties $properties `
+    --global-property $global
 ```
 
 <a name="usage"></a>
 ## Using the library in your project
 
-```
-cs
+```cs
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -31,9 +48,9 @@ namespace YourProject
     {
         public static async Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();{{#apiInfo}}{{#apis}}{{#-first}}
 
-            var api = host.Services.GetRequiredService<{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#-first}}{{#operation}}{{#-first}}{{operationId}}>();
+            var api = host.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();{{#operations}}{{#-first}}{{#operation}}{{#-first}}
             
             ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> foo = await api.{{operationId}}WithHttpInfoAsync("todo");{{/-first}}{{/operation}}{{/-first}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
         }
@@ -41,17 +58,16 @@ namespace YourProject
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
           .Configure{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}((context, options) =>
           {
-              // the type of token here depends on the api security specifications
+              {{#authMethods}}// the type of token here depends on the api security specifications
               ApiKeyToken token = new("<your token>");
               options.UseTokens(token);
 
               // optionally choose the method the tokens will be provided with, default is RateLimitProvider
               options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
 
-              options.ConfigureJsonOptions((jsonOptions) =>
+              {{/authMethods}}options.ConfigureJsonOptions((jsonOptions) =>
               {
-                  jsonOptions.Converters.Add(new DateTimeOffsetJsonConverter());
-                  jsonOptions.Converters.Add(new JsonStringEnumConverter());
+                  // your custom converters if any
               });
 
               options.ConfigureClients(client => {{#supportsRetry}}client
@@ -68,9 +84,10 @@ namespace YourProject
 ## Questions
 
 - What about HttpRequest failures and retries?
-  You can add Polly or any other middleware in the ConfigureClients method.
-- What about rate limits?
-  A token has a TimeSpan which controls how fast it will be reused.
+  If supportsRetry is enabled, you can configure Polly in the ConfigureClients method.
+- How are tokens used?
+  Tokens are provided by a TokenProvider class. The default is RateLimitProvider which will perform client side rate limiting.
+  Other providers can be used with the UseProvider method.
 - Does an HttpRequest throw an error when the server response is not Ok?
   It depends how you made the request. If the return type is ApiResponse<T> no error will be thrown, though the Content property will be null. 
   StatusCode and ReasonPhrase will contain information about the error.
@@ -80,22 +97,19 @@ namespace YourProject
 ## Notes
 
 - If you are not using .Net Standard, consider setting validatable to false in your generator-config.json due to this bug: https://github.com/dotnet/project-system/issues/3934
-- If you want to override the provided mustache templates, provide generate the library with the -t parameter and the folder name which stores your templates.{{#netStandard}}
-
-<a name="frameworks-supported"></a>
-## Frameworks supported
-
-- .NET Core >=1.0
-- .NET Framework >=4.6
-- Mono/Xamarin >=vNext{{/netStandard}}
+- If you want to override the provided mustache templates, provide generate the library with the -t parameter and the folder name which stores your templates.
 
 <a name="dependencies"></a>
 ## Dependencies
 
-- [Json.NET](https://www.nuget.org/packages/Newtonsoft.Json/) - 12.0.3 or later
+- [Microsoft.Extensions.Hosting](https://www.nuget.org/packages/Microsoft.Extensions.Hosting/) - 5.0.0 or later
+- [Microsoft.Extensions.Http](https://www.nuget.org/packages/Microsoft.Extensions.Http/) - 5.0.0 or later{{#supportsRetry}}
+- [Microsoft.Extensions.Http.Polly](https://www.nuget.org/packages/Microsoft.Extensions.Http.Polly/) - 5.0.1 or later
+- [Polly](https://www.nuget.org/packages/Polly/) - 7.2.2 or later{{/supportsRetry}}
+- [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/) - 12.0.3 or later
 - [JsonSubTypes](https://www.nuget.org/packages/JsonSubTypes/) - 1.7.0 or later{{#useCompareNetObjects}}
 - [CompareNETObjects](https://www.nuget.org/packages/CompareNETObjects) - 4.61.0 or later{{/useCompareNetObjects}}{{#validatable}}
-- [System.ComponentModel.Annotations](https://www.nuget.org/packages/System.ComponentModel.Annotations) - 4.7.0 or later{{/validatable}}
+- [System.ComponentModel.Annotations](https://www.nuget.org/packages/System.ComponentModel.Annotations) - 4.7.0 or later{{/validatable}}{{#apiDocs}}
 
 <a name="documentation-for-api-endpoints"></a>
 ## Documentation for API Endpoints
@@ -104,13 +118,13 @@ All URIs are relative to *{{{basePath}}}*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}{{/apiDocs}}{{#modelDocs}}
 
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
 {{#modelPackage}}{{#models}}{{#model}} - [{{{modelPackage}}}.{{{classname}}}]({{modelDocPath}}{{{classname}}}.md){{/model}}{{/models}}{{/modelPackage}}
-{{^modelPackage}}No model defined in this package{{/modelPackage}}
+{{^modelPackage}}No model defined in this package{{/modelPackage}}{{/modelDocs}}
 
 <a name="documentation-for-authorization"></a>
 ## Documentation for Authorization
@@ -131,36 +145,32 @@ Class | Method | HTTP request | Description
 - **Scopes**: {{^scopes}}N/A{{/scopes}}{{#scopes}}  
 - {{scope}}: {{description}}{{/scopes}}{{/isOAuth}}{{/authMethods}}
 
+## Build
+- SDK version: {{packageVersion}}{{^hideGenerationTimestamp}}
+- Build date: {{generatedDate}}{{/hideGenerationTimestamp}}
+- Build package: {{generatorClass}}
+
 ## Api Configuration
 - appName: {{appName}}
 - appVersion: {{appVersion}}
 - appDescription: {{appDescription}}
 
-## OpenApi Global properties
-- debugOpenAPI: {{debugOpenAPI}}
-- debugModels: {{debugModels}}
-- debugOperations: {{debugOperations}}
-- debugSupportingFiles: {{debugSupportingFiles}}
-- verbose: {{verbose}}
+## [OpenApi Global properties](https://openapi-generator.tech/docs/globals)
 - generateAliasAsModel: {{generateAliasAsModel}}
-- org.openapitools.codegenutils.oncelogger.enabled: {{org.openapi.tools.codegenutils.oncelogger.enabled}}
 - supportingFiles: {{supportingFiles}}
 - models: omitted for brevity
 - apis: omitted for brevity
-- apiDocs: omitted for brevity
-- modelDocs: {{modelDocs}}
-- apiTests: omitted for brevity
-- modelTests: {{modelTest}}
+- apiDocs: {{generateApiDocs}}
+- modelDocs: {{generateModelDocs}}
+- apiTests: {{generateApiTests}}
+- modelTests: {{generateModelTests}}
 - withXml: {{withXml}}
 
-## OpenApi Generator Parameteres
-- SDK version: {{packageVersion}}{{^hideGenerationTimestamp}}
-- Build date: {{generatedDate}}{{/hideGenerationTimestamp}}
-- Build package: {{generatorClass}}
-- Package name: {{packageName}}
-- allowUnicodeIdentifiers {{allowUnicodeIdentifiers}}
-- caseInsensitiveResponseHeaders {{caseInsensitiveResponseHeaders}}
-- disallowAdditionalPropertiesIfNotPresent {{disallowAdditionalPropertiesIfNotPresent}}
+## [OpenApi Generator Parameteres](https://openapi-generator.tech/docs/generators/csharp-netcore)
+- allowUnicodeIdentifiers: {{allowUnicodeIdentifiers}}
+- caseInsensitiveResponseHeaders: {{caseInsensitiveResponseHeaders}}
+- conditionalSerialization: {{conditionalSerialization}}
+- disallowAdditionalPropertiesIfNotPresent: {{disallowAdditionalPropertiesIfNotPresent}}
 - hideGenerationTimestamp: {{hideGenerationTimestamp}}
 - interfacePrefix: {{interfacePrefix}}
 - library: {{library}}
@@ -177,6 +187,7 @@ Class | Method | HTTP request | Description
 - packageName: {{packageName}}
 - packageTags: {{packageTags}}
 - packageVersion: {{packageVersion}}
+- projectName: {{projectName}}
 - releaseNote: {{releaseNote}}
 - returnICollection: {{returnICollection}}
 - sortParamsByRequiredFlag: {{sortParamsByRequiredFlag}}

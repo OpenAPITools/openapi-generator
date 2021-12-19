@@ -230,7 +230,7 @@ namespace {{packageName}}.{{apiPackage}}
 
                 List<TokenBase> tokens = new List<TokenBase>();{{/-first}}{{#isApiKey}}
                     
-                ApiKeyToken apiKey = (ApiKeyToken) await _apiKeyProvider.GetAsync(cancellationToken);
+                ApiKeyToken apiKey = (ApiKeyToken) await _apiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
                 
                 tokens.Add(apiKey);{{#isKeyInHeader}}
                 
@@ -243,29 +243,29 @@ namespace {{packageName}}.{{apiPackage}}
 {{! below line must be after any UseInQuery calls, but before using the HttpSignatureToken}}
                 request.RequestUri = uriBuilder.Uri;{{#authMethods}}{{#isBasicBasic}}
 
-                BasicToken basicToken = (BasicToken) await _basicTokenProvider.GetAsync(cancellationToken);
+                BasicToken basicToken = (BasicToken) await _basicTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                 tokens.Add(basicToken);
                 
                 basicToken.UseInHeader(request, "{{keyParamName}}");{{/isBasicBasic}}{{#isBasicBearer}}
 
-                BearerToken bearerToken = (BearerToken) await _bearerTokenProvider.GetAsync(cancellationToken);
+                BearerToken bearerToken = (BearerToken) await _bearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                 tokens.Add(bearerToken);
                 
                 bearerToken.UseInHeader(request, "{{keyParamName}}");{{/isBasicBearer}}{{#isOAuth}}
 
-                OAuthToken oauthToken = (OAuthToken) await _oauthTokenProvider.GetAsync(cancellationToken);
+                OAuthToken oauthToken = (OAuthToken) await _oauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                 tokens.Add(oauthToken);
                 
                 oauthToken.UseInHeader(request, "{{keyParamName}}");{{/isOAuth}}{{#isHttpSignature}}
                 
-                HttpSignatureToken signatureToken = (HttpSignatureToken) await _httpSignatureTokenProvider.GetAsync(cancellationToken);
+                HttpSignatureToken signatureToken = (HttpSignatureToken) await _httpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
                 tokens.Add(signatureToken);
 
-                string requestBody = (await request.Content{{#nullableReferenceTypes}}!{{/nullableReferenceTypes}}.ReadAsStringAsync(cancellationToken.GetValueOrDefault()));
+                string requestBody = await request.Content{{#nullableReferenceTypes}}!{{/nullableReferenceTypes}}.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
 
                 signatureToken.UseInHeader(request, requestBody, cancellationToken);{{/isHttpSignature}}{{/authMethods}}{{#consumes}}{{#-first}}
                 
