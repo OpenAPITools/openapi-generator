@@ -193,7 +193,7 @@ class StoreApi {
     final path = r'/store/order';
 
     // ignore: prefer_final_locals
-    Object postBody = order;
+    Object? postBody = order;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};

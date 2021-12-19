@@ -81,7 +81,7 @@ class FakeApi {
     final path = r'/fake/http-signature-test';
 
     // ignore: prefer_final_locals
-    Object postBody = pet;
+    Object? postBody = pet;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -143,7 +143,7 @@ class FakeApi {
     final path = r'/fake/outer/boolean';
 
     // ignore: prefer_final_locals
-    Object postBody = body;
+    Object? postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -199,7 +199,7 @@ class FakeApi {
     final path = r'/fake/outer/composite';
 
     // ignore: prefer_final_locals
-    Object postBody = outerComposite;
+    Object? postBody = outerComposite;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -255,7 +255,7 @@ class FakeApi {
     final path = r'/fake/outer/number';
 
     // ignore: prefer_final_locals
-    Object postBody = body;
+    Object? postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -311,7 +311,7 @@ class FakeApi {
     final path = r'/fake/outer/string';
 
     // ignore: prefer_final_locals
-    Object postBody = body;
+    Object? postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -367,7 +367,7 @@ class FakeApi {
     final path = r'/fake/property/enum-int';
 
     // ignore: prefer_final_locals
-    Object postBody = outerObjectWithEnumProperty;
+    Object? postBody = outerObjectWithEnumProperty;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -423,7 +423,7 @@ class FakeApi {
     final path = r'/fake/body-with-binary';
 
     // ignore: prefer_final_locals
-    Object postBody = body;
+    Object? postBody = body;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -470,7 +470,7 @@ class FakeApi {
     final path = r'/fake/body-with-file-schema';
 
     // ignore: prefer_final_locals
-    Object postBody = fileSchemaTestClass;
+    Object? postBody = fileSchemaTestClass;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -515,7 +515,7 @@ class FakeApi {
     final path = r'/fake/body-with-query-params';
 
     // ignore: prefer_final_locals
-    Object postBody = user;
+    Object? postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -566,7 +566,7 @@ class FakeApi {
     final path = r'/fake';
 
     // ignore: prefer_final_locals
-    Object postBody = modelClient;
+    Object? postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -1009,7 +1009,7 @@ class FakeApi {
     final path = r'/fake/inline-additionalProperties';
 
     // ignore: prefer_final_locals
-    Object postBody = requestBody;
+    Object? postBody = requestBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};

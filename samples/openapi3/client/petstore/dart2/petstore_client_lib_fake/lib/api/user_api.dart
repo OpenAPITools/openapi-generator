@@ -31,7 +31,7 @@ class UserApi {
     final path = r'/user';
 
     // ignore: prefer_final_locals
-    Object postBody = user;
+    Object? postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -81,7 +81,7 @@ class UserApi {
     final path = r'/user/createWithArray';
 
     // ignore: prefer_final_locals
-    Object postBody = user;
+    Object? postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -129,7 +129,7 @@ class UserApi {
     final path = r'/user/createWithList';
 
     // ignore: prefer_final_locals
-    Object postBody = user;
+    Object? postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -396,7 +396,7 @@ class UserApi {
       .replaceAll('{username}', username);
 
     // ignore: prefer_final_locals
-    Object postBody = user;
+    Object? postBody = user;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};

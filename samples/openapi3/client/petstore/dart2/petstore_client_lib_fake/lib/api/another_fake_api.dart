@@ -31,7 +31,7 @@ class AnotherFakeApi {
     final path = r'/another-fake/dummy';
 
     // ignore: prefer_final_locals
-    Object postBody = modelClient;
+    Object? postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};

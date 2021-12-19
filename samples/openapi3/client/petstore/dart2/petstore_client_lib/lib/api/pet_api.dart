@@ -29,7 +29,7 @@ class PetApi {
     final path = r'/pet';
 
     // ignore: prefer_final_locals
-    Object postBody = pet;
+    Object? postBody = pet;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -333,7 +333,7 @@ class PetApi {
     final path = r'/pet';
 
     // ignore: prefer_final_locals
-    Object postBody = pet;
+    Object? postBody = pet;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};

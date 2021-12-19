@@ -31,7 +31,7 @@ class FakeClassnameTags123Api {
     final path = r'/fake_classname_test';
 
     // ignore: prefer_final_locals
-    Object postBody = modelClient;
+    Object? postBody = modelClient;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
