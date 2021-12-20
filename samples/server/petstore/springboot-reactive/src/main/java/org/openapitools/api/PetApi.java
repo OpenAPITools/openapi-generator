@@ -263,7 +263,7 @@ public interface PetApi {
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
+     * @param _file file to upload (optional)
      * @return successful operation (status code 200)
      */
 
@@ -288,7 +288,7 @@ public interface PetApi {
 @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
 
 @ApiParam(value = "file to upload") @Valid @RequestPart(value = "file", required = false) Flux<Part> file, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
-        return getDelegate().uploadFile(petId, additionalMetadata, file, exchange);
+        return getDelegate().uploadFile(petId, additionalMetadata, _file, exchange);
     }
 
 }
