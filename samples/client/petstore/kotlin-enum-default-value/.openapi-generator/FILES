@@ -10,7 +10,7 @@ settings.gradle
 src/main/kotlin/org/openapitools/client/apis/DefaultApi.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ApiAbstractions.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt
-src/main/kotlin/org/openapitools/client/infrastructure/ApiInfrastructureResponse.kt
+src/main/kotlin/org/openapitools/client/infrastructure/ApiResponse.kt
 src/main/kotlin/org/openapitools/client/infrastructure/BigDecimalAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/BigIntegerAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ByteArrayAdapter.kt

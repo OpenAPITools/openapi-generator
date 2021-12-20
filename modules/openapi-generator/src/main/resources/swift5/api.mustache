@@ -23,9 +23,9 @@ extension {{projectName}}API {
 /** {{{.}}} */{{/description}}
 {{#objcCompatible}}@objc {{/objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class {{classname}}{{#objcCompatible}} : NSObject{{/objcCompatible}} {
 {{#operation}}
-
     {{#allParams}}
     {{#isEnum}}
+
     /**
      * enum for parameter {{paramName}}
      */
@@ -36,7 +36,6 @@ extension {{projectName}}API {
         {{/enumVars}}
         {{/allowableValues}}
     }
-
     {{/isEnum}}
     {{/allParams}}
 {{^useVapor}}
@@ -45,6 +44,7 @@ extension {{projectName}}API {
 {{^useResult}}
 {{^useCombine}}
 {{^useAsyncAwait}}
+
     /**
      {{#summary}}
      {{{.}}}
@@ -80,6 +80,7 @@ extension {{projectName}}API {
 {{/usePromiseKit}}
 {{/useVapor}}
 {{#usePromiseKit}}
+
     /**
      {{#summary}}
      {{{.}}}
@@ -111,6 +112,7 @@ extension {{projectName}}API {
     }
 {{/usePromiseKit}}
 {{#useRxSwift}}
+
     /**
      {{#summary}}
      {{{.}}}
@@ -147,6 +149,7 @@ extension {{projectName}}API {
     }
 {{/useRxSwift}}
 {{#useCombine}}
+
     /**
      {{#summary}}
      {{{.}}}
@@ -186,6 +189,7 @@ extension {{projectName}}API {
     #endif
 {{/useCombine}}
 {{#useAsyncAwait}}
+
     /**
      {{#summary}}
      {{{.}}}
@@ -197,7 +201,7 @@ extension {{projectName}}API {
     {{#isDeprecated}}
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
-    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue) async throws{{#returnType}} -> {{{returnType}}}{{/returnType}} {
         var requestTask: RequestTask?
         return try await withTaskCancellationHandler {
@@ -229,6 +233,7 @@ extension {{projectName}}API {
     }
 {{/useAsyncAwait}}
 {{#useResult}}
+
     /**
      {{#summary}}
      {{{.}}}
@@ -241,7 +246,7 @@ extension {{projectName}}API {
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
     @discardableResult
-    open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<{{{returnType}}}{{^returnType}}Void{{/returnType}}, ErrorResponse>) -> Void)) -> RequestTask {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}apiResponseQueue: DispatchQueue = {{projectName}}API.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<{{{returnType}}}{{^returnType}}Void{{/returnType}}, ErrorResponse>) -> Void)) -> RequestTask {
         return {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).execute(apiResponseQueue) { result in
             switch result {
             {{#returnType}}
@@ -259,6 +264,7 @@ extension {{projectName}}API {
     }
 {{/useResult}}
 {{#useVapor}}
+
     /**
      {{#summary}}
      {{{.}}}
@@ -380,7 +386,6 @@ extension {{projectName}}API {
             }
         }
     }
-
 {{/useVapor}}
 {{^useVapor}}
 

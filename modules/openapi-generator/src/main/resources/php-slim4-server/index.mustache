@@ -28,6 +28,9 @@ if (is_array($prodConfig = @include(__DIR__ . '/../config/prod/config.inc.php'))
 $router = new SlimRouter($config);
 $app = $router->getSlimApp();
 
+// Parse json, form data and xml
+$app->addBodyParsingMiddleware();
+
 /**
  * The routing middleware should be added before the ErrorMiddleware
  * Otherwise exceptions thrown from it will not be handled

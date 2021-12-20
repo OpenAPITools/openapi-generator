@@ -17,7 +17,6 @@ use InvalidArgumentException;
 use Dyorg\TokenAuthentication;
 use Dyorg\TokenAuthentication\TokenSearch;
 use Psr\Http\Message\ServerRequestInterface;
-use {{invokerPackage}}\Middleware\JsonBodyParserMiddleware;
 use OpenAPIServer\Mock\OpenApiDataMocker;
 use OpenAPIServer\Mock\OpenApiDataMockerRouteMiddleware;
 {{#isSlimPsr7}}
@@ -185,7 +184,7 @@ class SlimRouter
                 $message = "How about extending {$operation['classname']} by {$operation['apiPackage']}\\{$operation['userClassname']} class implementing {$operation['operationId']} as a {$operation['httpMethod']} method?";
                 throw new HttpNotImplementedException($request, $message);
             };
-            $middlewares = [new JsonBodyParserMiddleware()];
+            $middlewares = [];
 
             if (class_exists("\\{$operation['apiPackage']}\\{$operation['userClassname']}")) {
                 $callback = "\\{$operation['apiPackage']}\\{$operation['userClassname']}:{$operation['operationId']}";
