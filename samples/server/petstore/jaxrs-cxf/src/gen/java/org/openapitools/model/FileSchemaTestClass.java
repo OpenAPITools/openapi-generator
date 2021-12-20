@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.model.ModelFile;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -13,26 +12,26 @@ public class FileSchemaTestClass  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private ModelFile _file;
+  private java.io.File file;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<ModelFile> files = null;
+  private List<java.io.File> files = null;
  /**
-   * Get _file
-   * @return _file
+   * Get file
+   * @return file
   **/
   @JsonProperty("file")
-  public ModelFile getFile() {
-    return _file;
+  public java.io.File getFile() {
+    return file;
   }
 
-  public void setFile(ModelFile _file) {
-    this._file = _file;
+  public void setFile(java.io.File file) {
+    this.file = file;
   }
 
-  public FileSchemaTestClass _file(ModelFile _file) {
-    this._file = _file;
+  public FileSchemaTestClass file(java.io.File file) {
+    this.file = file;
     return this;
   }
 
@@ -41,20 +40,20 @@ public class FileSchemaTestClass  {
    * @return files
   **/
   @JsonProperty("files")
-  public List<ModelFile> getFiles() {
+  public List<java.io.File> getFiles() {
     return files;
   }
 
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(List<java.io.File> files) {
     this.files = files;
   }
 
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(List<java.io.File> files) {
     this.files = files;
     return this;
   }
 
-  public FileSchemaTestClass addFilesItem(ModelFile filesItem) {
+  public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
     this.files.add(filesItem);
     return this;
   }
@@ -65,7 +64,7 @@ public class FileSchemaTestClass  {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
     
-    sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
+    sb.append("    file: ").append(toIndentedString(file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();

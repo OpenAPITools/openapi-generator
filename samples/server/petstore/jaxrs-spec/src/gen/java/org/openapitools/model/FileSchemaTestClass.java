@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.model.ModelFile;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -21,13 +20,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("FileSchemaTestClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FileSchemaTestClass  implements Serializable {
   
-  private @Valid ModelFile _file;
-  private @Valid List<ModelFile> files = new ArrayList<ModelFile>();
+  private @Valid java.io.File file;
+  private @Valid List<java.io.File> files = new ArrayList<java.io.File>();
 
   /**
    **/
-  public FileSchemaTestClass _file(ModelFile _file) {
-    this._file = _file;
+  public FileSchemaTestClass file(java.io.File file) {
+    this.file = file;
     return this;
   }
 
@@ -36,18 +35,18 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("file")
-  public ModelFile getFile() {
-    return _file;
+  public java.io.File getFile() {
+    return file;
   }
 
   @JsonProperty("file")
-  public void setFile(ModelFile _file) {
-    this._file = _file;
+  public void setFile(java.io.File file) {
+    this.file = file;
   }
 
 /**
    **/
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(List<java.io.File> files) {
     this.files = files;
     return this;
   }
@@ -57,12 +56,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   
   @ApiModelProperty(value = "")
   @JsonProperty("files")
-  public List<ModelFile> getFiles() {
+  public List<java.io.File> getFiles() {
     return files;
   }
 
   @JsonProperty("files")
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(List<java.io.File> files) {
     this.files = files;
   }
 
@@ -76,13 +75,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(this._file, fileSchemaTestClass._file) &&
+    return Objects.equals(this.file, fileSchemaTestClass.file) &&
         Objects.equals(this.files, fileSchemaTestClass.files);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_file, files);
+    return Objects.hash(file, files);
   }
 
   @Override
@@ -90,7 +89,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
     
-    sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
+    sb.append("    file: ").append(toIndentedString(file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();
