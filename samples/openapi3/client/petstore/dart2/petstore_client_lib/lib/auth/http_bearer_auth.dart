@@ -42,8 +42,6 @@ class HttpBearerAuth implements Authentication {
       return;
     }
 
-    accessToken = accessToken.trim();
-
     if (accessToken.isNotEmpty) {
       headerParams['Authorization'] = 'Bearer $accessToken';
     }

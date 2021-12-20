@@ -18,9 +18,6 @@ class HttpBasicAuth implements Authentication {
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
-    username = username.trim();
-    password = password.trim();
-
     if (username.isNotEmpty && password.isNotEmpty) {
       final credentials = '$username:$password';
       headerParams['Authorization'] = 'Basic ${base64.encode(utf8.encode(credentials))}';
