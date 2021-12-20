@@ -917,6 +917,7 @@ Here is a list of template creators:
    * JMeter: @davidkiss
    * Kotlin: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Kotlin (MultiPlatform): @andrewemery
+   * Kotlin (Volley): @alisters
    * Lua: @daurnimator
    * Nim: @hokamoto
    * OCaml: @cgensoul

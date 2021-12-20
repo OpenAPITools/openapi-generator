@@ -27,6 +27,7 @@ import org.openapitools.client.model.ParentPet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -40,6 +41,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.openapitools.client.JSON;
 
 /**
  * GrandparentAnimal
@@ -114,4 +117,64 @@ public class GrandparentAnimal {
     return o.toString().replace("\n", "\n    ");
   }
 
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    openapiFields.add("pet_type");
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    openapiRequiredFields.add("pet_type");
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to GrandparentAnimal
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (GrandparentAnimal.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in GrandparentAnimal is not found in the empty JSON string", GrandparentAnimal.openapiRequiredFields.toString()));
+        }
+      }
+
+      String discriminatorValue = jsonObj.get("pet_type").getAsString();
+      switch (discriminatorValue) {
+        case "ParentPet":
+          ParentPet.validateJsonObject(jsonObj);
+          break;
+        default: 
+          throw new IllegalArgumentException(String.format("The value of the `pet_type` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
+      }
+  }
+
+
+ /**
+  * Create an instance of GrandparentAnimal given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of GrandparentAnimal
+  * @throws IOException if the JSON string is invalid with respect to GrandparentAnimal
+  */
+  public static GrandparentAnimal fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, GrandparentAnimal.class);
+  }
+
+ /**
+  * Convert an instance of GrandparentAnimal to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
+
