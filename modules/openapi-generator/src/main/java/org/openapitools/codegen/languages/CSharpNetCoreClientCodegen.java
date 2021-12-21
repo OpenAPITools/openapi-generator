@@ -771,9 +771,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
+        supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() +  "Api.cs"));
 
         if (Boolean.FALSE.equals(excludeTests.get())) {
             supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
+            supportingFiles.add(new SupportingFile("api_test_base.mustache", testPackageFolder + File.separator + "Api", "ApiTestsBase.cs"));
+            supportingFiles.add(new SupportingFile("DependencyInjectionTests.mustache", testPackageFolder + File.separator + "Api", "DependencyInjectionTests.cs"));
         }
 
         if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {

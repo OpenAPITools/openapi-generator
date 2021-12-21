@@ -60,7 +60,7 @@ namespace YourProject
           {
               {{#authMethods}}// the type of token here depends on the api security specifications
               ApiKeyToken token = new("<your token>");
-              options.UseTokens(token);
+              options.AddTokens(token);
 
               // optionally choose the method the tokens will be provided with, default is RateLimitProvider
               options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
@@ -70,10 +70,10 @@ namespace YourProject
                   // your custom converters if any
               });
 
-              options.ConfigureClients(client => {{#supportsRetry}}client
+              options.Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients(builder: builder => builder
                 .AddRetryPolicy(2)
                 .AddTimeoutPolicy(TimeSpan.FromSeconds(5))
-                .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30)){{/supportsRetry}}
+                .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30))
                 // add whatever middleware you prefer
               );
           });

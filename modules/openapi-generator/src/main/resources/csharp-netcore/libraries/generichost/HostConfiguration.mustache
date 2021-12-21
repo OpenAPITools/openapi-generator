@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using {{packageName}}.Api;
 
@@ -13,7 +15,7 @@ namespace {{packageName}}.Client
     public class HostConfiguration
     {
         private readonly IServiceCollection _services;
-        private readonly List<IHttpClientBuilder> _clients = new();
+        internal bool HttpClientsAdded { get; private set; }
 
         /// <summary>
         /// Instantiates the class 
@@ -21,23 +23,45 @@ namespace {{packageName}}.Client
         /// <param name="services"></param>
         public HostConfiguration(IServiceCollection services)
         {
-            _services = services;
-            {{#apiInfo}}{{#apis}}_clients.Add(services.AddHttpClient<{{interfacePrefix}}{{classname}}, {{classname}}>(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS)));{{^-last}}
-            {{/-last}}{{/apis}}{{/apiInfo}}
-
-            {{#apiInfo}}{{#apis}}services.AddSingleton<{{interfacePrefix}}{{classname}}, {{classname}}>();{{^-last}}
-            {{/-last}}{{/apis}}{{/apiInfo}}
+            _services = services;{{#apiInfo}}{{#apis}}
+            services.AddSingleton<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
         }
 
         /// <summary>
-        /// Configures the HttpClients. Use this to add your middleware.
+        /// Configures the HttpClients.
         /// </summary>
-        /// <param name="clientBuilder"></param>
+        /// <param name="client"></param>
+        /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration ConfigureClients(Action<IHttpClientBuilder> clientBuilder)
-        {   
-            foreach(IHttpClientBuilder client in _clients)
-                clientBuilder(client);
+        public HostConfiguration Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}>
+        (
+            Action<HttpClient>? client = null, Action<IHttpClientBuilder>? builder = null){{#apis}}
+            where T{{classname}} : class, {{interfacePrefix}}{{classname}}{{/apis}}
+        {
+            client ??= c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
+            List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
+            
+            {{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
+            {{/apis}}{{/apiInfo}}
+            if (builder != null)
+                foreach (IHttpClientBuilder instance in builders)
+                    builder(instance);
+
+            HttpClientsAdded = true;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients(
+            Action<HttpClient>? client = null, Action<IHttpClientBuilder>? builder = null)
+        {
+            AddCmcHttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
 
             return this;
         }
@@ -60,9 +84,9 @@ namespace {{packageName}}.Client
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="token"></param>
         /// <returns></returns>
-        public HostConfiguration UseTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
+        public HostConfiguration AddTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
         {
-            return UseTokens<TTokenBase>(new TTokenBase[]{ token });
+            return AddTokens<TTokenBase>(new TTokenBase[]{ token });
         }
 
         /// <summary>
@@ -71,7 +95,7 @@ namespace {{packageName}}.Client
         /// <typeparam name="TTokenBase"></typeparam>
         /// <param name="tokens"></param>
         /// <returns></returns>
-        public HostConfiguration UseTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
+        public HostConfiguration AddTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
         {
             TokenContainer<TTokenBase> container = new TokenContainer<TTokenBase>(tokens);
             _services.AddSingleton<TokenContainer<TTokenBase>>(services => container);
