@@ -133,7 +133,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isLong}}
 	{{^isInteger}}
 	{{^isBoolean}}
-	{{paramName}}Param := {{#isArray}}strings.Split({{/isArray}}query.Get("{{baseName}}"){{#isArray}}, ","){{/isArray}}
+	{{paramName}}Param := {{^isString}}{{dataType}}( {{/isString}}{{#isArray}}strings.Split({{/isArray}}query.Get("{{baseName}}"){{#isArray}}, ","){{/isArray}}{{^isString}} ){{/isString}}
 	{{/isBoolean}}
 	{{/isInteger}}
 	{{/isLong}}
