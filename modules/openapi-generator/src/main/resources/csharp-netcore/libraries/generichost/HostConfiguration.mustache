@@ -61,7 +61,7 @@ namespace {{packageName}}.Client
         public HostConfiguration Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients(
             Action<HttpClient>? client = null, Action<IHttpClientBuilder>? builder = null)
         {
-            AddCmcHttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
+            Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
 
             return this;
         }

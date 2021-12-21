@@ -282,7 +282,7 @@ namespace {{packageName}}.Client
         private static void Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}(IServiceCollection services, HostConfiguration host)
         {
             if (!host.HttpClientsAdded)
-                host.AddCmcHttpClients();
+                host.Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients();
 
             // ensure that a token provider was provided for this token type
             // if not, default to RateLimitProvider
