@@ -38,7 +38,7 @@ public class CamelServerCodegen extends SpringCodegen implements BeanValidationF
     private boolean camelSecurityDefinitions = true;
     private String camelDataformatProperties = "";
 
-    static final Logger LOGGER = LoggerFactory.getLogger(CamelServerCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CamelServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
