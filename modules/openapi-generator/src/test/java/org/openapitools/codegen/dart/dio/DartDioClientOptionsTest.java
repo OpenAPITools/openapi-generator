@@ -52,5 +52,6 @@ public class DartDioClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setUseEnumExtension(Boolean.parseBoolean(DartDioClientOptionsProvider.USE_ENUM_EXTENSION));
         verify(clientCodegen).setDateLibrary(DartDioClientOptionsProvider.DATE_LIBRARY);
         verify(clientCodegen).setNullableFields(Boolean.parseBoolean(DartDioClientOptionsProvider.NULLABLE_FIELDS));
+        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(DartDioClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

@@ -25,6 +25,8 @@ import java.io.IOException
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
+import com.squareup.moshi.Json
+
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiResponse
 import org.openapitools.client.infrastructure.ClientException
@@ -186,6 +188,16 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     }
 
     /**
+     * enum for parameter status
+     */
+     internal enum class Status_findPetsByStatus(val value: kotlin.String) {
+         @Json(name = "available") available("available"),
+         @Json(name = "pending") pending("pending"),
+         @Json(name = "sold") sold("sold"),
+         ;
+     }
+
+    /**
     * Finds Pets by status
     * Multiple status values can be provided with comma separated strings
     * @param status Status values that need to be considered for filter 
@@ -198,7 +210,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>) : kotlin.collections.List<Pet> {
+    fun findPetsByStatus(status: kotlin.collections.List<Status_findPetsByStatus>) : kotlin.collections.List<Pet> {
         val localVarResponse = findPetsByStatusWithHttpInfo(status = status)
 
         return when (localVarResponse.responseType) {
@@ -226,7 +238,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<kotlin.String>) : ApiResponse<kotlin.collections.List<Pet>?> {
+    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<Status_findPetsByStatus>) : ApiResponse<kotlin.collections.List<Pet>?> {
         val localVariableConfig = findPetsByStatusRequestConfig(status = status)
 
         return request<Unit, kotlin.collections.List<Pet>>(
@@ -240,9 +252,9 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     * @param status Status values that need to be considered for filter 
     * @return RequestConfig
     */
-    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
+    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<Status_findPetsByStatus>) : RequestConfig<Unit> {
         val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 put("status", toMultiValue(status.toList(), "csv"))
             }
@@ -320,7 +332,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(bas
     @Deprecated(message = "This operation is deprecated.")
     fun findPetsByTagsRequestConfig(tags: kotlin.collections.List<kotlin.String>) : RequestConfig<Unit> {
         val localVariableBody = null
-        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 put("tags", toMultiValue(tags.toList(), "csv"))
             }

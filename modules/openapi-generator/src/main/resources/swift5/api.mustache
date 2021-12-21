@@ -30,11 +30,22 @@ extension {{projectName}}API {
      * enum for parameter {{paramName}}
      */
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{enumName}}_{{operationId}}: {{^isContainer}}{{{dataType}}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}, CaseIterable{{#useVapor}}, Content{{/useVapor}} {
+        {{^enumUnknownDefaultCase}}
         {{#allowableValues}}
         {{#enumVars}}
         case {{name}} = {{{value}}}
         {{/enumVars}}
         {{/allowableValues}}
+        {{/enumUnknownDefaultCase}}
+        {{#enumUnknownDefaultCase}}
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{^-last}}
+        case {{name}} = {{{value}}}
+        {{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+        {{/enumUnknownDefaultCase}}
     }
     {{/isEnum}}
     {{/allParams}}
