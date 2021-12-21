@@ -32,7 +32,7 @@ namespace {{packageName}}.Client
         /// <param name="request"></param>
         /// <param name="requestBody"></param>
         /// <param name="cancellationToken"></param>
-        public void UseInHeader(System.Net.Http.HttpRequestMessage request, string requestBody, CancellationToken{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} cancellationToken)
+        public void UseInHeader(System.Net.Http.HttpRequestMessage request, string requestBody, CancellationToken? cancellationToken = null)
         {
             var signedHeaders = _configuration.GetHttpSignedHeader(request, requestBody, cancellationToken);
 

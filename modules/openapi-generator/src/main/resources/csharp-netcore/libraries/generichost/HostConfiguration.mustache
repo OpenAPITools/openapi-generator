@@ -35,7 +35,7 @@ namespace {{packageName}}.Client
         /// <returns></returns>
         public HostConfiguration Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}>
         (
-            Action<HttpClient>? client = null, Action<IHttpClientBuilder>? builder = null){{#apis}}
+            Action<HttpClient>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} client = null, Action<IHttpClientBuilder>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} builder = null){{#apis}}
             where T{{classname}} : class, {{interfacePrefix}}{{classname}}{{/apis}}
         {
             client ??= c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
@@ -59,7 +59,7 @@ namespace {{packageName}}.Client
         /// <param name="builder"></param>
         /// <returns></returns>
         public HostConfiguration Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients(
-            Action<HttpClient>? client = null, Action<IHttpClientBuilder>? builder = null)
+            Action<HttpClient>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} client = null, Action<IHttpClientBuilder>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} builder = null)
         {
             Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
 
@@ -86,7 +86,7 @@ namespace {{packageName}}.Client
         /// <returns></returns>
         public HostConfiguration AddTokens<TTokenBase>(TTokenBase token) where TTokenBase : TokenBase
         {
-            return AddTokens<TTokenBase>(new TTokenBase[]{ token });
+            return AddTokens(new TTokenBase[]{ token });
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace {{packageName}}.Client
         public HostConfiguration AddTokens<TTokenBase>(IEnumerable<TTokenBase> tokens) where TTokenBase : TokenBase
         {
             TokenContainer<TTokenBase> container = new TokenContainer<TTokenBase>(tokens);
-            _services.AddSingleton<TokenContainer<TTokenBase>>(services => container);
+            _services.AddSingleton(services => container);
 
             return this;
         }
