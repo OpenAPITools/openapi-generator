@@ -39,7 +39,7 @@ Do not edit the class manually.
 
     <properties>
         <org.springframework.boot.version>2.6.1</org.springframework.boot.version>
-        <org.apache.camel.version>3.13.0</org.apache.camel.version>
+        <org.apache.camel.version>3.14.0</org.apache.camel.version>
     </properties>
 
     <dependencyManagement>
