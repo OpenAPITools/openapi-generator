@@ -82,6 +82,7 @@ The following generators are available:
 ## SERVER generators
 * [ada-server](generators/ada-server.md)  
 * [aspnetcore](generators/aspnetcore.md)  
+* [camel](generators/camel.md)  
 * [cpp-pistache-server](generators/cpp-pistache-server.md)  
 * [cpp-qt-qhttpengine-server](generators/cpp-qt-qhttpengine-server.md)  
 * [cpp-restbed-server](generators/cpp-restbed-server.md)  
