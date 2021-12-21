@@ -542,8 +542,8 @@ public class SpringCodegenTest {
         // Check that the api handles the array and the file
         final File multipartApi = files.get("MultipartApi.java");
         assertFileContains(multipartApi.toPath(),
-                "List<MultipartFile> files",
-                "MultipartFile file");
+               "List<MultipartFile> files",
+               "MultipartFile file");
     }
 
     @Test

@@ -50,20 +50,28 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             return (TypeAdapter<T>) new TypeAdapter<{{classname}}>() {
                 @Override
                 public void write(JsonWriter out, {{classname}} value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     {{#anyOf}}
                     // check if the actual instance is of the type `{{.}}`
                     if (value.getActualInstance() instanceof {{.}}) {
                         JsonObject obj = adapter{{.}}.toJsonTree(({{.}})value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     {{/anyOf}}
-                    throw new IOException("Failed to deserialize as the type doesn't match anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
                 }
 
                 @Override
                 public {{classname}} read(JsonReader in) throws IOException {
                     Object deserialized = null;
+                    JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
+
                     {{#useOneOfDiscriminatorLookup}}
                     {{#discriminator}}
                     // use discriminator value for faster anyOf lookup
@@ -72,7 +80,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     switch (discriminatorValue) {
                     {{#mappedModels}}
                         case "{{{mappingName}}}":
-                            deserialized = gson.fromJson(in, {{{modelName}}}.class);
+                            deserialized = adapter{{modelName}}.fromJsonTree(jsonObject);
                             new{{classname}}.setActualInstance(deserialized);
                             return new{{classname}};
                     {{/mappedModels}}
@@ -82,14 +90,14 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
                     {{/discriminator}}
                     {{/useOneOfDiscriminatorLookup}}
-
                     {{#anyOf}}
                     // deserialize {{{.}}}
                     try {
-                        deserialized = gson.fromJson(in, {{.}}.class);
+                        // validate the JSON object to see if any excpetion is thrown
+                        {{.}}.validateJsonObject(jsonObject);
                         log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
                         {{classname}} ret = new {{classname}}();
-                        ret.setActualInstance(deserialized);
+                        ret.setActualInstance(adapter{{.}}.fromJsonTree(jsonObject));
                         return ret;
                     } catch (Exception e) {
                         // deserialization failed, continue
@@ -97,7 +105,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     }
 
                     {{/anyOf}}
-                    throw new IOException("Failed deserialization for {{classname}}: no match found.");
+
+                    throw new IOException(String.format("Failed deserialization for {{classname}}: no class matched. JSON: %s", jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -180,4 +189,48 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     {{/anyOf}}
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to {{classname}}
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+    // validate anyOf schemas one by one
+    int validCount = 0;
+    {{#anyOf}}
+    // validate the json string with {{{.}}}
+    try {
+      {{{.}}}.validateJsonObject(jsonObj);
+      return; // return earlier as at least one schema is valid with respect to the Json object
+      //validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    {{/anyOf}}
+    if (validCount == 0) {
+      throw new IOException(String.format("The JSON string is invalid for {{classname}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. JSON: %s", jsonObj.toString()));
+    }
+  }
+
+ /**
+  * Create an instance of {{classname}} given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of {{classname}}
+  * @throws IOException if the JSON string is invalid with respect to {{classname}}
+  */
+  public static {{{classname}}} fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, {{{classname}}}.class);
+  }
+
+ /**
+  * Convert an instance of {{classname}} to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }

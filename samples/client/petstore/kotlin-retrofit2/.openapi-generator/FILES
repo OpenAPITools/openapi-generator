@@ -33,8 +33,8 @@ src/main/kotlin/org/openapitools/client/infrastructure/ResponseExt.kt
 src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt
 src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/UUIDAdapter.kt
-src/main/kotlin/org/openapitools/client/models/ApiResponse.kt
 src/main/kotlin/org/openapitools/client/models/Category.kt
+src/main/kotlin/org/openapitools/client/models/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/client/models/Order.kt
 src/main/kotlin/org/openapitools/client/models/Pet.kt
 src/main/kotlin/org/openapitools/client/models/Tag.kt
