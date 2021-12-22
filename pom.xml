@@ -3,6 +3,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>5</version>
+        <relativePath/><!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
