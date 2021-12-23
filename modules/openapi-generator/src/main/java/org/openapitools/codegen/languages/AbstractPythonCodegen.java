@@ -688,10 +688,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toApiVarName(String name) {
-        if (name.length() == 0) {
-            return "default_api";
-        }
-        return underscore(name + "_" + apiNameSuffix);
+        return underscore(toApiName(name));
     }
 
     protected static String dropDots(String str) {
