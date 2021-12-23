@@ -48,21 +48,27 @@
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
-          <version>${swagger-core-version}</version>
+            {{^parentOverridden}}
+            <version>${swagger-core-version}</version>
+            {{/parentOverridden}}
         </dependency>
         {{/oas3}}
         {{^oas3}}
           <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
+            {{^parentOverridden}}
             <version>${swagger-core-version}</version>
+            {{/parentOverridden}}
         </dependency>
         {{/oas3}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
+            {{^parentOverridden}}
             <version>3.0.2</version>
+            {{/parentOverridden}}
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -71,7 +77,9 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
+            {{^parentOverridden}}
             <version>2.2.5.RELEASE</version>
+            {{/parentOverridden}}
         </dependency>
         {{#withXml}}
         <!-- XML processing: Jackson -->
@@ -96,14 +104,18 @@
         <dependency>
             <groupId>com.github.joschi.jackson</groupId>
             <artifactId>jackson-datatype-threetenbp</artifactId>
+        {{^parentOverridden}}
             <version>2.12.5</version>
+        {{/parentOverridden}}
         </dependency>
         {{/threetenbp}}
         {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
+        {{^parentOverridden}}
             <version>0.2.2</version>
+        {{/parentOverridden}}
         </dependency>
         {{/openApiNullable}}
         {{#hateoas}}
