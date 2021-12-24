@@ -1,0 +1,7 @@
+generatorName: typescript-axios
+outputDir: samples/client/petstore/typescript-axios/builds/with-node-imports
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-operations-without-required-params.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-axios
+additionalProperties:
+  withNodeImports: "true"
+  multipartFormData: "true"

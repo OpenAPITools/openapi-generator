@@ -26,6 +26,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |supportsES6|Generate code that conforms to ES6.| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+|withNodeImports|Setting this property to true adds imports for NodeJS| |false|
 |withSeparateModelsAndApi|Put the model and api in separate folders and in separate classes| |false|
 |withoutPrefixEnums|Don't prefix enum names with class names| |false|
 
