@@ -102,14 +102,18 @@ public class FakeClassnameTags123Api {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
-      if (localVarResponse.statusCode()/ 100 != 2) {
-        throw getApiException("testClassname", localVarResponse);
-      }
-      return new ApiResponse<Client>(
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testClassname", localVarResponse);
+        }
+        return new ApiResponse<Client>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {}) // closes the InputStream
+          
         );
+      } finally {
+      }
     } catch (IOException e) {
       throw new ApiException(e);
     }

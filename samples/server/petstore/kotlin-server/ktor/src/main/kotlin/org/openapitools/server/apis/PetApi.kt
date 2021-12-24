@@ -20,7 +20,7 @@ import org.openapitools.server.Paths
 import io.ktor.locations.*
 import io.ktor.routing.*
 import org.openapitools.server.infrastructure.ApiPrincipal
-import org.openapitools.server.models.ApiResponse
+import org.openapitools.server.models.ModelApiResponse
 import org.openapitools.server.models.Pet
 
 @KtorExperimentalLocationsAPI

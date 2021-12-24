@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>String presentation of the object</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             sb.Append("class NumberOnly {\n");
             sb.Append("  JustNumber: ").Append(JustNumber).Append("\n");
             sb.Append("}\n");
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.JustNumber.GetHashCode();
+                hashCode = (hashCode * 59) + this.JustNumber.GetHashCode();
                 return hashCode;
             }
         }

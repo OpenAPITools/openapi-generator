@@ -18,7 +18,7 @@ import {
     DecimalFromJSON,
     DecimalFromJSONTyped,
     DecimalToJSON,
-} from './';
+} from './Decimal';
 
 /**
  * 

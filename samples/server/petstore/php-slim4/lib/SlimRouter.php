@@ -2,7 +2,7 @@
 
 /**
  * OpenAPI Petstore
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package OpenAPIServer
  * @author  OpenAPI Generator team
@@ -30,7 +30,6 @@ use InvalidArgumentException;
 use Dyorg\TokenAuthentication;
 use Dyorg\TokenAuthentication\TokenSearch;
 use Psr\Http\Message\ServerRequestInterface;
-use OpenAPIServer\Middleware\JsonBodyParserMiddleware;
 use OpenAPIServer\Mock\OpenApiDataMocker;
 use OpenAPIServer\Mock\OpenApiDataMockerRouteMiddleware;
 use Slim\Psr7\Factory\ResponseFactory;
@@ -890,7 +889,7 @@ class SlimRouter
                 $message = "How about extending {$operation['classname']} by {$operation['apiPackage']}\\{$operation['userClassname']} class implementing {$operation['operationId']} as a {$operation['httpMethod']} method?";
                 throw new HttpNotImplementedException($request, $message);
             };
-            $middlewares = [new JsonBodyParserMiddleware()];
+            $middlewares = [];
 
             if (class_exists("\\{$operation['apiPackage']}\\{$operation['userClassname']}")) {
                 $callback = "\\{$operation['apiPackage']}\\{$operation['userClassname']}:{$operation['operationId']}";

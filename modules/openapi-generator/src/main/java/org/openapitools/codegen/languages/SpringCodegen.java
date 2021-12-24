@@ -449,7 +449,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("homeController.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "HomeController.java"));
-                if (!reactive && !apiFirst) {
+                if (!reactive && !apiFirst && this.openapiDocketConfig) {
                     supportingFiles.add(new SupportingFile("openapiDocumentationConfig.mustache",
                             (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                             "OpenAPIDocumentationConfig.java"));

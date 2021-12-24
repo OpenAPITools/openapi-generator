@@ -18,6 +18,7 @@ import io.micronaut.http.client.annotation.Client;
 import org.openapitools.query.QueryParam;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
+import java.time.LocalDateTime;
 import org.openapitools.model.User;
 import javax.annotation.Generated;
 import java.util.ArrayList;

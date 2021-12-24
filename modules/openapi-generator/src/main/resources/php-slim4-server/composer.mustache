@@ -8,7 +8,7 @@
     }
   ],
   "require": {
-    "php": "^7.3 || ^8.0",
+    "php": "^7.4 || ^8.0",
     "slim/slim": "^4.5.0",
     "dyorg/slim-token-authentication": "dev-slim4",
     "ybelenko/openapi-data-mocker": "^1.0",
@@ -29,7 +29,9 @@
     {{/isZendDiactoros}}
   },
   "require-dev": {
+    {{#generateTests}}
     "phpunit/phpunit": "^8.0 || ^9.0",
+    {{/generateTests}}
     "overtrue/phplint": "^2.0.2",
     "squizlabs/php_codesniffer": "^3.5"
   },
@@ -43,11 +45,17 @@
     "psr-4": { "{{escapedInvokerPackage}}\\": "{{testBasePath}}/" }
   },
   "scripts": {
+    {{#generateTests}}
     "test": [
       "phpunit"
     ],
+    {{#generateApiTests}}
     "test-apis": "phpunit --testsuite Apis",
+    {{/generateApiTests}}
+    {{#generateModelTests}}
     "test-models": "phpunit --testsuite Models",
+    {{/generateModelTests}}
+    {{/generateTests}}
     "phpcs": "phpcs",
     "phplint": "phplint ./ --exclude=vendor"
   }
