@@ -588,21 +588,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     @Override
-    public String toModelImport(String name) {
-        String modelImport;
-        if (StringUtils.startsWithAny(name, "import", "from")) {
-            modelImport = name;
-        } else {
-            modelImport = "from ";
-            if (!"".equals(modelPackage())) {
-                modelImport += modelPackage() + ".";
-            }
-            modelImport += toModelFilename(name) + " import " + name;
-        }
-        return modelImport;
-    }
-
-    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         if (StringUtils.isNotEmpty(property.pattern)) {
             addImport(model, "import re");

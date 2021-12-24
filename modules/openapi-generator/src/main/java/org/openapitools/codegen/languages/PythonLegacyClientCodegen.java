@@ -277,20 +277,6 @@ public class PythonLegacyClientCodegen extends AbstractPythonCodegen implements 
 
     }
 
-    @Override
-    public String toModelImport(String name) {
-        String modelImport;
-        if (StringUtils.startsWithAny(name, "import", "from")) {
-            modelImport = name;
-        } else {
-            modelImport = "from ";
-            if (!"".equals(modelPackage())) {
-                modelImport += modelPackage() + ".";
-            }
-            modelImport += toModelFilename(name) + " import " + name;
-        }
-        return modelImport;
-    }
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {

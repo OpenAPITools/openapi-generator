@@ -690,6 +690,26 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public String toModelImport(String name) {
+        // support importMapping
+        if (this.importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
+        String modelImport;
+        if (StringUtils.startsWithAny(name, "import", "from")) {
+            modelImport = name;
+        } else {
+            modelImport = "from ";
+            if (!"".equals(modelPackage())) {
+                modelImport += modelPackage() + ".";
+            }
+            modelImport += toModelFilename(name) + " import " + toModelName(name);
+        }
+        return modelImport;
+    }
+
+    @Override
     public String toApiVarName(String name) {
         if (name.length() == 0) {
             return "default_api";

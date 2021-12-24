@@ -158,20 +158,6 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         return NAME;
     }
 
-    @Override
-    public String toModelImport(String name) {
-        String modelImport;
-        if (StringUtils.startsWithAny(name, "import", "from")) {
-            modelImport = name;
-        } else {
-            modelImport = "from ";
-            if (!"".equals(modelPackage())) {
-                modelImport += modelPackage() + ".";
-            }
-            modelImport += toModelFilename(name) + " import " + name;
-        }
-        return modelImport;
-    }
 
     @Override
     public String getTypeDeclaration(Schema p) {

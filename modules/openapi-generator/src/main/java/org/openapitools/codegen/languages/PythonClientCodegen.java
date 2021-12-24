@@ -348,12 +348,6 @@ public class PythonClientCodegen extends PythonLegacyClientCodegen {
     }
 
     @Override
-    public String toModelImport(String name) {
-        // name looks like Cat
-        return "from " + modelPackage() + "." + toModelFilename(name) + " import " + toModelName(name);
-    }
-
-    @Override
     @SuppressWarnings("static-method")
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         // fix the imports that each model has, add the module reference to the model
