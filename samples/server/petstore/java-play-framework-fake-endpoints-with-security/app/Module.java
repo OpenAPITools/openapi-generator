@@ -8,6 +8,6 @@ public class Module extends AbstractModule {
     @Override
     protected void configure() {
         bind(PetApiControllerImpInterface.class).to(PetApiControllerImp.class);
-		bind(SecurityAPIUtils.class);
+        bind(SecurityAPIUtils.class);
     }
 }

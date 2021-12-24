@@ -13,6 +13,6 @@ public class Module extends AbstractModule {
         bind(PetApiControllerImpInterface.class).to(PetApiControllerImp.class);
         bind(StoreApiControllerImpInterface.class).to(StoreApiControllerImp.class);
         bind(UserApiControllerImpInterface.class).to(UserApiControllerImp.class);
-		bind(SecurityAPIUtils.class);
+        bind(SecurityAPIUtils.class);
     }
 }

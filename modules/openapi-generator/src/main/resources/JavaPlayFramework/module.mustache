@@ -12,6 +12,6 @@ public class Module extends AbstractModule {
         bind({{classname}}ControllerImpInterface.class).to({{classname}}ControllerImp.class);
         {{/apis}}
         {{/apiInfo}}
-		bind(SecurityAPIUtils.class);
+        bind(SecurityAPIUtils.class);
     }
 }

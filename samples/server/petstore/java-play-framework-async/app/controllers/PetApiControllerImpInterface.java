@@ -32,12 +32,12 @@ public abstract class PetApiControllerImpInterface {
     private ObjectMapper mapper = new ObjectMapper();
 
     public CompletionStage<Result> addPetHttp(Http.Request request, Pet body) throws Exception {
-    CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
-        try {
         if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
         }
 
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
             addPet(request, body);
         } catch (Exception e) {
             throw new CompletionException(e);
@@ -51,12 +51,12 @@ public abstract class PetApiControllerImpInterface {
     public abstract void addPet(Http.Request request, Pet body) throws Exception;
 
     public CompletionStage<Result> deletePetHttp(Http.Request request, Long petId, String apiKey) throws Exception {
-    CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
-        try {
         if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
         }
 
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
             deletePet(request, petId, apiKey);
         } catch (Exception e) {
             throw new CompletionException(e);
@@ -71,7 +71,7 @@ public abstract class PetApiControllerImpInterface {
 
     public CompletionStage<Result> findPetsByStatusHttp(Http.Request request, @NotNull List<String> status) throws Exception {
         if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
         }
 
         CompletionStage<List<Pet>> stage = findPetsByStatus(request, status).thenApply(obj -> { 
@@ -96,7 +96,7 @@ return stage.thenApply(obj -> {
 
     public CompletionStage<Result> findPetsByTagsHttp(Http.Request request, @NotNull List<String> tags) throws Exception {
         if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
         }
 
         CompletionStage<List<Pet>> stage = findPetsByTags(request, tags).thenApply(obj -> { 
@@ -139,12 +139,12 @@ return stage.thenApply(obj -> {
     public abstract CompletionStage<Pet> getPetById(Http.Request request, Long petId) throws Exception;
 
     public CompletionStage<Result> updatePetHttp(Http.Request request, Pet body) throws Exception {
-    CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
-        try {
         if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
         }
 
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
             updatePet(request, body);
         } catch (Exception e) {
             throw new CompletionException(e);
@@ -158,12 +158,12 @@ return stage.thenApply(obj -> {
     public abstract void updatePet(Http.Request request, Pet body) throws Exception;
 
     public CompletionStage<Result> updatePetWithFormHttp(Http.Request request, Long petId, String name, String status) throws Exception {
-    CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
-        try {
         if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
         }
 
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
             updatePetWithForm(request, petId, name, status);
         } catch (Exception e) {
             throw new CompletionException(e);
@@ -178,7 +178,7 @@ return stage.thenApply(obj -> {
 
     public CompletionStage<Result> uploadFileHttp(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart<TemporaryFile> file) throws Exception {
         if (!securityAPIUtils.isRequestTokenValid(request, "petstore_auth")) {
-            return unauthorized();
+            return CompletableFuture.supplyAsync(play.mvc.Results::unauthorized);
         }
 
         CompletionStage<ModelApiResponse> stage = uploadFile(request, petId, additionalMetadata, file).thenApply(obj -> { 

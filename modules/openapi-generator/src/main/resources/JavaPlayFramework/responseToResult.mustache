@@ -1,18 +1,18 @@
 {{^controllerOnly}}
-{{^returnType}}
-{{#supportAsync}}
-    CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
-        try {
-{{/supportAsync}}
-{{/returnType}}
 {{#authMethods.0}}
 {{#isOAuth}}
         if (!securityAPIUtils.isRequestTokenValid(request, "{{name}}")) {
-            return unauthorized();
+            return {{#supportAsync}}CompletableFuture.supplyAsync(play.mvc.Results::unauthorized){{/supportAsync}}{{^supportAsync}}unauthorized(){{/supportAsync}};
         }
 
 {{/isOAuth}}
 {{/authMethods.0}}
+{{^returnType}}
+{{#supportAsync}}
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        try {
+{{/supportAsync}}
+{{/returnType}}
         {{#returnType}}{{#supportAsync}}CompletionStage<{{>returnTypesNoVoid}}> stage = {{/supportAsync}}{{^supportAsync}}{{>returnTypesNoVoid}} obj = {{/supportAsync}}{{/returnType}}{{^returnType}}{{#supportAsync}}    {{/supportAsync}}{{/returnType}}{{^useInterfaces}}imp.{{/useInterfaces}}{{operationId}}(request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}{{#supportAsync}}.thenApply(obj -> { {{/supportAsync}}{{/returnType}}{{^supportAsync}};{{/supportAsync}}{{#supportAsync}}{{^returnType}};{{/returnType}}{{/supportAsync}}
 {{#returnType}}
 {{^isResponseFile}}

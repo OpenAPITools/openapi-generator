@@ -31,7 +31,7 @@ public abstract class StoreApiControllerImpInterface {
     private ObjectMapper mapper = new ObjectMapper();
 
     public CompletionStage<Result> deleteOrderHttp(Http.Request request, String orderId) throws Exception {
-    CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
         try {
             deleteOrder(request, orderId);
         } catch (Exception e) {
