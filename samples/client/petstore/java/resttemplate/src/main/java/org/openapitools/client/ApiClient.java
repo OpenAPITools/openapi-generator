@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.threeten.bp.*;
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -573,6 +574,12 @@ public class ApiClient extends JavaTimeFormatter {
      * @return path with placeholders replaced by variables
      */
     public String expandPath(String pathTemplate, Map<String, Object> variables) {
+        // disable default URL encoding 
+        DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
+        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+        final RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setUriTemplateHandler(uriBuilderFactory);
+
         return restTemplate.getUriTemplateHandler().expand(pathTemplate, variables).toString();
     }
 
@@ -583,27 +590,33 @@ public class ApiClient extends JavaTimeFormatter {
      * @param uriParams The path parameters
      * return templatized query string
      */
-    private String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
+    public String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
         StringBuilder queryBuilder = new StringBuilder();
         queryParams.forEach((name, values) -> {
-            if (CollectionUtils.isEmpty(values)) {
-                if (queryBuilder.length() != 0) {
-                    queryBuilder.append('&');
-                }
-                queryBuilder.append(name);
-            } else {
-                int valueItemCounter = 0;
-                for (Object value : values) {
+            try {
+                final String encodedName = URLEncoder.encode(name.toString(), "UTF-8");
+                if (CollectionUtils.isEmpty(values)) {
                     if (queryBuilder.length() != 0) {
                         queryBuilder.append('&');
                     }
-                    queryBuilder.append(name);
-                    if (value != null) {
-                        String templatizedKey = name + valueItemCounter++;
-                        uriParams.put(templatizedKey, value.toString());
-                        queryBuilder.append('=').append("{").append(templatizedKey).append("}");
+                    queryBuilder.append(encodedName);
+                } else {
+                    int valueItemCounter = 0;
+                    for (Object value : values) {
+                        if (queryBuilder.length() != 0) {
+                            queryBuilder.append('&');
+                        }
+                        queryBuilder.append(encodedName);
+                        if (value != null) {
+                            String templatizedKey = encodedName + valueItemCounter++;
+                            final String encodedValue = URLEncoder.encode(value.toString(), "UTF-8");
+                            uriParams.put(templatizedKey, encodedValue);
+                            queryBuilder.append('=').append("{").append(templatizedKey).append("}");
+                        }
                     }
                 }
+            } catch (UnsupportedEncodingException e) {
+
             }
         });
         return queryBuilder.toString();

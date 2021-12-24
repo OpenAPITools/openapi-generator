@@ -19,17 +19,17 @@ part 'serializers.g.dart';
 @SerializersFor([{{#models}}{{#model}}
   {{classname}},{{/model}}{{/models}}
 ])
-Serializers serializers = (_$serializers.toBuilder(){{#apiInfo}}{{#apis}}{{#serializers}}
+Serializers serializers = (_$serializers.toBuilder(){{#builtValueSerializers}}
       ..addBuilderFactory(
 {{#isArray}}
-        const FullType(Built{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}, [FullType({{baseType}})]),
-        () => {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}Builder<{{baseType}}>(),
+        const FullType(Built{{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}, [FullType{{#isNullable}}.nullable{{/isNullable}}({{dataType}})]),
+        () => {{#uniqueItems}}Set{{/uniqueItems}}{{^uniqueItems}}List{{/uniqueItems}}Builder<{{dataType}}>(),
 {{/isArray}}
 {{#isMap}}
-        const FullType(BuiltMap, [FullType(String), FullType({{baseType}})]),
-        () => MapBuilder<String, {{baseType}}>(),
+        const FullType(BuiltMap, [FullType(String), FullType{{#isNullable}}.nullable{{/isNullable}}({{dataType}})]),
+        () => MapBuilder<String, {{dataType}}>(),
 {{/isMap}}
-      ){{/serializers}}{{/apis}}{{/apiInfo}}{{#useDateLibTimeMachine}}
+      ){{/builtValueSerializers}}{{#useDateLibTimeMachine}}
       ..add(const OffsetDateSerializer())
       ..add(const OffsetDateTimeSerializer()){{/useDateLibTimeMachine}}{{#useDateLibCore}}
       ..add(const DateSerializer())

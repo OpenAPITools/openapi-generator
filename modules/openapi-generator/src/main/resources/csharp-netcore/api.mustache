@@ -259,7 +259,9 @@ namespace {{packageName}}.{{apiPackage}}
             {{^vendorExtensions.x-csharp-value-type}}
             // verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null)
+            {
                 throw new {{packageName}}.Client.ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
+            }
 
             {{/vendorExtensions.x-csharp-value-type}}
             {{/required}}
@@ -280,10 +282,16 @@ namespace {{packageName}}.{{apiPackage}}
             };
 
             var localVarContentType = {{packageName}}.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = {{packageName}}.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             {{#pathParams}}
             {{#required}}
@@ -314,12 +322,12 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null)
             {
                 {{#isDeepObject}}
-                    {{#items.vars}}
+                {{#items.vars}}
                 if ({{paramName}}.{{name}} != null)
                 {
                     localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.{{name}}));
                 }
-                    {{/items.vars}}
+                {{/items.vars}}
                 {{^items}}
                 localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("deepObject", "{{baseName}}", {{paramName}}));
                 {{/items}}
@@ -345,7 +353,8 @@ namespace {{packageName}}.{{apiPackage}}
             {{#required}}
             {{#isFile}}
             {{#isArray}}
-            foreach (var file in {{paramName}}) {
+            foreach (var file in {{paramName}})
+            {
                 localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
             }
             {{/isArray}}
@@ -362,7 +371,8 @@ namespace {{packageName}}.{{apiPackage}}
             {
                 {{#isFile}}
                 {{#isArray}}
-                foreach (var file in {{paramName}}) {
+                foreach (var file in {{paramName}})
+                {
                     localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
                 }
                 {{/isArray}}
@@ -445,11 +455,13 @@ namespace {{packageName}}.{{apiPackage}}
 
             // make the HTTP request
             var localVarResponse = this.Client.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}}<{{{returnType}}}{{^returnType}}Object{{/returnType}}>("{{{path}}}", localVarRequestOptions, this.Configuration);
-
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("{{operationId}}", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
@@ -493,7 +505,9 @@ namespace {{packageName}}.{{apiPackage}}
             {{^vendorExtensions.x-csharp-value-type}}
             // verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null)
+            {
                 throw new {{packageName}}.Client.ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
+            }
 
             {{/vendorExtensions.x-csharp-value-type}}
             {{/required}}
@@ -514,12 +528,17 @@ namespace {{packageName}}.{{apiPackage}}
                 {{/produces}}
             };
 
-
             var localVarContentType = {{packageName}}.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
             var localVarAccept = {{packageName}}.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
             {{#pathParams}}
             {{#required}}
@@ -558,7 +577,8 @@ namespace {{packageName}}.{{apiPackage}}
             {{#required}}
             {{#isFile}}
             {{#isArray}}
-            foreach (var file in {{paramName}}) {
+            foreach (var file in {{paramName}})
+            {
                 localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
             }
             {{/isArray}}
@@ -575,7 +595,8 @@ namespace {{packageName}}.{{apiPackage}}
             {
                 {{#isFile}}
                 {{#isArray}}
-                foreach (var file in {{paramName}}) {
+                foreach (var file in {{paramName}})
+                {
                     localVarRequestOptions.FileParameters.Add("{{baseName}}", file);
                 }
                 {{/isArray}}
@@ -659,13 +680,15 @@ namespace {{packageName}}.{{apiPackage}}
             {{/authMethods}}
 
             // make the HTTP request
-
             var localVarResponse = await this.AsynchronousClient.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}}Async<{{{returnType}}}{{^returnType}}Object{{/returnType}}>("{{{path}}}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("{{operationId}}", localVarResponse);
-                if (_exception != null) throw _exception;
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
             }
 
             return localVarResponse;
