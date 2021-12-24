@@ -4,7 +4,6 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 {{#oas3}}
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -130,7 +129,7 @@ public class {{classname}}Controller implements {{classname}} {
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */
-    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},{{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}, @springfox.documentation.annotations.ApiIgnore final Pageable pageable{{/vendorExtensions.x-spring-paginated}}) {
+    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},{{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}, {{#useSpringfox}}@springfox.documentation.annotations.ApiIgnore{{/useSpringfox}} final Pageable pageable{{/vendorExtensions.x-spring-paginated}}) {
     {{^isDelegate}}
         {{^async}}
         {{>methodBody}}
