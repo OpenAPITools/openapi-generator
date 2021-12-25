@@ -10,7 +10,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         {{#useSpringfox}}
-        <springfox.version>3.0.0</springfox.version>
+        <springfox.version>2.9.2</springfox.version>
         {{/useSpringfox}}
         {{^useSpringfox}}
         <swagger-core-version>{{#oas3}}2.1.11{{/oas3}}{{^oas3}}1.6.3{{/oas3}}</swagger-core-version>
@@ -86,7 +86,7 @@
         <!--SpringFox dependencies -->
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
+            <artifactId>springfox-swagger2</artifactId>
             <version>${springfox.version}</version>
         </dependency>
         {{/useSpringfox}}
