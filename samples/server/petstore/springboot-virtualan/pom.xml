@@ -9,7 +9,7 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <springfox-version>3.0.0</springfox-version>
+        <springfox.version>2.9.2</springfox.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -37,8 +37,8 @@
         <!--SpringFox dependencies -->
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
         </dependency>
         <!-- @Nullable annotation -->
         <dependency>

@@ -56,8 +56,8 @@ public interface PetApi {
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
-    default ResponseEntity<Void> addPet(
-@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body) {
+    default ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
+) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -270,8 +270,8 @@ public interface PetApi {
         value = "/pet",
         consumes = { "application/json", "application/xml" }
     )
-    default ResponseEntity<Void> updatePet(
-@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body) {
+    default ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet body
+) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -302,11 +302,9 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> updatePetWithForm( @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId
-,
-  @ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name
+,  @ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name
   
-,
-  @ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status
+,  @ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status
   
 ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -340,11 +338,9 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<ModelApiResponse> uploadFile( @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
-,
-  @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
+,  @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
   
-,
-  
+,  
   @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
 ) {
         getRequest().ifPresent(request -> {

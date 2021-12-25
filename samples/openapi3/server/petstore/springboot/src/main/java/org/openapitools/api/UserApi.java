@@ -8,7 +8,6 @@ package org.openapitools.api;
 import java.util.List;
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -52,8 +51,8 @@ public interface UserApi {
         value = "/user",
         consumes = { "application/json" }
     )
-    default ResponseEntity<Void> createUser(
-@Parameter(name = "User", description = "Created user object", required = true, schema = @Schema()) @Valid @RequestBody User user) {
+    default ResponseEntity<Void> createUser(@Parameter(name = "User", description = "Created user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User user
+) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -72,8 +71,8 @@ public interface UserApi {
         value = "/user/createWithArray",
         consumes = { "application/json" }
     )
-    default ResponseEntity<Void> createUsersWithArrayInput(
-@Parameter(name = "User", description = "List of user object", required = true, schema = @Schema()) @Valid @RequestBody List<User> user) {
+    default ResponseEntity<Void> createUsersWithArrayInput(@Parameter(name = "User", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> user
+) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -92,8 +91,8 @@ public interface UserApi {
         value = "/user/createWithList",
         consumes = { "application/json" }
     )
-    default ResponseEntity<Void> createUsersWithListInput(
-@Parameter(name = "User", description = "List of user object", required = true, schema = @Schema()) @Valid @RequestBody List<User> user) {
+    default ResponseEntity<Void> createUsersWithListInput(@Parameter(name = "User", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> user
+) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -113,7 +112,7 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = "/user/{username}"
     )
-    default ResponseEntity<Void> deleteUser( @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema()) @PathVariable("username") String username
+    default ResponseEntity<Void> deleteUser( @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
 ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -134,7 +133,7 @@ public interface UserApi {
         value = "/user/{username}",
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<User> getUserByName( @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema()) @PathVariable("username") String username
+    default ResponseEntity<User> getUserByName( @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
 ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -169,8 +168,8 @@ public interface UserApi {
         value = "/user/login",
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<String> loginUser(@NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema()) @Valid @RequestParam(value = "username", required = true) String username
-,@NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema()) @Valid @RequestParam(value = "password", required = true) String password
+    default ResponseEntity<String> loginUser(@NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true) String username
+,@NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true) String password
 ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -210,9 +209,9 @@ public interface UserApi {
         value = "/user/{username}",
         consumes = { "application/json" }
     )
-    default ResponseEntity<Void> updateUser( @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema()) @PathVariable("username") String username
-,
-@Parameter(name = "User", description = "Updated user object", required = true, schema = @Schema()) @Valid @RequestBody User user) {
+    default ResponseEntity<Void> updateUser( @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+,@Parameter(name = "User", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User user
+) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

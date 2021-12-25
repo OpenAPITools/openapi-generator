@@ -144,8 +144,8 @@ public interface StoreApi {
         value = "/store/order",
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<Order> placeOrder(
-@ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body) {
+    default ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body
+) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

@@ -10,6 +10,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-core-version>1.6.3</swagger-core-version>
+        <springfox.version>2.9.2</springfox.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -33,10 +34,11 @@
     </dependencyManagement>
 
     <dependencies>
-          <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-core-version}</version>
+        <!--SpringFox dependencies -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
         </dependency>
         <!-- @Nullable annotation -->
         <dependency>

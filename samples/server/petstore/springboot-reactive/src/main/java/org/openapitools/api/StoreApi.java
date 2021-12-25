@@ -50,7 +50,7 @@ public interface StoreApi {
         value = "/store/order/{order_id}"
     )
     default Mono<ResponseEntity<Void>> deleteOrder( @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId
-, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+,  final ServerWebExchange exchange) {
         return getDelegate().deleteOrder(orderId, exchange);
     }
 
@@ -74,7 +74,7 @@ public interface StoreApi {
         value = "/store/inventory",
         produces = { "application/json" }
     )
-    default Mono<ResponseEntity<Map<String, Integer>>> getInventory(@springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Map<String, Integer>>> getInventory( final ServerWebExchange exchange) {
         return getDelegate().getInventory(exchange);
     }
 
@@ -103,7 +103,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }
     )
     default Mono<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L)  @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId
-, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+,  final ServerWebExchange exchange) {
         return getDelegate().getOrderById(orderId, exchange);
     }
 
@@ -127,8 +127,8 @@ public interface StoreApi {
         value = "/store/order",
         produces = { "application/xml", "application/json" }
     )
-    default Mono<ResponseEntity<Order>> placeOrder(
-@ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> body, @springfox.documentation.annotations.ApiIgnore final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> body
+,  final ServerWebExchange exchange) {
         return getDelegate().placeOrder(body, exchange);
     }
 

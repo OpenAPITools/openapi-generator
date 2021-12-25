@@ -48,8 +48,8 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user"
     )
-    default CompletableFuture<ResponseEntity<Void>> createUser(
-@ApiParam(value = "Created user object", required = true) @Valid @RequestBody User body) {
+    default CompletableFuture<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object", required = true) @Valid @RequestBody User body
+) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -70,8 +70,8 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithArray"
     )
-    default CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(
-@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body) {
+    default CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body
+) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -92,8 +92,8 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithList"
     )
-    default CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(
-@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body) {
+    default CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> body
+) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -239,8 +239,8 @@ public interface UserApi {
         value = "/user/{username}"
     )
     default CompletableFuture<ResponseEntity<Void>> updateUser( @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username
-,
-@ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body) {
+,@ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body
+) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }

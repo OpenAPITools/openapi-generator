@@ -123,8 +123,8 @@ public interface StoreApi {
         value = "/store/order",
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<Order> placeOrder(
-@ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body) {
+    default ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body
+) {
         return getDelegate().placeOrder(body);
     }
 

@@ -7,7 +7,6 @@ package org.openapitools.api;
 
 import java.util.Map;
 import org.openapitools.model.Order;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -46,7 +45,7 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = "/store/order/{orderId}"
     )
-    ResponseEntity<Void> deleteOrder( @Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true, schema = @Schema()) @PathVariable("orderId") String orderId
+    ResponseEntity<Void> deleteOrder( @Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("orderId") String orderId
 );
 
 
@@ -81,7 +80,7 @@ public interface StoreApi {
         value = "/store/order/{orderId}",
         produces = "application/json"
     )
-    ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L)  @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, schema = @Schema()) @PathVariable("orderId") Long orderId
+    ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L)  @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, schema = @Schema(description = "")) @PathVariable("orderId") Long orderId
 );
 
 
@@ -99,7 +98,7 @@ public interface StoreApi {
         produces = "application/json",
         consumes = "application/json"
     )
-    ResponseEntity<Order> placeOrder(
-@Parameter(name = "Order", description = "order placed for purchasing the pet", required = true, schema = @Schema()) @Valid @RequestBody Order order);
+    ResponseEntity<Order> placeOrder(@Parameter(name = "Order", description = "order placed for purchasing the pet", required = true, schema = @Schema(description = "")) @Valid @RequestBody Order order
+);
 
 }

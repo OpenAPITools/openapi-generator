@@ -6,7 +6,6 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -47,7 +46,7 @@ public interface FakeClassnameTags123Api {
         produces = "application/json",
         consumes = "application/json"
     )
-    ResponseEntity<Client> testClassname(
-@Parameter(name = "body", description = "client model", required = true, schema = @Schema()) @Valid @RequestBody Client body);
+    ResponseEntity<Client> testClassname(@Parameter(name = "body", description = "client model", required = true, schema = @Schema(description = "")) @Valid @RequestBody Client body
+);
 
 }

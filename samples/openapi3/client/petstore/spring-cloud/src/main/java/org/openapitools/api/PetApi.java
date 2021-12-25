@@ -7,7 +7,6 @@ package org.openapitools.api;
 
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -48,8 +47,8 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json"
     )
-    ResponseEntity<Pet> addPet(
-@Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true, schema = @Schema()) @Valid @RequestBody Pet pet);
+    ResponseEntity<Pet> addPet(@Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true, schema = @Schema(description = "")) @Valid @RequestBody Pet pet
+);
 
 
     /**
@@ -65,9 +64,8 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
-    ResponseEntity<Void> deletePet( @Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema()) @PathVariable("petId") Long petId
-,@Parameter(name = "api_key", description = "", schema = @Schema()) @RequestHeader(value = "api_key", required = false) String apiKey
-);
+    ResponseEntity<Void> deletePet( @Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+,@Parameter(name = "api_key", description = "", schema = @Schema(description = "")) @RequestHeader(value = "api_key", required = false) String apiKey);
 
 
     /**
@@ -85,7 +83,7 @@ public interface PetApi {
         value = "/pet/findByStatus",
         produces = "application/json"
     )
-    ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, schema = @Schema(allowableValues = "available, pending, sold")) @Valid @RequestParam(value = "status", required = true) List<String> status
+    ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, schema = @Schema(description = "", allowableValues = "available, pending, sold")) @Valid @RequestParam(value = "status", required = true) List<String> status
 );
 
 
@@ -105,7 +103,7 @@ public interface PetApi {
         value = "/pet/findByTags",
         produces = "application/json"
     )
-    ResponseEntity<List<Pet>> findPetsByTags(@NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, schema = @Schema()) @Valid @RequestParam(value = "tags", required = true) List<String> tags
+    ResponseEntity<List<Pet>> findPetsByTags(@NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "tags", required = true) List<String> tags
 );
 
 
@@ -125,7 +123,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         produces = "application/json"
     )
-    ResponseEntity<Pet> getPetById( @Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema()) @PathVariable("petId") Long petId
+    ResponseEntity<Pet> getPetById( @Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
 );
 
 
@@ -146,8 +144,8 @@ public interface PetApi {
         produces = "application/json",
         consumes = "application/json"
     )
-    ResponseEntity<Pet> updatePet(
-@Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true, schema = @Schema()) @Valid @RequestBody Pet pet);
+    ResponseEntity<Pet> updatePet(@Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true, schema = @Schema(description = "")) @Valid @RequestBody Pet pet
+);
 
 
     /**
@@ -165,12 +163,10 @@ public interface PetApi {
         value = "/pet/{petId}",
         consumes = "application/x-www-form-urlencoded"
     )
-    ResponseEntity<Void> updatePetWithForm( @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema()) @PathVariable("petId") Long petId
-,
-  @Parameter(name = "name", description = "Updated name of the pet", schema = @Schema()) @RequestParam(value="name", required=false) String name
+    ResponseEntity<Void> updatePetWithForm( @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+,  @Parameter(name = "name", description = "Updated name of the pet", schema = @Schema(description = "")) @RequestParam(value="name", required=false) String name
   
-,
-  @Parameter(name = "status", description = "Updated status of the pet", schema = @Schema()) @RequestParam(value="status", required=false) String status
+,  @Parameter(name = "status", description = "Updated status of the pet", schema = @Schema(description = "")) @RequestParam(value="status", required=false) String status
   
 );
 
@@ -191,13 +187,11 @@ public interface PetApi {
         produces = "application/json",
         consumes = "multipart/form-data"
     )
-    ResponseEntity<ModelApiResponse> uploadFile( @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema()) @PathVariable("petId") Long petId
-,
-  @Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema()) @RequestParam(value="additionalMetadata", required=false) String additionalMetadata
+    ResponseEntity<ModelApiResponse> uploadFile( @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+,  @Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @RequestParam(value="additionalMetadata", required=false) String additionalMetadata
   
-,
-  
-  @Parameter(name = "file", description = "file to upload", schema = @Schema()) @RequestParam("file") MultipartFile file
+,  
+  @Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestParam("file") MultipartFile file
 );
 
 }

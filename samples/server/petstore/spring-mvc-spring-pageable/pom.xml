@@ -171,7 +171,7 @@
         <slf4j-version>1.7.21</slf4j-version>
         <junit-version>4.13.1</junit-version>
         <servlet-api-version>4.0.4</servlet-api-version>
-        <springfox-version>2.8.0</springfox-version>
+        <springfox-version>2.9.2</springfox-version>
         <jackson-version>2.9.9</jackson-version>
         <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
         <beanvalidation-version>2.0.2</beanvalidation-version>
