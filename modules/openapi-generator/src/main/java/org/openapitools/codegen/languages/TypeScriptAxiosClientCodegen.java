@@ -34,8 +34,10 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String WITHOUT_PREFIX_ENUMS = "withoutPrefixEnums";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String WITH_NODE_IMPORTS = "withNodeImports";
+    public static final String IMPLICIT_HEADERS = "implicitHeaders";
 
     protected String npmRepository = null;
+    protected boolean implicitHeaders = false;
 
     private String tsModelPackage = "";
 
@@ -57,6 +59,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(WITHOUT_PREFIX_ENUMS, "Don't prefix enum names with class names", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_NODE_IMPORTS, "Setting this property to true adds imports for NodeJS", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         // Templates have no mapping between formatted property names and original base names so use only "original" and remove this option
         removeOption(CodegenConstants.MODEL_PROPERTY_NAMING);
     }
@@ -131,6 +134,9 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             addNpmPackageGeneration();
         }
 
+        if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
+          this.implicitHeaders = Boolean.parseBoolean(additionalProperties.get(IMPLICIT_HEADERS).toString());
+        }
     }
 
     @Override
@@ -148,7 +154,32 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 .forEach(op -> {
                     op.vendorExtensions.putIfAbsent("multipartFormData", true);
                 });
+
+        if (operations != null && implicitHeaders) {
+          for (final CodegenOperation operation : operations) {
+            removeHeadersFromAllParams(operation.allParams);
+          }
+        }
+
         return objs;
+    }
+
+    /**
+     * This method removes header parameters from the list of parameters
+     *
+     * @param allParams list of all parameters
+     */
+    private void removeHeadersFromAllParams(List<CodegenParameter> allParams) {
+      if (allParams.isEmpty()) {
+        return;
+      }
+      final ArrayList<CodegenParameter> copy = new ArrayList<>(allParams);
+      allParams.clear();
+      for (final CodegenParameter p : copy) {
+        if (!p.isHeaderParam) {
+          allParams.add(p);
+        }
+      }
     }
 
     @Override
