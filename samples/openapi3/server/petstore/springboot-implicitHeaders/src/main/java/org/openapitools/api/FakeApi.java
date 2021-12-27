@@ -17,6 +17,7 @@ import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -319,8 +320,8 @@ public interface FakeApi {
      */
     @Operation(summary = "To test enum parameters", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "400", description = "Invalid request"), @ApiResponse(responseCode = "404", description = "Not found") })
         @Parameters({
-    @ApiImplicitParam(name = "enumHeaderStringArray", value = "Header parameter enum test (string array)",  dataType = "List<String>", paramType = "header"),
-    @ApiImplicitParam(name = "enumHeaderString", value = "Header parameter enum test (string)",  dataType = "String", paramType = "header")
+    @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)", schema = @Schema(description = "", allowableValues = ">, $")),
+    @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)", schema = @Schema(description = "", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg"))
     })
     @RequestMapping(
         method = RequestMethod.GET,
@@ -353,8 +354,8 @@ public interface FakeApi {
      */
     @Operation(summary = "Fake endpoint to test group parameters (optional)", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "400", description = "Someting wrong") })
         @Parameters({
-    @ApiImplicitParam(name = "requiredBooleanGroup", value = "Required Boolean in group parameters", required = true, dataType = "Boolean", paramType = "header"),
-    @ApiImplicitParam(name = "booleanGroup", value = "Boolean in group parameters",  dataType = "Boolean", paramType = "header")
+    @Parameter(name = "required_boolean_group", description = "Required Boolean in group parameters", required = true, schema = @Schema(description = "")),
+    @Parameter(name = "boolean_group", description = "Boolean in group parameters", schema = @Schema(description = ""))
     })
     @RequestMapping(
         method = RequestMethod.DELETE,

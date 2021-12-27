@@ -10,6 +10,7 @@ import org.openapitools.model.Pet;
 import java.util.Set;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -70,7 +71,7 @@ public interface PetApi {
     @Operation(summary = "Deletes a pet", tags={ "pet", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation"), @ApiResponse(responseCode = "400", description = "Invalid pet value") },security = {
         @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" }) } )
         @Parameters({
-    @ApiImplicitParam(name = "apiKey", value = "",  dataType = "String", paramType = "header")
+    @Parameter(name = "api_key", description = "", schema = @Schema(description = ""))
     })
     @RequestMapping(
         method = RequestMethod.DELETE,

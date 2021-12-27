@@ -10,6 +10,7 @@ package {{package}};
 {{#oas3}}
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -135,13 +136,16 @@ public interface {{classname}} {
     {{#implicitHeaders}}
     {{#oas3}}
     @Parameters({
+    {{#headerParams}}
+    {{>paramDoc}}{{^-last}},{{/-last}}
+    {{/headerParams}}
     {{/oas3}}
     {{^oas3}}
     @ApiImplicitParams({
-    {{/oas3}}
     {{#headerParams}}
-    {{>implicitHeader}}
+    {{>implicitHeader}}{{^-last}},{{/-last}}
     {{/headerParams}}
+    {{/oas3}}
     })
     {{/implicitHeaders}}
     @RequestMapping(
