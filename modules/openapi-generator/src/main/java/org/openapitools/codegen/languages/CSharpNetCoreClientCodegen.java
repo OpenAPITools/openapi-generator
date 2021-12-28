@@ -775,7 +775,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         if (Boolean.FALSE.equals(excludeTests.get())) {
             supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
-            supportingFiles.add(new SupportingFile("api_test_base.mustache", testPackageFolder + File.separator + "Api", "ApiTestsBase.cs"));
+            supportingFiles.add(new SupportingFile("ApiTestsBase.mustache", testPackageFolder + File.separator + "Api", "ApiTestsBase.cs"));
             supportingFiles.add(new SupportingFile("DependencyInjectionTests.mustache", testPackageFolder + File.separator + "Api", "DependencyInjectionTests.cs"));
         }
 
@@ -1135,6 +1135,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
 
         properties.put(NET_STANDARD, strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
+        for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
+            properties.put(frameworkStrategy.name, strategies.stream().anyMatch(s -> s.name.equals(frameworkStrategy.name)));
+        }
     }
 
     /**

@@ -257,7 +257,7 @@ namespace {{packageName}}.Client
         {
             builder.ConfigureServices((context, services) => 
             {
-                HostConfiguration config = new(services);
+                HostConfiguration config = new HostConfiguration(services);
 
                 options(context, config);
 
@@ -274,7 +274,7 @@ namespace {{packageName}}.Client
         /// <param name="options"></param>
         public static void Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}(this IServiceCollection services, Action<HostConfiguration> options)
         {
-            HostConfiguration config = new(services);
+            HostConfiguration config = new HostConfiguration(services);
             options(config);
             Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}(services, config);
         }
@@ -287,13 +287,13 @@ namespace {{packageName}}.Client
             // ensure that a token provider was provided for this token type
             // if not, default to RateLimitProvider
             var containerServices = services.Where(s => s.ServiceType.IsGenericType &&
-                s.ServiceType.GetGenericTypeDefinition().IsAssignableTo(typeof(TokenContainer<>))).ToArray();
+                s.ServiceType.GetGenericTypeDefinition().IsAssignableFrom(typeof(TokenContainer<>))).ToArray();
 
             foreach(var containerService in containerServices)
             {
                 var tokenType = containerService.ServiceType.GenericTypeArguments[0];
 
-                var provider = services.FirstOrDefault(s => s.ServiceType.IsAssignableTo(typeof(TokenProvider<>).MakeGenericType(tokenType)));
+                var provider = services.FirstOrDefault(s => s.ServiceType.IsAssignableFrom(typeof(TokenProvider<>).MakeGenericType(tokenType)));
 
                 if (provider == null)
                 {

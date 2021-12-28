@@ -12,8 +12,8 @@ namespace {{packageName}}.Client
     public abstract class TokenBase
     {
         private DateTime _nextAvailable = DateTime.UtcNow;
-        private object _nextAvailableLock = new();
-        private readonly System.Timers.Timer _timer = new();
+        private object _nextAvailableLock = new object();
+        private readonly System.Timers.Timer _timer = new System.Timers.Timer();
 
 
         internal TimeSpan? Timeout { get; set; }

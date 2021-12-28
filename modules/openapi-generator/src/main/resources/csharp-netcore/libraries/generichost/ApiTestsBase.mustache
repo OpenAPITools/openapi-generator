@@ -1,5 +1,7 @@
 {{>partial_header}}
 using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 using Microsoft.Extensions.Hosting;
 using {{packageName}}.Client;{{#hasImport}}
 using {{packageName}}.{{modelPackage}};{{/hasImport}}
@@ -26,14 +28,18 @@ namespace {{packageName}}.Test.Api
             .Configure{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}((context, options) =>
             {
                 {{#hasApiKeyMethods}}ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(apiKeyToken);{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
+                options.AddTokens(apiKeyToken);
+                {{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
                 BearerToken bearerToken = new BearerToken($"<token>", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(bearerToken);{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
+                options.AddTokens(bearerToken);
+                {{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
                 BasicToken basicToken = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(basicToken);{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
-                HttpSignatureConfiguration config = new HttpSignatureConfiguration(todo);
+                options.AddTokens(basicToken);
+                {{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
+                HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                 HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(httpSignatureToken);{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
+                options.AddTokens(httpSignatureToken);
+                {{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
                 OAuthToken oauthToken = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken);{{/hasOAuthMethods}}
             });

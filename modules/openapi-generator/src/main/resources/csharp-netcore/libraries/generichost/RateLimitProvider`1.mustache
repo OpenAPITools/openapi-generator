@@ -3,8 +3,7 @@
 {{#nullableReferenceTypes}}#nullable enable{{/nullableReferenceTypes}}
 
 using System;
-using System.Linq;
-using System.Collections.Generic;
+using System.Threading.Channels;
 using {{packageName}}.Client;
 
 namespace {{packageName}}
@@ -15,7 +14,7 @@ namespace {{packageName}}
     /// <typeparam name="TTokenBase"></typeparam>
     public class RateLimitProvider<TTokenBase> : TokenProvider<TTokenBase> where TTokenBase : TokenBase
     {
-        internal System.Threading.Channels.Channel<TTokenBase> AvailableTokens { get; }
+        internal Channel<TTokenBase> AvailableTokens { get; }
 
         /// <summary>
         /// Instantiates a ThrottledTokenProvider. Your tokens will be rate limited based on the token's timeout.
@@ -26,12 +25,12 @@ namespace {{packageName}}
             foreach(TTokenBase token in _tokens)
                 token.StartTimer(token.Timeout ?? TimeSpan.FromMilliseconds(40));
 
-            System.Threading.Channels.BoundedChannelOptions options = new(_tokens.Length) 
+            BoundedChannelOptions options = new BoundedChannelOptions(_tokens.Length) 
             { 
-                FullMode = System.Threading.Channels.BoundedChannelFullMode.DropWrite 
+                FullMode = BoundedChannelFullMode.DropWrite 
             };
 
-            AvailableTokens = System.Threading.Channels.Channel.CreateBounded<TTokenBase>(options);
+            AvailableTokens = Channel.CreateBounded<TTokenBase>(options);
 
             for (int i = 0; i < _tokens.Length; i++)
                 _tokens[i].TokenBecameAvailable += ((sender) => AvailableTokens.Writer.TryWrite((TTokenBase) sender));

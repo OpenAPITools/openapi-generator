@@ -41,7 +41,8 @@ namespace {{packageName}}.Client
         /// <summary>
         /// The deserialized content
         /// </summary>
-        public T{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} Content { get; set; }
+        {{! .net 3.1 does not support unconstrained T }}
+        public T{{#nullableReferenceTypes}}{{^netcoreapp3.1}}?{{/netcoreapp3.1}}{{/nullableReferenceTypes}} Content { get; set; }
 
         /// <summary>
         /// Gets or sets the status code (HTTP status code)

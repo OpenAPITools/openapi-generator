@@ -49,7 +49,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}&gt;</returns>
-        Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> {{operationId}}Async({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);{{#nullableReferenceTypes}}
+        Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> {{operationId}}Async({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);{{#nullableReferenceTypes}}
         
         /// <summary>
         /// {{summary}}
@@ -62,7 +62,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}?&gt;</returns>
-        Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}?> {{operationId}}OrDefaultAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);{{/nullableReferenceTypes}}{{^-last}}
+        Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> {{operationId}}OrDefaultAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null);{{/nullableReferenceTypes}}{{^-last}}
 
         {{/-last}}{{/operation}}
     }
@@ -142,16 +142,18 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/>&gt;</returns>
-        public async Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> {{operationId}}Async({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="{{#returnType}}{{.}}{{/returnType}}{{^returnType}}object{{/returnType}}"/>&gt;</returns>
+        public async Task<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> {{operationId}}Async({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
         {
             ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
             
-            if (result.Content == null)
+            {{^nullableReferenceTypes}}{{#returnTypeIsPrimitive}}#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            {{/returnTypeIsPrimitive}}{{/nullableReferenceTypes}}if (result.Content == null){{^nullableReferenceTypes}}{{#returnTypeIsPrimitive}}
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'{{/returnTypeIsPrimitive}}{{/nullableReferenceTypes}}
                 throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-            
+
             return result.Content;
-        }{{#nullableReferenceTypes}} {{! without NRT we dont know the return type. Microsoft has enabled NRT since .NET 6, so we should encourage it to be enabled here. }}
+        }{{#nullableReferenceTypes}}
 
         /// <summary>
         /// {{summary}} {{notes}}
@@ -162,9 +164,9 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/>&gt;</returns>
-        public async Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}?> {{operationId}}OrDefaultAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> {{operationId}}OrDefaultAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
         {
-            ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>? result = null;
+            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} result = null;
             try 
             {
                 result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
@@ -176,7 +178,33 @@ namespace {{packageName}}.{{apiPackage}}
             return result != null && result.IsSuccessStatusCode
                 ? result.Content
                 : null;
-        }{{/nullableReferenceTypes}}
+        }{{/nullableReferenceTypes}}{{^nullableReferenceTypes}}{{^returnTypeIsPrimitive}}
+{{! Note that this method is a copy paste of above due to NRT complexities }}
+        /// <summary>
+        /// {{summary}} {{notes}}
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        {{#allParams}}
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        {{/allParams}}
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/>&gt;</returns>
+        public async Task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}> {{operationId}}OrDefaultAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
+        {
+            ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} result = null;
+            try 
+            {
+                result = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+            }
+
+            return result != null && result.IsSuccessStatusCode
+                ? result.Content
+                : null;
+        }
+        {{/returnTypeIsPrimitive}}{{/nullableReferenceTypes}}
 
         /// <summary>
         /// {{summary}} {{notes}}
@@ -187,7 +215,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}"/></returns>
-        public async Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/required}}{{^required}}{{{dataType}}} {{paramName}} = null{{^-last}}, {{/-last}}{{/required}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken? cancellationToken = null)
         {
             try
             {
@@ -290,7 +318,7 @@ namespace {{packageName}}.{{apiPackage}}
 
                 tokens.Add(signatureToken);
 
-                string requestBody = await request.Content{{#nullableReferenceTypes}}!{{/nullableReferenceTypes}}.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                string requestBody = await request.Content{{#nullableReferenceTypes}}!{{/nullableReferenceTypes}}.ReadAsStringAsync({{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}).ConfigureAwait(false);
 
                 signatureToken.UseInHeader(request, requestBody, cancellationToken);{{/isHttpSignature}}{{/authMethods}}{{#consumes}}{{#-first}}
                 
@@ -320,7 +348,7 @@ namespace {{packageName}}.{{apiPackage}}
 
                 DateTime requestedAt = DateTime.UtcNow;
 
-                string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                string responseContent = await responseMessage.Content.ReadAsStringAsync({{^netcoreapp3.1}}cancellationToken.GetValueOrDefault(){{/netcoreapp3.1}}).ConfigureAwait(false);
 
                 if (ApiResponded != null)
                 {

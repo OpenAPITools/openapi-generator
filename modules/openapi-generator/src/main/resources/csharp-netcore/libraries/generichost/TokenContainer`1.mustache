@@ -3,6 +3,7 @@
 {{#nullableReferenceTypes}}#nullable enable{{/nullableReferenceTypes}}
 
 using System.Linq;
+using System.Collections.Generic;
 
 namespace {{packageName}}.Client
 {
@@ -15,7 +16,7 @@ namespace {{packageName}}.Client
         /// <summary>
         /// The collection of tokens
         /// </summary>
-        public System.Collections.Generic.List<TTokenBase> Tokens { get; } = new();
+        public List<TTokenBase> Tokens { get; } = new List<TTokenBase>();
 
         /// <summary>
         /// Instantiates a TokenContainer
