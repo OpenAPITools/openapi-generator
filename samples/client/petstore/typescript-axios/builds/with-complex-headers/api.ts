@@ -282,9 +282,9 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            if (header1 !== undefined && header1 !== null) {
-                localVarHeaderParameter['header1'] = String(JSON.stringify(header1));
-            }
+              if (header1 !== undefined && header1 !== null) {
+                  localVarHeaderParameter['header1'] = String(JSON.stringify(header1));
+              }
 
             if (header2) {
                 let mapped = header2.map(value => (<any>"Array<Pet>" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
@@ -333,9 +333,9 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            if (apiKey !== undefined && apiKey !== null) {
-                localVarHeaderParameter['api_key'] = String(apiKey);
-            }
+              if (apiKey !== undefined && apiKey !== null) {
+                  localVarHeaderParameter['api_key'] = String(apiKey);
+              }
 
 
     
