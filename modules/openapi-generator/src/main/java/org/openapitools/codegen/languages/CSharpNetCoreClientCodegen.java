@@ -39,7 +39,9 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 @SuppressWarnings("Duplicates")
-public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
+public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {    
+    protected String apiName = "Api";
+    
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
     protected static final String SUPPORTS_UWP = "supportsUWP";
@@ -56,8 +58,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
-
-    protected String apiName = "Api";
 
     @SuppressWarnings({"hiding"})
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
