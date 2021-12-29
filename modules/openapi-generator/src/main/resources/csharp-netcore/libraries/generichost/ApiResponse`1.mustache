@@ -41,7 +41,7 @@ namespace {{packageName}}.Client
         /// <summary>
         /// The deserialized content
         /// </summary>
-        {{! .net 3.1 does not support unconstrained T }}
+        {{! .net 3.1 does not support unconstrained nullable T }}
         public T{{#nullableReferenceTypes}}{{^netcoreapp3.1}}?{{/netcoreapp3.1}}{{/nullableReferenceTypes}} Content { get; set; }
 
         /// <summary>

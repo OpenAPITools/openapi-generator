@@ -57,6 +57,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // Project Variable, determined from target framework. Not intended to be user-settable.
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
 
+    protected String apiName = "Api";
+
     @SuppressWarnings({"hiding"})
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
@@ -172,6 +174,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 "C# package name (convention: Title.Case).",
                 this.packageName);
 
+        addOption(CodegenConstants.API_NAME,
+                "Must be a valid C# class name. Only used in Generic Host library. Default: " + this.apiName, 
+                this.apiName);
+
         addOption(CodegenConstants.PACKAGE_VERSION,
                 "C# package version.",
                 this.packageVersion);
@@ -269,8 +275,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 this.optionalEmitDefaultValuesFlag);
             
         addSwitch(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION,
-        CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION_DESC,
-        this.conditionalSerialization);        
+                CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION_DESC,
+                this.conditionalSerialization);
 
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
@@ -561,6 +567,12 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.API_NAME)) {
+            setApiName((String) additionalProperties.get(CodegenConstants.API_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.API_NAME, apiName);
+        }
+
         if (isEmpty(apiPackage)) {
             setApiPackage("Api");
         }
@@ -569,11 +581,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
 
         clientPackage = "Client";
-
-        String projectName = (String) additionalProperties.getOrDefault("projectName", "");
-        if (!"".equals(projectName) && (Boolean.FALSE.equals(projectName.matches("^[a-zA-Z0-9_]*$")) || Boolean.FALSE.equals(projectName.matches("^[a-zA-Z].*")))){
-            throw new RuntimeException("Invalid project name " + projectName + ". May only contain alphanumeric characaters or underscore and start with a letter.");
-        }
 
         if (GENERICHOST.equals(getLibrary())){
             setLibrary(GENERICHOST);
@@ -828,6 +835,17 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @Override
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    /** 
+     * Sets the api name. This value must be a valid class name.
+     * @param apiName The api name
+    */
+    public void setApiName(String apiName) {
+        if (!"".equals(apiName) && (Boolean.FALSE.equals(apiName.matches("^[a-zA-Z0-9_]*$")) || Boolean.FALSE.equals(apiName.matches("^[a-zA-Z].*")))){
+            throw new RuntimeException("Invalid project name " + apiName + ". May only contain alphanumeric characaters or underscore and start with a letter.");
+        }
+        this.apiName = apiName;
     }
 
     @Override

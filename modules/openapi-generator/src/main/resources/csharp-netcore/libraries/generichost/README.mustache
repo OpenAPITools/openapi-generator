@@ -5,7 +5,7 @@
 
 ```ps1
 $properties = @(
-    'projectName={{projectName}}'
+    'apiName={{apiName}}'
     'packageName={{packageName}}',
     'targetFramework={{targetFramework}}'
     'validatable={{validatable}}',
@@ -56,7 +56,7 @@ namespace YourProject
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
-          .Configure{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}((context, options) =>
+          .Configure{{apiName}}((context, options) =>
           {
               {{#authMethods}}// the type of token here depends on the api security specifications
               ApiKeyToken token = new("<your token>");
@@ -70,7 +70,7 @@ namespace YourProject
                   // your custom converters if any
               });
 
-              options.Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients(builder: builder => builder
+              options.Add{{apiName}}HttpClients(builder: builder => builder
                 .AddRetryPolicy(2)
                 .AddTimeoutPolicy(TimeSpan.FromSeconds(5))
                 .AddCircuitBreakerPolicy(10, TimeSpan.FromSeconds(30))
@@ -168,6 +168,7 @@ Class | Method | HTTP request | Description
 
 ## [OpenApi Generator Parameteres](https://openapi-generator.tech/docs/generators/csharp-netcore)
 - allowUnicodeIdentifiers: {{allowUnicodeIdentifiers}}
+- apiName: {{apiName}}
 - caseInsensitiveResponseHeaders: {{caseInsensitiveResponseHeaders}}
 - conditionalSerialization: {{conditionalSerialization}}
 - disallowAdditionalPropertiesIfNotPresent: {{disallowAdditionalPropertiesIfNotPresent}}
@@ -187,7 +188,6 @@ Class | Method | HTTP request | Description
 - packageName: {{packageName}}
 - packageTags: {{packageTags}}
 - packageVersion: {{packageVersion}}
-- projectName: {{projectName}}
 - releaseNote: {{releaseNote}}
 - returnICollection: {{returnICollection}}
 - sortParamsByRequiredFlag: {{sortParamsByRequiredFlag}}

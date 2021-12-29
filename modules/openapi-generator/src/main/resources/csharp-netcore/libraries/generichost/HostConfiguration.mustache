@@ -33,7 +33,7 @@ namespace {{packageName}}.Client
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}>
+        public HostConfiguration Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}>
         (
             Action<HttpClient>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} client = null, Action<IHttpClientBuilder>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} builder = null){{#apis}}
             where T{{classname}} : class, {{interfacePrefix}}{{classname}}{{/apis}}
@@ -58,10 +58,10 @@ namespace {{packageName}}.Client
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients(
+        public HostConfiguration Add{{apiName}}HttpClients(
             Action<HttpClient>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} client = null, Action<IHttpClientBuilder>{{#nullableReferenceTypes}}?{{/nullableReferenceTypes}} builder = null)
         {
-            Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
+            Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
 
             return this;
         }

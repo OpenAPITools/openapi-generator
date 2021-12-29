@@ -253,7 +253,7 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="options"></param>
-        public static IHostBuilder Configure{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration> options)
+        public static IHostBuilder Configure{{apiName}}(this IHostBuilder builder, Action<HostBuilderContext, HostConfiguration> options)
         {
             builder.ConfigureServices((context, services) => 
             {
@@ -261,7 +261,7 @@ namespace {{packageName}}.Client
 
                 options(context, config);
 
-                Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}(services, config);
+                Add{{apiName}}(services, config);
             });
 
             return builder;
@@ -272,17 +272,17 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
-        public static void Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}(this IServiceCollection services, Action<HostConfiguration> options)
+        public static void Add{{apiName}}(this IServiceCollection services, Action<HostConfiguration> options)
         {
             HostConfiguration config = new HostConfiguration(services);
             options(config);
-            Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}(services, config);
+            Add{{apiName}}(services, config);
         }
 
-        private static void Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}(IServiceCollection services, HostConfiguration host)
+        private static void Add{{apiName}}(IServiceCollection services, HostConfiguration host)
         {
             if (!host.HttpClientsAdded)
-                host.Add{{#projectName}}{{.}}{{/projectName}}{{^projectName}}Api{{/projectName}}HttpClients();
+                host.Add{{apiName}}HttpClients();
 
             // ensure that a token provider was provided for this token type
             // if not, default to RateLimitProvider
