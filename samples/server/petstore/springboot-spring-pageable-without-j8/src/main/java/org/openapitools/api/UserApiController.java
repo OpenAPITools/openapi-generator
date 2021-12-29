@@ -83,7 +83,7 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    public ResponseEntity<Void> deleteUser( @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+    public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
 ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -98,7 +98,7 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    public ResponseEntity<User> getUserByName( @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+    public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
 ) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -153,7 +153,7 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    public ResponseEntity<Void> updateUser( @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username
+    public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username
 ,@ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body
 ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

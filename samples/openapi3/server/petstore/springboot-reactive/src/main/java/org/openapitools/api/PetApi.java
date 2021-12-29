@@ -72,7 +72,7 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
-    default Mono<ResponseEntity<Void>> deletePet( @Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+    default Mono<ResponseEntity<Void>> deletePet(@Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
 ,@Parameter(name = "api_key", description = "", schema = @Schema(description = "")) @RequestHeader(value = "api_key", required = false) String apiKey,  final ServerWebExchange exchange) {
         return getDelegate().deletePet(petId, apiKey, exchange);
     }
@@ -137,7 +137,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }
     )
-    default Mono<ResponseEntity<Pet>> getPetById( @Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+    default Mono<ResponseEntity<Pet>> getPetById(@Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
 ,  final ServerWebExchange exchange) {
         return getDelegate().getPetById(petId, exchange);
     }
@@ -180,11 +180,9 @@ public interface PetApi {
         value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" }
     )
-    default Mono<ResponseEntity<Void>> updatePetWithForm( @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
-,  @Parameter(name = "name", description = "Updated name of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "name", required = false) String name
-  
-,  @Parameter(name = "status", description = "Updated status of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "status", required = false) String status
-  
+    default Mono<ResponseEntity<Void>> updatePetWithForm(@Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+,@Parameter(name = "name", description = "Updated name of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "name", required = false) String name
+,@Parameter(name = "status", description = "Updated status of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "status", required = false) String status
 ,  final ServerWebExchange exchange) {
         return getDelegate().updatePetWithForm(petId, name, status, exchange);
     }
@@ -206,11 +204,9 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    default Mono<ResponseEntity<ModelApiResponse>> uploadFile( @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
-,  @Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
-  
-,  
-  @Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestPart(value = "file", required = false) Flux<Part> file
+    default Mono<ResponseEntity<ModelApiResponse>> uploadFile(@Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+,@Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
+,@Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestPart(value = "file", required = false) Flux<Part> file
 ,  final ServerWebExchange exchange) {
         return getDelegate().uploadFile(petId, additionalMetadata, file, exchange);
     }

@@ -114,7 +114,7 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = "/user/{username}"
     )
-    default Mono<ResponseEntity<Void>> deleteUser( @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+    default Mono<ResponseEntity<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
 ,  final ServerWebExchange exchange) {
         return getDelegate().deleteUser(username, exchange);
     }
@@ -142,7 +142,7 @@ public interface UserApi {
         value = "/user/{username}",
         produces = { "application/xml", "application/json" }
     )
-    default Mono<ResponseEntity<User>> getUserByName( @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+    default Mono<ResponseEntity<User>> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
 ,  final ServerWebExchange exchange) {
         return getDelegate().getUserByName(username, exchange);
     }
@@ -214,7 +214,7 @@ public interface UserApi {
         method = RequestMethod.PUT,
         value = "/user/{username}"
     )
-    default Mono<ResponseEntity<Void>> updateUser( @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username
+    default Mono<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username
 ,@ApiParam(value = "Updated user object", required = true) @Valid @RequestBody Mono<User> body
 ,  final ServerWebExchange exchange) {
         return getDelegate().updateUser(username, body, exchange);

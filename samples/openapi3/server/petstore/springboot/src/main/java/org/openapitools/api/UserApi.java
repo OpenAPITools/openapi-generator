@@ -113,7 +113,7 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = "/user/{username}"
     )
-    default ResponseEntity<Void> deleteUser( @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+    default ResponseEntity<Void> deleteUser(@Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
 ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -134,7 +134,7 @@ public interface UserApi {
         value = "/user/{username}",
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<User> getUserByName( @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+    default ResponseEntity<User> getUserByName(@Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
 ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -210,7 +210,7 @@ public interface UserApi {
         value = "/user/{username}",
         consumes = { "application/json" }
     )
-    default ResponseEntity<Void> updateUser( @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+    default ResponseEntity<Void> updateUser(@Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
 ,@Parameter(name = "User", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User user
 ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

@@ -50,7 +50,7 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = "/store/order/{order_id}"
     )
-    default CompletableFuture<ResponseEntity<Void>> deleteOrder( @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId
+    default CompletableFuture<ResponseEntity<Void>> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId
 ) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -105,7 +105,7 @@ public interface StoreApi {
         value = "/store/order/{order_id}",
         produces = { "application/xml", "application/json" }
     )
-    default CompletableFuture<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L)  @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId
+    default CompletableFuture<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId
 ) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {

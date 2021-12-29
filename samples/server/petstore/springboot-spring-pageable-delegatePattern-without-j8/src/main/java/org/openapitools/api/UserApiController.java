@@ -78,7 +78,7 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    public ResponseEntity<Void> deleteUser( @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+    public ResponseEntity<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
 ) {
         return delegate.deleteUser(username);
     }
@@ -92,7 +92,7 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    public ResponseEntity<User> getUserByName( @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+    public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
 ) {
         return delegate.getUserByName(username);
     }
@@ -132,7 +132,7 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    public ResponseEntity<Void> updateUser( @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username
+    public ResponseEntity<Void> updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username
 ,@ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body
 ) {
         return delegate.updateUser(username, body);

@@ -206,34 +206,20 @@ public interface FakeApi {
         value = "/fake",
         consumes = "application/x-www-form-urlencoded"
     )
-    ResponseEntity<Void> testEndpointParameters(  @Parameter(name = "number", description = "None", required = true, schema = @Schema(description = "")) @RequestParam(value="number", required=true) BigDecimal number
-  
-,  @Parameter(name = "double", description = "None", required = true, schema = @Schema(description = "")) @RequestParam(value="double", required=true) Double _double
-  
-,  @Parameter(name = "pattern_without_delimiter", description = "None", required = true, schema = @Schema(description = "")) @RequestParam(value="pattern_without_delimiter", required=true) String patternWithoutDelimiter
-  
-,  @Parameter(name = "byte", description = "None", required = true, schema = @Schema(description = "")) @RequestParam(value="byte", required=true) byte[] _byte
-  
-,  @Parameter(name = "integer", description = "None", schema = @Schema(description = "")) @RequestParam(value="integer", required=false) Integer integer
-  
-,  @Parameter(name = "int32", description = "None", schema = @Schema(description = "")) @RequestParam(value="int32", required=false) Integer int32
-  
-,  @Parameter(name = "int64", description = "None", schema = @Schema(description = "")) @RequestParam(value="int64", required=false) Long int64
-  
-,  @Parameter(name = "float", description = "None", schema = @Schema(description = "")) @RequestParam(value="float", required=false) Float _float
-  
-,  @Parameter(name = "string", description = "None", schema = @Schema(description = "")) @RequestParam(value="string", required=false) String string
-  
-,  
-  @Parameter(name = "binary", description = "None", schema = @Schema(description = "")) @RequestParam("binary") MultipartFile binary
-,  @Parameter(name = "date", description = "None", schema = @Schema(description = "")) @RequestParam(value="date", required=false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate date
-  
-,  @Parameter(name = "dateTime", description = "None", schema = @Schema(description = "")) @RequestParam(value="dateTime", required=false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime
-  
-,  @Parameter(name = "password", description = "None", schema = @Schema(description = "")) @RequestParam(value="password", required=false) String password
-  
-,  @Parameter(name = "callback", description = "None", schema = @Schema(description = "")) @RequestParam(value="callback", required=false) String paramCallback
-  
+    ResponseEntity<Void> testEndpointParameters(@Parameter(name = "number", description = "None", required = true, schema = @Schema(description = "")) @RequestParam(value="number", required=true) BigDecimal number
+,@Parameter(name = "double", description = "None", required = true, schema = @Schema(description = "")) @RequestParam(value="double", required=true) Double _double
+,@Parameter(name = "pattern_without_delimiter", description = "None", required = true, schema = @Schema(description = "")) @RequestParam(value="pattern_without_delimiter", required=true) String patternWithoutDelimiter
+,@Parameter(name = "byte", description = "None", required = true, schema = @Schema(description = "")) @RequestParam(value="byte", required=true) byte[] _byte
+,@Parameter(name = "integer", description = "None", schema = @Schema(description = "")) @RequestParam(value="integer", required=false) Integer integer
+,@Parameter(name = "int32", description = "None", schema = @Schema(description = "")) @RequestParam(value="int32", required=false) Integer int32
+,@Parameter(name = "int64", description = "None", schema = @Schema(description = "")) @RequestParam(value="int64", required=false) Long int64
+,@Parameter(name = "float", description = "None", schema = @Schema(description = "")) @RequestParam(value="float", required=false) Float _float
+,@Parameter(name = "string", description = "None", schema = @Schema(description = "")) @RequestParam(value="string", required=false) String string
+,@Parameter(name = "binary", description = "None", schema = @Schema(description = "")) @RequestParam("binary") MultipartFile binary
+,@Parameter(name = "date", description = "None", schema = @Schema(description = "")) @RequestParam(value="date", required=false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate date
+,@Parameter(name = "dateTime", description = "None", schema = @Schema(description = "")) @RequestParam(value="dateTime", required=false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime
+,@Parameter(name = "password", description = "None", schema = @Schema(description = "")) @RequestParam(value="password", required=false) String password
+,@Parameter(name = "callback", description = "None", schema = @Schema(description = "")) @RequestParam(value="callback", required=false) String paramCallback
 );
 
 
@@ -262,10 +248,8 @@ public interface FakeApi {
 ,@Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", schema = @Schema(description = "", allowableValues = { "_abc", "-efg", "(xyz)" }, defaultValue = "-efg")) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString
 ,@Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", schema = @Schema(description = "", allowableValues = { "1", "-2" })) @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger
 ,@Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", schema = @Schema(description = "", allowableValues = { "1.1", "-1.2" })) @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble
-,  @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)", schema = @Schema(description = "", allowableValues = { ">", "$" })) @RequestParam(value="enum_form_string_array", required=false) List<String> enumFormStringArray
-  
-,  @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)", schema = @Schema(description = "", allowableValues = { "_abc", "-efg", "(xyz)" }, defaultValue = "-efg")) @RequestParam(value="enum_form_string", required=false) String enumFormString
-  
+,@Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)", schema = @Schema(description = "", allowableValues = { ">", "$" })) @RequestParam(value="enum_form_string_array", required=false) List<String> enumFormStringArray
+,@Parameter(name = "enum_form_string", description = "Form parameter enum test (string)", schema = @Schema(description = "", allowableValues = { "_abc", "-efg", "(xyz)" }, defaultValue = "-efg")) @RequestParam(value="enum_form_string", required=false) String enumFormString
 );
 
 
@@ -322,10 +306,8 @@ public interface FakeApi {
         value = "/fake/jsonFormData",
         consumes = "application/x-www-form-urlencoded"
     )
-    ResponseEntity<Void> testJsonFormData(  @Parameter(name = "param", description = "field1", required = true, schema = @Schema(description = "")) @RequestParam(value="param", required=true) String param
-  
-,  @Parameter(name = "param2", description = "field2", required = true, schema = @Schema(description = "")) @RequestParam(value="param2", required=true) String param2
-  
+    ResponseEntity<Void> testJsonFormData(@Parameter(name = "param", description = "field1", required = true, schema = @Schema(description = "")) @RequestParam(value="param", required=true) String param
+,@Parameter(name = "param2", description = "field2", required = true, schema = @Schema(description = "")) @RequestParam(value="param2", required=true) String param2
 );
 
 

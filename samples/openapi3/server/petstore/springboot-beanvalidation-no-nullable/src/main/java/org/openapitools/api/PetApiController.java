@@ -63,7 +63,7 @@ public class PetApiController implements PetApi {
      *         or Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
-    public ResponseEntity<Void> deletePet( @Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+    public ResponseEntity<Void> deletePet(@Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
 ,@Parameter(name = "api_key", description = "", schema = @Schema(description = "")) @RequestHeader(value = "api_key", required = false) String apiKey) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -134,7 +134,7 @@ public class PetApiController implements PetApi {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    public ResponseEntity<Pet> getPetById( @Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+    public ResponseEntity<Pet> getPetById(@Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
 ) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -177,11 +177,9 @@ public class PetApiController implements PetApi {
      * @return Invalid input (status code 405)
      * @see PetApi#updatePetWithForm
      */
-    public ResponseEntity<Void> updatePetWithForm( @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
-,  @Parameter(name = "name", description = "Updated name of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "name", required = false) String name
-  
-,  @Parameter(name = "status", description = "Updated status of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "status", required = false) String status
-  
+    public ResponseEntity<Void> updatePetWithForm(@Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+,@Parameter(name = "name", description = "Updated name of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "name", required = false) String name
+,@Parameter(name = "status", description = "Updated status of the pet", schema = @Schema(description = "")) @Valid @RequestPart(value = "status", required = false) String status
 ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -196,11 +194,9 @@ public class PetApiController implements PetApi {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    public ResponseEntity<ModelApiResponse> uploadFile( @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
-,  @Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
-  
-,  
-  @Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestPart(value = "file", required = false) MultipartFile file
+    public ResponseEntity<ModelApiResponse> uploadFile(@Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+,@Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
+,@Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestPart(value = "file", required = false) MultipartFile file
 ) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

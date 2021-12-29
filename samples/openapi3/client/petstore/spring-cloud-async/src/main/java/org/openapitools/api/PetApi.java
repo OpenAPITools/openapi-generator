@@ -64,7 +64,7 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
-    CompletableFuture<ResponseEntity<Void>> deletePet( @Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+    CompletableFuture<ResponseEntity<Void>> deletePet(@Parameter(name = "petId", description = "Pet id to delete", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
 ,@Parameter(name = "api_key", description = "", schema = @Schema(description = "")) @RequestHeader(value = "api_key", required = false) String apiKey);
 
 
@@ -123,7 +123,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         produces = "application/json"
     )
-    CompletableFuture<ResponseEntity<Pet>> getPetById( @Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+    CompletableFuture<ResponseEntity<Pet>> getPetById(@Parameter(name = "petId", description = "ID of pet to return", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
 );
 
 
@@ -161,11 +161,9 @@ public interface PetApi {
         value = "/pet/{petId}",
         consumes = "application/x-www-form-urlencoded"
     )
-    CompletableFuture<ResponseEntity<Void>> updatePetWithForm( @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
-,  @Parameter(name = "name", description = "Updated name of the pet", schema = @Schema(description = "")) @RequestParam(value="name", required=false) String name
-  
-,  @Parameter(name = "status", description = "Updated status of the pet", schema = @Schema(description = "")) @RequestParam(value="status", required=false) String status
-  
+    CompletableFuture<ResponseEntity<Void>> updatePetWithForm(@Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+,@Parameter(name = "name", description = "Updated name of the pet", schema = @Schema(description = "")) @RequestParam(value="name", required=false) String name
+,@Parameter(name = "status", description = "Updated status of the pet", schema = @Schema(description = "")) @RequestParam(value="status", required=false) String status
 );
 
 
@@ -185,11 +183,9 @@ public interface PetApi {
         produces = "application/json",
         consumes = "multipart/form-data"
     )
-    CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile( @Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
-,  @Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @RequestParam(value="additionalMetadata", required=false) String additionalMetadata
-  
-,  
-  @Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestParam("file") MultipartFile file
+    CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile(@Parameter(name = "petId", description = "ID of pet to update", required = true, schema = @Schema(description = "")) @PathVariable("petId") Long petId
+,@Parameter(name = "additionalMetadata", description = "Additional data to pass to server", schema = @Schema(description = "")) @RequestParam(value="additionalMetadata", required=false) String additionalMetadata
+,@Parameter(name = "file", description = "file to upload", schema = @Schema(description = "")) @RequestParam("file") MultipartFile file
 );
 
 }

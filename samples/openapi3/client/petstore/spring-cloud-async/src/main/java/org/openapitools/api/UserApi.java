@@ -94,7 +94,7 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = "/user/{username}"
     )
-    CompletableFuture<ResponseEntity<Void>> deleteUser( @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+    CompletableFuture<ResponseEntity<Void>> deleteUser(@Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
 );
 
 
@@ -112,7 +112,7 @@ public interface UserApi {
         value = "/user/{username}",
         produces = "application/json"
     )
-    CompletableFuture<ResponseEntity<User>> getUserByName( @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+    CompletableFuture<ResponseEntity<User>> getUserByName(@Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
 );
 
 
@@ -162,7 +162,7 @@ public interface UserApi {
         method = RequestMethod.PUT,
         value = "/user/{username}"
     )
-    CompletableFuture<ResponseEntity<Void>> updateUser( @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+    CompletableFuture<ResponseEntity<Void>> updateUser(@Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
 ,@Parameter(name = "body", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
 );
 

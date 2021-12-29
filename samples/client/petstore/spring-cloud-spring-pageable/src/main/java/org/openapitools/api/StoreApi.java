@@ -45,7 +45,7 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = "/store/order/{orderId}"
     )
-    ResponseEntity<Void> deleteOrder( @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId
+    ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId
 );
 
 
@@ -94,7 +94,7 @@ public interface StoreApi {
         value = "/store/order/{orderId}",
         produces = "application/json"
     )
-    ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L)  @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") Long orderId
+    ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") Long orderId
 );
 
 

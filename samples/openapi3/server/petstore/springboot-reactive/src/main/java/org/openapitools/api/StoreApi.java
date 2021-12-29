@@ -50,7 +50,7 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = "/store/order/{order_id}"
     )
-    default Mono<ResponseEntity<Void>> deleteOrder( @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("order_id") String orderId
+    default Mono<ResponseEntity<Void>> deleteOrder(@Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("order_id") String orderId
 ,  final ServerWebExchange exchange) {
         return getDelegate().deleteOrder(orderId, exchange);
     }
@@ -89,7 +89,7 @@ public interface StoreApi {
         value = "/store/order/{order_id}",
         produces = { "application/xml", "application/json" }
     )
-    default Mono<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L)  @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, schema = @Schema(description = "")) @PathVariable("order_id") Long orderId
+    default Mono<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, schema = @Schema(description = "")) @PathVariable("order_id") Long orderId
 ,  final ServerWebExchange exchange) {
         return getDelegate().getOrderById(orderId, exchange);
     }

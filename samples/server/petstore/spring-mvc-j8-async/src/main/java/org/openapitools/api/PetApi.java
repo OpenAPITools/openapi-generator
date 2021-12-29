@@ -85,7 +85,7 @@ public interface PetApi {
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
-    default CompletableFuture<ResponseEntity<Void>> deletePet( @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId
+    default CompletableFuture<ResponseEntity<Void>> deletePet(@ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId
 ,@ApiParam(value = "") @RequestHeader(value = "api_key", required = false) String apiKey) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -213,7 +213,7 @@ public interface PetApi {
         value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }
     )
-    default CompletableFuture<ResponseEntity<Pet>> getPetById( @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
+    default CompletableFuture<ResponseEntity<Pet>> getPetById(@ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
 ) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
@@ -294,11 +294,9 @@ public interface PetApi {
         value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" }
     )
-    default CompletableFuture<ResponseEntity<Void>> updatePetWithForm( @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId
-,  @ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name
-  
-,  @ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status
-  
+    default CompletableFuture<ResponseEntity<Void>> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId
+,@ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name
+,@ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status
 ) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
@@ -328,11 +326,9 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    default CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile( @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
-,  @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
-  
-,  
-  @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
+    default CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+,@ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
+,@ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
 ) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
