@@ -26,7 +26,7 @@ Add this dependency to your project's POM:
 
 ```xml
 <dependency>
-    <groupId>org.openapitools</groupId>
+    <groupId>org.openapitools.openapi3</groupId>
     <artifactId>petstore-spring-cloud</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
@@ -38,7 +38,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:petstore-spring-cloud:1.0.0"
+compile "org.openapitools.openapi3:petstore-spring-cloud:1.0.0"
 ```
 
 ### Others

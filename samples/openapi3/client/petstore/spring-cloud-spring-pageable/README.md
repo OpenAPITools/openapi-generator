@@ -26,7 +26,7 @@ Add this dependency to your project's POM:
 
 ```xml
 <dependency>
-    <groupId>org.openapitools</groupId>
+    <groupId>org.openapitools.openapi3</groupId>
     <artifactId>spring-cloud-spring-pageable</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
@@ -38,7 +38,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:spring-cloud-spring-pageable:1.0.0"
+compile "org.openapitools.openapi3:spring-cloud-spring-pageable:1.0.0"
 ```
 
 ### Others
