@@ -27,6 +27,11 @@ version = "^0.11"
 features = ["json", "multipart"]
 {{/supportAsync}}
 {{/reqwest}}
+{{#withAWSV4Signature}}
+aws-sigv4 = "0.3.0"
+http = "0.2.5"
+secrecy = "0.8.0"
+{{/withAWSV4Signature}}
 
 [dev-dependencies]
 {{#hyper}}
