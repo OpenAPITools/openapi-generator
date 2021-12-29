@@ -4,6 +4,7 @@ outputDir: samples/openapi3/client/petstore/spring-cloud-date-time
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  groupId: org.openapitools.openapi3
   artifactId: spring-cloud-date-time-oas3
   interfaceOnly: "true"
   singleContentTypes: "true"
