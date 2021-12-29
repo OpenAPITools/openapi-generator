@@ -320,21 +320,21 @@ public interface FakeApi {
      */
     @Operation(summary = "To test enum parameters", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "400", description = "Invalid request"), @ApiResponse(responseCode = "404", description = "Not found") })
         @Parameters({
-    @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)", schema = @Schema(description = "", allowableValues = ">, $")),
-    @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)", schema = @Schema(description = "", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg"))
+    @Parameter(name = "enum_header_string_array", description = "Header parameter enum test (string array)", schema = @Schema(description = "", allowableValues = { ">", "$" })),
+    @Parameter(name = "enum_header_string", description = "Header parameter enum test (string)", schema = @Schema(description = "", allowableValues = { "_abc", "-efg", "(xyz)" }, defaultValue = "-efg"))
     })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/fake",
         consumes = { "application/x-www-form-urlencoded" }
     )
-    default ResponseEntity<Void> testEnumParameters(@Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", schema = @Schema(description = "", allowableValues = ">, $")) @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray
-,@Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", schema = @Schema(description = "", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg")) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString
-,@Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", schema = @Schema(description = "", allowableValues = "1, -2")) @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger
-,@Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", schema = @Schema(description = "", allowableValues = "1.1, -1.2")) @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble
-,  @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)", schema = @Schema(description = "", allowableValues = ">, $")) @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray
+    default ResponseEntity<Void> testEnumParameters(@Parameter(name = "enum_query_string_array", description = "Query parameter enum test (string array)", schema = @Schema(description = "", allowableValues = { ">", "$" })) @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray
+,@Parameter(name = "enum_query_string", description = "Query parameter enum test (string)", schema = @Schema(description = "", allowableValues = { "_abc", "-efg", "(xyz)" }, defaultValue = "-efg")) @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString
+,@Parameter(name = "enum_query_integer", description = "Query parameter enum test (double)", schema = @Schema(description = "", allowableValues = { "1", "-2" })) @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger
+,@Parameter(name = "enum_query_double", description = "Query parameter enum test (double)", schema = @Schema(description = "", allowableValues = { "1.1", "-1.2" })) @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble
+,  @Parameter(name = "enum_form_string_array", description = "Form parameter enum test (string array)", schema = @Schema(description = "", allowableValues = { ">", "$" })) @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray
   
-,  @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)", schema = @Schema(description = "", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg")) @Valid @RequestPart(value = "enum_form_string", required = false) String enumFormString
+,  @Parameter(name = "enum_form_string", description = "Form parameter enum test (string)", schema = @Schema(description = "", allowableValues = { "_abc", "-efg", "(xyz)" }, defaultValue = "-efg")) @Valid @RequestPart(value = "enum_form_string", required = false) String enumFormString
   
 ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
