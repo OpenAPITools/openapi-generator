@@ -48,8 +48,9 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUser
      */
-    public ResponseEntity<Void> createUser(@Parameter(name = "body", description = "Created user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
-) {
+    public ResponseEntity<Void> createUser(
+        @Parameter(name = "body", description = "Created user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
+    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -61,8 +62,9 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    public ResponseEntity<Void> createUsersWithArrayInput(@Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> body
-) {
+    public ResponseEntity<Void> createUsersWithArrayInput(
+        @Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> body
+    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -74,8 +76,9 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    public ResponseEntity<Void> createUsersWithListInput(@Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> body
-) {
+    public ResponseEntity<Void> createUsersWithListInput(
+        @Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> body
+    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -89,8 +92,9 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    public ResponseEntity<Void> deleteUser(@Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
-) {
+    public ResponseEntity<Void> deleteUser(
+        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -104,8 +108,9 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    public ResponseEntity<User> getUserByName(@Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
-) {
+    public ResponseEntity<User> getUserByName(
+        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+    ) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
@@ -131,9 +136,10 @@ public class UserApiController implements UserApi {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    public ResponseEntity<String> loginUser(@NotNull @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true) String username
-,@NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true) String password
-) {
+    public ResponseEntity<String> loginUser(
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true) String password
+    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -144,7 +150,9 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#logoutUser
      */
-    public ResponseEntity<Void> logoutUser() {
+    public ResponseEntity<Void> logoutUser(
+        
+    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -159,9 +167,10 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    public ResponseEntity<Void> updateUser(@Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
-,@Parameter(name = "body", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
-) {
+    public ResponseEntity<Void> updateUser(
+        @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username,
+        @Parameter(name = "body", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
+    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

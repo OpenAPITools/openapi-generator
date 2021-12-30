@@ -50,8 +50,9 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = "/store/order/{orderId}"
     )
-    default ResponseEntity<Void> deleteOrder(@Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("orderId") String orderId
-) {
+    default ResponseEntity<Void> deleteOrder(
+        @Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("orderId") String orderId
+    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -70,7 +71,9 @@ public interface StoreApi {
         value = "/store/inventory",
         produces = { "application/json" }
     )
-    default ResponseEntity<Map<String, Integer>> getInventory() {
+    default ResponseEntity<Map<String, Integer>> getInventory(
+        
+    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -91,8 +94,9 @@ public interface StoreApi {
         value = "/store/order/{orderId}",
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, schema = @Schema(description = "")) @PathVariable("orderId") Long orderId
-) {
+    default ResponseEntity<Order> getOrderById(
+        @Min(1L) @Max(5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, schema = @Schema(description = "")) @PathVariable("orderId") Long orderId
+    ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -126,8 +130,9 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Order> placeOrder(@Parameter(name = "Order", description = "order placed for purchasing the pet", required = true, schema = @Schema(description = "")) @Valid @RequestBody Order order
-) {
+    default ResponseEntity<Order> placeOrder(
+        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true, schema = @Schema(description = "")) @Valid @RequestBody Order order
+    ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

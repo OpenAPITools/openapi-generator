@@ -44,10 +44,12 @@ public interface DefaultApi {
         method = RequestMethod.GET,
         value = "/thingy/{date}"
     )
-    ResponseEntity<Void> get(@ApiParam(value = "A date path parameter", required = true) @PathVariable("date") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate date
-,@NotNull @ApiParam(value = "A date-time query parameter", required = true) @Valid @RequestParam(value = "dateTime", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime
-,@ApiParam(value = "A date header parameter", required = true) @RequestHeader(value = "X-Order-Date", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate xOrderDate,@ApiParam(value = "A date cookie parameter") @CookieValue("loginDate") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate loginDate
-);
+    ResponseEntity<Void> get(
+        @ApiParam(value = "A date path parameter", required = true) @PathVariable("date") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate date,
+        @NotNull @ApiParam(value = "A date-time query parameter", required = true) @Valid @RequestParam(value = "dateTime", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+        @ApiParam(value = "A date header parameter", required = true) @RequestHeader(value = "X-Order-Date", required = true) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate xOrderDate,
+        @ApiParam(value = "A date cookie parameter") @CookieValue("loginDate") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate loginDate
+    );
 
 
     /**
@@ -68,8 +70,9 @@ public interface DefaultApi {
         value = "/thingy/{date}",
         consumes = "application/x-www-form-urlencoded"
     )
-    ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "A date path parameter", required = true) @PathVariable("date") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate date
-,@ApiParam(value = "Updated last vist timestamp") @RequestParam(value="visitDate", required=false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
-);
+    ResponseEntity<Void> updatePetWithForm(
+        @ApiParam(value = "A date path parameter", required = true) @PathVariable("date") @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) LocalDate date,
+        @ApiParam(value = "Updated last vist timestamp") @RequestParam(value="visitDate", required=false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) OffsetDateTime visitDate
+    );
 
 }

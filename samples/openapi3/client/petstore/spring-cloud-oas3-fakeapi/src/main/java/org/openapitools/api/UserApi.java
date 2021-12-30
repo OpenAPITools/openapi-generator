@@ -46,8 +46,9 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user"
     )
-    ResponseEntity<Void> createUser(@Parameter(name = "body", description = "Created user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
-);
+    ResponseEntity<Void> createUser(
+        @Parameter(name = "body", description = "Created user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
+    );
 
 
     /**
@@ -61,8 +62,9 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithArray"
     )
-    ResponseEntity<Void> createUsersWithArrayInput(@Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> body
-);
+    ResponseEntity<Void> createUsersWithArrayInput(
+        @Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> body
+    );
 
 
     /**
@@ -76,8 +78,9 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithList"
     )
-    ResponseEntity<Void> createUsersWithListInput(@Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> body
-);
+    ResponseEntity<Void> createUsersWithListInput(
+        @Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody List<User> body
+    );
 
 
     /**
@@ -93,8 +96,9 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = "/user/{username}"
     )
-    ResponseEntity<Void> deleteUser(@Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
-);
+    ResponseEntity<Void> deleteUser(
+        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+    );
 
 
     /**
@@ -111,8 +115,9 @@ public interface UserApi {
         value = "/user/{username}",
         produces = "application/json"
     )
-    ResponseEntity<User> getUserByName(@Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
-);
+    ResponseEntity<User> getUserByName(
+        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
+    );
 
 
     /**
@@ -129,9 +134,10 @@ public interface UserApi {
         value = "/user/login",
         produces = "application/json"
     )
-    ResponseEntity<String> loginUser(@NotNull @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true) String username
-,@NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true) String password
-);
+    ResponseEntity<String> loginUser(
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true) String password
+    );
 
 
     /**
@@ -144,7 +150,9 @@ public interface UserApi {
         method = RequestMethod.GET,
         value = "/user/logout"
     )
-    ResponseEntity<Void> logoutUser();
+    ResponseEntity<Void> logoutUser(
+        
+    );
 
 
     /**
@@ -161,8 +169,9 @@ public interface UserApi {
         method = RequestMethod.PUT,
         value = "/user/{username}"
     )
-    ResponseEntity<Void> updateUser(@Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
-,@Parameter(name = "body", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
-);
+    ResponseEntity<Void> updateUser(
+        @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username,
+        @Parameter(name = "body", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody User body
+    );
 
 }

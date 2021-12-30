@@ -50,8 +50,10 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user"
     )
-    default Mono<ResponseEntity<Void>> createUser(@Parameter(name = "body", description = "Created user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody Mono<User> body
-,  final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> createUser(
+        @Parameter(name = "body", description = "Created user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody Mono<User> body,
+        @Parameter(hidden = true) final ServerWebExchange exchange
+    ) {
         return getDelegate().createUser(body, exchange);
     }
 
@@ -67,8 +69,10 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithArray"
     )
-    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(@Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody Flux<User> body
-,  final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(
+        @Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody Flux<User> body,
+        @Parameter(hidden = true) final ServerWebExchange exchange
+    ) {
         return getDelegate().createUsersWithArrayInput(body, exchange);
     }
 
@@ -84,8 +88,10 @@ public interface UserApi {
         method = RequestMethod.POST,
         value = "/user/createWithList"
     )
-    default Mono<ResponseEntity<Void>> createUsersWithListInput(@Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody Flux<User> body
-,  final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> createUsersWithListInput(
+        @Parameter(name = "body", description = "List of user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody Flux<User> body,
+        @Parameter(hidden = true) final ServerWebExchange exchange
+    ) {
         return getDelegate().createUsersWithListInput(body, exchange);
     }
 
@@ -103,8 +109,10 @@ public interface UserApi {
         method = RequestMethod.DELETE,
         value = "/user/{username}"
     )
-    default Mono<ResponseEntity<Void>> deleteUser(@Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
-,  final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> deleteUser(
+        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username,
+        @Parameter(hidden = true) final ServerWebExchange exchange
+    ) {
         return getDelegate().deleteUser(username, exchange);
     }
 
@@ -123,8 +131,10 @@ public interface UserApi {
         value = "/user/{username}",
         produces = { "application/xml", "application/json" }
     )
-    default Mono<ResponseEntity<User>> getUserByName(@Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
-,  final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<User>> getUserByName(
+        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, schema = @Schema(description = "")) @PathVariable("username") String username,
+        @Parameter(hidden = true) final ServerWebExchange exchange
+    ) {
         return getDelegate().getUserByName(username, exchange);
     }
 
@@ -143,9 +153,11 @@ public interface UserApi {
         value = "/user/login",
         produces = { "application/xml", "application/json" }
     )
-    default Mono<ResponseEntity<String>> loginUser(@NotNull @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true) String username
-,@NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true) String password
-,  final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<String>> loginUser(
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, schema = @Schema(description = "")) @Valid @RequestParam(value = "password", required = true) String password,
+        @Parameter(hidden = true) final ServerWebExchange exchange
+    ) {
         return getDelegate().loginUser(username, password, exchange);
     }
 
@@ -160,7 +172,9 @@ public interface UserApi {
         method = RequestMethod.GET,
         value = "/user/logout"
     )
-    default Mono<ResponseEntity<Void>> logoutUser( final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> logoutUser(
+        @Parameter(hidden = true) final ServerWebExchange exchange
+    ) {
         return getDelegate().logoutUser(exchange);
     }
 
@@ -179,9 +193,11 @@ public interface UserApi {
         method = RequestMethod.PUT,
         value = "/user/{username}"
     )
-    default Mono<ResponseEntity<Void>> updateUser(@Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username
-,@Parameter(name = "body", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody Mono<User> body
-,  final ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> updateUser(
+        @Parameter(name = "username", description = "name that need to be deleted", required = true, schema = @Schema(description = "")) @PathVariable("username") String username,
+        @Parameter(name = "body", description = "Updated user object", required = true, schema = @Schema(description = "")) @Valid @RequestBody Mono<User> body,
+        @Parameter(hidden = true) final ServerWebExchange exchange
+    ) {
         return getDelegate().updateUser(username, body, exchange);
     }
 
