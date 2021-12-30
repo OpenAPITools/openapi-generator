@@ -22,6 +22,7 @@ import java.util.*;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayOfNumberOnly   {
+
   @JsonProperty("ArrayNumber")
   @Valid
   private List<BigDecimal> arrayNumber = null;

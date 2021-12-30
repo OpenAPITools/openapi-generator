@@ -23,6 +23,7 @@ import java.util.*;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MapTest   {
+
   @JsonProperty("map_map_of_string")
   @Valid
   private Map<String, Map<String, String>> mapMapOfString = null;
@@ -62,13 +63,16 @@ public class MapTest   {
     }
   }
 
+    
   @JsonProperty("map_of_enum_string")
   @Valid
   private Map<String, InnerEnum> mapOfEnumString = null;
 
+
   @JsonProperty("direct_map")
   @Valid
   private Map<String, Boolean> directMap = null;
+
 
   @JsonProperty("indirect_map")
   @Valid

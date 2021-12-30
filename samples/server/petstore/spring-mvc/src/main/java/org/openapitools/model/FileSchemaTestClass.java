@@ -23,8 +23,10 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class FileSchemaTestClass   {
+
   @JsonProperty("file")
   private java.io.File file;
+
 
   @JsonProperty("files")
   @Valid

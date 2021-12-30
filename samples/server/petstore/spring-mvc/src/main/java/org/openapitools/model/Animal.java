@@ -30,8 +30,10 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class Animal   {
+
   @JsonProperty("className")
   private String className;
+
 
   @JsonProperty("color")
   private String color = "red";

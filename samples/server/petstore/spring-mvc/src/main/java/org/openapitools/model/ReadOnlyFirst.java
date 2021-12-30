@@ -21,8 +21,10 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class ReadOnlyFirst   {
+
   @JsonProperty("bar")
   private String bar;
+
 
   @JsonProperty("baz")
   private String baz;

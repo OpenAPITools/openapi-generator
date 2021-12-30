@@ -25,18 +25,23 @@ import java.util.*;
 @ApiModel(description = "A pet for sale in the pet store")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet   {
+
   @JsonProperty("id")
   private Long id;
+
 
   @JsonProperty("category")
   private Category category;
 
+
   @JsonProperty("name")
   private String name;
+
 
   @JsonProperty("photoUrls")
   @Valid
   private List<String> photoUrls = new ArrayList<>();
+
 
   @JsonProperty("tags")
   @Valid
@@ -79,6 +84,7 @@ public class Pet   {
     }
   }
 
+    
   @JsonProperty("status")
   private StatusEnum status;
 

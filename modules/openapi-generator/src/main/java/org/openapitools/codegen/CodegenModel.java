@@ -108,6 +108,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private CodegenComposedSchemas composedSchemas;
     private boolean hasMultipleTypes = false;
 
+    public boolean isJpaEntity = false;
+    public Set<String> additionalAnnotations = new TreeSet<String>();
+
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
      * Used in map like objects, including composed schemas.
@@ -166,6 +169,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setAdditionalPropertiesType(String additionalPropertiesType) {
         this.additionalPropertiesType = additionalPropertiesType;
+    }
+
+    public Set<String> getAdditionalAnnotations() {
+        return additionalAnnotations;
+    }
+
+    public void setAdditionalAnnotations(Set<String> additionalAnnotations) {
+        this.additionalAnnotations = additionalAnnotations;
     }
 
     public Set<String> getAllMandatory() {
@@ -860,6 +871,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
                 getIsAnyType() == that.getIsAnyType() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
+                isJpaEntity == that.isJpaEntity &&
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
@@ -903,6 +915,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(externalDocumentation, that.externalDocumentation) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
                 Objects.equals(additionalPropertiesType, that.additionalPropertiesType) &&
+                Objects.equals(getAdditionalAnnotations(), that.getAdditionalAnnotations()) &&
                 Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
                 Objects.equals(getMinProperties(), that.getMinProperties()) &&
                 Objects.equals(getMaxItems(), that.getMaxItems()) &&
@@ -924,7 +937,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getClassname(), getTitle(),
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
-                getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
+                getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isJpaEntity,
                 isDate, isDateTime, isNull, hasValidation, isShort, isUnboundedInteger, isBoolean,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
@@ -933,7 +946,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
-                getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
+                getAdditionalPropertiesIsAnyType(), getAdditionalAnnotations(), hasDiscriminatorWithNonEmptyMapping,
                 isAnyType, getComposedSchemas(), hasMultipleTypes);
     }
 
@@ -1028,6 +1041,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", getIsAnyType=").append(getIsAnyType());
         sb.append(", composedSchemas=").append(composedSchemas);
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
+        sb.append(", isJpaEntity=").append(isJpaEntity);
+        sb.append(", additionalAnnotations=").append(additionalAnnotations);
         sb.append('}');
         return sb.toString();
     }

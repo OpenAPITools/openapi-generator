@@ -25,6 +25,7 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class MapTest   {
+
   @JsonProperty("map_map_of_string")
   @Valid
   private Map<String, Map<String, String>> mapMapOfString = null;
@@ -65,13 +66,16 @@ public enum InnerEnum {
     }
   }
 
+    
   @JsonProperty("map_of_enum_string")
   @Valid
   private Map<String, InnerEnum> mapOfEnumString = null;
 
+
   @JsonProperty("direct_map")
   @Valid
   private Map<String, Boolean> directMap = null;
+
 
   @JsonProperty("indirect_map")
   @Valid

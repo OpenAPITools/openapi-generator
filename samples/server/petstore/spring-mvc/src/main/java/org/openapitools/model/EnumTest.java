@@ -61,6 +61,7 @@ public enum EnumStringEnum {
     }
   }
 
+    
   @JsonProperty("enum_string")
   private EnumStringEnum enumString;
 
@@ -102,6 +103,7 @@ public enum EnumStringRequiredEnum {
     }
   }
 
+    
   @JsonProperty("enum_string_required")
   private EnumStringRequiredEnum enumStringRequired;
 
@@ -141,6 +143,7 @@ public enum EnumIntegerEnum {
     }
   }
 
+    
   @JsonProperty("enum_integer")
   private EnumIntegerEnum enumInteger;
 
@@ -180,8 +183,10 @@ public enum EnumNumberEnum {
     }
   }
 
+    
   @JsonProperty("enum_number")
   private EnumNumberEnum enumNumber;
+
 
   @JsonProperty("outerEnum")
   private OuterEnum outerEnum;

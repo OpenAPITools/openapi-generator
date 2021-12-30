@@ -1,7 +1,8 @@
 /**
  * {{description}}{{^description}}{{classname}}{{/description}}
  */{{#description}}
-{{#oas3}}@Schema({{#name}}name = "{{name}}",{{/name}}{{/oas3}}{{^oas3}}@ApiModel({{/oas3}}description = "{{{.}}}"){{/description}}
+{{#oas3}}@Schema({{#name}}name = "{{name}}",{{/name}}{{/oas3}}{{^oas3}}@ApiModel({{/oas3}}description = "{{{.}}}"){{/description}}{{#isJpaEntity}}{{#additionalAnnotations}}
+{{{.}}}{{/additionalAnnotations}}{{/isJpaEntity}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}{{>additionalModelTypeAnnotations}}
 public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#hateoas}}extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
@@ -18,7 +19,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
 {{>enumClass}}
     {{/mostInnerItems}}
     {{/isContainer}}
-    {{/isEnum}}
+    {{/isEnum}}{{#additionalAnnotations}}
+  {{{.}}}{{/additionalAnnotations}}
   {{#jackson}}
   @JsonProperty("{{baseName}}"){{#withXml}}
   @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"){{/withXml}}

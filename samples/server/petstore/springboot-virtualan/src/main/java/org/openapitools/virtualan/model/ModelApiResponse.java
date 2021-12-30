@@ -19,11 +19,14 @@ import java.util.*;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelApiResponse   {
+
   @JsonProperty("code")
   private Integer code;
 
+
   @JsonProperty("type")
   private String type;
+
 
   @JsonProperty("message")
   private String message;

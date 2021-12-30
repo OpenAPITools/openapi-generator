@@ -25,12 +25,15 @@ import java.util.*;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass   {
+
   @JsonProperty("uuid")
   private UUID uuid;
+
 
   @JsonProperty("dateTime")
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
+
 
   @JsonProperty("map")
   @Valid

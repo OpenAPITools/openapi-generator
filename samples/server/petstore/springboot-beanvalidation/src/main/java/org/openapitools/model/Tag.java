@@ -19,8 +19,10 @@ import java.util.*;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Tag   {
+
   @JsonProperty("id")
   private Long id;
+
 
   @JsonProperty("name")
   private String name;

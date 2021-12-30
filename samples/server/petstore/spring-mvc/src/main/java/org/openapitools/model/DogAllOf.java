@@ -21,6 +21,7 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class DogAllOf   {
+
   @JsonProperty("breed")
   private String breed;
 

@@ -22,11 +22,14 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class OuterComposite   {
+
   @JsonProperty("my_number")
   private BigDecimal myNumber;
 
+
   @JsonProperty("my_string")
   private String myString;
+
 
   @JsonProperty("my_boolean")
   private Boolean myBoolean;

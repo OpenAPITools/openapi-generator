@@ -60,6 +60,7 @@ public enum JustSymbolEnum {
     }
   }
 
+    
   @JsonProperty("just_symbol")
   private JustSymbolEnum justSymbol;
 
@@ -99,6 +100,7 @@ public enum ArrayEnumEnum {
     }
   }
 
+    
   @JsonProperty("array_enum")
   @Valid
   private List<ArrayEnumEnum> arrayEnum = null;

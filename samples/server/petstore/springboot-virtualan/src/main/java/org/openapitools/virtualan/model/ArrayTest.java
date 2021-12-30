@@ -22,13 +22,16 @@ import java.util.*;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayTest   {
+
   @JsonProperty("array_of_string")
   @Valid
   private List<String> arrayOfString = null;
 
+
   @JsonProperty("array_array_of_integer")
   @Valid
   private List<List<Long>> arrayArrayOfInteger = null;
+
 
   @JsonProperty("array_array_of_model")
   @Valid

@@ -24,17 +24,22 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class TypeHolderDefault   {
+
   @JsonProperty("string_item")
   private String stringItem = "what";
+
 
   @JsonProperty("number_item")
   private BigDecimal numberItem;
 
+
   @JsonProperty("integer_item")
   private Integer integerItem;
 
+
   @JsonProperty("bool_item")
   private Boolean boolItem = true;
+
 
   @JsonProperty("array_item")
   @Valid

@@ -22,6 +22,7 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class ModelReturn   {
+
   @JsonProperty("return")
   private Integer _return;
 

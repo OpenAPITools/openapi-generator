@@ -22,14 +22,18 @@ import java.util.*;
 @ApiModel(description = "An order for a pets from the pet store")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order   {
+
   @JsonProperty("id")
   private Long id;
+
 
   @JsonProperty("petId")
   private Long petId;
 
+
   @JsonProperty("quantity")
   private Integer quantity;
+
 
   @JsonProperty("shipDate")
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
@@ -72,8 +76,10 @@ public class Order   {
     }
   }
 
+    
   @JsonProperty("status")
   private StatusEnum status;
+
 
   @JsonProperty("complete")
   private Boolean complete = false;

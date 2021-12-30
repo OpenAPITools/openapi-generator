@@ -21,8 +21,10 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class Tag   {
+
   @JsonProperty("id")
   private Long id;
+
 
   @JsonProperty("name")
   private String name;

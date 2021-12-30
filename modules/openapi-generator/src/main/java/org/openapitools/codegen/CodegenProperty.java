@@ -181,6 +181,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private Integer minProperties;
     private boolean uniqueItems;
 
+    // JPA annotations
+    public List<String> additionalAnnotations = new ArrayList<>();
+
     // XML
     public boolean isXmlAttribute = false;
     public String xmlPrefix;
@@ -654,6 +657,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
             if (this.vendorExtensions != null) {
                 cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
             }
+            if (this.additionalAnnotations != null) {
+                cp.additionalAnnotations = new LinkedList<>(this.additionalAnnotations);
+            }
             if (this.composedSchemas != null) {
                 cp.composedSchemas = this.composedSchemas;
             }
@@ -894,6 +900,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", uniqueItems=").append(uniqueItems);
         sb.append(", multipleOf=").append(multipleOf);
         sb.append(", isXmlAttribute=").append(isXmlAttribute);
+        sb.append(", additionalAnnotations=").append(additionalAnnotations);
         sb.append(", xmlPrefix='").append(xmlPrefix).append('\'');
         sb.append(", xmlName='").append(xmlName).append('\'');
         sb.append(", xmlNamespace='").append(xmlNamespace).append('\'');
@@ -995,6 +1002,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(mostInnerItems, that.mostInnerItems) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
+                Objects.equals(additionalAnnotations, that.additionalAnnotations) &&
                 Objects.equals(discriminatorValue, that.discriminatorValue) &&
                 Objects.equals(nameInCamelCase, that.nameInCamelCase) &&
                 Objects.equals(nameInSnakeCase, that.nameInSnakeCase) &&
@@ -1023,7 +1031,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
-                xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired,
+                xmlNamespace, isXmlWrapped, isNull, additionalAnnotations, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes);
     }
 }

@@ -64,6 +64,7 @@ public enum KindEnum {
     }
   }
 
+    
   @JsonProperty("kind")
   private KindEnum kind;
 

@@ -29,18 +29,23 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class Pet   {
+
   @JsonProperty("id")
   private Long id;
+
 
   @JsonProperty("category")
   private Category category;
 
+
   @JsonProperty("name")
   private String name;
+
 
   @JsonProperty("photoUrls")
   @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
+
 
   @JsonProperty("tags")
   @Valid
@@ -84,6 +89,7 @@ public enum StatusEnum {
     }
   }
 
+    
   @JsonProperty("status")
   private StatusEnum status;
 

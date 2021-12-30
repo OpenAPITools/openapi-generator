@@ -26,46 +26,60 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class FormatTest   {
+
   @JsonProperty("integer")
   private Integer integer;
+
 
   @JsonProperty("int32")
   private Integer int32;
 
+
   @JsonProperty("int64")
   private Long int64;
+
 
   @JsonProperty("number")
   private BigDecimal number;
 
+
   @JsonProperty("float")
   private Float _float;
+
 
   @JsonProperty("double")
   private Double _double;
 
+
   @JsonProperty("string")
   private String string;
+
 
   @JsonProperty("byte")
   private byte[] _byte;
 
+
   @JsonProperty("binary")
   private org.springframework.core.io.Resource binary;
+
 
   @JsonProperty("date")
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
+
   @JsonProperty("dateTime")
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
+
   @JsonProperty("uuid")
   private UUID uuid;
 
+
   @JsonProperty("password")
   private String password;
+
 
   @JsonProperty("BigDecimal")
   private BigDecimal bigDecimal;

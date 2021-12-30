@@ -28,8 +28,10 @@ import java.util.*;
 })
 
 public class Animal   {
+
   @JsonProperty("className")
   private String className;
+
 
   @JsonProperty("color")
   private String color = "red";

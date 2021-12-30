@@ -22,14 +22,18 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class Name   {
+
   @JsonProperty("name")
   private Integer name;
+
 
   @JsonProperty("snake_case")
   private Integer snakeCase;
 
+
   @JsonProperty("property")
   private String property;
+
 
   @JsonProperty("123Number")
   private Integer _123number;

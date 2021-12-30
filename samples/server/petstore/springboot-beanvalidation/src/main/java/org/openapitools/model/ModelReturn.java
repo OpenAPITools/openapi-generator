@@ -20,6 +20,7 @@ import java.util.*;
 @ApiModel(description = "Model for testing reserved words")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelReturn   {
+
   @JsonProperty("return")
   private Integer _return;
 

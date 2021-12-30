@@ -23,6 +23,7 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class Dog extends Animal  {
+
   @JsonProperty("breed")
   private String breed;
 

@@ -23,14 +23,18 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class Order   {
+
   @JsonProperty("id")
   private Long id;
+
 
   @JsonProperty("petId")
   private Long petId;
 
+
   @JsonProperty("quantity")
   private Integer quantity;
+
 
   @JsonProperty("shipDate")
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
@@ -74,8 +78,10 @@ public enum StatusEnum {
     }
   }
 
+    
   @JsonProperty("status")
   private StatusEnum status;
+
 
   @JsonProperty("complete")
   private Boolean complete = false;

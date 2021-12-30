@@ -23,6 +23,7 @@ import java.util.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class AdditionalPropertiesAnyType extends HashMap<String, Object>  {
+
   @JsonProperty("name")
   private String name;
 

@@ -19,20 +19,26 @@ import java.util.*;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Capitalization   {
+
   @JsonProperty("smallCamel")
   private String smallCamel;
+
 
   @JsonProperty("CapitalCamel")
   private String capitalCamel;
 
+
   @JsonProperty("small_Snake")
   private String smallSnake;
+
 
   @JsonProperty("Capital_Snake")
   private String capitalSnake;
 
+
   @JsonProperty("SCA_ETH_Flow_Points")
   private String scAETHFlowPoints;
+
 
   @JsonProperty("ATT_NAME")
   private String ATT_NAME;
