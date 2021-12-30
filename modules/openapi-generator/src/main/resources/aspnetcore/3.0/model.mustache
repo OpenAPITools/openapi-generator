@@ -40,11 +40,13 @@ namespace {{modelPackage}}
         {{/complexType}}
         {{/items}}
         {{/items.isEnum}}
+        {{^items.isEnum}}
         {{#isEnum}}
         {{^complexType}}
 {{>enumClass}}
         {{/complexType}}
         {{/isEnum}}
+        {{/items.isEnum}}
         /// <summary>
         /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
