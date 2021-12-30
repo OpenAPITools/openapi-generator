@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct ArrayTest: Codable, Hashable {
+public struct ArrayTest: Codable, Hashable, JSONEncodable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?

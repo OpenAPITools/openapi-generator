@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct Cat: Codable, Hashable {
+public struct Cat: Codable, Hashable, JSONEncodable {
 
     public var className: String
     public var color: String? = "red"

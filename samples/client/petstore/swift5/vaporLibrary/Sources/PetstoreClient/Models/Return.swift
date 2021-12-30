@@ -12,7 +12,7 @@ import AnyCodable
 import Vapor
 
 /** Model for testing reserved words */
-public final class Return: Content, Hashable {
+public final class Return: Content, Hashable, JSONEncodable {
 
     public var `return`: Int?
 

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class ArrayTest: Content, Hashable {
+public final class ArrayTest: Content, Hashable, JSONEncodable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?

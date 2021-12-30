@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct ArrayOfNumberOnly: Codable, Hashable {
+internal struct ArrayOfNumberOnly: Codable, Hashable, JSONEncodable {
 
     internal var arrayNumber: [Double]?
 

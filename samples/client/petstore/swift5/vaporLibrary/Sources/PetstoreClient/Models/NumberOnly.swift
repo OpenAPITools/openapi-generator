@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class NumberOnly: Content, Hashable {
+public final class NumberOnly: Content, Hashable, JSONEncodable {
 
     public var justNumber: Double?
 

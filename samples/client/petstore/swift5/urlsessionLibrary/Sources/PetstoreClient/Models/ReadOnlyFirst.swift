@@ -15,7 +15,7 @@ public typealias ReadOnlyFirst = PetstoreClientAPI.ReadOnlyFirst
 
 extension PetstoreClientAPI {
 
-public final class ReadOnlyFirst: Codable, Hashable {
+public final class ReadOnlyFirst: Codable, Hashable, JSONEncodable {
 
     public var bar: String?
     public var baz: String?

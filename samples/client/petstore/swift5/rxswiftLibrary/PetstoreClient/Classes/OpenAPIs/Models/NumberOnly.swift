@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct NumberOnly: Codable, Hashable {
+public struct NumberOnly: Codable, Hashable, JSONEncodable {
 
     public var justNumber: Double?
 

@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-internal struct AdditionalPropertiesClass: Codable, Hashable {
+internal struct AdditionalPropertiesClass: Codable, Hashable, JSONEncodable {
 
     internal var mapString: [String: String]?
     internal var mapMapString: [String: [String: String]]?

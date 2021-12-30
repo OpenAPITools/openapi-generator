@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class Pet: Content, Hashable {
+public final class Pet: Content, Hashable, JSONEncodable {
 
     public enum Status: String, Content, Hashable, CaseIterable {
         case available = "available"

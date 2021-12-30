@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class DogAllOf: Content, Hashable {
+public final class DogAllOf: Content, Hashable, JSONEncodable {
 
     public var breed: String?
 

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class SpecialModelName: Content, Hashable {
+public final class SpecialModelName: Content, Hashable, JSONEncodable {
 
     public var specialPropertyName: Int64?
 

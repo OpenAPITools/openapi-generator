@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class ArrayOfArrayOfNumberOnly: Content, Hashable {
+public final class ArrayOfArrayOfNumberOnly: Content, Hashable, JSONEncodable {
 
     public var arrayArrayNumber: [[Double]]?
 

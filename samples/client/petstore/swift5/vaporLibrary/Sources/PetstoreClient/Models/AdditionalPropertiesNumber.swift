@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class AdditionalPropertiesNumber: Content, Hashable {
+public final class AdditionalPropertiesNumber: Content, Hashable, JSONEncodable {
 
     public var name: String?
 

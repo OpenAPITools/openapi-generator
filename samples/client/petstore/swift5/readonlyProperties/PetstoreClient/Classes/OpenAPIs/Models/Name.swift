@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Model for testing model name same as property name */
-public struct Name: Codable, Hashable {
+public struct Name: Codable, Hashable, JSONEncodable {
 
     public private(set) var name: Int
     public private(set) var snakeCase: Int?

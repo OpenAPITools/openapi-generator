@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class EnumTest: Content, Hashable {
+public final class EnumTest: Content, Hashable, JSONEncodable {
 
     public enum EnumString: String, Content, Hashable, CaseIterable {
         case upper = "UPPER"

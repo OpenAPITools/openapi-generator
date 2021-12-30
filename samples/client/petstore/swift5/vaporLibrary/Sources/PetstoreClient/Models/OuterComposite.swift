@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class OuterComposite: Content, Hashable {
+public final class OuterComposite: Content, Hashable, JSONEncodable {
 
     public var myNumber: Double?
     public var myString: String?

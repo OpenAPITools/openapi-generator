@@ -15,7 +15,7 @@ public typealias SpecialModelName = PetstoreClientAPI.SpecialModelName
 
 extension PetstoreClientAPI {
 
-public final class SpecialModelName: Codable, Hashable {
+public final class SpecialModelName: Codable, Hashable, JSONEncodable {
 
     public var specialPropertyName: Int64?
 

@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class MixedPropertiesAndAdditionalPropertiesClass: Content, Hashable {
+public final class MixedPropertiesAndAdditionalPropertiesClass: Content, Hashable, JSONEncodable {
 
     public var uuid: UUID?
     public var dateTime: Date?

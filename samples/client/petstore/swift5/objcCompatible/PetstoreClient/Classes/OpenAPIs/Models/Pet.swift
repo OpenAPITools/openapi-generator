@@ -10,7 +10,7 @@ import Foundation
 import AnyCodable
 #endif
 
-@objc public class Pet: NSObject, Codable {
+@objc public class Pet: NSObject, Codable, JSONEncodable {
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"

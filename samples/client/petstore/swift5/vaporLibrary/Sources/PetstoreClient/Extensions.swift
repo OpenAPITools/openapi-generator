@@ -128,3 +128,13 @@ extension Set: RequestDecodable where Element: Content {
 extension Set: Content where Element: Content { }
 
 extension AnyCodable: Content {}
+
+extension JSONEncodable where Self: Encodable {
+    func encodeToJSON() -> Any {
+        let encoder = JSONEncoder()
+        guard let data = try? encoder.encode(self) else {
+            fatalError("Could not encode to json: \(self)")
+        }
+        return data.base64EncodedString(options: Data.Base64EncodingOptions())
+    }
+}

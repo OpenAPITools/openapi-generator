@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 import Vapor
 
-public final class CatAllOf: Content, Hashable {
+public final class CatAllOf: Content, Hashable, JSONEncodable {
 
     public var declawed: Bool?
 

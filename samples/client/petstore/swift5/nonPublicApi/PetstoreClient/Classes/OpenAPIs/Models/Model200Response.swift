@@ -11,7 +11,7 @@ import AnyCodable
 #endif
 
 /** Model for testing model name starting with number */
-internal struct Model200Response: Codable, Hashable {
+internal struct Model200Response: Codable, Hashable, JSONEncodable {
 
     internal var name: Int?
     internal var _class: String?
