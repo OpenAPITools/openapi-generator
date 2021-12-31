@@ -41,7 +41,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 @SuppressWarnings("Duplicates")
 public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {    
     protected String apiName = "Api";
-    
+
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
     protected static final String SUPPORTS_UWP = "supportsUWP";

@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  <PropertyGroup>{{#useGenericHost}}
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo> <!-- setting GenerateAssemblyInfo to false causes this bug https://github.com/dotnet/project-system/issues/3934 -->{{/useGenericHost}}{{^useGenericHost}}
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo><!-- setting GenerateAssemblyInfo to false causes this bug https://github.com/dotnet/project-system/issues/3934 -->{{/useGenericHost}}
     <TargetFramework{{#multiTarget}}s{{/multiTarget}}>{{targetFramework}}</TargetFramework{{#multiTarget}}s{{/multiTarget}}>
     <AssemblyName>{{packageName}}</AssemblyName>
     <PackageId>{{packageName}}</PackageId>
