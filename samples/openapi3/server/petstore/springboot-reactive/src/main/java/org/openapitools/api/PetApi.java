@@ -45,9 +45,18 @@ public interface PetApi {
      * @return successful operation (status code 200)
      *         or Invalid input (status code 405)
      */
-    @Operation(summary = "Add a new pet to the store", tags={ "pet", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation"), @ApiResponse(responseCode = "405", description = "Invalid input") },security = {
-        @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" }) } )
-        @RequestMapping(
+    @Operation(
+        summary = "Add a new pet to the store",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "405", description = "Invalid input")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet",
         consumes = { "application/json", "application/xml" }
@@ -68,9 +77,18 @@ public interface PetApi {
      * @return successful operation (status code 200)
      *         or Invalid pet value (status code 400)
      */
-    @Operation(summary = "Deletes a pet", tags={ "pet", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation"), @ApiResponse(responseCode = "400", description = "Invalid pet value") },security = {
-        @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" }) } )
-        @RequestMapping(
+    @Operation(
+        summary = "Deletes a pet",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "Invalid pet value")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.DELETE,
         value = "/pet/{petId}"
     )
@@ -91,9 +109,18 @@ public interface PetApi {
      * @return successful operation (status code 200)
      *         or Invalid status value (status code 400)
      */
-    @Operation(summary = "Finds Pets by status", tags={ "pet", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))), @ApiResponse(responseCode = "400", description = "Invalid status value") },security = {
-        @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" }) } )
-        @RequestMapping(
+    @Operation(
+        summary = "Finds Pets by status",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid status value")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }
@@ -115,9 +142,18 @@ public interface PetApi {
      *         or Invalid tag value (status code 400)
      * @deprecated
      */
-    @Operation(summary = "Finds Pets by tags", tags={ "pet", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))), @ApiResponse(responseCode = "400", description = "Invalid tag value") },security = {
-        @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" }) } )
-        @RequestMapping(
+    @Operation(
+        summary = "Finds Pets by tags",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid tag value")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }
@@ -139,9 +175,19 @@ public interface PetApi {
      *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      */
-    @Operation(summary = "Find pet by ID", tags={ "pet", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))), @ApiResponse(responseCode = "400", description = "Invalid ID supplied"), @ApiResponse(responseCode = "404", description = "Pet not found") },security = {
-        @SecurityRequirement(name = "api_key") } )
-        @RequestMapping(
+    @Operation(
+        summary = "Find pet by ID",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Pet.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Pet not found")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }
@@ -163,9 +209,20 @@ public interface PetApi {
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
      */
-    @Operation(summary = "Update an existing pet", tags={ "pet", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation"), @ApiResponse(responseCode = "400", description = "Invalid ID supplied"), @ApiResponse(responseCode = "404", description = "Pet not found"), @ApiResponse(responseCode = "405", description = "Validation exception") },security = {
-        @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" }) } )
-        @RequestMapping(
+    @Operation(
+        summary = "Update an existing pet",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Pet not found"),
+            @ApiResponse(responseCode = "405", description = "Validation exception")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.PUT,
         value = "/pet",
         consumes = { "application/json", "application/xml" }
@@ -186,9 +243,17 @@ public interface PetApi {
      * @param status Updated status of the pet (optional)
      * @return Invalid input (status code 405)
      */
-    @Operation(summary = "Updates a pet in the store with form data", tags={ "pet", }, responses = {  @ApiResponse(responseCode = "405", description = "Invalid input") },security = {
-        @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" }) } )
-        @RequestMapping(
+    @Operation(
+        summary = "Updates a pet in the store with form data",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "405", description = "Invalid input")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" }
@@ -211,9 +276,17 @@ public interface PetApi {
      * @param file file to upload (optional)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "uploads an image", tags={ "pet", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  ModelApiResponse.class))) },security = {
-        @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" }) } )
-        @RequestMapping(
+    @Operation(
+        summary = "uploads an image",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  ModelApiResponse.class)))
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet/{petId}/uploadImage",
         produces = { "application/json" },

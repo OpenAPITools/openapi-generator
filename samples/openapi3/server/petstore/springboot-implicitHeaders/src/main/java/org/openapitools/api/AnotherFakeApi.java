@@ -43,8 +43,14 @@ public interface AnotherFakeApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "To test special tags", tags={ "$another-fake?", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class))) })
-        @Parameters({
+    @Operation(
+        summary = "To test special tags",
+        tags = { "$another-fake?" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class)))
+        }
+    )
+    @Parameters({
     })
     @RequestMapping(
         method = RequestMethod.PATCH,

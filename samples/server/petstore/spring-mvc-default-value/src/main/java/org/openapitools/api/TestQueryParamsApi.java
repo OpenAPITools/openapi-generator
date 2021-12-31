@@ -42,11 +42,16 @@ public interface TestQueryParamsApi {
      * @param queryBoolean  (optional, default to true)
      * @return default response (status code 200)
      */
-
-    @ApiOperation(value = "test query params", nickname = "queryParamsTest", notes = "desc", response = TestResponse.class, tags={ "verify-default-value", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "default response", response = TestResponse.class) })
+    @ApiOperation(
+        tags = { "verify-default-value" },
+        value = "test query params",
+        nickname = "queryParamsTest",
+        notes = "desc",
+        response = TestResponse.class
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "default response", response = TestResponse.class)
+    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/test-query-params",

@@ -41,9 +41,17 @@ public interface UserApi {
      * @param user Created user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Create user", tags={ "user", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation") },security = {
-        @SecurityRequirement(name = "api_key") } )
-        @RequestMapping(
+    @Operation(
+        summary = "Create user",
+        tags = { "user" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/user",
         consumes = "application/json"
@@ -59,9 +67,17 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Creates list of users with given input array", tags={ "user", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation") },security = {
-        @SecurityRequirement(name = "api_key") } )
-        @RequestMapping(
+    @Operation(
+        summary = "Creates list of users with given input array",
+        tags = { "user" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/user/createWithArray",
         consumes = "application/json"
@@ -77,9 +93,17 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Creates list of users with given input array", tags={ "user", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation") },security = {
-        @SecurityRequirement(name = "api_key") } )
-        @RequestMapping(
+    @Operation(
+        summary = "Creates list of users with given input array",
+        tags = { "user" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/user/createWithList",
         consumes = "application/json"
@@ -97,9 +121,18 @@ public interface UserApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Delete user", tags={ "user", }, responses = {  @ApiResponse(responseCode = "400", description = "Invalid username supplied"), @ApiResponse(responseCode = "404", description = "User not found") },security = {
-        @SecurityRequirement(name = "api_key") } )
-        @RequestMapping(
+    @Operation(
+        summary = "Delete user",
+        tags = { "user" },
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.DELETE,
         value = "/user/{username}"
     )
@@ -116,8 +149,16 @@ public interface UserApi {
      *         or Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Get user by user name", tags={ "user", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  User.class))), @ApiResponse(responseCode = "400", description = "Invalid username supplied"), @ApiResponse(responseCode = "404", description = "User not found") })
-        @RequestMapping(
+    @Operation(
+        summary = "Get user by user name",
+        tags = { "user" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  User.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/{username}",
         produces = "application/json"
@@ -135,8 +176,15 @@ public interface UserApi {
      * @return successful operation (status code 200)
      *         or Invalid username/password supplied (status code 400)
      */
-    @Operation(summary = "Logs user into the system", tags={ "user", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  String.class))), @ApiResponse(responseCode = "400", description = "Invalid username/password supplied") })
-        @RequestMapping(
+    @Operation(
+        summary = "Logs user into the system",
+        tags = { "user" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  String.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/login",
         produces = "application/json"
@@ -152,9 +200,17 @@ public interface UserApi {
      *
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Logs out current logged in user session", tags={ "user", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation") },security = {
-        @SecurityRequirement(name = "api_key") } )
-        @RequestMapping(
+    @Operation(
+        summary = "Logs out current logged in user session",
+        tags = { "user" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/logout"
     )
@@ -172,9 +228,18 @@ public interface UserApi {
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Updated user", tags={ "user", }, responses = {  @ApiResponse(responseCode = "400", description = "Invalid user supplied"), @ApiResponse(responseCode = "404", description = "User not found") },security = {
-        @SecurityRequirement(name = "api_key") } )
-        @RequestMapping(
+    @Operation(
+        summary = "Updated user",
+        tags = { "user" },
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid user supplied"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.PUT,
         value = "/user/{username}",
         consumes = "application/json"

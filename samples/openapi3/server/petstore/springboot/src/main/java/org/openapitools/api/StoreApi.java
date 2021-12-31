@@ -45,8 +45,15 @@ public interface StoreApi {
      * @return Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @Operation(summary = "Delete purchase order by ID", tags={ "store", }, responses = {  @ApiResponse(responseCode = "400", description = "Invalid ID supplied"), @ApiResponse(responseCode = "404", description = "Order not found") })
-        @RequestMapping(
+    @Operation(
+        summary = "Delete purchase order by ID",
+        tags = { "store" },
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Order not found")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.DELETE,
         value = "/store/order/{orderId}"
     )
@@ -64,9 +71,17 @@ public interface StoreApi {
      *
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Returns pet inventories by status", tags={ "store", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Map.class))) },security = {
-        @SecurityRequirement(name = "api_key") } )
-        @RequestMapping(
+    @Operation(
+        summary = "Returns pet inventories by status",
+        tags = { "store" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Map.class)))
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.GET,
         value = "/store/inventory",
         produces = { "application/json" }
@@ -88,8 +103,16 @@ public interface StoreApi {
      *         or Invalid ID supplied (status code 400)
      *         or Order not found (status code 404)
      */
-    @Operation(summary = "Find purchase order by ID", tags={ "store", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class))), @ApiResponse(responseCode = "400", description = "Invalid ID supplied"), @ApiResponse(responseCode = "404", description = "Order not found") })
-        @RequestMapping(
+    @Operation(
+        summary = "Find purchase order by ID",
+        tags = { "store" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            @ApiResponse(responseCode = "404", description = "Order not found")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.GET,
         value = "/store/order/{orderId}",
         produces = { "application/xml", "application/json" }
@@ -123,8 +146,15 @@ public interface StoreApi {
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
-    @Operation(summary = "Place an order for a pet", tags={ "store", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class))), @ApiResponse(responseCode = "400", description = "Invalid Order") })
-        @RequestMapping(
+    @Operation(
+        summary = "Place an order for a pet",
+        tags = { "store" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Order.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid Order")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/store/order",
         produces = { "application/xml", "application/json" },

@@ -49,11 +49,15 @@ public interface FakeApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "creates an XmlItem", nickname = "createXmlItem", notes = "this route creates an XmlItem", tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "successful operation") })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "creates an XmlItem",
+        nickname = "createXmlItem",
+        notes = "this route creates an XmlItem"
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation")
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/create_xml_item",
@@ -75,11 +79,16 @@ public interface FakeApi {
      * @return Output boolean (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "", nickname = "fakeOuterBooleanSerialize", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "",
+        nickname = "fakeOuterBooleanSerialize",
+        notes = "Test serialization of outer boolean types",
+        response = Boolean.class
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class)
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/boolean",
@@ -101,11 +110,16 @@ public interface FakeApi {
      * @return Output composite (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "", nickname = "fakeOuterCompositeSerialize", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "",
+        nickname = "fakeOuterCompositeSerialize",
+        notes = "Test serialization of object with outer number type",
+        response = OuterComposite.class
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/composite",
@@ -136,11 +150,16 @@ public interface FakeApi {
      * @return Output number (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "", nickname = "fakeOuterNumberSerialize", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "",
+        nickname = "fakeOuterNumberSerialize",
+        notes = "Test serialization of outer number types",
+        response = BigDecimal.class
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class)
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/number",
@@ -162,11 +181,16 @@ public interface FakeApi {
      * @return Output string (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "", nickname = "fakeOuterStringSerialize", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "Output string", response = String.class) })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "",
+        nickname = "fakeOuterStringSerialize",
+        notes = "Test serialization of outer string types",
+        response = String.class
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Output string", response = String.class)
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/string",
@@ -188,11 +212,15 @@ public interface FakeApi {
      * @return Success (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "", nickname = "testBodyWithFileSchema", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "Success") })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "",
+        nickname = "testBodyWithFileSchema",
+        notes = "For this test, the body for this request much reference a schema named `File`."
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success")
+    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/fake/body-with-file-schema",
@@ -214,11 +242,15 @@ public interface FakeApi {
      * @return Success (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "", nickname = "testBodyWithQueryParams", notes = "", tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "Success") })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "",
+        nickname = "testBodyWithQueryParams",
+        notes = ""
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success")
+    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/fake/body-with-query-params",
@@ -241,11 +273,16 @@ public interface FakeApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "To test \"client\" model", nickname = "testClientModel", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "To test \"client\" model",
+        nickname = "testClientModel",
+        notes = "To test \"client\" model",
+        response = Client.class
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation", response = Client.class)
+    })
     @RequestMapping(
         method = RequestMethod.PATCH,
         value = "/fake",
@@ -291,16 +328,19 @@ public interface FakeApi {
      *         or User not found (status code 404)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", nickname = "testEndpointParameters", notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", authorizations = {
-        
-        @Authorization(value = "http_basic_test")
-         }, tags={ "fake", })
-    @ApiResponses(value = { 
-
+    @ApiOperation(
+        tags = { "fake" },
+        value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
+        nickname = "testEndpointParameters",
+        notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
+        authorizations = {
+            @Authorization(value = "http_basic_test")
+         }
+    )
+    @ApiResponses({
         @ApiResponse(code = 400, message = "Invalid username supplied"),
-
-        @ApiResponse(code = 404, message = "User not found") })
+        @ApiResponse(code = 404, message = "User not found")
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake",
@@ -343,13 +383,16 @@ public interface FakeApi {
      *         or Not found (status code 404)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "To test enum parameters", nickname = "testEnumParameters", notes = "To test enum parameters", tags={ "fake", })
-    @ApiResponses(value = { 
-
+    @ApiOperation(
+        tags = { "fake" },
+        value = "To test enum parameters",
+        nickname = "testEnumParameters",
+        notes = "To test enum parameters"
+    )
+    @ApiResponses({
         @ApiResponse(code = 400, message = "Invalid request"),
-
-        @ApiResponse(code = 404, message = "Not found") })
+        @ApiResponse(code = 404, message = "Not found")
+    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/fake",
@@ -383,11 +426,15 @@ public interface FakeApi {
      * @return Someting wrong (status code 400)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", nickname = "testGroupParameters", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 400, message = "Someting wrong") })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "Fake endpoint to test group parameters (optional)",
+        nickname = "testGroupParameters",
+        notes = "Fake endpoint to test group parameters (optional)"
+    )
+    @ApiResponses({
+        @ApiResponse(code = 400, message = "Someting wrong")
+    })
     @RequestMapping(
         method = RequestMethod.DELETE,
         value = "/fake"
@@ -412,11 +459,15 @@ public interface FakeApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "test inline additionalProperties", nickname = "testInlineAdditionalProperties", notes = "", tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "successful operation") })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "test inline additionalProperties",
+        nickname = "testInlineAdditionalProperties",
+        notes = ""
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation")
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/inline-additionalProperties",
@@ -438,11 +489,15 @@ public interface FakeApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "test json serialization of form data", nickname = "testJsonFormData", notes = "", tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "successful operation") })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "test json serialization of form data",
+        nickname = "testJsonFormData",
+        notes = ""
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation")
+    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/fake/jsonFormData",
@@ -469,11 +524,15 @@ public interface FakeApi {
      * @return Success (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "", nickname = "testQueryParameterCollectionFormat", notes = "To test the collection format in query parameters", tags={ "fake", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "Success") })
+    @ApiOperation(
+        tags = { "fake" },
+        value = "",
+        nickname = "testQueryParameterCollectionFormat",
+        notes = "To test the collection format in query parameters"
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success")
+    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/fake/test-query-parameters"
@@ -499,15 +558,22 @@ public interface FakeApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
-
-    @ApiOperation(value = "uploads an image (required)", nickname = "uploadFileWithRequiredFile", notes = "", response = ModelApiResponse.class, authorizations = {
-        @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         }, tags={ "pet", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
+    @ApiOperation(
+        tags = { "pet" },
+        value = "uploads an image (required)",
+        nickname = "uploadFileWithRequiredFile",
+        notes = "",
+        response = ModelApiResponse.class,
+        authorizations = {
+            @Authorization(value = "petstore_auth", scopes = {
+                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+                @AuthorizationScope(scope = "read:pets", description = "read your pets")
+            })
+         }
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/{petId}/uploadImageWithRequiredFile",

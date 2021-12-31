@@ -34,11 +34,15 @@ public interface UserApi {
      * @param body Created user object (required)
      * @return successful operation (status code 200)
      */
-
-    @ApiOperation(value = "Create user", nickname = "createUser", notes = "This can only be done by the logged in user.", tags={ "user", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "successful operation") })
+    @ApiOperation(
+        tags = { "user" },
+        value = "Create user",
+        nickname = "createUser",
+        notes = "This can only be done by the logged in user."
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation")
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/user"
@@ -56,11 +60,15 @@ public interface UserApi {
      * @param body List of user object (required)
      * @return successful operation (status code 200)
      */
-
-    @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithArrayInput", notes = "", tags={ "user", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "successful operation") })
+    @ApiOperation(
+        tags = { "user" },
+        value = "Creates list of users with given input array",
+        nickname = "createUsersWithArrayInput",
+        notes = ""
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation")
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/user/createWithArray"
@@ -78,11 +86,15 @@ public interface UserApi {
      * @param body List of user object (required)
      * @return successful operation (status code 200)
      */
-
-    @ApiOperation(value = "Creates list of users with given input array", nickname = "createUsersWithListInput", notes = "", tags={ "user", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "successful operation") })
+    @ApiOperation(
+        tags = { "user" },
+        value = "Creates list of users with given input array",
+        nickname = "createUsersWithListInput",
+        notes = ""
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation")
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/user/createWithList"
@@ -102,13 +114,16 @@ public interface UserApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-
-    @ApiOperation(value = "Delete user", nickname = "deleteUser", notes = "This can only be done by the logged in user.", tags={ "user", })
-    @ApiResponses(value = { 
-
+    @ApiOperation(
+        tags = { "user" },
+        value = "Delete user",
+        nickname = "deleteUser",
+        notes = "This can only be done by the logged in user."
+    )
+    @ApiResponses({
         @ApiResponse(code = 400, message = "Invalid username supplied"),
-
-        @ApiResponse(code = 404, message = "User not found") })
+        @ApiResponse(code = 404, message = "User not found")
+    })
     @RequestMapping(
         method = RequestMethod.DELETE,
         value = "/user/{username}"
@@ -128,15 +143,18 @@ public interface UserApi {
      *         or Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-
-    @ApiOperation(value = "Get user by user name", nickname = "getUserByName", notes = "", response = User.class, tags={ "user", })
-    @ApiResponses(value = { 
-
+    @ApiOperation(
+        tags = { "user" },
+        value = "Get user by user name",
+        nickname = "getUserByName",
+        notes = "",
+        response = User.class
+    )
+    @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = User.class),
-
         @ApiResponse(code = 400, message = "Invalid username supplied"),
-
-        @ApiResponse(code = 404, message = "User not found") })
+        @ApiResponse(code = 404, message = "User not found")
+    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/{username}",
@@ -157,13 +175,17 @@ public interface UserApi {
      * @return successful operation (status code 200)
      *         or Invalid username/password supplied (status code 400)
      */
-
-    @ApiOperation(value = "Logs user into the system", nickname = "loginUser", notes = "", response = String.class, tags={ "user", })
-    @ApiResponses(value = { 
-
+    @ApiOperation(
+        tags = { "user" },
+        value = "Logs user into the system",
+        nickname = "loginUser",
+        notes = "",
+        response = String.class
+    )
+    @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
-
-        @ApiResponse(code = 400, message = "Invalid username/password supplied") })
+        @ApiResponse(code = 400, message = "Invalid username/password supplied")
+    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/login",
@@ -182,11 +204,15 @@ public interface UserApi {
      *
      * @return successful operation (status code 200)
      */
-
-    @ApiOperation(value = "Logs out current logged in user session", nickname = "logoutUser", notes = "", tags={ "user", })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "successful operation") })
+    @ApiOperation(
+        tags = { "user" },
+        value = "Logs out current logged in user session",
+        nickname = "logoutUser",
+        notes = ""
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation")
+    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/logout"
@@ -207,13 +233,16 @@ public interface UserApi {
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
      */
-
-    @ApiOperation(value = "Updated user", nickname = "updateUser", notes = "This can only be done by the logged in user.", tags={ "user", })
-    @ApiResponses(value = { 
-
+    @ApiOperation(
+        tags = { "user" },
+        value = "Updated user",
+        nickname = "updateUser",
+        notes = "This can only be done by the logged in user."
+    )
+    @ApiResponses({
         @ApiResponse(code = 400, message = "Invalid user supplied"),
-
-        @ApiResponse(code = 404, message = "User not found") })
+        @ApiResponse(code = 404, message = "User not found")
+    })
     @RequestMapping(
         method = RequestMethod.PUT,
         value = "/user/{username}"

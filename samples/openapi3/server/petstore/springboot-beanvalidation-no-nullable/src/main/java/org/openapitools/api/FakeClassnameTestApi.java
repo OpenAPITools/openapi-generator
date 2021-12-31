@@ -35,9 +35,17 @@ public interface FakeClassnameTestApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "To test class name in snake case", tags={ "fake_classname_tags 123#$%^", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class))) },security = {
-        @SecurityRequirement(name = "api_key_query") } )
-        @RequestMapping(
+    @Operation(
+        summary = "To test class name in snake case",
+        tags = { "fake_classname_tags 123#$%^" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class)))
+        },
+        security = {
+            @SecurityRequirement(name = "api_key_query")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.PATCH,
         value = "/fake_classname_test",
         produces = { "application/json" },

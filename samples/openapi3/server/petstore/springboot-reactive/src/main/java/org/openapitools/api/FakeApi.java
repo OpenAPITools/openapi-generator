@@ -52,8 +52,14 @@ public interface FakeApi {
      * @param xmlItem XmlItem Body (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "creates an XmlItem", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation") })
-        @RequestMapping(
+    @Operation(
+        summary = "creates an XmlItem",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/create_xml_item",
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" }
@@ -73,8 +79,14 @@ public interface FakeApi {
      * @param body Input boolean as post body (optional)
      * @return Output boolean (status code 200)
      */
-    @Operation(summary = "", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "200", description = "Output boolean", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Boolean.class))) })
-        @RequestMapping(
+    @Operation(
+        summary = "",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Output boolean", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Boolean.class)))
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/boolean",
         produces = { "*/*" }
@@ -94,8 +106,14 @@ public interface FakeApi {
      * @param body Input composite as post body (optional)
      * @return Output composite (status code 200)
      */
-    @Operation(summary = "", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "200", description = "Output composite", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  OuterComposite.class))) })
-        @RequestMapping(
+    @Operation(
+        summary = "",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Output composite", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  OuterComposite.class)))
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/composite",
         produces = { "*/*" }
@@ -115,8 +133,14 @@ public interface FakeApi {
      * @param body Input number as post body (optional)
      * @return Output number (status code 200)
      */
-    @Operation(summary = "", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "200", description = "Output number", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  BigDecimal.class))) })
-        @RequestMapping(
+    @Operation(
+        summary = "",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Output number", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  BigDecimal.class)))
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/number",
         produces = { "*/*" }
@@ -136,8 +160,14 @@ public interface FakeApi {
      * @param body Input string as post body (optional)
      * @return Output string (status code 200)
      */
-    @Operation(summary = "", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "200", description = "Output string", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  String.class))) })
-        @RequestMapping(
+    @Operation(
+        summary = "",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Output string", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  String.class)))
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/string",
         produces = { "*/*" }
@@ -157,8 +187,14 @@ public interface FakeApi {
      * @param body  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "200", description = "Success") })
-        @RequestMapping(
+    @Operation(
+        summary = "",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Success")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.PUT,
         value = "/fake/body-with-file-schema",
         consumes = { "application/json" }
@@ -178,8 +214,14 @@ public interface FakeApi {
      * @param body  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "200", description = "Success") })
-        @RequestMapping(
+    @Operation(
+        summary = "",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Success")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.PUT,
         value = "/fake/body-with-query-params",
         consumes = { "application/json" }
@@ -200,8 +242,14 @@ public interface FakeApi {
      * @param body client model (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "To test \"client\" model", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class))) })
-        @RequestMapping(
+    @Operation(
+        summary = "To test \"client\" model",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  Client.class)))
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.PATCH,
         value = "/fake",
         produces = { "application/json" },
@@ -236,9 +284,18 @@ public interface FakeApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "400", description = "Invalid username supplied"), @ApiResponse(responseCode = "404", description = "User not found") },security = {
-        @SecurityRequirement(name = "http_basic_test") } )
-        @RequestMapping(
+    @Operation(
+        summary = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+        },
+        security = {
+            @SecurityRequirement(name = "http_basic_test")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake",
         consumes = { "application/x-www-form-urlencoded" }
@@ -279,8 +336,15 @@ public interface FakeApi {
      * @return Invalid request (status code 400)
      *         or Not found (status code 404)
      */
-    @Operation(summary = "To test enum parameters", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "400", description = "Invalid request"), @ApiResponse(responseCode = "404", description = "Not found") })
-        @RequestMapping(
+    @Operation(
+        summary = "To test enum parameters",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.GET,
         value = "/fake",
         consumes = { "application/x-www-form-urlencoded" }
@@ -312,8 +376,14 @@ public interface FakeApi {
      * @param int64Group Integer in group parameters (optional)
      * @return Someting wrong (status code 400)
      */
-    @Operation(summary = "Fake endpoint to test group parameters (optional)", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "400", description = "Someting wrong") })
-        @RequestMapping(
+    @Operation(
+        summary = "Fake endpoint to test group parameters (optional)",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Someting wrong")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.DELETE,
         value = "/fake"
     )
@@ -336,8 +406,14 @@ public interface FakeApi {
      * @param param request body (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "test inline additionalProperties", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation") })
-        @RequestMapping(
+    @Operation(
+        summary = "test inline additionalProperties",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/inline-additionalProperties",
         consumes = { "application/json" }
@@ -357,8 +433,14 @@ public interface FakeApi {
      * @param param2 field2 (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "test json serialization of form data", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation") })
-        @RequestMapping(
+    @Operation(
+        summary = "test json serialization of form data",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.GET,
         value = "/fake/jsonFormData",
         consumes = { "application/x-www-form-urlencoded" }
@@ -383,8 +465,14 @@ public interface FakeApi {
      * @param context  (required)
      * @return Success (status code 200)
      */
-    @Operation(summary = "", tags={ "fake", }, responses = {  @ApiResponse(responseCode = "200", description = "Success") })
-        @RequestMapping(
+    @Operation(
+        summary = "",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Success")
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.PUT,
         value = "/fake/test-query-parameters"
     )
@@ -408,9 +496,17 @@ public interface FakeApi {
      * @param additionalMetadata Additional data to pass to server (optional)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "uploads an image (required)", tags={ "pet", }, responses = {  @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  ModelApiResponse.class))) },security = {
-        @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" }) } )
-        @RequestMapping(
+    @Operation(
+        summary = "uploads an image (required)",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation =  ModelApiResponse.class)))
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
+    )
+    @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/{petId}/uploadImageWithRequiredFile",
         produces = { "application/json" },

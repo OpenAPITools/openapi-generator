@@ -35,11 +35,15 @@ public interface DefaultApi {
      * @param loginDate A date cookie parameter (optional)
      * @return OK (status code 200)
      */
-
-    @ApiOperation(value = "", nickname = "get", notes = "", tags={  })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 200, message = "OK") })
+    @ApiOperation(
+        tags = {  },
+        value = "",
+        nickname = "get",
+        notes = ""
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "OK")
+    })
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/thingy/{date}"
@@ -60,11 +64,15 @@ public interface DefaultApi {
      * @param visitDate Updated last vist timestamp (optional)
      * @return Invalid input (status code 405)
      */
-
-    @ApiOperation(value = "", nickname = "updatePetWithForm", notes = "update with form data", tags={  })
-    @ApiResponses(value = { 
-
-        @ApiResponse(code = 405, message = "Invalid input") })
+    @ApiOperation(
+        tags = {  },
+        value = "",
+        nickname = "updatePetWithForm",
+        notes = "update with form data"
+    )
+    @ApiResponses({
+        @ApiResponse(code = 405, message = "Invalid input")
+    })
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/thingy/{date}",
