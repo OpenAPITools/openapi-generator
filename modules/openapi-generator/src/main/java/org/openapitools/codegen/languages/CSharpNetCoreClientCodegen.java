@@ -691,9 +691,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         if (Boolean.FALSE.equals(excludeTests.get())) {
             modelTestTemplateFiles.put("model_test.mustache", ".cs");
             apiTestTemplateFiles.put("api_test.mustache", ".cs");
-            if(GENERICHOST.equals(getLibrary())) {
-                apiTestTemplateFiles.put("ApiTestsBase.mustache", ".cs");
-            }
         }
 
         if(HTTPCLIENT.equals(getLibrary())) {
@@ -710,6 +707,30 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+        addTestInstructions();
+    }
+
+    private void addTestInstructions(){
+        if (GENERICHOST.equals(getLibrary())){
+            additionalProperties.put("testInstructions", 
+                    "/* *********************************************************************************" +
+                    "\n*              Follow these manual steps to construct tests." +
+                    "\n*              This file will not be overwritten." +
+                    "\n*  *********************************************************************************" +
+                    "\n* 1. Navigate to ApiTests.Base.cs and ensure any tokens are being created correctly." +
+                    "\n*    Take care not to commit credentials to any repository." +
+                    "\n*" +
+                    "\n# 2. If you want to mock the server's response, use method AddApiHttpClients" +
+                    "\n     and provide your mock classes." +
+                    "\n" +
+                    "\n* 3. Locate the test you want below" +
+                    "\n*      - remove the skip property from the Fact attribute" +
+                    "\n*      - set the value of any variables if necessary" +
+                    "\n*" +
+                    "\n* 4. Run the tests and ensure they work." +
+                    "\n*" +
+                    "\n*/");
+        }
     }
 
     public void addRestSharpSupportingFiles(final String clientPackageDir, final String packageFolder, 
@@ -784,9 +805,17 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
         supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() + "Api.cs"));
 
+        String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
+
         if (Boolean.FALSE.equals(excludeTests.get())) {
             supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
-            supportingFiles.add(new SupportingFile("DependencyInjectionTests.mustache", testPackageFolder + File.separator + "Api", "DependencyInjectionTests.cs"));
+            supportingFiles.add(new SupportingFile("DependencyInjectionTests.mustache", apiTestFolder, "DependencyInjectionTests.cs"));
+
+            // do not overwrite test file that already exists
+            File apiTestsBaseFile = new File(apiTestFileFolder() + File.separator + "ApiTestsBase.cs");
+            if (!apiTestsBaseFile.exists()) {
+                supportingFiles.add(new SupportingFile("ApiTestsBase.mustache", apiTestFolder, "ApiTestsBase.cs"));
+            }
         }
 
         if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
