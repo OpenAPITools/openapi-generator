@@ -691,6 +691,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         if (Boolean.FALSE.equals(excludeTests.get())) {
             modelTestTemplateFiles.put("model_test.mustache", ".cs");
             apiTestTemplateFiles.put("api_test.mustache", ".cs");
+            if(GENERICHOST.equals(getLibrary())) {
+                apiTestTemplateFiles.put("ApiTestsBase.mustache", ".cs");
+            }
         }
 
         if(HTTPCLIENT.equals(getLibrary())) {
@@ -779,11 +782,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
-        supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() +  "Api.cs"));
+        supportingFiles.add(new SupportingFile("IApi.mustache", clientPackageDir, getInterfacePrefix() + "Api.cs"));
 
         if (Boolean.FALSE.equals(excludeTests.get())) {
             supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
-            supportingFiles.add(new SupportingFile("ApiTestsBase.mustache", testPackageFolder + File.separator + "Api", "ApiTestsBase.cs"));
             supportingFiles.add(new SupportingFile("DependencyInjectionTests.mustache", testPackageFolder + File.separator + "Api", "DependencyInjectionTests.cs"));
         }
 
