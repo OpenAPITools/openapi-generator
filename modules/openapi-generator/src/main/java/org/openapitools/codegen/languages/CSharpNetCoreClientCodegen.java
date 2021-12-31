@@ -567,6 +567,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
+        if (additionalProperties.containsKey((CodegenConstants.LICENSE_ID))) {
+            setLicenseId((String) additionalProperties.get(CodegenConstants.LICENSE_ID));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.API_NAME)) {
             setApiName((String) additionalProperties.get(CodegenConstants.API_NAME));
         } else {
@@ -720,9 +724,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                     "\n* 1. Navigate to ApiTests.Base.cs and ensure any tokens are being created correctly." +
                     "\n*    Take care not to commit credentials to any repository." +
                     "\n*" +
-                    "\n# 2. If you want to mock the server's response, use method AddApiHttpClients" +
-                    "\n     and provide your mock classes." +
-                    "\n" +
+                    "\n* 2. Mocking is coordinated by ApiTestsBase#AddApiHttpClients." +
+                    "\n*    To mock the client, use the generic AddApiHttpClients." +
+                    "\n*    To mock the server, change the client's BaseAddress." +
+                    "\n*" +
                     "\n* 3. Locate the test you want below" +
                     "\n*      - remove the skip property from the Fact attribute" +
                     "\n*      - set the value of any variables if necessary" +
@@ -796,6 +801,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "docs" + File.separator + "scripts", "git_push.sh"));
         // TODO: supportingFiles.add(new SupportingFile("git_push.ps1.mustache", "docs" + File.separator + "scripts", "git_push.ps1"));
+        // TODO: supportingFiles.add(new SupportingFile("generate.ps1.mustache", "docs" + File.separator + "scripts", "generate.ps1"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
         supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
@@ -864,6 +870,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.packageGuid = packageGuid;
     }
 
+    // TODO: this does the same as super
     @Override
     public void setPackageName(String packageName) {
         this.packageName = packageName;
@@ -880,6 +887,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         this.apiName = apiName;
     }
 
+    // TODO: this does the same as super
     @Override
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
