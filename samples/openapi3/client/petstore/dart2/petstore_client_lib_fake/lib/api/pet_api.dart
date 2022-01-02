@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.0
+// @dart=2.12
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -12,7 +12,7 @@ part of openapi.api;
 
 
 class PetApi {
-  PetApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+  PetApi([ApiClient? apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
   final ApiClient apiClient;
 
@@ -25,16 +25,11 @@ class PetApi {
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
   Future<Response> addPetWithHttpInfo(Pet pet,) async {
-    // Verify required params are set.
-    if (pet == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
-    }
-
     // ignore: prefer_const_declarations
     final path = r'/pet';
 
     // ignore: prefer_final_locals
-    Object postBody = pet;
+    Object? postBody = pet;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -51,7 +46,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -79,18 +74,13 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<Response> deletePetWithHttpInfo(int petId, { String apiKey, }) async {
-    // Verify required params are set.
-    if (petId == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
-    }
-
+  Future<Response> deletePetWithHttpInfo(int petId, { String? apiKey, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
       .replaceAll('{petId}', petId.toString());
 
     // ignore: prefer_final_locals
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -111,7 +101,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -124,7 +114,7 @@ class PetApi {
   ///   Pet id to delete
   ///
   /// * [String] apiKey:
-  Future<void> deletePet(int petId, { String apiKey, }) async {
+  Future<void> deletePet(int petId, { String? apiKey, }) async {
     final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -142,22 +132,17 @@ class PetApi {
   /// * [List<String>] status (required):
   ///   Status values that need to be considered for filter
   Future<Response> findPetsByStatusWithHttpInfo(List<String> status,) async {
-    // Verify required params are set.
-    if (status == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: status');
-    }
-
     // ignore: prefer_const_declarations
     final path = r'/pet/findByStatus';
 
     // ignore: prefer_final_locals
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'status', status));
+      queryParams.addAll(_queryParams('csv', 'status', status));
 
     const authNames = <String>['petstore_auth'];
     const contentTypes = <String>[];
@@ -170,7 +155,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -183,7 +168,7 @@ class PetApi {
   ///
   /// * [List<String>] status (required):
   ///   Status values that need to be considered for filter
-  Future<List<Pet>> findPetsByStatus(List<String> status,) async {
+  Future<List<Pet>?> findPetsByStatus(List<String> status,) async {
     final response = await findPetsByStatusWithHttpInfo(status,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -191,14 +176,14 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
-        .toList(growable: false);
+        .toList();
 
     }
-    return Future<List<Pet>>.value();
+    return null;
   }
 
   /// Finds Pets by tags
@@ -212,22 +197,17 @@ class PetApi {
   /// * [Set<String>] tags (required):
   ///   Tags to filter by
   Future<Response> findPetsByTagsWithHttpInfo(Set<String> tags,) async {
-    // Verify required params are set.
-    if (tags == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: tags');
-    }
-
     // ignore: prefer_const_declarations
     final path = r'/pet/findByTags';
 
     // ignore: prefer_final_locals
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-      queryParams.addAll(_convertParametersForCollectionFormat('csv', 'tags', tags));
+      queryParams.addAll(_queryParams('csv', 'tags', tags));
 
     const authNames = <String>['petstore_auth'];
     const contentTypes = <String>[];
@@ -240,7 +220,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -253,7 +233,7 @@ class PetApi {
   ///
   /// * [Set<String>] tags (required):
   ///   Tags to filter by
-  Future<Set<Pet>> findPetsByTags(Set<String> tags,) async {
+  Future<Set<Pet>?> findPetsByTags(Set<String> tags,) async {
     final response = await findPetsByTagsWithHttpInfo(tags,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -261,14 +241,14 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'Set<Pet>') as List)
         .cast<Pet>()
         .toSet();
 
     }
-    return Future<Set<Pet>>.value();
+    return null;
   }
 
   /// Find pet by ID
@@ -282,17 +262,12 @@ class PetApi {
   /// * [int] petId (required):
   ///   ID of pet to return
   Future<Response> getPetByIdWithHttpInfo(int petId,) async {
-    // Verify required params are set.
-    if (petId == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
-    }
-
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
       .replaceAll('{petId}', petId.toString());
 
     // ignore: prefer_final_locals
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -309,7 +284,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -322,7 +297,7 @@ class PetApi {
   ///
   /// * [int] petId (required):
   ///   ID of pet to return
-  Future<Pet> getPetById(int petId,) async {
+  Future<Pet?> getPetById(int petId,) async {
     final response = await getPetByIdWithHttpInfo(petId,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -330,11 +305,11 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'Pet',) as Pet;
     
     }
-    return Future<Pet>.value();
+    return null;
   }
 
   /// Update an existing pet
@@ -346,16 +321,11 @@ class PetApi {
   /// * [Pet] pet (required):
   ///   Pet object that needs to be added to the store
   Future<Response> updatePetWithHttpInfo(Pet pet,) async {
-    // Verify required params are set.
-    if (pet == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: pet');
-    }
-
     // ignore: prefer_const_declarations
     final path = r'/pet';
 
     // ignore: prefer_final_locals
-    Object postBody = pet;
+    Object? postBody = pet;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -372,7 +342,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -404,18 +374,13 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String name, String status, }) async {
-    // Verify required params are set.
-    if (petId == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
-    }
-
+  Future<Response> updatePetWithFormWithHttpInfo(int petId, { String? name, String? status, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}'
       .replaceAll('{petId}', petId.toString());
 
     // ignore: prefer_final_locals
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -438,7 +403,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -455,7 +420,7 @@ class PetApi {
   ///
   /// * [String] status:
   ///   Updated status of the pet
-  Future<void> updatePetWithForm(int petId, { String name, String status, }) async {
+  Future<void> updatePetWithForm(int petId, { String? name, String? status, }) async {
     final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -476,18 +441,13 @@ class PetApi {
   ///
   /// * [MultipartFile] file:
   ///   file to upload
-  Future<Response> uploadFileWithHttpInfo(int petId, { String additionalMetadata, MultipartFile file, }) async {
-    // Verify required params are set.
-    if (petId == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
-    }
-
+  Future<Response> uploadFileWithHttpInfo(int petId, { String? additionalMetadata, MultipartFile? file, }) async {
     // ignore: prefer_const_declarations
     final path = r'/pet/{petId}/uploadImage'
       .replaceAll('{petId}', petId.toString());
 
     // ignore: prefer_final_locals
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -518,7 +478,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -535,7 +495,7 @@ class PetApi {
   ///
   /// * [MultipartFile] file:
   ///   file to upload
-  Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file, }) async {
+  Future<ApiResponse?> uploadFile(int petId, { String? additionalMetadata, MultipartFile? file, }) async {
     final response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -543,11 +503,11 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
     
     }
-    return Future<ApiResponse>.value();
+    return null;
   }
 
   /// uploads an image (required)
@@ -564,21 +524,13 @@ class PetApi {
   ///
   /// * [String] additionalMetadata:
   ///   Additional data to pass to server
-  Future<Response> uploadFileWithRequiredFileWithHttpInfo(int petId, MultipartFile requiredFile, { String additionalMetadata, }) async {
-    // Verify required params are set.
-    if (petId == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: petId');
-    }
-    if (requiredFile == null) {
-     throw ApiException(HttpStatus.badRequest, 'Missing required param: requiredFile');
-    }
-
+  Future<Response> uploadFileWithRequiredFileWithHttpInfo(int petId, MultipartFile requiredFile, { String? additionalMetadata, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/{petId}/uploadImageWithRequiredFile'
       .replaceAll('{petId}', petId.toString());
 
     // ignore: prefer_final_locals
-    Object postBody;
+    Object? postBody;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -609,7 +561,7 @@ class PetApi {
       postBody,
       headerParams,
       formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
+      contentTypes.isEmpty ? null : contentTypes.first,
       authNames,
     );
   }
@@ -626,7 +578,7 @@ class PetApi {
   ///
   /// * [String] additionalMetadata:
   ///   Additional data to pass to server
-  Future<ApiResponse> uploadFileWithRequiredFile(int petId, MultipartFile requiredFile, { String additionalMetadata, }) async {
+  Future<ApiResponse?> uploadFileWithRequiredFile(int petId, MultipartFile requiredFile, { String? additionalMetadata, }) async {
     final response = await uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile,  additionalMetadata: additionalMetadata, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -634,10 +586,10 @@ class PetApi {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body != null && response.statusCode != HttpStatus.noContent) {
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ApiResponse',) as ApiResponse;
     
     }
-    return Future<ApiResponse>.value();
+    return null;
   }
 }

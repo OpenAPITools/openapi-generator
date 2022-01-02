@@ -1400,7 +1400,6 @@
             </activation>
             <modules>
                 <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart2/petstore</module>
                 <module>samples/openapi3/client/petstore/dart-dio-next/petstore_client_lib_fake</module>
             </modules>
         </profile>

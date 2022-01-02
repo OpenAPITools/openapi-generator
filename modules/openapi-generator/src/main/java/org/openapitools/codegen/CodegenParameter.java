@@ -624,6 +624,14 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsPrimitiveType() { return isPrimitiveType; }
+
+    @Override
+    public void setIsPrimitiveType(boolean isPrimitiveType)  {
+        this.isPrimitiveType = isPrimitiveType;
+    }
+
+    @Override
     public CodegenProperty getAdditionalProperties() { return additionalProperties; }
 
     @Override
