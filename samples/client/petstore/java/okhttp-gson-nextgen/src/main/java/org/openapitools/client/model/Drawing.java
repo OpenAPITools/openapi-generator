@@ -35,6 +35,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -48,6 +49,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.openapitools.client.JSON;
 
 /**
  * Drawing
@@ -229,6 +232,7 @@ public class Drawing extends HashMap<String, Fruit> {
     return o.toString().replace("\n", "\n    ");
   }
 
+
   public static HashSet<String> openapiFields;
   public static HashSet<String> openapiRequiredFields;
 
@@ -242,6 +246,48 @@ public class Drawing extends HashMap<String, Fruit> {
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
+  }
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to Drawing
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+      if (jsonObj == null) {
+        if (Drawing.openapiRequiredFields.isEmpty()) {
+          return;
+        } else { // has reuqired fields
+          throw new IllegalArgumentException(String.format("The required field(s) %s in Drawing is not found in the empty JSON string", Drawing.openapiRequiredFields.toString()));
+        }
+      }
+      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Entry<String, JsonElement> entry : entries) {
+        if (!Drawing.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Drawing` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+        }
+      }
+      // validate the optional field `mainShape`
+      if (jsonObj.getAsJsonObject("mainShape") != null) {
+        Shape.validateJsonObject(jsonObj.getAsJsonObject("mainShape"));
+      }
+      // validate the optional field `shapeOrNull`
+      if (jsonObj.getAsJsonObject("shapeOrNull") != null) {
+        ShapeOrNull.validateJsonObject(jsonObj.getAsJsonObject("shapeOrNull"));
+      }
+      // validate the optional field `nullableShape`
+      if (jsonObj.getAsJsonObject("nullableShape") != null) {
+        NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
+      }
+      JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
+      // validate the optional field `shapes` (array)
+      if (jsonArrayshapes != null) {
+        for (int i = 0; i < jsonArrayshapes.size(); i++) {
+          Shape.validateJsonObject(jsonArrayshapes.get(i).getAsJsonObject());
+        };
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -264,19 +310,33 @@ public class Drawing extends HashMap<String, Fruit> {
 
            @Override
            public Drawing read(JsonReader in) throws IOException {
-             JsonObject obj = elementAdapter.read(in).getAsJsonObject();
-             Set<Entry<String, JsonElement>> entries = obj.entrySet();//will return members of your object
-             // check to see if the JSON string contains additional fields
-             for (Entry<String, JsonElement> entry: entries) {
-               if (!Drawing.openapiFields.contains(entry.getKey())) {
-                throw new IllegalArgumentException("The field `" + entry.getKey() + "` in the JSON string is not defined in the `Drawing` properties");
-               }
-             }
-
-             return thisAdapter.fromJsonTree(obj);
+             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
+             validateJsonObject(jsonObj);
+             return thisAdapter.fromJsonTree(jsonObj);
            }
 
        }.nullSafe();
     }
   }
+
+ /**
+  * Create an instance of Drawing given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of Drawing
+  * @throws IOException if the JSON string is invalid with respect to Drawing
+  */
+  public static Drawing fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, Drawing.class);
+  }
+
+ /**
+  * Convert an instance of Drawing to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
+
