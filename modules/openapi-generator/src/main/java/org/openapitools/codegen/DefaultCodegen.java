@@ -253,6 +253,11 @@ public class DefaultCodegen implements CodegenConfig {
     // See CodegenConstants.java for more details.
     protected boolean disallowAdditionalPropertiesIfNotPresent = true;
 
+    // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
+    // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
+    protected boolean enumUnknownDefaultCase = false;
+    protected String enumUnknownDefaultCaseName = "unknown_default_open_api";
+
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
@@ -375,6 +380,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
             this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
+        }
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE)) {
+            this.setEnumUnknownDefaultCase(Boolean.parseBoolean(additionalProperties
+                    .get(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE).toString()));
         }
     }
 
@@ -1302,6 +1311,14 @@ public class DefaultCodegen implements CodegenConfig {
         this.disallowAdditionalPropertiesIfNotPresent = val;
     }
 
+    public Boolean getEnumUnknownDefaultCase() {
+        return enumUnknownDefaultCase;
+    }
+
+    public void setEnumUnknownDefaultCase(boolean val) {
+        this.enumUnknownDefaultCase = val;
+    }
+
     public Boolean getAllowUnicodeIdentifiers() {
         return allowUnicodeIdentifiers;
     }
@@ -1638,6 +1655,18 @@ public class DefaultCodegen implements CodegenConfig {
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
+
+        CliOption enumUnknownDefaultCaseOpt = CliOption.newBoolean(
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE,
+                CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE_DESC).defaultValue(Boolean.FALSE.toString());
+        Map<String, String> enumUnknownDefaultCaseOpts = new HashMap<>();
+        enumUnknownDefaultCaseOpts.put("false",
+                "No changes to the enum's are made, this is the default option.");
+        enumUnknownDefaultCaseOpts.put("true",
+                "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.");
+        enumUnknownDefaultCaseOpt.setEnum(enumUnknownDefaultCaseOpts);
+        cliOptions.add(enumUnknownDefaultCaseOpt);
+        this.setEnumUnknownDefaultCase(false);
 
         // initialize special character mapping
         initializeSpecialCharacterMapping();
@@ -3170,10 +3199,16 @@ public class DefaultCodegen implements CodegenConfig {
         List<MappedModel> uniqueDescendants = new ArrayList();
         if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {
             for (Entry<String, String> e : sourceDiscriminator.getMapping().entrySet()) {
-                String nameOrRef = e.getValue();
-                String name = nameOrRef.indexOf('/') >= 0 ? ModelUtils.getSimpleRef(nameOrRef) : nameOrRef;
-                String modelName = toModelName(name);
-                uniqueDescendants.add(new MappedModel(e.getKey(), modelName));
+                String name;
+                if (e.getValue().indexOf('/') >= 0) {
+                    name = ModelUtils.getSimpleRef(e.getValue());
+                    if (ModelUtils.getSchema(openAPI, name) == null) {
+                        LOGGER.error("Failed to lookup the schema '{}' when processing the discriminator mapping of oneOf/anyOf. Please check to ensure it's defined properly.", name);
+                    }
+                } else {
+                    name = e.getValue();
+                }
+                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name)));
             }
         }
 
@@ -3959,6 +3994,20 @@ public class DefaultCodegen implements CodegenConfig {
                 ApiResponse response = operationGetResponsesEntry.getValue();
                 addProducesInfo(response, op);
                 CodegenResponse r = fromResponse(key, response);
+                Map<String, Header> headers = response.getHeaders();
+                if (headers != null) {
+                    List<CodegenParameter> responseHeaders = new ArrayList<>();
+                    for (Entry<String, Header> entry: headers.entrySet()) {
+                        String headerName = entry.getKey();
+                        Header header = entry.getValue();
+                        CodegenParameter responseHeader = heeaderToCodegenParameter(header, headerName, imports, String.format(Locale.ROOT, "%sResponseParameter", r.code));
+                        responseHeaders.add(responseHeader);
+                    }
+                    r.setResponseHeaders(responseHeaders);
+                }
+                String mediaTypeSchemaSuffix = String.format(Locale.ROOT, "%sResponseBody", r.code);
+                r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
+
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
                         !languageSpecificPrimitives.contains(r.baseType)) {
@@ -4065,6 +4114,7 @@ public class DefaultCodegen implements CodegenConfig {
                 param = ModelUtils.getReferencedParameter(this.openAPI, param);
 
                 CodegenParameter p = fromParameter(param, imports);
+                p.setContent(getContent(param.getContent(), imports, "RequestParameter" + toModelName(param.getName())));
 
                 // ensure unique params
                 if (ensureUniqueParams) {
@@ -4502,7 +4552,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isDeprecated = parameter.getDeprecated();
         }
         codegenParameter.jsonSchema = Json.pretty(parameter);
-        codegenParameter.setContent(getContent(parameter.getContent(), imports));
 
         if (GlobalSettings.getProperty("debugParser") != null) {
             LOGGER.info("working on Parameter {}", parameter.getName());
@@ -5868,6 +5917,32 @@ public class DefaultCodegen implements CodegenConfig {
             enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);
         }
+
+        if (enumUnknownDefaultCase) {
+            // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
+            // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
+            Map<String, Object> enumVar = new HashMap<>();
+            String enumName = enumUnknownDefaultCaseName;
+
+            String enumValue;
+            if (isDataTypeString(dataType)) {
+                enumValue = enumUnknownDefaultCaseName;
+            } else {
+                // This is a dummy value that attempts to avoid collisions with previously specified cases.
+                // Int.max / 192
+                // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
+                // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
+                // Since this functionality was born in the Swift 5 generator and latter on broth to all generatorss
+                // https://github.com/OpenAPITools/openapi-generator/pull/11013
+                enumValue = String.valueOf(11184809);
+            }
+
+            enumVar.put("name", toEnumVarName(enumName, dataType));
+            enumVar.put("value", toEnumValue(enumValue, dataType));
+            enumVar.put("isString", isDataTypeString(dataType));
+            enumVars.add(enumVar);
+        }
+
         return enumVars;
     }
 
@@ -6586,11 +6661,36 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.pattern = toRegularExpression(schema.getPattern());
     }
 
-    protected String toMediaTypeSchemaName(String contentType) {
-        return toModelName(contentType + "Schema");
+    protected String toMediaTypeSchemaName(String contentType, String mediaTypeSchemaSuffix) {
+        return "SchemaFor" + mediaTypeSchemaSuffix +  toModelName(contentType);
     }
 
-    protected LinkedHashMap<String, CodegenMediaType> getContent(Content content, Set<String> imports) {
+    private CodegenParameter heeaderToCodegenParameter(Header header, String headerName, Set<String> imports, String mediaTypeSchemaSuffix) {
+        if (header == null) {
+            return null;
+        }
+        Parameter headerParam = new Parameter();
+        headerParam.setName(headerName);
+        headerParam.setIn("header");
+        headerParam.setDescription(header.getDescription());
+        headerParam.setRequired(header.getRequired());
+        headerParam.setDeprecated(header.getDeprecated());
+        Header.StyleEnum style = header.getStyle();
+        if (style != null) {
+            headerParam.setStyle(Parameter.StyleEnum.valueOf(style.name()));
+        }
+        headerParam.setExplode(header.getExplode());
+        headerParam.setSchema(header.getSchema());
+        headerParam.setExamples(header.getExamples());
+        headerParam.setExample(header.getExample());
+        headerParam.setContent(header.getContent());
+        headerParam.setExtensions(header.getExtensions());
+        CodegenParameter param = fromParameter(headerParam, imports);
+        param.setContent(getContent(headerParam.getContent(), imports, mediaTypeSchemaSuffix));
+        return param;
+    }
+
+    protected LinkedHashMap<String, CodegenMediaType> getContent(Content content, Set<String> imports, String mediaTypeSchemaSuffix) {
         if (content == null) {
             return null;
         }
@@ -6609,20 +6709,7 @@ public class DefaultCodegen implements CodegenConfig {
                         for (Entry<String, Header> headerEntry: encHeaders.entrySet()) {
                             String headerName = headerEntry.getKey();
                             Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
-                            Parameter headerParam = new Parameter();
-                            headerParam.setName(headerName);
-                            headerParam.setIn("header");
-                            headerParam.setDescription(header.getDescription());
-                            headerParam.setRequired(header.getRequired());
-                            headerParam.setDeprecated(header.getDeprecated());
-                            headerParam.setStyle(Parameter.StyleEnum.valueOf(header.getStyle().name()));
-                            headerParam.setExplode(header.getExplode());
-                            headerParam.setSchema(header.getSchema());
-                            headerParam.setExamples(header.getExamples());
-                            headerParam.setExample(header.getExample());
-                            headerParam.setContent(header.getContent());
-                            headerParam.setExtensions(header.getExtensions());
-                            CodegenParameter param = fromParameter(headerParam, imports);
+                            CodegenParameter param = heeaderToCodegenParameter(header, headerName, imports, mediaTypeSchemaSuffix);
                             headers.add(param);
                         }
                     }
@@ -6638,7 +6725,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             String contentType = contentEntry.getKey();
-            CodegenProperty schemaProp = fromProperty(toMediaTypeSchemaName(contentType), mt.getSchema());
+            CodegenProperty schemaProp = fromProperty(toMediaTypeSchemaName(contentType, mediaTypeSchemaSuffix), mt.getSchema());
             CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap);
             cmtContent.put(contentType, codegenMt);
         }
@@ -6666,7 +6753,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema == null) {
             throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
         }
-        codegenParameter.setContent(getContent(body.getContent(), imports));
+        codegenParameter.setContent(getContent(body.getContent(), imports, "RequestBody"));
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
@@ -6721,6 +6808,8 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isObjectSchema(schema)) {
                 // object type schema OR (AnyType schema with properties defined)
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
+            } else {
+                updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
             }
             addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
         } else {

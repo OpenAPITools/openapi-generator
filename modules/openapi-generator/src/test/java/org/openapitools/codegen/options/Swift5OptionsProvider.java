@@ -48,7 +48,6 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String REMOVE_MIGRATION_PROJECT_NAME_CLASS_VALUE = "false";
     public static final String SWIFT_USE_API_NAMESPACE_VALUE = "swiftUseApiNamespace";
     public static final String USE_BACKTICKS_ESCAPES_VALUE = "false";
-    public static final String GENERATE_FROZEN_ENUMS_VALUE = "true";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE = "true";
     public static final String HASHABLE_MODELS_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
@@ -56,6 +55,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String LIBRARY_VALUE = "alamofire";
     public static final String USE_SPM_FILE_STRUCTURE_VALUE = "false";
     public static final String SWIFT_PACKAGE_PATH_VALUE = "";
+    public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -96,11 +96,11 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(Swift5ClientCodegen.USE_SPM_FILE_STRUCTURE, USE_SPM_FILE_STRUCTURE_VALUE)
                 .put(Swift5ClientCodegen.SWIFT_PACKAGE_PATH, SWIFT_PACKAGE_PATH_VALUE)
-                .put(Swift5ClientCodegen.GENERATE_FROZEN_ENUMS, GENERATE_FROZEN_ENUMS_VALUE)
                 .put(Swift5ClientCodegen.GENERATE_MODEL_ADDITIONAL_PROPERTIES, GENERATE_MODEL_ADDITIONAL_PROPERTIES_VALUE)
                 .put(Swift5ClientCodegen.HASHABLE_MODELS, HASHABLE_MODELS_VALUE)
                 .put(Swift5ClientCodegen.MAP_FILE_BINARY_TO_DATA, "false")
                 .put(Swift5ClientCodegen.USE_CLASSES, "false")
+                .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .build();
     }
 

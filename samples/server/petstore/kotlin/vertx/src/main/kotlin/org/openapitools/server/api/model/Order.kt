@@ -34,7 +34,7 @@ data class Order (
     var shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
     var status: Order.Status? = null,
-    var complete: kotlin.Boolean? = null
+    var complete: kotlin.Boolean? = false
 ) {
 
     /**

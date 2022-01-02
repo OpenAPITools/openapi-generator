@@ -78,19 +78,26 @@ public class FruitReq extends AbstractOpenApiSchema {
             return (TypeAdapter<T>) new TypeAdapter<FruitReq>() {
                 @Override
                 public void write(JsonWriter out, FruitReq value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
+
                     // check if the actual instance is of the type `AppleReq`
                     if (value.getActualInstance() instanceof AppleReq) {
                         JsonObject obj = adapterAppleReq.toJsonTree((AppleReq)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
                     // check if the actual instance is of the type `BananaReq`
                     if (value.getActualInstance() instanceof BananaReq) {
                         JsonObject obj = adapterBananaReq.toJsonTree((BananaReq)value.getActualInstance()).getAsJsonObject();
                         elementAdapter.write(out, obj);
+                        return;
                     }
 
-                    throw new IOException("Failed to deserialize as the type doesn't match oneOf schemas: AppleReq, BananaReq");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: AppleReq, BananaReq");
                 }
 
                 @Override
@@ -99,10 +106,13 @@ public class FruitReq extends AbstractOpenApiSchema {
                     JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
 
                     int match = 0;
+                    TypeAdapter actualAdapter = elementAdapter;
 
                     // deserialize AppleReq
                     try {
-                        deserialized = adapterAppleReq.fromJsonTree(jsonObject);
+                        // validate the JSON object to see if any excpetion is thrown
+                        AppleReq.validateJsonObject(jsonObject);
+                        actualAdapter = adapterAppleReq;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'AppleReq'");
                     } catch (Exception e) {
@@ -112,7 +122,9 @@ public class FruitReq extends AbstractOpenApiSchema {
 
                     // deserialize BananaReq
                     try {
-                        deserialized = adapterBananaReq.fromJsonTree(jsonObject);
+                        // validate the JSON object to see if any excpetion is thrown
+                        BananaReq.validateJsonObject(jsonObject);
+                        actualAdapter = adapterBananaReq;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'BananaReq'");
                     } catch (Exception e) {
@@ -122,11 +134,11 @@ public class FruitReq extends AbstractOpenApiSchema {
 
                     if (match == 1) {
                         FruitReq ret = new FruitReq();
-                        ret.setActualInstance(deserialized);
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonObject));
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for FruitReq: %d classes match result, expected 1", match));
+                    throw new IOException(String.format("Failed deserialization for FruitReq: %d classes match result, expected 1. JSON: %s", match, jsonObject.toString()));
                 }
             }.nullSafe();
         }
@@ -222,5 +234,53 @@ public class FruitReq extends AbstractOpenApiSchema {
         return (BananaReq)super.getActualInstance();
     }
 
+
+ /**
+  * Validates the JSON Object and throws an exception if issues found
+  *
+  * @param jsonObj JSON Object
+  * @throws IOException if the JSON Object is invalid with respect to FruitReq
+  */
+  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+    // validate oneOf schemas one by one
+    int validCount = 0;
+    // validate the json string with AppleReq
+    try {
+      AppleReq.validateJsonObject(jsonObj);
+      validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    // validate the json string with BananaReq
+    try {
+      BananaReq.validateJsonObject(jsonObj);
+      validCount++;
+    } catch (Exception e) {
+      // continue to the next one
+    }
+    if (validCount != 1) {
+      throw new IOException(String.format("The JSON string is invalid for FruitReq with oneOf schemas: AppleReq, BananaReq. %d class(es) match the result, expected 1. JSON: %s", validCount, jsonObj.toString()));
+    }
+  }
+
+ /**
+  * Create an instance of FruitReq given an JSON string
+  *
+  * @param jsonString JSON string
+  * @return An instance of FruitReq
+  * @throws IOException if the JSON string is invalid with respect to FruitReq
+  */
+  public static FruitReq fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, FruitReq.class);
+  }
+
+ /**
+  * Convert an instance of FruitReq to an JSON string
+  *
+  * @return JSON string
+  */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
 }
 
