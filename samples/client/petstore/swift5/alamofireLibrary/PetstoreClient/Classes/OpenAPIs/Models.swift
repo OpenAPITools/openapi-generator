@@ -37,6 +37,36 @@ extension CaseIterableDefaultsLast {
     }
 }
 
+/// A flexible type that can be encoded (`.encodeNull` or `.encodeValue`)
+/// or not encoded (`.encodeNothing`). Intended for request payloads.
+public enum NullEncodable<Wrapped: Hashable>: Hashable {
+    case encodeNothing
+    case encodeNull
+    case encodeValue(Wrapped)
+}
+
+extension NullEncodable: Codable where Wrapped: Codable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(Wrapped.self) {
+            self = .encodeValue(value)
+        } else if container.decodeNil() {
+            self = .encodeNull
+        } else {
+            self = .encodeNothing
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .encodeNothing: return
+        case .encodeNull: try container.encodeNil()
+        case .encodeValue(let wrapped): try container.encode(wrapped)
+        }
+    }
+}
+
 public enum ErrorResponse: Error {
     case error(Int, Data?, URLResponse?, Error)
 }
